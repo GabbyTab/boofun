@@ -1,0 +1,36 @@
+# Include important files in source distribution
+include README.md
+include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+include pyproject.toml
+include src/boolfunc/py.typed
+
+# Include documentation
+recursive-include docs *.rst *.md *.py *.bat
+recursive-include docs *.png *.jpg *.svg
+
+# Include tests
+recursive-include tests *.py
+
+# Include examples
+recursive-include examples *.py *.ipynb *.md
+
+# Include branding
+recursive-include branding *.png *.jpg *.svg
+
+# Exclude development and build files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .coverage
+global-exclude .tox
+prune build
+prune dist
+prune .git
+prune .tox
+prune .pytest_cache
+prune .mypy_cache
+prune htmlcov

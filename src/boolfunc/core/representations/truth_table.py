@@ -5,43 +5,109 @@ from .base import BooleanFunctionRepresentation
 from ..spaces import Space
 
 
-@register_strategy('truth_table')
+@register_strategy("truth_table")
 class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
     """Truth table representation using NumPy arrays."""
 
-    def evaluate(self, inputs: np.ndarray, data: np.ndarray, space: Space, n_vars: int) -> np.ndarray:
-        # Input validation
-        if not isinstance(inputs, np.ndarray):
-            raise TypeError(f"Expected np.ndarray, got {type(inputs)}")
-          
-        output = data[inputs]
+    def evaluate(
+        self, inputs: np.ndarray, data: np.ndarray, space: Space, n_vars: int
+    ) -> np.ndarray:
+        """
+        Evaluate the Boolean function using its truth table.
 
-        if np.isscalar(output) or output.shape == ():
-            return output  # unwrap np.bool_ or np.int_ to bool/int
-    
-        # Direct indexing handles both scalars and arrays
-        return output
-   
+        Args:
+            inputs: Input values - can be:
+                   - Integer indices (0 to 2^n-1)
+                   - Binary vectors (shape: (n,) or (batch, n))
+                   - Batch of integer indices (shape: (batch,))
+            data: Truth table as boolean array of length 2^n
+            space: Evaluation space (affects input interpretation)
+            n_vars: Number of Boolean variables
+
+        Returns:
+            Boolean result(s) - scalar for single input, array for batch
+        """
+        if not isinstance(inputs, np.ndarray):
+            inputs = np.asarray(inputs)
+
+        # Handle different input formats
+        if inputs.ndim == 0:
+            # Single integer index
+            index = int(inputs)
+            if index < 0 or index >= len(data):
+                raise IndexError(
+                    f"Index {index} out of range for truth table of size {len(data)}"
+                )
+            return bool(data[index])
+
+        elif inputs.ndim == 1:
+            if len(inputs) == n_vars:
+                # Single binary vector - convert to index
+                if space == Space.PLUS_MINUS_CUBE:
+                    # Convert {-1,1} to {0,1}
+                    inputs = ((inputs + 1) // 2).astype(int)
+                index = self._binary_to_index(inputs)
+                return bool(data[index])
+            else:
+                # Array of integer indices
+                indices = inputs.astype(int)
+                if np.any((indices < 0) | (indices >= len(data))):
+                    raise IndexError(
+                        f"Some indices out of range for truth table of size {len(data)}"
+                    )
+                # Convert to Python list to avoid numpy indexing issues, then back to array
+                result = np.array([bool(data[idx]) for idx in indices])
+                return result
+
+        elif inputs.ndim == 2:
+            # Batch of binary vectors (batch_size, n_vars)
+            if inputs.shape[1] != n_vars:
+                raise ValueError(f"Expected {n_vars} variables, got {inputs.shape[1]}")
+
+            if space == Space.PLUS_MINUS_CUBE:
+                # Convert {-1,1} to {0,1}
+                inputs = ((inputs + 1) // 2).astype(int)
+
+            # Convert each binary vector to index
+            indices = np.array([self._binary_to_index(row) for row in inputs])
+            return data[indices].astype(bool)
+
+        else:
+            raise ValueError(f"Unsupported input shape: {inputs.shape}")
+
+    def _binary_to_index(self, binary_vector: np.ndarray) -> int:
+        """Convert binary vector to integer index using standard binary encoding."""
+        return int(
+            np.dot(binary_vector, 2 ** np.arange(len(binary_vector) - 1, -1, -1))
+        )
+
     def _compute_index(self, bits: np.ndarray) -> int:
         """Optimized bit packing using NumPy"""
-        return int(np.packbits(bits.astype(np.uint8), bitorder='big')[0])
+        return int(np.packbits(bits.astype(np.uint8), bitorder="big")[0])
 
     def dump(self, data: np.ndarray, **kwargs) -> Dict[str, Any]:
         """
         Export the truth table.
-        
+
         Returns a serializable dictionary containing:
         - 'table': list of booleans
         - 'n_vars': number of variables
         """
         return {
-            'type': "truth_table",
-            'n': int(np.log2(data.size)),
-            'size': data.size,
-            'values': data.astype(bool).tolist()
+            "type": "truth_table",
+            "n": int(np.log2(data.size)),
+            "size": data.size,
+            "values": data.astype(bool).tolist(),
         }
 
-    def convert_from(self, source_repr: BooleanFunctionRepresentation, source_data: Any, space: Space, n_vars: int, **kwargs) -> np.ndarray:
+    def convert_from(
+        self,
+        source_repr: BooleanFunctionRepresentation,
+        source_data: Any,
+        space: Space,
+        n_vars: int,
+        **kwargs,
+    ) -> np.ndarray:
         """Convert from any representation by evaluating all possible inputs."""
         size = 1 << n_vars  # 2^n
         truth_table = np.zeros(size, dtype=bool)
@@ -49,13 +115,20 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         # Generate all possible input indices
         for idx in range(size):
             value = source_repr.evaluate(idx, source_data, space, n_vars)
-            #should handle differentley depending on the space
-            value = (1 - value)/2
+            # should handle differentley depending on the space
+            value = (1 - value) / 2
             truth_table[idx] = value
 
         return truth_table
 
-    def convert_to(self, target_repr: BooleanFunctionRepresentation, souce_data: Any, space: Space, n_vars: int, **kwargs) -> np.ndarray:
+    def convert_to(
+        self,
+        target_repr: BooleanFunctionRepresentation,
+        souce_data: Any,
+        space: Space,
+        n_vars: int,
+        **kwargs,
+    ) -> np.ndarray:
         """Convert truth table to another representation."""
         return target_repr.convert_from(self, souce_data, space, n_vars, **kwargs)
 
@@ -68,18 +141,25 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         """Storage grows exponentially: 1 byte per entry (packed to bits)."""
         entries = 1 << n_vars
         return {
-            'entries': entries,
-            'bytes': entries // 8,            # packed bits
-            'space_complexity': 'O(2^n)'
+            "entries": entries,
+            "bytes": entries // 8,  # packed bits
+            "space_complexity": "O(2^n)",
         }
 
-
     def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
-        """Return time_complexity for computing/evalutating n variables."""
-        pass
-
-
+        """Return time complexity for computing/evaluating n variables."""
+        return {
+            "evaluation": 1,  # O(1) - direct indexing
+            "construction": n_vars,  # O(2^n) - exponential in variables
+            "conversion_from": n_vars,  # O(2^n) - must evaluate all points
+            "space_complexity": n_vars,  # O(2^n) storage
+        }
 
     def is_complete(self, data: np.ndarray) -> bool:
         """Check if the representation contains complete information."""
-        pass
+        # Truth table is complete if it has the right size and contains valid boolean data
+        if data is None or len(data) == 0:
+            return False
+        # Check if size is a power of 2 (valid truth table size)
+        size = len(data)
+        return size > 0 and (size & (size - 1)) == 0

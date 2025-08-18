@@ -224,4 +224,183 @@ def test_fourier_to_truth_table_conversion(tt_rep, fourier_rep):
 
 ## Edge Case Tests ##
 
+class TestCircuitRepresentation:
+    """Test circuit representation."""
+    
+    def test_circuit_evaluate_simple(self):
+        """Test evaluation of simple circuit."""
+        from boolfunc.core.representations.circuit import CircuitRepresentation, BooleanCircuit, GateType
+        
+        repr_obj = CircuitRepresentation()
+        
+        # Create simple AND circuit
+        circuit = BooleanCircuit(2)
+        and_gate = circuit.add_gate(GateType.AND, [circuit.input_gates[0], circuit.input_gates[1]])
+        circuit.set_output(and_gate)
+        
+        # Test evaluation
+        result = repr_obj.evaluate(np.array([0, 0]), circuit, Space.BOOLEAN_CUBE, 2)
+        assert result == False
+        
+        result = repr_obj.evaluate(np.array([1, 1]), circuit, Space.BOOLEAN_CUBE, 2)
+        assert result == True
+    
+    def test_circuit_convert_from_truth_table(self):
+        """Test conversion from truth table to circuit."""
+        from boolfunc.core.representations.circuit import CircuitRepresentation
+        
+        repr_obj = CircuitRepresentation()
+        truth_repr = TruthTableRepresentation()
+        
+        # Simple AND function
+        truth_table = np.array([False, False, False, True])
+        
+        circuit = repr_obj.convert_from(truth_repr, truth_table, Space.BOOLEAN_CUBE, 2)
+        
+        # Verify conversion
+        for i in range(4):
+            circuit_val = repr_obj.evaluate(i, circuit, Space.BOOLEAN_CUBE, 2)
+            truth_val = truth_repr.evaluate(i, truth_table, Space.BOOLEAN_CUBE, 2)
+            assert circuit_val == truth_val
+
+
+class TestBDDRepresentation:
+    """Test BDD representation."""
+    
+    def test_bdd_evaluate_simple(self):
+        """Test evaluation of simple BDD."""
+        from boolfunc.core.representations.bdd import BDDRepresentation, BDD
+        
+        repr_obj = BDDRepresentation()
+        
+        # Create simple BDD for x0
+        bdd = BDD(2)
+        bdd.root = bdd.create_node(0, bdd.terminal_false, bdd.terminal_true)
+        
+        # Test evaluation
+        result = repr_obj.evaluate(np.array([0, 0]), bdd, Space.BOOLEAN_CUBE, 2)
+        assert result == False
+        
+        result = repr_obj.evaluate(np.array([1, 0]), bdd, Space.BOOLEAN_CUBE, 2)
+        assert result == True
+    
+    def test_bdd_convert_from_truth_table(self):
+        """Test conversion from truth table to BDD."""
+        from boolfunc.core.representations.bdd import BDDRepresentation
+        
+        repr_obj = BDDRepresentation()
+        truth_repr = TruthTableRepresentation()
+        
+        # XOR function
+        truth_table = np.array([False, True, True, False])
+        
+        bdd = repr_obj.convert_from(truth_repr, truth_table, Space.BOOLEAN_CUBE, 2)
+        
+        # Verify conversion
+        for i in range(4):
+            bdd_val = repr_obj.evaluate(i, bdd, Space.BOOLEAN_CUBE, 2)
+            truth_val = truth_repr.evaluate(i, truth_table, Space.BOOLEAN_CUBE, 2)
+            assert bdd_val == truth_val
+
+
+class TestPolynomialRepresentation:
+    """Test polynomial (ANF) representation."""
+    
+    def test_polynomial_evaluate_simple(self):
+        """Test evaluation of polynomial representation."""
+        from boolfunc.core.representations.polynomial import PolynomialRepresentation
+        
+        repr_obj = PolynomialRepresentation()
+        
+        # XOR function: x0 ⊕ x1 (coefficients: [0, 1, 1, 1])
+        coeffs = np.array([0, 1, 1, 1])
+        
+        result = repr_obj.evaluate(0, coeffs, Space.BOOLEAN_CUBE, 2)
+        assert result == 0  # 0 ⊕ 0 = 0
+        
+        result = repr_obj.evaluate(1, coeffs, Space.BOOLEAN_CUBE, 2)
+        assert result == 1  # 0 ⊕ 1 = 1
+        
+        result = repr_obj.evaluate(3, coeffs, Space.BOOLEAN_CUBE, 2)
+        assert result == 1  # 1 ⊕ 1 ⊕ 1*1 = 1
+    
+    def test_polynomial_convert_from_truth_table(self):
+        """Test conversion from truth table to polynomial."""
+        from boolfunc.core.representations.polynomial import PolynomialRepresentation
+        
+        repr_obj = PolynomialRepresentation()
+        truth_repr = TruthTableRepresentation()
+        
+        # XOR function
+        truth_table = np.array([0, 1, 1, 0])
+        
+        polynomial = repr_obj.convert_from(truth_repr, truth_table, Space.BOOLEAN_CUBE, 2)
+        
+        # Verify conversion by evaluating both
+        for i in range(4):
+            truth_val = truth_repr.evaluate(i, truth_table, Space.BOOLEAN_CUBE, 2)
+            poly_val = repr_obj.evaluate(i, polynomial, Space.BOOLEAN_CUBE, 2)
+            assert truth_val == poly_val
+
+
+class TestSparseTruthTableRepresentation:
+    """Test sparse truth table representation."""
+    
+    def test_sparse_evaluate(self):
+        """Test evaluation of sparse representation."""
+        from boolfunc.core.representations.sparse_truth_table import SparseTruthTableRepresentation
+        
+        repr_obj = SparseTruthTableRepresentation()
+        
+        # Function that's True only at indices 1 and 3
+        sparse_data = {1, 3}
+        
+        result = repr_obj.evaluate(0, sparse_data, Space.BOOLEAN_CUBE, 2)
+        assert result == False
+        
+        result = repr_obj.evaluate(1, sparse_data, Space.BOOLEAN_CUBE, 2)
+        assert result == True
+        
+        result = repr_obj.evaluate(3, sparse_data, Space.BOOLEAN_CUBE, 2)
+        assert result == True
+    
+    def test_sparse_convert_from_truth_table(self):
+        """Test conversion from truth table to sparse representation."""
+        from boolfunc.core.representations.sparse_truth_table import SparseTruthTableRepresentation
+        
+        repr_obj = SparseTruthTableRepresentation()
+        truth_repr = TruthTableRepresentation()
+        
+        truth_table = np.array([False, True, False, True])
+        
+        sparse_data = repr_obj.convert_from(truth_repr, truth_table, Space.BOOLEAN_CUBE, 2)
+        
+        assert sparse_data == {1, 3}
+
+
+class TestRepresentationConversions:
+    """Test conversions between different representations."""
+    
+    def test_round_trip_conversions(self):
+        """Test round-trip conversions preserve function behavior."""
+        from boolfunc.core.representations.polynomial import PolynomialRepresentation
+        from boolfunc.core.representations.sparse_truth_table import SparseTruthTableRepresentation
+        
+        truth_repr = TruthTableRepresentation()
+        poly_repr = PolynomialRepresentation()
+        sparse_repr = SparseTruthTableRepresentation()
+        
+        # Original XOR function
+        original_truth_table = np.array([0, 1, 1, 0])
+        
+        # Truth table -> Polynomial -> Truth table
+        polynomial = poly_repr.convert_from(truth_repr, original_truth_table, Space.BOOLEAN_CUBE, 2)
+        recovered_truth_table = poly_repr.convert_to(truth_repr, polynomial, Space.BOOLEAN_CUBE, 2)
+        np.testing.assert_array_equal(original_truth_table, recovered_truth_table)
+        
+        # Truth table -> Sparse -> Truth table
+        sparse_data = sparse_repr.convert_from(truth_repr, original_truth_table, Space.BOOLEAN_CUBE, 2)
+        recovered_truth_table2 = sparse_repr.convert_to(truth_repr, sparse_data, Space.BOOLEAN_CUBE, 2)
+        np.testing.assert_array_equal(original_truth_table, recovered_truth_table2)
+
 
