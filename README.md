@@ -569,13 +569,7 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 
 # 🙏 Acknowledgments
 
-BoolFunc builds upon decades of research in Boolean function analysis.  
-We acknowledge the foundational work of researchers in:
-
-- Harmonic analysis on Boolean cubes
-- Property testing theory
-- Computational complexity theory
-- Modern cryptanalysis techniques
+We would like to acknowledge the material learned in CS 294-92: Analysis of Boolean Functions (Spring 2025), which provided the theoretical foundation for this project.
 
 ---
 
