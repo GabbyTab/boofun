@@ -22,7 +22,7 @@ BoolFunc is a comprehensive Python library for the analysis and manipulation of 
 ### Multiple Representations
 - **Truth Tables**: Standard binary representation for direct evaluation
 - **Algebraic Normal Form (ANF)**: Polynomial representation over GF(2) 
-- **Fourier Expansion**: Spectral representation for harmonic analysis
+- **Fourier Expansion**: Spectral representation 
 - **Binary Decision Diagrams (BDDs)**: Compressed graph-based representation
 - **Circuit Representation**: Gate-based computational model
 - **CNF/DNF Forms**: Conjunctive and disjunctive normal forms
