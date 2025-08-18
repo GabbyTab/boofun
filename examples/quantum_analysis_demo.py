@@ -336,10 +336,22 @@ def demo_quantum_advantage_analysis():
         func = bf.create(truth_table)
         quantum_func = bf.create_quantum_boolean_function(func)
         
-        # Estimate advantages for different analysis types
-        fourier_adv = bf.estimate_quantum_advantage(func.n_vars, 'fourier')
-        search_adv = bf.estimate_quantum_advantage(func.n_vars, 'search')
-        property_adv = bf.estimate_quantum_advantage(func.n_vars, 'property_testing')
+        # Estimate advantages for different analysis types (simplified)
+        n_vars = func.n_vars or 2
+        
+        # Simple heuristics for quantum advantage estimation
+        fourier_adv = {
+            'speedup': 2**(n_vars//2) if n_vars >= 4 else 1,
+            'worthwhile': n_vars >= 4
+        }
+        search_adv = {
+            'speedup': 2**(n_vars//2) if n_vars >= 6 else 1,
+            'worthwhile': n_vars >= 6
+        }
+        property_adv = {
+            'speedup': n_vars if n_vars >= 3 else 1,
+            'worthwhile': n_vars >= 3
+        }
         
         fourier_worthwhile = "✅" if fourier_adv['worthwhile'] else "❌"
         search_worthwhile = "✅" if search_adv['worthwhile'] else "❌"

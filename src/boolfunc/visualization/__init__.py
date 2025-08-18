@@ -394,8 +394,17 @@ class BooleanFunctionVisualizer:
                     row_colors.append('lightcoral')
                 cell_colors.append(row_colors)
             
+            # Create table without cellColors for compatibility
             table = ax.table(cellText=table_data, colLabels=headers,
-                           cellColors=cell_colors, cellLoc='center', loc='center')
+                           cellLoc='center', loc='center')
+            
+            # Apply cell colors manually if supported
+            try:
+                for i, row_colors in enumerate(cell_colors):
+                    for j, color in enumerate(row_colors):
+                        table[(i+1, j)].set_facecolor(color)
+            except (AttributeError, IndexError):
+                pass  # Skip coloring if not supported
             table.auto_set_font_size(False)
             table.set_fontsize(12)
             table.scale(1.2, 1.5)

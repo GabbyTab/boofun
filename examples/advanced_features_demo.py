@@ -308,7 +308,12 @@ def demo_error_models():
     results = []
     for _ in range(10):
         result = noise_func.evaluate(1)
-        results.append(result)
+        # Extract boolean value from error model result
+        if isinstance(result, dict) and 'value' in result:
+            boolean_result = bool(result['value'])
+        else:
+            boolean_result = bool(result)
+        results.append(boolean_result)
     
     true_count = sum(results)
     print(f"  XOR(1) over 10 evaluations: {true_count}/10 True")
@@ -337,8 +342,22 @@ def demo_quantum_features():
     
     properties = ['linearity', 'monotonicity']
     for prop in properties:
-        result = quantum_xor.quantum_property_testing(prop)
-        print(f"  {prop.capitalize()}: {result[f'is_{prop.split('icity')[0]}']}")
+        try:
+            result = quantum_xor.quantum_property_testing(prop)
+            # Handle different possible key formats
+            key_options = [f'is_{prop}', f'is_{prop.split("icity")[0]}', f'{prop}_result']
+            value = None
+            for key in key_options:
+                if key in result:
+                    value = result[key]
+                    break
+            
+            if value is not None:
+                print(f"  {prop.capitalize()}: {value}")
+            else:
+                print(f"  {prop.capitalize()}: {result}")
+        except Exception as e:
+            print(f"  {prop.capitalize()}: ⚠️ Error - {type(e).__name__}")
     
     # Quantum resource estimation
     print("\n3. Quantum Resource Requirements:")
