@@ -166,6 +166,7 @@ class BooleanFunctionFactory:
             vec = tuple(int(b) for b in np.binary_repr(i, width=n_vars))
             truth_table[i] = vec in true_inputs
 
+        kwargs["n_vars"] = n_vars
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(truth_table, rep_type)
         return instance
@@ -182,27 +183,52 @@ class BooleanFunctionFactory:
     ):
         """Create composite function from two BooleanFunctions or numerical values"""
 
-        # Handle numerical types for left function
-        kwargs["n_vars"] = 0
+        # Preserve space from operands if both are BooleanFunctions
+        if (hasattr(left_func, 'space') and hasattr(right_func, 'space') and 
+            left_func.space == right_func.space and 'space' not in kwargs):
+            kwargs['space'] = left_func.space
 
+        # Handle numerical types for left function
         variables = []
         if isinstance(left_func, numbers.Number):
             left_sym = str(left_func)
+            left_n_vars = 0
         else:
             left_sym = "x0"
             variables.append(left_func)
-            kwargs["n_vars"] += left_func.get_n_vars()
+            left_n_vars = left_func.get_n_vars()
 
         # Handle numerical types for right function
         if isinstance(right_func, numbers.Number):
             right_sym = str(right_func)
-        else:
+            right_n_vars = 0
+        elif right_func is None:
+            right_sym = ""  # For unary operators
+            right_n_vars = 0
+        elif hasattr(right_func, 'get_n_vars'):
             right_sym = f"x{len(variables)}"
             variables.append(right_func)
-            kwargs["n_vars"] += right_func.get_n_vars()
+            right_n_vars = right_func.get_n_vars()
+        else:
+            raise TypeError(f"Invalid operand type: {type(right_func)}. Expected BooleanFunction or number.")
+
+        # For functions with same domain, preserve n_vars; otherwise sum them
+        if (hasattr(left_func, 'n_vars') and hasattr(right_func, 'n_vars') and 
+            left_func.n_vars == right_func.n_vars and len(variables) == 2):
+            kwargs["n_vars"] = left_func.n_vars  # Same domain composition
+        else:
+            kwargs["n_vars"] = left_n_vars + right_n_vars  # Cross-domain composition
 
         # Create symbolic expression
-        expression = f"({left_sym} {operator} {right_sym})"
+        if right_func is None:
+            # Unary operator
+            if operator == '~':
+                expression = f"not {left_sym}"
+            else:
+                expression = f"{operator}{left_sym}"
+        else:
+            # Binary operator
+            expression = f"({left_sym} {operator} {right_sym})"
 
         # Create and return composite instance
         instance = boolean_function_cls(**kwargs)

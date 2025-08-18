@@ -1,78 +1,238 @@
 <p align="center">
-  <img src="logos/boo_horizontal.png" alt="BoolFunc Logo" width="1000"/>
+  <img src="logos/boo_horizontal.png" alt="BoolFunc Logo" width="800"/>
+</p>
+
+<p align="center">
+  <strong>A Comprehensive Python Library for Boolean Function Analysis and Computation</strong>
 </p>
 
 <p align="center">
   <a href="https://pypi.org/project/boolfunc/"><img src="https://img.shields.io/pypi/v/boolfunc.svg" alt="PyPI version"></a>
-  <a href="https://pypi.org/project/boolfunc/"><img src="https://img.shields.io/pypi/dm/boolfunc.svg?label=PyPI%20downloads" alt="PyPI downloads"></a>
-  <a href="https://github.com/GabbyTab/boolfunc/actions"><img src="https://github.com/GabbyTab/boolfunc/workflows/CI/badge.svg" alt="Build Status"></a>
   <a href="https://github.com/GabbyTab/boolfunc/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python 3.8+"></a>
   <a href="https://github.com/GabbyTab/boolfunc/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
-  <a href="https://github.com/GabbyTab/boolfunc/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/typing-checked-blue.svg" alt="Typing"></a>
+  <a href="#documentation"><img src="https://img.shields.io/badge/docs-sphinx-blue.svg" alt="Documentation"></a>
 </p>
 
-# 🚀 Features
+## Overview
 
-## 🎯 Core Capabilities
+BoolFunc is a comprehensive Python library for the analysis and manipulation of Boolean functions, designed for researchers and practitioners in theoretical computer science, computational complexity, and quantum computing. The library provides a unified framework for working with Boolean functions across multiple mathematical representations, enabling efficient computation of spectral properties, influence measures, and complexity-theoretic characteristics.
 
-- **Multiple Representations** 🔄  
-  Seamless conversion between 12+ representations including truth tables, polynomials (ANF), circuits, BDDs, DNF/CNF forms, and spectral expansions with intelligent conversion graph system.
+## Key Features
 
-- **Spectral Analysis** 📊  
-  Complete Fourier analysis toolkit with influence computation, noise stability, and spectral concentration with Numba JIT acceleration.
+### Multiple Representations
+- **Truth Tables**: Standard binary representation for direct evaluation
+- **Algebraic Normal Form (ANF)**: Polynomial representation over GF(2) 
+- **Fourier Expansion**: Spectral representation for harmonic analysis
+- **Binary Decision Diagrams (BDDs)**: Compressed graph-based representation
+- **Circuit Representation**: Gate-based computational model
+- **CNF/DNF Forms**: Conjunctive and disjunctive normal forms
 
-- **Property Testing** 🔬  
-  Classical and quantum property testing algorithms including linearity, monotonicity, balance, and cryptographic properties.
+### Spectral Analysis
+- **Fourier Coefficients**: Complete Walsh-Hadamard transform computation
+- **Influence Measures**: Variable influence and total influence calculation  
+- **Noise Stability**: Correlation under random noise for fixed correlation parameters
+- **Spectral Concentration**: Degree-based spectral weight distribution
 
-- **Advanced Visualization** 📈  
-  Interactive plots for spectral properties, influences, function behavior, and quantum analysis with matplotlib/plotly backends.
+### Property Testing
+- **Linearity Testing**: BLR-style linearity detection algorithms
+- **Monotonicity Testing**: Efficient monotonicity verification
+- **Balance Testing**: Statistical balance and bias measurement
+- **Junta Testing**: k-junta identification and variable relevance
 
-- **High Performance** ⚡  
-  Optimized implementations with GPU acceleration (CuPy/CUDA), Numba JIT compilation, and intelligent batch processing.
+### Built-in Function Classes
+- **Tribes Functions**: Disjunction of k-wise conjunctions for complexity analysis
+- **Majority Functions**: Threshold functions for voting theory applications  
+- **Parity Functions**: Linear functions over GF(2) for coding theory
+- **Dictator Functions**: Single-variable dependencies for social choice theory
 
-- **Educational Tools** 🎓  
-  Comprehensive examples and testing framework suitable for teaching theoretical computer science and quantum computing.
+## Architecture Overview
 
-## 🆕 Advanced Features (New!)
+The library is organized into several interconnected modules:
 
-- **🔄 Intelligent Conversion Graph**  
-  Dijkstra-based optimal path finding between representations with cost analysis and caching.
+![Module Architecture](docs/architecture_diagram.png)
 
-- **⚡ Batch Processing Engine**  
-  Automatic selection of vectorized, parallel, or GPU-accelerated processing based on data size and complexity.
+*The diagram above illustrates the modular architecture of BoolFunc, showing how different components interact to provide a comprehensive Boolean function analysis framework.*
 
-- **🚀 GPU Acceleration**  
-  CUDA/OpenCL support with automatic GPU selection and CPU fallback for large-scale computations.
+## Quick Start
 
-- **🔥 Numba JIT Optimization**  
-  Just-in-time compilation of critical operations with parallel execution and automatic warm-up.
+### Installation
 
-- **🧪 Comprehensive Testing Framework**  
-  Built-in validation, property testing, and performance profiling with detailed reporting.
+```bash
+pip install boolfunc
+```
 
-- **🔌 Adapter System**  
-  Easy integration with legacy functions, SymPy expressions, and external Boolean function libraries.
+### Basic Usage
 
-- **🎯 Advanced Error Models**  
-  PAC learning bounds, noise models, and uncertainty propagation for robust analysis.
+```python
+import boolfunc as bf
+import numpy as np
 
-- **⚛️ Quantum Extensions**  
-  Quantum Boolean function analysis, quantum property testing, and resource estimation.
+# Create Boolean functions
+xor = bf.create([0, 1, 1, 0])  # XOR function
+majority = bf.BooleanFunctionBuiltins.majority(3)  # 3-variable majority
+
+# Evaluate functions
+print(f"XOR(1,0) = {xor.evaluate([1, 0])}")  # True
+print(f"Majority(1,1,0) = {majority.evaluate([1, 1, 0])}")  # True
+
+# Spectral analysis
+analyzer = bf.SpectralAnalyzer(xor)
+influences = analyzer.influences()
+noise_stability = analyzer.noise_stability(0.9)
+
+print(f"Variable influences: {influences}")
+print(f"Noise stability (ρ=0.9): {noise_stability}")
+
+# Multiple representations
+anf_data = xor.get_representation('anf')  # Algebraic Normal Form
+fourier_coeffs = xor.get_representation('fourier_expansion')  # Fourier coefficients
+
+# Property testing
+tester = bf.PropertyTester(xor)
+is_linear = tester.test_linearity()
+is_monotone = tester.test_monotonicity()
+
+print(f"Linear: {is_linear}, Monotone: {is_monotone}")
+```
+
+## Mathematical Foundation
+
+BoolFunc operates on Boolean functions f: {0,1}ⁿ → {0,1}, providing tools for:
+
+- **Fourier Analysis**: Walsh-Hadamard transform and spectral properties
+- **Influence Theory**: Variable influence I_i(f) = Pr[f(x) ≠ f(x ⊕ eᵢ)]  
+- **Noise Stability**: NS_ρ(f) = E[f(x)f(N_ρ(x))] for noise operator N_ρ
+- **Complexity Measures**: Certificate complexity, sensitivity, block sensitivity
+- **Learning Theory**: PAC learning with membership and equivalence queries
+
+## Applications
+
+- **Computational Complexity**: Analysis of Boolean function complexity classes
+- **Social Choice Theory**: Voting systems and preference aggregation
+- **Cryptography**: Security analysis of Boolean functions in stream ciphers  
+- **Quantum Computing**: Boolean function analysis in quantum algorithms
+- **Machine Learning**: Feature selection and Boolean concept learning
+
+## Documentation
+
+### Generating Documentation
+
+BoolFunc uses Sphinx for comprehensive documentation generation with automatic API reference creation:
+
+#### Quick Documentation Setup
+
+```bash
+# Install documentation dependencies
+pip install -e ".[docs]"
+
+# Generate HTML documentation
+cd docs/
+make html
+
+# Open in browser
+open _build/html/index.html  # macOS
+firefox _build/html/index.html  # Linux
+```
+
+#### Documentation Components
+
+The documentation system includes:
+
+- **API Reference**: Auto-generated from docstrings using Sphinx autodoc
+- **Mathematical Notation**: LaTeX math rendering with MathJax
+- **Code Examples**: Syntax-highlighted Python code blocks
+- **Architecture Diagrams**: Visual module interaction diagrams
+- **Theory Sections**: Mathematical foundations and algorithmic details
+
+#### Available Documentation Formats
+
+```bash
+# HTML documentation (recommended)
+make html
+
+# PDF documentation (requires LaTeX)
+make latexpdf
+
+# EPUB documentation
+make epub
+
+# Clean build files
+make clean
+```
+
+#### Customizing Documentation
+
+The documentation configuration is in `docs/conf.py`. Key settings:
+
+- **Theme**: `sphinx_rtd_theme` for professional appearance
+- **Extensions**: Autodoc, Napoleon, MathJax for comprehensive documentation
+- **API Generation**: Automatic module documentation with autosummary
+
+### API Reference
+
+The complete API documentation includes:
+
+- **Core Classes**: BooleanFunction, SpectralAnalyzer, PropertyTester
+- **Representations**: All 12+ representation types with mathematical descriptions
+- **Analysis Tools**: Fourier analysis, influence computation, property testing
+- **Advanced Features**: Conversion graph, batch processing, GPU acceleration
+- **Examples**: Comprehensive usage examples with mathematical context
+
+#### Documentation Structure
+
+```
+docs/
+├── _build/html/          # Generated HTML documentation
+├── conf.py               # Sphinx configuration
+├── index.rst            # Main documentation index
+├── quickstart.rst       # Quick start guide
+├── architecture_diagram.png  # Module interaction diagram
+└── Makefile             # Documentation build commands
+```
+
+#### Regenerating Documentation
+
+After making changes to docstrings or adding new modules:
+
+```bash
+# Clean previous build
+cd docs && make clean
+
+# Regenerate with latest changes
+make html
+
+# View updated documentation
+open _build/html/index.html
+```
+
+Online documentation: [https://boolfunc.readthedocs.io](https://boolfunc.readthedocs.io)
 
 ---
 
-## Built-in Function Library
+## Examples
 
-- **Tribes functions** - Disjunction of k-wise conjunctions  
-- **Majority functions** - Returns 1 if more than half inputs are 1
-- **Parity functions** - XOR operations and linear functions
-- **Dictator functions** - Single variable dependencies
-- **Constant functions** - Always return the same value
-- **Random Boolean functions** - For testing and analysis
+The `examples/` directory contains comprehensive usage examples:
 
-# 📦 Installation
+```bash
+# Basic usage and core functionality
+python examples/usage.py
 
-## Install from PyPI (Recommended)
+# Advanced features (ANF, conversion graph, batch processing, GPU)
+python examples/advanced_features_demo.py
+
+# Quantum Boolean function analysis
+python examples/quantum_analysis_demo.py
+
+# Educational examples for teaching
+python examples/educational_examples.py
+
+# Visualization examples
+python examples/visualization_examples.py
+```
+
+## Installation
+
+### Install from PyPI (Recommended)
 
 ```bash
 pip install boolfunc
@@ -99,65 +259,20 @@ pip install boolfunc[dev]
 pip install boolfunc[visualization,dev]
 ```
 
-# 🏃‍♀️ Quick Start
+## Testing
 
-```python
-import boolfunc as bf
-import numpy as np
+Run the test suite to verify installation:
 
-# Create Boolean functions from truth table
-xor = bf.create([0, 1, 1, 0])  # XOR function
-majority = bf.BooleanFunctionBuiltins.majority(3)  # Built-in majority function
-tribes = bf.BooleanFunctionBuiltins.tribes(k=2, n=6)  # Tribes function
-
-# Evaluate functions (with automatic batch optimization)
-print(f"XOR(1,0) = {xor.evaluate([1, 0])}")  # True
-print(f"Majority(1,1,0) = {majority.evaluate([1, 1, 0])}")  # True
-
-# Large batch evaluation (uses GPU/Numba if available)
-large_batch = np.random.randint(0, 4, 10000)
-results = xor.evaluate(large_batch)  # Optimized automatically
-
-# Intelligent representation conversion
-anf_data = xor.get_representation('anf')  # Algebraic Normal Form
-fourier_coeffs = xor.get_representation('fourier_expansion')  # Uses conversion graph
-
-# Advanced analysis with optimizations
-analyzer = bf.SpectralAnalyzer(xor)
-influences = analyzer.influences()  # Numba-accelerated
-noise_stability = analyzer.noise_stability(0.9)
-
-# Validate functions
-is_valid = bf.quick_validate(xor)
-print(f"Function validation: {is_valid}")
-
-# Adapt external functions
-python_func = lambda x: x[0] ^ x[1]
-adapted = bf.adapt_callable(python_func, n_vars=2)
-
-# Spectral analysis
-analyzer = bf.SpectralAnalyzer(xor)
-influences = analyzer.influences()
-total_influence = analyzer.total_influence()
-noise_stability = analyzer.noise_stability(rho=0.9)
-
-# Fourier analysis
-fourier_coeffs = analyzer.fourier_expansion()
-
-# Property testing
-tester = bf.PropertyTester(xor)
-is_balanced = tester.balanced_test()
-is_linear = tester.blr_linearity_test(num_queries=3)
-
-# Visualization (requires matplotlib/plotly)
-viz = bf.Visualizer(xor)
-viz.plot_influences()
-viz.plot_fourier_spectrum()
+```bash
+pytest tests/
 ```
 
----
+For coverage analysis:
+```bash
+pytest --cov=boolfunc tests/
+```
 
-# 🔄 Supported Representations
+## Supported Representations
 
 BoolFunc supports **12+ different representations** for Boolean functions, each optimized for specific use cases:
 
@@ -372,6 +487,33 @@ python cleanup_old_files.py
 - **`representations_demo.py`**: Multiple representations (circuits, BDDs, conversions)
 - **`visualization_examples.py`**: Plotting and interactive analysis dashboards
 - **`complete_demo.py`**: Comprehensive showcase of all library features
+
+---
+
+## Advanced Implementation Details
+
+### Performance Optimizations
+
+- **🔄 Intelligent Conversion Graph**: Dijkstra-based optimal path finding between representations with cost analysis and caching
+- **⚡ Batch Processing Engine**: Automatic selection of vectorized, parallel, or GPU-accelerated processing based on data size and complexity  
+- **🚀 GPU Acceleration**: CUDA/OpenCL support with automatic GPU selection and CPU fallback for large-scale computations
+- **🔥 Numba JIT Optimization**: Just-in-time compilation of critical operations with parallel execution and automatic warm-up
+
+### Integration Features
+
+- **🔌 Adapter System**: Easy integration with legacy functions, SymPy expressions, and external Boolean function libraries
+- **🎯 Advanced Error Models**: PAC learning bounds, noise models, and uncertainty propagation for robust analysis
+- **🧪 Comprehensive Testing Framework**: Built-in validation, property testing, and performance profiling with detailed reporting
+- **⚛️ Quantum Extensions**: Quantum Boolean function analysis, quantum property testing, and resource estimation
+
+### Technical Architecture
+
+The library employs several design patterns for extensibility and performance:
+
+- **Strategy Pattern**: Pluggable representation implementations with unified interface
+- **Factory Pattern**: Automatic type detection and object creation from diverse input formats
+- **Observer Pattern**: Event-driven computation caching and invalidation
+- **Registry Pattern**: Dynamic discovery and registration of representation strategies
 
 ---
 

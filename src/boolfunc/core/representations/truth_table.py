@@ -137,8 +137,16 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                 elif isinstance(value, (int, np.integer)):
                     truth_table[idx] = bool(value)
                 elif isinstance(value, (float, np.floating)):
-                    # For real-valued outputs, use threshold
-                    truth_table[idx] = value > 0.5
+                    # For real-valued outputs, convert to boolean
+                    # Fourier evaluation returns ±1 values, need to map to {0,1}
+                    if abs(value - 1.0) < 1e-10:  # value ≈ 1.0 in ±1 domain
+                        truth_table[idx] = False  # 1 in ±1 maps to 0 in {0,1}
+                    elif abs(value - (-1.0)) < 1e-10:  # value ≈ -1.0 in ±1 domain  
+                        truth_table[idx] = True   # -1 in ±1 maps to 1 in {0,1}
+                    elif space == Space.PLUS_MINUS_CUBE:
+                        truth_table[idx] = value > 0  # ±1 space: positive -> True
+                    else:
+                        truth_table[idx] = value > 0.5  # [0,1] space: > 0.5 -> True
                 else:
                     truth_table[idx] = bool(value)
                     

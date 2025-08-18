@@ -160,8 +160,11 @@ class BooleanFunction(Evaluable, Representable):
     def __repr__(self):
         return f"BooleanFunction(space={self.space}, n_vars={self.n_vars})"  # TODO figure out what should be outputed here
 
-    def _create_space(self, space_type: str):
-        if space_type == "boolean_cube":
+    def _create_space(self, space_type):
+        # Handle both string and Space enum inputs
+        if isinstance(space_type, Space):
+            return space_type
+        elif space_type == "boolean_cube":
             return Space.BOOLEAN_CUBE
         elif space_type == "plus_minus_cube":
             return Space.PLUS_MINUS_CUBE
@@ -254,8 +257,21 @@ class BooleanFunction(Evaluable, Representable):
         # Get base result
         if hasattr(inputs, "rvs"):  # scipy.stats random variable
             result = self._evaluate_stochastic(inputs, rep_type=rep_type, **kwargs)
-        elif isinstance(inputs, (list, np.ndarray)):
+        elif isinstance(inputs, (list, np.ndarray, int, float)):
+            # Check for empty inputs (only for lists and multi-dimensional arrays)
+            if isinstance(inputs, list) and len(inputs) == 0:
+                raise ValueError("Cannot evaluate empty input list")
+            elif isinstance(inputs, np.ndarray) and inputs.ndim > 0 and inputs.size == 0:
+                raise ValueError("Cannot evaluate empty input array")
+                
+            # Convert single values to array for consistent processing
+            is_scalar_input = isinstance(inputs, (int, float))
+            if is_scalar_input:
+                inputs = np.array([inputs])
             result = self._evaluate_deterministic(inputs, rep_type=rep_type)
+            # Return scalar if input was scalar
+            if is_scalar_input and len(result) == 1:
+                result = result[0]
         else:
             raise TypeError(f"Unsupported input type: {type(inputs)}")
         
@@ -317,23 +333,43 @@ class BooleanFunction(Evaluable, Representable):
 
     def rvs(self, size=1, rng=None):
         """Generate random samples (like scipy.stats)"""
-        pass
         if "distribution" in self.representations:
             return self.representations["distribution"].rvs(size=size, random_state=rng)
         # Fallback: uniform sampling from truth table
         return self._uniform_sample(size, rng)
+    
+    def _uniform_sample(self, size, rng=None):
+        """Generate uniform random samples from the function's domain."""
+        if rng is None:
+            rng = np.random.default_rng()
+        
+        # Generate random inputs and evaluate
+        domain_size = 2 ** self.n_vars
+        random_indices = rng.integers(0, domain_size, size=size)
+        
+        # Evaluate function at random points
+        results = []
+        for idx in random_indices:
+            result = self.evaluate(idx)
+            results.append(int(result) if isinstance(result, (bool, np.bool_)) else result)
+        
+        return results
 
     def pmf(self, x):
-        pass
         """Probability mass function"""
         if hasattr(self, "_pmf_cache"):
             return self._pmf_cache.get(tuple(x), 0.0)
         return self._compute_pmf(x)
+    
+    def _compute_pmf(self, x):
+        """Compute probability mass function for input x."""
+        # For Boolean functions, PMF is just the function value
+        return float(self.evaluate(x))
 
     def cdf(self, x):
-        pass
         """Cumulative distribution function"""
         # return self._compute_cdf(x)
+        pass
 
     # get methods
     def get_n_vars(self):
@@ -396,3 +432,16 @@ class BooleanFunction(Evaluable, Representable):
                 best_cost = cost
         
         return best_cost
+    
+    def to(self, representation_type: str):
+        """
+        Convert to specified representation (convenience method).
+        
+        Args:
+            representation_type: Target representation type
+            
+        Returns:
+            Self (for method chaining)
+        """
+        self.get_representation(representation_type)
+        return self

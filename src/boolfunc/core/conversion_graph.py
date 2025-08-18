@@ -173,7 +173,7 @@ class ConversionGraph:
         conversion_costs = {
             # Truth table is the universal converter (high cost but always works)
             ('truth_table', 'fourier_expansion'): ConversionCost(100, 50, 0.0, True),
-            ('truth_table', 'anf'): ConversionCost(80, 40, 0.0, True),
+            ('truth_table', 'anf'): ConversionCost(30, 40, 0.0, True),
             ('truth_table', 'polynomial'): ConversionCost(60, 30, 0.0, True),
             ('truth_table', 'symbolic'): ConversionCost(40, 20, 0.0, True),
             

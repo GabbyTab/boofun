@@ -37,6 +37,13 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
             is recomputing repeated variables
         """
         expr, funcs = data
+        
+        # Handle case where funcs are strings (variable names) vs BooleanFunction objects
+        if funcs and isinstance(funcs[0], str):
+            # This is a variable-based symbolic expression, not composed functions
+            # For now, use simple evaluation with variable substitution
+            return self._evaluate_variable_expression(inputs, expr, funcs, space, n_vars)
+        
         func_lengths = [f.get_n_vars() for f in funcs]
 
         # Precompute bitmasks for each subfunction
@@ -59,7 +66,54 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
             return np.array(eval_point(int(inputs)))
 
         # Batch evaluation
-        return np.array([eval_point(int(v)) for v in inputs])
+        results = []
+        for v in inputs:
+            if hasattr(v, '__len__') and len(v) > 1:
+                # Convert binary vector to integer
+                v_int = sum(bit * (2**i) for i, bit in enumerate(v))
+                results.append(eval_point(v_int))
+            else:
+                results.append(eval_point(int(v)))
+        return np.array(results)
+    
+    def _evaluate_variable_expression(self, inputs, expr, variables, space, n_vars):
+        """Evaluate symbolic expression with variable names."""
+        if np.isscalar(inputs) or inputs.ndim == 0:
+            # Single input
+            if hasattr(inputs, '__len__'):
+                # Binary vector input
+                context = {var: bool(inputs[i]) if i < len(inputs) else False 
+                          for i, var in enumerate(variables)}
+            else:
+                # Integer input - convert to binary
+                x = int(inputs)
+                context = {var: bool((x >> i) & 1) for i, var in enumerate(variables)}
+            
+            try:
+                result = eval(expr, {"__builtins__": {}}, context)
+                return bool(result)
+            except:
+                return False
+        
+        # Batch evaluation
+        results = []
+        for inp in inputs:
+            if hasattr(inp, '__len__'):
+                # Binary vector
+                context = {var: bool(inp[i]) if i < len(inp) else False 
+                          for i, var in enumerate(variables)}
+            else:
+                # Integer - convert to binary
+                x = int(inp)
+                context = {var: bool((x >> i) & 1) for i, var in enumerate(variables)}
+            
+            try:
+                result = eval(expr, {"__builtins__": {}}, context)
+                results.append(bool(result))
+            except:
+                results.append(False)
+        
+        return np.array(results)
 
     def dump(self, data: Tuple[str, List[str]], **kwargs) -> Dict[str, Any]:
         """
