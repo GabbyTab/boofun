@@ -1,86 +1,221 @@
-# BoolFunc: Boolean Function Analysis Library
+<p align="center">
+  <img src="logos/boo_horizontal.png" alt="BoolFunc Logo" width="400"/>
+</p>
 
-A Python library for creating, analyzing, and visualizing Boolean functions using multiple representations and advanced mathematical techniques.
+<p align="center">
+  <a href="https://pypi.org/project/boolfunc/"><img src="https://img.shields.io/pypi/v/boolfunc.svg" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/boolfunc/"><img src="https://img.shields.io/pypi/dm/boolfunc.svg?label=PyPI%20downloads" alt="PyPI downloads"></a>
+  <a href="https://github.com/GabbyTab/boolfunc/actions"><img src="https://github.com/GabbyTab/boolfunc/workflows/CI/badge.svg" alt="Build Status"></a>
+  <a href="https://github.com/GabbyTab/boolfunc/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python 3.8+"></a>
+  <a href="https://github.com/GabbyTab/boolfunc/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
+  <a href="https://github.com/GabbyTab/boolfunc/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/typing-checked-blue.svg" alt="Typing"></a>
+</p>
 
+# 🚀 Features
 
+## Core Capabilities
 
-## Features
+- **Multiple Representations**  
+  Seamless conversion between truth tables, polynomials (ANF), circuits, BDDs, and spectral forms.
 
-- **Multiple Representations**: Truth tables, polynomials (ANF), circuits, BDDs, and more
-- **Spectral Analysis**: Fourier analysis, influence computation, noise stability  
-- **Property Testing**: Linearity, constancy, balance testing, and cryptographic properties
-- **Built-in Functions**: Majority, parity, dictator, constant, and tribes functions
-- **Visualization**: Interactive plots, dashboards, and function comparisons
-- **Educational Tools**: Examples suitable for teaching theoretical computer science
+- **Spectral Analysis**  
+  Complete Fourier analysis toolkit with influence computation and noise stability.
 
-## Built-in Functions
+- **Property Testing**  
+  Classical property testing algorithms including linearity, balance, and cryptographic properties.
 
-- `majority(n)` - Returns 1 if more than half of n inputs are 1 (n must be odd)
-- `parity(n)` - Returns 1 if odd number of inputs are 1 (XOR function)  
-- `dictator(i, n)` - Returns the value of the i-th input variable
-- `constant(value, n)` - Always returns the same value
-- `tribes(k, n)` - Disjunction of k-wise conjunctions
+- **Advanced Visualization**  
+  Interactive plots for spectral properties, influences, and function behavior.
 
+- **High Performance**  
+  Optimized implementations using NumPy and SciPy with optional acceleration.
 
-## Installation
+- **Educational Tools**  
+  Comprehensive examples suitable for teaching theoretical computer science.
 
-### From Source (Development)
+---
+
+## Built-in Function Library
+
+- **Tribes functions** - Disjunction of k-wise conjunctions  
+- **Majority functions** - Returns 1 if more than half inputs are 1
+- **Parity functions** - XOR operations and linear functions
+- **Dictator functions** - Single variable dependencies
+- **Constant functions** - Always return the same value
+- **Random Boolean functions** - For testing and analysis
+
+# 📦 Installation
+
+## Install from PyPI (Recommended)
+
+```bash
+pip install boolfunc
+```
+
+## From Source (Development)
+
 ```bash
 git clone https://github.com/GabbyTab/boolfunc.git
 cd boolfunc
 pip install -e .
 ```
 
-### With Optional Dependencies
+## With Optional Dependencies
+
 ```bash
 # For visualization features
-pip install -e ".[visualization]"
+pip install boolfunc[visualization]
 
 # For development (testing, linting)
-pip install -e ".[dev]"
+pip install boolfunc[dev]
+
+# All features
+pip install boolfunc[visualization,dev]
 ```
-## Quick Start
+
+# 🏃‍♀️ Quick Start
 
 ```python
 import boolfunc as bf
+import numpy as np
 
-# Create Boolean functions
-xor = bf.create([0, 1, 1, 0])  # XOR function from truth table
+# Create Boolean functions from truth table
+xor = bf.create([0, 1, 1, 0])  # XOR function
 majority = bf.BooleanFunctionBuiltins.majority(3)  # Built-in majority function
+tribes = bf.BooleanFunctionBuiltins.tribes(k=2, n=6)  # Tribes function
 
 # Evaluate functions
 print(f"XOR(1,0) = {xor.evaluate([1, 0])}")  # True
 print(f"Majority(1,1,0) = {majority.evaluate([1, 1, 0])}")  # True
 
+# Seamless representation conversion
+polynomial = xor.to_polynomial()
+circuit = xor.to_circuit()
+
 # Spectral analysis
 analyzer = bf.SpectralAnalyzer(xor)
 influences = analyzer.influences()
-print(f"Variable influences: {influences}")  # [1.0, 1.0] for XOR
+total_influence = analyzer.total_influence()
+noise_stability = analyzer.noise_stability(rho=0.9)
+
+# Fourier analysis
+fourier_coeffs = analyzer.fourier_expansion()
 
 # Property testing
 tester = bf.PropertyTester(xor)
 is_balanced = tester.balanced_test()
-print(f"XOR is balanced: {is_balanced}")  # True
+is_linear = tester.blr_linearity_test(num_queries=3)
+
+# Visualization (requires matplotlib/plotly)
+viz = bf.Visualizer(xor)
+viz.plot_influences()
+viz.plot_fourier_spectrum()
 ```
 
-See the `examples/` directory for comprehensive tutorials covering all features.
+---
 
+# 📚 Documentation
 
-## Testing
+Comprehensive documentation and examples are available in the repository:
+
+- **Getting Started Guide:** Basic concepts and first steps in the examples directory
+- **API Reference:** Complete function and class documentation via docstrings
+- **Mathematical Background:** Theory and algorithms explained in source comments
+- **Advanced Examples:** Research-oriented tutorials and use cases
+
+**Quick Links:**
+- [Examples Directory](examples/) - Comprehensive usage examples
+- [API Documentation](src/boolfunc/) - Source code with detailed docstrings
+- [Contributing Guide](CONTRIBUTING.md) - Development and contribution guidelines
+
+---
+
+# 🧪 Core Modules
+
+## `boolfunc.core`
+- Multiple Boolean function representations with automatic conversion:
+  - Truth table representation
+  - Polynomial (ANF) representation  
+  - Circuit representation
+  - BDD representation
+  - Spectral representation
+
+## `boolfunc.analysis`
+- Comprehensive spectral analysis tools:
+  - Fourier expansion and Walsh-Hadamard transforms
+  - Variable influences and sensitivity analysis
+  - Noise stability and hypercontractivity
+  - Spectral concentration measures
+
+## `boolfunc.testing`
+- Property testing algorithms:
+  - BLR linearity testing
+  - Constant function testing
+  - Balance testing
+  - Custom testing framework
+
+## `boolfunc.visualization`
+- Advanced plotting capabilities:
+  - Influence distribution plots
+  - Fourier spectrum visualization
+  - Noise stability curves
+  - Interactive dashboards
+
+---
+
+# 🔬 Research Applications
+
+BoolFunc is designed for researchers in:
+
+- **Theoretical Computer Science:** Analysis of computational complexity and Boolean circuits
+- **Cryptography:** Boolean function cryptanalysis and S-box design
+- **Property Testing:** Development of efficient testing algorithms
+- **Machine Learning:** Boolean function learning and feature analysis
+- **Combinatorics:** Extremal problems and probabilistic methods
+
+---
+
+# 📈 Performance
+
+BoolFunc is optimized for both small research examples and large-scale computations:
+
+- **Vectorized Operations:** Efficient NumPy-based implementations
+- **Memory Efficiency:** Sparse representations for large functions
+- **Scalable Design:** Handles functions with up to 20+ variables efficiently
+
+**Performance Example:**
+```python
+# Analyze 10-variable Boolean function
+import boolfunc as bf
+import time
+
+f = bf.BooleanFunctionBuiltins.tribes(k=2, n=10)
+start = time.time()
+
+analyzer = bf.SpectralAnalyzer(f)
+influences = analyzer.influences()
+fourier_coeffs = analyzer.fourier_expansion()
+
+print(f"Analysis completed in {time.time() - start:.3f} seconds")
+```
+
+---
+
+# 🧪 Testing
 
 Run the test suite to verify installation:
 ```bash
 # Run all tests
 pytest
 
-# Run with coverage
+# Run with coverage  
 pytest --cov=boolfunc
 
 # Run specific test file
 pytest tests/integration/test_basic_functionality.py
 ```
 
-## Examples
+# 📋 Examples
 
 The `examples/` directory contains comprehensive usage examples:
 
@@ -99,6 +234,9 @@ python examples/representations_demo.py
 
 # Visualization examples (requires matplotlib/plotly)
 python examples/visualization_examples.py
+
+# Complete showcase of all library features
+python examples/complete_demo.py
 ```
 
 ### Example Categories
@@ -110,34 +248,73 @@ python examples/visualization_examples.py
 - **`visualization_examples.py`**: Plotting and interactive analysis dashboards
 - **`complete_demo.py`**: Comprehensive showcase of all library features
 
-### Quick Demo
-For a complete overview of all capabilities:
-```bash
-python examples/complete_demo.py
-```
+---
 
-## Development
+# 🤝 Contributing
 
-For development setup:
+We welcome contributions from the research community!  
+Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## Development Setup
+
 ```bash
-# Clone and install in development mode
+# Clone repository
 git clone https://github.com/GabbyTab/boolfunc.git
 cd boolfunc
+
+# Create development environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install in development mode
 pip install -e ".[dev]"
 
 # Run tests and linting
 pytest
 black src/
 flake8 src/
+mypy src/
 ```
 
-## License
+## How to Contribute
 
-MIT License - see [LICENSE](LICENSE) file for details.
+- **Bug Reports:** Use GitHub issues with detailed reproduction steps
+- **Feature Requests:** Discuss proposals in GitHub discussions
+- **Code Contributions:** Submit pull requests with tests and documentation
+- **Documentation:** Help improve docs and add examples
+- **Research Integration:** Share your research applications and use cases
 
-## Citation
+---
 
-If you use BoolFunc in your research:
+# 📞 Support and Community
+
+- **Issues:** [GitHub Issues](https://github.com/GabbyTab/boolfunc/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/GabbyTab/boolfunc/discussions)
+- **Repository:** [GitHub Repository](https://github.com/GabbyTab/boolfunc)
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+
+---
+
+# 🙏 Acknowledgments
+
+BoolFunc builds upon decades of research in Boolean function analysis.  
+We acknowledge the foundational work of researchers in:
+
+- Harmonic analysis on Boolean cubes
+- Property testing theory
+- Computational complexity theory
+- Modern cryptanalysis techniques
+
+---
+
+# 📖 Citation
+
+If you use BoolFunc in your research, please cite:
 
 ```bibtex
 @software{boolfunc2024,
@@ -148,3 +325,11 @@ If you use BoolFunc in your research:
   version={0.2.0}
 }
 ```
+
+---
+
+Happy Boolean function analyzing! 🎯
+
+<p align="center">
+  <img src="logos/boo_alt.png" alt="BoolFunc Logo" width="200"/>
+</p>
