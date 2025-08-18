@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logos/boo_horizontal.png" alt="BoolFunc Logo" width="400"/>
+  <img src="logos/boo_horizontal.png" alt="BoolFunc Logo" width="600"/>
 </p>
 
 <p align="center">
