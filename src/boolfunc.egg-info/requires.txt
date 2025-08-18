@@ -1,9 +1,13 @@
-numpy
-scipy
-numba
-uncertainties
+numpy>=1.20.0
+scipy>=1.7.0
 
 [dev]
-pytest
-matplotlib
-plotly
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=22.0.0
+flake8>=5.0.0
+mypy>=1.0.0
+
+[visualization]
+matplotlib>=3.5.0
+plotly>=5.0.0

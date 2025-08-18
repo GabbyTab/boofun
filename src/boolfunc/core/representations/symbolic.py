@@ -5,14 +5,18 @@ from .registry import register_strategy
 from .base import BooleanFunctionRepresentation
 from ..spaces import Space
 
-@register_strategy('symbolic')
+
+@register_strategy("symbolic")
 class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]]):
     """
     Symbolic representation storing an expression and variable order.
-    
+
     Data format: (expression: str, variables: List[str])
     """
-    def evaluate(self, inputs: np.ndarray, data: Tuple[str, List[Any]], space: Space, n_vars: int) -> np.ndarray:
+
+    def evaluate(
+        self, inputs: np.ndarray, data: Tuple[str, List[Any]], space: Space, n_vars: int
+    ) -> np.ndarray:
         """
         Evaluate the symbolic Boolean expression composed of sub-BooleanFunctions using bit slicing.
 
@@ -43,7 +47,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
             bit_slices.append((bit_index, mask))
             bit_index += length
 
-        #swap to matrix operations in future
+        # swap to matrix operations in future
         def eval_point(val: int) -> bool:
             context = {}
             for j, (f, (offset, mask)) in enumerate(zip(funcs, bit_slices)):
@@ -60,7 +64,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
     def dump(self, data: Tuple[str, List[str]], **kwargs) -> Dict[str, Any]:
         """
         Export the symbolic representation as a dictionary.
-        
+
         Returns:
             {
                 "expression": expr,
@@ -70,7 +74,14 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
         expr, vars = data
         return {"expression": expr, "variables": vars}
 
-    def convert_from(self, source_repr: BooleanFunctionRepresentation, source_data: Any, space: Space, n_vars: int, **kwargs) -> Tuple[str, List[Any]]:
+    def convert_from(
+        self,
+        source_repr: BooleanFunctionRepresentation,
+        source_data: Any,
+        space: Space,
+        n_vars: int,
+        **kwargs,
+    ) -> Tuple[str, List[Any]]:
         """
         Convert from another representation to symbolic form.
 
@@ -86,7 +97,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
         Returns:
             Tuple[str, List[BooleanFunction]] — symbolic expression and subfunctions list.
         """
-      
+
         # Wrap the original function as one symbolic call: x0
         expr = "x0"
 
@@ -94,10 +105,17 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
 
         return ()
 
-    def convert_to(self, target_repr: BooleanFunctionRepresentation, souce_data: Any, space: Space, n_vars: int, **kwargs) -> np.ndarray:
-            """Convert to another representation from Fourier expansion"""
-            # Placeholder: Actual conversion requires inverse transform
-            return target_repr.convert_from(self, souce_data, space, n_vars, **kwargs)
+    def convert_to(
+        self,
+        target_repr: BooleanFunctionRepresentation,
+        souce_data: Any,
+        space: Space,
+        n_vars: int,
+        **kwargs,
+    ) -> np.ndarray:
+        """Convert to another representation from Fourier expansion"""
+        # Placeholder: Actual conversion requires inverse transform
+        return target_repr.convert_from(self, souce_data, space, n_vars, **kwargs)
 
     def create_empty(self, n_vars: int, **kwargs) -> Tuple[str, List[str]]:
         """
@@ -120,8 +138,8 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
         Estimate minimal storage for the expression metadata.
         """
         return {
-            "expression_chars": 0,    # dynamic, depends on expr length
-            "variables": n_vars       # one pointer per variable symbol
+            "expression_chars": 0,  # dynamic, depends on expr length
+            "variables": n_vars,  # one pointer per variable symbol
         }
 
     def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:

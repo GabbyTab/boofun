@@ -4,20 +4,23 @@ import numpy as np
 from ..spaces import Space
 
 
-DataType = TypeVar('DataType')
+DataType = TypeVar("DataType")
+
 
 class BooleanFunctionRepresentation(ABC, Generic[DataType]):
     """Abstract base class for all Boolean function representations"""
-    
+
     @abstractmethod
-    def evaluate(self, inputs: np.ndarray, data: Any, space: Space, n_vars: int) -> np.ndarray:
+    def evaluate(
+        self, inputs: np.ndarray, data: Any, space: Space, n_vars: int
+    ) -> np.ndarray:
         """
         Evaluate the function on given inputs using the provided data.
-        
+
         Args:
             inputs: Input values (binary array or boolean values)
             data: Representation-specific data (coefficients, truth table, etc.)
-        
+
         Returns:
             Boolean result or array of results
         """
@@ -27,42 +30,55 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
     def dump(self, data: DataType, space: Space, **kwargs) -> Dict[str, Any]:
         """
         Export the representation data in a serializable format.
-        
+
         Args:
             data: The representation data to export
             **kwargs: Representation-specific options
-        
+
         Returns:
             Dictionary containing the exported representation
         """
         pass
 
     @abstractmethod
-    def convert_from(self, source_repr: "BooleanFunctionRepresentation", source_data: Any, space: Space, n_vars: int, **kwargs) -> np.ndarray:
-
+    def convert_from(
+        self,
+        source_repr: "BooleanFunctionRepresentation",
+        source_data: Any,
+        space: Space,
+        n_vars: int,
+        **kwargs,
+    ) -> np.ndarray:
         """
         Convert from another representation to this representation.
-        
+
         Args:
             source_repr: Source representation strategy
             source_data: Data in source format
             **kwargs: Conversion options
-        
+
         Returns:
             Data in this representation's format
         """
         pass
 
     @abstractmethod
-    def convert_to(self, target_repr: "BooleanFunctionRepresentation", souce_data: Any, space: Space, n_vars: int, **kwargs) -> np.ndarray:
+    def convert_to(
+        self,
+        target_repr: "BooleanFunctionRepresentation",
+        souce_data: Any,
+        space: Space,
+        n_vars: int,
+        **kwargs,
+    ) -> np.ndarray:
         """
         Convert from this representation to target representation.
-        
+
         Args:
             target_repr: Target representation strategy
             data: Data in this representation's format
             **kwargs: Conversion options
-        
+
         Returns:
             Data in target representation's format
         """
@@ -97,24 +113,28 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         return f"{self.__class__.__name__}()"
 
 
-class  partial_representation(Generic[DataType]):
+class partial_representation(Generic[DataType]):
     """Wrapper for handling partial representation data."""
-    
-    def __init__(self, strategy: BooleanFunctionRepresentation[DataType], 
-                 data: DataType, known_mask: Optional[np.ndarray] = None):
+
+    def __init__(
+        self,
+        strategy: BooleanFunctionRepresentation[DataType],
+        data: DataType,
+        known_mask: Optional[np.ndarray] = None,
+    ):
         self.strategy = strategy
         self.data = data
         self.known_mask = known_mask  # Boolean mask indicating known values
         self._confidence_cache = {}
-    
+
     def evaluate_with_confidence(self, inputs: np.ndarray) -> tuple[Any, float]:
         """Evaluate with confidence measure for partial data."""
         if self.strategy.is_complete(self.data):
             return self.strategy.evaluate(inputs, self.data), 1.0
-        
+
         # Implement uncertainty propagation for partial data
         return self._estimate_with_uncertainty(inputs)
-    
+
     def _estimate_with_uncertainty(self, inputs: np.ndarray) -> tuple[Any, float]:
         """Estimate result and confidence for incomplete data."""
         # Implementation depends on specific representation

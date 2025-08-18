@@ -4,16 +4,18 @@ import numpy as np
 
 
 class Space(Enum):
-    BOOLEAN_CUBE = auto()      # {0,1}^n
-    PLUS_MINUS_CUBE = auto()   # {-1,1}^n
-    REAL = auto()              # ℝ^n
-    LOG = auto()               # Log space
-    GAUSSIAN = auto()          # Gaussian space
+    BOOLEAN_CUBE = auto()  # {0,1}^n
+    PLUS_MINUS_CUBE = auto()  # {-1,1}^n
+    REAL = auto()  # ℝ^n
+    LOG = auto()  # Log space
+    GAUSSIAN = auto()  # Gaussian space
 
     @staticmethod
-    def translate(input: Union[int, float, np.ndarray],
-                  source_space: "Space",
-                  target_space: "Space") -> Union[int, float, np.ndarray]:
+    def translate(
+        input: Union[int, float, np.ndarray],
+        source_space: "Space",
+        target_space: "Space",
+    ) -> Union[int, float, np.ndarray]:
         """
         Translate a scalar or array from one space to another.
         """

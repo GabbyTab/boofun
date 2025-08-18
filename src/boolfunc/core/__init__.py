@@ -7,6 +7,7 @@ from .representations import BooleanFunctionRepresentation
 from .adapters import LegacyAdapter
 from .errormodels import ErrorModel, PACErrorModel, ExactErrorModel
 from .spaces import Space
+
 __all__ = [
     "BooleanFunction",
     "Evaluable",
