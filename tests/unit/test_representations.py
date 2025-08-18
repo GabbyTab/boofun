@@ -21,7 +21,7 @@ class DummyBooleanFunction:
 
 
 AND_TRUTH_TABLE = np.array([0, 0, 0, 1])  # [00, 01, 10, 11]
-AND_FOURIER_COEFFS = np.array([0.5, 0.5, 0.5, -0.5])  # ∅, {0}, {1}, {0,1}
+AND_FOURIER_COEFFS = np.array([0.5, 0.5, 0.5, -0.5])  # Correct AND coefficients
 
 XOR_TRUTH_TABLE = np.array([0, 1, 1, 0])
 XOR_FOURIER_COEFFS = np.array([0, 0, 0, 1])  # Only {0,1} term
@@ -96,7 +96,7 @@ def test_truth_table_storage_requirements(tt_rep):
 ## Fourier Expansion Representation Tests ##
 def test_fourier_evaluate_single(fourier_rep):
     """Test evaluation of single inputs"""
-    # AND function in ±1 domain
+    # AND function in ±1 domain: [1, 1, 1, -1] (from Fourier evaluation)
     assert fourier_rep.evaluate(0, AND_FOURIER_COEFFS, space = boo_cube, n_vars = 2) == 1.0
     assert fourier_rep.evaluate(1, AND_FOURIER_COEFFS, space = boo_cube, n_vars = 2) == 1.0
     assert fourier_rep.evaluate(2, AND_FOURIER_COEFFS, space = boo_cube, n_vars = 2) == 1.0
@@ -112,7 +112,7 @@ def test_fourier_evaluate_batch(fourier_rep):
     """Test batch evaluation"""
     inputs = np.array([0, 1, 2, 3])
     
-    # AND function
+    # AND function: [1, 1, 1, -1] in ±1 domain (from Fourier evaluation)
     results = fourier_rep.evaluate(inputs, AND_FOURIER_COEFFS, space = boo_cube, n_vars = 2) 
     expected = np.array([1.0, 1.0, 1.0, -1.0])
     assert np.allclose(results, expected)
@@ -312,8 +312,14 @@ class TestPolynomialRepresentation:
         
         repr_obj = PolynomialRepresentation()
         
-        # XOR function: x0 ⊕ x1 (coefficients: [0, 1, 1, 1])
-        coeffs = np.array([0, 1, 1, 1])
+        # XOR function: x0 ⊕ x1 as polynomial dictionary
+        # Polynomial form: {frozenset(): 0, frozenset({0}): 1, frozenset({1}): 1, frozenset({0,1}): 0}
+        coeffs = {
+            frozenset(): 0,        # constant term
+            frozenset({0}): 1,     # x0 coefficient  
+            frozenset({1}): 1,     # x1 coefficient
+            frozenset({0, 1}): 0   # x0*x1 coefficient
+        }
         
         result = repr_obj.evaluate(0, coeffs, Space.BOOLEAN_CUBE, 2)
         assert result == 0  # 0 ⊕ 0 = 0
@@ -322,7 +328,7 @@ class TestPolynomialRepresentation:
         assert result == 1  # 0 ⊕ 1 = 1
         
         result = repr_obj.evaluate(3, coeffs, Space.BOOLEAN_CUBE, 2)
-        assert result == 1  # 1 ⊕ 1 ⊕ 1*1 = 1
+        assert result == 0  # 1 ⊕ 1 = 0 (XOR of 1,1 is 0)
     
     def test_polynomial_convert_from_truth_table(self):
         """Test conversion from truth table to polynomial."""
@@ -352,8 +358,12 @@ class TestSparseTruthTableRepresentation:
         
         repr_obj = SparseTruthTableRepresentation()
         
-        # Function that's True only at indices 1 and 3
-        sparse_data = {1, 3}
+        # Function that's True only at indices 1 and 3 (proper sparse format)
+        sparse_data = {
+            'default_value': False,
+            'exceptions': {1: True, 3: True},
+            'size': 4
+        }
         
         result = repr_obj.evaluate(0, sparse_data, Space.BOOLEAN_CUBE, 2)
         assert result == False
@@ -375,7 +385,14 @@ class TestSparseTruthTableRepresentation:
         
         sparse_data = repr_obj.convert_from(truth_repr, truth_table, Space.BOOLEAN_CUBE, 2)
         
-        assert sparse_data == {1, 3}
+        # Should be proper sparse format with only indices 1 and 3 True
+        expected = {
+            'default_value': False,
+            'exceptions': {1: True, 3: True},
+            'size': 4,
+            'n_vars': 2  # Added by the representation
+        }
+        assert sparse_data == expected
 
 
 class TestRepresentationConversions:

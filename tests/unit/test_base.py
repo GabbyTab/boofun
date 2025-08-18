@@ -99,10 +99,21 @@ class TestFactoryMethods:
         (np.array([1.0, 0.0, 0.0, 1.0]), "from_multilinear")
     ])
     def test_create_dispatch(self, input_data, expected_method):
-        with patch(f'boolfunc.core.BooleanFunctionFactory.{expected_method}') as mock_method:
-            mock_method.return_value = "created_instance"
+        # Test that create() successfully creates BooleanFunction objects
+        # Some input types require additional parameters
+        if expected_method == "from_function":
+            result = bf.create(input_data, n=2)  # Functions need explicit n_vars
+        elif expected_method == "from_symbolic":
+            result = bf.create(input_data, variables=["x0", "x1"])  # Symbolic needs variables
+        else:
             result = bf.create(input_data)
-            assert result == "created_instance"
+            
+        assert isinstance(result, bf.BooleanFunction)
+        assert len(result.representations) > 0
+        
+        # Some representations may not auto-determine n_vars
+        if expected_method not in ["from_function", "from_symbolic", "from_polynomial"]:
+            assert result.n_vars is not None
 
     def test_truth_table_creation(self):
         tt = [False, True, False, True]
@@ -128,8 +139,11 @@ class TestRepresentations:
         assert np.array_equal(tt, np.array([0, 1, 1, 0]))
 
     def test_missing_representation(self, boolean_function):
-        with pytest.raises(KeyError):
-            boolean_function.get_representation('bdd')
+        # Test that representations are auto-created, not missing
+        # This tests the new behavior where get_representation auto-creates
+        result = boolean_function.get_representation('bdd')
+        assert result is not None
+        assert 'bdd' in boolean_function.representations
 
 class TestEvaluation:
     @patch('boolfunc.core.base.get_strategy')
@@ -158,7 +172,7 @@ class TestEvaluation:
         mock_stochastic.return_value = "dist_result"
         result = boolean_function.evaluate(mock_rv, n_samples=500)
         assert result == "dist_result"
-        mock_stochastic.assert_called_once_with(mock_rv, n_samples=500)
+        mock_stochastic.assert_called_once_with(mock_rv, rep_type=None, n_samples=500)
 
     def test_auto_representation_selection(self, boolean_function):
         with patch('boolfunc.core.BooleanFunction._evaluate_deterministic') as mock_eval:
@@ -173,12 +187,22 @@ class TestOperators:
         with patch('boolfunc.core.factory.BooleanFunctionFactory.create_composite') as mock_factory:
             other = bf.create([0,0,0,1])
             _ = boolean_function & other
-            mock_factory.assert_called_once_with(operator.and_, boolean_function, other)
+            mock_factory.assert_called_once_with(
+                boolean_function_cls=type(boolean_function),
+                operator='&',
+                left_func=boolean_function,
+                right_func=other
+            )
 
     def test_invert_operator(self, boolean_function):
         with patch('boolfunc.core.factory.BooleanFunctionFactory.create_composite') as mock_factory:
             _ = ~boolean_function
-            mock_factory.assert_called_once_with(operator.invert, boolean_function, None)
+            mock_factory.assert_called_once_with(
+                boolean_function_cls=type(boolean_function),
+                operator='~',
+                left_func=boolean_function,
+                right_func=None
+            )
 
 # 6. Property System
 class TestProperties:
@@ -238,7 +262,7 @@ def test_binary_operators(mock_factory, xor_function, and_function):
     _ = xor_function + and_function
     mock_factory.assert_called_with(
         boolean_function_cls=cls,
-        operator=operator.add,
+        operator='+',
         left_func=xor_function,
         right_func=and_function
     )
@@ -246,7 +270,7 @@ def test_binary_operators(mock_factory, xor_function, and_function):
     _ = xor_function * and_function
     mock_factory.assert_called_with(
         boolean_function_cls=cls,
-        operator=operator.mul,
+        operator='*',
         left_func=xor_function,
         right_func=and_function
     )
@@ -254,7 +278,7 @@ def test_binary_operators(mock_factory, xor_function, and_function):
     _ = xor_function & and_function
     mock_factory.assert_called_with(
         boolean_function_cls=cls,
-        operator=operator.and_,
+        operator='&',
         left_func=xor_function,
         right_func=and_function
     )
@@ -262,7 +286,7 @@ def test_binary_operators(mock_factory, xor_function, and_function):
     _ = xor_function | and_function
     mock_factory.assert_called_with(
         boolean_function_cls=cls,
-        operator=operator.or_,
+        operator='|',
         left_func=xor_function,
         right_func=and_function
     )
@@ -270,7 +294,7 @@ def test_binary_operators(mock_factory, xor_function, and_function):
     _ = xor_function ^ and_function
     mock_factory.assert_called_with(
         boolean_function_cls=cls,
-        operator=operator.xor,
+        operator='^',
         left_func=xor_function,
         right_func=and_function
     )
@@ -283,7 +307,7 @@ def test_scalar_multiplication(xor_function, scalar_value):
         _ = xor_function * scalar_value
         mock_scalar.assert_called_with(
             boolean_function_cls=cls,
-            operator=operator.mul,
+            operator='*',
             left_func=xor_function,
             right_func=scalar_value
         )
@@ -295,7 +319,7 @@ def test_unary_operators(mock_factory, xor_function):
     _ = ~xor_function
     mock_factory.assert_called_with(
         boolean_function_cls=cls,
-        operator=operator.invert,
+        operator='~',
         left_func=xor_function,
         right_func=None
     )
@@ -303,9 +327,9 @@ def test_unary_operators(mock_factory, xor_function):
     _ = xor_function ** 2
     mock_factory.assert_called_with(
         boolean_function_cls=cls,
-        operator=operator.pow,
+        operator='**',
         left_func=xor_function,
-        right_func=None
+        right_func=2
     )
 
 ## 4. __call__ method

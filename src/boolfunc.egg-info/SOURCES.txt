@@ -4,7 +4,20 @@ LICENSE
 MANIFEST.in
 README.md
 pyproject.toml
+docs/architecture_diagram.png
+docs/architecture_diagram.svg
+docs/conf.py
+docs/generate_architecture_diagram.py
+docs/index.rst
+docs/quickstart.rst
+examples/advanced_analysis.py
+examples/advanced_features_demo.py
+examples/complete_demo.py
+examples/educational_examples.py
+examples/quantum_analysis_demo.py
+examples/representations_demo.py
 examples/usage.py
+examples/visualization_examples.py
 src/boolfunc/__init__.py
 src/boolfunc/api.py
 src/boolfunc/py.typed
@@ -18,9 +31,13 @@ src/boolfunc/benchmarks/__init__.py
 src/boolfunc/core/__init__.py
 src/boolfunc/core/adapters.py
 src/boolfunc/core/base.py
+src/boolfunc/core/batch_processing.py
 src/boolfunc/core/builtins.py
+src/boolfunc/core/conversion_graph.py
 src/boolfunc/core/errormodels.py
 src/boolfunc/core/factory.py
+src/boolfunc/core/gpu_acceleration.py
+src/boolfunc/core/numba_optimizations.py
 src/boolfunc/core/spaces.py
 src/boolfunc/core/representations/__init__.py
 src/boolfunc/core/representations/anf_form.py
@@ -41,10 +58,11 @@ src/boolfunc/quantum/__init__.py
 src/boolfunc/testing/__init__.py
 src/boolfunc/utils/__init__.py
 src/boolfunc/utils/exceptions.py
-src/boolfunc/visualization/__init__ copy.py
 src/boolfunc/visualization/__init__.py
+tests/test_advanced_features.py
 tests/integration/test_base_and_rep.py
 tests/integration/test_basic_functionality.py
+tests/integration/test_comprehensive_integration.py
 tests/integration/test_core_functionality.py
 tests/unit/test_base.py
 tests/unit/test_representations.py

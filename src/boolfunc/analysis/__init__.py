@@ -7,7 +7,7 @@ including Fourier analysis, influence computation, and noise stability.
 """
 
 import numpy as np
-from typing import Dict, List, Optional, Union, TYPE_CHECKING
+from typing import Dict, List, Optional, Union, Any, TYPE_CHECKING
 import warnings
 
 if TYPE_CHECKING:

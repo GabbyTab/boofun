@@ -202,7 +202,7 @@ class CuPyAccelerator(GPUAccelerator):
             # Fallback to simple GPU operations
             return self._cupy_fourier_fallback(gpu_inputs, gpu_coeffs)
     
-    def _cupy_fourier_fallback(self, gpu_inputs: cp.ndarray, gpu_coeffs: cp.ndarray) -> np.ndarray:
+    def _cupy_fourier_fallback(self, gpu_inputs, gpu_coeffs) -> np.ndarray:
         """Fallback CuPy Fourier evaluation without custom kernels."""
         results = cp.zeros(len(gpu_inputs), dtype=cp.float32)
         

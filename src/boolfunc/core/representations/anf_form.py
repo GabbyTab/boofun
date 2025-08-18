@@ -219,7 +219,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
             raise ValueError(f"Truth table size {size} doesn't match 2^{n_vars}")
         
         # Copy truth table for in-place Möbius transform
-        coeffs = truth_table.astype(int)
+        coeffs = np.array(truth_table, dtype=int)
         
         # Möbius transform (inverse of Walsh-Hadamard for Boolean functions)
         for i in range(n_vars):
