@@ -5,6 +5,7 @@ from .truth_table import TruthTableRepresentation
 from .fourier_expansion import FourierExpansionRepresentation
 from .symbolic import SymbolicRepresentation
 from .polynomial import PolynomialRepresentation
+from .anf_form import ANFRepresentation
 from .bdd import BDDRepresentation
 from .circuit import CircuitRepresentation
 from .sparse_truth_table import SparseTruthTableRepresentation
@@ -19,6 +20,7 @@ __all__ = [
     "FourierExpansionRepresentation",
     "SymbolicRepresentation",
     "PolynomialRepresentation",
+    "ANFRepresentation",
     "BDDRepresentation", 
     "CircuitRepresentation",
     "SparseTruthTableRepresentation",

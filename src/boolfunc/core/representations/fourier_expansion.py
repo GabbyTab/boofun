@@ -101,14 +101,14 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
     def convert_to(
         self,
         target_repr: BooleanFunctionRepresentation,
-        souce_data: Any,
+        source_data: Any,
         space: Space,
         n_vars: int,
         **kwargs,
     ) -> np.ndarray:
         """Convert to another representation from Fourier expansion"""
         # Placeholder: Actual conversion requires inverse transform
-        return target_repr.convert_from(self, souce_data, space, n_vars, **kwargs)
+        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
     def create_empty(self, n_vars: int, **kwargs) -> np.ndarray:
         """Create zero-initialized Fourier coefficients array"""
@@ -119,8 +119,16 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         return np.any(data != 0)
 
     def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
-        """Return time_complexity for computing/evalutating n variables."""
-        pass
+        """Return time complexity estimates for Fourier operations."""
+        size = 2**n_vars
+        return {
+            "evaluation": n_vars * size,  # O(n * 2^n) for single evaluation
+            "batch_evaluation": size,  # O(2^n) per input in batch
+            "fft_computation": n_vars * size,  # O(n * 2^n) for Walsh-Hadamard transform
+            "coefficient_access": 1,  # O(1) for accessing coefficients
+            "creation_from_tt": n_vars * size,  # FFT complexity
+            "storage": size  # O(2^n) storage
+        }
 
     def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
         """Return memory requirements for n variables"""

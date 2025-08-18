@@ -21,9 +21,27 @@ Basic Usage:
 """
 
 from .api import create
-from .core import BooleanFunction, Space, ExactErrorModel, Property
+from .core import BooleanFunction, Space, ExactErrorModel, Property, PACErrorModel, NoiseErrorModel
 from .core.builtins import BooleanFunctionBuiltins
+from .core.adapters import (
+    LegacyAdapter, CallableAdapter, SymPyAdapter, NumPyAdapter,
+    adapt_legacy_function, adapt_callable, adapt_sympy_expr, adapt_numpy_function
+)
 from .analysis import SpectralAnalyzer, PropertyTester
+from .testing import BooleanFunctionValidator, quick_validate, test_representation
+
+# Optional imports with graceful fallback
+try:
+    from .visualization import BooleanFunctionVisualizer
+    HAS_VISUALIZATION = True
+except ImportError:
+    HAS_VISUALIZATION = False
+
+try:
+    from .quantum import QuantumBooleanFunction, create_quantum_boolean_function
+    HAS_QUANTUM = True
+except ImportError:
+    HAS_QUANTUM = False
 
 # Version information
 __version__ = "0.2.0"
@@ -40,11 +58,35 @@ __all__ = [
     "SpectralAnalyzer", 
     "PropertyTester",
     
-    # Utilities
+    # Testing and validation
+    "BooleanFunctionValidator",
+    "quick_validate",
+    "test_representation",
+    
+    # Adapters for external integration
+    "LegacyAdapter",
+    "CallableAdapter", 
+    "SymPyAdapter",
+    "NumPyAdapter",
+    "adapt_legacy_function",
+    "adapt_callable",
+    "adapt_sympy_expr", 
+    "adapt_numpy_function",
+    
+    # Core utilities
     "Space",
     "Property",
     "ExactErrorModel",
+    "PACErrorModel", 
+    "NoiseErrorModel",
     
     # Version info
     "__version__"
 ]
+
+# Add optional exports if available
+if HAS_VISUALIZATION:
+    __all__.append("BooleanFunctionVisualizer")
+
+if HAS_QUANTUM:
+    __all__.extend(["QuantumBooleanFunction", "create_quantum_boolean_function"])
