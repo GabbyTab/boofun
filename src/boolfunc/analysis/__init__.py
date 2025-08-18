@@ -12,6 +12,7 @@ import warnings
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
+from ..core.numba_optimizations import is_numba_available, numba_optimize
 
 
 class SpectralAnalyzer:
@@ -37,6 +38,9 @@ class SpectralAnalyzer:
         # Cache for expensive computations
         self._fourier_coeffs = None
         self._influences = None
+        
+        # Track error model for uncertainty propagation
+        self.error_model = function.error_model
 
     def fourier_expansion(self, force_recompute: bool = False) -> np.ndarray:
         """
@@ -112,6 +116,17 @@ class SpectralAnalyzer:
         if self._influences is not None and not force_recompute:
             return self._influences
 
+        # Try Numba optimization if available and function has truth table
+        if is_numba_available() and self.function.has_rep('truth_table'):
+            try:
+                truth_table = self.function.get_representation('truth_table')
+                influences = numba_optimize('influences', truth_table, self.n_vars)
+                self._influences = influences
+                return influences
+            except Exception as e:
+                warnings.warn(f"Numba optimization failed, using fallback: {e}")
+
+        # Fallback to standard computation
         influences = np.zeros(self.n_vars)
         size = 1 << self.n_vars  # 2^n
 
@@ -165,7 +180,14 @@ class SpectralAnalyzer:
         # Use Fourier expansion to compute noise stability
         fourier_coeffs = self.fourier_expansion()
 
-        # Noise stability = Σ_S f̂(S)² * ρ^|S|
+        # Try Numba optimization
+        if is_numba_available():
+            try:
+                return numba_optimize('noise_stability', fourier_coeffs, rho)
+            except Exception as e:
+                warnings.warn(f"Numba noise stability optimization failed: {e}")
+
+        # Fallback: Noise stability = Σ_S f̂(S)² * ρ^|S|
         stability = 0.0
         size = len(fourier_coeffs)
 
@@ -229,16 +251,17 @@ class SpectralAnalyzer:
         else:
             raise ValueError(f"Subset index {index} out of range")
 
-    def summary(self) -> Dict[str, float]:
+    def summary(self) -> Dict[str, Any]:
         """
         Compute summary statistics for the Boolean function.
 
         Returns:
-            Dictionary with various spectral properties
+            Dictionary with various spectral properties and confidence information
         """
         influences = self.influences()
 
-        return {
+        # Basic statistics
+        summary = {
             "total_influence": self.total_influence(),
             "max_influence": np.max(influences),
             "min_influence": np.min(influences),
@@ -248,6 +271,16 @@ class SpectralAnalyzer:
             "spectral_concentration_1": self.spectral_concentration(1),
             "spectral_concentration_2": self.spectral_concentration(2),
         }
+        
+        # Add error model information
+        if hasattr(self.error_model, 'get_confidence'):
+            summary["analysis_confidence"] = self.error_model.get_confidence(influences)
+            summary["error_model_type"] = type(self.error_model).__name__
+            
+            if hasattr(self.error_model, 'is_reliable'):
+                summary["analysis_reliable"] = self.error_model.is_reliable(influences)
+        
+        return summary
 
 
 class PropertyTester:

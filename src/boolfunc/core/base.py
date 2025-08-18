@@ -8,6 +8,7 @@ from collections.abc import Iterable
 from .spaces import Space
 from .representations.registry import get_strategy
 from .factory import BooleanFunctionFactory
+from .conversion_graph import find_conversion_path
 
 # The BooleanFunctionRepresentations and Spaces and ErrorModels are in separate files in the same directory, should I import them?
 
@@ -174,23 +175,46 @@ class BooleanFunction(Evaluable, Representable):
             raise ValueError(f"Unknown space type: {space_type}")
 
     def _compute_representation(self, rep_type: str):
-        # Implement conversion logic here - Compute from nearest representation or run Dijkstra's
-        # if no representations, the function should error
+        """
+        Compute representation using intelligent conversion graph.
+        
+        Uses Dijkstra's algorithm to find optimal conversion path from
+        available representations to target representation.
+        """
         if rep_type in self.representations:
             return None
 
-        source_rep_type = next(iter(self.representations))
-
-        if source_rep_type is None:
+        if not self.representations:
             raise KeyError("Boolean Function is Empty (no representations)")
 
-        data = self.representations[source_rep_type]
-        source_strategy = get_strategy(source_rep_type)
-        target_strategy = get_strategy(rep_type)
+        # Find the best source representation using conversion graph
+        best_path = None
+        best_source_data = None
+        
+        for source_rep_type, source_data in self.representations.items():
+            path = find_conversion_path(source_rep_type, rep_type, self.n_vars)
+            if path and (best_path is None or path.total_cost < best_path.total_cost):
+                best_path = path
+                best_source_data = source_data
 
-        result = source_strategy.convert_to(
-            target_strategy, data, self.space, self.n_vars
-        )
+        if best_path is None:
+            # Fallback to direct conversion from first available representation
+            source_rep_type = next(iter(self.representations))
+            data = self.representations[source_rep_type]
+            source_strategy = get_strategy(source_rep_type)
+            target_strategy = get_strategy(rep_type)
+            
+            try:
+                result = source_strategy.convert_to(
+                    target_strategy, data, self.space, self.n_vars
+                )
+            except NotImplementedError:
+                raise ValueError(
+                    f"No conversion path available from {source_rep_type} to {rep_type}"
+                )
+        else:
+            # Use optimal path from conversion graph
+            result = best_path.execute(best_source_data, self.space, self.n_vars)
 
         self.add_representation(result, rep_type)
         return None
@@ -217,22 +241,33 @@ class BooleanFunction(Evaluable, Representable):
 
         Args:
             inputs: Input data (array, list, or scipy random variable)
-            representation: Optional specific representation to use
+            rep_type: Optional specific representation to use
             **kwargs: Additional evaluation parameters
 
         Returns:
-            Boolean result(s) or distribution
+            Boolean result(s) or distribution (with error model applied)
         """
         bit_strings = False or kwargs.get("bit_strings")
         if bit_strings:
             inputs = self._compute_index(inputs)
 
+        # Get base result
         if hasattr(inputs, "rvs"):  # scipy.stats random variable
-            return self._evaluate_stochastic(inputs, rep_type=rep_type, **kwargs)
+            result = self._evaluate_stochastic(inputs, rep_type=rep_type, **kwargs)
         elif isinstance(inputs, (list, np.ndarray)):
-            return self._evaluate_deterministic(inputs, rep_type=rep_type)
+            result = self._evaluate_deterministic(inputs, rep_type=rep_type)
         else:
             raise TypeError(f"Unsupported input type: {type(inputs)}")
+        
+        # Apply error model if not exact
+        if hasattr(self.error_model, 'apply_error'):
+            try:
+                result = self.error_model.apply_error(result)
+            except Exception:
+                # If error model fails, use original result
+                pass
+        
+        return result
 
     def _compute_index(self, bits: np.ndarray) -> int:
         """Convert boolean vector to integer index using bit packing"""
@@ -241,12 +276,25 @@ class BooleanFunction(Evaluable, Representable):
     def _evaluate_deterministic(self, inputs, rep_type=None):
         """
         Evaluate using the specified or first available representation.
+        
+        Automatically uses batch processing for large input arrays.
         """
         inputs = np.asarray(inputs)
         if rep_type == None:
             rep_type = next(iter(self.representations))
 
         data = self.representations[rep_type]
+        
+        # Use batch processing for large arrays
+        if inputs.size > 100:  # Threshold for batch processing
+            from .batch_processing import process_batch
+            try:
+                return process_batch(inputs, data, rep_type, self.space, self.n_vars)
+            except Exception:
+                # Fallback to standard evaluation
+                pass
+        
+        # Standard evaluation for small inputs or fallback
         strategy = get_strategy(rep_type)
         result = strategy.evaluate(inputs, data, self.space, self.n_vars)
         return result
@@ -296,3 +344,55 @@ class BooleanFunction(Evaluable, Representable):
         if rep_type in self.representations:
             return True
         return False
+    
+    def get_conversion_options(self, max_cost: Optional[float] = None) -> Dict[str, Any]:
+        """
+        Get available conversion options from current representations.
+        
+        Args:
+            max_cost: Maximum acceptable conversion cost
+            
+        Returns:
+            Dictionary with conversion options and costs
+        """
+        from .conversion_graph import get_conversion_options
+        
+        if not self.representations:
+            return {}
+        
+        all_options = {}
+        for source_rep in self.representations.keys():
+            options = get_conversion_options(source_rep, max_cost)
+            for target, path in options.items():
+                if target not in all_options or path.total_cost < all_options[target]['cost']:
+                    all_options[target] = {
+                        'cost': path.total_cost,
+                        'path': path,
+                        'source': source_rep,
+                        'exact': path.total_cost.is_exact
+                    }
+        
+        return all_options
+    
+    def estimate_conversion_cost(self, target_rep: str) -> Optional[Any]:
+        """
+        Estimate cost to convert to target representation.
+        
+        Args:
+            target_rep: Target representation name
+            
+        Returns:
+            Conversion cost estimate or None if impossible
+        """
+        from .conversion_graph import estimate_conversion_cost
+        
+        if target_rep in self.representations:
+            return None  # Already available
+        
+        best_cost = None
+        for source_rep in self.representations.keys():
+            cost = estimate_conversion_cost(source_rep, target_rep, self.n_vars)
+            if cost and (best_cost is None or cost < best_cost):
+                best_cost = cost
+        
+        return best_cost

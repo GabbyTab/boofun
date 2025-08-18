@@ -108,29 +108,58 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         n_vars: int,
         **kwargs,
     ) -> np.ndarray:
-        """Convert from any representation by evaluating all possible inputs."""
+        """
+        Convert from any representation by evaluating all possible inputs.
+        
+        This is the universal converter - any representation can be converted
+        to truth table by exhaustive evaluation.
+        
+        Args:
+            source_repr: Source representation strategy
+            source_data: Data in source format
+            space: Mathematical space
+            n_vars: Number of variables
+            
+        Returns:
+            Truth table as boolean array
+        """
         size = 1 << n_vars  # 2^n
         truth_table = np.zeros(size, dtype=bool)
 
         # Generate all possible input indices
         for idx in range(size):
-            value = source_repr.evaluate(idx, source_data, space, n_vars)
-            # should handle differentley depending on the space
-            value = (1 - value) / 2
-            truth_table[idx] = value
+            try:
+                value = source_repr.evaluate(idx, source_data, space, n_vars)
+                
+                # Handle different return types and spaces
+                if isinstance(value, (bool, np.bool_)):
+                    truth_table[idx] = bool(value)
+                elif isinstance(value, (int, np.integer)):
+                    truth_table[idx] = bool(value)
+                elif isinstance(value, (float, np.floating)):
+                    # For real-valued outputs, use threshold
+                    truth_table[idx] = value > 0.5
+                else:
+                    truth_table[idx] = bool(value)
+                    
+            except Exception as e:
+                # Handle evaluation errors gracefully
+                truth_table[idx] = False
+                if kwargs.get('strict', False):
+                    raise ValueError(f"Evaluation failed at index {idx}: {e}")
 
         return truth_table
 
     def convert_to(
         self,
         target_repr: BooleanFunctionRepresentation,
-        souce_data: Any,
+        source_data: Any,
         space: Space,
         n_vars: int,
         **kwargs,
     ) -> np.ndarray:
         """Convert truth table to another representation."""
-        return target_repr.convert_from(self, souce_data, space, n_vars, **kwargs)
+        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
     def create_empty(self, n_vars: int, **kwargs) -> np.ndarray:
         """Create an empty (all-False) truth table for n variables."""

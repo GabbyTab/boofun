@@ -66,4 +66,4 @@ def register_partial_strategy(
         f"{key.title()}Strategy", (BooleanFunctionRepresentation,), methods
     )
     # Register it
-    register_strategy(key, NewStrategy)
+    STRATEGY_REGISTRY[key] = NewStrategy

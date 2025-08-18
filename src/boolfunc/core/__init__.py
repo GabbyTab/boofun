@@ -5,7 +5,7 @@ from .builtins import BooleanFunctionBuiltins
 from .factory import BooleanFunctionFactory
 from .representations import BooleanFunctionRepresentation
 from .adapters import LegacyAdapter
-from .errormodels import ErrorModel, PACErrorModel, ExactErrorModel
+from .errormodels import ErrorModel, PACErrorModel, ExactErrorModel, NoiseErrorModel, LinearErrorModel
 from .spaces import Space
 
 __all__ = [
@@ -19,5 +19,8 @@ __all__ = [
     "LegacyAdapter",
     "ErrorModel",
     "PACErrorModel",
+    "ExactErrorModel",
+    "NoiseErrorModel",
+    "LinearErrorModel", 
     "Space",
 ]

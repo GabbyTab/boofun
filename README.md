@@ -13,25 +13,51 @@
 
 # 🚀 Features
 
-## Core Capabilities
+## 🎯 Core Capabilities
 
-- **Multiple Representations**  
-  Seamless conversion between truth tables, polynomials (ANF), circuits, BDDs, and spectral forms.
+- **Multiple Representations** 🔄  
+  Seamless conversion between 12+ representations including truth tables, polynomials (ANF), circuits, BDDs, DNF/CNF forms, and spectral expansions with intelligent conversion graph system.
 
-- **Spectral Analysis**  
-  Complete Fourier analysis toolkit with influence computation and noise stability.
+- **Spectral Analysis** 📊  
+  Complete Fourier analysis toolkit with influence computation, noise stability, and spectral concentration with Numba JIT acceleration.
 
-- **Property Testing**  
-  Classical property testing algorithms including linearity, balance, and cryptographic properties.
+- **Property Testing** 🔬  
+  Classical and quantum property testing algorithms including linearity, monotonicity, balance, and cryptographic properties.
 
-- **Advanced Visualization**  
-  Interactive plots for spectral properties, influences, and function behavior.
+- **Advanced Visualization** 📈  
+  Interactive plots for spectral properties, influences, function behavior, and quantum analysis with matplotlib/plotly backends.
 
-- **High Performance**  
-  Optimized implementations using NumPy and SciPy with optional acceleration.
+- **High Performance** ⚡  
+  Optimized implementations with GPU acceleration (CuPy/CUDA), Numba JIT compilation, and intelligent batch processing.
 
-- **Educational Tools**  
-  Comprehensive examples suitable for teaching theoretical computer science.
+- **Educational Tools** 🎓  
+  Comprehensive examples and testing framework suitable for teaching theoretical computer science and quantum computing.
+
+## 🆕 Advanced Features (New!)
+
+- **🔄 Intelligent Conversion Graph**  
+  Dijkstra-based optimal path finding between representations with cost analysis and caching.
+
+- **⚡ Batch Processing Engine**  
+  Automatic selection of vectorized, parallel, or GPU-accelerated processing based on data size and complexity.
+
+- **🚀 GPU Acceleration**  
+  CUDA/OpenCL support with automatic GPU selection and CPU fallback for large-scale computations.
+
+- **🔥 Numba JIT Optimization**  
+  Just-in-time compilation of critical operations with parallel execution and automatic warm-up.
+
+- **🧪 Comprehensive Testing Framework**  
+  Built-in validation, property testing, and performance profiling with detailed reporting.
+
+- **🔌 Adapter System**  
+  Easy integration with legacy functions, SymPy expressions, and external Boolean function libraries.
+
+- **🎯 Advanced Error Models**  
+  PAC learning bounds, noise models, and uncertainty propagation for robust analysis.
+
+- **⚛️ Quantum Extensions**  
+  Quantum Boolean function analysis, quantum property testing, and resource estimation.
 
 ---
 
@@ -84,13 +110,30 @@ xor = bf.create([0, 1, 1, 0])  # XOR function
 majority = bf.BooleanFunctionBuiltins.majority(3)  # Built-in majority function
 tribes = bf.BooleanFunctionBuiltins.tribes(k=2, n=6)  # Tribes function
 
-# Evaluate functions
+# Evaluate functions (with automatic batch optimization)
 print(f"XOR(1,0) = {xor.evaluate([1, 0])}")  # True
 print(f"Majority(1,1,0) = {majority.evaluate([1, 1, 0])}")  # True
 
-# Seamless representation conversion
-polynomial = xor.to_polynomial()
-circuit = xor.to_circuit()
+# Large batch evaluation (uses GPU/Numba if available)
+large_batch = np.random.randint(0, 4, 10000)
+results = xor.evaluate(large_batch)  # Optimized automatically
+
+# Intelligent representation conversion
+anf_data = xor.get_representation('anf')  # Algebraic Normal Form
+fourier_coeffs = xor.get_representation('fourier_expansion')  # Uses conversion graph
+
+# Advanced analysis with optimizations
+analyzer = bf.SpectralAnalyzer(xor)
+influences = analyzer.influences()  # Numba-accelerated
+noise_stability = analyzer.noise_stability(0.9)
+
+# Validate functions
+is_valid = bf.quick_validate(xor)
+print(f"Function validation: {is_valid}")
+
+# Adapt external functions
+python_func = lambda x: x[0] ^ x[1]
+adapted = bf.adapt_callable(python_func, n_vars=2)
 
 # Spectral analysis
 analyzer = bf.SpectralAnalyzer(xor)
@@ -114,6 +157,61 @@ viz.plot_fourier_spectrum()
 
 ---
 
+# 🔄 Supported Representations
+
+BoolFunc supports **12+ different representations** for Boolean functions, each optimized for specific use cases:
+
+## **Truth Table Representations**
+- **Standard Truth Table** - Complete function mapping using NumPy arrays
+  - Fast evaluation and conversion
+  - Memory-intensive for large functions (2^n storage)
+- **Sparse Truth Table** - Memory-efficient for functions with few true outputs
+  - Compact storage for sparse functions
+  - Efficient for functions with low density
+
+## **Algebraic Representations**
+- **Polynomial (ANF)** - Algebraic Normal Form over GF(2)
+  - Canonical representation: f(x) = ⊕ᵢ aᵢ ∏ⱼ∈Sᵢ xⱼ
+  - Essential for cryptographic analysis
+  - Efficient for degree-limited functions
+- **DNF Form** - Disjunctive Normal Form (OR of AND terms)
+  - Natural representation for many functions
+  - Useful for satisfiability problems
+- **CNF Form** - Conjunctive Normal Form (AND of OR terms)
+  - Standard form for SAT solvers
+  - Important for constraint satisfaction
+
+## **Structural Representations**
+- **Boolean Circuits** - Gate-level implementations
+  - Supports AND, OR, NOT, XOR, NAND, NOR gates
+  - Hardware-friendly representation
+  - Circuit optimization and analysis
+- **Binary Decision Diagrams (BDD)** - Reduced Ordered BDDs
+  - Canonical representation for many functions
+  - Efficient manipulation and analysis
+  - Memory-efficient for structured functions
+- **Linear Threshold Functions (LTF)** - Weighted threshold-based functions
+  - Neural network-inspired representation
+  - Useful for learning and approximation
+
+## **Spectral Representations**
+- **Fourier Expansion** - Walsh-Hadamard transform coefficients
+  - Essential for spectral analysis
+  - Influence and noise stability computation
+  - Property testing algorithms
+- **Distribution** - Probability distribution over function outputs
+  - Statistical analysis and sampling
+  - Random function generation
+
+## **Symbolic Representations**
+- **Symbolic** - Abstract symbolic manipulation
+  - Formal verification and analysis
+  - Mathematical theorem proving
+
+**Automatic Conversion:** All representations support seamless conversion between each other, enabling flexible analysis workflows.
+
+---
+
 # 📚 Documentation
 
 Comprehensive documentation and examples are available in the repository:
@@ -134,11 +232,27 @@ Comprehensive documentation and examples are available in the repository:
 
 ## `boolfunc.core`
 - Multiple Boolean function representations with automatic conversion:
-  - Truth table representation
-  - Polynomial (ANF) representation  
-  - Circuit representation
-  - BDD representation
-  - Spectral representation
+
+### **Truth Table Representations**
+- **Standard Truth Table** - Complete function mapping using NumPy arrays
+- **Sparse Truth Table** - Memory-efficient for functions with few true outputs
+
+### **Algebraic Representations**
+- **Polynomial (ANF)** - Algebraic Normal Form over GF(2)
+- **DNF Form** - Disjunctive Normal Form (OR of AND terms)
+- **CNF Form** - Conjunctive Normal Form (AND of OR terms)
+
+### **Structural Representations**
+- **Boolean Circuits** - Gate-level implementations (AND, OR, NOT, XOR, NAND, NOR)
+- **Binary Decision Diagrams (BDD)** - Reduced Ordered BDDs for efficient manipulation
+- **Linear Threshold Functions (LTF)** - Weighted threshold-based functions
+
+### **Spectral Representations**
+- **Fourier Expansion** - Walsh-Hadamard transform coefficients
+- **Distribution** - Probability distribution over function outputs
+
+### **Symbolic Representations**
+- **Symbolic** - Abstract symbolic manipulation and analysis
 
 ## `boolfunc.analysis`
 - Comprehensive spectral analysis tools:
@@ -223,6 +337,12 @@ The `examples/` directory contains comprehensive usage examples:
 # Basic library usage and core functionality
 python examples/usage.py
 
+# 🆕 NEW: Advanced features demo (ANF, conversion graph, batch processing, GPU)
+python examples/advanced_features_demo.py
+
+# 🆕 NEW: Quantum Boolean function analysis and algorithms
+python examples/quantum_analysis_demo.py
+
 # Educational examples for teaching and learning
 python examples/educational_examples.py
 
@@ -237,11 +357,16 @@ python examples/visualization_examples.py
 
 # Complete showcase of all library features
 python examples/complete_demo.py
+
+# 🧹 Cleanup old visualization files (if any)
+python cleanup_old_files.py
 ```
 
 ### Example Categories
 
 - **`usage.py`**: Core functionality, perfect for getting started
+- **🆕 `advanced_features_demo.py`**: Complete showcase of all advanced features including ANF representation, conversion graph, batch processing, GPU acceleration, Numba JIT, testing framework, and adapters
+- **🆕 `quantum_analysis_demo.py`**: Quantum Boolean function analysis including quantum property testing, resource estimation, and quantum vs classical comparisons
 - **`educational_examples.py`**: Boolean logic fundamentals, suitable for teaching
 - **`advanced_analysis.py`**: Research workflows and mathematical property verification
 - **`representations_demo.py`**: Multiple representations (circuits, BDDs, conversions)

@@ -27,6 +27,11 @@ def basic_visualization():
     
     try:
         from boolfunc.visualization import BooleanFunctionVisualizer
+        import os
+        
+        # Create output directory
+        output_dir = os.path.join(os.path.dirname(__file__), 'generated')
+        os.makedirs(output_dir, exist_ok=True)
         
         # Create visualizers
         xor_viz = BooleanFunctionVisualizer(xor, backend="matplotlib")
@@ -34,20 +39,27 @@ def basic_visualization():
         
         print("\n2. Generating influence plots...")
         # Note: In real usage, remove show=False to display plots
-        xor_viz.plot_influences(save_path="xor_influences.png", show=False)
-        maj_viz.plot_influences(save_path="majority_influences.png", show=False)
+        xor_inf_path = os.path.join(output_dir, "xor_influences.png")
+        maj_inf_path = os.path.join(output_dir, "majority_influences.png")
+        xor_viz.plot_influences(save_path=xor_inf_path, show=False)
+        maj_viz.plot_influences(save_path=maj_inf_path, show=False)
         print("   ✓ Influence plots saved to PNG files")
         
         print("\n3. Generating Fourier spectrum plots...")
-        xor_viz.plot_fourier_spectrum(save_path="xor_fourier.png", show=False)
-        maj_viz.plot_fourier_spectrum(save_path="majority_fourier.png", show=False)
+        xor_fourier_path = os.path.join(output_dir, "xor_fourier.png")
+        maj_fourier_path = os.path.join(output_dir, "majority_fourier.png")
+        xor_viz.plot_fourier_spectrum(save_path=xor_fourier_path, show=False)
+        maj_viz.plot_fourier_spectrum(save_path=maj_fourier_path, show=False)
         print("   ✓ Fourier spectrum plots saved")
         
         print("\n4. Creating comprehensive dashboards...")
-        xor_viz.create_dashboard(save_path="xor_dashboard.png", show=False)
-        maj_viz.create_dashboard(save_path="majority_dashboard.png", show=False)
+        xor_dash_path = os.path.join(output_dir, "xor_dashboard.png")
+        maj_dash_path = os.path.join(output_dir, "majority_dashboard.png")
+        xor_viz.create_dashboard(save_path=xor_dash_path, show=False)
+        maj_viz.create_dashboard(save_path=maj_dash_path, show=False)
         print("   ✓ Analysis dashboards created")
         
+        print(f"   ✓ All files saved to: {output_dir}/")
         return True
         
     except ImportError as e:
@@ -61,6 +73,11 @@ def interactive_visualization():
     
     try:
         from boolfunc.visualization import BooleanFunctionVisualizer
+        import os
+        
+        # Create output directory
+        output_dir = os.path.join(os.path.dirname(__file__), 'generated')
+        os.makedirs(output_dir, exist_ok=True)
         
         # Create function for analysis
         parity = bf.BooleanFunctionBuiltins.parity(3)
@@ -70,16 +87,22 @@ def interactive_visualization():
         
         print("1. Creating interactive Plotly visualizations...")
         
-        # Generate interactive plots (saved as HTML)
-        viz.plot_influences(save_path="parity_influences_interactive.html", show=False)
-        viz.plot_fourier_spectrum(save_path="parity_fourier_interactive.html", show=False)
-        viz.plot_noise_stability_curve(save_path="parity_noise_stability.html", show=False)
+        # Generate interactive plots (saved as HTML in generated/ directory)
+        influences_path = os.path.join(output_dir, "parity_influences_interactive.html")
+        fourier_path = os.path.join(output_dir, "parity_fourier_interactive.html")
+        noise_path = os.path.join(output_dir, "parity_noise_stability.html")
+        dashboard_path = os.path.join(output_dir, "parity_dashboard_interactive.html")
+        
+        viz.plot_influences(save_path=influences_path, show=False)
+        viz.plot_fourier_spectrum(save_path=fourier_path, show=False)
+        viz.plot_noise_stability_curve(save_path=noise_path, show=False)
         
         print("   ✓ Interactive HTML plots created")
+        print(f"   ✓ Files saved to: {output_dir}/")
         print("   ✓ Open the .html files in a web browser for interactive exploration")
         
         # Create interactive dashboard
-        viz.create_dashboard(save_path="parity_dashboard_interactive.html", show=False)
+        viz.create_dashboard(save_path=dashboard_path, show=False)
         print("   ✓ Interactive dashboard created")
         
         return True
@@ -131,6 +154,11 @@ def advanced_visualization():
     
     try:
         from boolfunc.visualization import BooleanFunctionVisualizer
+        import os
+        
+        # Create output directory
+        output_dir = os.path.join(os.path.dirname(__file__), 'generated')
+        os.makedirs(output_dir, exist_ok=True)
         
         # Create more complex function for analysis
         # Tribes function (if available) or majority
@@ -157,9 +185,10 @@ def advanced_visualization():
         # Create noise stability curve
         print("\n2. Generating noise stability analysis...")
         rho_range = np.linspace(-1, 1, 21)
+        noise_path = os.path.join(output_dir, f"{func_name.lower()}_noise_stability.png")
         viz.plot_noise_stability_curve(
             rho_range=rho_range,
-            save_path=f"{func_name.lower()}_noise_stability.png",
+            save_path=noise_path,
             show=False
         )
         print("   ✓ Noise stability curve generated")
@@ -167,9 +196,11 @@ def advanced_visualization():
         # Create truth table visualization (for small functions)
         if func.n_vars <= 4:
             print("\n3. Creating truth table heatmap...")
-            viz.plot_truth_table(save_path=f"{func_name.lower()}_truth_table.png", show=False)
+            truth_table_path = os.path.join(output_dir, f"{func_name.lower()}_truth_table.png")
+            viz.plot_truth_table(save_path=truth_table_path, show=False)
             print("   ✓ Truth table heatmap created")
         
+        print(f"   ✓ Files saved to: {output_dir}/")
         return True
         
     except Exception as e:
@@ -178,6 +209,8 @@ def advanced_visualization():
 
 def main():
     """Run all visualization examples."""
+    import os
+    
     print("BoolFunc Library - Visualization Examples")
     print("=" * 45)
     print("This demonstrates the visualization capabilities of the library.")
@@ -205,9 +238,14 @@ def main():
         print("  - Interactive plots (plotly): HTML files for exploration")
         print("  - Function comparisons: Side-by-side analysis")
         print("  - Comprehensive dashboards: Multi-panel analysis")
+        print("\n📁 Generated files location:")
+        print("  - All output files saved to: examples/generated/")
+        print("  - PNG files: Static plots for publications")
+        print("  - HTML files: Interactive plots for web browsers")
         print("\nTo view the generated plots:")
         print("  - Open .png files in any image viewer")
         print("  - Open .html files in a web browser for interactivity")
+        print(f"  - Files are in: {os.path.join(os.path.dirname(__file__), 'generated')}/")
     else:
         print("\n📝 To enable visualization features:")
         print("  pip install -e \".[visualization]\"")

@@ -66,7 +66,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
     def convert_to(
         self,
         target_repr: "BooleanFunctionRepresentation",
-        souce_data: Any,
+        source_data: Any,
         space: Space,
         n_vars: int,
         **kwargs,
