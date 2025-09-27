@@ -28,7 +28,12 @@ from .core.adapters import (
     adapt_legacy_function, adapt_callable, adapt_sympy_expr, adapt_numpy_function
 )
 from .analysis import SpectralAnalyzer, PropertyTester
+from .analysis import sensitivity as analysis_sensitivity
+from .analysis import block_sensitivity as analysis_block_sensitivity
+from .analysis import certificates as analysis_certificates
+from .analysis import symmetry as analysis_symmetry
 from .testing import BooleanFunctionValidator, quick_validate, test_representation
+from .utils.finite_fields import get_field as get_gf_field, GFField
 
 # Optional imports with graceful fallback
 try:
@@ -57,6 +62,10 @@ __all__ = [
     # Analysis tools
     "SpectralAnalyzer", 
     "PropertyTester",
+    "analysis_sensitivity",
+    "analysis_block_sensitivity",
+    "analysis_certificates",
+    "analysis_symmetry",
     
     # Testing and validation
     "BooleanFunctionValidator",
@@ -79,6 +88,8 @@ __all__ = [
     "ExactErrorModel",
     "PACErrorModel", 
     "NoiseErrorModel",
+    "get_gf_field",
+    "GFField",
     
     # Version info
     "__version__"

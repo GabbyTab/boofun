@@ -151,6 +151,21 @@ class BooleanFunction(Evaluable, Representable):
             right_func=exponent,  # Pass exponent as right_func for consistency
         )
 
+    def compose(self, other: "BooleanFunction") -> "BooleanFunction":
+        """Compose this function with another BooleanFunction.
+
+        Semantics mirror the legacy ``BooleanFunc.compose``: if ``self`` depends
+        on ``n`` variables and ``other`` depends on ``m`` variables, the result is
+        a function on ``n * m`` variables obtained by substituting ``other`` into
+        each input of ``self`` on disjoint variable blocks.
+        """
+
+        return BooleanFunctionFactory.compose_truth_tables(
+            boolean_function_cls=type(self),
+            outer_func=self,
+            inner_func=other,
+        )
+
     def __call__(self, inputs):
         return self.evaluate(inputs)
 
