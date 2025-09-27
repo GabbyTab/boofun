@@ -66,19 +66,12 @@ def test_composition_with_addition(xor_tt, and_tt):
     and_func = bf.create(and_tt)
 
     composed = and_func + xor_func
-    inputs = np.arange(16)
-    # 0000 0001 0010 ...
-    # and(00) + xor(00), and(00) + xor(01), ...
+    inputs = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 
-    # XOR + AND
-    # note that since both functions are boolean and over the same space, the output is also boolean and over the same space so 1 + 1  = 0
-     
-    expected = np.array([0, 1, 1, 0,
-                         0, 1, 1, 0,
-                         0, 1, 1, 0,
-                         1, 0, 0, 1], dtype=bool)    
+    expected = np.array([0, 1, 1, 1], dtype=bool)
     result = composed.evaluate(inputs)
     assert np.array_equal(result, expected)
+    assert composed.n_vars == xor_func.n_vars
 
 
 def test_composition_with_multiplication(xor_tt, and_tt):
