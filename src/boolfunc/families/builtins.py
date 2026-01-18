@@ -115,10 +115,22 @@ class TribesFamily(FunctionFamily):
         )
     
     def generate(self, n: int, k: Optional[int] = None, w: Optional[int] = None, **kwargs) -> "BooleanFunction":
+        """
+        Generate tribes function.
+        
+        Args:
+            n: Total number of variables
+            k: Number of tribes (optional, auto-computed if not provided)
+            w: Width of each tribe (optional, auto-computed if not provided)
+            
+        Note: bf.tribes(tribe_size, total_vars) so we call bf.tribes(w, n)
+        """
         import boolfunc as bf
         
         if k is not None and w is not None:
-            return bf.tribes(k, w)
+            # User specified k tribes of width w, total vars = k * w
+            total_vars = k * w
+            return bf.tribes(w, total_vars)
         
         # Default: standard tribes with n variables
         # Choose w ≈ log2(n) - log2(log2(n)) for balance
@@ -127,9 +139,12 @@ class TribesFamily(FunctionFamily):
         
         log_n = np.log2(n)
         w = max(2, int(log_n - np.log2(max(1, log_n))))
-        k = n // w
+        # Make sure n is divisible by w
+        actual_n = (n // w) * w
+        if actual_n < w:
+            actual_n = w
         
-        return bf.tribes(k, w)
+        return bf.tribes(w, actual_n)
 
 
 class ThresholdFamily(FunctionFamily):
