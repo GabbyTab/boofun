@@ -194,9 +194,9 @@ Based on creating the educational notebooks, these API improvements would help:
 ### Learning Algorithms
 - [x] Goldreich-Levin (heavy Fourier coefficients)
 - [x] LMN algorithm (low-degree learning)
-- [ ] **Junta learning** (Mossel-O'Donnell-Servedio)
-- [ ] **Monotone function learning**
-- [ ] **PAC learning framework**
+- [x] **Junta learning** (Mossel-O'Donnell-Servedio) ✅ DONE
+- [x] **Monotone function learning** ✅ DONE
+- [x] **PAC learning framework** ✅ DONE
 
 ### Families & Growth
 - [x] BooleanFamily base class
@@ -227,7 +227,7 @@ Based on creating the educational notebooks, these API improvements would help:
   - [ ] Real-time influence visualization
 - [x] **3D hypercube visualization** for n ≤ 5 ✅ DONE
 - [x] **Sensitivity heatmap visualization** ✅ DONE (bonus!)
-- [ ] **Decision tree structure visualization**
+- [x] **Decision tree structure visualization** ✅ DONE
 
 ### Medium Priority
 - [ ] Animation of growth as n increases
@@ -248,7 +248,7 @@ Based on creating the educational notebooks, these API improvements would help:
 - [x] Friedgut's Junta Theorem
 - [x] Bonami's Lemma (hypercontractivity)
 - [x] Global Hypercontractivity (Keevash et al.)
-- [ ] **Huang's Sensitivity Theorem** (complete implementation)
+- [x] **Huang's Sensitivity Theorem** (complete implementation) ✅ DONE
 - [x] **FKN Theorem** (functions close to dictators) ✅ DONE
 - [ ] **Majority is Stablest** (complete proof verification)
 - [ ] **Kahn-Kalai Conjecture** (expectation thresholds)
