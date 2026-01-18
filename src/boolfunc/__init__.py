@@ -160,6 +160,45 @@ def OR(n: int) -> BooleanFunction:
     truth_table[0] = 0  # Only all-0s input gives 0
     return create(truth_table)
 
+
+def threshold(n: int, k: int) -> BooleanFunction:
+    """
+    Create k-threshold function on n variables.
+    
+    f(x) = 1 if Σxᵢ ≥ k, else 0
+    
+    Special cases:
+    - threshold(n, n) = AND
+    - threshold(n, 1) = OR  
+    - threshold(n, (n+1)/2) = MAJORITY (for odd n)
+    
+    Example:
+        >>> at_least_2 = bf.threshold(4, 2)  # True if ≥2 inputs are 1
+    """
+    from .analysis.ltf_analysis import create_threshold_function
+    return create_threshold_function(n, k)
+
+
+def weighted_majority(weights, threshold_value=None) -> BooleanFunction:
+    """
+    Create a weighted majority (LTF) function.
+    
+    f(x) = sign(w₁x₁ + ... + wₙxₙ - θ)
+    
+    LTFs are also called "halfspaces" - they represent hyperplanes
+    cutting through the Boolean hypercube.
+    
+    Example:
+        # Nassau County voting system  
+        >>> nassau = bf.weighted_majority([31, 31, 28, 21, 2, 2])
+        
+        # Standard majority (all equal weights)
+        >>> maj = bf.weighted_majority([1, 1, 1, 1, 1])
+    """
+    from .analysis.ltf_analysis import create_weighted_majority
+    return create_weighted_majority(weights, threshold_value)
+
+
 # Optional imports with graceful fallback
 try:
     from .visualization import BooleanFunctionVisualizer
@@ -194,6 +233,8 @@ __all__ = [
     "constant",
     "AND",
     "OR",
+    "threshold",
+    "weighted_majority",
     
     # Analysis (use directly or via function methods)
     "SpectralAnalyzer", 

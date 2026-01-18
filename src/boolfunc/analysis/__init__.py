@@ -665,7 +665,7 @@ class PropertyTester:
 
 
 # Export main classes
-from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence, p_biased, learning, fourier, restrictions, hypercontractivity, query_complexity, basic_properties, gaussian, invariance
+from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence, p_biased, learning, fourier, restrictions, hypercontractivity, query_complexity, basic_properties, gaussian, invariance, ltf_analysis
 
 __all__ = [
     "SpectralAnalyzer",
@@ -688,4 +688,6 @@ __all__ = [
     # O'Donnell Chapters 10-11: Gaussian analysis and Invariance Principle
     "gaussian",
     "invariance",
+    # O'Donnell Chapter 5: Linear Threshold Functions
+    "ltf_analysis",
 ]
