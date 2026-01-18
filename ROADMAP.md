@@ -143,8 +143,8 @@ tests/
 ### From Notebook Feedback
 Based on creating the educational notebooks, these API improvements would help:
 
-- [ ] **Add `bf.from_weights()` for LTFs** - Create LTF from weight vector directly
-- [ ] **Add `bf.random(n, balanced=True)`** - Generate random balanced function
+- [x] **Add `bf.from_weights()` for LTFs** ✅ DONE
+- [x] **Add `bf.random(n, balanced=True)`** ✅ DONE
 - [ ] **Add `f.restriction(fixed_vars)`** - More intuitive name than `fix`
 - [ ] **Add `f.cofactor(var, val)`** - Shannon cofactor notation
 - [x] **Improve dictator signature**: `bf.dictator(n, i=0)` ✅ DONE
