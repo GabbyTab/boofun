@@ -194,12 +194,10 @@ class TestRepresentationProperties:
 class TestBooleanOperations:
     """Property tests for Boolean operations."""
     
-    @given(boolean_function(), boolean_function())
+    @given(boolean_function())
     @settings(max_examples=30, deadline=5000)
-    def test_xor_self_is_zero(self, f, g):
+    def test_xor_self_is_zero(self, f):
         """f XOR f = 0 (constant zero function)."""
-        assume(f.n_vars == g.n_vars)  # Need same n
-        
         h = f ^ f  # XOR with self
         
         # Should be constant 0

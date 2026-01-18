@@ -889,6 +889,92 @@ class BooleanFunction(Evaluable, Representable):
         from ..analysis.fourier import fourier_sparsity
         return fourier_sparsity(self, threshold)
     
+    def spectral_weight_by_degree(self) -> dict:
+        """
+        Compute spectral weight at each degree level.
+        
+        Returns:
+            Dict mapping degree k -> W^{=k}[f] = Σ_{|S|=k} f̂(S)²
+            
+        Example:
+            >>> maj = bf.majority(5)
+            >>> maj.spectral_weight_by_degree()
+            {0: 0.0, 1: 0.625, 3: 0.3125, 5: 0.0625}
+        """
+        coeffs = self.fourier()
+        weights = {}
+        for s, c in enumerate(coeffs):
+            deg = bin(s).count("1")
+            weights[deg] = weights.get(deg, 0) + c * c
+        return dict(sorted(weights.items()))
+    
+    def heavy_coefficients(self, tau: float = 0.1) -> list:
+        """
+        Find Fourier coefficients with |f̂(S)| ≥ τ.
+        
+        Args:
+            tau: Threshold for "heavy" coefficient
+            
+        Returns:
+            List of (subset_tuple, coefficient) pairs sorted by magnitude
+            
+        Example:
+            >>> maj = bf.majority(3)
+            >>> maj.heavy_coefficients(0.3)
+            [((0,), 0.5), ((1,), 0.5), ((2,), 0.5)]
+        """
+        coeffs = self.fourier()
+        heavy = []
+        for s, c in enumerate(coeffs):
+            if abs(c) >= tau:
+                # Convert bitmask to tuple of variable indices
+                subset = tuple(i for i in range(self.n_vars) if (s >> i) & 1)
+                heavy.append((subset, float(c)))
+        return sorted(heavy, key=lambda x: -abs(x[1]))
+    
+    def variance(self) -> float:
+        """
+        Compute variance: Var[f] = E[f²] - E[f]² = Σ_{S≠∅} f̂(S)².
+        
+        Returns:
+            Variance of the function (0 for constant, 1 for balanced ±1 function)
+        """
+        coeffs = self.fourier()
+        return sum(c * c for c in coeffs[1:])  # Skip S=∅
+    
+    def max_influence(self) -> float:
+        """
+        Compute maximum influence: max_i Inf_i[f].
+        
+        Important for KKL theorem: max_i Inf_i[f] ≥ Ω(log n / n) for balanced f.
+        
+        Returns:
+            Maximum influence value
+        """
+        return max(self.influences())
+    
+    def analyze(self) -> dict:
+        """
+        Quick analysis returning common metrics.
+        
+        Returns:
+            Dict with: n_vars, is_balanced, variance, degree,
+                       total_influence, max_influence, noise_stability_0.5
+                       
+        Example:
+            >>> bf.majority(5).analyze()
+            {'n_vars': 5, 'is_balanced': True, 'variance': 1.0, ...}
+        """
+        return {
+            'n_vars': self.n_vars,
+            'is_balanced': self.is_balanced(),
+            'variance': self.variance(),
+            'degree': self.degree(),
+            'total_influence': self.total_influence(),
+            'max_influence': self.max_influence(),
+            'noise_stability_0.5': self.noise_stability(0.5),
+        }
+    
     def negate_inputs(self) -> "BooleanFunction":
         """
         Compute g(x) = f(-x) where -x flips all bits.
