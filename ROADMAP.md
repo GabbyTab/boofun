@@ -45,7 +45,7 @@ This document tracks planned features, improvements, and known gaps in the boolf
 |-------|--------|------|
 | Asymptotic Visualization | ✅ Done | `asymptotic_visualization.ipynb` |
 | O'Donnell Book Exercises | ❌ TODO | Selected problems from the book |
-| Real-World Applications | ❌ TODO | Cryptography, ML, coding theory |
+| Real-World Applications | ✅ Done | `real_world_applications.ipynb` |
 
 ---
 
