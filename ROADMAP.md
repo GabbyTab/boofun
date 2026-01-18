@@ -203,7 +203,7 @@ Based on creating the educational notebooks, these API improvements would help:
 - [x] InductiveFamily for user-defined growth
 - [x] GrowthTracker
 - [x] Built-in families (Majority, Parity, AND, Tribes, LTF)
-- [ ] **Recursive Majority of 3**
+- [x] **Recursive Majority of 3** ✅ DONE
 - [ ] **Iterated majority**
 - [ ] **Random DNF families**
 - [ ] **Cryptographic function families** (S-boxes)
@@ -248,7 +248,7 @@ Based on creating the educational notebooks, these API improvements would help:
 - [x] Bonami's Lemma (hypercontractivity)
 - [x] Global Hypercontractivity (Keevash et al.)
 - [ ] **Huang's Sensitivity Theorem** (complete implementation)
-- [ ] **FKN Theorem** (functions close to dictators)
+- [x] **FKN Theorem** (functions close to dictators) ✅ DONE
 - [ ] **Majority is Stablest** (complete proof verification)
 - [ ] **Kahn-Kalai Conjecture** (expectation thresholds)
 - [ ] **Park-Pham threshold result**
@@ -268,7 +268,7 @@ Based on creating the educational notebooks, these API improvements would help:
 - [x] Multi-Python testing (3.9-3.12)
 - [ ] **Fix PyPI publishing** (configure PYPI_TOKEN)
 - [ ] Add Codecov badge to README
-- [ ] Add pre-commit hooks (black, isort, mypy)
+- [x] Add pre-commit hooks (black, isort, mypy) ✅ DONE
 - [ ] Add dependabot for dependency updates
 
 ### Documentation Hosting
