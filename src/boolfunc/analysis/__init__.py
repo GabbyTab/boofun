@@ -76,8 +76,10 @@ class SpectralAnalyzer:
         """
         Compute Walsh-Hadamard transform (fast Fourier transform for Boolean functions).
 
-        Uses scipy.linalg.hadamard for better performance when available,
-        falls back to pure numpy implementation otherwise.
+        Uses the fastest available backend:
+        1. pyfwht (GPU-accelerated, if installed)
+        2. scipy.linalg.hadamard (CPU-optimized)
+        3. Pure numpy iterative (fallback)
 
         Args:
             f_vals: Function values in {-1, 1} representation
@@ -88,10 +90,21 @@ class SpectralAnalyzer:
         n = self.n_vars
         size = len(f_vals)
         
+        # Try pyfwht for GPU-accelerated transform (fastest for large n)
+        try:
+            from pyfwht import fwht
+            # pyfwht expects natural order, returns Walsh-Hadamard coefficients
+            result = fwht(f_vals.astype(np.float64))
+            return result / size
+        except ImportError:
+            pass
+        except Exception:
+            pass  # Fall back if pyfwht fails
+        
         # Try to use scipy.linalg.hadamard for better performance
         try:
             from scipy.linalg import hadamard
-            # Hadamard matrix multiply is more cache-friendly for large n
+            # Hadamard matrix multiply is more cache-friendly for medium n
             if n <= 14:  # scipy.linalg.hadamard has size limitations
                 H = hadamard(size, dtype=float)
                 return (H @ f_vals) / size

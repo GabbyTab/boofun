@@ -34,6 +34,10 @@ dependencies = [
 performance = [
     "numba>=0.56.0",
 ]
+# GPU-accelerated Walsh-Hadamard transform (requires CUDA)
+gpu = [
+    "pyfwht>=0.2.0",
+]
 visualization = [
     "matplotlib>=3.5.0",
     "plotly>=5.0.0"
@@ -55,7 +59,7 @@ dev = [
     "isort>=5.12.0",
 ]
 all = [
-    "boolfunc[performance,visualization,docs,dev]"
+    "boolfunc[performance,gpu,visualization,docs,dev]"
 ]
 
 [project.urls]
