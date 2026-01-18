@@ -831,6 +831,179 @@ def _compare_influences_matplotlib(functions, figsize=(12, 6), **kwargs):
     return fig
 
 
+def plot_hypercube(f: BooleanFunction, 
+                   figsize: Tuple[int, int] = (10, 10),
+                   save_path: Optional[str] = None,
+                   show: bool = True) -> Any:
+    """
+    Plot Boolean function on a hypercube graph (n ≤ 5).
+    
+    Shows the hypercube with vertices colored by function output.
+    Edges connect inputs differing in one bit.
+    
+    Args:
+        f: Boolean function (n ≤ 5)
+        figsize: Figure size
+        save_path: Optional path to save
+        show: Whether to display
+        
+    Returns:
+        Figure object
+    """
+    if not HAS_MATPLOTLIB:
+        raise ImportError("Matplotlib required for hypercube visualization")
+    
+    from mpl_toolkits.mplot3d import Axes3D
+    
+    n = f.n_vars
+    if n > 5:
+        raise ValueError(f"Hypercube visualization only supports n ≤ 5, got {n}")
+    
+    # Get truth table
+    truth_table = f.get_representation('truth_table')
+    
+    # Generate hypercube coordinates
+    # For n dims, project to 3D using first 3 principal coordinates
+    num_vertices = 2**n
+    coords = np.zeros((num_vertices, 3))
+    
+    for x in range(num_vertices):
+        # Convert to binary coordinates
+        bits = [(x >> i) & 1 for i in range(n)]
+        
+        if n <= 3:
+            # Direct embedding
+            coords[x, :n] = bits[:3] if n == 3 else bits + [0]*(3-n)
+        else:
+            # Project higher dimensions using a simple scheme
+            # Use trigonometric projection for dims > 3
+            coords[x, 0] = sum(bits[i] * np.cos(np.pi * i / n) for i in range(n))
+            coords[x, 1] = sum(bits[i] * np.sin(np.pi * i / n) for i in range(n))
+            coords[x, 2] = sum(bits[i] * (-1)**i for i in range(n)) / n
+    
+    # Create figure
+    fig = plt.figure(figsize=figsize)
+    ax = fig.add_subplot(111, projection='3d')
+    
+    # Draw edges (connect vertices differing in one bit)
+    for x in range(num_vertices):
+        for i in range(n):
+            neighbor = x ^ (1 << i)
+            if neighbor > x:  # Avoid drawing twice
+                ax.plot3D(
+                    [coords[x, 0], coords[neighbor, 0]],
+                    [coords[x, 1], coords[neighbor, 1]],
+                    [coords[x, 2], coords[neighbor, 2]],
+                    'gray', alpha=0.3, linewidth=0.5
+                )
+    
+    # Draw vertices colored by function value
+    colors = ['red' if truth_table[x] else 'blue' for x in range(num_vertices)]
+    sizes = [100 if truth_table[x] else 60 for x in range(num_vertices)]
+    
+    ax.scatter3D(coords[:, 0], coords[:, 1], coords[:, 2], 
+                c=colors, s=sizes, alpha=0.8, edgecolors='black')
+    
+    # Labels for small n
+    if n <= 3:
+        for x in range(num_vertices):
+            label = format(x, f'0{n}b')
+            ax.text(coords[x, 0], coords[x, 1], coords[x, 2], 
+                   label, fontsize=8)
+    
+    ax.set_title(f'Boolean Function on {n}-Hypercube\n(Red=1, Blue=0)')
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    
+    # Add legend
+    from matplotlib.lines import Line2D
+    legend_elements = [
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='f(x)=1'),
+        Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='f(x)=0'),
+    ]
+    ax.legend(handles=legend_elements, loc='upper left')
+    
+    plt.tight_layout()
+    
+    if save_path:
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    if show:
+        plt.show()
+    
+    return fig
+
+
+def plot_sensitivity_heatmap(f: BooleanFunction,
+                            figsize: Tuple[int, int] = (10, 8),
+                            save_path: Optional[str] = None,
+                            show: bool = True) -> Any:
+    """
+    Plot sensitivity at each input as a heatmap.
+    
+    Args:
+        f: Boolean function (n ≤ 8 recommended)
+        figsize: Figure size
+        save_path: Optional path to save
+        show: Whether to display
+        
+    Returns:
+        Figure object
+    """
+    if not HAS_MATPLOTLIB:
+        raise ImportError("Matplotlib required")
+    
+    n = f.n_vars
+    num_inputs = 2**n
+    
+    # Compute sensitivity at each input
+    sensitivities = [f.sensitivity_at(x) for x in range(num_inputs)]
+    
+    fig, ax = plt.subplots(figsize=figsize)
+    
+    # Reshape for visualization
+    if n <= 4:
+        # Show as 1D bar
+        x_labels = [format(i, f'0{n}b') for i in range(num_inputs)]
+        bars = ax.bar(range(num_inputs), sensitivities, alpha=0.7)
+        
+        # Color by sensitivity
+        cmap = plt.cm.YlOrRd
+        max_sens = max(sensitivities)
+        for bar, sens in zip(bars, sensitivities):
+            bar.set_color(cmap(sens / max_sens if max_sens > 0 else 0))
+        
+        ax.set_xticks(range(num_inputs))
+        ax.set_xticklabels(x_labels, rotation=45 if n > 3 else 0)
+        ax.set_xlabel('Input')
+        ax.set_ylabel('Sensitivity')
+    else:
+        # Show as 2D heatmap
+        side = int(np.sqrt(num_inputs))
+        if side * side != num_inputs:
+            side = 2**(n//2)
+            other = num_inputs // side
+        else:
+            other = side
+        
+        sens_matrix = np.array(sensitivities).reshape(side, other)
+        im = ax.imshow(sens_matrix, cmap='YlOrRd', aspect='auto')
+        plt.colorbar(im, ax=ax, label='Sensitivity')
+        ax.set_xlabel('Input (lower bits)')
+        ax.set_ylabel('Input (upper bits)')
+    
+    ax.set_title(f'Sensitivity at Each Input (n={n})\nMax={max(sensitivities)}, Avg={np.mean(sensitivities):.2f}')
+    
+    plt.tight_layout()
+    
+    if save_path:
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    if show:
+        plt.show()
+    
+    return fig
+
+
 # Import growth visualization
 try:
     from .growth_plots import (
@@ -847,6 +1020,8 @@ except ImportError:
 __all__ = [
     'BooleanFunctionVisualizer',
     'plot_function_comparison',
+    'plot_hypercube',
+    'plot_sensitivity_heatmap',
 ]
 
 if HAS_GROWTH_VIZ:
