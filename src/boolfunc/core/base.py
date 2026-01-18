@@ -679,3 +679,217 @@ class BooleanFunction(Evaluable, Representable):
         tt = np.asarray(self.get_representation("truth_table"), dtype=bool)
         ones_count = np.sum(tt)
         return ones_count == len(tt) // 2
+
+    # =========================================================================
+    # Spectral Analysis Methods (mathematician-friendly API)
+    # =========================================================================
+    
+    def fourier(self, force_recompute: bool = False) -> np.ndarray:
+        """
+        Compute Fourier coefficients f̂(S) for all subsets S ⊆ [n].
+        
+        The Fourier expansion is: f(x) = Σ_S f̂(S) χ_S(x)
+        where χ_S(x) = ∏_{i∈S} x_i are the Walsh characters.
+        
+        Returns:
+            Array of Fourier coefficients indexed by subset bitmask
+            
+        Example:
+            >>> xor = bf.create([0, 1, 1, 0])
+            >>> coeffs = xor.fourier()
+            >>> coeffs[3]  # f̂({0,1}) = -1 for XOR
+        """
+        from ..analysis import SpectralAnalyzer
+        analyzer = SpectralAnalyzer(self)
+        return analyzer.fourier_expansion(force_recompute=force_recompute)
+    
+    def spectrum(self, force_recompute: bool = False) -> np.ndarray:
+        """Alias for fourier() - returns Fourier spectrum."""
+        return self.fourier(force_recompute=force_recompute)
+    
+    def degree(self, gf2: bool = False) -> int:
+        """
+        Compute the degree of the function.
+        
+        Args:
+            gf2: If True, compute GF(2) (algebraic) degree
+                 If False, compute Fourier (real) degree
+        
+        Returns:
+            Maximum degree of non-zero coefficient
+            
+        Example:
+            >>> xor = bf.create([0, 1, 1, 0])
+            >>> xor.degree()        # Fourier degree = 2
+            >>> xor.degree(gf2=True)  # GF(2) degree = 1
+        """
+        if gf2:
+            from ..analysis.gf2 import gf2_degree
+            return gf2_degree(self)
+        else:
+            from ..analysis.fourier import fourier_degree
+            return fourier_degree(self)
+    
+    def influences(self, force_recompute: bool = False) -> np.ndarray:
+        """
+        Compute influences of all variables: Inf_i[f] = Pr[f(x) ≠ f(x ⊕ e_i)].
+        
+        Returns:
+            Array of influences, one per variable
+            
+        Example:
+            >>> maj = bf.majority(3)
+            >>> maj.influences()  # All equal for symmetric function
+        """
+        from ..analysis import SpectralAnalyzer
+        analyzer = SpectralAnalyzer(self)
+        return analyzer.influences(force_recompute=force_recompute)
+    
+    def influence(self, var: int) -> float:
+        """
+        Compute influence of a single variable.
+        
+        Args:
+            var: Variable index (0-indexed)
+            
+        Returns:
+            Influence value in [0, 1]
+        """
+        return self.influences()[var]
+    
+    def total_influence(self) -> float:
+        """
+        Compute total influence: I[f] = Σ_i Inf_i[f].
+        
+        Also called average sensitivity.
+        
+        Returns:
+            Sum of all variable influences
+        """
+        from ..analysis import SpectralAnalyzer
+        analyzer = SpectralAnalyzer(self)
+        return analyzer.total_influence()
+    
+    def noise_stability(self, rho: float) -> float:
+        """
+        Compute noise stability at correlation ρ.
+        
+        Stab_ρ[f] = E[f(x)f(y)] where y is ρ-correlated with x.
+        In Fourier: Stab_ρ[f] = Σ_S f̂(S)² ρ^|S|
+        
+        Args:
+            rho: Correlation parameter in [-1, 1]
+            
+        Returns:
+            Noise stability value
+        """
+        from ..analysis import SpectralAnalyzer
+        analyzer = SpectralAnalyzer(self)
+        return analyzer.noise_stability(rho)
+    
+    def W(self, k: int) -> float:
+        """
+        Compute Fourier weight at exactly degree k: W^{=k}[f] = Σ_{|S|=k} f̂(S)².
+        
+        Args:
+            k: Degree level
+            
+        Returns:
+            Sum of squared Fourier coefficients at degree k
+        """
+        coeffs = self.fourier()
+        total = 0.0
+        for s, c in enumerate(coeffs):
+            if bin(s).count("1") == k:
+                total += c * c
+        return total
+    
+    def W_leq(self, k: int) -> float:
+        """
+        Compute Fourier weight up to degree k: W^{≤k}[f] = Σ_{|S|≤k} f̂(S)².
+        
+        This measures spectral concentration on low-degree coefficients.
+        
+        Args:
+            k: Maximum degree
+            
+        Returns:
+            Sum of squared Fourier coefficients up to degree k
+        """
+        from ..analysis import SpectralAnalyzer
+        analyzer = SpectralAnalyzer(self)
+        return analyzer.spectral_concentration(k)
+    
+    def sparsity(self, threshold: float = 1e-10) -> int:
+        """
+        Count non-zero Fourier coefficients.
+        
+        From O'Donnell: degree-k functions have at most 4^k non-zero coefficients.
+        
+        Args:
+            threshold: Minimum magnitude to count as non-zero
+            
+        Returns:
+            Number of significant Fourier coefficients
+        """
+        from ..analysis.fourier import fourier_sparsity
+        return fourier_sparsity(self, threshold)
+    
+    def negate_inputs(self) -> "BooleanFunction":
+        """
+        Compute g(x) = f(-x) where -x flips all bits.
+        
+        In Fourier: ĝ(S) = (-1)^|S| f̂(S) (odd-degree coefficients flip sign)
+        
+        Returns:
+            New function with negated inputs
+        """
+        from ..analysis.fourier import negate_inputs
+        return negate_inputs(self)
+    
+    def __neg__(self) -> "BooleanFunction":
+        """
+        Unary minus: -f returns f(-x) (input negation).
+        
+        This is the natural mathematical notation for input negation.
+        For output negation (NOT), use ~f.
+        """
+        return self.negate_inputs()
+    
+    # =========================================================================
+    # Property Testing (convenient methods)
+    # =========================================================================
+    
+    def is_linear(self, num_tests: int = 100) -> bool:
+        """
+        Test if function is linear (affine over GF(2)).
+        
+        Uses BLR linearity test.
+        """
+        from ..analysis import PropertyTester
+        tester = PropertyTester(self)
+        return tester.blr_linearity_test(num_queries=num_tests)
+    
+    def is_monotone(self, num_tests: int = 100) -> bool:
+        """
+        Test if function is monotone: x ≤ y implies f(x) ≤ f(y).
+        """
+        from ..analysis import PropertyTester
+        tester = PropertyTester(self)
+        return tester.monotonicity_test(num_queries=num_tests)
+    
+    def is_junta(self, k: int) -> bool:
+        """
+        Test if function depends on at most k variables.
+        """
+        from ..analysis import PropertyTester
+        tester = PropertyTester(self)
+        return tester.junta_test(k)
+    
+    def is_symmetric(self, num_tests: int = 100) -> bool:
+        """
+        Test if function is symmetric (invariant under variable permutations).
+        """
+        from ..analysis import PropertyTester
+        tester = PropertyTester(self)
+        return tester.symmetry_test(num_queries=num_tests)
