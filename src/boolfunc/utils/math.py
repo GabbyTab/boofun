@@ -25,7 +25,7 @@ __all__ = [
 def popcnt(x: int) -> int:
     """Return the population count of an integer."""
 
-    return int(x).bit_count()
+    return bin(x).count("1")
 
 
 def poppar(x: int) -> int:

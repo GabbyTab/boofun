@@ -29,7 +29,7 @@ def block_sensitivity_at(f: BooleanFunction, x: int) -> int:
     """Exact block sensitivity via backtracking search."""
 
     blocks = _sensitive_blocks(f, x)
-    blocks.sort(key=int.bit_count)  # small blocks first
+    blocks.sort(key=lambda b: bin(b).count("1"))  # small blocks first
     return _max_disjoint(blocks, 0, 0)
 
 

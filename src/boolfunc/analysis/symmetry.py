@@ -16,7 +16,7 @@ def symmetrize(f: BooleanFunction) -> np.ndarray:
     counts = np.zeros(n + 1, dtype=int)
     for x in range(1 << n):
         if bool(f.evaluate(x)):
-            counts[int(x).bit_count()] += 1
+            counts[bin(x).count("1")] += 1
     return counts
 
 
