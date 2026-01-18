@@ -185,8 +185,8 @@ Based on creating the educational notebooks, these API improvements would help:
 - [x] Invariance principle (O'Donnell Ch 11)
 - [x] Global hypercontractivity
 - [x] p-biased analysis
-- [ ] **Arrow's Theorem verification**
-- [ ] **Shapley values** (game theory connection)
+- [x] **Arrow's Theorem verification** ✅ DONE
+- [x] **Shapley values** (game theory connection) ✅ DONE (in ArrowAnalyzer)
 - [ ] **Polynomial threshold functions**
 - [ ] **AC⁰ circuit complexity bounds**
 - [ ] **Communication complexity**
@@ -221,10 +221,10 @@ Based on creating the educational notebooks, these API improvements would help:
 - [x] Interactive HTML (Plotly)
 
 ### High Priority
-- [ ] **Interactive Jupyter widgets** (ipywidgets)
-  - [ ] Slider for n to see how function changes
-  - [ ] Toggle between representations
-  - [ ] Real-time influence visualization
+- [x] **Interactive Jupyter widgets** (ipywidgets) ✅ DONE
+  - [x] Slider for n to see how function changes
+  - [x] Toggle between representations
+  - [x] Real-time influence visualization
 - [x] **3D hypercube visualization** for n ≤ 5 ✅ DONE
 - [x] **Sensitivity heatmap visualization** ✅ DONE (bonus!)
 - [x] **Decision tree structure visualization** ✅ DONE
