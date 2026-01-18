@@ -1071,3 +1071,23 @@ try:
     ])
 except ImportError:
     HAS_WIDGETS = False
+
+# Import animation utilities
+try:
+    from .animation import (
+        GrowthAnimator,
+        animate_growth,
+        animate_influences,
+        animate_fourier_spectrum,
+        create_growth_animation,
+    )
+    HAS_ANIMATION = True
+    __all__.extend([
+        'GrowthAnimator',
+        'animate_growth',
+        'animate_influences',
+        'animate_fourier_spectrum',
+        'create_growth_animation',
+    ])
+except ImportError:
+    HAS_ANIMATION = False
