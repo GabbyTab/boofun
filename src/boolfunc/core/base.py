@@ -74,10 +74,16 @@ class BooleanFunction(Evaluable, Representable):
         self._metadata = kwargs.get("metadata", {})
         self.nickname = kwargs.get("nickname") or "x_0"
 
-    def __array__(self, dtype=None) -> np.ndarray:
-        """Return the truth table as a NumPy array for NumPy compatibility."""
+    def __array__(self, dtype=None, copy=None) -> np.ndarray:
+        """Return the truth table as a NumPy array for NumPy compatibility.
+        
+        Note: The 'copy' parameter is for NumPy 2.0 compatibility.
+        """
         truth_table = self.get_representation("truth_table")
-        return np.asarray(truth_table, dtype=dtype)
+        arr = np.asarray(truth_table, dtype=dtype)
+        if copy:
+            arr = arr.copy()
+        return arr
 
     def __add__(self, other):
         """Addition operator - creates composite function with + operation"""

@@ -33,15 +33,48 @@ from .api import create
 from .core import BooleanFunction, Space, ExactErrorModel, Property, PACErrorModel, NoiseErrorModel
 from .core.builtins import BooleanFunctionBuiltins
 from .core.adapters import (
-    LegacyAdapter, CallableAdapter, SymPyAdapter, NumPyAdapter,
-    adapt_legacy_function, adapt_callable, adapt_sympy_expr, adapt_numpy_function
+    CallableAdapter, SymPyAdapter, NumPyAdapter,
+    adapt_callable, adapt_sympy_expr, adapt_numpy_function
 )
-from .core.legacy_adapter import from_legacy, to_legacy, LegacyWrapper
+
+# Legacy adapter for migrating from old BooleanFunc class (kept for backwards compatibility)
+# Import on demand: from boolfunc.core.legacy_adapter import from_legacy, to_legacy
+try:
+    from .core.legacy_adapter import from_legacy, to_legacy, LegacyWrapper
+    _HAS_LEGACY = True
+except ImportError:
+    _HAS_LEGACY = False
 from .analysis import SpectralAnalyzer, PropertyTester
 from .analysis import sensitivity as analysis_sensitivity
 from .analysis import block_sensitivity as analysis_block_sensitivity
 from .analysis import certificates as analysis_certificates
 from .analysis import symmetry as analysis_symmetry
+
+# Fourier analysis utilities (Chapter 1 O'Donnell)
+from .analysis.fourier import (
+    parseval_verify,
+    plancherel_inner_product,
+    convolution,
+    negate_inputs,
+    odd_part,
+    even_part,
+    tensor_product,
+    restriction,
+    fourier_degree,
+    spectral_norm,
+    fourier_sparsity,
+    dominant_coefficients,
+)
+
+# GF(2) analysis (Algebraic Normal Form)
+from .analysis.gf2 import (
+    gf2_fourier_transform,
+    gf2_degree,
+    gf2_monomials,
+    gf2_to_string,
+    is_linear_over_gf2,
+    correlation_with_parity,
+)
 from .testing import BooleanFunctionValidator, quick_validate, test_representation
 from .utils.finite_fields import get_field as get_gf_field, GFField
 
@@ -178,23 +211,40 @@ __all__ = [
     "analysis_certificates",
     "analysis_symmetry",
     
+    # Fourier analysis (Chapter 1 O'Donnell)
+    "parseval_verify",
+    "plancherel_inner_product",
+    "convolution",
+    "negate_inputs",
+    "odd_part",
+    "even_part",
+    "tensor_product",
+    "restriction",
+    "fourier_degree",
+    "spectral_norm",
+    "fourier_sparsity",
+    "dominant_coefficients",
+    
+    # GF(2) analysis
+    "gf2_fourier_transform",
+    "gf2_degree",
+    "gf2_monomials",
+    "gf2_to_string",
+    "is_linear_over_gf2",
+    "correlation_with_parity",
+    
     # Testing and validation
     "BooleanFunctionValidator",
     "quick_validate",
     "test_representation",
     
     # Adapters for external integration
-    "LegacyAdapter",
     "CallableAdapter", 
     "SymPyAdapter",
     "NumPyAdapter",
-    "adapt_legacy_function",
     "adapt_callable",
     "adapt_sympy_expr", 
     "adapt_numpy_function",
-    "from_legacy",
-    "to_legacy",
-    "LegacyWrapper",
     
     # Core utilities
     "Space",

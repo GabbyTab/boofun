@@ -24,6 +24,14 @@ from .number_theory import (
     crt,
     is_prime,
     prime_sieve,
+    factor,
+    prime_factorization,
+    euler_phi,
+    totient,
+    binomial,
+    binomial_sum,
+    lcm,
+    mobius,
 )
 
 from .finite_fields import (
@@ -55,6 +63,14 @@ __all__ = [
     "crt",
     "is_prime",
     "prime_sieve",
+    "factor",
+    "prime_factorization",
+    "euler_phi",
+    "totient",
+    "binomial",
+    "binomial_sum",
+    "lcm",
+    "mobius",
     # Finite fields
     "get_field",
     "GFField",

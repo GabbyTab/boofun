@@ -380,6 +380,8 @@ class TestAdapters:
     
     def test_legacy_adapter(self):
         """Test legacy function adapter."""
+        from boolfunc.core.adapters import LegacyAdapter
+        
         # Mock legacy function
         class LegacyFunction:
             def legacy_evaluate(self, inputs):
@@ -388,7 +390,7 @@ class TestAdapters:
         legacy_func = LegacyFunction()
         
         # Adapt using legacy adapter
-        adapter = bf.LegacyAdapter(evaluation_method='legacy_evaluate')
+        adapter = LegacyAdapter(evaluation_method='legacy_evaluate')
         adapted = adapter.adapt(legacy_func)
         
         # Test evaluation

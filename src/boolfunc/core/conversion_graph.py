@@ -208,11 +208,11 @@ class ConversionGraph:
             ('bdd', 'truth_table'): ConversionCost(80, 100, 0.0, True),
             ('truth_table', 'bdd'): ConversionCost(250, 150, 0.0, True),
             
-            # CNF/DNF conversions
-            ('cnf_form', 'truth_table'): ConversionCost(120, 100, 0.0, True),
-            ('dnf_form', 'truth_table'): ConversionCost(120, 100, 0.0, True),
-            ('truth_table', 'cnf_form'): ConversionCost(200, 150, 0.0, True),
-            ('truth_table', 'dnf_form'): ConversionCost(200, 150, 0.0, True),
+            # CNF/DNF conversions (registered as 'cnf' and 'dnf')
+            ('cnf', 'truth_table'): ConversionCost(120, 100, 0.0, True),
+            ('dnf', 'truth_table'): ConversionCost(120, 100, 0.0, True),
+            ('truth_table', 'cnf'): ConversionCost(200, 150, 0.0, True),
+            ('truth_table', 'dnf'): ConversionCost(200, 150, 0.0, True),
             
             # LTF conversions (approximation-based)
             ('ltf', 'truth_table'): ConversionCost(60, 100, 0.0, True),

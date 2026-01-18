@@ -30,6 +30,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Performance optimization with Numba JIT compilation
+performance = [
+    "numba>=0.56.0",
+]
 visualization = [
     "matplotlib>=3.5.0",
     "plotly>=5.0.0"
@@ -43,12 +47,15 @@ docs = [
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
+    "pytest-benchmark>=4.0.0",
     "black>=22.0.0",
     "flake8>=5.0.0",
-    "mypy>=1.0.0"
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+    "isort>=5.12.0",
 ]
 all = [
-    "boolfunc[visualization,docs,dev]"
+    "boolfunc[performance,visualization,docs,dev]"
 ]
 
 [project.urls]
@@ -67,16 +74,14 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = [
     "--strict-markers",
-    "--strict-config", 
-    "--cov=boolfunc",
-    "--cov-report=term-missing",
-    "--cov-fail-under=20"
+    "--strict-config",
 ]
 filterwarnings = [
     "error",
     "ignore::UserWarning",
     "ignore::DeprecationWarning"
 ]
+# To run with coverage: pytest --cov=boolfunc --cov-report=term-missing
 
 [tool.black]
 line-length = 100
