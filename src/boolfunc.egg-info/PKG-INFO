@@ -26,6 +26,8 @@ Requires-Dist: numpy>=1.20.0
 Requires-Dist: scipy>=1.7.0
 Provides-Extra: performance
 Requires-Dist: numba>=0.56.0; extra == "performance"
+Provides-Extra: gpu
+Requires-Dist: pyfwht>=0.2.0; extra == "gpu"
 Provides-Extra: visualization
 Requires-Dist: matplotlib>=3.5.0; extra == "visualization"
 Requires-Dist: plotly>=5.0.0; extra == "visualization"
@@ -44,7 +46,7 @@ Requires-Dist: mypy>=1.0.0; extra == "dev"
 Requires-Dist: pre-commit>=3.0.0; extra == "dev"
 Requires-Dist: isort>=5.12.0; extra == "dev"
 Provides-Extra: all
-Requires-Dist: boolfunc[dev,docs,performance,visualization]; extra == "all"
+Requires-Dist: boolfunc[dev,docs,gpu,performance,visualization]; extra == "all"
 Dynamic: license-file
 
 <p align="center">

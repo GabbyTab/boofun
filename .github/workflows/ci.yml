@@ -82,46 +82,38 @@ jobs:
 
     - name: Run benchmarks
       run: |
-        python -c "
-import boolfunc as bf
-import time
+        python << 'EOF'
+        import boolfunc as bf
+        import time
+        from boolfunc.analysis import SpectralAnalyzer
+        from boolfunc.analysis.query_complexity import QueryComplexityProfile
 
-print('=== Boolean Function Library Benchmarks ===')
-print()
+        print('=== Boolean Function Library Benchmarks ===')
+        print()
 
-for n in [6, 8, 10, 12]:
-    print(f'n={n}:')
-    
-    # Creation benchmark
-    start = time.time()
-    maj = bf.majority(n)
-    create_time = time.time() - start
-    print(f'  Create Majority: {create_time*1000:.2f}ms')
-    
-    # Fourier expansion
-    from boolfunc.analysis import SpectralAnalyzer
-    start = time.time()
-    analyzer = SpectralAnalyzer(maj)
-    fourier = analyzer.fourier_expansion()
-    fourier_time = time.time() - start
-    print(f'  Fourier expansion: {fourier_time*1000:.2f}ms')
-    
-    # Influences
-    start = time.time()
-    influences = analyzer.influences()
-    inf_time = time.time() - start
-    print(f'  Compute influences: {inf_time*1000:.2f}ms')
-    
-    # Query complexity profile
-    from boolfunc.analysis.query_complexity import QueryComplexityProfile
-    start = time.time()
-    profile = QueryComplexityProfile(maj)
-    profile.compute()
-    profile_time = time.time() - start
-    print(f'  Full BFW profile: {profile_time*1000:.2f}ms')
-    
-    print()
-"
+        for n in [6, 8, 10, 12]:
+            print(f'n={n}:')
+            
+            start = time.time()
+            maj = bf.majority(n)
+            print(f'  Create Majority: {(time.time() - start)*1000:.2f}ms')
+            
+            start = time.time()
+            analyzer = SpectralAnalyzer(maj)
+            fourier = analyzer.fourier_expansion()
+            print(f'  Fourier expansion: {(time.time() - start)*1000:.2f}ms')
+            
+            start = time.time()
+            influences = analyzer.influences()
+            print(f'  Compute influences: {(time.time() - start)*1000:.2f}ms')
+            
+            start = time.time()
+            profile = QueryComplexityProfile(maj)
+            profile.compute()
+            print(f'  Full BFW profile: {(time.time() - start)*1000:.2f}ms')
+            
+            print()
+        EOF
 
   docs:
     runs-on: ubuntu-latest

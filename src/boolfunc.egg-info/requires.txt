@@ -2,7 +2,7 @@ numpy>=1.20.0
 scipy>=1.7.0
 
 [all]
-boolfunc[dev,docs,performance,visualization]
+boolfunc[dev,docs,gpu,performance,visualization]
 
 [dev]
 pytest>=7.0.0
@@ -19,6 +19,9 @@ sphinx>=5.0.0
 sphinx-rtd-theme>=1.0.0
 myst-parser>=0.18.0
 sphinx-autodoc-typehints>=1.19.0
+
+[gpu]
+pyfwht>=0.2.0
 
 [performance]
 numba>=0.56.0
