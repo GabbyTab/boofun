@@ -161,4 +161,4 @@ examples/visualizations/
 *.ptx
 
 # Numba cache
-.numba_cache/
+.numba_cache/*.pdf
