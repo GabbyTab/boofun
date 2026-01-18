@@ -10,7 +10,7 @@
   <a href="https://pypi.org/project/boolfunc/"><img src="https://img.shields.io/pypi/v/boolfunc.svg" alt="PyPI version"></a>
   <a href="https://github.com/GabbyTab/boolfunc/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python 3.8+"></a>
   <a href="https://github.com/GabbyTab/boolfunc/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
-  <a href="#documentation"><img src="https://img.shields.io/badge/docs-sphinx-blue.svg" alt="Documentation"></a>
+  <a href="https://gabbytab.github.io/boolfunc/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="Documentation"></a>
 </p>
 
 ## Overview
