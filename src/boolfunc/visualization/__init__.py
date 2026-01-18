@@ -831,8 +831,28 @@ def _compare_influences_matplotlib(functions, figsize=(12, 6), **kwargs):
     return fig
 
 
+# Import growth visualization
+try:
+    from .growth_plots import (
+        GrowthVisualizer,
+        LTFVisualizer,
+        ComplexityVisualizer,
+        quick_growth_plot,
+    )
+    HAS_GROWTH_VIZ = True
+except ImportError:
+    HAS_GROWTH_VIZ = False
+
 # Export main classes
 __all__ = [
     'BooleanFunctionVisualizer',
-    'plot_function_comparison'
+    'plot_function_comparison',
 ]
+
+if HAS_GROWTH_VIZ:
+    __all__.extend([
+        'GrowthVisualizer',
+        'LTFVisualizer',
+        'ComplexityVisualizer',
+        'quick_growth_plot',
+    ])
