@@ -681,6 +681,54 @@ class BooleanFunction(Evaluable, Representable):
         return ones_count == len(tt) // 2
 
     # =========================================================================
+    # Query Model (for production safety)
+    # =========================================================================
+    
+    def query_model(self, max_queries: int = 10_000_000) -> "QueryModel":
+        """
+        Get the query model for this function.
+        
+        The query model helps understand computational costs and prevents
+        accidentally running exponential-time operations on huge functions.
+        
+        Args:
+            max_queries: Maximum acceptable number of function evaluations
+            
+        Returns:
+            QueryModel instance with cost estimation methods
+            
+        Example:
+            >>> f = bf.create(huge_neural_net, n=100)
+            >>> qm = f.query_model()
+            >>> qm.can_compute("is_linear")  # True - O(k) queries
+            >>> qm.can_compute("fourier")     # False - would need 2^100 queries
+        """
+        from .query_model import QueryModel
+        return QueryModel(self, max_queries)
+    
+    def access_type(self) -> "AccessType":
+        """
+        Get the access type for this function.
+        
+        Returns:
+            AccessType.EXPLICIT if we have the full truth table
+            AccessType.QUERY if we can only evaluate on demand
+            AccessType.SYMBOLIC if we have a formula
+        """
+        from .query_model import get_access_type
+        return get_access_type(self)
+    
+    def is_explicit(self) -> bool:
+        """Check if we have explicit access (full truth table)."""
+        from .query_model import AccessType, get_access_type
+        return get_access_type(self) == AccessType.EXPLICIT
+    
+    def is_query_access(self) -> bool:
+        """Check if this is a query-access function (no truth table)."""
+        from .query_model import AccessType, get_access_type
+        return get_access_type(self) == AccessType.QUERY
+
+    # =========================================================================
     # Spectral Analysis Methods (mathematician-friendly API)
     # =========================================================================
     

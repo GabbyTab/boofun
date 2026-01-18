@@ -7,6 +7,11 @@ from .representations import BooleanFunctionRepresentation
 from .adapters import LegacyAdapter
 from .errormodels import ErrorModel, PACErrorModel, ExactErrorModel, NoiseErrorModel, LinearErrorModel
 from .spaces import Space
+from .query_model import (
+    QueryModel, AccessType, get_access_type, 
+    check_query_safety, QUERY_COMPLEXITY,
+    QuerySafetyWarning, ExplicitEnumerationError
+)
 
 __all__ = [
     "BooleanFunction",
@@ -23,4 +28,12 @@ __all__ = [
     "NoiseErrorModel",
     "LinearErrorModel", 
     "Space",
+    # Query model
+    "QueryModel",
+    "AccessType",
+    "get_access_type",
+    "check_query_safety",
+    "QUERY_COMPLEXITY",
+    "QuerySafetyWarning",
+    "ExplicitEnumerationError",
 ]

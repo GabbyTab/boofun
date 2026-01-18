@@ -326,6 +326,8 @@ class PropertyTester:
         Tests if a function f: {0,1}^n → {0,1} is linear (i.e., f(x ⊕ y) = f(x) ⊕ f(y)).
         Uses randomized queries to test the linearity property.
         
+        QUERY COMPLEXITY: O(3 * num_queries) - safe for arbitrarily large n.
+        
         Args:
             num_queries: Number of random queries to perform
             epsilon: Error tolerance (function passes if error rate < epsilon)
@@ -333,23 +335,29 @@ class PropertyTester:
         Returns:
             True if function appears linear, False otherwise
         """
+        import random
+        
         if self.n_vars == 0:
             return True
             
         violations = 0
+        n = self.n_vars
+        
+        # Use Python's random for arbitrary precision integers (handles n > 63)
+        py_rng = random.Random(self.rng.randint(0, 2**31))
         
         for _ in range(num_queries):
-            # Generate random inputs x and y
-            x = self.rng.randint(0, 1 << self.n_vars)
-            y = self.rng.randint(0, 1 << self.n_vars)
+            # Generate random inputs x and y using arbitrary precision
+            x = py_rng.getrandbits(n)
+            y = py_rng.getrandbits(n)
             
             # Compute x ⊕ y
             x_xor_y = x ^ y
             
             # Test linearity condition: f(x) ⊕ f(y) = f(x ⊕ y)
-            f_x = self.function.evaluate(np.array(x))
-            f_y = self.function.evaluate(np.array(y))
-            f_x_xor_y = self.function.evaluate(np.array(x_xor_y))
+            f_x = self.function.evaluate(x)
+            f_y = self.function.evaluate(y)
+            f_x_xor_y = self.function.evaluate(x_xor_y)
             
             expected = f_x ^ f_y  # XOR of outputs
             if f_x_xor_y != expected:
@@ -391,32 +399,35 @@ class PropertyTester:
         """
         Test if function is monotone (f(x) ≤ f(y) whenever x ≤ y coordinate-wise).
         
+        QUERY COMPLEXITY: O(2 * num_queries) - safe for arbitrarily large n.
+        
         Args:
             num_queries: Number of random pairs to test
             
         Returns:
             True if function appears monotone, False otherwise
         """
+        import random
+        
         violations = 0
+        n = self.n_vars
+        
+        # Use Python's random for arbitrary precision
+        py_rng = random.Random(self.rng.randint(0, 2**31))
         
         for _ in range(num_queries):
-            # Generate random x
-            x = self.rng.randint(0, 1 << self.n_vars)
+            # Generate random x using arbitrary precision
+            x = py_rng.getrandbits(n)
             
             # Generate y ≥ x by flipping some 0 bits to 1
-            x_bits = [(x >> i) & 1 for i in range(self.n_vars)]
-            y_bits = x_bits.copy()
-            
-            # Randomly flip some 0 bits to 1
-            for i in range(self.n_vars):
-                if x_bits[i] == 0 and self.rng.random() < 0.3:
-                    y_bits[i] = 1
-            
-            y = sum(y_bits[i] << i for i in range(self.n_vars))
+            y = x
+            for i in range(n):
+                if ((x >> i) & 1) == 0 and py_rng.random() < 0.3:
+                    y |= (1 << i)
             
             # Check monotonicity: f(x) ≤ f(y)
-            f_x = self.function.evaluate(np.array(x))
-            f_y = self.function.evaluate(np.array(y))
+            f_x = self.function.evaluate(x)
+            f_y = self.function.evaluate(y)
             
             if f_x > f_y:  # Violation of monotonicity
                 violations += 1
@@ -428,28 +439,38 @@ class PropertyTester:
         """
         Test if function is symmetric (invariant under permutations of variables).
         
+        QUERY COMPLEXITY: O(2 * num_queries) - safe for arbitrarily large n.
+        
         Args:
             num_queries: Number of random permutations to test
             
         Returns:
             True if function appears symmetric, False otherwise
         """
+        import random
+        
+        n = self.n_vars
+        
+        # Use Python's random for arbitrary precision
+        py_rng = random.Random(self.rng.randint(0, 2**31))
+        
         for _ in range(num_queries):
-            # Generate random input
-            x = self.rng.randint(0, 1 << self.n_vars)
-            x_bits = [(x >> i) & 1 for i in range(self.n_vars)]
+            # Generate random input using arbitrary precision
+            x = py_rng.getrandbits(n)
             
             # Generate random permutation
-            perm = list(range(self.n_vars))
-            self.rng.shuffle(perm)
+            perm = list(range(n))
+            py_rng.shuffle(perm)
             
-            # Apply permutation
-            y_bits = [x_bits[perm[i]] for i in range(self.n_vars)]
-            y = sum(y_bits[i] << i for i in range(self.n_vars))
+            # Apply permutation efficiently
+            y = 0
+            for i in range(n):
+                if (x >> perm[i]) & 1:
+                    y |= (1 << i)
             
             # Check if f(x) = f(permuted(x))
-            f_x = self.function.evaluate(np.array(x))
-            f_y = self.function.evaluate(np.array(y))
+            f_x = self.function.evaluate(x)
+            f_y = self.function.evaluate(y)
             
             if f_x != f_y:
                 return False
