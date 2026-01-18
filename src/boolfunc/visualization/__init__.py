@@ -1051,3 +1051,23 @@ if HAS_DECISION_TREE_VIZ:
         'plot_decision_tree',
         'decision_tree_to_dict',
     ])
+
+# Import widgets
+try:
+    from .widgets import (
+        InteractiveFunctionExplorer,
+        GrowthExplorer,
+        PropertyDashboard,
+        create_function_explorer,
+        create_growth_explorer,
+        HAS_WIDGETS,
+    )
+    __all__.extend([
+        'InteractiveFunctionExplorer',
+        'GrowthExplorer',
+        'PropertyDashboard',
+        'create_function_explorer',
+        'create_growth_explorer',
+    ])
+except ImportError:
+    HAS_WIDGETS = False
