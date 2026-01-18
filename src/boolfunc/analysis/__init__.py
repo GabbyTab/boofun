@@ -521,7 +521,7 @@ class PropertyTester:
 
 
 # Export main classes
-from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2
+from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence
 
 __all__ = [
     "SpectralAnalyzer",
@@ -532,4 +532,5 @@ __all__ = [
     "symmetry",
     "complexity",
     "gf2",
+    "equivalence",
 ]
