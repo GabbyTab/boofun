@@ -27,6 +27,7 @@ from .core.adapters import (
     LegacyAdapter, CallableAdapter, SymPyAdapter, NumPyAdapter,
     adapt_legacy_function, adapt_callable, adapt_sympy_expr, adapt_numpy_function
 )
+from .core.legacy_adapter import from_legacy, to_legacy, LegacyWrapper
 from .analysis import SpectralAnalyzer, PropertyTester
 from .analysis import sensitivity as analysis_sensitivity
 from .analysis import block_sensitivity as analysis_block_sensitivity
@@ -81,6 +82,9 @@ __all__ = [
     "adapt_callable",
     "adapt_sympy_expr", 
     "adapt_numpy_function",
+    "from_legacy",
+    "to_legacy",
+    "LegacyWrapper",
     
     # Core utilities
     "Space",
