@@ -66,7 +66,7 @@ BoolFunc is a comprehensive Python library for the analysis and manipulation of 
 ### Multiple Representations
 - **Truth Tables**: Standard binary representation for direct evaluation
 - **Algebraic Normal Form (ANF)**: Polynomial representation over GF(2) 
-- **Fourier Expansion**: Spectral representation for harmonic analysis
+- **Fourier Expansion**: Spectral representation 
 - **Binary Decision Diagrams (BDDs)**: Compressed graph-based representation
 - **Circuit Representation**: Gate-based computational model
 - **CNF/DNF Forms**: Conjunctive and disjunctive normal forms
@@ -161,25 +161,95 @@ BoolFunc operates on Boolean functions f: {0,1}ⁿ → {0,1}, providing tools fo
 
 ### Generating Documentation
 
-BoolFunc uses Sphinx for documentation generation. To build the documentation locally:
+BoolFunc uses Sphinx for comprehensive documentation generation with automatic API reference creation:
+
+#### Quick Documentation Setup
 
 ```bash
 # Install documentation dependencies
 pip install -e ".[docs]"
 
-# Generate documentation
+# Generate HTML documentation
 cd docs/
 make html
 
-# Open documentation
+# Open in browser
 open _build/html/index.html  # macOS
-# or
 firefox _build/html/index.html  # Linux
 ```
 
+#### Documentation Components
+
+The documentation system includes:
+
+- **API Reference**: Auto-generated from docstrings using Sphinx autodoc
+- **Mathematical Notation**: LaTeX math rendering with MathJax
+- **Code Examples**: Syntax-highlighted Python code blocks
+- **Architecture Diagrams**: Visual module interaction diagrams
+- **Theory Sections**: Mathematical foundations and algorithmic details
+
+#### Available Documentation Formats
+
+```bash
+# HTML documentation (recommended)
+make html
+
+# PDF documentation (requires LaTeX)
+make latexpdf
+
+# EPUB documentation
+make epub
+
+# Clean build files
+make clean
+```
+
+#### Customizing Documentation
+
+The documentation configuration is in `docs/conf.py`. Key settings:
+
+- **Theme**: `sphinx_rtd_theme` for professional appearance
+- **Extensions**: Autodoc, Napoleon, MathJax for comprehensive documentation
+- **API Generation**: Automatic module documentation with autosummary
+
 ### API Reference
 
-The complete API documentation is available at: [https://boolfunc.readthedocs.io](https://boolfunc.readthedocs.io)
+The complete API documentation includes:
+
+- **Core Classes**: BooleanFunction, SpectralAnalyzer, PropertyTester
+- **Representations**: All 12+ representation types with mathematical descriptions
+- **Analysis Tools**: Fourier analysis, influence computation, property testing
+- **Advanced Features**: Conversion graph, batch processing, GPU acceleration
+- **Examples**: Comprehensive usage examples with mathematical context
+
+#### Documentation Structure
+
+```
+docs/
+├── _build/html/          # Generated HTML documentation
+├── conf.py               # Sphinx configuration
+├── index.rst            # Main documentation index
+├── quickstart.rst       # Quick start guide
+├── architecture_diagram.png  # Module interaction diagram
+└── Makefile             # Documentation build commands
+```
+
+#### Regenerating Documentation
+
+After making changes to docstrings or adding new modules:
+
+```bash
+# Clean previous build
+cd docs && make clean
+
+# Regenerate with latest changes
+make html
+
+# View updated documentation
+open _build/html/index.html
+```
+
+Online documentation: [https://boolfunc.readthedocs.io](https://boolfunc.readthedocs.io)
 
 ---
 
@@ -543,13 +613,7 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 
 # 🙏 Acknowledgments
 
-BoolFunc builds upon decades of research in Boolean function analysis.  
-We acknowledge the foundational work of researchers in:
-
-- Harmonic analysis on Boolean cubes
-- Property testing theory
-- Computational complexity theory
-- Modern cryptanalysis techniques
+We would like to acknowledge the material learned in CS 294-92: Analysis of Boolean Functions (Spring 2025), which provided the theoretical foundation for this project.
 
 ---
 

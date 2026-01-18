@@ -285,8 +285,12 @@ class BooleanFunction(Evaluable, Representable):
                 inputs = np.array([inputs])
             result = self._evaluate_deterministic(inputs, rep_type=rep_type)
             # Return scalar if input was scalar
-            if is_scalar_input and len(result) == 1:
-                result = result[0]
+            if is_scalar_input:
+                # Handle case where result is already a scalar
+                if isinstance(result, (bool, np.bool_)):
+                    pass  # Already scalar
+                elif hasattr(result, '__len__') and len(result) == 1:
+                    result = result[0]
         else:
             raise TypeError(f"Unsupported input type: {type(inputs)}")
         
@@ -460,3 +464,218 @@ class BooleanFunction(Evaluable, Representable):
         """
         self.get_representation(representation_type)
         return self
+
+    # =========================================================================
+    # Restriction Operations (ported from legacy BooleanFunc)
+    # =========================================================================
+    
+    def fix(self, var, val):
+        """
+        Fix variable(s) to specific value(s), returning a new function on fewer variables.
+        
+        This is a fundamental operation for Boolean function analysis, used in:
+        - Decision tree computation
+        - Certificate analysis
+        - Influence computation via derivatives
+        
+        Args:
+            var: Variable index (int) or list of variable indices
+            val: Value (0 or 1) or list of values to fix variables to
+            
+        Returns:
+            New BooleanFunction with fixed variables removed
+            
+        Example:
+            >>> f = bf.create([0, 1, 1, 0])  # XOR on 2 vars
+            >>> g = f.fix(0, 1)  # Fix x_0 = 1, get function on x_1 only
+        """
+        if isinstance(var, (list, tuple)):
+            return self._fix_multi(var, val)
+        else:
+            return self._fix_single(var, val)
+    
+    def _fix_single(self, var: int, val: int) -> "BooleanFunction":
+        """
+        Fix a single variable to a specific value.
+        
+        Args:
+            var: Variable index (0-indexed from MSB)
+            val: Value to fix (0 or 1)
+            
+        Returns:
+            New BooleanFunction with one fewer variable
+        """
+        if val not in (0, 1):
+            raise ValueError(f"Value must be 0 or 1, got {val}")
+        if var < 0 or var >= self.n_vars:
+            raise ValueError(f"Variable index {var} out of range [0, {self.n_vars-1}]")
+        
+        n = self.n_vars
+        new_n = n - 1
+        
+        if new_n == 0:
+            # Special case: fixing last variable gives constant function
+            truth_table = self.get_representation("truth_table")
+            result_val = bool(truth_table[val])
+            new_tt = np.array([result_val], dtype=bool)
+        else:
+            # Build new truth table by selecting entries where var has value val
+            old_tt = self.get_representation("truth_table")
+            new_size = 1 << new_n
+            new_tt = np.zeros(new_size, dtype=bool)
+            
+            for i in range(new_size):
+                # Insert the fixed bit at position var
+                # Bits to the left of var stay in place
+                # Bits at and to the right of var shift right by 1
+                left_mask = ((1 << (n - 1 - var)) - 1) << (var + 1)
+                right_mask = (1 << var) - 1
+                
+                left_bits = (i << 1) & left_mask
+                right_bits = i & right_mask
+                fixed_bit = val << var
+                
+                old_idx = left_bits | fixed_bit | right_bits
+                new_tt[i] = old_tt[old_idx]
+        
+        return BooleanFunctionFactory.from_truth_table(
+            type(self), new_tt, n=new_n
+        )
+    
+    def _fix_multi(self, vars: list, vals: list) -> "BooleanFunction":
+        """
+        Fix multiple variables to specific values.
+        
+        Args:
+            vars: List of variable indices
+            vals: List of values (0 or 1) to fix each variable to
+            
+        Returns:
+            New BooleanFunction with len(vars) fewer variables
+        """
+        if len(vars) != len(vals):
+            raise ValueError("vars and vals must have same length")
+        
+        # Sort by variable index descending to fix from right to left
+        # This ensures indices stay valid as we remove variables
+        pairs = sorted(zip(vars, vals), reverse=True)
+        
+        result = self
+        for var, val in pairs:
+            result = result._fix_single(var, val)
+        
+        return result
+    
+    def restrict(self, var: int, val: int) -> "BooleanFunction":
+        """
+        Alias for fix() - restrict a variable to a specific value.
+        
+        This terminology is often used in the literature (e.g., random restrictions).
+        """
+        return self.fix(var, val)
+    
+    def derivative(self, var: int) -> "BooleanFunction":
+        """
+        Compute the discrete derivative with respect to variable var.
+        
+        The derivative D_i f is defined as:
+            D_i f(x) = f(x) XOR f(x ⊕ e_i)
+        
+        where e_i is the i-th unit vector. The derivative is 1 exactly when
+        variable i is influential at input x.
+        
+        Args:
+            var: Variable index to differentiate with respect to
+            
+        Returns:
+            New BooleanFunction representing the derivative
+            
+        Note:
+            The influence of variable i equals E[D_i f] = Pr[D_i f(x) = 1]
+        """
+        if var < 0 or var >= self.n_vars:
+            raise ValueError(f"Variable index {var} out of range [0, {self.n_vars-1}]")
+        
+        n = self.n_vars
+        size = 1 << n
+        old_tt = self.get_representation("truth_table")
+        new_tt = np.zeros(size, dtype=bool)
+        
+        for x in range(size):
+            # Flip bit at position var (from MSB, so position n-1-var from LSB)
+            x_flipped = x ^ (1 << (n - 1 - var))
+            new_tt[x] = old_tt[x] ^ old_tt[x_flipped]
+        
+        return BooleanFunctionFactory.from_truth_table(
+            type(self), new_tt, n=n
+        )
+    
+    def shift(self, s: int) -> "BooleanFunction":
+        """
+        Shift the function: f_s(x) = f(x ⊕ s).
+        
+        This applies an XOR mask to all inputs, effectively translating
+        the function in the Boolean cube.
+        
+        Args:
+            s: Shift mask (integer representing the XOR offset)
+            
+        Returns:
+            New BooleanFunction with shifted inputs
+        """
+        if s < 0 or s >= (1 << self.n_vars):
+            raise ValueError(f"Shift {s} out of range [0, {(1 << self.n_vars) - 1}]")
+        
+        n = self.n_vars
+        size = 1 << n
+        old_tt = self.get_representation("truth_table")
+        new_tt = np.zeros(size, dtype=bool)
+        
+        for x in range(size):
+            new_tt[x] = old_tt[x ^ s]
+        
+        return BooleanFunctionFactory.from_truth_table(
+            type(self), new_tt, n=n
+        )
+    
+    def negation(self) -> "BooleanFunction":
+        """
+        Return the negation of this function: NOT f.
+        
+        Returns:
+            New BooleanFunction where all outputs are flipped
+        """
+        old_tt = np.asarray(self.get_representation("truth_table"), dtype=bool)
+        new_tt = ~old_tt
+        
+        return BooleanFunctionFactory.from_truth_table(
+            type(self), new_tt, n=self.n_vars
+        )
+    
+    def bias(self) -> float:
+        """
+        Compute the bias of the function: E[(-1)^f(x)] = 1 - 2*Pr[f(x)=1].
+        
+        The bias is in [-1, 1]:
+        - bias = 1 means f is constantly 0
+        - bias = -1 means f is constantly 1  
+        - bias = 0 means f is balanced
+        
+        Returns:
+            Bias value in [-1, 1]
+        """
+        tt = np.asarray(self.get_representation("truth_table"), dtype=bool)
+        ones_count = np.sum(tt)
+        total = len(tt)
+        return 1.0 - 2.0 * (ones_count / total)
+    
+    def is_balanced(self) -> bool:
+        """
+        Check if the function is balanced (equal 0s and 1s in truth table).
+        
+        Returns:
+            True if the function outputs 0 and 1 equally often
+        """
+        tt = np.asarray(self.get_representation("truth_table"), dtype=bool)
+        ones_count = np.sum(tt)
+        return ones_count == len(tt) // 2
