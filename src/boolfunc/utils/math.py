@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from itertools import combinations, product
-from math import comb
+from itertools import combinations, product, permutations
+from math import comb, factorial
 from typing import Iterator, List, Sequence, Tuple, Union
 
 import numpy as np
@@ -19,6 +19,11 @@ __all__ = [
     "tensor_product",
     "krawchouk",
     "krawchouk2",
+    "hamming_distance",
+    "hamming_weight",
+    "generate_permutations",
+    "int_to_binary_tuple",
+    "binary_tuple_to_int",
 ]
 
 
@@ -96,4 +101,45 @@ def krawchouk2(n: int, k: int, x: int) -> int:
         total += ((-2) ** j) * over(x, j) * over(n - j, k - j)
     return total
 
+
+def hamming_distance(x: int, y: int) -> int:
+    """Compute Hamming distance between two integers (number of differing bits)."""
+    return popcnt(x ^ y)
+
+
+def hamming_weight(x: int) -> int:
+    """Alias for popcnt - number of 1 bits in x."""
+    return popcnt(x)
+
+
+def generate_permutations(n: int) -> Iterator[Tuple[int, ...]]:
+    """Generate all permutations of [0, 1, ..., n-1]."""
+    return permutations(range(n))
+
+
+def int_to_binary_tuple(x: int, n: int) -> Tuple[int, ...]:
+    """
+    Convert integer x to an n-bit binary tuple (LSB first).
+    
+    Args:
+        x: Integer to convert
+        n: Number of bits
+        
+    Returns:
+        Tuple of n bits, e.g., (0, 1, 1) for x=6 with n=3
+    """
+    return tuple((x >> i) & 1 for i in range(n))
+
+
+def binary_tuple_to_int(bits: Sequence[int]) -> int:
+    """
+    Convert binary tuple (LSB first) to integer.
+    
+    Args:
+        bits: Sequence of bits (0 or 1)
+        
+    Returns:
+        Integer value
+    """
+    return sum(b << i for i, b in enumerate(bits))
 
