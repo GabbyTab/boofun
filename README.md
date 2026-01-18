@@ -65,34 +65,61 @@ pip install boolfunc
 
 ```python
 import boolfunc as bf
-import numpy as np
 
-# Create Boolean functions
-xor = bf.create([0, 1, 1, 0])  # XOR function
-majority = bf.BooleanFunctionBuiltins.majority(3)  # 3-variable majority
+# Create Boolean functions (multiple ways)
+xor = bf.create([0, 1, 1, 0])       # From truth table
+maj = bf.majority(5)                 # Built-in majority
+parity = bf.parity(4)                # Built-in parity
+dictator = bf.dictator(3, i=0)       # Dictator on first variable
+tribes = bf.tribes(2, 6)             # Tribes function
 
-# Evaluate functions
-print(f"XOR(1,0) = {xor.evaluate([1, 0])}")  # True
-print(f"Majority(1,1,0) = {majority.evaluate([1, 1, 0])}")  # True
+# Evaluate
+print(f"MAJ(1,1,0,0,1) = {maj.evaluate([1,1,0,0,1])}")  # 1
 
-# Spectral analysis
-analyzer = bf.SpectralAnalyzer(xor)
-influences = analyzer.influences()
-noise_stability = analyzer.noise_stability(0.9)
+# Direct analysis methods (NEW simplified API!)
+print(f"Fourier degree: {maj.degree()}")
+print(f"Total influence: {maj.total_influence():.4f}")
+print(f"Max influence: {maj.max_influence():.4f}")
+print(f"Variance: {maj.variance():.4f}")
+print(f"Noise stability (ρ=0.9): {maj.noise_stability(0.9):.4f}")
 
-print(f"Variable influences: {influences}")
-print(f"Noise stability (ρ=0.9): {noise_stability}")
+# Quick summary of all metrics
+print(maj.analyze())
+# {'n_vars': 5, 'is_balanced': True, 'variance': 1.0, 'degree': 5, ...}
 
-# Multiple representations
-anf_data = xor.get_representation('anf')  # Algebraic Normal Form
-fourier_coeffs = xor.get_representation('fourier_expansion')  # Fourier coefficients
+# Fourier analysis
+coeffs = maj.fourier()                    # All Fourier coefficients
+heavy = maj.heavy_coefficients(tau=0.3)   # Coefficients above threshold
+weights = maj.spectral_weight_by_degree() # Weight at each degree
 
 # Property testing
-tester = bf.PropertyTester(xor)
-is_linear = tester.test_linearity()
-is_monotone = tester.test_monotonicity()
+print(f"Is linear: {maj.is_linear()}")
+print(f"Is monotone: {maj.is_monotone()}")
+print(f"Is balanced: {maj.is_balanced()}")
+print(f"Is 2-junta: {maj.is_junta(2)}")
+```
 
-print(f"Linear: {is_linear}, Monotone: {is_monotone}")
+### Advanced Features
+
+```python
+# Linear Threshold Functions (LTFs)
+ltf = bf.weighted_majority(5, weights=[3, 2, 2, 1, 1])
+from boolfunc.analysis.ltf_analysis import analyze_ltf, is_ltf
+print(f"Is LTF: {is_ltf(maj)}")
+analysis = analyze_ltf(ltf)
+
+# Function Growth Tracking
+from boolfunc.families import MajorityFamily, GrowthTracker
+tracker = GrowthTracker(MajorityFamily())
+tracker.mark("total_influence")
+tracker.mark("max_influence")
+tracker.observe([3, 5, 7, 9, 11, 13])
+tracker.plot("total_influence", show_theory=True)
+
+# Global Hypercontractivity (p-biased analysis)
+from boolfunc.analysis.global_hypercontractivity import GlobalHypercontractivityAnalyzer
+analyzer = GlobalHypercontractivityAnalyzer(maj, p=0.3)
+print(analyzer.summary())
 ```
 
 ## Mathematical Foundation
@@ -104,6 +131,8 @@ BoolFunc operates on Boolean functions f: {0,1}ⁿ → {0,1}, providing tools fo
 - **Noise Stability**: NS_ρ(f) = E[f(x)f(N_ρ(x))] for noise operator N_ρ
 - **Complexity Measures**: Certificate complexity, sensitivity, block sensitivity
 - **Learning Theory**: PAC learning with membership and equivalence queries
+- **p-Biased Analysis**: Generalized Fourier analysis for biased input distributions
+- **Global Hypercontractivity**: Inverse Cauchy-Schwarz with noise
 
 ## Applications
 
@@ -211,18 +240,35 @@ Online documentation: [https://boolfunc.readthedocs.io](https://boolfunc.readthe
 
 ## 📓 Educational Notebooks
 
-The `notebooks/` directory contains Jupyter notebooks aligned with CS 294-92: Analysis of Boolean Functions:
+The `notebooks/` directory contains 16 Jupyter notebooks aligned with CS 294-92: Analysis of Boolean Functions (O'Donnell book):
 
-| Notebook | Topic |
-|----------|-------|
+### Homework Notebooks
+| Notebook | Topics |
+|----------|--------|
 | `hw1_fourier_expansion.ipynb` | Fourier basics, Parseval, Plancherel |
-| `hw2_ltf_decision_trees.ipynb` | LTFs, decision trees, influences |
-| `hw3_dnf_restrictions.ipynb` | DNFs, random restrictions, AC⁰ |
-| `hw4_hypercontractivity.ipynb` | KKL, Bonami's Lemma, noise stability |
-| `lecture1_fourier_expansion.ipynb` | Walsh-Hadamard transform |
-| `lecture2_linearity_testing.ipynb` | BLR test, convolution |
-| `lecture6_spectral_concentration.ipynb` | Low-degree learning |
-| `global_hypercontractivity.ipynb` | Keevash et al. (2019) |
+| `hw2_ltf_decision_trees.ipynb` | LTFs, decision trees, Banzhaf power |
+| `hw3_dnf_restrictions.ipynb` | DNFs, random restrictions, Switching Lemma |
+| `hw4_hypercontractivity.ipynb` | KKL Theorem, Bonami's Lemma, noise stability |
+
+### Lecture Notebooks (Complete!)
+| Lecture | Topic |
+|---------|-------|
+| 1 | Fourier Expansion, Orthogonality |
+| 2 | BLR Linearity Testing, Convolution |
+| 3 | Social Choice, Influences |
+| 4 | Poincaré Inequality, KKL preview |
+| 5 | Noise Stability, Arrow's Theorem |
+| 6 | Spectral Concentration, Learning |
+| 7 | Goldreich-Levin Algorithm |
+| 8 | Learning Juntas |
+| 9 | DNFs, Random Restrictions |
+| 10 | Fourier Concentration of DNFs |
+| 11 | Invariance Principle, Gaussian Analysis |
+
+### Research Paper Notebooks
+| Paper | Topic |
+|-------|-------|
+| `global_hypercontractivity.ipynb` | Keevash et al. p-biased hypercontractivity |
 | `asymptotic_visualization.ipynb` | Growth tracking & visualization |
 
 ```bash

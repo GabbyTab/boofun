@@ -51,9 +51,15 @@ This document tracks planned features, improvements, and known gaps in the boolf
 
 ## 📖 Documentation
 
+### Critical - Library Docs Update
+The library has evolved significantly. Need comprehensive update:
+- [ ] **Update README** with new features (simplified API, LTFs, growth tracking, global hypercontractivity)
+- [ ] **Update docstrings** to show new direct methods (`f.influences()` not `SpectralAnalyzer(f).influences()`)
+- [ ] **Update quickstart guide** with modern API examples
+- [ ] **Simplify existing notebooks** to use direct API (43+ uses of SpectralAnalyzer to update)
+
 ### High Priority
-- [ ] **Host documentation online** (ReadTheDocs or GitHub Pages)
-- [ ] Update quickstart guide with new features (LTFs, growth tracking, global hypercontractivity)
+- [x] **Host documentation online** ✅ GitHub Pages configured in CI
 - [ ] Add API reference for new modules:
   - [ ] `global_hypercontractivity.py`
   - [ ] `families/` package
@@ -282,13 +288,16 @@ Based on creating the educational notebooks, these API improvements would help:
 1. ~~Register DNF/CNF strategies properly~~ ✅ DONE
 2. ~~Add property-based tests~~ ✅ DONE (21 tests with Hypothesis)
 3. ~~Fix dictator argument order API~~ ✅ DONE (now `dictator(n, i=0)`)
-4. Host documentation online
+4. ~~Host documentation online~~ ✅ DONE (GitHub Pages in CI)
+5. ~~Create lecture notebooks 3-11~~ ✅ DONE (all 11 lectures complete)
+6. **Update docs/README for new simplified API** ← IN PROGRESS
 
 ### P1 - High (This Month)
-1. Create remaining lecture notebooks (3, 4, 5, 7, 8, 9, 10, 11)
-2. Add Jupyter widgets for interactivity
-3. Enable Numba in default install
-4. Publish to PyPI
+1. ~~Create remaining lecture notebooks~~ ✅ ALL DONE
+2. **Publish to PyPI** ← READY (package builds, needs token)
+3. Add Jupyter widgets for interactivity
+4. Enable Numba in default install
+5. Update notebooks to use direct API
 
 ### P2 - Medium (This Quarter)
 1. 3D hypercube visualization
