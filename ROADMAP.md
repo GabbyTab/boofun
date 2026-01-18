@@ -21,15 +21,15 @@ This document tracks planned features, improvements, and known gaps in the boolf
 |---------|-------|--------|------|
 | 1 | Fourier Expansion, Orthogonality | ✅ Done | `lecture1_fourier_expansion.ipynb` |
 | 2 | BLR Linearity Testing | ✅ Done | `lecture2_linearity_testing.ipynb` |
-| 3 | Social Choice, Influences | ❌ TODO | - |
-| 4 | Influences, Effects | ❌ TODO | - |
-| 5 | Isoperimetric, Noise Stability, Arrow's | ❌ TODO | - |
+| 3 | Social Choice, Influences | ✅ Done | `lecture3_social_choice_influences.ipynb` |
+| 4 | Influences, Effects | ✅ Done | `lecture4_influences_effects.ipynb` |
+| 5 | Isoperimetric, Noise Stability, Arrow's | ✅ Done | `lecture5_noise_stability.ipynb` |
 | 6 | Spectral Concentration & Learning | ✅ Done | `lecture6_spectral_concentration.ipynb` |
-| 7 | Goldreich-Levin Algorithm | ❌ TODO | - |
-| 8 | Learning Juntas | ❌ TODO | - |
-| 9 | DNFs, Random Restrictions | ❌ TODO | - |
-| 10 | Fourier Concentration of DNFs | ❌ TODO | - |
-| 11 | Gaussian Analysis & Invariance | ❌ TODO | - |
+| 7 | Goldreich-Levin Algorithm | ✅ Done | `lecture7_goldreich_levin.ipynb` |
+| 8 | Learning Juntas | ✅ Done | `lecture8_learning_juntas.ipynb` |
+| 9 | DNFs, Random Restrictions | ✅ Done | `lecture9_dnf_restrictions.ipynb` |
+| 10 | Fourier Concentration of DNFs | ✅ Done | `lecture10_fourier_concentration.ipynb` |
+| 11 | Gaussian Analysis & Invariance | ✅ Done | `lecture11_invariance_principle.ipynb` |
 
 ### Paper Notebooks
 | Paper | Status | Notes |
