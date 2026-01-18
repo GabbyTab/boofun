@@ -145,11 +145,12 @@ Based on creating the educational notebooks, these API improvements would help:
 
 - [x] **Add `bf.from_weights()` for LTFs** ✅ DONE
 - [x] **Add `bf.random(n, balanced=True)`** ✅ DONE
-- [ ] **Add `f.restriction(fixed_vars)`** - More intuitive name than `fix`
-- [ ] **Add `f.cofactor(var, val)`** - Shannon cofactor notation
+- [x] **Add `f.restriction(fixed_vars)`** ✅ DONE
+- [x] **Add `f.cofactor(var, val)`** ✅ DONE
 - [x] **Improve dictator signature**: `bf.dictator(n, i=0)` ✅ DONE
-- [ ] **Add `f.hamming_weight()`** - Number of 1s in truth table
-- [ ] **Add `f.support()`** - Inputs where f(x) = 1
+- [x] **Add `f.hamming_weight()`** ✅ DONE
+- [x] **Add `f.support()`** ✅ DONE
+- [x] **Add `f.sensitivity()`** ✅ DONE (bonus!)
 
 ### General API
 - [ ] Add fluent/chainable API: `f.restrict({0: 1}).fourier().influences()`
