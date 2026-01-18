@@ -166,6 +166,61 @@ def OR(n: int) -> BooleanFunction:
     return create(truth_table)
 
 
+def random(n: int, balanced: bool = False, seed: int = None) -> BooleanFunction:
+    """
+    Create a random Boolean function on n variables.
+    
+    Args:
+        n: Number of variables
+        balanced: If True, output has equal 0s and 1s (default False)
+        seed: Random seed for reproducibility
+        
+    Returns:
+        Random Boolean function
+        
+    Example:
+        >>> f = bf.random(4)                    # Random 4-variable function
+        >>> g = bf.random(4, balanced=True)     # Random balanced function
+        >>> h = bf.random(4, seed=42)           # Reproducible random function
+    """
+    import numpy as np
+    if seed is not None:
+        np.random.seed(seed)
+    
+    size = 2**n
+    if balanced:
+        # Balanced: exactly half 0s and half 1s
+        truth_table = np.zeros(size, dtype=int)
+        ones_positions = np.random.choice(size, size//2, replace=False)
+        truth_table[ones_positions] = 1
+    else:
+        truth_table = np.random.randint(0, 2, size)
+    
+    return create(truth_table.tolist())
+
+
+def from_weights(weights, threshold_value=None) -> BooleanFunction:
+    """
+    Create LTF (Linear Threshold Function) from weight vector.
+    
+    Alias for weighted_majority() with more intuitive name for LTF creation.
+    
+    f(x) = 1 iff w₁x₁ + w₂x₂ + ... + wₙxₙ ≥ θ
+    
+    Args:
+        weights: List of integer/float weights for each variable
+        threshold_value: Threshold (default: sum(weights)/2)
+        
+    Returns:
+        LTF (Linear Threshold Function)
+        
+    Example:
+        >>> # Electoral college with 3 states: CA(55), TX(38), NY(29)
+        >>> electoral = bf.from_weights([55, 38, 29], threshold=61)
+    """
+    return weighted_majority(weights, threshold_value)
+
+
 def threshold(n: int, k: int) -> BooleanFunction:
     """
     Create k-threshold function on n variables.
@@ -251,6 +306,8 @@ __all__ = [
     "OR",
     "threshold",
     "weighted_majority",
+    "random",           # Random function generator
+    "from_weights",     # Alias for weighted_majority
     
     # Analysis (use directly or via function methods)
     "SpectralAnalyzer", 
