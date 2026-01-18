@@ -665,7 +665,7 @@ class PropertyTester:
 
 
 # Export main classes
-from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence, p_biased, learning, fourier, restrictions, hypercontractivity, query_complexity, basic_properties
+from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence, p_biased, learning, fourier, restrictions, hypercontractivity, query_complexity, basic_properties, gaussian, invariance
 
 __all__ = [
     "SpectralAnalyzer",
@@ -685,4 +685,7 @@ __all__ = [
     # BFW-style analysis (Scott Aaronson's Boolean Function Wizard)
     "query_complexity",
     "basic_properties",
+    # O'Donnell Chapters 10-11: Gaussian analysis and Invariance Principle
+    "gaussian",
+    "invariance",
 ]

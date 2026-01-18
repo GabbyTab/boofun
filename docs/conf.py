@@ -26,8 +26,14 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
-    'myst_parser',
 ]
+
+# Add myst_parser if available (for Markdown support)
+try:
+    import myst_parser
+    extensions.append('myst_parser')
+except ImportError:
+    pass
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -74,5 +80,11 @@ todo_include_todos = True
 # Source file suffixes
 source_suffix = {
     '.rst': None,
-    '.md': 'myst_parser',
 }
+
+# Add Markdown support if myst_parser is available
+try:
+    import myst_parser
+    source_suffix['.md'] = 'myst_parser'
+except ImportError:
+    pass

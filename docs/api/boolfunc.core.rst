@@ -18,6 +18,8 @@ boolfunc.core
    errormodels
    factory
    gpu_acceleration
+   legacy_adapter
    numba_optimizations
+   query_model
    representations
    spaces

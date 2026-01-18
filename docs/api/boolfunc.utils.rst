@@ -11,3 +11,6 @@ boolfunc.utils
    :recursive:
 
    exceptions
+   finite_fields
+   math
+   number_theory

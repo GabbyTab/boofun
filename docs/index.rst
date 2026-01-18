@@ -70,6 +70,9 @@ BoolFunc operates on Boolean functions :math:`f: \{0,1\}^n \to \{0,1\}`, providi
 * **Influence Theory**: Variable influence :math:`I_i(f) = \Pr[f(x) \neq f(x \oplus e_i)]`
 * **Noise Stability**: :math:`NS_\rho(f) = \mathbb{E}[f(x)f(N_\rho(x))]` for noise operator :math:`N_\rho`
 * **Complexity Measures**: Certificate complexity, sensitivity, block sensitivity
+* **Query Complexity**: D(f), R0(f), R2(f), Q2(f) (Boolean Function Wizard style)
+* **Gaussian Analysis**: Hermite polynomials, Berry-Esseen bounds (O'Donnell Ch. 10)
+* **Invariance Principles**: Majority is Stablest theorem (O'Donnell Ch. 11)
 * **Learning Theory**: PAC learning with membership and equivalence queries
 
 Applications
