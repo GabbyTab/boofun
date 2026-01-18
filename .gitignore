@@ -162,3 +162,6 @@ examples/visualizations/
 
 # Numba cache
 .numba_cache/*.pdf
+
+# Course materials (copyrighted class content)
+course_materials/
