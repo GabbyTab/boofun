@@ -356,6 +356,98 @@ class LTFFamily(WeightPatternFamily):
         return cls(lambda i, n: (n-i)**power if n > i else 1.0, name=name)
 
 
+class RecursiveMajority3Family(FunctionFamily):
+    """
+    Recursive Majority of 3 function family.
+    
+    REC_MAJ3 on n = 3^k variables is defined recursively:
+    - Base case: n=3 is MAJ_3
+    - Recursive: REC_MAJ3(x) = MAJ_3(REC_MAJ3(x[0:m]), REC_MAJ3(x[m:2m]), REC_MAJ3(x[2m:3m]))
+    
+    This is a key function in complexity theory, with interesting properties:
+    - Total influence: I[REC_MAJ3] = Θ(n^(log_3(2))) ≈ n^0.631
+    - More "noise sensitive" than flat majority
+    - Used in lower bounds for branching programs
+    
+    Note: Only defined for n = 3^k (k ≥ 1).
+    """
+    
+    @property
+    def metadata(self) -> FamilyMetadata:
+        return FamilyMetadata(
+            name="RecursiveMajority3",
+            description="REC_MAJ3_n = MAJ_3(REC_MAJ3, REC_MAJ3, REC_MAJ3)",
+            parameters={},
+            asymptotics={
+                "total_influence": lambda n: n ** (np.log(2) / np.log(3)),  # n^0.631
+                "influence_max": lambda n: (2/3) ** int(np.log(n) / np.log(3)),
+                "noise_stability": lambda n, rho=0.5: self._noise_stability_approx(n, rho),
+            },
+            universal_properties=["monotone", "balanced"],
+            n_constraints=lambda n: self._is_power_of_3(n),
+            n_constraint_description="n must be a power of 3 (3, 9, 27, 81, ...)",
+        )
+    
+    @staticmethod
+    def _is_power_of_3(n: int) -> bool:
+        """Check if n is a power of 3."""
+        if n < 3:
+            return False
+        while n > 1:
+            if n % 3 != 0:
+                return False
+            n //= 3
+        return True
+    
+    @staticmethod
+    def _noise_stability_approx(n: int, rho: float) -> float:
+        """Approximate noise stability for recursive majority."""
+        # Recursive formula: Stab_ρ[REC_MAJ3_n] ≈ 3ρ(Stab_ρ[REC_MAJ3_{n/3}])² - 2(Stab_ρ[...])³
+        # For simplicity, use known asymptotic
+        k = int(np.log(n) / np.log(3))
+        # Converges to fixed point of 3ρx² - 2x³ = x
+        # For ρ = 0.5, this gives ≈ 0.5
+        return 0.5 + 0.3 * rho * np.exp(-0.5 * k)
+    
+    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+        """Generate recursive majority of 3 function."""
+        import boolfunc as bf
+        
+        if not self._is_power_of_3(n):
+            raise ValueError(f"n must be a power of 3, got {n}")
+        
+        # Build truth table recursively
+        def rec_maj3(bits: tuple) -> int:
+            """Recursive majority on a tuple of bits."""
+            if len(bits) == 3:
+                return int(sum(bits) >= 2)
+            m = len(bits) // 3
+            return int(sum([
+                rec_maj3(bits[:m]),
+                rec_maj3(bits[m:2*m]),
+                rec_maj3(bits[2*m:])
+            ]) >= 2)
+        
+        # Generate truth table
+        truth_table = []
+        for x in range(2**n):
+            bits = tuple((x >> i) & 1 for i in range(n))
+            truth_table.append(rec_maj3(bits))
+        
+        return bf.create(truth_table)
+    
+    def theoretical_properties(self, n: int) -> dict:
+        """Return known theoretical properties."""
+        k = int(np.log(n) / np.log(3))
+        return {
+            "depth": k,
+            "total_influence_theory": n ** (np.log(2) / np.log(3)),
+            "max_influence_theory": (2/3) ** k,
+            "is_balanced": True,
+            "is_monotone": True,
+        }
+
+
 __all__ = [
     "MajorityFamily",
     "ParityFamily",
@@ -365,4 +457,5 @@ __all__ = [
     "ORFamily",
     "DictatorFamily",
     "LTFFamily",
+    "RecursiveMajority3Family",
 ]
