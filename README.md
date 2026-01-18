@@ -209,6 +209,30 @@ Online documentation: [https://boolfunc.readthedocs.io](https://boolfunc.readthe
 
 ---
 
+## 📓 Educational Notebooks
+
+The `notebooks/` directory contains Jupyter notebooks aligned with CS 294-92: Analysis of Boolean Functions:
+
+| Notebook | Topic |
+|----------|-------|
+| `hw1_fourier_expansion.ipynb` | Fourier basics, Parseval, Plancherel |
+| `hw2_ltf_decision_trees.ipynb` | LTFs, decision trees, influences |
+| `hw3_dnf_restrictions.ipynb` | DNFs, random restrictions, AC⁰ |
+| `hw4_hypercontractivity.ipynb` | KKL, Bonami's Lemma, noise stability |
+| `lecture1_fourier_expansion.ipynb` | Walsh-Hadamard transform |
+| `lecture2_linearity_testing.ipynb` | BLR test, convolution |
+| `lecture6_spectral_concentration.ipynb` | Low-degree learning |
+| `global_hypercontractivity.ipynb` | Keevash et al. (2019) |
+| `asymptotic_visualization.ipynb` | Growth tracking & visualization |
+
+```bash
+# Launch Jupyter
+cd notebooks
+jupyter notebook
+```
+
+---
+
 ## Examples
 
 The `examples/` directory contains comprehensive usage examples:
@@ -550,6 +574,8 @@ mypy src/
 - **Code Contributions:** Submit pull requests with tests and documentation
 - **Documentation:** Help improve docs and add examples
 - **Research Integration:** Share your research applications and use cases
+
+See our [ROADMAP.md](ROADMAP.md) for planned features and areas where help is needed!
 
 ---
 

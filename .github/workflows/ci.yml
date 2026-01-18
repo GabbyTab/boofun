@@ -158,8 +158,13 @@ jobs:
       run: python -m build
 
     - name: Publish to PyPI
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-      run: twine upload dist/*
-      continue-on-error: true
+      run: |
+        if [ -z "$TWINE_PASSWORD" ]; then
+          echo "::warning::PYPI_TOKEN secret not configured, skipping publish"
+          exit 0
+        fi
+        twine upload dist/*
