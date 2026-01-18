@@ -199,6 +199,17 @@ def weighted_majority(weights, threshold_value=None) -> BooleanFunction:
     return create_weighted_majority(weights, threshold_value)
 
 
+# Function families for growth analysis
+try:
+    from .families import (
+        MajorityFamily, ParityFamily, TribesFamily, ThresholdFamily,
+        ANDFamily, ORFamily, DictatorFamily, LTFFamily,
+        GrowthTracker, FunctionFamily, InductiveFamily,
+    )
+    HAS_FAMILIES = True
+except ImportError:
+    HAS_FAMILIES = False
+
 # Optional imports with graceful fallback
 try:
     from .visualization import BooleanFunctionVisualizer
@@ -301,6 +312,13 @@ __all__ = [
 ]
 
 # Add optional exports if available
+if HAS_FAMILIES:
+    __all__.extend([
+        "MajorityFamily", "ParityFamily", "TribesFamily", "ThresholdFamily",
+        "ANDFamily", "ORFamily", "DictatorFamily", "LTFFamily",
+        "GrowthTracker", "FunctionFamily", "InductiveFamily",
+    ])
+
 if HAS_VISUALIZATION:
     __all__.append("BooleanFunctionVisualizer")
 
