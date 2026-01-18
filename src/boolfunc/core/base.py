@@ -1033,3 +1033,112 @@ class BooleanFunction(Evaluable, Representable):
         from ..analysis import PropertyTester
         tester = PropertyTester(self)
         return tester.symmetry_test(num_queries=num_tests)
+    
+    # =========================================================================
+    # Additional Analysis Methods
+    # =========================================================================
+    
+    def hamming_weight(self) -> int:
+        """
+        Count number of 1s in truth table (outputs where f(x) = 1).
+        
+        Also called the "weight" or "on-set size" of the function.
+        
+        Returns:
+            Number of inputs x where f(x) = 1
+            
+        Example:
+            >>> bf.majority(3).hamming_weight()  # 4 (inputs with ≥2 ones)
+            >>> bf.AND(3).hamming_weight()       # 1 (only 111)
+        """
+        return int(sum(self.evaluate(x) for x in range(2**self.n_vars)))
+    
+    def support(self) -> list:
+        """
+        Return all inputs where f(x) = 1.
+        
+        Also called the "on-set" or "satisfying assignments".
+        
+        Returns:
+            List of input indices (as integers) where f(x) = 1
+            
+        Example:
+            >>> bf.AND(2).support()  # [3] (binary 11)
+            >>> bf.OR(2).support()   # [1, 2, 3] (01, 10, 11)
+        """
+        return [x for x in range(2**self.n_vars) if self.evaluate(x) == 1]
+    
+    def restriction(self, fixed_vars: dict) -> "BooleanFunction":
+        """
+        Create restriction of f by fixing some variables.
+        
+        Alias for fix() with more standard mathematical terminology.
+        
+        Args:
+            fixed_vars: Dict mapping variable index -> fixed value (0 or 1)
+            
+        Returns:
+            Restricted function on remaining variables
+            
+        Example:
+            >>> f = bf.majority(3)
+            >>> g = f.restriction({0: 1})  # Fix x₀=1, get 2-variable function
+        """
+        vars_list = list(fixed_vars.keys())
+        vals_list = list(fixed_vars.values())
+        if len(vars_list) == 1:
+            return self.fix(vars_list[0], vals_list[0])
+        return self.fix(vars_list, vals_list)
+    
+    def cofactor(self, var: int, val: int) -> "BooleanFunction":
+        """
+        Compute Shannon cofactor f|_{x_i=b}.
+        
+        The cofactor is the restriction of f with variable i fixed to val.
+        Shannon expansion: f = x_i · f|_{x_i=1} + (1-x_i) · f|_{x_i=0}
+        
+        Args:
+            var: Variable index to fix
+            val: Value to fix it to (0 or 1)
+            
+        Returns:
+            Cofactor function (one fewer variable)
+            
+        Example:
+            >>> f = bf.majority(3)
+            >>> f0 = f.cofactor(0, 0)  # f with x₀=0
+            >>> f1 = f.cofactor(0, 1)  # f with x₀=1
+        """
+        return self.fix(var, val)
+    
+    def sensitivity_at(self, x: int) -> int:
+        """
+        Compute sensitivity of f at input x.
+        
+        s(f, x) = |{i : f(x) ≠ f(x ⊕ eᵢ)}|
+        
+        Args:
+            x: Input (as integer)
+            
+        Returns:
+            Number of sensitive coordinates at x
+        """
+        f_x = self.evaluate(x)
+        count = 0
+        for i in range(self.n_vars):
+            neighbor = x ^ (1 << i)  # Flip bit i
+            if self.evaluate(neighbor) != f_x:
+                count += 1
+        return count
+    
+    def sensitivity(self) -> int:
+        """
+        Compute sensitivity: s(f) = max_x s(f, x).
+        
+        Maximum number of sensitive bits over all inputs.
+        Huang's theorem: s(f) ≥ √deg(f)
+        
+        Returns:
+            Maximum sensitivity
+        """
+        return max(self.sensitivity_at(x) for x in range(2**self.n_vars))
