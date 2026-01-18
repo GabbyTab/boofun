@@ -665,7 +665,7 @@ class PropertyTester:
 
 
 # Export main classes
-from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence, p_biased, learning, fourier, restrictions, hypercontractivity
+from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence, p_biased, learning, fourier, restrictions, hypercontractivity, query_complexity, basic_properties
 
 __all__ = [
     "SpectralAnalyzer",
@@ -682,4 +682,7 @@ __all__ = [
     "fourier",
     "restrictions",
     "hypercontractivity",
+    # BFW-style analysis (Scott Aaronson's Boolean Function Wizard)
+    "query_complexity",
+    "basic_properties",
 ]
