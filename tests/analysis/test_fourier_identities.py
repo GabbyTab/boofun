@@ -55,8 +55,8 @@ class TestPlancherel:
     
     def test_plancherel_orthogonal_functions(self):
         """Dictator x₀ and x₁ should have inner product 0."""
-        x0 = bf.BooleanFunctionBuiltins.dictator(0, 2)
-        x1 = bf.BooleanFunctionBuiltins.dictator(1, 2)
+        x0 = bf.BooleanFunctionBuiltins.dictator(2, 0)
+        x1 = bf.BooleanFunctionBuiltins.dictator(2, 1)
         inner = fourier.plancherel_inner_product(x0, x1)
         assert abs(inner) < 1e-10
     
@@ -79,7 +79,7 @@ class TestDegree:
     
     def test_degree_dictator(self):
         """Dictator functions have degree 1."""
-        dictator = bf.BooleanFunctionBuiltins.dictator(0, 3)
+        dictator = bf.BooleanFunctionBuiltins.dictator(3, 0)
         assert fourier.fourier_degree(dictator) == 1
     
     def test_degree_xor(self):
@@ -103,7 +103,7 @@ class TestInfluence:
     
     def test_influence_dictator(self):
         """Dictator x_i has Inf_i = 1, others 0."""
-        dictator = bf.BooleanFunctionBuiltins.dictator(0, 3)
+        dictator = bf.BooleanFunctionBuiltins.dictator(3, 0)
         analyzer = SpectralAnalyzer(dictator)
         influences = analyzer.influences()
         
@@ -134,7 +134,7 @@ class TestSpectralConcentration:
     
     def test_dictator_concentration(self):
         """Dictators have all weight at degree 1."""
-        dictator = bf.BooleanFunctionBuiltins.dictator(0, 4)
+        dictator = bf.BooleanFunctionBuiltins.dictator(4, 0)
         analyzer = SpectralAnalyzer(dictator)
         
         assert abs(analyzer.spectral_concentration(0) - 0.0) < 1e-10  # Empty set has 0

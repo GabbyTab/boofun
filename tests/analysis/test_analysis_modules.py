@@ -25,7 +25,7 @@ def test_sensitivity_profile_matches_bruteforce():
 
 
 def test_block_sensitivity_known_functions():
-    dictator = bf.BooleanFunctionBuiltins.dictator(0, 2)
+    dictator = bf.BooleanFunctionBuiltins.dictator(2, 0)
     parity = bf.BooleanFunctionBuiltins.parity(3)
 
     for x in range(1 << dictator.n_vars):

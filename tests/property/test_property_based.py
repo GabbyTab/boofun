@@ -397,7 +397,7 @@ class TestDegreeProperties:
     def test_dictator_has_degree_one(self, i):
         """Dictator has degree 1."""
         n = max(i + 1, 3)
-        dict_f = bf.dictator(i, n)
+        dict_f = bf.dictator(n, i)
         deg = dict_f.degree()
         assert deg == 1
 

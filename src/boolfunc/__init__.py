@@ -116,14 +116,19 @@ def tribes(k: int, n: int) -> BooleanFunction:
     return BooleanFunctionBuiltins.tribes(k, n)
 
 
-def dictator(i: int, n: int) -> BooleanFunction:
+def dictator(n: int, i: int = 0) -> BooleanFunction:
     """
     Create dictator function on variable i: f(x) = x_i.
     
-    Example:
-        >>> d = bf.dictator(0, 3)  # f(x) = x₀
+    Args:
+        n: Number of variables
+        i: Index of dictating variable (default 0)
+    
+    Examples:
+        >>> d = bf.dictator(5)     # 5-var dictator on x₀
+        >>> d = bf.dictator(5, 2)  # 5-var dictator on x₂
     """
-    return BooleanFunctionBuiltins.dictator(i, n)
+    return BooleanFunctionBuiltins.dictator(n, i)
 
 
 def constant(value: bool, n: int) -> BooleanFunction:

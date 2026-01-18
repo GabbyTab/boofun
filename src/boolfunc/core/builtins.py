@@ -46,24 +46,28 @@ class BooleanFunctionBuiltins:
         )
 
     @classmethod
-    def dictator(cls, i: int, n: int) -> "BooleanFunction":
+    def dictator(cls, n: int, i: int = 0) -> "BooleanFunction":
         """
         Create dictator function (output equals i-th input).
 
         The function returns the value of the i-th input variable,
-        ignoring all other inputs.
+        ignoring all other inputs: f(x) = x_i.
 
         Args:
-            i: Index of the dictating variable (0-indexed)
             n: Total number of input variables
+            i: Index of the dictating variable (0-indexed, default 0)
 
         Returns:
             BooleanFunction that outputs x_i
+            
+        Examples:
+            >>> bf.dictator(5)     # 5-var dictator on x₀
+            >>> bf.dictator(5, 2)  # 5-var dictator on x₂
         """
-        if i < 0 or i >= n:
-            raise ValueError(f"Dictator index {i} must be in range [0, {n-1}]")
         if n <= 0:
             raise ValueError("Number of variables must be positive")
+        if i < 0 or i >= n:
+            raise ValueError(f"Dictator index {i} must be in range [0, {n-1}]")
 
         from .factory import BooleanFunctionFactory
         from .base import BooleanFunction

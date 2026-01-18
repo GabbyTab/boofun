@@ -137,7 +137,7 @@ class InductiveFamily(FunctionFamily):
         class InductiveMajority(InductiveFamily):
             def base_case(self, n):
                 if n == 1:
-                    return bf.dictator(1, 0)
+                    return bf.dictator(1, 0)  # 1 variable, dictator on var 0
                 return None
             
             def step(self, f_prev, n, n_prev):

@@ -24,7 +24,7 @@ def manual_compose_truth_table(outer: bf.BooleanFunction, inner: bf.BooleanFunct
 
 def test_compose_matches_manual_xor_dictator():
     outer = bf.BooleanFunctionBuiltins.parity(2)  # XOR on two vars
-    inner = bf.BooleanFunctionBuiltins.dictator(0, 1)
+    inner = bf.BooleanFunctionBuiltins.dictator(1, 0)
 
     composed = outer.compose(inner)
     assert composed.n_vars == outer.n_vars * inner.n_vars

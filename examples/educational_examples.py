@@ -65,7 +65,7 @@ def function_complexity_analysis():
     
     functions = [
         ("Constant", bf.BooleanFunctionBuiltins.constant(True, 3)),
-        ("Dictator", bf.BooleanFunctionBuiltins.dictator(1, 3)),
+        ("Dictator", bf.BooleanFunctionBuiltins.dictator(3, 1)),
         ("Parity", bf.BooleanFunctionBuiltins.parity(3)),
         ("Majority", bf.BooleanFunctionBuiltins.majority(3)),
     ]

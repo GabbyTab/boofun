@@ -45,7 +45,7 @@ def main():
         print(f"  {bits} ({ones} ones) → {result}")
     
     # Dictator function
-    dict1 = BooleanFunctionBuiltins.dictator(1, 3)
+    dict1 = BooleanFunctionBuiltins.dictator(3, 1)
     print(f"\nDictator on variable 1: {dict1}")
     print("Dictator evaluations:")
     for i in range(8):

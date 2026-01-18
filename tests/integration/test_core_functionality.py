@@ -48,7 +48,7 @@ class TestCoreFunctionality:
         assert par.evaluate([1, 1, 1]) == True
         
         # Dictator function
-        dict_func = bf.BooleanFunctionBuiltins.dictator(1, 3)
+        dict_func = bf.BooleanFunctionBuiltins.dictator(3, 1)
         assert dict_func.evaluate([0, 0, 0]) == False
         assert dict_func.evaluate([0, 1, 0]) == True
         assert dict_func.evaluate([1, 0, 1]) == False
@@ -107,8 +107,8 @@ class TestCoreFunctionality:
     def test_function_composition(self):
         """Test Boolean function composition operations."""
         # Create simple functions
-        x1 = bf.BooleanFunctionBuiltins.dictator(0, 2)  # First variable
-        x2 = bf.BooleanFunctionBuiltins.dictator(1, 2)  # Second variable
+        x1 = bf.BooleanFunctionBuiltins.dictator(2, 0)  # First variable
+        x2 = bf.BooleanFunctionBuiltins.dictator(2, 1)  # Second variable
         
         # Test that functions can be created and evaluated individually
         assert x1.evaluate([0, 0]) == False
@@ -150,7 +150,7 @@ class TestCoreFunctionality:
             pass  # Expected for some implementations
         
         try:
-            bf.BooleanFunctionBuiltins.dictator(3, 2)  # Index out of range  
+            bf.BooleanFunctionBuiltins.dictator(2, 3)  # Index out of range  
             # If no error is raised, that's also acceptable behavior
         except (ValueError, IndexError):
             pass  # Expected for some implementations

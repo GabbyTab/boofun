@@ -111,7 +111,7 @@ class TestBuiltinFunctionComprehensive:
         n = 3
         
         for pos in range(n):
-            dict_func = bf.BooleanFunctionBuiltins.dictator(pos, n)
+            dict_func = bf.BooleanFunctionBuiltins.dictator(n, pos)
             assert dict_func.n_vars == n
             
             # Test all possible inputs
@@ -285,7 +285,7 @@ class TestPropertyTestingComprehensive:
         linear_functions = [
             bf.BooleanFunctionBuiltins.parity(2),
             bf.BooleanFunctionBuiltins.parity(3),
-            bf.BooleanFunctionBuiltins.dictator(0, 2),
+            bf.BooleanFunctionBuiltins.dictator(2, 0),
         ]
         
         for func in linear_functions:

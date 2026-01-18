@@ -175,7 +175,7 @@ def advanced_function_analysis():
     print("1. Comparing function complexity:")
     
     functions = [
-        ("Identity", bf.BooleanFunctionBuiltins.dictator(0, 1)),
+        ("Identity", bf.BooleanFunctionBuiltins.dictator(1, 0)),
         ("XOR", bf.create([0, 1, 1, 0])),
         ("Majority", bf.BooleanFunctionBuiltins.majority(3)),
         ("Parity3", bf.BooleanFunctionBuiltins.parity(3)),

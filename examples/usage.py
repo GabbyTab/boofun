@@ -44,7 +44,7 @@ def builtin_functions():
     print(f"\n   Parity function evaluations: {[par3.evaluate([(i>>j)&1 for j in range(2,-1,-1)]) for i in range(8)]}")
     
     # Dictator function
-    dict_func = bf.BooleanFunctionBuiltins.dictator(1, 3)  # Second variable
+    dict_func = bf.BooleanFunctionBuiltins.dictator(3, 1)  # Second variable
     print(f"   Dictator(x1) evaluations: {[dict_func.evaluate([(i>>j)&1 for j in range(2,-1,-1)]) for i in range(8)]}")
     
     print()
@@ -102,8 +102,8 @@ def advanced_usage():
     # Create simple functions for demonstration
     # Note: Direct composition creates more complex functions
     try:
-        x1 = bf.BooleanFunctionBuiltins.dictator(0, 2)  # First variable
-        x2 = bf.BooleanFunctionBuiltins.dictator(1, 2)  # Second variable
+        x1 = bf.BooleanFunctionBuiltins.dictator(2, 0)  # First variable
+        x2 = bf.BooleanFunctionBuiltins.dictator(2, 1)  # Second variable
         
         # Simple evaluation instead of composition to avoid complexity
         print(f"   Dictator x1: {[x1.evaluate([i//2, i%2]) for i in range(4)]}")

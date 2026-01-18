@@ -96,7 +96,7 @@ class TestGeneralizedInfluence:
     
     def test_dictator_has_high_singleton_influence(self):
         """Dictator should have very high I_{i} for the dictator variable."""
-        f = bf.dictator(0, 5)  # x_0 is the dictator
+        f = bf.dictator(5, 0)  # x_0 is the dictator
         
         inf_0 = gh.generalized_influence(f, {0})
         inf_1 = gh.generalized_influence(f, {1})
@@ -110,7 +110,7 @@ class TestAlphaGlobal:
     
     def test_dictator_not_global(self):
         """Dictator functions should NOT be global (high single-variable influence)."""
-        f = bf.dictator(0, 7)
+        f = bf.dictator(7, 0)
         is_global, details = gh.is_alpha_global(f, alpha=0.5, max_set_size=2)
         
         # Dictator should not be global for reasonable α
@@ -141,7 +141,7 @@ class TestPBiasedExpectation:
     
     def test_dictator_expectation_equals_p(self):
         """E_μp[x_i] = p for dictator function."""
-        f = bf.dictator(0, 5)
+        f = bf.dictator(5, 0)
         
         for p in [0.3, 0.5, 0.7]:
             exp = gh.p_biased_expectation(f, p, samples=5000)
@@ -171,7 +171,7 @@ class TestPBiasedInfluence:
     
     def test_dictator_influence(self):
         """Dictator's relevant variable has influence 1."""
-        f = bf.dictator(0, 5)
+        f = bf.dictator(5, 0)
         
         inf_0 = gh.p_biased_influence(f, 0, p=0.5, samples=3000)
         inf_1 = gh.p_biased_influence(f, 1, p=0.5, samples=3000)
@@ -207,7 +207,7 @@ class TestThresholdCurve:
     
     def test_dictator_linear_threshold(self):
         """Dictator has linear threshold curve: μ_p(x_i) = p."""
-        f = bf.dictator(0, 5)
+        f = bf.dictator(5, 0)
         p_range = np.array([0.2, 0.5, 0.8])
         
         curve = gh.threshold_curve(f, p_range, samples=2000)

@@ -68,7 +68,7 @@ def property_testing_showcase():
         (bf.BooleanFunctionBuiltins.constant(False, 2), "Constant False"),
         (bf.BooleanFunctionBuiltins.parity(2), "Parity (Linear)"),
         (bf.BooleanFunctionBuiltins.parity(3), "Parity 3-var"),
-        (bf.BooleanFunctionBuiltins.dictator(0, 2), "Dictator"),
+        (bf.BooleanFunctionBuiltins.dictator(2, 0), "Dictator"),
         (bf.create([0, 1, 1, 0]), "XOR"),
         (bf.create([0, 0, 0, 1]), "AND"),
         (bf.BooleanFunctionBuiltins.majority(3), "Majority"),
@@ -164,8 +164,8 @@ def mathematical_properties():
     
     # Test that XOR is its own inverse: f ⊕ f = 0
     try:
-        x1 = bf.BooleanFunctionBuiltins.dictator(0, 2)
-        x2 = bf.BooleanFunctionBuiltins.dictator(1, 2)
+        x1 = bf.BooleanFunctionBuiltins.dictator(2, 0)
+        x2 = bf.BooleanFunctionBuiltins.dictator(2, 1)
         
         print("   Testing XOR self-inverse property...")
         print("   (Note: Function composition may not be fully implemented)")
@@ -192,7 +192,7 @@ def research_workflow_example():
     # Create several functions to study
     study_functions = [
         ("Constant", bf.BooleanFunctionBuiltins.constant(True, 3)),
-        ("Dictator", bf.BooleanFunctionBuiltins.dictator(0, 3)),
+        ("Dictator", bf.BooleanFunctionBuiltins.dictator(3, 0)),
         ("Parity", bf.BooleanFunctionBuiltins.parity(3)),
         ("Majority", bf.BooleanFunctionBuiltins.majority(3)),
     ]

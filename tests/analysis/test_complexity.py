@@ -20,7 +20,7 @@ class TestDecisionTreeDepth:
         """Dictator functions have depth 1."""
         for n in [2, 3, 4]:
             for i in range(n):
-                dictator = bf.BooleanFunctionBuiltins.dictator(i, n)
+                dictator = bf.BooleanFunctionBuiltins.dictator(n, i)
                 assert complexity.decision_tree_depth(dictator) == 1
     
     def test_parity_function(self):
@@ -60,7 +60,7 @@ class TestDecisionTreeSize:
     
     def test_dictator_has_size_2(self):
         """Dictator has size 2 (two leaves)."""
-        dictator = bf.BooleanFunctionBuiltins.dictator(0, 2)
+        dictator = bf.BooleanFunctionBuiltins.dictator(2, 0)
         size, depth = complexity.decision_tree_size(dictator)
         assert size == 2
         assert depth == 1
@@ -126,7 +126,7 @@ class TestCertificateComplexity:
     
     def test_certificate_dictator(self):
         """Dictator has certificate size 1."""
-        dictator = bf.BooleanFunctionBuiltins.dictator(0, 3)
+        dictator = bf.BooleanFunctionBuiltins.dictator(3, 0)
         
         for x in range(8):
             cert_size, cert_vars = complexity.certificate_complexity(dictator, x)

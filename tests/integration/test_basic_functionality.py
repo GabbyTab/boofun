@@ -68,7 +68,7 @@ class TestBuiltinFunctions:
     def test_dictator_function(self):
         """Test dictator function creation and evaluation."""
         # 3-variable dictator on variable 1 (middle bit)
-        dict_1 = BooleanFunctionBuiltins.dictator(1, 3)
+        dict_1 = BooleanFunctionBuiltins.dictator(3, 1)
         
         assert dict_1.n_vars == 3
         
@@ -122,7 +122,7 @@ class TestSpectralAnalysis:
     def test_influences_computation(self):
         """Test influence computation for known functions."""
         # Dictator function - only one variable has influence
-        dict_0 = BooleanFunctionBuiltins.dictator(0, 3)
+        dict_0 = BooleanFunctionBuiltins.dictator(3, 0)
         analyzer = SpectralAnalyzer(dict_0)
         
         influences = analyzer.influences()
@@ -193,7 +193,7 @@ class TestSpectralAnalysis:
     def test_spectral_concentration(self):
         """Test spectral concentration measurement."""
         # Dictator function has all weight on degree-1 coefficients
-        dict_func = BooleanFunctionBuiltins.dictator(0, 3)
+        dict_func = BooleanFunctionBuiltins.dictator(3, 0)
         analyzer = SpectralAnalyzer(dict_func)
         
         conc_0 = analyzer.spectral_concentration(0)
@@ -262,7 +262,7 @@ class TestErrorHandling:
             BooleanFunctionBuiltins.dictator(-1, 3)  # Invalid index
         
         with pytest.raises(ValueError):
-            BooleanFunctionBuiltins.dictator(3, 3)  # Index out of range
+            BooleanFunctionBuiltins.dictator(3, 3)  # Index out of range (i=3 >= n=3)
     
     def test_evaluation_out_of_bounds(self):
         """Test evaluation with invalid indices."""

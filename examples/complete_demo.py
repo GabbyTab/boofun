@@ -24,7 +24,7 @@ def main():
     xor = bf.create([0, 1, 1, 0])
     majority = bf.BooleanFunctionBuiltins.majority(3)
     parity = bf.BooleanFunctionBuiltins.parity(3)
-    dictator = bf.BooleanFunctionBuiltins.dictator(1, 3)
+    dictator = bf.BooleanFunctionBuiltins.dictator(3, 1)
     
     functions = {
         "XOR": xor,
