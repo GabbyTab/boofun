@@ -225,7 +225,8 @@ Based on creating the educational notebooks, these API improvements would help:
   - [ ] Slider for n to see how function changes
   - [ ] Toggle between representations
   - [ ] Real-time influence visualization
-- [ ] **3D hypercube visualization** for n ≤ 5
+- [x] **3D hypercube visualization** for n ≤ 5 ✅ DONE
+- [x] **Sensitivity heatmap visualization** ✅ DONE (bonus!)
 - [ ] **Decision tree structure visualization**
 
 ### Medium Priority
