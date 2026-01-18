@@ -7,7 +7,7 @@ including Fourier analysis, influence computation, and noise stability.
 """
 
 import numpy as np
-from typing import Dict, List, Optional, Union, Any, TYPE_CHECKING
+from typing import Dict, List, Optional, Union, Any, Tuple, TYPE_CHECKING
 import warnings
 
 if TYPE_CHECKING:
@@ -475,7 +475,102 @@ class PropertyTester:
         
         return ones_count == total // 2
 
-    def run_all_tests(self) -> Dict[str, bool]:
+    def dictator_test(self, num_queries: int = 1000, epsilon: float = 0.1) -> Tuple[bool, Optional[int]]:
+        """
+        Test if function is a dictator or anti-dictator.
+        
+        A dictator function is f(x) = x_i for some i.
+        An anti-dictator is f(x) = ¬x_i = 1 - x_i.
+        
+        From O'Donnell Chapter 7: The FKN theorem states that if f is
+        Boolean and has small total influence, it's close to a dictator.
+        
+        Args:
+            num_queries: Number of random queries
+            epsilon: Distance threshold
+            
+        Returns:
+            Tuple of (is_dictator_like, dictator_index) where:
+            - is_dictator_like: True if f is close to a dictator/anti-dictator
+            - dictator_index: The index of the dictator variable (or None)
+        """
+        # Compute influences
+        analyzer = SpectralAnalyzer(self.function)
+        influences = analyzer.influences()
+        
+        # Find the variable with maximum influence
+        max_inf_idx = int(np.argmax(influences))
+        max_inf = influences[max_inf_idx]
+        
+        # For a dictator, one variable has influence 1, others have 0
+        total_inf = np.sum(influences)
+        
+        # Check if it's close to a dictator
+        if max_inf > 1 - epsilon and total_inf < 1 + epsilon:
+            # Verify by checking function values
+            is_dictator = True
+            is_anti_dictator = True
+            
+            for _ in range(min(num_queries, 1 << self.n_vars)):
+                x = self.rng.randint(0, 1 << self.n_vars)
+                f_x = int(self.function.evaluate(np.array(x)))
+                
+                # Extract the i-th bit (in MSB order)
+                x_i = (x >> (self.n_vars - 1 - max_inf_idx)) & 1
+                
+                if f_x != x_i:
+                    is_dictator = False
+                if f_x != (1 - x_i):
+                    is_anti_dictator = False
+                    
+                if not is_dictator and not is_anti_dictator:
+                    break
+            
+            if is_dictator or is_anti_dictator:
+                return (True, max_inf_idx)
+        
+        return (False, None)
+
+    def affine_test(self, num_queries: int = 1000, epsilon: float = 0.1) -> bool:
+        """
+        4-query test for affine functions over GF(2).
+        
+        From HW1 Problem 4: A function f: F_2^n → F_2 is affine iff
+        f(x) + f(y) + f(z) = f(x + y + z) for all x, y, z.
+        
+        This is a generalization of the BLR linearity test.
+        
+        Args:
+            num_queries: Number of random queries
+            epsilon: Error tolerance
+            
+        Returns:
+            True if function appears to be affine
+        """
+        violations = 0
+        
+        for _ in range(num_queries):
+            # Generate three random inputs
+            x = self.rng.randint(0, 1 << self.n_vars)
+            y = self.rng.randint(0, 1 << self.n_vars)
+            z = self.rng.randint(0, 1 << self.n_vars)
+            
+            # Compute x + y + z (XOR in GF(2))
+            xyz = x ^ y ^ z
+            
+            # Test: f(x) + f(y) + f(z) = f(x + y + z)
+            f_x = int(self.function.evaluate(np.array(x)))
+            f_y = int(self.function.evaluate(np.array(y)))
+            f_z = int(self.function.evaluate(np.array(z)))
+            f_xyz = int(self.function.evaluate(np.array(xyz)))
+            
+            # XOR of three values should equal fourth
+            if (f_x ^ f_y ^ f_z) != f_xyz:
+                violations += 1
+        
+        return violations / num_queries < epsilon
+
+    def run_all_tests(self) -> Dict[str, Any]:
         """
         Run all available property tests.
         
@@ -521,7 +616,7 @@ class PropertyTester:
 
 
 # Export main classes
-from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence, p_biased, learning
+from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence, p_biased, learning, fourier, restrictions
 
 __all__ = [
     "SpectralAnalyzer",
@@ -535,4 +630,6 @@ __all__ = [
     "equivalence",
     "p_biased",
     "learning",
+    "fourier",
+    "restrictions",
 ]
