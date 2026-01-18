@@ -1016,6 +1016,18 @@ try:
 except ImportError:
     HAS_GROWTH_VIZ = False
 
+# Import decision tree visualization
+try:
+    from .decision_tree import (
+        DecisionTreeNode,
+        build_optimal_decision_tree,
+        plot_decision_tree,
+        decision_tree_to_dict,
+    )
+    HAS_DECISION_TREE_VIZ = True
+except ImportError:
+    HAS_DECISION_TREE_VIZ = False
+
 # Export main classes
 __all__ = [
     'BooleanFunctionVisualizer',
@@ -1030,4 +1042,12 @@ if HAS_GROWTH_VIZ:
         'LTFVisualizer',
         'ComplexityVisualizer',
         'quick_growth_plot',
+    ])
+
+if HAS_DECISION_TREE_VIZ:
+    __all__.extend([
+        'DecisionTreeNode',
+        'build_optimal_decision_tree',
+        'plot_decision_tree',
+        'decision_tree_to_dict',
     ])
