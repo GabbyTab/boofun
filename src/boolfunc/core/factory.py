@@ -3,6 +3,16 @@ from collections.abc import Iterable
 from .spaces import Space
 import numbers
 
+# Import DNF/CNF types for type checking
+try:
+    from .representations.dnf_form import DNFFormula
+    from .representations.cnf_form import CNFFormula
+    _DNF_CNF_AVAILABLE = True
+except ImportError:
+    _DNF_CNF_AVAILABLE = False
+    DNFFormula = None
+    CNFFormula = None
+
 
 class BooleanFunctionFactory:
     """Factory for creating BooleanFunction instances from various representations"""
@@ -14,6 +24,12 @@ class BooleanFunctionFactory:
             return "function"
         if hasattr(data, "rvs"):
             return "distribution"
+        # Check for DNF/CNF formulas
+        if _DNF_CNF_AVAILABLE:
+            if isinstance(data, DNFFormula):
+                return "dnf"
+            if isinstance(data, CNFFormula):
+                return "cnf"
         if isinstance(data, np.ndarray):
             if data.dtype == bool or np.issubdtype(data.dtype, np.bool_):
                 return "truth_table"
@@ -67,6 +83,10 @@ class BooleanFunctionFactory:
             return cls.from_symbolic(boolean_function_cls, data, **kwargs)
         elif rep_type == "iterable_rep":
             return cls.from_iterable(boolean_function_cls, data, **kwargs)
+        elif rep_type == "dnf":
+            return cls.from_dnf(boolean_function_cls, data, **kwargs)
+        elif rep_type == "cnf":
+            return cls.from_cnf(boolean_function_cls, data, **kwargs)
 
         raise TypeError(f"Cannot create BooleanFunction from {type(data)}")
 
@@ -368,4 +388,52 @@ class BooleanFunctionFactory:
 
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(result, rep_type)
+        return instance
+
+    @classmethod
+    def from_dnf(cls, boolean_function_cls, dnf_formula, rep_type="dnf", **kwargs):
+        """Create from DNF (Disjunctive Normal Form) formula.
+        
+        Args:
+            boolean_function_cls: The BooleanFunction class to instantiate
+            dnf_formula: A DNFFormula object
+            rep_type: Representation type (default "dnf")
+            **kwargs: Additional arguments (n_vars, space, etc.)
+            
+        Returns:
+            BooleanFunction instance
+        """
+        if not _DNF_CNF_AVAILABLE:
+            raise ImportError("DNF representation not available")
+        
+        n_vars = kwargs.get("n_vars") or kwargs.get("n") or dnf_formula.n_vars
+        kwargs["n_vars"] = n_vars
+        kwargs.pop("n", None)  # Remove 'n' if present to avoid conflict
+        
+        instance = boolean_function_cls(**kwargs)
+        instance.add_representation(dnf_formula, rep_type)
+        return instance
+
+    @classmethod
+    def from_cnf(cls, boolean_function_cls, cnf_formula, rep_type="cnf", **kwargs):
+        """Create from CNF (Conjunctive Normal Form) formula.
+        
+        Args:
+            boolean_function_cls: The BooleanFunction class to instantiate
+            cnf_formula: A CNFFormula object
+            rep_type: Representation type (default "cnf")
+            **kwargs: Additional arguments (n_vars, space, etc.)
+            
+        Returns:
+            BooleanFunction instance
+        """
+        if not _DNF_CNF_AVAILABLE:
+            raise ImportError("CNF representation not available")
+        
+        n_vars = kwargs.get("n_vars") or kwargs.get("n") or cnf_formula.n_vars
+        kwargs["n_vars"] = n_vars
+        kwargs.pop("n", None)  # Remove 'n' if present to avoid conflict
+        
+        instance = boolean_function_cls(**kwargs)
+        instance.add_representation(cnf_formula, rep_type)
         return instance
