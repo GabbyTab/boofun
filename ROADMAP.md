@@ -86,10 +86,10 @@ tests/
 ```
 
 ### High Priority
-- [ ] **Add property-based tests with Hypothesis**
-  - [ ] Fourier identities hold for random functions
-  - [ ] Representation conversions are invertible
-  - [ ] Influences are non-negative and sum correctly
+- [x] **Add property-based tests with Hypothesis** ✅ DONE
+  - [x] Fourier identities hold for random functions
+  - [x] Representation conversions are invertible
+  - [x] Influences are non-negative and sum correctly
 - [ ] Add tests for new modules:
   - [ ] `test_global_hypercontractivity.py`
   - [ ] `test_families.py`
@@ -141,7 +141,7 @@ Based on creating the educational notebooks, these API improvements would help:
 - [ ] **Add `bf.random(n, balanced=True)`** - Generate random balanced function
 - [ ] **Add `f.restriction(fixed_vars)`** - More intuitive name than `fix`
 - [ ] **Add `f.cofactor(var, val)`** - Shannon cofactor notation
-- [ ] **Improve dictator signature**: `bf.dictator(n, i)` not `bf.dictator(i, n)`
+- [x] **Improve dictator signature**: `bf.dictator(n, i=0)` ✅ DONE
 - [ ] **Add `f.hamming_weight()`** - Number of 1s in truth table
 - [ ] **Add `f.support()`** - Inputs where f(x) = 1
 
@@ -162,8 +162,8 @@ Based on creating the educational notebooks, these API improvements would help:
 - [x] ANF (Algebraic Normal Form)
 - [x] BDD (Binary Decision Diagram)
 - [x] LTF (Linear Threshold Function)
-- [ ] **DNF (Disjunctive Normal Form)** - strategy exists but not registered
-- [ ] **CNF (Conjunctive Normal Form)** - strategy exists but not registered
+- [x] **DNF (Disjunctive Normal Form)** ✅ Registered
+- [x] **CNF (Conjunctive Normal Form)** ✅ Registered
 - [ ] Decision Tree representation
 - [ ] ROBDD (Reduced Ordered BDD)
 - [ ] Circuit representation (AND/OR/NOT gates)
@@ -279,9 +279,9 @@ Based on creating the educational notebooks, these API improvements would help:
 ## 🎯 Priority Matrix
 
 ### P0 - Critical (This Week)
-1. Register DNF/CNF strategies properly
-2. Add property-based tests
-3. Fix dictator argument order API
+1. ~~Register DNF/CNF strategies properly~~ ✅ DONE
+2. ~~Add property-based tests~~ ✅ DONE (21 tests with Hypothesis)
+3. ~~Fix dictator argument order API~~ ✅ DONE (now `dictator(n, i=0)`)
 4. Host documentation online
 
 ### P1 - High (This Month)
