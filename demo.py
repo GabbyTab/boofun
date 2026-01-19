@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
-BoolFunc Library Demo
+BooFun Library Demo
 
-This script demonstrates the core functionality of the BoolFunc library,
+This script demonstrates the core functionality of the BooFun library,
 showing how to create Boolean functions, analyze their properties, and
 perform spectral analysis.
 """
 
 import numpy as np
-import boolfunc as bf
-from boolfunc.analysis import SpectralAnalyzer
-from boolfunc.core.builtins import BooleanFunctionBuiltins
+import boofun as bf
+from boofun.analysis import SpectralAnalyzer
+from boofun.core.builtins import BooleanFunctionBuiltins
 
 def main():
-    print("🚀 BoolFunc Library Demo")
+    print("🚀 BooFun Library Demo")
     print("=" * 50)
     
     # 1. Create Boolean functions from different representations
@@ -128,7 +128,7 @@ def main():
             print(f"  {key}: {value:.3f}")
     
     print("\n✅ Demo completed successfully!")
-    print("\nThe BoolFunc library is working correctly with:")
+    print("\nThe BooFun library is working correctly with:")
     print("  • Multiple Boolean function representations")
     print("  • Built-in functions (majority, dictator, parity, etc.)")
     print("  • Spectral analysis and influence computation")

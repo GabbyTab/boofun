@@ -44,7 +44,7 @@ jobs:
       continue-on-error: true
 
     - name: Run type checking (mypy)
-      run: mypy src/boolfunc --ignore-missing-imports
+      run: mypy src/boofun --ignore-missing-imports
       continue-on-error: true
 
     - name: Run tests
@@ -54,7 +54,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
       run: |
         pip install pytest-cov
-        pytest tests/ --cov=boolfunc --cov-report=xml --cov-report=term-missing
+        pytest tests/ --cov=boofun --cov-report=xml --cov-report=term-missing
 
     - name: Upload coverage to Codecov
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
@@ -83,10 +83,10 @@ jobs:
     - name: Run benchmarks
       run: |
         python << 'EOF'
-        import boolfunc as bf
+        import boofun as bf
         import time
-        from boolfunc.analysis import SpectralAnalyzer
-        from boolfunc.analysis.query_complexity import QueryComplexityProfile
+        from boofun.analysis import SpectralAnalyzer
+        from boofun.analysis.query_complexity import QueryComplexityProfile
 
         print('=== Boolean Function Library Benchmarks ===')
         print()

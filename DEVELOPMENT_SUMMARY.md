@@ -1,8 +1,8 @@
-# BoolFunc Library - Professional Development Summary
+# BooFun Library - Professional Development Summary
 
 ## Overview
 
-The BoolFunc library has been transformed from a complex, over-engineered prototype into a clean, professional, and easy-to-use Python library for Boolean function analysis. This document summarizes the key changes made to achieve this goal.
+The BooFun library has been transformed from a complex, over-engineered prototype into a clean, professional, and easy-to-use Python library for Boolean function analysis. This document summarizes the key changes made to achieve this goal.
 
 ## Key Improvements Made
 
@@ -22,12 +22,12 @@ The BoolFunc library has been transformed from a complex, over-engineered protot
 
 ### 2. **Improved Documentation and API**
 
-**Main Package (`src/boolfunc/__init__.py`)**:
+**Main Package (`src/boofun/__init__.py`)**:
 - Added comprehensive module docstring with usage examples
 - Simplified exports to focus on core functionality
 - Clear API surface: `create`, `BooleanFunctionBuiltins`, `SpectralAnalyzer`, `PropertyTester`
 
-**API Module (`src/boolfunc/api.py`)**:
+**API Module (`src/boofun/api.py`)**:
 - Enhanced `create()` function with detailed docstring
 - Clear examples for different input types
 - Comprehensive parameter documentation
@@ -121,8 +121,8 @@ The BoolFunc library has been transformed from a complex, over-engineered protot
 
 ### For End Users
 ```bash
-git clone https://github.com/GabbyTab/boolfunc.git
-cd boolfunc
+git clone https://github.com/GabbyTab/boofun.git
+cd boofun
 pip install -e .
 python examples/usage.py
 ```
@@ -166,7 +166,7 @@ pip install -e ".[visualization]"
 
 ## Conclusion
 
-The BoolFunc library is now a professional, easy-to-use Python package suitable for:
+The BooFun library is now a professional, easy-to-use Python package suitable for:
 - Academic research in Boolean function analysis
 - Educational use in theoretical computer science courses
 - Prototyping and experimentation with Boolean functions

@@ -1,6 +1,6 @@
-# Contributing to BoolFunc
+# Contributing to BooFun
 
-Thank you for considering contributing to BoolFunc! All contributions—code, documentation, bug reports, feature requests, and ideas—are welcome.
+Thank you for considering contributing to BooFun! All contributions—code, documentation, bug reports, feature requests, and ideas—are welcome.
 
 ## Important Context
 
@@ -24,7 +24,7 @@ When reporting a bug, include:
 - Clear steps to reproduce
 - What you expected vs. what happened
 - Error messages (if any)
-- Your environment (OS, Python version, boolfunc version)
+- Your environment (OS, Python version, boofun version)
 
 ### Suggesting Enhancements
 
@@ -51,8 +51,8 @@ Found a typo, unclear explanation, or missing example? PRs for documentation are
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/boolfunc.git
-cd boolfunc
+git clone https://github.com/YOUR_USERNAME/boofun.git
+cd boofun
 
 # Create virtual environment
 python -m venv venv
@@ -102,7 +102,7 @@ The test suite includes:
 pytest tests/
 
 # Run with coverage
-pytest --cov=boolfunc tests/
+pytest --cov=boofun tests/
 
 # Run specific category
 pytest tests/unit/
@@ -130,7 +130,7 @@ This project follows a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, 
 
 ## Questions?
 
-- Open a [GitHub Discussion](https://github.com/GabbyTab/boolfunc/discussions) for general questions
-- Open an [Issue](https://github.com/GabbyTab/boolfunc/issues) for bugs or feature requests
+- Open a [GitHub Discussion](https://github.com/GabbyTab/boofun/discussions) for general questions
+- Open an [Issue](https://github.com/GabbyTab/boofun/issues) for bugs or feature requests
 
-Thank you for helping make BoolFunc better!
+Thank you for helping make BooFun better!

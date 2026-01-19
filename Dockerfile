@@ -1,4 +1,4 @@
-# BoolFunc Docker Image
+# BooFun Docker Image
 # Multi-stage build for optimized production image
 
 # ============================================================================
@@ -32,7 +32,7 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
 FROM python:3.11-slim AS production
 
 LABEL maintainer="Gabriel Taboada <gabtab@berkeley.edu>"
-LABEL description="BoolFunc: Boolean Function Analysis Library"
+LABEL description="BooFun: Boolean Function Analysis Library"
 LABEL version="0.2.0"
 
 WORKDIR /app
@@ -48,10 +48,10 @@ COPY docs/ ./docs/
 COPY pyproject.toml setup.cfg ./
 
 # Create non-root user
-RUN useradd --create-home --shell /bin/bash boolfunc && \
-    chown -R boolfunc:boolfunc /app
+RUN useradd --create-home --shell /bin/bash boofun && \
+    chown -R boofun:boofun /app
 
-USER boolfunc
+USER boofun
 
 # Expose Jupyter port
 EXPOSE 8888
@@ -64,7 +64,7 @@ CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--no
 # ============================================================================
 FROM python:3.11 AS development
 
-LABEL description="BoolFunc Development Environment"
+LABEL description="BooFun Development Environment"
 
 WORKDIR /workspace
 

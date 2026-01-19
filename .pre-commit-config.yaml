@@ -1,4 +1,4 @@
-# Pre-commit hooks for boolfunc
+# Pre-commit hooks for boofun
 # Install: pip install pre-commit && pre-commit install
 
 repos:

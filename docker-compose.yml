@@ -1,4 +1,4 @@
-# BoolFunc Docker Compose Configuration
+# BooFun Docker Compose Configuration
 # Usage:
 #   docker-compose up notebook    # Run Jupyter notebooks
 #   docker-compose up dev         # Development environment
@@ -18,7 +18,7 @@ services:
       - ./notebooks:/app/notebooks:rw
       - ./data:/app/data:rw
     environment:
-      - JUPYTER_TOKEN=boolfunc
+      - JUPYTER_TOKEN=boofun
     restart: unless-stopped
 
   # Development environment

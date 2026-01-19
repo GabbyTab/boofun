@@ -3,7 +3,7 @@ scipy>=1.7.0
 numba>=0.56.0
 
 [all]
-boolfunc[dev,docs,gpu,performance,visualization]
+boofun[dev,docs,gpu,performance,visualization]
 
 [dev]
 pytest>=7.0.0

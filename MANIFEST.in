@@ -4,7 +4,7 @@ include LICENSE
 include CHANGELOG.md
 include CONTRIBUTING.md
 include pyproject.toml
-include src/boolfunc/py.typed
+include src/boofun/py.typed
 
 # Include documentation
 recursive-include docs *.rst *.md *.py *.bat

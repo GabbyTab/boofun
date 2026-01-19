@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logos/boo_horizontal.png" alt="BoolFunc Logo" width="800"/>
+  <img src="logos/boo_horizontal.png" alt="BooFun Logo" width="800"/>
 </p>
 
 <p align="center">
@@ -7,16 +7,16 @@
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/boolfunc/"><img src="https://img.shields.io/pypi/v/boolfunc.svg" alt="PyPI version"></a>
-  <a href="https://github.com/GabbyTab/boolfunc/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python 3.8+"></a>
-  <a href="https://github.com/GabbyTab/boolfunc/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
-  <a href="https://gabbytab.github.io/boolfunc/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="Documentation"></a>
-  <a href="https://codecov.io/gh/GabbyTab/boolfunc"><img src="https://codecov.io/gh/GabbyTab/boolfunc/branch/main/graph/badge.svg" alt="codecov"></a>
+  <a href="https://pypi.org/project/boofun/"><img src="https://img.shields.io/pypi/v/boofun.svg" alt="PyPI version"></a>
+  <a href="https://github.com/GabbyTab/boofun/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python 3.8+"></a>
+  <a href="https://github.com/GabbyTab/boofun/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
+  <a href="https://gabbytab.github.io/boofun/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="Documentation"></a>
+  <a href="https://codecov.io/gh/GabbyTab/boofun"><img src="https://codecov.io/gh/GabbyTab/boofun/branch/main/graph/badge.svg" alt="codecov"></a>
 </p>
 
 ## Overview
 
-BoolFunc is a comprehensive Python library for the analysis and manipulation of Boolean functions, designed for researchers and practitioners in theoretical computer science, computational complexity, and quantum computing. The library provides a unified framework for working with Boolean functions across multiple mathematical representations, enabling efficient computation of spectral properties, influence measures, and complexity-theoretic characteristics.
+BooFun is a comprehensive Python library for the analysis and manipulation of Boolean functions, designed for researchers and practitioners in theoretical computer science, computational complexity, and quantum computing. The library provides a unified framework for working with Boolean functions across multiple mathematical representations, enabling efficient computation of spectral properties, influence measures, and complexity-theoretic characteristics.
 
 ## Key Features
 
@@ -51,30 +51,32 @@ BoolFunc is a comprehensive Python library for the analysis and manipulation of 
 
 The library is organized into several interconnected modules:
 
-![Module Architecture](docs/architecture_diagram.png)
-
-*The diagram above illustrates the modular architecture of BoolFunc, showing how different components interact to provide a comprehensive Boolean function analysis framework.*
+- **Core**: Boolean function representations, factory, conversion graph
+- **Analysis**: Spectral analysis, property testing, query complexity
+- **Families**: Function families (Majority, Parity, Tribes) with growth tracking
+- **Visualization**: Influence plots, Fourier spectrum, dashboards
+- **Quantum**: Theoretical quantum analysis (educational, requires Qiskit for oracles)
 
 ## Quick Start
 
 ### Installation
 
 ```bash
-pip install boolfunc
+pip install boofun
 ```
 
 For development installation:
 
 ```bash
-git clone https://github.com/GabbyTab/boolfunc.git
-cd boolfunc
+git clone https://github.com/GabbyTab/boofun.git
+cd boofun
 pip install -e ".[dev]"
 ```
 
 ### Basic Usage
 
 ```python
-import boolfunc as bf
+import boofun as bf
 
 # Create Boolean functions (multiple ways)
 xor = bf.create([0, 1, 1, 0])       # From truth table
@@ -114,12 +116,12 @@ print(f"Is 2-junta: {maj.is_junta(2)}")
 ```python
 # Linear Threshold Functions (LTFs)
 ltf = bf.weighted_majority([3, 2, 2, 1, 1])
-from boolfunc.analysis.ltf_analysis import analyze_ltf, is_ltf
+from boofun.analysis.ltf_analysis import analyze_ltf, is_ltf
 print(f"Is LTF: {is_ltf(maj)}")
 analysis = analyze_ltf(ltf)
 
 # Function Growth Tracking
-from boolfunc.families import MajorityFamily, GrowthTracker
+from boofun.families import MajorityFamily, GrowthTracker
 tracker = GrowthTracker(MajorityFamily())
 tracker.mark("total_influence")
 tracker.mark("max_influence")
@@ -127,7 +129,7 @@ tracker.observe([3, 5, 7, 9, 11, 13])
 tracker.plot("total_influence", show_theory=True)
 
 # Global Hypercontractivity (p-biased analysis)
-from boolfunc.analysis.global_hypercontractivity import GlobalHypercontractivityAnalyzer
+from boofun.analysis.global_hypercontractivity import GlobalHypercontractivityAnalyzer
 analyzer = GlobalHypercontractivityAnalyzer(maj, p=0.3)
 print(analyzer.summary())
 
@@ -139,7 +141,7 @@ h = bf.random(4, seed=42)           # Reproducible random function
 
 ## Mathematical Foundation
 
-BoolFunc operates on Boolean functions f: {0,1}ⁿ → {0,1}, providing tools for:
+BooFun operates on Boolean functions f: {0,1}ⁿ → {0,1}, providing tools for:
 
 - **Fourier Analysis**: Walsh-Hadamard transform and spectral properties
 - **Influence Theory**: Variable influence I_i(f) = Pr[f(x) ≠ f(x ⊕ eᵢ)]  
@@ -149,9 +151,14 @@ BoolFunc operates on Boolean functions f: {0,1}ⁿ → {0,1}, providing tools fo
 - **p-Biased Analysis**: Generalized Fourier analysis for biased input distributions
 - **Global Hypercontractivity**: Inverse Cauchy-Schwarz with noise
 
+**Fourier Convention:** We follow O'Donnell's convention for the ±1 representation:
+- Boolean 0 → +1, Boolean 1 → -1
+- This ensures f̂(∅) = E[f] in the ±1 domain
+- All Fourier coefficients match the textbook formulas
+
 ## Supported Representations
 
-BoolFunc supports **12+ different representations** for Boolean functions:
+BooFun supports **12+ different representations** for Boolean functions:
 
 | Category | Representations |
 |----------|-----------------|
@@ -167,12 +174,12 @@ BoolFunc supports **12+ different representations** for Boolean functions:
 
 | Module | Description |
 |--------|-------------|
-| `boolfunc.core` | Multiple Boolean function representations with automatic conversion |
-| `boolfunc.analysis` | Fourier expansion, influences, noise stability, hypercontractivity |
-| `boolfunc.testing` | BLR linearity testing, constant/balance testing, custom framework |
-| `boolfunc.families` | Function families (Majority, Parity, Tribes) with growth tracking |
-| `boolfunc.visualization` | Influence plots, Fourier spectrum, noise stability curves |
-| `boolfunc.quantum` | Quantum Boolean function analysis and resource estimation |
+| `boofun.core` | Multiple Boolean function representations with automatic conversion |
+| `boofun.analysis` | Fourier expansion, influences, noise stability, hypercontractivity |
+| `boofun.testing` | BLR linearity testing, constant/balance testing, custom framework |
+| `boofun.families` | Function families (Majority, Parity, Tribes) with growth tracking |
+| `boofun.visualization` | Influence plots, Fourier spectrum, noise stability curves |
+| `boofun.quantum` | Quantum speedup analysis (Grover, quantum walks); requires Qiskit for oracles |
 
 ## Educational Notebooks
 
@@ -196,7 +203,7 @@ The `examples/` directory contains comprehensive usage examples:
 |---------|-------------|
 | `usage.py` | Core functionality, perfect for getting started |
 | `advanced_features_demo.py` | ANF, conversion graph, batch processing, GPU acceleration |
-| `quantum_analysis_demo.py` | Quantum Boolean function analysis |
+| `quantum_analysis_demo.py` | Quantum speedup estimation (Grover, quantum walks) |
 | `educational_examples.py` | Boolean logic fundamentals for teaching |
 | `advanced_analysis.py` | Research workflows and mathematical property verification |
 | `representations_demo.py` | Multiple representations (circuits, BDDs, conversions) |
@@ -205,7 +212,7 @@ The `examples/` directory contains comprehensive usage examples:
 
 ## Performance
 
-BoolFunc is optimized for both small research examples and large-scale computations:
+BooFun is optimized for both small research examples and large-scale computations:
 
 - **Vectorized Operations**: Efficient NumPy-based implementations
 - **Memory Efficiency**: Sparse representations for large functions
@@ -213,7 +220,7 @@ BoolFunc is optimized for both small research examples and large-scale computati
 - **Numba JIT**: Just-in-time compilation of critical operations
 
 ```python
-import boolfunc as bf
+import boofun as bf
 import time
 
 # Analyze 10-variable Boolean function
@@ -234,7 +241,7 @@ print(f"Analysis completed in {time.time() - start:.3f} seconds")
 pytest tests/
 
 # Run with coverage
-pytest --cov=boolfunc tests/
+pytest --cov=boofun tests/
 
 # Run specific test category
 pytest tests/integration/
@@ -243,7 +250,7 @@ pytest tests/property/
 
 ## Documentation
 
-Online documentation: [https://gabbytab.github.io/boolfunc/](https://gabbytab.github.io/boolfunc/)
+Online documentation: [https://gabbytab.github.io/boofun/](https://gabbytab.github.io/boofun/)
 
 To build documentation locally:
 
@@ -258,7 +265,7 @@ open _build/html/index.html
 - **Computational Complexity**: Analysis of Boolean function complexity classes
 - **Social Choice Theory**: Voting systems and preference aggregation
 - **Cryptography**: Security analysis of Boolean functions in stream ciphers  
-- **Quantum Computing**: Boolean function analysis in quantum algorithms
+- **Quantum Computing**: Theoretical analysis of quantum speedups (Grover, quantum walks)
 - **Machine Learning**: Feature selection and Boolean concept learning
 
 ## Contributing
@@ -267,8 +274,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ```bash
 # Development setup
-git clone https://github.com/GabbyTab/boolfunc.git
-cd boolfunc
+git clone https://github.com/GabbyTab/boofun.git
+cd boofun
 pip install -e ".[dev]"
 
 # Run tests and linting
@@ -281,8 +288,8 @@ See [ROADMAP.md](ROADMAP.md) for planned features and areas where help is needed
 
 ## Support
 
-- **Issues:** [GitHub Issues](https://github.com/GabbyTab/boolfunc/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/GabbyTab/boolfunc/discussions)
+- **Issues:** [GitHub Issues](https://github.com/GabbyTab/boofun/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/GabbyTab/boofun/discussions)
 
 ## License
 
@@ -296,18 +303,18 @@ This project was inspired by material from CS 294-92: Analysis of Boolean Functi
 
 ## Citation
 
-If you use BoolFunc in your research, please cite:
+If you use BooFun in your research, please cite:
 
 ```bibtex
-@software{boolfunc2025,
-  title={BoolFunc: A Python Library for Boolean Function Analysis},
+@software{boofun2025,
+  title={BooFun: A Python Library for Boolean Function Analysis},
   author={Gabriel Taboada},
   year={2025},
-  url={https://github.com/GabbyTab/boolfunc},
+  url={https://github.com/GabbyTab/boofun},
   version={0.2.0}
 }
 ```
 
 <p align="center">
-  <img src="logos/boo_alt.png" alt="BoolFunc Logo" width="200"/>
+  <img src="logos/boo_alt.png" alt="BooFun Logo" width="200"/>
 </p>

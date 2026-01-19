@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Performance Profiling for BoolFunc
+Performance Profiling for BooFun
 
 This script profiles critical operations to identify bottlenecks:
 1. Walsh-Hadamard transform (Fourier computation)
@@ -22,7 +22,7 @@ import numpy as np
 # Add src to path
 sys.path.insert(0, 'src')
 
-import boolfunc as bf
+import boofun as bf
 
 
 def time_operation(func, *args, iterations=10, **kwargs):
@@ -183,7 +183,7 @@ def memory_profile():
 def main():
     detailed = "--detailed" in sys.argv
     
-    print("BoolFunc Performance Profiling")
+    print("BooFun Performance Profiling")
     print("="*70)
     
     # Run basic profiling

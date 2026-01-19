@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Mutation Testing Runner for BoolFunc
+Mutation Testing Runner for BooFun
 
 This script provides an easy interface for running mutation tests using mutmut.
 Mutation testing helps identify weaknesses in the test suite by introducing
@@ -26,17 +26,17 @@ from pathlib import Path
 
 # Default modules to test (most critical code paths)
 DEFAULT_MODULES = [
-    "src/boolfunc/core/base.py",
-    "src/boolfunc/core/spaces.py", 
-    "src/boolfunc/analysis/spectral.py",
+    "src/boofun/core/base.py",
+    "src/boofun/core/spaces.py", 
+    "src/boofun/analysis/spectral.py",
 ]
 
 # High-value targets for mutation testing
 EXTENDED_MODULES = [
-    "src/boolfunc/analysis/fourier.py",
-    "src/boolfunc/analysis/hypercontractivity.py",
-    "src/boolfunc/core/representations.py",
-    "src/boolfunc/families/theoretical.py",
+    "src/boofun/analysis/fourier.py",
+    "src/boofun/analysis/hypercontractivity.py",
+    "src/boofun/core/representations.py",
+    "src/boofun/families/theoretical.py",
 ]
 
 
@@ -106,7 +106,7 @@ if __name__ == "__main__":
                 modules.append(arg)
             else:
                 # Convert dotted module name to path
-                path = f"src/boolfunc/{arg.replace('.', '/')}.py"
+                path = f"src/boofun/{arg.replace('.', '/')}.py"
                 modules.append(path)
     else:
         modules = DEFAULT_MODULES

@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "boolfunc"
+name = "boofun"
 version = "0.2.0"
 description = "A Python library for Boolean function analysis and spectral methods"
 authors = [{name = "Gabriel Taboada", email = "gabtab@berkeley.edu"}]
@@ -66,17 +66,17 @@ dev = [
     "hypothesis>=6.0.0",  # Property-based testing
 ]
 all = [
-    "boolfunc[performance,gpu,visualization,docs,dev]"
+    "boofun[performance,gpu,visualization,docs,dev]"
 ]
 
 [project.urls]
-Homepage = "https://github.com/GabbyTab/boolfunc"
-Repository = "https://github.com/GabbyTab/boolfunc"
-Issues = "https://github.com/GabbyTab/boolfunc/issues"
+Homepage = "https://github.com/GabbyTab/boofun"
+Repository = "https://github.com/GabbyTab/boofun"
+Issues = "https://github.com/GabbyTab/boofun/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["boolfunc*"]
+include = ["boofun*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -98,7 +98,7 @@ filterwarnings = [
     "ignore::UserWarning",
     "ignore::DeprecationWarning"
 ]
-# To run with coverage: pytest --cov=boolfunc --cov-report=term-missing
+# To run with coverage: pytest --cov=boofun --cov-report=term-missing
 
 [tool.black]
 line-length = 100
@@ -157,7 +157,7 @@ exclude = [
 ]
 
 [tool.coverage.run]
-source = ["src/boolfunc"]
+source = ["src/boofun"]
 branch = true
 
 [tool.coverage.report]
