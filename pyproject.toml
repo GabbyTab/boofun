@@ -58,6 +58,8 @@ dev = [
     "mypy>=1.0.0",
     "pre-commit>=3.0.0",
     "isort>=5.12.0",
+    "mutmut>=2.4.0",  # Mutation testing
+    "hypothesis>=6.0.0",  # Property-based testing
 ]
 all = [
     "boolfunc[performance,gpu,visualization,docs,dev]"

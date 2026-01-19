@@ -93,9 +93,9 @@ tests/
 
 ### TODO
 - [x] Increase coverage to 60%+ (achieved!)
-- [ ] Add mutation testing (mutmut)
+- [x] Add mutation testing (mutmut) - configured in setup.cfg, scripts/run_mutation_tests.py
 - [ ] Cross-validate with Sage/Mathematica
-- [ ] Test large n more thoroughly
+- [x] Test large n more thoroughly - tests/test_large_n.py added
 
 ---
 
@@ -128,9 +128,9 @@ tests/
 ## Performance Optimizations
 
 ### High Priority
-- [ ] Profile and optimize Walsh-Hadamard for n > 20
-- [ ] Optimize influence computation
-- [ ] Add lazy evaluation for chained operations
+- [x] Profile and optimize Walsh-Hadamard for n > 20 - scripts/profile_performance.py, core/optimizations.py
+- [x] Optimize influence computation - vectorized + Numba implementations in core/optimizations.py
+- [x] Add lazy evaluation for chained operations - LazyFourierCoefficients class
 - [ ] Memory optimization (bitarray for truth tables?)
 
 ### Medium Priority
