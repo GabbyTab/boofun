@@ -46,7 +46,7 @@ This document tracks planned features, improvements, and known gaps in the boolf
 ### P2 - Medium Priority
 | Task | Status | Notes |
 |------|--------|-------|
-| GPU acceleration (CuPy) | TODO | For large transforms |
+| GPU acceleration (CuPy) | ✅ DONE | core/gpu.py with CPU fallback |
 | Fluent/chainable API | ✅ DONE | xor(), and_(), permute(), extend(), apply_noise(), etc. |
 | Animation of growth | TODO | As n increases |
 | Comparison guide | TODO | vs BoolForge, pyeda, Sage |
@@ -134,7 +134,7 @@ tests/
 - [ ] Memory optimization (bitarray for truth tables?)
 
 ### Medium Priority
-- [ ] GPU acceleration via CuPy
+- [x] GPU acceleration via CuPy - core/gpu.py module
 - [ ] Sparse representation auto-selection for n > 14
 - [ ] Parallel computation for influences
 - [ ] Aggressive memoization
