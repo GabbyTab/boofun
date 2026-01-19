@@ -65,15 +65,15 @@ All core features are implemented. Remaining work focuses on polish, testing, an
 |------|--------|-------|
 | PyPI publication | ⏳ Blocked | Need PYPI_TOKEN configured |
 | API stability guarantee | TODO | Document public API, add deprecation policy |
-| Tutorial series | TODO | Common workflow tutorials |
+| Tutorial series | ✅ Done | 7 tutorials covering beginner to advanced |
 
 ### P1 - Quality & Polish
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Integration tests for new features | TODO | Communication complexity, families, exports |
-| Revamp examples/ folder | TODO | Consolidate into clear tutorials |
-| Clean up Jupyter notebooks | TODO | Ensure all use simplified API |
+| Integration tests for new features | ✅ Done | 30 tests in test_new_features.py |
+| Revamp examples/ folder | ✅ Done | 7 tutorials, cleaned old files |
+| Clean up Jupyter notebooks | ✅ Done | Already use simplified API |
 | Increase test coverage | TODO | Target 70%+ |
 
 ### P2 - Nice to Have
@@ -94,7 +94,7 @@ All core features are implemented. Remaining work focuses on polish, testing, an
 - [x] LaTeX/TikZ export
 - [ ] Published on PyPI
 - [ ] API stability guarantee documented
-- [ ] Tutorial series complete
+- [x] Tutorial series complete (7 tutorials)
 
 ---
 
