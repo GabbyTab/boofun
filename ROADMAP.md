@@ -39,7 +39,7 @@ This document tracks planned features, improvements, and known gaps in the boolf
 | Task | Status | Notes |
 |------|--------|-------|
 | Increase test coverage to 60%+ | ✅ DONE | Achieved 60% (was ~24%) |
-| Enable Numba by default | TODO | Add to core dependencies |
+| Enable Numba by default | ✅ DONE | Added to core dependencies |
 | Add dependabot | ✅ DONE | Configuration added |
 | Create tutorial series | TODO | Common workflows |
 

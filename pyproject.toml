@@ -27,12 +27,13 @@ classifiers = [
 dependencies = [
     "numpy>=1.20.0",
     "scipy>=1.7.0",
+    "numba>=0.56.0",  # JIT compilation for performance
 ]
 
 [project.optional-dependencies]
-# Performance optimization with Numba JIT compilation
+# Additional performance optimization (for backward compatibility)
 performance = [
-    "numba>=0.56.0",
+    # numba now included by default
 ]
 # GPU-accelerated Walsh-Hadamard transform (requires CUDA)
 gpu = [
