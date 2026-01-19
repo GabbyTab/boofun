@@ -168,11 +168,20 @@ tests/
 ## Still Missing
 
 ### Representations
-| Representation | Status | Priority |
-|----------------|--------|----------|
-| Decision Tree (export) | TODO | Low |
-| ROBDD | TODO | Low (use pyeda) |
-| Circuit (gates) | TODO | Low |
+| Representation | Status | Module |
+|----------------|--------|--------|
+| Truth table | ✅ Done | `representations/truth_table.py` |
+| Sparse truth table | ✅ Done | `representations/sparse_truth_table.py` |
+| Packed (bitarray) | ✅ Done | `representations/packed_truth_table.py` |
+| Fourier expansion | ✅ Done | `representations/fourier_expansion.py` |
+| ANF (Algebraic) | ✅ Done | `representations/anf_form.py` |
+| DNF/CNF | ✅ Done | `representations/dnf_form.py`, `cnf_form.py` |
+| Polynomial | ✅ Done | `representations/polynomial.py` |
+| LTF | ✅ Done | `representations/ltf.py` |
+| **Circuit (gates)** | ✅ Done | `representations/circuit.py` |
+| **BDD** | ✅ Done | `representations/bdd.py` |
+| **Symbolic** | ✅ Done | `representations/symbolic.py` |
+| **Decision Tree export** | ✅ Done | `visualization/decision_tree_export.py` |
 
 ### Analysis Methods
 | Method | Status | Priority |
@@ -180,7 +189,7 @@ tests/
 | Polynomial method lower bounds | ✅ Done | `polynomial_method_bound()` |
 | General adversary method | ✅ Done | `general_adversary_bound()` |
 | **Goldreich-Levin algorithm** | ✅ Done | `analysis/learning.py` |
-| Communication complexity | TODO | Low |
+| **Communication complexity** | ✅ Done | `analysis/communication_complexity.py` |
 
 ### Visualization
 | Feature | Status | Module |
@@ -202,11 +211,15 @@ tests/
 | Quantum walk search | ✅ Done | `quantum/__init__.py` |
 
 ### Function Families
-| Family | Status | Priority |
-|--------|--------|----------|
-| Iterated majority | TODO | Low |
-| Random DNF families | TODO | Low |
-| Cryptographic S-boxes | TODO | Low (use SageMath) |
+| Family | Status | Module |
+|--------|--------|--------|
+| Majority, Parity, AND, OR | ✅ Done | `families/builtins.py` |
+| Tribes, Threshold, Dictator | ✅ Done | `families/builtins.py` |
+| LTF (weighted) | ✅ Done | `families/builtins.py` |
+| RecursiveMajority3 | ✅ Done | `families/builtins.py` |
+| **Iterated Majority** | ✅ Done | `IteratedMajorityFamily` |
+| **Random DNF** | ✅ Done | `RandomDNFFamily` |
+| **S-box (AES)** | ✅ Done | `SboxFamily` |
 
 ---
 
