@@ -463,6 +463,67 @@ class PropertyTester:
         # Function is monotone if no violations found
         return violations == 0
 
+    def unateness_test(self, num_queries: int = 1000) -> bool:
+        """
+        Test if function is unate (monotone in each variable, possibly negated).
+        
+        A function is unate if for each variable x_i, either:
+        - f is monotone increasing in x_i, OR
+        - f is monotone decreasing in x_i
+        
+        Unate functions generalize monotone functions - they can be monotone 
+        in different "directions" for different variables.
+        
+        QUERY COMPLEXITY: O(2 * num_queries) - safe for arbitrarily large n.
+        
+        Args:
+            num_queries: Number of random pairs to test per variable
+            
+        Returns:
+            True if function appears unate, False otherwise
+        """
+        import random
+        
+        n = self.n_vars
+        py_rng = random.Random(self.rng.randint(0, 2**31))
+        
+        queries_per_var = max(num_queries // n, 10)
+        
+        for i in range(n):
+            # Track if we've seen increasing or decreasing behavior
+            saw_increase = False
+            saw_decrease = False
+            
+            for _ in range(queries_per_var):
+                # Generate random x
+                x = py_rng.getrandbits(n)
+                
+                # Create x' by flipping bit i
+                x_prime = x ^ (1 << i)
+                
+                f_x = self.function.evaluate(x)
+                f_x_prime = self.function.evaluate(x_prime)
+                
+                # Check the direction of change when x_i goes 0→1
+                if ((x >> i) & 1) == 0:
+                    # x has 0 in position i, x' has 1
+                    if f_x_prime > f_x:
+                        saw_increase = True
+                    elif f_x_prime < f_x:
+                        saw_decrease = True
+                else:
+                    # x has 1 in position i, x' has 0
+                    if f_x > f_x_prime:
+                        saw_increase = True
+                    elif f_x < f_x_prime:
+                        saw_decrease = True
+                
+                # If both directions seen, not unate in this variable
+                if saw_increase and saw_decrease:
+                    return False
+        
+        return True
+
     def symmetry_test(self, num_queries: int = 1000) -> bool:
         """
         Test if function is symmetric (invariant under permutations of variables).
@@ -649,9 +710,19 @@ class PropertyTester:
             results["monotone"] = f"Error: {e}"
         
         try:
+            results["unate"] = self.unateness_test()
+        except Exception as e:
+            results["unate"] = f"Error: {e}"
+        
+        try:
             results["symmetric"] = self.symmetry_test()
         except Exception as e:
             results["symmetric"] = f"Error: {e}"
+        
+        try:
+            results["affine"] = self.affine_test()
+        except Exception as e:
+            results["affine"] = f"Error: {e}"
         
         # Test for small juntas
         for k in [1, 2, 3]:

@@ -48,6 +48,8 @@ __all__ = [
     # Lower bounds
     "ambainis_complexity",
     "spectral_adversary_bound",
+    "polynomial_method_bound",
+    "general_adversary_bound",
     "certificate_lower_bound",
     "sensitivity_lower_bound",
     "block_sensitivity_lower_bound",
@@ -751,6 +753,72 @@ def threshold_degree(f: "BooleanFunction") -> int:
     return fourier_degree(f)
 
 
+def polynomial_method_bound(f: "BooleanFunction") -> float:
+    """
+    Compute lower bound on Q2(f) via the polynomial method.
+    
+    The polynomial method shows that quantum algorithms induce low-degree
+    polynomials. Any quantum algorithm making T queries induces polynomials
+    of degree at most 2T representing acceptance probabilities.
+    
+    Therefore: Q2(f) >= deg~(f)/2, where deg~(f) is the approximate degree.
+    
+    For symmetric functions, this is often tight.
+    
+    Args:
+        f: BooleanFunction to analyze
+        
+    Returns:
+        Polynomial method lower bound for quantum query complexity
+        
+    References:
+        - Beals et al., "Quantum lower bounds by polynomials" (2001)
+        - Belovs, "A Direct Reduction from Polynomial to Adversary Method" (TQC 2024)
+    """
+    # The polynomial method bound is deg~(f)/2
+    approx_deg = approximate_degree(f)
+    return approx_deg / 2
+
+
+def general_adversary_bound(f: "BooleanFunction") -> float:
+    """
+    Estimate the general (negative-weight) adversary bound for Q2(f).
+    
+    The general adversary method with negative weights *characterizes*
+    bounded-error quantum query complexity for total Boolean functions:
+    
+        Q2(f) = Θ(ADV±(f))
+    
+    This is the strongest known quantum lower bound technique.
+    
+    Args:
+        f: BooleanFunction to analyze
+        
+    Returns:
+        Estimated general adversary bound (approximation)
+        
+    Note:
+        Computing the exact ADV±(f) requires solving a semidefinite program.
+        This implementation provides a heuristic approximation combining
+        multiple lower bound techniques.
+        
+    References:
+        - Reichardt, "Reflections for quantum query algorithms" (2011)
+        - Belovs (TQC 2024): dual polynomials → adversary bounds
+    """
+    # The general adversary is at least as strong as:
+    # 1. Spectral adversary
+    # 2. Ambainis bound
+    # 3. Polynomial method / 2
+    
+    spec_adv = spectral_adversary_bound(f)
+    amb = ambainis_complexity(f)
+    poly_bound = polynomial_method_bound(f)
+    
+    # Take maximum of all known bounds
+    return max(spec_adv, amb, poly_bound)
+
+
 class QueryComplexityProfile:
     """
     Compute and store query complexity measures for a Boolean function.
@@ -837,6 +905,8 @@ class QueryComplexityProfile:
         self._measures["QE"] = exact_quantum_complexity(f)
         self._measures["Amb"] = ambainis_complexity(f)
         self._measures["SpecAdv"] = spectral_adversary_bound(f)
+        self._measures["PolyMethod"] = polynomial_method_bound(f)
+        self._measures["GenAdv"] = general_adversary_bound(f)
         
         # Influence
         from ..analysis import SpectralAnalyzer

@@ -48,7 +48,7 @@ This document tracks planned features, improvements, and known gaps in the boolf
 |------|--------|-------|
 | GPU acceleration (CuPy) | ✅ DONE | core/gpu.py with CPU fallback |
 | Fluent/chainable API | ✅ DONE | xor(), and_(), permute(), extend(), apply_noise(), etc. |
-| Animation of growth | TODO | As n increases |
+| Animation of growth | ✅ DONE | visualization/animation.py, visualization/growth_plots.py |
 | Comparison guide | ✅ DONE | docs/comparison_guide.md + canalization module |
 
 ### P3 - Future
@@ -99,29 +99,103 @@ tests/
 
 ---
 
-## Missing Features
+## Feature Inventory
+
+### Property Testing (UNIQUE - No competitor has these)
+| Test | Status | Module |
+|------|--------|--------|
+| BLR Linearity | ✅ Done | `PropertyTester.blr_linearity_test()` |
+| Junta (k-junta) | ✅ Done | `PropertyTester.junta_test(k)` |
+| Monotonicity | ✅ Done | `PropertyTester.monotonicity_test()` |
+| **Unateness** | ✅ Done | `PropertyTester.unateness_test()` |
+| Symmetry | ✅ Done | `PropertyTester.symmetry_test()` |
+| Balanced | ✅ Done | `PropertyTester.balanced_test()` |
+| Dictator/Anti-dictator | ✅ Done | `PropertyTester.dictator_test()` |
+| Affine | ✅ Done | `PropertyTester.affine_test()` |
+| Constant | ✅ Done | `PropertyTester.constant_test()` |
+
+### Query Complexity (UNIQUE - No competitor has these)
+| Measure | Status | Function |
+|---------|--------|----------|
+| D(f) - Deterministic | ✅ Done | `deterministic_query_complexity()` |
+| R0(f) - Zero-error | ✅ Done | `zero_error_randomized_complexity()` |
+| R2(f) - Bounded-error | ✅ Done | `bounded_error_randomized_complexity()` |
+| Q2(f) - Quantum bounded | ✅ Done | `quantum_query_complexity()` |
+| QE(f) - Quantum exact | ✅ Done | `exact_quantum_complexity()` |
+| s(f) - Sensitivity | ✅ Done | `sensitivity_lower_bound()` |
+| bs(f) - Block sensitivity | ✅ Done | `block_sensitivity_lower_bound()` |
+| C(f) - Certificate | ✅ Done | `certificate_lower_bound()` |
+| Ambainis bound | ✅ Done | `ambainis_complexity()` |
+| Spectral adversary | ✅ Done | `spectral_adversary_bound()` |
+| **Polynomial method** | ✅ Done | `polynomial_method_bound()` |
+| **General adversary** | ✅ Done | `general_adversary_bound()` |
+| Approximate degree | ✅ Done | `approximate_degree()` |
+| Threshold degree | ✅ Done | `threshold_degree()` |
+
+### FKN/Dictatorship Analysis
+| Feature | Status | Module |
+|---------|--------|--------|
+| Distance to dictator | ✅ Done | `fkn.distance_to_dictator()` |
+| Closest dictator | ✅ Done | `fkn.closest_dictator()` |
+| FKN theorem bounds | ✅ Done | `fkn.fkn_theorem_bound()` |
+| Is close to dictator | ✅ Done | `fkn.is_close_to_dictator()` |
+| Spectral gap | ✅ Done | `fkn.spectral_gap()` |
+| Dictator proximity analysis | ✅ Done | `fkn.analyze_dictator_proximity()` |
+
+### Quantum Module (UNIQUE bridge to Qiskit)
+| Feature | Status | Class/Function |
+|---------|--------|----------------|
+| Quantum oracle creation | ✅ Done | `QuantumBooleanFunction.create_quantum_oracle()` |
+| Quantum Fourier analysis | ✅ Done | `QuantumBooleanFunction.quantum_fourier_analysis()` |
+| Quantum property testing | ✅ Done | `QuantumBooleanFunction.quantum_property_testing()` |
+| Quantum resource estimation | ✅ Done | `QuantumBooleanFunction.get_quantum_resources()` |
+| Quantum advantage estimation | ✅ Done | `estimate_quantum_advantage()` |
+
+### Canalization (from BoolForge/CANA concepts)
+| Feature | Status | Function |
+|---------|--------|----------|
+| Is canalizing | ✅ Done | `is_canalizing()` |
+| K-canalizing | ✅ Done | `is_k_canalizing()` |
+| Canalizing depth | ✅ Done | `get_canalizing_depth()` |
+| Symmetry groups | ✅ Done | `get_symmetry_groups()` |
+| Input redundancy | ✅ Done | `input_redundancy()` |
+| Edge effectiveness | ✅ Done | `edge_effectiveness()` |
+
+---
+
+## Still Missing
 
 ### Representations
-| Representation | Status |
-|----------------|--------|
-| Decision Tree | TODO |
-| ROBDD (Reduced Ordered BDD) | TODO |
-| Circuit (AND/OR/NOT gates) | TODO |
+| Representation | Status | Priority |
+|----------------|--------|----------|
+| Decision Tree (export) | TODO | Low |
+| ROBDD | TODO | Low (use pyeda) |
+| Circuit (gates) | TODO | Low |
 
 ### Analysis Methods
-| Method | Status |
-|--------|--------|
-| Polynomial threshold functions | TODO |
-| AC⁰ circuit complexity bounds | TODO |
-| Communication complexity | TODO |
-| Majority is Stablest (verification) | TODO |
+| Method | Status | Priority |
+|--------|--------|----------|
+| Polynomial method lower bounds | ✅ Done | `polynomial_method_bound()` |
+| General adversary method | ✅ Done | `general_adversary_bound()` |
+| Communication complexity | TODO | Low |
+| Goldreich-Levin algorithm | TODO | Medium |
+
+### Visualization
+| Feature | Status | Module |
+|---------|--------|--------|
+| Animation of growth | ✅ Done | `visualization/animation.py` |
+| Growth plots | ✅ Done | `visualization/growth_plots.py` |
+| Decision tree viz | ✅ Done | `visualization/decision_tree.py` |
+| Interactive widgets | ✅ Done | `visualization/widgets.py` |
+| Interactive Fourier spectrum | TODO | Could use Plotly |
+| Influence heatmaps | TODO | Could add |
 
 ### Function Families
-| Family | Status |
-|--------|--------|
-| Iterated majority | TODO |
-| Random DNF families | TODO |
-| Cryptographic S-boxes | TODO |
+| Family | Status | Priority |
+|--------|--------|----------|
+| Iterated majority | TODO | Low |
+| Random DNF families | TODO | Low |
+| Cryptographic S-boxes | TODO | Low (use SageMath) |
 
 ---
 
