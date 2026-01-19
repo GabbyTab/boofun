@@ -18,10 +18,12 @@ boolfunc.analysis.query\_complexity
       deterministic_query_complexity
       everywhere_sensitivity
       exact_quantum_complexity
+      general_adversary_bound
       nondeterministic_complexity
       nondeterministic_degree
       one_sided_approximate_degree
       one_sided_randomized_complexity
+      polynomial_method_bound
       quantum_query_complexity
       sensitivity_lower_bound
       spectral_adversary_bound

@@ -313,6 +313,123 @@ class QuantumBooleanFunction:
             'error_rate_tolerance': 0.01,
             'quantum_volume_required': 2**self.n_vars
         }
+    
+    def grover_analysis(self) -> Dict[str, Any]:
+        """
+        Analyze the function using Grover's algorithm framework.
+        
+        Grover's algorithm finds a satisfying assignment (if one exists)
+        with O(√N) queries instead of O(N) classical queries.
+        
+        Returns:
+            Dict with:
+            - num_solutions: Number of satisfying assignments
+            - classical_queries: Expected classical search queries
+            - grover_queries: Expected Grover queries (O(√(N/M)))
+            - speedup: Quantum speedup factor
+            - optimal_iterations: Number of Grover iterations needed
+        """
+        n = self.n_vars
+        N = 2**n  # Total inputs
+        
+        # Count solutions (satisfying assignments)
+        num_solutions = 0
+        for x in range(N):
+            if self.function.evaluate(x):
+                num_solutions += 1
+        
+        M = num_solutions  # Number of marked items
+        
+        if M == 0:
+            return {
+                'num_solutions': 0,
+                'classical_queries': N,
+                'grover_queries': np.sqrt(N),  # Still need to verify no solution
+                'speedup': np.sqrt(N),
+                'optimal_iterations': int(np.pi / 4 * np.sqrt(N)),
+                'has_solutions': False
+            }
+        
+        # Classical: expected N/M queries to find a solution
+        classical_queries = N / M
+        
+        # Grover: O(√(N/M)) queries
+        grover_queries = np.pi / 4 * np.sqrt(N / M)
+        
+        # Optimal number of Grover iterations
+        optimal_iterations = int(np.pi / 4 * np.sqrt(N / M))
+        
+        return {
+            'num_solutions': M,
+            'solution_density': M / N,
+            'classical_queries': classical_queries,
+            'grover_queries': grover_queries,
+            'speedup': classical_queries / grover_queries,
+            'optimal_iterations': optimal_iterations,
+            'has_solutions': True
+        }
+    
+    def grover_amplitude_analysis(self) -> Dict[str, Any]:
+        """
+        Analyze amplitudes after Grover iterations (simulation).
+        
+        This simulates the Grover amplitude amplification process
+        to show how solution amplitudes grow.
+        
+        Returns:
+            Dict with amplitude evolution data
+        """
+        n = self.n_vars
+        N = 2**n
+        
+        # Find solution states
+        solutions = []
+        non_solutions = []
+        for x in range(N):
+            if self.function.evaluate(x):
+                solutions.append(x)
+            else:
+                non_solutions.append(x)
+        
+        M = len(solutions)
+        if M == 0 or M == N:
+            return {
+                'num_solutions': M,
+                'evolution': [],
+                'message': 'All or no solutions - Grover not applicable'
+            }
+        
+        # Initial amplitudes (uniform superposition)
+        initial_amp = 1 / np.sqrt(N)
+        
+        # Grover iteration angles
+        theta = np.arcsin(np.sqrt(M / N))
+        
+        # Compute amplitude evolution over iterations
+        evolution = []
+        optimal_k = int(np.pi / (4 * theta))
+        
+        for k in range(min(optimal_k + 3, 20)):
+            # After k iterations, solution amplitude = sin((2k+1)θ)
+            sol_amp = np.sin((2*k + 1) * theta)
+            non_sol_amp = np.cos((2*k + 1) * theta) / np.sqrt(N - M)
+            
+            success_prob = sol_amp ** 2
+            
+            evolution.append({
+                'iteration': k,
+                'solution_amplitude': sol_amp,
+                'success_probability': success_prob,
+                'non_solution_amplitude': non_sol_amp if M < N else 0
+            })
+        
+        return {
+            'num_solutions': M,
+            'theta': theta,
+            'optimal_iterations': optimal_k,
+            'evolution': evolution,
+            'max_success_prob': max(e['success_probability'] for e in evolution)
+        }
 
 
 # Utility functions for quantum Boolean function analysis
@@ -368,5 +485,20 @@ def estimate_quantum_advantage(n_vars: int, analysis_type: str = 'fourier') -> D
 __all__ = [
     'QuantumBooleanFunction',
     'create_quantum_boolean_function', 
-    'estimate_quantum_advantage'
+    'estimate_quantum_advantage',
+    'grover_speedup',
 ]
+
+
+def grover_speedup(f: BooleanFunction) -> Dict[str, Any]:
+    """
+    Convenience function to compute Grover speedup for a Boolean function.
+    
+    Args:
+        f: Boolean function (oracle)
+        
+    Returns:
+        Grover analysis results
+    """
+    qf = QuantumBooleanFunction(f)
+    return qf.grover_analysis()

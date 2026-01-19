@@ -32,8 +32,9 @@ extensions = [
 try:
     import myst_parser
     extensions.append('myst_parser')
+    myst_enable_extensions = ["colon_fence", "deflist"]
 except ImportError:
-    pass
+    myst_parser = None
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -77,14 +78,7 @@ intersphinx_mapping = {
 # Todo extension
 todo_include_todos = True
 
-# Source file suffixes
-source_suffix = {
-    '.rst': None,
-}
-
-# Add Markdown support if myst_parser is available
-try:
-    import myst_parser
-    source_suffix['.md'] = 'myst_parser'
-except ImportError:
-    pass
+# Source file suffixes - myst_parser handles .md automatically when loaded
+source_suffix = ['.rst']
+if myst_parser is not None:
+    source_suffix.append('.md')

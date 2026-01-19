@@ -150,6 +150,8 @@ tests/
 | Quantum property testing | ✅ Done | `QuantumBooleanFunction.quantum_property_testing()` |
 | Quantum resource estimation | ✅ Done | `QuantumBooleanFunction.get_quantum_resources()` |
 | Quantum advantage estimation | ✅ Done | `estimate_quantum_advantage()` |
+| **Grover analysis** | ✅ Done | `QuantumBooleanFunction.grover_analysis()` |
+| **Grover amplitude evolution** | ✅ Done | `QuantumBooleanFunction.grover_amplitude_analysis()` |
 
 ### Canalization (from BoolForge/CANA concepts)
 | Feature | Status | Function |

@@ -308,24 +308,36 @@ Our `tests/test_theoretical_validation.py` validates against known mathematical 
 
 These are areas where **no other library competes**:
 
-1. **Query Complexity** - ✅ Already strong
+1. **Query Complexity** - ✅ COMPLETE (14 measures)
    - [x] D(f), R(f), Q(f), bs(f), C(f)
    - [x] Ambainis bound, spectral adversary
+   - [x] **Polynomial method bound** (NEW)
+   - [x] **General adversary bound** (NEW)
+   - [x] Approximate degree, threshold degree
    - [ ] Add visualization of complexity measures
-   - [ ] Add more quantum lower bound techniques
 
-2. **Property Testing** - ✅ Already strong
+2. **Property Testing** - ✅ COMPLETE (9 tests)
    - [x] BLR linearity test
    - [x] Junta testing
    - [x] Monotonicity testing
-   - [ ] Add dictatorship testing (FKN theorem)
-   - [ ] Add more sublinear-time tests
+   - [x] **Unateness testing** (NEW)
+   - [x] Dictatorship testing (via `PropertyTester.dictator_test()`)
+   - [x] Affine, balanced, symmetry, constant tests
+   - [ ] Add tolerant testing variants
 
-3. **Quantum Integration** - ✅ Unique bridge
+3. **FKN/Dictatorship Analysis** - ✅ COMPLETE
+   - [x] `fkn.distance_to_dictator()`
+   - [x] `fkn.closest_dictator()`
+   - [x] `fkn.fkn_theorem_bound()`
+   - [x] `fkn.analyze_dictator_proximity()`
+
+4. **Quantum Integration** - ✅ Unique bridge
    - [x] Quantum query complexity
    - [x] Quantum property testing
-   - [ ] Grover-based analysis
-   - [ ] Quantum walk algorithms
+   - [x] Quantum oracle creation
+   - [x] Quantum resource estimation
+   - [x] **Grover analysis** (speedup, amplitude evolution) - NEW
+   - [ ] Quantum walk algorithms (future)
 
 ### Completed Additions (from BoolForge/CANA concepts)
 

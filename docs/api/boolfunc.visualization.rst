@@ -9,6 +9,8 @@ boolfunc.visualization
    .. autosummary::
    
       plot_function_comparison
+      plot_hypercube
+      plot_sensitivity_heatmap
    
    .. rubric:: Classes
 
@@ -16,3 +18,13 @@ boolfunc.visualization
    
       BooleanFunctionVisualizer
    
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   animation
+   decision_tree
+   growth_plots
+   widgets

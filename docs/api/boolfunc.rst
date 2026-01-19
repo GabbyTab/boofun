@@ -12,9 +12,13 @@
       OR
       constant
       dictator
+      from_weights
       majority
       parity
+      random
+      threshold
       tribes
+      weighted_majority
    
 .. rubric:: Modules
 
@@ -26,6 +30,7 @@
    api
    benchmarks
    core
+   families
    quantum
    testing
    utils
