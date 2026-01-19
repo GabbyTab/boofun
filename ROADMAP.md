@@ -49,7 +49,7 @@ This document tracks planned features, improvements, and known gaps in the boolf
 | GPU acceleration (CuPy) | ✅ DONE | core/gpu.py with CPU fallback |
 | Fluent/chainable API | ✅ DONE | xor(), and_(), permute(), extend(), apply_noise(), etc. |
 | Animation of growth | TODO | As n increases |
-| Comparison guide | TODO | vs BoolForge, pyeda, Sage |
+| Comparison guide | ✅ DONE | docs/comparison_guide.md + canalization module |
 
 ### P3 - Future
 | Task | Notes |
