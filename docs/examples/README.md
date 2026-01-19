@@ -1,6 +1,6 @@
 # Real-World Usage Examples
 
-This directory contains practical examples of using BoolFunc for real-world applications.
+This directory contains practical examples of using BooFun for real-world applications.
 
 ## Examples Overview
 
@@ -11,7 +11,7 @@ This directory contains practical examples of using BoolFunc for real-world appl
 ## Quick Start
 
 ```python
-import boolfunc as bf
+import boofun as bf
 
 # Example 1: Analyze a cryptographic S-box
 # See sbox_analysis.md for full details
@@ -28,7 +28,7 @@ print(f"Variable influences: {weighted_vote.influences()}")
 
 # Example 3: Feature importance
 # See feature_selection.md for full details
-from boolfunc.analysis import PropertyTester
+from boofun.analysis import PropertyTester
 tester = PropertyTester(classifier)
 is_junta = tester.junta_test(k=5)  # Is it essentially k features?
 ```

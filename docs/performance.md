@@ -1,6 +1,6 @@
 # Performance Guide
 
-This document describes BoolFunc's performance characteristics, optimization strategies, and benchmarks.
+This document describes BooFun's performance characteristics, optimization strategies, and benchmarks.
 
 ## Quick Summary
 
@@ -13,7 +13,7 @@ This document describes BoolFunc's performance characteristics, optimization str
 
 ## Optimization Tiers
 
-BoolFunc uses multiple optimization strategies, automatically selecting the best available:
+BooFun uses multiple optimization strategies, automatically selecting the best available:
 
 ### Tier 1: NumPy Vectorization (Default)
 - Always available
@@ -44,7 +44,7 @@ BoolFunc uses multiple optimization strategies, automatically selecting the best
 ### Auto-Selection
 
 ```python
-from boolfunc.core.auto_representation import recommend_representation
+from boofun.core.auto_representation import recommend_representation
 
 # Get recommendation for your use case
 rec = recommend_representation(n_vars=18, sparsity=0.1)
@@ -56,13 +56,13 @@ print(rec)
 ### Using Packed Truth Tables
 
 ```python
-from boolfunc.core.representations.packed_truth_table import create_packed_truth_table
+from boofun.core.representations.packed_truth_table import create_packed_truth_table
 
 # Convert existing truth table
 packed = create_packed_truth_table(truth_table)
 
 # Memory savings
-from boolfunc.core.representations.packed_truth_table import memory_comparison
+from boofun.core.representations.packed_truth_table import memory_comparison
 print(memory_comparison(20))
 # packed_bitarray: 131,072 bytes (128.0 KB)
 # numpy_bool: 1,048,576 bytes (1024.0 KB)
@@ -74,7 +74,7 @@ print(memory_comparison(20))
 ### Batch Operations
 
 ```python
-from boolfunc.core.optimizations import parallel_batch_influences, parallel_batch_fourier
+from boofun.core.optimizations import parallel_batch_influences, parallel_batch_fourier
 
 # Compute influences for many functions at once
 functions = [bf.random_function(n=10) for _ in range(100)]
@@ -95,7 +95,7 @@ Numba functions automatically use all CPU cores:
 # - _fast_wht_numba
 
 # Check if Numba is being used:
-from boolfunc.core.optimizations import HAS_NUMBA, INFLUENCES_BACKEND
+from boofun.core.optimizations import HAS_NUMBA, INFLUENCES_BACKEND
 print(f"Numba available: {HAS_NUMBA}")
 print(f"Influences backend: {INFLUENCES_BACKEND}")
 ```
@@ -105,7 +105,7 @@ print(f"Influences backend: {INFLUENCES_BACKEND}")
 ### Global Compute Cache
 
 ```python
-from boolfunc.core.optimizations import get_global_cache
+from boofun.core.optimizations import get_global_cache
 
 cache = get_global_cache()
 
@@ -176,7 +176,7 @@ This alone provides 2-10x speedup for most operations.
 
 ```python
 # For n > 14, consider sparse or packed
-from boolfunc.core.auto_representation import AdaptiveFunction
+from boofun.core.auto_representation import AdaptiveFunction
 
 # Automatically chooses best format
 f = AdaptiveFunction(truth_table, n_vars=18)
@@ -190,7 +190,7 @@ print(f.format)  # 'packed' or 'sparse'
 results = [f.influences() for f in functions]
 
 # Good: parallel
-from boolfunc.core.optimizations import parallel_batch_influences
+from boofun.core.optimizations import parallel_batch_influences
 results = parallel_batch_influences(functions)
 ```
 
@@ -211,7 +211,7 @@ for _ in range(100):
 ### 5. Profile Your Code
 
 ```python
-from boolfunc.core.optimizations import WHT_BACKEND, INFLUENCES_BACKEND
+from boofun.core.optimizations import WHT_BACKEND, INFLUENCES_BACKEND
 
 print(f"WHT backend: {WHT_BACKEND}")
 print(f"Influences backend: {INFLUENCES_BACKEND}")

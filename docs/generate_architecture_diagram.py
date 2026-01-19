@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate architecture diagram for BoolFunc library documentation.
+Generate architecture diagram for BooFun library documentation.
 
 This script creates a visual representation of the library's modular architecture
 using matplotlib and saves it as both PNG and SVG formats.
@@ -12,7 +12,7 @@ from matplotlib.patches import FancyBboxPatch, ConnectionPatch
 import numpy as np
 
 def create_architecture_diagram():
-    """Create the BoolFunc architecture diagram."""
+    """Create the BooFun architecture diagram."""
     
     # Create figure and axis
     fig, ax = plt.subplots(1, 1, figsize=(14, 10))
@@ -58,7 +58,7 @@ def create_architecture_diagram():
                 alpha=0.7)
     
     # Title
-    ax.text(5, 9.5, 'BoolFunc Library Architecture', 
+    ax.text(5, 9.5, 'BooFun Library Architecture', 
             ha='center', va='center', fontsize=16, fontweight='bold')
     
     # Layer 1: User Interface
@@ -130,7 +130,7 @@ def create_architecture_diagram():
 
 def main():
     """Generate and save the architecture diagram."""
-    print("🎨 Generating BoolFunc architecture diagram...")
+    print("🎨 Generating BooFun architecture diagram...")
     
     try:
         fig = create_architecture_diagram()

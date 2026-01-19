@@ -9,15 +9,15 @@ Basic Installation
 
 .. code-block:: bash
 
-   pip install boolfunc
+   pip install boofun
 
 Development Installation
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-   git clone https://github.com/GabbyTab/boolfunc.git
-   cd boolfunc
+   git clone https://github.com/GabbyTab/boofun.git
+   cd boofun
    pip install -e ".[dev]"
 
 Optional Dependencies
@@ -26,10 +26,10 @@ Optional Dependencies
 .. code-block:: bash
 
    # For visualization features
-   pip install boolfunc[visualization]
+   pip install boofun[visualization]
    
    # For all features including development tools
-   pip install boolfunc[all]
+   pip install boofun[all]
 
 First Steps
 -----------
@@ -39,7 +39,7 @@ Creating Boolean Functions
 
 .. code-block:: python
 
-   import boolfunc as bf
+   import boofun as bf
 
    # From truth table
    xor = bf.create([0, 1, 1, 0])

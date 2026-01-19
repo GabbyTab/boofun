@@ -17,9 +17,9 @@ Boolean function analysis provides:
 
 ```python
 import numpy as np
-import boolfunc as bf
-from boolfunc.analysis import PropertyTester
-from boolfunc.analysis.query_complexity import QueryComplexityProfile
+import boofun as bf
+from boofun.analysis import PropertyTester
+from boofun.analysis.query_complexity import QueryComplexityProfile
 ```
 
 ## Example 1: Analyzing a Decision Tree
@@ -27,7 +27,7 @@ from boolfunc.analysis.query_complexity import QueryComplexityProfile
 Decision trees are naturally Boolean functions:
 
 ```python
-def decision_tree_to_boolfunc(tree_predict, n_features: int):
+def decision_tree_to_boofun(tree_predict, n_features: int):
     """
     Convert sklearn decision tree to BooleanFunction.
     
@@ -55,7 +55,7 @@ def simple_tree(X):
         return [1]
     return [0]
 
-tree_func = decision_tree_to_boolfunc(simple_tree, n_features=5)
+tree_func = decision_tree_to_boofun(simple_tree, n_features=5)
 
 # Analyze
 print("Feature influences:")
@@ -175,7 +175,7 @@ def compare_models_interpretability(models: dict, n_features: int):
     results = []
     
     for name, predict in models.items():
-        f = decision_tree_to_boolfunc(predict, n_features)
+        f = decision_tree_to_boofun(predict, n_features)
         
         influences = f.influences()
         tester = PropertyTester(f)
@@ -296,7 +296,7 @@ def full_model_analysis(predict_func, n_features: int, model_name: str = "Model"
     print(f"{'='*60}\n")
     
     # Convert to Boolean function
-    f = decision_tree_to_boolfunc(predict_func, n_features)
+    f = decision_tree_to_boofun(predict_func, n_features)
     
     # 1. Feature importance
     print("1. FEATURE IMPORTANCE")

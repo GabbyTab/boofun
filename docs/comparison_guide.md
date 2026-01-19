@@ -1,29 +1,29 @@
 # Boolean Function Libraries Comparison
 
-This guide identifies BoolFunc's unique niche and compares it with other Boolean function libraries.
+This guide identifies BooFun's unique niche and compares it with other Boolean function libraries.
 
-## TL;DR: Where BoolFunc Excels
+## TL;DR: Where BooFun Excels
 
-**BoolFunc is the only Python library that combines:**
+**BooFun is the only Python library that combines:**
 1. **Query Complexity** - D(f), R(f), Q(f), bs(f), certificate complexity
 2. **Property Testing** - BLR linearity, junta, monotonicity, dictatorship tests
 3. **Theoretical Fourier Analysis** - Influences, noise stability, KKL, hypercontractivity
-4. **Quantum Integration** - Quantum query complexity, quantum property testing
+4. **Quantum Speedup Analysis** - Grover speedup, quantum walk analysis, Q₂(f) bounds
 
-**Use BoolFunc when:**
+**Use BooFun when:**
 - Researching computational complexity of Boolean functions
 - Teaching/learning Boolean function theory (O'Donnell's book)
 - Property testing algorithms development
-- Quantum algorithm analysis for Boolean functions
+- Quantum speedup estimation for Boolean functions
 - Reproducing theoretical computer science results
 
 ---
 
 ## Libraries Compared
 
-| Library | Primary Focus | Query Complexity | Property Testing | Fourier Analysis | Quantum |
-|---------|--------------|------------------|------------------|------------------|---------|
-| **BoolFunc** | Theory & Complexity | ✅ Full suite | ✅ BLR, junta, etc. | ✅ O'Donnell style | ✅ |
+| Library | Primary Focus | Query Complexity | Property Testing | Fourier Analysis | Quantum Speedup |
+|---------|--------------|------------------|------------------|------------------|-----------------|
+| **BooFun** | Theory & Complexity | ✅ Full suite | ✅ BLR, junta, etc. | ✅ O'Donnell style | ✅ (theoretical) |
 | **SageMath** | Cryptography | ❌ | ❌ | ⚠️ Walsh only | ❌ |
 | **pyeda** | Logic/SAT/BDD | ❌ | ❌ | ❌ | ❌ |
 | **BoolForge** | Biology/Networks | ❌ | ❌ | ❌ | ❌ |
@@ -31,12 +31,12 @@ This guide identifies BoolFunc's unique niche and compares it with other Boolean
 
 ---
 
-## BoolFunc's Unique Features
+## BooFun's Unique Features
 
 ### 1. Query Complexity (UNIQUE - No Other Library Has This)
 
 ```python
-from boolfunc.analysis.query_complexity import QueryComplexityProfile
+from boofun.analysis.query_complexity import QueryComplexityProfile
 
 profile = QueryComplexityProfile(f)
 measures = profile.compute()
@@ -58,7 +58,7 @@ measures = profile.compute()
 ### 2. Property Testing (UNIQUE - No Other Library Has This)
 
 ```python
-from boolfunc.analysis import PropertyTester
+from boofun.analysis import PropertyTester
 
 tester = PropertyTester(f)
 
@@ -79,7 +79,7 @@ is_dictator = tester.dictatorship_test()
 
 ### 3. Theoretical Fourier Analysis (Different from SageMath)
 
-| Concept | BoolFunc | SageMath |
+| Concept | BooFun | SageMath |
 |---------|----------|----------|
 | Walsh-Hadamard Transform | ✅ | ✅ |
 | Influences (Inf_i[f]) | ✅ | ❌ |
@@ -93,29 +93,31 @@ is_dictator = tester.dictatorship_test()
 | Correlation immunity | ❌ | ✅ |
 
 **SageMath focuses on cryptographic properties** (bent, plateaued, correlation immunity).
-**BoolFunc focuses on O'Donnell-style theoretical analysis** (influences, noise stability).
+**BooFun focuses on O'Donnell-style theoretical analysis** (influences, noise stability).
 
-### 4. Quantum Integration (UNIQUE Bridge)
+### 4. Quantum Speedup Analysis (Educational)
 
 ```python
-from boolfunc.quantum import QuantumBooleanFunction
+from boofun.quantum import grover_speedup, quantum_walk_analysis
 
-qf = QuantumBooleanFunction(f)
+# Analyze Grover speedup for a function
+f = bf.AND(6)
+result = grover_speedup(f)
+print(f"Grover speedup: {result['speedup']:.2f}x")
 
-# Create quantum oracle
-oracle = qf.create_quantum_oracle()
+# Quantum walk analysis
+walk = quantum_walk_analysis(f)
+print(f"Quantum walk speedup: {walk['speedup_over_classical']:.2f}x")
 
-# Quantum property testing
-result = qf.quantum_property_testing('linearity')
-
-# Quantum vs classical comparison
-comparison = qf.quantum_algorithm_comparison()
-
-# Resource estimation
-resources = qf.get_quantum_resources()
+# These work without Qiskit - purely theoretical analysis
 ```
 
-**Why this matters:** Qiskit can create oracles but has NO analysis tools. We bridge Boolean function theory with quantum computing.
+**What this provides:**
+- **Theoretical speedup estimation**: Grover, quantum walks, element distinctness
+- **Educational tools**: Understanding when quantum helps Boolean function problems
+- **Query complexity**: Q₂(f) bounds via adversary method
+
+**Note:** Actual quantum oracle creation requires Qiskit (`pip install qiskit`). Without Qiskit, the module provides theoretical/educational analysis only - all "quantum" methods fall back to classical algorithms for computation while still providing accurate speedup estimates.
 
 ---
 
@@ -123,7 +125,7 @@ resources = qf.get_quantum_resources()
 
 ### Core Representations
 
-| Feature | BoolFunc | BoolForge | CANA | pyeda |
+| Feature | BooFun | BoolForge | CANA | pyeda |
 |---------|----------|-----------|------|-------|
 | Truth Table | ✅ | ✅ | ✅ | ✅ |
 | ANF (Algebraic Normal Form) | ✅ | ✅ (polynomial) | ❌ | ❌ |
@@ -134,45 +136,45 @@ resources = qf.get_quantum_resources()
 
 ### Analysis Methods
 
-| Analysis | BoolFunc | BoolForge | CANA | Notes |
+| Analysis | BooFun | BoolForge | CANA | Notes |
 |----------|----------|-----------|------|-------|
-| **Fourier Transform** | ✅ | ❌ | ❌ | BoolFunc specialty |
+| **Fourier Transform** | ✅ | ❌ | ❌ | BooFun specialty |
 | **Influences** | ✅ | ✅ (activities) | ❌ | Same concept, different name |
 | **Total Influence** | ✅ | ✅ (avg_sensitivity) | ❌ | Equivalent |
-| **Noise Stability** | ✅ | ❌ | ❌ | BoolFunc specialty |
-| **Spectral Analysis** | ✅ | ❌ | ❌ | BoolFunc specialty |
-| **Canalization** | ❌ | ✅ | ✅ | Gap in BoolFunc |
-| **k-Canalizing** | ❌ | ✅ | ❌ | Gap in BoolFunc |
-| **Input Redundancy** | ❌ | ✅ (via CANA) | ✅ | Gap in BoolFunc |
-| **Edge Effectiveness** | ❌ | ✅ (via CANA) | ✅ | Gap in BoolFunc |
-| **Symmetry Groups** | ❌ | ✅ | ✅ | Gap in BoolFunc |
+| **Noise Stability** | ✅ | ❌ | ❌ | BooFun specialty |
+| **Spectral Analysis** | ✅ | ❌ | ❌ | BooFun specialty |
+| **Canalization** | ❌ | ✅ | ✅ | Gap in BooFun |
+| **k-Canalizing** | ❌ | ✅ | ❌ | Gap in BooFun |
+| **Input Redundancy** | ❌ | ✅ (via CANA) | ✅ | Gap in BooFun |
+| **Edge Effectiveness** | ❌ | ✅ (via CANA) | ✅ | Gap in BooFun |
+| **Symmetry Groups** | ❌ | ✅ | ✅ | Gap in BooFun |
 | **Essential Variables** | ✅ | ✅ | ✅ | All have this |
 | **Sensitivity** | ✅ | ✅ | ❌ | Both have this |
 | **Monotonicity** | ✅ | ✅ | ❌ | Both have this |
 
 ### Property Testing
 
-| Property Test | BoolFunc | BoolForge | Notes |
+| Property Test | BooFun | BoolForge | Notes |
 |--------------|----------|-----------|-------|
-| Linearity (BLR) | ✅ | ❌ | BoolFunc specialty |
-| Junta Test | ✅ | ❌ | BoolFunc specialty |
+| Linearity (BLR) | ✅ | ❌ | BooFun specialty |
+| Junta Test | ✅ | ❌ | BooFun specialty |
 | Monotonicity | ✅ | ✅ (exact) | Different approaches |
-| Dictatorship | ✅ | ❌ | BoolFunc specialty |
+| Dictatorship | ✅ | ❌ | BooFun specialty |
 
 ### Function Families
 
-| Family | BoolFunc | BoolForge | Notes |
+| Family | BooFun | BoolForge | Notes |
 |--------|----------|-----------|-------|
 | Majority | ✅ | ❌ | |
 | Parity | ✅ | ❌ | |
 | Tribes | ✅ | ❌ | |
 | AND/OR/XOR | ✅ | ❌ | |
 | Random Functions | ✅ (basic) | ✅ (extensive) | BoolForge has many random generators |
-| NCF (Nested Canalizing) | ❌ | ✅ | Gap in BoolFunc |
+| NCF (Nested Canalizing) | ❌ | ✅ | Gap in BooFun |
 
 ### Boolean Networks
 
-| Feature | BoolFunc | BoolForge | CANA |
+| Feature | BooFun | BoolForge | CANA |
 |---------|----------|-----------|------|
 | Single Functions | ✅ | ✅ | ✅ |
 | Networks | ❌ | ✅ | ✅ |
@@ -184,7 +186,7 @@ resources = qf.get_quantum_resources()
 
 ## Unique Strengths
 
-### BoolFunc
+### BooFun
 - **Fourier Analysis**: Walsh-Hadamard transform, spectral analysis
 - **Theoretical Results**: KKL theorem, Poincaré inequality, hypercontractivity
 - **Property Testing**: BLR linearity, junta testing
@@ -213,16 +215,16 @@ resources = qf.get_quantum_resources()
 
 ## Cross-Validation Tests
 
-### BoolFunc ↔ SageMath (Walsh-Hadamard)
+### BooFun ↔ SageMath (Walsh-Hadamard)
 
 ```python
 # Test: Walsh-Hadamard transforms should match
 # SageMath uses different normalization, so we compare structure
 
-# BoolFunc
-import boolfunc as bf
+# BooFun
+import boofun as bf
 f = bf.majority(5)
-wht_boolfunc = f.fourier()
+wht_boofun = f.fourier()
 
 # SageMath equivalent:
 # from sage.crypto.boolean_function import BooleanFunction
@@ -232,13 +234,13 @@ wht_boolfunc = f.fourier()
 # Verify: same non-zero positions, proportional values
 ```
 
-### BoolFunc ↔ BoolForge (Influences/Activities)
+### BooFun ↔ BoolForge (Influences/Activities)
 
 ```python
-# BoolFunc "influences" = BoolForge "activities"
-import boolfunc as bf
+# BooFun "influences" = BoolForge "activities"
+import boofun as bf
 
-# BoolFunc
+# BooFun
 f_bf = bf.majority(5)
 influences = f_bf.influences()
 total_influence = f_bf.total_influence()
@@ -267,15 +269,15 @@ Our `tests/test_theoretical_validation.py` validates against known mathematical 
 
 ## Who Should Use What
 
-### Use BoolFunc For:
+### Use BooFun For:
 
-| Use Case | Why BoolFunc |
+| Use Case | Why BooFun |
 |----------|-------------|
 | **Query complexity research** | Only library with D(f), R(f), Q(f), bs(f) |
 | **Property testing algorithms** | BLR, junta, monotonicity tests |
 | **Learning Boolean function theory** | O'Donnell lecture notebooks |
 | **TCS paper reproduction** | Matches theoretical CS conventions |
-| **Quantum Boolean analysis** | Bridge between theory and Qiskit |
+| **Quantum speedup analysis** | Theoretical speedup estimation (Grover, walks) |
 | **Influence/noise stability analysis** | Only library with full Fourier toolset |
 
 ### Use Other Libraries For:
@@ -295,14 +297,14 @@ Our `tests/test_theoretical_validation.py` validates against known mathematical 
 | Feature | Libraries with Support |
 |---------|----------------------|
 | Truth tables | All |
-| Walsh-Hadamard | BoolFunc, SageMath |
-| Monotonicity | BoolFunc (test), BoolForge (exact) |
-| Sensitivity | BoolFunc, BoolForge |
-| Symmetry groups | BoolFunc (new), BoolForge, CANA |
+| Walsh-Hadamard | BooFun, SageMath |
+| Monotonicity | BooFun (test), BoolForge (exact) |
+| Sensitivity | BooFun, BoolForge |
+| Symmetry groups | BooFun (new), BoolForge, CANA |
 
 ---
 
-## Strategic Roadmap for BoolFunc
+## Strategic Roadmap for BooFun
 
 ### Core Niche (Strengthen What Makes Us Unique)
 
@@ -331,13 +333,13 @@ These are areas where **no other library competes**:
    - [x] `fkn.fkn_theorem_bound()`
    - [x] `fkn.analyze_dictator_proximity()`
 
-4. **Quantum Integration** - ✅ Unique bridge
-   - [x] Quantum query complexity
-   - [x] Quantum property testing
-   - [x] Quantum oracle creation
+4. **Quantum Speedup Analysis** - ✅ Educational/Theoretical
+   - [x] Grover speedup estimation
+   - [x] Quantum walk analysis
+   - [x] Element distinctness analysis
+   - [x] Quantum query complexity bounds (Q₂(f))
    - [x] Quantum resource estimation
-   - [x] **Grover analysis** (speedup, amplitude evolution) - NEW
-   - [ ] Quantum walk algorithms (future)
+   - [ ] Full Qiskit integration (oracle execution) - future, requires Qiskit
 
 ### Completed Additions (from BoolForge/CANA concepts)
 
@@ -368,8 +370,8 @@ These are better served by specialized libraries:
 ## Installation Commands
 
 ```bash
-# BoolFunc (pending PyPI)
-pip install git+https://github.com/GabbyTab/boolfunc
+# BooFun (pending PyPI)
+pip install git+https://github.com/GabbyTab/boofun
 
 # BoolForge
 pip install git+https://github.com/ckadelka/BoolForge

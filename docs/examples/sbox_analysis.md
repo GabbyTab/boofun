@@ -1,6 +1,6 @@
 # Cryptographic S-box Analysis
 
-This example demonstrates how to use BoolFunc to analyze cryptographic S-boxes, a critical component of block ciphers like AES.
+This example demonstrates how to use BooFun to analyze cryptographic S-boxes, a critical component of block ciphers like AES.
 
 ## Background
 
@@ -15,8 +15,8 @@ S-boxes (Substitution boxes) are nonlinear components in symmetric ciphers. Thei
 
 ```python
 import numpy as np
-import boolfunc as bf
-from boolfunc.analysis import PropertyTester
+import boofun as bf
+from boofun.analysis import PropertyTester
 
 # AES S-box (first 32 values shown)
 AES_SBOX = [
@@ -115,7 +115,7 @@ for i, comp in enumerate(components):
 ## Interactive Visualization
 
 ```python
-from boolfunc.visualization.interactive import FourierExplorer
+from boofun.visualization.interactive import FourierExplorer
 
 # Explore the Fourier spectrum interactively
 explorer = FourierExplorer(components[0])
@@ -181,7 +181,7 @@ analyze_sbox(AES_SBOX, "AES")
 1. **High nonlinearity** (112 for AES) provides resistance to linear cryptanalysis
 2. **Balancedness** ensures no output bias
 3. **High algebraic degree** resists algebraic attacks
-4. **BoolFunc makes it easy** to compute all these properties with a unified API
+4. **BooFun makes it easy** to compute all these properties with a unified API
 
 ## References
 

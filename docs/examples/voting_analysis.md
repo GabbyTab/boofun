@@ -1,6 +1,6 @@
 # Voting System Analysis
 
-This example demonstrates how to use BoolFunc to analyze voting systems using the theory of Boolean functions and social choice.
+This example demonstrates how to use BooFun to analyze voting systems using the theory of Boolean functions and social choice.
 
 ## Background
 
@@ -17,9 +17,9 @@ Key concepts from Boolean function analysis:
 
 ```python
 import numpy as np
-import boolfunc as bf
-from boolfunc.analysis import PropertyTester
-from boolfunc.analysis.fkn import (
+import boofun as bf
+from boofun.analysis import PropertyTester
+from boofun.analysis.fkn import (
     distance_to_dictator, closest_dictator, 
     is_close_to_dictator, analyze_dictator_proximity
 )

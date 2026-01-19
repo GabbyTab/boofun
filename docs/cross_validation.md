@@ -1,6 +1,6 @@
 # Cross-Validation with Sage/Mathematica
 
-This document describes how to cross-validate BoolFunc results with established mathematical software.
+This document describes how to cross-validate BooFun results with established mathematical software.
 
 ## Overview
 
@@ -130,7 +130,7 @@ Verify total influence bounds:
 ```python
 #!/usr/bin/env python3
 """
-Cross-validate BoolFunc with Sage (requires SageMath installation).
+Cross-validate BooFun with Sage (requires SageMath installation).
 """
 
 import subprocess
@@ -138,7 +138,7 @@ import json
 import numpy as np
 
 def run_sage_comparison(n, function_type):
-    """Run Sage computation and compare with BoolFunc."""
+    """Run Sage computation and compare with BooFun."""
     sage_script = f'''
 from sage.all import *
 import json
@@ -183,11 +183,11 @@ print(json.dumps({{"coefficients": coeffs}}))
         raise RuntimeError(f"Sage failed: {result.stderr}")
 
 
-def compare_with_boolfunc(n, function_type):
-    """Compare Sage results with BoolFunc."""
-    import boolfunc as bf
+def compare_with_boofun(n, function_type):
+    """Compare Sage results with BooFun."""
+    import boofun as bf
     
-    # Get BoolFunc result
+    # Get BooFun result
     if function_type == "parity":
         f = bf.parity(n)
     elif function_type == "majority":
