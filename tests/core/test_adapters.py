@@ -11,8 +11,10 @@ Tests for:
 
 import pytest
 import numpy as np
+import sys
+sys.path.insert(0, 'src')
 
-from boolfunc.core.adapters import (
+from boofun.core.adapters import (
     LegacyAdapter,
     CallableAdapter,
     NumPyAdapter,

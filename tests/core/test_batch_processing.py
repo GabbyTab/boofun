@@ -12,8 +12,10 @@ Tests for:
 
 import pytest
 import numpy as np
+import sys
+sys.path.insert(0, 'src')
 
-from boolfunc.core.batch_processing import (
+from boofun.core.batch_processing import (
     VectorizedBatchProcessor,
     ParallelBatchProcessor,
     OptimizedTruthTableProcessor,
@@ -24,7 +26,7 @@ from boolfunc.core.batch_processing import (
     get_batch_processor_stats,
     set_batch_thresholds,
 )
-from boolfunc.core.spaces import Space
+from boofun.core.spaces import Space
 
 
 class TestVectorizedBatchProcessor:
