@@ -1,7 +1,7 @@
 """
 Theoretical Validation Tests
 
-These tests cross-validate BoolFunc implementations against known 
+These tests cross-validate BooFun implementations against known 
 mathematical results from the theory of Boolean functions.
 
 Reference: O'Donnell, "Analysis of Boolean Functions", Cambridge 2014
@@ -16,7 +16,7 @@ from scipy.special import comb as binomial
 import sys
 sys.path.insert(0, 'src')
 
-import boolfunc as bf
+import boofun as bf
 
 
 class TestFourierKnownCoefficients:
@@ -106,7 +106,11 @@ class TestFourierKnownCoefficients:
         - Related to AND by negation
         - Parseval holds
         - Degree = n
-        - OR outputs 1 on all but the all-zeros input
+        - OR outputs Boolean 1 on all but the all-zeros input
+        
+        O'Donnell convention: Boolean 0 → +1, Boolean 1 → -1
+        So OR in ±1 domain outputs -1 on most inputs (biased toward -1).
+        E[f] = -1 + 2/2^n (negative for n >= 2)
         
         Reference: OR = ¬AND(¬x)
         """
@@ -123,11 +127,12 @@ class TestFourierKnownCoefficients:
             assert f.degree() == n, \
                 f"OR_{n} should have degree {n}"
             
-            # OR is almost always 1 (unbalanced toward 1)
-            # E[f] in ±1 should be positive (more 1s than -1s)
-            # The empty set coefficient represents E[f]
-            assert fourier[0] > 0 or n == 1, \
-                f"OR_{n}: should be biased toward 1"
+            # O'Donnell convention: OR outputs -1 on 2^n - 1 inputs, +1 on 1 input
+            # E[f] = (1/2^n) * (+1) + ((2^n - 1)/2^n) * (-1) = -1 + 2/2^n
+            # For n >= 2, this is negative
+            expected = -1 + 2 / (2 ** n)
+            assert abs(fourier[0] - expected) < 1e-10, \
+                f"OR_{n}: E[f] should be {expected}, got {fourier[0]}"
 
 
 class TestParseval:
@@ -576,15 +581,18 @@ class TestExpectation:
     
     def test_and_expectation(self):
         """
-        AND: E[AND_n] = 1 - 2/2^n in ±1 (outputs -1 everywhere except all-1s)
+        AND: Under O'Donnell convention (Boolean 0 → +1, Boolean 1 → -1):
+        - AND outputs Boolean 1 only on all-1s input → -1 in ±1 domain
+        - AND outputs Boolean 0 elsewhere → +1 in ±1 domain
+        E[f] = (2^n - 1)/2^n * (+1) + 1/2^n * (-1) = 1 - 2/2^n
         """
         for n in [3, 4, 5]:
             f = bf.AND(n)
             fourier = f.fourier()
             
-            # AND outputs 1 only on all-1s input, -1 elsewhere
-            # E[f] = (2^n - 2) * (-1)/2^n + 1 * 1/2^n = -1 + 2/2^n
-            expected = -1 + 2 / (2 ** n)
+            # O'Donnell convention: AND outputs +1 on 2^n - 1 inputs, -1 on 1 input
+            # E[f] = ((2^n - 1)/2^n) * (+1) + (1/2^n) * (-1) = 1 - 2/2^n
+            expected = 1 - 2 / (2 ** n)
             assert abs(fourier[0] - expected) < 1e-10, \
                 f"AND_{n}: E[f] should be {expected}, got {fourier[0]}"
 
