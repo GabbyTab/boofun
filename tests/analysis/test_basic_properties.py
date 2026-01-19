@@ -11,9 +11,11 @@ Tests fundamental structural properties of Boolean functions:
 
 import pytest
 import numpy as np
+import sys
+sys.path.insert(0, 'src')
 
-import boolfunc as bf
-from boolfunc.analysis.basic_properties import (
+import boofun as bf
+from boofun.analysis.basic_properties import (
     is_monotone,
     is_unate,
     make_unate,

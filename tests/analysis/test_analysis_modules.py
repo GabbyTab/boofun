@@ -1,11 +1,13 @@
 import pytest
+import sys
+sys.path.insert(0, 'src')
 
-import boolfunc as bf
-from boolfunc.analysis import SpectralAnalyzer
-from boolfunc.analysis import sensitivity as sens
-from boolfunc.analysis import block_sensitivity as bs
-from boolfunc.analysis import certificates as cert
-from boolfunc.analysis import symmetry as sym
+import boofun as bf
+from boofun.analysis import SpectralAnalyzer
+from boofun.analysis import sensitivity as sens
+from boofun.analysis import block_sensitivity as bs
+from boofun.analysis import certificates as cert
+from boofun.analysis import symmetry as sym
 
 
 def brute_force_sensitivity(f: bf.BooleanFunction, x: int) -> int:

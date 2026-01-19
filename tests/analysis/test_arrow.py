@@ -2,9 +2,11 @@
 
 import pytest
 import numpy as np
+import sys
+sys.path.insert(0, 'src')
 
-import boolfunc as bf
-from boolfunc.analysis.arrow import (
+import boofun as bf
+from boofun.analysis.arrow import (
     is_unanimous,
     is_dictatorial,
     is_non_dictatorial,
