@@ -1,16 +1,121 @@
 # Boolean Function Libraries Comparison
 
-This guide compares BoolFunc with other Boolean function libraries to help users choose the right tool and understand interoperability options.
+This guide identifies BoolFunc's unique niche and compares it with other Boolean function libraries.
+
+## TL;DR: Where BoolFunc Excels
+
+**BoolFunc is the only Python library that combines:**
+1. **Query Complexity** - D(f), R(f), Q(f), bs(f), certificate complexity
+2. **Property Testing** - BLR linearity, junta, monotonicity, dictatorship tests
+3. **Theoretical Fourier Analysis** - Influences, noise stability, KKL, hypercontractivity
+4. **Quantum Integration** - Quantum query complexity, quantum property testing
+
+**Use BoolFunc when:**
+- Researching computational complexity of Boolean functions
+- Teaching/learning Boolean function theory (O'Donnell's book)
+- Property testing algorithms development
+- Quantum algorithm analysis for Boolean functions
+- Reproducing theoretical computer science results
+
+---
 
 ## Libraries Compared
 
-| Library | Focus | PyPI | Active |
-|---------|-------|------|--------|
-| **BoolFunc** | Fourier analysis, property testing, educational | Pending | Yes |
-| **[BoolForge](https://github.com/ckadelka/BoolForge)** | Canalization, Boolean networks, random generation | No (GitHub) | Yes |
-| **[CANA](https://pypi.org/project/cana/)** | Control & redundancy in Boolean networks | Yes | Yes |
-| **[pyeda](https://pyeda.readthedocs.io/)** | BDD, SAT, logic minimization | Yes | Maintenance |
-| **[SageMath](https://www.sagemath.org/)** | Comprehensive math (includes Boolean functions) | Via conda | Yes |
+| Library | Primary Focus | Query Complexity | Property Testing | Fourier Analysis | Quantum |
+|---------|--------------|------------------|------------------|------------------|---------|
+| **BoolFunc** | Theory & Complexity | ✅ Full suite | ✅ BLR, junta, etc. | ✅ O'Donnell style | ✅ |
+| **SageMath** | Cryptography | ❌ | ❌ | ⚠️ Walsh only | ❌ |
+| **pyeda** | Logic/SAT/BDD | ❌ | ❌ | ❌ | ❌ |
+| **BoolForge** | Biology/Networks | ❌ | ❌ | ❌ | ❌ |
+| **CANA** | Network Control | ❌ | ❌ | ❌ | ❌ |
+
+---
+
+## BoolFunc's Unique Features
+
+### 1. Query Complexity (UNIQUE - No Other Library Has This)
+
+```python
+from boolfunc.analysis.query_complexity import QueryComplexityProfile
+
+profile = QueryComplexityProfile(f)
+measures = profile.compute()
+
+# Available measures:
+# - D(f): Deterministic query complexity
+# - R0(f): Zero-error randomized complexity
+# - R2(f): Bounded-error randomized complexity
+# - Q(f): Quantum query complexity
+# - bs(f): Block sensitivity
+# - s(f): Sensitivity
+# - C(f): Certificate complexity
+# - Approximate degree, threshold degree
+# - Ambainis bound (quantum lower bound)
+```
+
+**Why this matters:** Query complexity is fundamental to computational complexity theory. No other Python library provides these measures.
+
+### 2. Property Testing (UNIQUE - No Other Library Has This)
+
+```python
+from boolfunc.analysis import PropertyTester
+
+tester = PropertyTester(f)
+
+# BLR Linearity Test (Blum-Luby-Rubinfeld)
+is_linear = tester.blr_linearity_test(num_queries=100)
+
+# Junta Testing
+is_junta = tester.junta_test(k=3)
+
+# Monotonicity Testing
+is_monotone = tester.monotonicity_test()
+
+# Dictatorship Testing
+is_dictator = tester.dictatorship_test()
+```
+
+**Why this matters:** Property testing is a major area of TCS research. SageMath and pyeda don't have these algorithms.
+
+### 3. Theoretical Fourier Analysis (Different from SageMath)
+
+| Concept | BoolFunc | SageMath |
+|---------|----------|----------|
+| Walsh-Hadamard Transform | ✅ | ✅ |
+| Influences (Inf_i[f]) | ✅ | ❌ |
+| Total Influence (I[f]) | ✅ | ❌ |
+| Noise Stability (Stab_ρ[f]) | ✅ | ❌ |
+| Fourier Degree | ✅ | ✅ (algebraic_degree) |
+| KKL Theorem verification | ✅ | ❌ |
+| Hypercontractivity | ✅ | ❌ |
+| Nonlinearity | ✅ | ✅ |
+| Bent functions | ❌ | ✅ |
+| Correlation immunity | ❌ | ✅ |
+
+**SageMath focuses on cryptographic properties** (bent, plateaued, correlation immunity).
+**BoolFunc focuses on O'Donnell-style theoretical analysis** (influences, noise stability).
+
+### 4. Quantum Integration (UNIQUE Bridge)
+
+```python
+from boolfunc.quantum import QuantumBooleanFunction
+
+qf = QuantumBooleanFunction(f)
+
+# Create quantum oracle
+oracle = qf.create_quantum_oracle()
+
+# Quantum property testing
+result = qf.quantum_property_testing('linearity')
+
+# Quantum vs classical comparison
+comparison = qf.quantum_algorithm_comparison()
+
+# Resource estimation
+resources = qf.get_quantum_resources()
+```
+
+**Why this matters:** Qiskit can create oracles but has NO analysis tools. We bridge Boolean function theory with quantum computing.
 
 ---
 
@@ -106,79 +211,145 @@ This guide compares BoolFunc with other Boolean function libraries to help users
 
 ---
 
-## Cross-Validation Opportunities
+## Cross-Validation Tests
 
-### BoolFunc ↔ BoolForge
+### BoolFunc ↔ SageMath (Walsh-Hadamard)
 
 ```python
-# Sensitivity/Activities comparison
+# Test: Walsh-Hadamard transforms should match
+# SageMath uses different normalization, so we compare structure
+
+# BoolFunc
 import boolfunc as bf
-from boolforge import BooleanFunction as BF_Forge
+f = bf.majority(5)
+wht_boolfunc = f.fourier()
+
+# SageMath equivalent:
+# from sage.crypto.boolean_function import BooleanFunction
+# sage_f = BooleanFunction([int(f.evaluate(x)) for x in range(32)])
+# wht_sage = sage_f.walsh_hadamard_transform()
+
+# Verify: same non-zero positions, proportional values
+```
+
+### BoolFunc ↔ BoolForge (Influences/Activities)
+
+```python
+# BoolFunc "influences" = BoolForge "activities"
+import boolfunc as bf
 
 # BoolFunc
 f_bf = bf.majority(5)
-influences_bf = f_bf.influences()
+influences = f_bf.influences()
+total_influence = f_bf.total_influence()
 
-# BoolForge  
-f_forge = BF_Forge([int(f_bf.evaluate(x)) for x in range(32)])
-activities_forge = f_forge.get_activities(EXACT=True)
+# BoolForge equivalent:
+# from boolforge import BooleanFunction
+# f_forge = BooleanFunction([int(f_bf.evaluate(x)) for x in range(32)])
+# activities = f_forge.get_activities(EXACT=True)
+# avg_sensitivity = f_forge.get_average_sensitivity(EXACT=True, NORMALIZED=False)
 
-# Should match (same concept, different names)
-assert np.allclose(influences_bf, activities_forge)
+# Expected: influences ≈ activities, total_influence ≈ avg_sensitivity
 ```
 
-### BoolFunc ↔ CANA
+### Theoretical Validation (No External Library Needed)
+
+Our `tests/test_theoretical_validation.py` validates against known mathematical results:
 
 ```python
-# Effective degree comparison
-import boolfunc as bf
-import cana
-
-# Our total influence ≈ CANA's effective degree
-# (for balanced functions with unit-influence normalization)
+# Parseval's Identity: Σ f̂(S)² = 1
+# Poincaré Inequality: Var[f] ≤ I[f]
+# KKL Theorem: max Inf_i ≥ Ω(Var·log(n)/I[f])
+# Sheppard's Formula: Majority noise stability → (1/2) + arcsin(ρ)/π
 ```
 
 ---
 
-## Recommended Use Cases
+## Who Should Use What
 
-| Use Case | Best Library | Reason |
-|----------|-------------|--------|
-| Learning Boolean function theory | **BoolFunc** | Educational notebooks, direct API |
-| Fourier/spectral analysis | **BoolFunc** | Only library with this focus |
-| Canalization research | **BoolForge** + CANA | Specialized tools |
-| Gene regulatory networks | **BoolForge** + CANA | Biology focus |
-| SAT solving / BDD operations | **pyeda** | Mature BDD implementation |
-| Formal verification | **pyeda** | SAT integration |
-| Research paper reproduction | Depends on paper | Match the original |
+### Use BoolFunc For:
+
+| Use Case | Why BoolFunc |
+|----------|-------------|
+| **Query complexity research** | Only library with D(f), R(f), Q(f), bs(f) |
+| **Property testing algorithms** | BLR, junta, monotonicity tests |
+| **Learning Boolean function theory** | O'Donnell lecture notebooks |
+| **TCS paper reproduction** | Matches theoretical CS conventions |
+| **Quantum Boolean analysis** | Bridge between theory and Qiskit |
+| **Influence/noise stability analysis** | Only library with full Fourier toolset |
+
+### Use Other Libraries For:
+
+| Use Case | Best Library | Why |
+|----------|-------------|-----|
+| Cryptographic analysis | **SageMath** | Bent functions, correlation immunity |
+| SAT solving | **pyeda** | Mature SAT/BDD implementation |
+| BDD manipulation | **pyeda** | Production-ready ROBDD |
+| Gene regulatory networks | **BoolForge** | Biology-focused network tools |
+| Network canalization | **BoolForge + CANA** | Specialized canalization tools |
+| Control theory | **CANA** | Driver variables, controllability |
+| Large-scale networks | **BoolForge** | Network attractors, state transitions |
+
+### Overlap Zones:
+
+| Feature | Libraries with Support |
+|---------|----------------------|
+| Truth tables | All |
+| Walsh-Hadamard | BoolFunc, SageMath |
+| Monotonicity | BoolFunc (test), BoolForge (exact) |
+| Sensitivity | BoolFunc, BoolForge |
+| Symmetry groups | BoolFunc (new), BoolForge, CANA |
 
 ---
 
-## Integration Roadmap for BoolFunc
+## Strategic Roadmap for BoolFunc
 
-### Phase 1: Add Canalization (from BoolForge concepts)
-- [ ] `is_canalizing()` - detect if any variable canalizes
-- [ ] `is_k_canalizing(k)` - k-level nested canalization
-- [ ] `get_canalizing_depth()` - canalizing layer depth
-- [ ] `get_canalizing_variables()` - which variables canalize
+### Core Niche (Strengthen What Makes Us Unique)
 
-### Phase 2: Add CANA-style Metrics
-- [ ] `input_redundancy()` - fraction of redundant inputs
-- [ ] `edge_effectiveness()` - per-variable effectiveness
-- [ ] `effective_degree()` - sum of edge effectiveness
-- [ ] `symmetry_groups()` - groups of interchangeable variables
+These are areas where **no other library competes**:
 
-### Phase 3: Interoperability
-- [ ] `to_boolforge()` - export to BoolForge format
-- [ ] `from_boolforge()` - import from BoolForge
-- [ ] `to_cana()` - export to CANA BooleanNode
-- [ ] `from_cana()` - import from CANA
+1. **Query Complexity** - ✅ Already strong
+   - [x] D(f), R(f), Q(f), bs(f), C(f)
+   - [x] Ambainis bound, spectral adversary
+   - [ ] Add visualization of complexity measures
+   - [ ] Add more quantum lower bound techniques
 
-### Phase 4: Cross-Validation Tests
-- [ ] Compare influences vs activities (BoolForge)
-- [ ] Compare total_influence vs average_sensitivity
-- [ ] Verify monotonicity detection matches
-- [ ] Compare sensitivity computations
+2. **Property Testing** - ✅ Already strong
+   - [x] BLR linearity test
+   - [x] Junta testing
+   - [x] Monotonicity testing
+   - [ ] Add dictatorship testing (FKN theorem)
+   - [ ] Add more sublinear-time tests
+
+3. **Quantum Integration** - ✅ Unique bridge
+   - [x] Quantum query complexity
+   - [x] Quantum property testing
+   - [ ] Grover-based analysis
+   - [ ] Quantum walk algorithms
+
+### Completed Additions (from BoolForge/CANA concepts)
+
+- [x] `is_canalizing()` - detect canalization
+- [x] `is_k_canalizing(k)` - nested canalization depth
+- [x] `get_canalizing_depth()` - layer depth
+- [x] `get_symmetry_groups()` - variable symmetry
+- [x] `get_input_types()` - positive/negative/conditional
+- [x] `input_redundancy()` - redundancy measure
+
+### Future: Interoperability (Low Priority)
+
+Consider adding if users request:
+- [ ] `to_sage()` / `from_sage()` - SageMath interop
+- [ ] `to_boolforge()` / `from_boolforge()` - BoolForge interop
+- [ ] `to_cana()` / `from_cana()` - CANA interop
+
+### NOT Adding (Outside Our Niche)
+
+These are better served by specialized libraries:
+- ❌ Full Boolean network support → Use BoolForge
+- ❌ Bent/plateaued function analysis → Use SageMath
+- ❌ SAT solving/BDD operations → Use pyeda
+- ❌ Control theory → Use CANA
 
 ---
 
