@@ -11,7 +11,7 @@ These tests are designed to find bugs by testing:
 import pytest
 import numpy as np
 
-from boolfunc.utils.number_theory import (
+from boofun.utils.number_theory import (
     gcd, invmod, crt,
     is_prime, prime_sieve, factor, prime_factorization,
     euler_phi, totient, binomial, binomial_sum,
