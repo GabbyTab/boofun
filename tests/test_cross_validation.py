@@ -1,7 +1,7 @@
 """
 Cross-Validation Tests
 
-These tests verify BoolFunc implementations by:
+These tests verify BooFun implementations by:
 1. Comparing against theoretical known values
 2. Cross-validating with other libraries (when installed)
 3. Ensuring consistency between our different modules
@@ -15,7 +15,7 @@ from math import sqrt, pi
 import sys
 sys.path.insert(0, 'src')
 
-import boolfunc as bf
+import boofun as bf
 
 
 # =============================================================================
@@ -53,7 +53,7 @@ class TestInternalConsistency:
         total_inf = f.total_influence()
         
         # Sensitivity at each point, averaged
-        from boolfunc.analysis.huang import average_sensitivity
+        from boofun.analysis.huang import average_sensitivity
         avg_sens = average_sensitivity(f)
         
         # These should match
@@ -66,7 +66,7 @@ class TestInternalConsistency:
         tt = [0, 0, 0, 0, 0, 1, 0, 1]  # f(x) = x1 AND x2
         f = bf.create(tt)
         
-        from boolfunc.analysis.canalization import get_essential_variables
+        from boofun.analysis.canalization import get_essential_variables
         essential = get_essential_variables(f)
         
         influences = f.influences()
@@ -82,7 +82,7 @@ class TestQueryComplexityConsistency:
     
     def test_sensitivity_bound(self):
         """s(f) ≤ D(f) (sensitivity is a lower bound)."""
-        from boolfunc.analysis.query_complexity import (
+        from boofun.analysis.query_complexity import (
             deterministic_query_complexity,
             sensitivity_lower_bound
         )
@@ -95,7 +95,7 @@ class TestQueryComplexityConsistency:
     
     def test_block_sensitivity_bound(self):
         """bs(f) ≤ D(f)."""
-        from boolfunc.analysis.query_complexity import (
+        from boofun.analysis.query_complexity import (
             deterministic_query_complexity,
             block_sensitivity_lower_bound
         )
@@ -107,6 +107,102 @@ class TestQueryComplexityConsistency:
             assert bs_bound <= D_f + 0.01
 
 
+class TestTheoreticalBounds:
+    """Verify fundamental theoretical bounds from complexity theory."""
+    
+    def test_huang_sensitivity_theorem(self):
+        """
+        Huang's Sensitivity Theorem (2019): s(f) ≥ √bs(f).
+        
+        This is a breakthrough result showing sensitivity is polynomially
+        related to block sensitivity.
+        """
+        from boofun.analysis.block_sensitivity import max_block_sensitivity
+        from boofun.analysis.huang import max_sensitivity
+        
+        for func in [bf.AND(4), bf.OR(4), bf.majority(5), bf.parity(4)]:
+            s_f = max_sensitivity(func)
+            bs_f = max_block_sensitivity(func)
+            
+            # s(f) ≥ √bs(f)
+            assert s_f >= sqrt(bs_f) - 0.01, \
+                f"Huang violated: s(f)={s_f}, bs(f)={bs_f}, √bs(f)={sqrt(bs_f):.2f}"
+    
+    def test_nisan_szegedy_bound(self):
+        """
+        Nisan-Szegedy (1994): D(f) ≤ bs(f)^2.
+        
+        Decision tree complexity is at most block sensitivity squared.
+        """
+        from boofun.analysis.query_complexity import deterministic_query_complexity
+        from boofun.analysis.block_sensitivity import max_block_sensitivity
+        
+        for func in [bf.AND(3), bf.OR(3), bf.majority(3)]:
+            D_f = deterministic_query_complexity(func)
+            bs_f = max_block_sensitivity(func)
+            
+            # D(f) ≤ bs(f)²
+            assert D_f <= bs_f ** 2 + 0.01, \
+                f"Nisan-Szegedy violated: D(f)={D_f}, bs(f)²={bs_f**2}"
+    
+    def test_certificate_vs_decision_tree(self):
+        """
+        C(f) ≤ D(f): Certificate complexity is a lower bound for decision tree.
+        """
+        from boofun.analysis.query_complexity import deterministic_query_complexity
+        from boofun.analysis.certificates import max_certificate_size
+        
+        for func in [bf.AND(4), bf.OR(4), bf.parity(3)]:
+            D_f = deterministic_query_complexity(func)
+            C_f = max_certificate_size(func)
+            
+            assert C_f <= D_f, f"Certificate bound violated: C(f)={C_f} > D(f)={D_f}"
+    
+    def test_block_sensitivity_vs_certificate(self):
+        """
+        bs(f) ≤ C(f): Block sensitivity is bounded by certificate complexity.
+        """
+        from boofun.analysis.block_sensitivity import max_block_sensitivity
+        from boofun.analysis.certificates import max_certificate_size
+        
+        for func in [bf.AND(4), bf.OR(4), bf.majority(3)]:
+            bs_f = max_block_sensitivity(func)
+            C_f = max_certificate_size(func)
+            
+            assert bs_f <= C_f, f"bs(f)={bs_f} > C(f)={C_f}"
+    
+    def test_sensitivity_vs_block_sensitivity(self):
+        """
+        s(f) ≤ bs(f): Sensitivity is bounded by block sensitivity.
+        """
+        from boofun.analysis.block_sensitivity import max_block_sensitivity
+        from boofun.analysis.huang import max_sensitivity
+        
+        for func in [bf.AND(4), bf.OR(4), bf.majority(5), bf.parity(4)]:
+            s_f = max_sensitivity(func)
+            bs_f = max_block_sensitivity(func)
+            
+            assert s_f <= bs_f, f"s(f)={s_f} > bs(f)={bs_f}"
+    
+    def test_complexity_measure_chain(self):
+        """
+        The full complexity chain: s(f) ≤ bs(f) ≤ C(f) ≤ D(f).
+        """
+        from boofun.analysis.query_complexity import deterministic_query_complexity
+        from boofun.analysis.block_sensitivity import max_block_sensitivity
+        from boofun.analysis.certificates import max_certificate_size
+        from boofun.analysis.huang import max_sensitivity
+        
+        for func in [bf.AND(3), bf.OR(3), bf.majority(3)]:
+            s_f = max_sensitivity(func)
+            bs_f = max_block_sensitivity(func)
+            C_f = max_certificate_size(func)
+            D_f = deterministic_query_complexity(func)
+            
+            assert s_f <= bs_f <= C_f <= D_f, \
+                f"Chain violated: s={s_f}, bs={bs_f}, C={C_f}, D={D_f}"
+
+
 # =============================================================================
 # Part 2: Theoretical Known Values
 # =============================================================================
@@ -116,7 +212,7 @@ class TestKnownValues:
     
     def test_and_query_complexity(self):
         """AND has known query complexity D(AND_n) = n."""
-        from boolfunc.analysis.query_complexity import deterministic_query_complexity
+        from boofun.analysis.query_complexity import deterministic_query_complexity
         
         for n in [2, 3, 4, 5]:
             D_and = deterministic_query_complexity(bf.AND(n))
@@ -124,7 +220,7 @@ class TestKnownValues:
     
     def test_or_query_complexity(self):
         """OR has known query complexity D(OR_n) = n."""
-        from boolfunc.analysis.query_complexity import deterministic_query_complexity
+        from boofun.analysis.query_complexity import deterministic_query_complexity
         
         for n in [2, 3, 4, 5]:
             D_or = deterministic_query_complexity(bf.OR(n))
@@ -179,7 +275,7 @@ class TestPropertyTestingTheory:
     
     def test_blr_detects_linear(self):
         """BLR should accept linear functions."""
-        from boolfunc.analysis import PropertyTester
+        from boofun.analysis import PropertyTester
         
         # XOR/parity is linear
         f = bf.parity(4)
@@ -189,7 +285,7 @@ class TestPropertyTestingTheory:
     
     def test_blr_rejects_nonlinear(self):
         """BLR should reject non-linear functions."""
-        from boolfunc.analysis import PropertyTester
+        from boofun.analysis import PropertyTester
         
         # AND is not linear
         f = bf.AND(4)
@@ -201,7 +297,7 @@ class TestPropertyTestingTheory:
     
     def test_monotonicity_accepts_monotone(self):
         """Monotonicity test should accept monotone functions."""
-        from boolfunc.analysis import PropertyTester
+        from boofun.analysis import PropertyTester
         
         # AND is monotone
         f = bf.AND(4)
@@ -211,7 +307,7 @@ class TestPropertyTestingTheory:
     
     def test_monotonicity_rejects_nonmonotone(self):
         """Monotonicity test should reject non-monotone functions."""
-        from boolfunc.analysis import PropertyTester
+        from boofun.analysis import PropertyTester
         
         # Parity is not monotone
         f = bf.parity(4)
@@ -326,7 +422,7 @@ class TestCANACompatibility:
             pytest.skip("CANA not installed")
         
         # Test that our input_redundancy gives sensible results
-        from boolfunc.analysis.canalization import input_redundancy
+        from boofun.analysis.canalization import input_redundancy
         
         # Constant function: all inputs redundant
         f_const = bf.create([0] * 8)
@@ -342,11 +438,11 @@ class TestCANACompatibility:
 # =============================================================================
 
 class TestUniqueFeatures:
-    """Test features that only BoolFunc has."""
+    """Test features that only BooFun has."""
     
     def test_query_complexity_exists(self):
         """Verify query complexity module works."""
-        from boolfunc.analysis.query_complexity import QueryComplexityProfile
+        from boofun.analysis.query_complexity import QueryComplexityProfile
         
         f = bf.AND(3)
         profile = QueryComplexityProfile(f)
@@ -360,10 +456,10 @@ class TestUniqueFeatures:
     
     def test_property_testing_exists(self):
         """Verify property testing works."""
-        from boolfunc.analysis import PropertyTester
+        from boofun.analysis import PropertyTester
         
         f = bf.parity(4)
-        tester = PropertyTester(f)
+        tester = PropertyTester(f, random_seed=42)
         
         # Should have key tests
         assert hasattr(tester, 'blr_linearity_test')
@@ -372,7 +468,7 @@ class TestUniqueFeatures:
     
     def test_quantum_module_exists(self):
         """Verify quantum module works."""
-        from boolfunc.quantum import QuantumBooleanFunction
+        from boofun.quantum import QuantumBooleanFunction
         
         f = bf.AND(3)
         qf = QuantumBooleanFunction(f)
