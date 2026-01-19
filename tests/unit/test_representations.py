@@ -1,9 +1,9 @@
 import pytest
 import numpy as np
-from boolfunc.core.representations.truth_table import TruthTableRepresentation
-from boolfunc.core.representations.fourier_expansion import FourierExpansionRepresentation
-from boolfunc.core.representations.symbolic import SymbolicRepresentation
-from boolfunc.core.spaces import Space
+from boofun.core.representations.truth_table import TruthTableRepresentation
+from boofun.core.representations.fourier_expansion import FourierExpansionRepresentation
+from boofun.core.representations.symbolic import SymbolicRepresentation
+from boofun.core.spaces import Space
 
 # Dummy BooleanFunction wrapper for testing
 class DummyBooleanFunction:
@@ -229,7 +229,7 @@ class TestCircuitRepresentation:
     
     def test_circuit_evaluate_simple(self):
         """Test evaluation of simple circuit."""
-        from boolfunc.core.representations.circuit import CircuitRepresentation, BooleanCircuit, GateType
+        from boofun.core.representations.circuit import CircuitRepresentation, BooleanCircuit, GateType
         
         repr_obj = CircuitRepresentation()
         
@@ -247,7 +247,7 @@ class TestCircuitRepresentation:
     
     def test_circuit_convert_from_truth_table(self):
         """Test conversion from truth table to circuit."""
-        from boolfunc.core.representations.circuit import CircuitRepresentation
+        from boofun.core.representations.circuit import CircuitRepresentation
         
         repr_obj = CircuitRepresentation()
         truth_repr = TruthTableRepresentation()
@@ -269,7 +269,7 @@ class TestBDDRepresentation:
     
     def test_bdd_evaluate_simple(self):
         """Test evaluation of simple BDD."""
-        from boolfunc.core.representations.bdd import BDDRepresentation, BDD
+        from boofun.core.representations.bdd import BDDRepresentation, BDD
         
         repr_obj = BDDRepresentation()
         
@@ -286,7 +286,7 @@ class TestBDDRepresentation:
     
     def test_bdd_convert_from_truth_table(self):
         """Test conversion from truth table to BDD."""
-        from boolfunc.core.representations.bdd import BDDRepresentation
+        from boofun.core.representations.bdd import BDDRepresentation
         
         repr_obj = BDDRepresentation()
         truth_repr = TruthTableRepresentation()
@@ -308,7 +308,7 @@ class TestPolynomialRepresentation:
     
     def test_polynomial_evaluate_simple(self):
         """Test evaluation of polynomial representation."""
-        from boolfunc.core.representations.polynomial import PolynomialRepresentation
+        from boofun.core.representations.polynomial import PolynomialRepresentation
         
         repr_obj = PolynomialRepresentation()
         
@@ -332,7 +332,7 @@ class TestPolynomialRepresentation:
     
     def test_polynomial_convert_from_truth_table(self):
         """Test conversion from truth table to polynomial."""
-        from boolfunc.core.representations.polynomial import PolynomialRepresentation
+        from boofun.core.representations.polynomial import PolynomialRepresentation
         
         repr_obj = PolynomialRepresentation()
         truth_repr = TruthTableRepresentation()
@@ -354,7 +354,7 @@ class TestSparseTruthTableRepresentation:
     
     def test_sparse_evaluate(self):
         """Test evaluation of sparse representation."""
-        from boolfunc.core.representations.sparse_truth_table import SparseTruthTableRepresentation
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
         
         repr_obj = SparseTruthTableRepresentation()
         
@@ -376,7 +376,7 @@ class TestSparseTruthTableRepresentation:
     
     def test_sparse_convert_from_truth_table(self):
         """Test conversion from truth table to sparse representation."""
-        from boolfunc.core.representations.sparse_truth_table import SparseTruthTableRepresentation
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
         
         repr_obj = SparseTruthTableRepresentation()
         truth_repr = TruthTableRepresentation()
@@ -400,8 +400,8 @@ class TestRepresentationConversions:
     
     def test_round_trip_conversions(self):
         """Test round-trip conversions preserve function behavior."""
-        from boolfunc.core.representations.polynomial import PolynomialRepresentation
-        from boolfunc.core.representations.sparse_truth_table import SparseTruthTableRepresentation
+        from boofun.core.representations.polynomial import PolynomialRepresentation
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
         
         truth_repr = TruthTableRepresentation()
         poly_repr = PolynomialRepresentation()

@@ -11,7 +11,7 @@ These tests are designed to find bugs by testing:
 import pytest
 import numpy as np
 
-from boolfunc.core.representations.distribution import (
+from boofun.core.representations.distribution import (
     BooleanDistribution, DistributionRepresentation
 )
 

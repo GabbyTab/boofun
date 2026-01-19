@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
-import boolfunc as bf
-from boolfunc.core.spaces import Space
+import boofun as bf
+from boofun.core.spaces import Space
 
 
 @pytest.fixture

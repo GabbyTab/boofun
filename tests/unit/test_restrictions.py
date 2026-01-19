@@ -2,7 +2,7 @@
 
 import pytest
 import numpy as np
-import boolfunc as bf
+import boofun as bf
 
 
 class TestFixOperations:

@@ -1,8 +1,8 @@
 """Tests for complexity measures module."""
 
 import pytest
-import boolfunc as bf
-from boolfunc.analysis import complexity
+import boofun as bf
+from boofun.analysis import complexity
 
 
 class TestDecisionTreeDepth:

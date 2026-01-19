@@ -1,5 +1,5 @@
 """
-Integration tests for basic BoolFunc functionality.
+Integration tests for basic BooFun functionality.
 
 These tests verify that the core components work together correctly,
 focusing on real-world usage patterns and end-to-end functionality.
@@ -7,9 +7,9 @@ focusing on real-world usage patterns and end-to-end functionality.
 
 import pytest
 import numpy as np
-import boolfunc as bf
-from boolfunc.analysis import SpectralAnalyzer
-from boolfunc.core.builtins import BooleanFunctionBuiltins
+import boofun as bf
+from boofun.analysis import SpectralAnalyzer
+from boofun.core.builtins import BooleanFunctionBuiltins
 
 
 class TestBasicFunctionCreation:

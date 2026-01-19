@@ -3,8 +3,8 @@
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.families import (
+import boofun as bf
+from boofun.families import (
     FunctionFamily,
     InductiveFamily,
     GrowthTracker,
@@ -17,7 +17,7 @@ from boolfunc.families import (
     DictatorFamily,
     LTFFamily,
 )
-from boolfunc.families.builtins import RecursiveMajority3Family
+from boofun.families.builtins import RecursiveMajority3Family
 
 
 class TestMajorityFamily:
@@ -363,7 +363,7 @@ class TestInductiveFamily:
             
             @property
             def metadata(self):
-                from boolfunc.families.base import FamilyMetadata
+                from boofun.families.base import FamilyMetadata
                 return FamilyMetadata(
                     name="ConstantOne",
                     description="f(x) = 1 for all x",
@@ -387,7 +387,7 @@ class TestInductiveFamily:
             
             @property
             def metadata(self):
-                from boolfunc.families.base import FamilyMetadata
+                from boofun.families.base import FamilyMetadata
                 return FamilyMetadata(
                     name="Constant",
                     description="f(x) = 1",

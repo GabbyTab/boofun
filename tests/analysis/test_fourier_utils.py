@@ -17,8 +17,8 @@ Tests for:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.fourier import (
+import boofun as bf
+from boofun.analysis.fourier import (
     parseval_verify,
     plancherel_inner_product,
     convolution,

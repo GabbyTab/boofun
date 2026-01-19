@@ -11,7 +11,7 @@ These tests are designed to find bugs by testing:
 import pytest
 import numpy as np
 
-from boolfunc.core.errormodels import (
+from boofun.core.errormodels import (
     ErrorModel,
     ExactErrorModel,
     PACErrorModel,

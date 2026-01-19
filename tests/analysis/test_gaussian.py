@@ -14,8 +14,8 @@ Tests Gaussian analysis of Boolean functions:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.gaussian import (
+import boofun as bf
+from boofun.analysis.gaussian import (
     hermite_polynomial,
     probabilists_hermite,
     physicists_hermite,

@@ -10,7 +10,7 @@ import numpy as np
 import sys
 sys.path.insert(0, 'src')
 
-import boolfunc as bf
+import boofun as bf
 
 
 class TestMethodAliases:

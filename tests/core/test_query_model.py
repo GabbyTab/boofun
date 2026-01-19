@@ -14,8 +14,8 @@ import pytest
 import warnings
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.core.query_model import (
+import boofun as bf
+from boofun.core.query_model import (
     AccessType,
     QUERY_COMPLEXITY,
     get_access_type,

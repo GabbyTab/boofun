@@ -1,6 +1,6 @@
 import numpy as np
 
-from boolfunc.utils import math as math_utils
+from boofun.utils import math as math_utils
 
 
 def test_popcnt_and_parity():

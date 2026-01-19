@@ -17,8 +17,8 @@ Tests the invariance principle for Boolean functions:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.invariance import (
+import boofun as bf
+from boofun.analysis.invariance import (
     gaussian_cdf,
     bivariate_gaussian_cdf,
     majority_noise_stability,

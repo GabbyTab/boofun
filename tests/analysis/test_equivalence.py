@@ -14,8 +14,8 @@ Tests canonical forms, equivalence testing, and automorphisms:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.equivalence import (
+import boofun as bf
+from boofun.analysis.equivalence import (
     apply_permutation,
     canonical_form,
     are_equivalent,
@@ -117,7 +117,7 @@ class TestCanonicalForm:
         tt_and = list(f.get_representation("truth_table"))
         tt_nand = [1 - x for x in tt_and]
         
-        from boolfunc.core.factory import BooleanFunctionFactory
+        from boofun.core.factory import BooleanFunctionFactory
         g = BooleanFunctionFactory.from_truth_table(type(f), tt_nand, n=2)
         
         cf = canonical_form(f, include_negation=True)[0]

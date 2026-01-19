@@ -12,7 +12,7 @@ Tests focus on:
 import pytest
 import numpy as np
 
-from boolfunc.core.gpu_acceleration import (
+from boofun.core.gpu_acceleration import (
     GPUDevice,
     GPUManager,
     is_gpu_available,
@@ -215,7 +215,7 @@ class TestCuPyAccelerator:
     
     def test_cupy_accelerator_available(self):
         """CuPy accelerator reports availability correctly."""
-        from boolfunc.core.gpu_acceleration import CuPyAccelerator
+        from boofun.core.gpu_acceleration import CuPyAccelerator
         
         accel = CuPyAccelerator()
         # If we got here, CuPy is installed
@@ -223,7 +223,7 @@ class TestCuPyAccelerator:
     
     def test_cupy_devices_list(self):
         """CuPy can list devices."""
-        from boolfunc.core.gpu_acceleration import CuPyAccelerator
+        from boofun.core.gpu_acceleration import CuPyAccelerator
         
         accel = CuPyAccelerator()
         if accel.is_available():
@@ -237,7 +237,7 @@ class TestNumbaAccelerator:
     
     def test_numba_accelerator_available(self):
         """Numba accelerator reports availability correctly."""
-        from boolfunc.core.gpu_acceleration import NumbaAccelerator
+        from boofun.core.gpu_acceleration import NumbaAccelerator
         
         accel = NumbaAccelerator()
         assert isinstance(accel.is_available(), bool)

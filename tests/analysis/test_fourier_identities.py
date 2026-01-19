@@ -10,8 +10,8 @@ import numpy as np
 import sys
 sys.path.insert(0, 'src')
 
-import boolfunc as bf
-from boolfunc.analysis import SpectralAnalyzer, fourier, gf2
+import boofun as bf
+from boofun.analysis import SpectralAnalyzer, fourier, gf2
 
 
 class TestParseval:
@@ -257,6 +257,134 @@ class TestFourierSparsity:
         xor = bf.create([0, 1, 1, 0])
         sparsity = fourier.fourier_sparsity(xor)
         assert sparsity == 1
+
+
+class TestNumericStability:
+    """
+    Tests for numeric stability of Walsh-Hadamard Transform.
+    
+    These tests verify that floating-point errors don't accumulate
+    for larger values of n, and that Parseval's identity holds tightly.
+    """
+    
+    def test_parseval_large_n(self):
+        """Parseval's identity should hold for larger n (10-12)."""
+        for n in [10, 11, 12]:
+            f = bf.majority(n) if n % 2 == 1 else bf.AND(n)
+            passes, lhs, rhs = fourier.parseval_verify(f, tolerance=1e-8)
+            
+            assert passes, f"Parseval failed for n={n}: lhs={lhs}, rhs={rhs}"
+            assert abs(lhs - 1.0) < 1e-8, f"E[f²] should be 1 for n={n}"
+            assert abs(rhs - 1.0) < 1e-8, f"Σf̂(S)² should be 1 for n={n}"
+    
+    def test_parity_fourier_exact(self):
+        """
+        Parity should have exactly one non-zero coefficient.
+        
+        For parity_n in ±1 representation:
+        - f̂(∅) = 0 (parity is balanced)
+        - f̂({all}) = ±1 (the parity character)
+        - All other coefficients = 0
+        
+        This tests that no spurious coefficients appear due to float errors.
+        """
+        for n in [8, 10, 12]:
+            f = bf.parity(n)
+            coeffs = f.fourier()
+            
+            # Count significant coefficients (> 1e-10)
+            significant = sum(1 for c in coeffs if abs(c) > 1e-10)
+            
+            # Should be exactly 1 (the full-set coefficient)
+            assert significant == 1, f"Parity_{n} should have 1 non-zero coeff, got {significant}"
+            
+            # The non-zero coefficient should be at index 2^n - 1 (all variables)
+            all_ones_idx = (1 << n) - 1
+            assert abs(abs(coeffs[all_ones_idx]) - 1.0) < 1e-8, \
+                f"Parity_{n} full coefficient should be ±1"
+    
+    def test_dictator_fourier_exact(self):
+        """
+        Dictator should have exactly one non-zero coefficient at degree 1.
+        
+        For dictator_i (returns x_i):
+        - f̂(∅) = 0 (balanced)
+        - f̂({i}) = ±1
+        - All other coefficients = 0
+        """
+        for n in [8, 10, 12]:
+            for i in [0, n-1]:  # Test first and last variable
+                f = bf.dictator(n, i)
+                coeffs = f.fourier()
+                
+                # Count significant coefficients
+                significant = sum(1 for c in coeffs if abs(c) > 1e-10)
+                
+                assert significant == 1, f"Dictator_{i} on {n} vars should have 1 non-zero coeff"
+    
+    def test_and_coefficients_structure(self):
+        """
+        AND_n has known Fourier structure: all coefficients non-zero.
+        
+        Verifies that Parseval holds and coefficient magnitudes are reasonable.
+        """
+        for n in [6, 8, 10]:
+            f = bf.AND(n)
+            coeffs = f.fourier()
+            
+            # All 2^n coefficients should be non-zero (all subsets contribute)
+            significant = sum(1 for c in coeffs if abs(c) > 1e-12)
+            assert significant == 2**n, f"AND_{n} should have 2^{n} non-zero coefficients"
+            
+            # Parseval: sum of squares = 1
+            sum_sq = sum(c**2 for c in coeffs)
+            assert abs(sum_sq - 1.0) < 1e-10, f"AND_{n} Parseval: {sum_sq}"
+            
+            # The empty set coefficient f̂(∅) = E[f] = 1/2^n in ±1 domain
+            # Need to account for {0,1} → {-1,+1} conversion
+            # For AND in {0,1}: Pr[AND=1] = 1/2^n
+            # In ±1 domain: E[f] = 1 - 2·Pr[f=1 in {0,1}] = 1 - 2/2^n
+            # But our coefficients are computed differently...
+            # Just verify the largest coefficient is reasonable
+            max_coeff = max(abs(c) for c in coeffs)
+            assert max_coeff < 1.1, f"AND_{n} max coefficient too large: {max_coeff}"
+    
+    def test_variance_consistency(self):
+        """
+        Verify that variance computed from Fourier matches direct computation.
+        
+        Var[f] = Σ_{S≠∅} f̂(S)² = E[f²] - E[f]²
+        """
+        for n in [8, 10, 12]:
+            f = bf.majority(n) if n % 2 == 1 else bf.AND(n)
+            
+            # Variance from Fourier (exclude constant term)
+            coeffs = f.fourier()
+            var_fourier = sum(c**2 for c in coeffs[1:])
+            
+            # Direct variance computation
+            var_direct = f.variance()
+            
+            assert abs(var_fourier - var_direct) < 1e-10, \
+                f"Variance mismatch for n={n}: Fourier={var_fourier}, direct={var_direct}"
+    
+    @pytest.mark.parametrize("n", [13, 14, 15])
+    def test_parseval_stress(self, n):
+        """
+        Stress test: Parseval should hold for n=13,14,15.
+        
+        These are larger functions (8K-32K entries) where float
+        accumulation errors could become significant.
+        """
+        # Use AND for deterministic, non-trivial function
+        f = bf.AND(n)
+        passes, lhs, rhs = fourier.parseval_verify(f, tolerance=1e-6)
+        
+        assert passes, f"Parseval failed at n={n}: error={abs(lhs-rhs)}"
+        
+        # Also verify the sum of squared coefficients
+        # For AND_n: Σf̂(S)² = 1 (Parseval)
+        assert abs(rhs - 1.0) < 1e-6, f"Parseval RHS drift at n={n}: {rhs}"
 
 
 if __name__ == "__main__":

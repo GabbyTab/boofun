@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-import boolfunc as bf
+import boofun as bf
 
 
 def manual_compose_truth_table(outer: bf.BooleanFunction, inner: bf.BooleanFunction) -> np.ndarray:

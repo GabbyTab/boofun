@@ -1,5 +1,5 @@
 """
-Comprehensive tests for advanced BoolFunc features.
+Comprehensive tests for advanced BooFun features.
 
 Tests the new advanced features including conversion graph, batch processing,
 GPU acceleration, Numba optimizations, ANF representation, and testing framework.
@@ -14,18 +14,18 @@ import os
 # Add src to path for testing
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-import boolfunc as bf
-from boolfunc.core.conversion_graph import (
+import boofun as bf
+from boofun.core.conversion_graph import (
     ConversionCost, ConversionPath, find_conversion_path, 
     get_conversion_options, get_conversion_graph
 )
-from boolfunc.core.batch_processing import (
+from boofun.core.batch_processing import (
     BatchProcessorManager, process_batch, get_batch_processor_stats
 )
-from boolfunc.core.gpu_acceleration import (
+from boofun.core.gpu_acceleration import (
     is_gpu_available, get_gpu_info, should_use_gpu
 )
-from boolfunc.core.numba_optimizations import (
+from boofun.core.numba_optimizations import (
     is_numba_available, get_numba_stats
 )
 
@@ -55,7 +55,7 @@ class TestANFRepresentation:
         anf_data = identity.get_representation('anf')
         
         # Test evaluation
-        from boolfunc.core.representations.anf_form import ANFRepresentation
+        from boofun.core.representations.anf_form import ANFRepresentation
         anf_repr = ANFRepresentation()
         
         # Test all inputs
@@ -70,7 +70,7 @@ class TestANFRepresentation:
         majority = bf.create([False, False, False, True, False, True, True, True])  # 3-var majority
         anf_data = majority.get_representation('anf')
         
-        from boolfunc.core.representations.anf_form import ANFRepresentation
+        from boofun.core.representations.anf_form import ANFRepresentation
         anf_repr = ANFRepresentation()
         
         # Test degree computation
@@ -281,7 +281,7 @@ class TestTestingFramework:
     
     def test_representation_tester(self):
         """Test representation tester."""
-        from boolfunc.core.representations.truth_table import TruthTableRepresentation
+        from boofun.core.representations.truth_table import TruthTableRepresentation
         
         repr_tester = bf.test_representation(TruthTableRepresentation())
         
@@ -380,7 +380,7 @@ class TestAdapters:
     
     def test_legacy_adapter(self):
         """Test legacy function adapter."""
-        from boolfunc.core.adapters import LegacyAdapter
+        from boofun.core.adapters import LegacyAdapter
         
         # Mock legacy function
         class LegacyFunction:
@@ -472,7 +472,7 @@ class TestEndToEndIntegration:
         assert 0 <= noise_stability <= 1
         
         # Test property detection
-        tester = bf.PropertyTester(majority)
+        tester = bf.PropertyTester(majority, random_seed=42)
         properties = tester.run_all_tests()
         
         assert isinstance(properties, dict)

@@ -1,4 +1,4 @@
-from boolfunc.utils import number_theory as nt
+from boofun.utils import number_theory as nt
 
 
 def test_gcd_and_invmod():

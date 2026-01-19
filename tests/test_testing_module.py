@@ -13,8 +13,8 @@ Tests for:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.testing import (
+import boofun as bf
+from boofun.testing import (
     BooleanFunctionValidator,
     RepresentationTester,
     PropertyTestSuite,
@@ -22,7 +22,7 @@ from boolfunc.testing import (
     quick_validate,
     test_representation,
 )
-from boolfunc.core.representations.registry import get_strategy
+from boofun.core.representations.registry import get_strategy
 
 
 class TestBooleanFunctionValidator:

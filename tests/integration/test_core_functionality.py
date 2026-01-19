@@ -7,7 +7,7 @@ These tests serve as both integration tests and documentation of expected behavi
 
 import pytest
 import numpy as np
-import boolfunc as bf
+import boofun as bf
 
 
 class TestCoreFunctionality:

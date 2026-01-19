@@ -8,8 +8,8 @@ learning Boolean functions from queries.
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.learning import (
+import boofun as bf
+from boofun.analysis.learning import (
     estimate_fourier_coefficient,
     goldreich_levin,
     find_heavy_coefficients,

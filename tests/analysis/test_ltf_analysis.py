@@ -18,8 +18,8 @@ Tests Linear Threshold Function (LTF) analysis:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.ltf_analysis import (
+import boofun as bf
+from boofun.analysis.ltf_analysis import (
     LTFAnalysis,
     chow_parameters,
     is_ltf,

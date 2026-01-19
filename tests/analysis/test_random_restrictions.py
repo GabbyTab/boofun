@@ -13,8 +13,8 @@ Tests random restrictions and their applications:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.restrictions import (
+import boofun as bf
+from boofun.analysis.restrictions import (
     Restriction,
     random_restriction,
     apply_restriction,

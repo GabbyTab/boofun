@@ -17,7 +17,7 @@ import time
 import sys
 sys.path.insert(0, 'src')
 
-import boolfunc as bf
+import boofun as bf
 
 
 # Mark slow tests

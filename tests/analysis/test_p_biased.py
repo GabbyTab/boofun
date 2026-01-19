@@ -15,8 +15,8 @@ Tests p-biased Fourier analysis for Boolean functions:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.p_biased import (
+import boofun as bf
+from boofun.analysis.p_biased import (
     p_biased_fourier_coefficients,
     p_biased_influence,
     p_biased_total_influence,

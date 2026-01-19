@@ -12,11 +12,11 @@ These tests are designed to find bugs by testing:
 import pytest
 import numpy as np
 
-from boolfunc.core.representations.cnf_form import (
+from boofun.core.representations.cnf_form import (
     CNFClause, CNFFormula, CNFRepresentation,
     create_cnf_from_maxterms, is_satisfiable
 )
-from boolfunc.core.representations.dnf_form import (
+from boofun.core.representations.dnf_form import (
     DNFTerm, DNFFormula, DNFRepresentation,
     create_dnf_from_minterms, minimize_dnf
 )

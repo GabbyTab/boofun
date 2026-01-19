@@ -1,5 +1,5 @@
 """
-Property-based tests for boolfunc using Hypothesis.
+Property-based tests for boofun using Hypothesis.
 
 These tests verify invariants that should hold for all Boolean functions,
 not just specific examples.
@@ -14,8 +14,8 @@ import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
-import boolfunc as bf
-from boolfunc.analysis import SpectralAnalyzer
+import boofun as bf
+from boofun.analysis import SpectralAnalyzer
 
 
 # ============================================================================

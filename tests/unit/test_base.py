@@ -2,8 +2,8 @@ import pytest
 import numpy as np
 import operator
 from unittest.mock import MagicMock, patch
-import boolfunc as bf
-from boolfunc.core.representations.truth_table import TruthTableRepresentation
+import boofun as bf
+from boofun.core.representations.truth_table import TruthTableRepresentation
 
 
 # Fixtures for reusable test objects
@@ -146,7 +146,7 @@ class TestRepresentations:
         assert 'bdd' in boolean_function.representations
 
 class TestEvaluation:
-    @patch('boolfunc.core.base.get_strategy')
+    @patch('boofun.core.base.get_strategy')
     def test_deterministic_evaluation(self, mock_get_strategy,
                                       boolean_function, mock_strategy):
         inputs = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
@@ -166,7 +166,7 @@ class TestEvaluation:
         # Assert: the return value matches the mock’s configured return_value
         np.testing.assert_array_equal(result, np.array([0, 1, 1, 0], dtype=bool))
 
-    @patch('boolfunc.core.BooleanFunction._evaluate_stochastic')
+    @patch('boofun.core.BooleanFunction._evaluate_stochastic')
     def test_stochastic_evaluation(self, mock_stochastic, boolean_function):
         mock_rv = MagicMock()
         mock_stochastic.return_value = "dist_result"
@@ -175,7 +175,7 @@ class TestEvaluation:
         mock_stochastic.assert_called_once_with(mock_rv, rep_type=None, n_samples=500)
 
     def test_auto_representation_selection(self, boolean_function):
-        with patch('boolfunc.core.BooleanFunction._evaluate_deterministic') as mock_eval:
+        with patch('boofun.core.BooleanFunction._evaluate_deterministic') as mock_eval:
             mock_eval.return_value = [False, True, True, False]
             inputs = np.array([[0,0], [0,1], [1,0], [1,1]])
             results = boolean_function.evaluate(inputs)
@@ -184,7 +184,7 @@ class TestEvaluation:
 # 5. Operator Overloading
 class TestOperators:
     def test_and_operator(self, boolean_function):
-        with patch('boolfunc.core.factory.BooleanFunctionFactory.create_composite') as mock_factory:
+        with patch('boofun.core.factory.BooleanFunctionFactory.create_composite') as mock_factory:
             other = bf.create([0,0,0,1])
             _ = boolean_function & other
             mock_factory.assert_called_once_with(
@@ -195,7 +195,7 @@ class TestOperators:
             )
 
     def test_invert_operator(self, boolean_function):
-        with patch('boolfunc.core.factory.BooleanFunctionFactory.create_composite') as mock_factory:
+        with patch('boofun.core.factory.BooleanFunctionFactory.create_composite') as mock_factory:
             _ = ~boolean_function
             mock_factory.assert_called_once_with(
                 boolean_function_cls=type(boolean_function),
@@ -229,7 +229,7 @@ class TestStringRepresentations:
 
 # 8. Probabilistic Interface
 class TestProbabilisticInterface:
-    @patch('boolfunc.core.BooleanFunction._uniform_sample')
+    @patch('boofun.core.BooleanFunction._uniform_sample')
     def test_rvs_without_distribution(self, mock_sample, boolean_function):
         mock_sample.return_value = [0, 1, 0]
         samples = boolean_function.rvs(size=3)
@@ -255,7 +255,7 @@ def test_array_conversion(xor_function):
 
 
 ## 2. Operator methods
-@patch('boolfunc.core.factory.BooleanFunctionFactory.create_composite')
+@patch('boofun.core.factory.BooleanFunctionFactory.create_composite')
 def test_binary_operators(mock_factory, xor_function, and_function):
     cls = type(xor_function)
 
@@ -302,7 +302,7 @@ def test_binary_operators(mock_factory, xor_function, and_function):
 
 def test_scalar_multiplication(xor_function, scalar_value):
     """Test multiplication with scalar"""
-    with patch('boolfunc.core.factory.BooleanFunctionFactory.create_composite') as mock_scalar:
+    with patch('boofun.core.factory.BooleanFunctionFactory.create_composite') as mock_scalar:
         cls = type(xor_function)
         _ = xor_function * scalar_value
         mock_scalar.assert_called_with(
@@ -312,7 +312,7 @@ def test_scalar_multiplication(xor_function, scalar_value):
             right_func=scalar_value
         )
 
-@patch('boolfunc.core.factory.BooleanFunctionFactory.create_composite')
+@patch('boofun.core.factory.BooleanFunctionFactory.create_composite')
 def test_unary_operators(mock_factory, xor_function):
     cls = type(xor_function)
 

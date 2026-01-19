@@ -1,5 +1,5 @@
 """
-Comprehensive integration tests for BoolFunc library.
+Comprehensive integration tests for BooFun library.
 
 These tests provide thorough coverage of the main user-facing functionality,
 ensuring all core components work together correctly.
@@ -7,8 +7,8 @@ ensuring all core components work together correctly.
 
 import pytest
 import numpy as np
-import boolfunc as bf
-from boolfunc.core.spaces import Space
+import boofun as bf
+from boofun.core.spaces import Space
 
 
 class TestBooleanFunctionCreation:
@@ -519,7 +519,7 @@ class TestErrorHandlingAndEdgeCases:
     def test_library_import_stability(self):
         """Test that library imports are stable and don't have circular dependencies."""
         # Test that main imports work
-        import boolfunc as bf
+        import boofun as bf
         
         # Test that core classes are accessible
         assert hasattr(bf, 'create')

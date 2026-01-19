@@ -8,8 +8,8 @@ which states: s(f) >= sqrt(deg(f)) for all Boolean functions.
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.huang import (
+import boofun as bf
+from boofun.analysis.huang import (
     sensitivity_at,
     max_sensitivity,
     sensitivity,

@@ -14,8 +14,8 @@ Tests the FKN (Friedgut-Kalai-Naor) Theorem and related functions:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.fkn import (
+import boofun as bf
+from boofun.analysis.fkn import (
     distance_to_dictator,
     distance_to_negated_dictator,
     closest_dictator,

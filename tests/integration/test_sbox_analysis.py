@@ -15,8 +15,8 @@ import numpy as np
 import sys
 sys.path.insert(0, 'src')
 
-import boolfunc as bf
-from boolfunc.analysis import SpectralAnalyzer, PropertyTester
+import boofun as bf
+from boofun.analysis import SpectralAnalyzer, PropertyTester
 
 
 # AES S-box (8-bit input/output)
@@ -202,7 +202,7 @@ class TestSboxQueryComplexity:
     
     def test_sbox_decision_tree_depth(self):
         """S-box components should need many queries."""
-        from boolfunc.analysis.query_complexity import deterministic_query_complexity
+        from boofun.analysis.query_complexity import deterministic_query_complexity
         
         f = get_sbox_component(AES_SBOX, 0)
         D = deterministic_query_complexity(f)

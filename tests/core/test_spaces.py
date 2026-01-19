@@ -10,7 +10,7 @@ Tests for:
 import pytest
 import numpy as np
 
-from boolfunc.core.spaces import Space
+from boofun.core.spaces import Space
 
 
 class TestSpaceEnum:

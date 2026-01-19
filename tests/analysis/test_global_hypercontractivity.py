@@ -13,8 +13,8 @@ import os
 # Add the src directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
-import boolfunc as bf
-from boolfunc.analysis import global_hypercontractivity as gh
+import boofun as bf
+from boofun.analysis import global_hypercontractivity as gh
 
 
 class TestBasicFunctions:
@@ -304,7 +304,7 @@ class TestMathematicalIdentities:
         total_inf = gh.p_biased_total_influence(f, p=0.5, samples=2000)
         
         # Should match the uniform-measure total influence
-        from boolfunc.analysis import SpectralAnalyzer
+        from boofun.analysis import SpectralAnalyzer
         analyzer = SpectralAnalyzer(f)
         standard_inf = analyzer.total_influence()
         

@@ -12,8 +12,8 @@ Tests the hypercontractivity tools including:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.hypercontractivity import (
+import boofun as bf
+from boofun.analysis.hypercontractivity import (
     noise_operator,
     lq_norm,
     bonami_lemma_bound,

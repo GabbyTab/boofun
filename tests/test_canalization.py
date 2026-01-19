@@ -9,8 +9,8 @@ import numpy as np
 import sys
 sys.path.insert(0, 'src')
 
-import boolfunc as bf
-from boolfunc.analysis.canalization import (
+import boofun as bf
+from boofun.analysis.canalization import (
     is_canalizing,
     is_k_canalizing,
     is_nested_canalizing,
@@ -290,7 +290,7 @@ class TestCrossValidation:
         """Edge effectiveness should equal influence."""
         f = bf.majority(5)
         
-        from boolfunc.analysis.canalization import edge_effectiveness
+        from boofun.analysis.canalization import edge_effectiveness
         
         inf = f.influences()
         eff = edge_effectiveness(f)
@@ -301,7 +301,7 @@ class TestCrossValidation:
         """Effective degree should equal total influence."""
         f = bf.majority(5)
         
-        from boolfunc.analysis.canalization import effective_degree
+        from boofun.analysis.canalization import effective_degree
         
         ti = f.total_influence()
         ed = effective_degree(f)

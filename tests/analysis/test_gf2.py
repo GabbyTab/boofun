@@ -16,8 +16,8 @@ Tests GF(2) analysis (Algebraic Normal Form):
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.analysis.gf2 import (
+import boofun as bf
+from boofun.analysis.gf2 import (
     gf2_fourier_transform,
     gf2_degree,
     gf2_monomials,
