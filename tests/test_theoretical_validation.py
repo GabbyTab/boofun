@@ -349,46 +349,50 @@ class TestNoiseStability:
             assert abs(stab - expected) < 1e-10, \
                 f"Parity_{n}: Stab_{rho} should be {expected}, got {stab}"
     
-    def test_majority_noise_stability_convergence(self):
+    def test_majority_noise_stability_sheppard(self):
         """
-        Majority noise stability should converge as n increases.
+        Majority: Pr[Maj(x) = Maj(y)] → (1/2) + (1/π)arcsin(ρ) as n → ∞
         
-        As n → ∞, Stab_ρ[MAJ_n] → (1/2) + (1/π)arcsin(ρ) (Sheppard's formula)
+        This is Sheppard's formula for Gaussian noise stability.
         
-        We verify that:
-        1. Noise stability is in valid range [0, 1] for positive ρ
-        2. Stability increases with ρ (more correlated = more stable)
-        3. The sequence converges as n grows
+        IMPORTANT: Sheppard gives the AGREEMENT PROBABILITY Pr[f(x)=f(y)],
+        not the Fourier noise stability E[f(x)f(y)].
+        
+        For ±1-valued functions: Pr[f(x)=f(y)] = (1 + Stab_ρ[f])/2
         
         Reference: O'Donnell Theorem 5.6
         """
-        rho = 0.5
-        stabilities = []
+        def sheppard(rho):
+            """Sheppard's formula: Pr[Maj(x) = Maj(y)] in the Gaussian limit."""
+            return 0.5 + np.arcsin(rho) / pi
         
-        for n in [5, 9, 13, 17, 21]:
+        # Test for large n where convergence is good
+        for n in [15, 19, 21]:
+            f = bf.majority(n)
+            
+            for rho in [0.3, 0.5, 0.7]:
+                stab = f.noise_stability(rho)
+                # Convert Fourier stability to agreement probability
+                pr_agree = (1 + stab) / 2
+                expected = sheppard(rho)
+                
+                # Should match within 2% for large n
+                rel_error = abs(pr_agree - expected) / expected
+                assert rel_error < 0.02, \
+                    f"Majority_{n}: Pr[f(x)=f(y)] ≈ {expected:.4f}, got {pr_agree:.4f} (error {rel_error:.1%})"
+        
+        # Verify convergence: error decreases with n
+        rho = 0.5
+        errors = []
+        for n in [5, 11, 17, 21]:
             f = bf.majority(n)
             stab = f.noise_stability(rho)
-            stabilities.append(stab)
-            
-            # Basic sanity: stability should be in [0, 1] for ρ > 0
-            assert 0 <= stab <= 1, \
-                f"Majority_{n}: Stab_{rho} should be in [0,1], got {stab}"
+            pr_agree = (1 + stab) / 2
+            errors.append(abs(pr_agree - sheppard(rho)))
         
-        # Verify convergence: differences should decrease
-        # (sequence should stabilize as n grows)
-        diffs = [abs(stabilities[i+1] - stabilities[i]) for i in range(len(stabilities)-1)]
-        
-        # Later differences should generally be smaller (converging)
-        # Allow some noise but overall trend should be decreasing
-        assert diffs[-1] < diffs[0] + 0.1, \
-            f"Majority noise stability should converge, diffs: {diffs}"
-        
-        # Verify rho-monotonicity: higher correlation = higher stability
-        f = bf.majority(11)
-        stab_low = f.noise_stability(0.3)
-        stab_high = f.noise_stability(0.7)
-        assert stab_low < stab_high, \
-            f"Stability should increase with ρ: Stab(0.3)={stab_low}, Stab(0.7)={stab_high}"
+        # Error should decrease as n grows (convergence)
+        assert errors[-1] < errors[0], \
+            f"Error should decrease with n: {errors}"
     
     def test_noise_stability_bounds(self):
         """
