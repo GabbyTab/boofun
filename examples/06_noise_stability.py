@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tutorial 6: Noise and Stability with BoolFunc
+Tutorial 6: Noise and Stability with BooFun
 ==============================================
 
 Understanding how Boolean functions behave under random noise
@@ -14,7 +14,7 @@ Topics covered:
 """
 
 import numpy as np
-import boolfunc as bf
+import boofun as bf
 
 print("=" * 60)
 print("Tutorial 6: Noise and Stability")

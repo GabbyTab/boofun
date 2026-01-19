@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tutorial 5: Query Complexity with BoolFunc
+Tutorial 5: Query Complexity with BooFun
 ==========================================
 
 Query complexity measures how many input bits must be queried
@@ -16,8 +16,8 @@ Topics covered:
 """
 
 import numpy as np
-import boolfunc as bf
-from boolfunc.analysis.query_complexity import QueryComplexityProfile
+import boofun as bf
+from boofun.analysis.query_complexity import QueryComplexityProfile
 
 print("=" * 60)
 print("Tutorial 5: Query Complexity")

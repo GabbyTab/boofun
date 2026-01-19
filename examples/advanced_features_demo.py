@@ -1,7 +1,7 @@
 """
-Advanced Features Demo for BoolFunc Library
+Advanced Features Demo for BooFun Library
 
-This example demonstrates the advanced features implemented in BoolFunc:
+This example demonstrates the advanced features implemented in BooFun:
 - ANF (Algebraic Normal Form) representation
 - Conversion graph system
 - Batch processing
@@ -17,11 +17,11 @@ import matplotlib.pyplot as plt
 import time
 import os
 
-# Ensure we can import boolfunc
+# Ensure we can import boofun
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-import boolfunc as bf
+import boofun as bf
 
 
 def demo_anf_representation():
@@ -44,7 +44,7 @@ def demo_anf_representation():
         print(f"  ANF terms: {len([m for m, c in anf_data.items() if c != 0])}")
         
         # Analyze ANF properties
-        from boolfunc.core.representations.anf_form import ANFRepresentation, anf_to_string
+        from boofun.core.representations.anf_form import ANFRepresentation, anf_to_string
         anf_repr = ANFRepresentation()
         
         degree = anf_repr._get_degree(anf_data)
@@ -89,7 +89,7 @@ def demo_conversion_graph():
             print(f"  To {target}: Already available")
     
     # Show conversion graph statistics
-    from boolfunc.core.conversion_graph import get_conversion_graph
+    from boofun.core.conversion_graph import get_conversion_graph
     graph = get_conversion_graph()
     stats = graph.get_graph_stats()
     
@@ -126,7 +126,7 @@ def demo_batch_processing():
         print(f"  Size {size:5d}: {duration:6.2f}ms, {throughput:8.0f} eval/sec")
     
     # Show batch processor statistics
-    from boolfunc.core.batch_processing import get_batch_processor_stats
+    from boofun.core.batch_processing import get_batch_processor_stats
     stats = get_batch_processor_stats()
     
     print(f"\nBatch Processor Info:")
@@ -140,7 +140,7 @@ def demo_gpu_acceleration():
     print("\n🚀 GPU Acceleration Demo")
     print("=" * 50)
     
-    from boolfunc.core.gpu_acceleration import get_gpu_info, is_gpu_available
+    from boofun.core.gpu_acceleration import get_gpu_info, is_gpu_available
     
     # Check GPU availability
     gpu_info = get_gpu_info()
@@ -167,7 +167,7 @@ def demo_numba_optimization():
     print("\n🔥 Numba JIT Optimization Demo")
     print("=" * 50)
     
-    from boolfunc.core.numba_optimizations import is_numba_available, get_numba_stats
+    from boofun.core.numba_optimizations import is_numba_available, get_numba_stats
     
     stats = get_numba_stats()
     print(f"Numba Available: {stats['numba_available']}")
@@ -224,7 +224,7 @@ def demo_testing_framework():
     
     # Test representation
     print("\nRepresentation Testing:")
-    from boolfunc.core.representations.truth_table import TruthTableRepresentation
+    from boofun.core.representations.truth_table import TruthTableRepresentation
     
     repr_results = bf.test_representation(TruthTableRepresentation())
     overall_passed = repr_results.get('overall_passed', False)
@@ -512,9 +512,9 @@ def create_visualization_examples():
 
 def main():
     """Run all demos."""
-    print("🚀 BoolFunc Advanced Features Demo")
+    print("🚀 BooFun Advanced Features Demo")
     print("=" * 60)
-    print("This demo showcases the advanced features of the BoolFunc library.")
+    print("This demo showcases the advanced features of the BooFun library.")
     print("Note: Some features may not be available if dependencies are missing.\n")
     
     # Run all demos

@@ -14,7 +14,7 @@ References:
 """
 
 import numpy as np
-import boolfunc as bf
+import boofun as bf
 
 
 def get_expectation(f):

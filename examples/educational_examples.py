@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-BoolFunc Educational Examples
+BooFun Educational Examples
 
 This file provides examples suitable for teaching Boolean function analysis,
 theoretical computer science, and discrete mathematics courses.
 """
 
 import numpy as np
-import boolfunc as bf
+import boofun as bf
 
 def boolean_logic_basics():
     """Demonstrate basic Boolean logic operations."""
@@ -220,7 +220,7 @@ def cryptographic_properties():
 
 def main():
     """Run all educational examples."""
-    print("BoolFunc Library - Educational Examples")
+    print("BooFun Library - Educational Examples")
     print("=" * 45)
     print("Examples for teaching Boolean function analysis and theoretical computer science.")
     print()

@@ -14,8 +14,8 @@ References:
 """
 
 import numpy as np
-import boolfunc as bf
-from boolfunc.families.builtins import (
+import boofun as bf
+from boofun.families.builtins import (
     MajorityFamily, ParityFamily, TribesFamily,
     ANDFamily, ORFamily, DictatorFamily
 )

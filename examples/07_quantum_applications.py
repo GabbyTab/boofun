@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tutorial 7: Quantum Applications with BoolFunc
+Tutorial 7: Quantum Applications with BooFun
 ===============================================
 
 Boolean function analysis has deep connections to quantum computing.
@@ -15,8 +15,8 @@ Topics covered:
 """
 
 import numpy as np
-import boolfunc as bf
-from boolfunc.quantum import (
+import boofun as bf
+from boofun.quantum import (
     grover_speedup, quantum_walk_analysis, 
     element_distinctness_analysis
 )

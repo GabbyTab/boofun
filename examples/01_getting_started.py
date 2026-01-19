@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tutorial 1: Getting Started with BoolFunc
+Tutorial 1: Getting Started with BooFun
 ==========================================
 
 This tutorial covers:
@@ -9,16 +9,16 @@ This tutorial covers:
 - Basic evaluation and properties
 - Converting between representations
 
-Prerequisites: pip install boolfunc
+Prerequisites: pip install boofun
 """
 
 import numpy as np
 
 # Import the library
-import boolfunc as bf
+import boofun as bf
 
 print("=" * 60)
-print("Tutorial 1: Getting Started with BoolFunc")
+print("Tutorial 1: Getting Started with BooFun")
 print("=" * 60)
 
 

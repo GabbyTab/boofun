@@ -1,11 +1,11 @@
-# BoolFunc Tutorials
+# BooFun Tutorials
 
-A comprehensive tutorial series for learning Boolean function analysis with BoolFunc.
+A comprehensive tutorial series for learning Boolean function analysis with BooFun.
 
 ## Quick Start
 
 ```bash
-# Install BoolFunc
+# Install BooFun
 pip install -e ".[full]"
 
 # Run a tutorial
@@ -34,7 +34,7 @@ python examples/01_getting_started.py
 
 | # | Tutorial | Topics | Run Command |
 |---|----------|--------|-------------|
-| 7 | [Quantum Applications](07_quantum_applications.py) | Grover speedup, quantum walks, element distinctness, Q₂(f) | `python examples/07_quantum_applications.py` |
+| 7 | [Quantum Speedup Analysis](07_quantum_applications.py) | Grover speedup estimation, quantum walks, element distinctness (theoretical) | `python examples/07_quantum_applications.py` |
 
 ### Reference Examples
 
@@ -53,7 +53,7 @@ These files contain additional examples for specific use cases:
 1. Start with tutorials 1-3 (Beginner)
 2. Move to tutorials 4-5 (Testing & Complexity)
 3. Explore tutorial 6 (Noise) for voting applications
-4. Finish with tutorial 7 (Quantum) for quantum computing
+4. Finish with tutorial 7 for quantum speedup analysis (Grover, walks)
 
 ### For Researchers
 
@@ -87,7 +87,7 @@ After completing these tutorials, you'll be able to:
 - Test functions for properties (linearity, monotonicity, etc.)
 - Measure query complexity (sensitivity, certificate complexity)
 - Analyze noise stability and influences
-- Estimate quantum speedups for Boolean functions
+- Analyze theoretical quantum speedups (Grover, quantum walks)
 - Work with various representations (circuit, BDD, ANF)
 
 ## See Also

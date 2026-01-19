@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-BoolFunc Representations Demo
+BooFun Representations Demo
 
-This file demonstrates the multiple representation capabilities of the BoolFunc library,
+This file demonstrates the multiple representation capabilities of the BooFun library,
 including circuits, BDDs, and other Boolean function representations.
 """
 
 import numpy as np
-import boolfunc as bf
+import boofun as bf
 
 def basic_representations():
     """Demonstrate basic representation functionality."""
@@ -36,7 +36,7 @@ def circuit_representations():
     print("\n=== Circuit Representations ===")
     
     try:
-        from boolfunc.core.representations.circuit import BooleanCircuit, GateType
+        from boofun.core.representations.circuit import BooleanCircuit, GateType
         
         print("1. Building Boolean circuits manually:")
         
@@ -83,7 +83,7 @@ def bdd_representations():
     print("\n=== Binary Decision Diagrams (BDDs) ===")
     
     try:
-        from boolfunc.core.representations.bdd import BDD
+        from boofun.core.representations.bdd import BDD
         
         print("1. Creating BDD for simple functions:")
         
@@ -239,7 +239,7 @@ def advanced_function_analysis():
 
 def main():
     """Run all representation and analysis examples."""
-    print("BoolFunc Library - Advanced Representations & Analysis")
+    print("BooFun Library - Advanced Representations & Analysis")
     print("=" * 60)
     print("This demonstrates advanced features and analysis capabilities.")
     print()

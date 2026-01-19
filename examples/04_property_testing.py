@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Tutorial 4: Property Testing with BoolFunc
+Tutorial 4: Property Testing with BooFun
 ==========================================
 
 Property testing allows us to quickly determine if a Boolean function
@@ -16,8 +16,8 @@ Topics covered:
 """
 
 import numpy as np
-import boolfunc as bf
-from boolfunc.testing import PropertyTester
+import boofun as bf
+from boofun.testing import PropertyTester
 
 print("=" * 60)
 print("Tutorial 4: Property Testing")
