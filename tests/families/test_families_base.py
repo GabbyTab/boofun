@@ -12,8 +12,8 @@ Tests for:
 import pytest
 import numpy as np
 
-import boolfunc as bf
-from boolfunc.families.base import (
+import boofun as bf
+from boofun.families.base import (
     FamilyMetadata,
     FunctionFamily,
     InductiveFamily,

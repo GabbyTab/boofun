@@ -7,7 +7,7 @@ Tests for TheoreticalBounds class with known theoretical results.
 import pytest
 import numpy as np
 
-from boolfunc.families.theoretical import TheoreticalBounds
+from boofun.families.theoretical import TheoreticalBounds
 
 
 class TestTotalInfluenceBounds:
