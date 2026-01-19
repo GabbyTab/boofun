@@ -1,5 +1,5 @@
 """
-Gold Standard Tests for boolfunc library.
+Gold Standard Tests for boofun library.
 
 These tests verify correctness against established benchmarks and known results:
 1. EPFL Combinational Benchmarks - small circuits with known truth tables
@@ -16,14 +16,14 @@ References:
 
 import pytest
 import numpy as np
-import boolfunc as bf
-from boolfunc.analysis import SpectralAnalyzer, PropertyTester
-from boolfunc.analysis.fourier import (
+import boofun as bf
+from boofun.analysis import SpectralAnalyzer, PropertyTester
+from boofun.analysis.fourier import (
     parseval_verify, 
     plancherel_inner_product,
     fourier_degree,
 )
-from boolfunc.analysis.query_complexity import QueryComplexityProfile
+from boofun.analysis.query_complexity import QueryComplexityProfile
 from math import sqrt, comb
 
 
@@ -54,7 +54,7 @@ class TestEPFLBenchmarks:
         assert f.evaluate(0b11) == 0  # 1 XOR 1 = 0
         
         # XOR is linear
-        tester = PropertyTester(f)
+        tester = PropertyTester(f, random_seed=42)
         assert tester.blr_linearity_test() == True
     
     def test_half_adder_carry(self):
@@ -71,7 +71,7 @@ class TestEPFLBenchmarks:
         assert f.evaluate(0b11) == 1
         
         # AND is monotone
-        tester = PropertyTester(f)
+        tester = PropertyTester(f, random_seed=42)
         assert tester.monotonicity_test() == True
     
     def test_full_adder_sum(self):
@@ -90,7 +90,7 @@ class TestEPFLBenchmarks:
             assert f.evaluate(x) == expected
         
         # 3-XOR is linear
-        tester = PropertyTester(f)
+        tester = PropertyTester(f, random_seed=42)
         assert tester.blr_linearity_test() == True
     
     def test_full_adder_carry(self):
@@ -108,7 +108,7 @@ class TestEPFLBenchmarks:
             assert f.evaluate(x) == expected
         
         # MAJ3 is monotone and symmetric
-        tester = PropertyTester(f)
+        tester = PropertyTester(f, random_seed=42)
         assert tester.monotonicity_test() == True
         assert tester.symmetry_test() == True
     
@@ -259,7 +259,7 @@ class TestGECCOPropertySuite:
             tt = [1 if bin(x).count('1') >= k else 0 for x in range(1 << n)]
             f = bf.create(tt)
             
-            tester = PropertyTester(f)
+            tester = PropertyTester(f, random_seed=42)
             assert tester.monotonicity_test() == True, f"Threshold_{k} should be monotone"
     
     def test_symmetric_functions_symmetric(self):
@@ -272,14 +272,14 @@ class TestGECCOPropertySuite:
         for k in range(n + 1):
             tt = [1 if bin(x).count('1') >= k else 0 for x in range(1 << n)]
             f = bf.create(tt)
-            tester = PropertyTester(f)
+            tester = PropertyTester(f, random_seed=42)
             assert tester.symmetry_test() == True, f"Threshold_{k} should be symmetric"
         
         # Exact weight functions: f(x) = 1 iff |x| = k
         for k in range(n + 1):
             tt = [1 if bin(x).count('1') == k else 0 for x in range(1 << n)]
             f = bf.create(tt)
-            tester = PropertyTester(f)
+            tester = PropertyTester(f, random_seed=42)
             assert tester.symmetry_test() == True, f"ExactWeight_{k} should be symmetric"
     
     def test_parity_functions_linear(self):
@@ -292,7 +292,7 @@ class TestGECCOPropertySuite:
         for mask in [0b0001, 0b0011, 0b0111, 0b1111, 0b1010]:
             tt = [bin(x & mask).count('1') % 2 for x in range(1 << n)]
             f = bf.create(tt)
-            tester = PropertyTester(f)
+            tester = PropertyTester(f, random_seed=42)
             assert tester.blr_linearity_test() == True, f"Parity with mask {bin(mask)} should be linear"
     
     def test_balanced_functions(self):

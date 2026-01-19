@@ -1,5 +1,5 @@
 """
-Comprehensive Performance Benchmark Suite for boolfunc.
+Comprehensive Performance Benchmark Suite for boofun.
 
 This module tests:
 1. Query safety for different access types
@@ -17,10 +17,10 @@ import time
 import sys
 from typing import Callable, Dict, Any
 
-# Import boolfunc
+# Import boofun
 sys.path.insert(0, 'src')
-import boolfunc as bf
-from boolfunc.core.query_model import (
+import boofun as bf
+from boofun.core.query_model import (
     QueryModel, AccessType, get_access_type, 
     check_query_safety, QUERY_COMPLEXITY
 )

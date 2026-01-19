@@ -1,5 +1,5 @@
 """
-External benchmark tests for boolfunc library.
+External benchmark tests for boofun library.
 
 This module contains tests against known Boolean functions from:
 1. Cryptographic S-boxes (AES, DES)
@@ -12,11 +12,11 @@ These serve as both correctness tests and benchmarks.
 
 import pytest
 import numpy as np
-import boolfunc as bf
-from boolfunc.analysis import SpectralAnalyzer, PropertyTester
-from boolfunc.analysis.query_complexity import QueryComplexityProfile
-from boolfunc.analysis.gaussian import GaussianAnalyzer
-from boolfunc.analysis.invariance import InvarianceAnalyzer
+import boofun as bf
+from boofun.analysis import SpectralAnalyzer, PropertyTester
+from boofun.analysis.query_complexity import QueryComplexityProfile
+from boofun.analysis.gaussian import GaussianAnalyzer
+from boofun.analysis.invariance import InvarianceAnalyzer
 
 
 # =============================================================================
@@ -30,7 +30,7 @@ class TestKnownFunctions:
         """AND function: known to be monotone, not balanced, symmetric."""
         for n in [2, 3, 4]:
             f = bf.AND(n)
-            tester = PropertyTester(f)
+            tester = PropertyTester(f, random_seed=42)
             
             # AND is monotone
             assert tester.monotonicity_test() == True
@@ -52,7 +52,7 @@ class TestKnownFunctions:
         """OR function: known to be monotone, not balanced, symmetric."""
         for n in [2, 3, 4]:
             f = bf.OR(n)
-            tester = PropertyTester(f)
+            tester = PropertyTester(f, random_seed=42)
             
             # OR is monotone
             assert tester.monotonicity_test() == True
@@ -67,7 +67,7 @@ class TestKnownFunctions:
         """XOR/Parity: linear, balanced, symmetric."""
         for n in [2, 3, 4, 5]:
             f = bf.parity(n)
-            tester = PropertyTester(f)
+            tester = PropertyTester(f, random_seed=42)
             
             # Parity is linear (it's x_0 XOR x_1 XOR ... XOR x_{n-1})
             assert tester.blr_linearity_test() == True
@@ -89,7 +89,7 @@ class TestKnownFunctions:
         """Majority: monotone, balanced (for odd n), symmetric."""
         for n in [3, 5, 7]:
             f = bf.majority(n)
-            tester = PropertyTester(f)
+            tester = PropertyTester(f, random_seed=42)
             
             # Majority is monotone
             assert tester.monotonicity_test() == True
@@ -114,7 +114,7 @@ class TestKnownFunctions:
                     return bits[var]
                 
                 f = bf.create(dictator_i, n=n)
-                tester = PropertyTester(f)
+                tester = PropertyTester(f, random_seed=42)
                 
                 # Dictator is linear
                 assert tester.blr_linearity_test() == True
@@ -132,7 +132,7 @@ class TestFourierIdentities:
     
     def test_parseval_identity(self):
         """Parseval: sum of squared Fourier coefficients = E[f^2]."""
-        from boolfunc.analysis.fourier import parseval_verify
+        from boofun.analysis.fourier import parseval_verify
         
         for n in [3, 4, 5]:
             # Test several functions
@@ -149,7 +149,7 @@ class TestFourierIdentities:
     
     def test_plancherel_theorem(self):
         """Plancherel: <f,g> in time domain = <f̂,ĝ> in Fourier domain."""
-        from boolfunc.analysis.fourier import plancherel_inner_product
+        from boofun.analysis.fourier import plancherel_inner_product
         
         n = 4
         f = bf.AND(n)
@@ -404,7 +404,7 @@ class TestCryptographicSboxes:
     def test_sbox_not_linear(self, aes_sbox_component):
         """Cryptographic S-boxes must not be linear."""
         f = aes_sbox_component
-        tester = PropertyTester(f)
+        tester = PropertyTester(f, random_seed=42)
         
         # S-box components should NOT be linear
         result = tester.blr_linearity_test(num_queries=1000)
@@ -437,7 +437,7 @@ class TestODonnellExamples:
         assert 0.1 < prob_1 < 0.9
         
         # Tribes is monotone
-        tester = PropertyTester(f)
+        tester = PropertyTester(f, random_seed=42)
         assert tester.monotonicity_test() == True
         
         # Should NOT be a junta (depends on all 6 variables)
@@ -462,7 +462,7 @@ class TestODonnellExamples:
         # Majority
         majority = bf.majority(n)
         
-        from boolfunc.analysis.gaussian import gaussian_noise_stability
+        from boofun.analysis.gaussian import gaussian_noise_stability
         
         stab_dict = gaussian_noise_stability(dictator, rho)
         stab_maj = gaussian_noise_stability(majority, rho)
@@ -504,7 +504,7 @@ class TestPerformanceBenchmarks:
         import time
         
         f = bf.majority(n) if n % 2 == 1 else bf.AND(n)
-        tester = PropertyTester(f)
+        tester = PropertyTester(f, random_seed=42)
         
         start = time.time()
         tester.run_all_tests()
