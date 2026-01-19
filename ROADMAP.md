@@ -179,8 +179,8 @@ tests/
 |--------|--------|----------|
 | Polynomial method lower bounds | ✅ Done | `polynomial_method_bound()` |
 | General adversary method | ✅ Done | `general_adversary_bound()` |
+| **Goldreich-Levin algorithm** | ✅ Done | `analysis/learning.py` |
 | Communication complexity | TODO | Low |
-| Goldreich-Levin algorithm | TODO | Medium |
 
 ### Visualization
 | Feature | Status | Module |
@@ -189,8 +189,17 @@ tests/
 | Growth plots | ✅ Done | `visualization/growth_plots.py` |
 | Decision tree viz | ✅ Done | `visualization/decision_tree.py` |
 | Interactive widgets | ✅ Done | `visualization/widgets.py` |
-| Interactive Fourier spectrum | TODO | Could use Plotly |
-| Influence heatmaps | TODO | Could add |
+| **Interactive Fourier spectrum** | ✅ Done | `visualization/interactive.py` |
+| **Influence heatmaps** | ✅ Done | `visualization/interactive.py` |
+| **FourierExplorer dashboard** | ✅ Done | `visualization/interactive.py` |
+
+### Quantum Algorithms
+| Feature | Status | Module |
+|---------|--------|--------|
+| Grover analysis | ✅ Done | `quantum/__init__.py` |
+| **Quantum walk analysis** | ✅ Done | `quantum/__init__.py` |
+| **Element distinctness** | ✅ Done | `quantum/__init__.py` |
+| Quantum walk search | ✅ Done | `quantum/__init__.py` |
 
 ### Function Families
 | Family | Status | Priority |
@@ -207,11 +216,11 @@ tests/
 - [x] Profile and optimize Walsh-Hadamard for n > 20 - scripts/profile_performance.py, core/optimizations.py
 - [x] Optimize influence computation - vectorized + Numba implementations in core/optimizations.py
 - [x] Add lazy evaluation for chained operations - LazyFourierCoefficients class
-- [ ] Memory optimization (bitarray for truth tables?)
+- [x] **Memory optimization (bitarray)** - core/representations/packed_truth_table.py
 
 ### Medium Priority
 - [x] GPU acceleration via CuPy - core/gpu.py module
-- [ ] Sparse representation auto-selection for n > 14
+- [x] **Sparse representation auto-selection for n > 14** - core/auto_representation.py
 - [ ] Parallel computation for influences
 - [ ] Aggressive memoization
 

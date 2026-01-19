@@ -481,12 +481,220 @@ def estimate_quantum_advantage(n_vars: int, analysis_type: str = 'fourier') -> D
     }
 
 
+# =============================================================================
+# Quantum Walk Analysis
+# =============================================================================
+
+def quantum_walk_analysis(f: BooleanFunction) -> Dict[str, Any]:
+    """
+    Analyze Boolean function using quantum walk framework.
+    
+    Quantum walks can provide speedups for:
+    - Element distinctness: O(n^{2/3}) vs O(n) classical
+    - Graph connectivity: quadratic speedup
+    - Finding marked vertices
+    
+    Args:
+        f: Boolean function to analyze
+        
+    Returns:
+        Dict with quantum walk analysis
+    """
+    n = f.n_vars
+    N = 2**n  # State space size
+    
+    # Analyze the function structure
+    ones = sum(1 for x in range(N) if f.evaluate(x))
+    zeros = N - ones
+    
+    # Hypercube walk parameters
+    # On the n-dimensional hypercube {0,1}^n, each vertex has n neighbors
+    
+    # Spectral gap of hypercube random walk is 2/n
+    spectral_gap = 2 / n if n > 0 else 1
+    
+    # Mixing time for hypercube walk
+    mixing_time = n * np.log(N) / 2
+    
+    # Quantum walk hitting time (quadratic speedup over classical)
+    classical_hitting_time = N / max(ones, 1)  # Expected time to find a marked vertex
+    quantum_hitting_time = np.sqrt(classical_hitting_time * mixing_time)
+    
+    # Setup cost for quantum walk
+    setup_cost = np.sqrt(mixing_time)
+    
+    # Checking cost (oracle queries per step)
+    checking_cost = 1
+    
+    # Total quantum walk complexity
+    if ones > 0:
+        S = ones  # Number of marked states
+        quantum_complexity = np.sqrt(N / S) * np.sqrt(mixing_time)
+    else:
+        quantum_complexity = np.sqrt(N * mixing_time)
+    
+    return {
+        'n_vars': n,
+        'state_space_size': N,
+        'marked_states': ones,
+        'unmarked_states': zeros,
+        'hypercube_degree': n,
+        'spectral_gap': spectral_gap,
+        'mixing_time': mixing_time,
+        'classical_hitting_time': classical_hitting_time,
+        'quantum_hitting_time': quantum_hitting_time,
+        'setup_cost': setup_cost,
+        'checking_cost': checking_cost,
+        'quantum_walk_complexity': quantum_complexity,
+        'speedup_over_classical': classical_hitting_time / quantum_hitting_time if quantum_hitting_time > 0 else float('inf'),
+        'algorithm': 'Szegedy quantum walk on hypercube'
+    }
+
+
+def element_distinctness_analysis(f: BooleanFunction) -> Dict[str, Any]:
+    """
+    Analyze element distinctness problem structure.
+    
+    Element distinctness: Given oracle access to f, determine if
+    there exist x ≠ y with f(x) = f(y).
+    
+    Classical: O(N) queries needed
+    Quantum: O(N^{2/3}) queries via quantum walk
+    
+    Args:
+        f: Boolean function (viewed as function from [N] to some range)
+        
+    Returns:
+        Analysis of element distinctness structure
+    """
+    n = f.n_vars
+    N = 2**n
+    
+    # Build collision structure
+    value_to_inputs = {}
+    for x in range(N):
+        val = int(f.evaluate(x))
+        if val not in value_to_inputs:
+            value_to_inputs[val] = []
+        value_to_inputs[val].append(x)
+    
+    # Count collisions
+    collisions = []
+    for val, inputs in value_to_inputs.items():
+        if len(inputs) > 1:
+            # Number of collision pairs
+            num_pairs = len(inputs) * (len(inputs) - 1) // 2
+            collisions.append({
+                'value': val,
+                'inputs': inputs,
+                'num_colliding': len(inputs),
+                'num_pairs': num_pairs
+            })
+    
+    has_collision = len(collisions) > 0
+    total_collision_pairs = sum(c['num_pairs'] for c in collisions)
+    
+    # Query complexities
+    classical_complexity = N  # Must check all in worst case
+    quantum_complexity = N ** (2/3)  # Ambainis' algorithm
+    
+    return {
+        'has_collision': has_collision,
+        'num_distinct_values': len(value_to_inputs),
+        'total_collision_pairs': total_collision_pairs,
+        'collision_details': collisions[:5] if len(collisions) > 5 else collisions,  # Limit output
+        'classical_complexity': classical_complexity,
+        'quantum_complexity': quantum_complexity,
+        'speedup': classical_complexity / quantum_complexity,
+        'algorithm': 'Ambainis element distinctness'
+    }
+
+
+def quantum_walk_search(
+    f: BooleanFunction,
+    num_iterations: Optional[int] = None
+) -> Dict[str, Any]:
+    """
+    Simulate quantum walk search on the hypercube.
+    
+    This simulates the probability distribution of finding a marked
+    vertex after t steps of a quantum walk.
+    
+    Args:
+        f: Boolean function (marked vertices are where f(x) = 1)
+        num_iterations: Number of walk iterations (default: optimal)
+        
+    Returns:
+        Dict with walk simulation results
+    """
+    n = f.n_vars
+    N = 2**n
+    
+    # Find marked vertices
+    marked = set(x for x in range(N) if f.evaluate(x))
+    M = len(marked)
+    
+    if M == 0:
+        return {
+            'marked_vertices': 0,
+            'optimal_iterations': 0,
+            'success_probability': 0.0,
+            'message': 'No marked vertices'
+        }
+    
+    if M == N:
+        return {
+            'marked_vertices': N,
+            'optimal_iterations': 0,
+            'success_probability': 1.0,
+            'message': 'All vertices marked'
+        }
+    
+    # Optimal number of iterations
+    if num_iterations is None:
+        # For quantum walk, optimal is approximately pi/4 * sqrt(N/M)
+        optimal = int(np.pi / 4 * np.sqrt(N / M))
+        num_iterations = optimal
+    
+    # Simplified analysis (exact simulation requires quantum mechanics)
+    # Use the formula for success probability after t steps
+    
+    theta = np.arcsin(np.sqrt(M / N))
+    
+    evolution = []
+    for t in range(min(num_iterations + 3, 30)):
+        # Approximate success probability
+        prob = np.sin((2*t + 1) * theta) ** 2
+        evolution.append({
+            'iteration': t,
+            'success_probability': prob
+        })
+    
+    max_prob = max(e['success_probability'] for e in evolution)
+    optimal_t = max(range(len(evolution)), key=lambda t: evolution[t]['success_probability'])
+    
+    return {
+        'marked_vertices': M,
+        'total_vertices': N,
+        'marked_fraction': M / N,
+        'optimal_iterations': optimal_t,
+        'iterations_used': num_iterations,
+        'max_success_probability': max_prob,
+        'final_success_probability': evolution[-1]['success_probability'] if evolution else 0,
+        'evolution': evolution[:10],  # First 10 steps
+        'speedup': np.sqrt(N / M) if M > 0 else float('inf')
+    }
+
+
 # Export main classes and functions
 __all__ = [
     'QuantumBooleanFunction',
     'create_quantum_boolean_function', 
     'estimate_quantum_advantage',
     'grover_speedup',
+    'quantum_walk_analysis',
+    'element_distinctness_analysis',
+    'quantum_walk_search',
 ]
 
 
