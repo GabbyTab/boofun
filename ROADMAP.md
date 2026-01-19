@@ -38,7 +38,7 @@ This document tracks planned features, improvements, and known gaps in the boolf
 ### P1 - High Priority
 | Task | Status | Notes |
 |------|--------|-------|
-| Increase test coverage to 60%+ | TODO | Currently ~24% |
+| Increase test coverage to 60%+ | ✅ DONE | Achieved 60% (was ~24%) |
 | Enable Numba by default | TODO | Add to core dependencies |
 | Add dependabot | TODO | For dependency updates |
 | Create tutorial series | TODO | Common workflows |
@@ -92,7 +92,7 @@ tests/
 ```
 
 ### TODO
-- [ ] Increase coverage to 60%+ (currently ~24%)
+- [x] Increase coverage to 60%+ (achieved!)
 - [ ] Add mutation testing (mutmut)
 - [ ] Cross-validate with Sage/Mathematica
 - [ ] Test large n more thoroughly
@@ -164,7 +164,7 @@ tests/
 ## v1.0.0 Milestone
 
 Requirements for stable release:
-- [ ] 60%+ test coverage
+- [x] 60%+ test coverage (achieved!)
 - [ ] Published on PyPI
 - [ ] API stability guarantee
 - [ ] Performance benchmarks documented
