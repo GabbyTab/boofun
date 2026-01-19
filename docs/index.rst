@@ -1,17 +1,17 @@
-BoolFunc Documentation
+BooFun Documentation
 =====================
 
 .. image:: ../logos/boo_horizontal.png
    :width: 600
    :align: center
-   :alt: BoolFunc Logo
+   :alt: BooFun Logo
 
 A Comprehensive Python Library for Boolean Function Analysis and Computation
 
 Overview
 --------
 
-BoolFunc is a comprehensive Python library for the analysis and manipulation of Boolean functions, 
+BooFun is a comprehensive Python library for the analysis and manipulation of Boolean functions, 
 designed for researchers and practitioners in theoretical computer science, computational complexity, 
 and quantum computing. The library provides a unified framework for working with Boolean functions 
 across multiple mathematical representations, enabling efficient computation of spectral properties, 
@@ -35,28 +35,37 @@ Installation
 
 .. code-block:: bash
 
-   pip install boolfunc
+   pip install boofun
 
 Basic Usage
 ~~~~~~~~~~~
 
 .. code-block:: python
 
-   import boolfunc as bf
-   import numpy as np
+   import boofun as bf
 
    # Create Boolean functions
    xor = bf.create([0, 1, 1, 0])  # XOR function
-   majority = bf.BooleanFunctionBuiltins.majority(3)  # 3-variable majority
+   maj = bf.majority(3)  # 3-variable majority
 
    # Evaluate functions
-   print(f"XOR(1,0) = {xor.evaluate([1, 0])}")  # True
-   print(f"Majority(1,1,0) = {majority.evaluate([1, 1, 0])}")  # True
+   print(f"XOR(1,0) = {xor.evaluate(2)}")  # True (input 2 = binary 10)
+   print(f"Majority(1,1,0) = {maj.evaluate(6)}")  # True (input 6 = binary 110)
 
-   # Spectral analysis
-   analyzer = bf.SpectralAnalyzer(xor)
-   influences = analyzer.influences()
-   noise_stability = analyzer.noise_stability(0.9)
+   # Fourier analysis (direct methods)
+   fourier = xor.fourier()
+   influences = xor.influences()
+   noise_stability = xor.noise_stability(0.9)
+
+Mathematical Convention
+~~~~~~~~~~~~~~~~~~~~~~~
+
+BooFun uses the O'Donnell convention for Fourier analysis:
+
+- Boolean 0 → +1 (in ±1 domain)
+- Boolean 1 → -1 (in ±1 domain)
+
+This ensures ``f̂(∅) = E[f]`` and aligns with *Analysis of Boolean Functions* (O'Donnell, 2014).
 
    print(f"Variable influences: {influences}")
    print(f"Noise stability (ρ=0.9): {noise_stability}")
@@ -64,7 +73,7 @@ Basic Usage
 Mathematical Foundation
 -----------------------
 
-BoolFunc operates on Boolean functions :math:`f: \{0,1\}^n \to \{0,1\}`, providing tools for:
+BooFun operates on Boolean functions :math:`f: \{0,1\}^n \to \{0,1\}`, providing tools for:
 
 * **Fourier Analysis**: Walsh-Hadamard transform and spectral properties
 * **Influence Theory**: Variable influence :math:`I_i(f) = \Pr[f(x) \neq f(x \oplus e_i)]`
@@ -91,7 +100,7 @@ API Reference
    :toctree: api/
    :recursive:
 
-   boolfunc
+   boofun
 
 Indices and tables
 ==================

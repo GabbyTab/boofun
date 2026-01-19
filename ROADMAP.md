@@ -1,4 +1,4 @@
-# BoolFunc Roadmap
+# BooFun Roadmap
 
 **Last Updated**: January 2025  
 **Current Version**: 0.2.0
@@ -29,9 +29,10 @@ All core features are implemented. Remaining work focuses on polish, testing, an
 - Communication complexity
 - Goldreich-Levin sparse learning
 
-### Quantum Module
-- Oracle creation, Fourier analysis, property testing
-- Grover analysis, quantum walks, element distinctness
+### Quantum Speedup Analysis
+- Grover speedup estimation, quantum walks, element distinctness
+- Theoretical analysis tools (no Qiskit required for speedup estimation)
+- Oracle creation available with Qiskit installed
 
 ### Function Families
 - Majority, Parity, AND, OR, Tribes, Threshold, Dictator
@@ -53,6 +54,12 @@ All core features are implemented. Remaining work focuses on polish, testing, an
 - GitHub Pages docs, Codecov, dependabot
 - Docker (Dockerfile + docker-compose)
 
+### Recent Fixes (v0.2.x)
+- **Fourier Sign Convention**: Fixed to use O'Donnell standard (Boolean 0 → +1, Boolean 1 → -1)
+- **Test Determinism**: All PropertyTester instances now use seeded randomness
+- **GPU Module**: Aligned with O'Donnell convention
+- **Theoretical Bounds Tests**: Huang theorem, Nisan-Szegedy, complexity chain verification
+
 </details>
 
 ---
@@ -66,20 +73,24 @@ All core features are implemented. Remaining work focuses on polish, testing, an
 | PyPI publication | ⏳ Blocked | Need PYPI_TOKEN configured |
 | API stability guarantee | TODO | Document public API, add deprecation policy |
 | Tutorial series | ✅ Done | 7 tutorials covering beginner to advanced |
+| Test coverage 60%+ | TODO | Currently at 38%, need to increase |
 
 ### P1 - Quality & Polish
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Integration tests for new features | ✅ Done | 30 tests in test_new_features.py |
+| Integration tests for new features | ✅ Done | 60+ tests in integration/ |
 | Revamp examples/ folder | ✅ Done | 7 tutorials, cleaned old files |
 | Clean up Jupyter notebooks | ✅ Done | Already use simplified API |
-| Increase test coverage | TODO | Target 70%+ |
+| Fuzz testing | ✅ Done | 18 Hypothesis-based fuzz tests |
+| Theoretical bounds verification | ✅ Done | Huang, Nisan-Szegedy, certificate bounds |
+| Cross-validation tests | ✅ Done | 31 tests against known values |
 
 ### P2 - Nice to Have
 
 | Task | Notes |
 |------|-------|
+| Mutation testing | Run mutmut on critical paths |
 | Manim animations | Video content |
 | Distributed computation | Dask support |
 | conda-forge recipe | Alternative installation |
@@ -88,13 +99,15 @@ All core features are implemented. Remaining work focuses on polish, testing, an
 
 ## 🎯 v1.0.0 Milestone Checklist
 
-- [x] 60%+ test coverage
+- [ ] 60%+ test coverage (currently 38%)
 - [x] Performance benchmarks documented
 - [x] 3+ real-world usage examples
 - [x] LaTeX/TikZ export
 - [ ] Published on PyPI
 - [ ] API stability guarantee documented
 - [x] Tutorial series complete (7 tutorials)
+- [x] Fuzz testing in place
+- [x] Theoretical bounds verified
 
 ---
 
@@ -111,41 +124,43 @@ For v1.0.0, we commit to:
 3. **Documented API**: All public methods have docstrings and type hints.
 
 **Affected modules:**
-- `boolfunc.core.base.BooleanFunction`
-- `boolfunc.analysis` (all public functions)
-- `boolfunc.families` (all public classes)
-- `boolfunc.quantum` (QuantumBooleanFunction)
+- `boofun.core.base.BooleanFunction`
+- `boofun.analysis` (all public functions)
+- `boofun.families` (all public classes)
+- `boofun.quantum` (QuantumBooleanFunction)
 
 ---
 
-## 📂 Tutorial Series Plan
-
-### Beginner Tutorials
-1. **Getting Started** - Installation, basic usage, first function
-2. **Fourier Analysis Basics** - WHT, coefficients, Parseval's identity
-3. **Common Function Families** - AND, OR, majority, parity, tribes
-
-### Intermediate Tutorials
-4. **Property Testing** - BLR, junta, monotonicity testing
-5. **Query Complexity** - Sensitivity, block sensitivity, certificate
-6. **Noise and Stability** - Noise stability, influences
-
-### Advanced Tutorials
-7. **Quantum Applications** - Grover, quantum walks, advantage
-8. **Cryptographic Analysis** - S-box analysis, nonlinearity
-9. **Research Applications** - FKN theorem, communication complexity
-
----
-
-## 📊 Test Coverage Goals
+## 📊 Test Coverage Status
 
 | Module | Current | Target | Priority |
 |--------|---------|--------|----------|
-| core/base.py | ~65% | 80% | High |
-| analysis/*.py | ~60% | 75% | High |
-| families/*.py | ~50% | 70% | Medium |
-| visualization/*.py | ~40% | 60% | Low |
-| quantum/*.py | ~55% | 70% | Medium |
+| core/base.py | 75% | 80% | High |
+| analysis/*.py | 60-80% | 75% | High |
+| families/*.py | 18-46% | 70% | Medium |
+| visualization/*.py | 0-13% | 60% | Low |
+| quantum/*.py | 11% | 70% | Medium |
+
+**Total: ~1620 tests, 38% line coverage**
+
+### Test Categories
+- Unit tests: `tests/unit/`
+- Integration tests: `tests/integration/`
+- Property-based (Hypothesis): `tests/property/`
+- Fuzz tests: `tests/fuzz/`
+- Benchmarks: `tests/benchmarks/`
+- Cross-validation: `tests/test_cross_validation.py`
+
+---
+
+## 📂 Mathematical Foundation
+
+### Fourier Convention (O'Donnell Standard)
+This library uses the O'Donnell convention for Fourier analysis:
+- Boolean 0 → +1 (in ±1 domain)
+- Boolean 1 → -1 (in ±1 domain)
+
+This ensures `f̂(∅) = E[f]` and aligns with *Analysis of Boolean Functions* (O'Donnell, 2014).
 
 ---
 
@@ -154,7 +169,7 @@ For v1.0.0, we commit to:
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to help.
 
 ### Quick Wins
-- Add tests for specific modules
+- Add tests for low-coverage modules (visualization, quantum)
 - Improve docstrings
 - Documentation improvements
 
