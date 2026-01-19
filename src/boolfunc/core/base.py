@@ -1142,3 +1142,272 @@ class BooleanFunction(Evaluable, Representable):
             Maximum sensitivity
         """
         return max(self.sensitivity_at(x) for x in range(2**self.n_vars))
+    
+    # =========================================================================
+    # Fluent/Chainable API Methods
+    # =========================================================================
+    
+    def xor(self, other: "BooleanFunction") -> "BooleanFunction":
+        """
+        XOR with another function (chainable).
+        
+        Equivalent to f ^ g but more readable in chains.
+        
+        Example:
+            >>> f.xor(g).fourier()
+            >>> f.restrict(0, 1).xor(g).influences()
+        """
+        return self ^ other
+    
+    def and_(self, other: "BooleanFunction") -> "BooleanFunction":
+        """
+        AND with another function (chainable).
+        
+        Named with underscore to avoid Python keyword conflict.
+        Equivalent to f & g.
+        """
+        return self & other
+    
+    def or_(self, other: "BooleanFunction") -> "BooleanFunction":
+        """
+        OR with another function (chainable).
+        
+        Named with underscore to avoid Python keyword conflict.
+        Equivalent to f | g.
+        """
+        return self | other
+    
+    def not_(self) -> "BooleanFunction":
+        """
+        Negate output (chainable).
+        
+        Equivalent to ~f. Returns function g where g(x) = NOT f(x).
+        """
+        return ~self
+    
+    def apply_noise(self, rho: float, samples: int = 100) -> "BooleanFunction":
+        """
+        Apply noise to get a new Boolean function via sampling.
+        
+        For each input x, outputs the majority vote of f(y) over multiple y,
+        where each y is independently ρ-correlated with x.
+        
+        This gives a Boolean approximation to the noise operator T_ρ.
+        
+        Args:
+            rho: Correlation parameter in [-1, 1]
+            samples: Number of samples for majority vote (default: 100)
+            
+        Returns:
+            New Boolean function representing noisy version of f
+            
+        Example:
+            >>> f = bf.parity(5)
+            >>> noisy_f = f.apply_noise(0.9)  # High noise correlation
+            >>> # Noisy version has lower degree (high-degree parts attenuated)
+        """
+        if not -1 <= rho <= 1:
+            raise ValueError("rho must be in [-1, 1]")
+        
+        n = self.n_vars
+        new_tt = []
+        
+        for x in range(2 ** n):
+            # Sample multiple y's correlated with x, take majority of f(y)
+            votes = 0
+            for _ in range(samples):
+                # Generate y: each bit equals x_i with prob (1+rho)/2
+                y = 0
+                for i in range(n):
+                    x_bit = (x >> i) & 1
+                    if np.random.random() < (1 + rho) / 2:
+                        y_bit = x_bit  # Keep same
+                    else:
+                        y_bit = 1 - x_bit  # Flip
+                    y |= (y_bit << i)
+                
+                if self.evaluate(y):
+                    votes += 1
+            
+            # Majority vote
+            new_tt.append(1 if votes > samples // 2 else 0)
+        
+        return BooleanFunctionFactory.from_truth_table(
+            type(self),
+            new_tt,
+            n=n
+        )
+    
+    def noise_expectation(self, rho: float) -> np.ndarray:
+        """
+        Compute (T_ρ f)(x) = E_y[f(y)] for all inputs x.
+        
+        This returns the real-valued expectations, not a Boolean function.
+        Useful for analysis of noise stability.
+        
+        In Fourier: (T_ρ f)^(S) = ρ^|S| · f̂(S)
+        
+        Args:
+            rho: Correlation parameter in [-1, 1]
+            
+        Returns:
+            Array of expectations E[f(y)|x] in {-1,+1} representation
+            
+        Example:
+            >>> f = bf.parity(5)
+            >>> expectations = f.noise_expectation(0.9)
+            >>> # All values close to 0 (noise destroys parity signal)
+        """
+        if not -1 <= rho <= 1:
+            raise ValueError("rho must be in [-1, 1]")
+        
+        fourier = self.fourier()
+        
+        # Apply T_ρ: multiply each coefficient by ρ^|S|
+        new_fourier = np.zeros_like(fourier)
+        for s in range(len(fourier)):
+            k = bin(s).count('1')
+            new_fourier[s] = fourier[s] * (rho ** k)
+        
+        # Convert back to values via inverse WHT
+        from .optimizations import fast_walsh_hadamard
+        return fast_walsh_hadamard(new_fourier.copy())
+    
+    def permute(self, perm: list) -> "BooleanFunction":
+        """
+        Permute variables according to given permutation.
+        
+        Creates g where g(x_{perm[0]}, ..., x_{perm[n-1]}) = f(x_0, ..., x_{n-1}).
+        
+        Args:
+            perm: List defining the permutation, where perm[i] = j means
+                  variable i in the new function corresponds to variable j in self.
+                  
+        Returns:
+            New function with permuted variables
+            
+        Example:
+            >>> f = bf.dictator(3, 0)  # f(x) = x_0
+            >>> g = f.permute([2, 0, 1])  # g(x) = x_2 (old position 0 → new position 2)
+        """
+        n = self.n_vars
+        if len(perm) != n:
+            raise ValueError(f"Permutation must have {n} elements")
+        if set(perm) != set(range(n)):
+            raise ValueError("Permutation must be a valid permutation of 0..n-1")
+        
+        # Build new truth table
+        old_tt = self.get_representation("truth_table")
+        new_tt = [0] * (2**n)
+        
+        for x in range(2**n):
+            # Apply permutation: bit i of new input → bit perm[i] of old input
+            old_x = 0
+            for i in range(n):
+                if (x >> i) & 1:
+                    old_x |= (1 << perm[i])
+            new_tt[x] = old_tt[old_x]
+        
+        return BooleanFunctionFactory.from_truth_table(
+            type(self),
+            new_tt,
+            n=n
+        )
+    
+    def dual(self) -> "BooleanFunction":
+        """
+        Compute the dual function f*(x) = 1 - f(1-x) = NOT f(NOT x).
+        
+        The dual swaps the roles of AND and OR.
+        For monotone functions, f* is the De Morgan dual.
+        
+        Returns:
+            Dual function
+            
+        Example:
+            >>> bf.AND(3).dual()  # Returns OR(3)
+            >>> bf.OR(3).dual()   # Returns AND(3)
+        """
+        # NOT input, then f, then NOT output
+        return (~(-self))  # -f = f(-x), then ~
+    
+    def extend(self, new_n: int, method: str = "dummy") -> "BooleanFunction":
+        """
+        Extend function to more variables.
+        
+        Args:
+            new_n: New number of variables (must be >= current n)
+            method: How to extend:
+                    - "dummy": New variables don't affect output (default)
+                    - "xor": XOR new variables with output
+                    
+        Returns:
+            Extended function
+            
+        Example:
+            >>> f = bf.AND(2)  # f(x0, x1) = x0 AND x1
+            >>> g = f.extend(4)  # g(x0,x1,x2,x3) = x0 AND x1 (x2,x3 ignored)
+        """
+        n = self.n_vars
+        if new_n < n:
+            raise ValueError(f"new_n ({new_n}) must be >= current n ({n})")
+        if new_n == n:
+            return self
+        
+        old_tt = self.get_representation("truth_table")
+        new_size = 2 ** new_n
+        new_tt = [0] * new_size
+        
+        for x in range(new_size):
+            # Extract lower n bits for the original function
+            orig_x = x & ((1 << n) - 1)
+            extra_bits = x >> n
+            
+            if method == "dummy":
+                new_tt[x] = old_tt[orig_x]
+            elif method == "xor":
+                # XOR with parity of extra bits
+                extra_parity = bin(extra_bits).count('1') % 2
+                new_tt[x] = old_tt[orig_x] ^ extra_parity
+            else:
+                raise ValueError(f"Unknown extension method: {method}")
+        
+        return BooleanFunctionFactory.from_truth_table(
+            type(self),
+            new_tt,
+            n=new_n
+        )
+    
+    def named(self, name: str) -> "BooleanFunction":
+        """
+        Return same function with a descriptive name (for display/debugging).
+        
+        This is a fluent method that returns self with updated nickname.
+        
+        Example:
+            >>> f = bf.majority(5).named("MAJ_5")
+            >>> f.nickname
+            'MAJ_5'
+        """
+        self.nickname = name
+        return self
+    
+    def pipe(self, func, *args, **kwargs):
+        """
+        Apply an arbitrary function to self (for maximum fluency).
+        
+        Allows inserting custom transformations into a chain.
+        
+        Args:
+            func: Function to apply, receives self as first argument
+            *args, **kwargs: Additional arguments to func
+            
+        Returns:
+            Result of func(self, *args, **kwargs)
+            
+        Example:
+            >>> def custom_transform(f, scale):
+            ...     return f.apply_noise(scale)
+            >>> f.pipe(custom_transform, 0.9).fourier()
+        """
+        return func(self, *args, **kwargs)
