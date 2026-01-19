@@ -156,7 +156,7 @@ tests/
 
 ### TODO
 - [ ] Configure PYPI_TOKEN for automated releases
-- [ ] Add dependabot for dependency updates
+- [x] Add dependabot for dependency updates
 - [ ] Create Docker image
 
 ---
