@@ -268,3 +268,310 @@ if HAS_NUMBA:
 else:
     BEST_INFLUENCES = vectorized_influences_from_fourier
     INFLUENCES_BACKEND = "NumPy"
+
+
+# =============================================================================
+# Parallel Computation Support
+# =============================================================================
+
+try:
+    from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+    import multiprocessing
+    HAS_PARALLEL = True
+    MAX_WORKERS = multiprocessing.cpu_count()
+except ImportError:
+    HAS_PARALLEL = False
+    MAX_WORKERS = 1
+
+
+def parallel_batch_influences(
+    functions: list,
+    max_workers: Optional[int] = None,
+    use_threads: bool = True
+) -> list:
+    """
+    Compute influences for multiple Boolean functions in parallel.
+    
+    Args:
+        functions: List of BooleanFunction objects
+        max_workers: Number of parallel workers (default: CPU count)
+        use_threads: Use threads instead of processes (faster for small tasks)
+        
+    Returns:
+        List of influence arrays
+    """
+    if max_workers is None:
+        max_workers = min(MAX_WORKERS, len(functions))
+    
+    if not HAS_PARALLEL or len(functions) <= 1:
+        return [f.influences() for f in functions]
+    
+    def compute_influences(f):
+        return f.influences()
+    
+    ExecutorClass = ThreadPoolExecutor if use_threads else ProcessPoolExecutor
+    
+    with ExecutorClass(max_workers=max_workers) as executor:
+        results = list(executor.map(compute_influences, functions))
+    
+    return results
+
+
+def parallel_batch_fourier(
+    functions: list,
+    max_workers: Optional[int] = None
+) -> list:
+    """
+    Compute Fourier coefficients for multiple Boolean functions in parallel.
+    
+    Args:
+        functions: List of BooleanFunction objects
+        max_workers: Number of parallel workers
+        
+    Returns:
+        List of Fourier coefficient arrays
+    """
+    if max_workers is None:
+        max_workers = min(MAX_WORKERS, len(functions))
+    
+    if not HAS_PARALLEL or len(functions) <= 1:
+        return [f.fourier() for f in functions]
+    
+    def compute_fourier(f):
+        return f.fourier()
+    
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        results = list(executor.map(compute_fourier, functions))
+    
+    return results
+
+
+if HAS_NUMBA:
+    @njit(parallel=True, cache=True)
+    def _parallel_sensitivity_batch(truth_tables: np.ndarray) -> np.ndarray:
+        """
+        Compute sensitivity for multiple functions in parallel.
+        
+        Args:
+            truth_tables: 2D array where each row is a truth table
+            
+        Returns:
+            Array of sensitivity values
+        """
+        num_funcs = truth_tables.shape[0]
+        size = truth_tables.shape[1]
+        n = 0
+        temp = size
+        while temp > 1:
+            temp //= 2
+            n += 1
+        
+        sensitivities = np.zeros(num_funcs, dtype=np.float64)
+        
+        for f_idx in prange(num_funcs):
+            max_sens = 0
+            for x in range(size):
+                sens = 0
+                for i in range(n):
+                    neighbor = x ^ (1 << i)
+                    if truth_tables[f_idx, x] != truth_tables[f_idx, neighbor]:
+                        sens += 1
+                if sens > max_sens:
+                    max_sens = sens
+            sensitivities[f_idx] = max_sens
+        
+        return sensitivities
+
+
+# =============================================================================
+# Aggressive Memoization System
+# =============================================================================
+
+import functools
+import hashlib
+from typing import Dict, Tuple
+import weakref
+
+
+class ComputeCache:
+    """
+    LRU cache for expensive Boolean function computations.
+    
+    Caches results keyed by function hash and computation type.
+    Automatically evicts least-recently-used entries when full.
+    """
+    
+    def __init__(self, max_size: int = 1000):
+        """
+        Initialize cache.
+        
+        Args:
+            max_size: Maximum number of cached entries
+        """
+        self.max_size = max_size
+        self._cache: Dict[str, Any] = {}
+        self._access_order: list = []
+        self._hits = 0
+        self._misses = 0
+    
+    def _make_key(self, func_hash: str, computation: str, *args) -> str:
+        """Create cache key from function hash and computation."""
+        args_str = "_".join(str(a) for a in args)
+        return f"{func_hash}_{computation}_{args_str}"
+    
+    def get(self, func_hash: str, computation: str, *args) -> Tuple[bool, Any]:
+        """
+        Try to get cached result.
+        
+        Returns:
+            Tuple of (found, value)
+        """
+        key = self._make_key(func_hash, computation, *args)
+        
+        if key in self._cache:
+            self._hits += 1
+            # Move to end (most recently used)
+            if key in self._access_order:
+                self._access_order.remove(key)
+            self._access_order.append(key)
+            return (True, self._cache[key])
+        
+        self._misses += 1
+        return (False, None)
+    
+    def put(self, func_hash: str, computation: str, value: Any, *args):
+        """Store result in cache."""
+        key = self._make_key(func_hash, computation, *args)
+        
+        # Evict if necessary
+        while len(self._cache) >= self.max_size and self._access_order:
+            oldest = self._access_order.pop(0)
+            self._cache.pop(oldest, None)
+        
+        self._cache[key] = value
+        self._access_order.append(key)
+    
+    def clear(self):
+        """Clear all cached entries."""
+        self._cache.clear()
+        self._access_order.clear()
+    
+    def stats(self) -> Dict[str, Any]:
+        """Get cache statistics."""
+        total = self._hits + self._misses
+        return {
+            "size": len(self._cache),
+            "max_size": self.max_size,
+            "hits": self._hits,
+            "misses": self._misses,
+            "hit_rate": self._hits / total if total > 0 else 0.0
+        }
+
+
+# Global compute cache
+_GLOBAL_CACHE = ComputeCache(max_size=500)
+
+
+def get_global_cache() -> ComputeCache:
+    """Get the global computation cache."""
+    return _GLOBAL_CACHE
+
+
+def cached_computation(computation_name: str):
+    """
+    Decorator for caching expensive computations on BooleanFunction.
+    
+    Usage:
+        @cached_computation("influences")
+        def compute_influences(self):
+            ...
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(self, *args, **kwargs):
+            # Get function hash
+            func_hash = getattr(self, '_cache_hash', None)
+            if func_hash is None:
+                # Compute hash from truth table
+                tt = self.get_representation("truth_table")
+                func_hash = hashlib.md5(tt.tobytes()).hexdigest()[:16]
+                self._cache_hash = func_hash
+            
+            # Check cache
+            found, value = _GLOBAL_CACHE.get(func_hash, computation_name, *args)
+            if found:
+                return value
+            
+            # Compute and cache
+            result = func(self, *args, **kwargs)
+            _GLOBAL_CACHE.put(func_hash, computation_name, result, *args)
+            return result
+        
+        return wrapper
+    return decorator
+
+
+def memoize_method(func):
+    """
+    Simple memoization for instance methods.
+    
+    Caches results in the instance's __dict__.
+    """
+    cache_name = f"_memo_{func.__name__}"
+    
+    @functools.wraps(func)
+    def wrapper(self, *args, **kwargs):
+        # Create cache if needed
+        if not hasattr(self, cache_name):
+            setattr(self, cache_name, {})
+        
+        cache = getattr(self, cache_name)
+        
+        # Make key from args
+        key = (args, tuple(sorted(kwargs.items())))
+        
+        if key not in cache:
+            cache[key] = func(self, *args, **kwargs)
+        
+        return cache[key]
+    
+    return wrapper
+
+
+# =============================================================================
+# Batch Operations
+# =============================================================================
+
+def batch_evaluate(f, inputs: np.ndarray) -> np.ndarray:
+    """
+    Efficiently evaluate a Boolean function on a batch of inputs.
+    
+    Args:
+        f: BooleanFunction
+        inputs: 2D array of shape (batch_size, n_vars) or 1D array of indices
+        
+    Returns:
+        Boolean array of results
+    """
+    if inputs.ndim == 1:
+        # Array of indices
+        tt = f.get_representation("truth_table")
+        return tt[inputs].astype(bool)
+    else:
+        # Array of bit vectors
+        n = f.n_vars
+        # Convert each row to index
+        powers = 2 ** np.arange(n - 1, -1, -1)
+        indices = np.dot(inputs.astype(int), powers)
+        tt = f.get_representation("truth_table")
+        return tt[indices].astype(bool)
+
+
+if HAS_NUMBA:
+    @njit(parallel=True, cache=True)
+    def _batch_evaluate_numba(truth_table: np.ndarray, indices: np.ndarray) -> np.ndarray:
+        """Numba-accelerated batch evaluation."""
+        result = np.empty(len(indices), dtype=np.bool_)
+        for i in prange(len(indices)):
+            result[i] = truth_table[indices[i]]
+        return result

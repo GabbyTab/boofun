@@ -1,0 +1,71 @@
+# BoolFunc Docker Compose Configuration
+# Usage:
+#   docker-compose up notebook    # Run Jupyter notebooks
+#   docker-compose up dev         # Development environment
+#   docker-compose run test       # Run tests
+
+version: "3.8"
+
+services:
+  # Production notebook server
+  notebook:
+    build:
+      context: .
+      target: notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/app/notebooks:rw
+      - ./data:/app/data:rw
+    environment:
+      - JUPYTER_TOKEN=boolfunc
+    restart: unless-stopped
+
+  # Development environment
+  dev:
+    build:
+      context: .
+      target: development
+    ports:
+      - "8888:8888"
+      - "8000:8000"
+    volumes:
+      - .:/workspace:rw
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+
+  # Test runner
+  test:
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/workspace:rw
+    command: pytest tests/ -v --tb=short
+
+  # Documentation builder
+  docs:
+    build:
+      context: .
+      target: development
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docs:/workspace/docs:rw
+    command: >
+      sh -c "cd docs && make html && 
+             python -m http.server 8000 --directory _build/html"
+
+  # Benchmark runner
+  benchmark:
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/workspace:rw
+    command: pytest tests/benchmarks/ -v --benchmark-only
+
+volumes:
+  notebooks:
+  data:

@@ -221,8 +221,8 @@ tests/
 ### Medium Priority
 - [x] GPU acceleration via CuPy - core/gpu.py module
 - [x] **Sparse representation auto-selection for n > 14** - core/auto_representation.py
-- [ ] Parallel computation for influences
-- [ ] Aggressive memoization
+- [x] **Parallel computation for influences** - core/optimizations.py (parallel_batch_influences)
+- [x] **Aggressive memoization** - core/optimizations.py (ComputeCache, cached_computation)
 
 ---
 
@@ -242,7 +242,7 @@ tests/
 ### TODO
 - [ ] Configure PYPI_TOKEN for automated releases
 - [x] Add dependabot for dependency updates
-- [ ] Create Docker image
+- [x] **Create Docker image** - Dockerfile, docker-compose.yml
 
 ---
 
@@ -252,8 +252,8 @@ Requirements for stable release:
 - [x] 60%+ test coverage (achieved!)
 - [ ] Published on PyPI
 - [ ] API stability guarantee
-- [ ] Performance benchmarks documented
-- [ ] At least 3 real-world usage examples verified
+- [x] **Performance benchmarks documented** - docs/performance.md
+- [x] **At least 3 real-world usage examples verified** - docs/examples/
 
 ---
 
