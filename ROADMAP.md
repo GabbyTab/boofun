@@ -32,15 +32,15 @@ This document tracks planned features, improvements, and known gaps in the boolf
 | Task | Status | Notes |
 |------|--------|-------|
 | Publish to PyPI | Ready | Need to configure PYPI_TOKEN secret |
-| Add Codecov badge | TODO | Coverage reporting configured in CI |
-| Update notebooks to direct API | TODO | 43+ SpectralAnalyzer uses to update |
+| Add Codecov badge | ✅ DONE | Badge added to README |
+| Update notebooks to direct API | ✅ DONE | Migrated to f.fourier(), f.influences(), etc. |
 
 ### P1 - High Priority
 | Task | Status | Notes |
 |------|--------|-------|
 | Increase test coverage to 60%+ | ✅ DONE | Achieved 60% (was ~24%) |
 | Enable Numba by default | TODO | Add to core dependencies |
-| Add dependabot | TODO | For dependency updates |
+| Add dependabot | ✅ DONE | Configuration added |
 | Create tutorial series | TODO | Common workflows |
 
 ### P2 - Medium Priority
