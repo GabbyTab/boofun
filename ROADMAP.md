@@ -94,7 +94,7 @@ tests/
 ### TODO
 - [x] Increase coverage to 60%+ (achieved!)
 - [x] Add mutation testing (mutmut) - configured in setup.cfg, scripts/run_mutation_tests.py
-- [ ] Cross-validate with Sage/Mathematica
+- [x] Cross-validate with Sage/Mathematica - tests/test_theoretical_validation.py (50 tests)
 - [x] Test large n more thoroughly - tests/test_large_n.py added
 
 ---
