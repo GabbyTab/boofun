@@ -12,8 +12,8 @@ import numpy as np
 import sys
 sys.path.insert(0, 'src')
 
-from boolfunc.core import gpu
-import boolfunc as bf
+from boofun.core import gpu
+import boofun as bf
 
 
 class TestGPUAvailability:
@@ -100,15 +100,15 @@ class TestGPUBooleanFunctionOps:
     def test_pm_values(self):
         """pm_values should convert to ±1 correctly.
         
-        Convention: True (1) → +1, False (0) → -1
+        O'Donnell convention: Boolean 0 → +1, Boolean 1 → -1
         """
         tt = [0, 1, 1, 0]
         ops = gpu.GPUBooleanFunctionOps(tt)
         
         pm = ops.pm_values
         
-        # 0 → -1, 1 → +1
-        assert np.array_equal(pm, [-1, 1, 1, -1])
+        # O'Donnell: 0 → +1, 1 → -1
+        assert np.array_equal(pm, [1, -1, -1, 1])
     
     def test_fourier(self):
         """fourier() should compute coefficients correctly."""
