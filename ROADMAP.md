@@ -1,272 +1,151 @@
 # BoolFunc Roadmap
 
-This document tracks planned features, improvements, and known gaps in the boolfunc library.
-
 **Last Updated**: January 2025  
 **Current Version**: 0.2.0
 
 ---
 
-## Current Status Summary
+## 🎯 Status: Primary Functionality Complete!
 
-### What's Working
-- Core BooleanFunction class with 12+ representations
-- Simplified API with direct methods (`f.fourier()`, `f.influences()`, etc.)
-- Spectral analysis, property testing, noise stability
-- Function families with growth tracking
-- 16 educational notebooks (all O'Donnell lectures + homework)
-- GitHub Actions CI/CD with multi-OS, multi-Python testing
-- GitHub Pages documentation
-
-### Next Priorities
-1. Publish to PyPI (package ready, needs token)
-2. Increase test coverage
-3. Update notebooks to use simplified API
-4. Performance optimizations
+All core features are implemented. Remaining work focuses on polish, testing, and documentation.
 
 ---
 
-## Priority Matrix
+## ✅ What's Done (Collapsed)
 
-### P0 - Immediate
+<details>
+<summary><strong>Click to expand completed features</strong></summary>
+
+### Representations (12+)
+- Truth table, sparse, packed (bitarray)
+- Fourier expansion, ANF, DNF/CNF, polynomial
+- LTF, circuit, BDD, symbolic
+- Decision tree export (ASCII, DOT, JSON, TikZ)
+
+### Analysis
+- Property testing: BLR, junta, monotonicity, unateness, symmetry, balanced, dictator, affine, constant
+- Query complexity: D(f), R0, R2, Q2, QE, s(f), bs(f), C(f), Ambainis, spectral adversary, polynomial method, general adversary
+- FKN/dictatorship analysis
+- Communication complexity
+- Goldreich-Levin sparse learning
+
+### Quantum Module
+- Oracle creation, Fourier analysis, property testing
+- Grover analysis, quantum walks, element distinctness
+
+### Function Families
+- Majority, Parity, AND, OR, Tribes, Threshold, Dictator
+- LTF (weighted), RecursiveMajority3
+- IteratedMajority, RandomDNF, SboxFamily
+
+### Visualization
+- Animation, growth plots, decision tree viz
+- Interactive Plotly: spectrum, heatmaps, dashboard
+- LaTeX/TikZ export for all diagrams
+
+### Performance
+- WHT optimization, Numba JIT, GPU (CuPy)
+- Memory optimization (bitarray, sparse)
+- Parallel batch operations, memoization
+
+### Infrastructure
+- GitHub Actions CI/CD (multi-OS, multi-Python)
+- GitHub Pages docs, Codecov, dependabot
+- Docker (Dockerfile + docker-compose)
+
+</details>
+
+---
+
+## 📋 Remaining Tasks
+
+### P0 - Before v1.0.0
+
 | Task | Status | Notes |
 |------|--------|-------|
-| Publish to PyPI | Ready | Need to configure PYPI_TOKEN secret |
-| Add Codecov badge | ✅ DONE | Badge added to README |
-| Update notebooks to direct API | ✅ DONE | Migrated to f.fourier(), f.influences(), etc. |
+| PyPI publication | ⏳ Blocked | Need PYPI_TOKEN configured |
+| API stability guarantee | TODO | Document public API, add deprecation policy |
+| Tutorial series | TODO | Common workflow tutorials |
 
-### P1 - High Priority
+### P1 - Quality & Polish
+
 | Task | Status | Notes |
 |------|--------|-------|
-| Increase test coverage to 60%+ | ✅ DONE | Achieved 60% (was ~24%) |
-| Enable Numba by default | ✅ DONE | Added to core dependencies |
-| Add dependabot | ✅ DONE | Configuration added |
-| Create tutorial series | TODO | Common workflows |
+| Integration tests for new features | TODO | Communication complexity, families, exports |
+| Revamp examples/ folder | TODO | Consolidate into clear tutorials |
+| Clean up Jupyter notebooks | TODO | Ensure all use simplified API |
+| Increase test coverage | TODO | Target 70%+ |
 
-### P2 - Medium Priority
-| Task | Status | Notes |
-|------|--------|-------|
-| GPU acceleration (CuPy) | ✅ DONE | core/gpu.py with CPU fallback |
-| Fluent/chainable API | ✅ DONE | xor(), and_(), permute(), extend(), apply_noise(), etc. |
-| Animation of growth | ✅ DONE | visualization/animation.py, visualization/growth_plots.py |
-| Comparison guide | ✅ DONE | docs/comparison_guide.md + canalization module |
+### P2 - Nice to Have
 
-### P3 - Future
 | Task | Notes |
 |------|-------|
-| LaTeX/TikZ export | For Fourier diagrams |
 | Manim animations | Video content |
 | Distributed computation | Dask support |
 | conda-forge recipe | Alternative installation |
 
 ---
 
-## Educational Notebooks
+## 🎯 v1.0.0 Milestone Checklist
 
-All core educational content is complete:
-
-| Category | Status |
-|----------|--------|
-| Homework notebooks (HW1-4) | Complete |
-| Lecture notebooks (1-11) | Complete |
-| Global Hypercontractivity | Complete |
-| Asymptotic Visualization | Complete |
-| Real-World Applications | Complete |
-
-### Potential Additions
-- O'Donnell book exercises (selected problems)
-- Additional research paper implementations
-
----
-
-## Testing
-
-### Current Structure
-```
-tests/
-├── analysis/          # Spectral analysis, complexity
-├── benchmarks/        # Performance, external benchmarks
-├── integration/       # End-to-end tests
-├── property/          # Property-based tests (Hypothesis)
-└── unit/              # Core functionality
-```
-
-### TODO
-- [x] Increase coverage to 60%+ (achieved!)
-- [x] Add mutation testing (mutmut) - configured in setup.cfg, scripts/run_mutation_tests.py
-- [x] Cross-validate with Sage/Mathematica - tests/test_theoretical_validation.py (50 tests)
-- [x] Test large n more thoroughly - tests/test_large_n.py added
-
----
-
-## Feature Inventory
-
-### Property Testing (UNIQUE - No competitor has these)
-| Test | Status | Module |
-|------|--------|--------|
-| BLR Linearity | ✅ Done | `PropertyTester.blr_linearity_test()` |
-| Junta (k-junta) | ✅ Done | `PropertyTester.junta_test(k)` |
-| Monotonicity | ✅ Done | `PropertyTester.monotonicity_test()` |
-| **Unateness** | ✅ Done | `PropertyTester.unateness_test()` |
-| Symmetry | ✅ Done | `PropertyTester.symmetry_test()` |
-| Balanced | ✅ Done | `PropertyTester.balanced_test()` |
-| Dictator/Anti-dictator | ✅ Done | `PropertyTester.dictator_test()` |
-| Affine | ✅ Done | `PropertyTester.affine_test()` |
-| Constant | ✅ Done | `PropertyTester.constant_test()` |
-
-### Query Complexity (UNIQUE - No competitor has these)
-| Measure | Status | Function |
-|---------|--------|----------|
-| D(f) - Deterministic | ✅ Done | `deterministic_query_complexity()` |
-| R0(f) - Zero-error | ✅ Done | `zero_error_randomized_complexity()` |
-| R2(f) - Bounded-error | ✅ Done | `bounded_error_randomized_complexity()` |
-| Q2(f) - Quantum bounded | ✅ Done | `quantum_query_complexity()` |
-| QE(f) - Quantum exact | ✅ Done | `exact_quantum_complexity()` |
-| s(f) - Sensitivity | ✅ Done | `sensitivity_lower_bound()` |
-| bs(f) - Block sensitivity | ✅ Done | `block_sensitivity_lower_bound()` |
-| C(f) - Certificate | ✅ Done | `certificate_lower_bound()` |
-| Ambainis bound | ✅ Done | `ambainis_complexity()` |
-| Spectral adversary | ✅ Done | `spectral_adversary_bound()` |
-| **Polynomial method** | ✅ Done | `polynomial_method_bound()` |
-| **General adversary** | ✅ Done | `general_adversary_bound()` |
-| Approximate degree | ✅ Done | `approximate_degree()` |
-| Threshold degree | ✅ Done | `threshold_degree()` |
-
-### FKN/Dictatorship Analysis
-| Feature | Status | Module |
-|---------|--------|--------|
-| Distance to dictator | ✅ Done | `fkn.distance_to_dictator()` |
-| Closest dictator | ✅ Done | `fkn.closest_dictator()` |
-| FKN theorem bounds | ✅ Done | `fkn.fkn_theorem_bound()` |
-| Is close to dictator | ✅ Done | `fkn.is_close_to_dictator()` |
-| Spectral gap | ✅ Done | `fkn.spectral_gap()` |
-| Dictator proximity analysis | ✅ Done | `fkn.analyze_dictator_proximity()` |
-
-### Quantum Module (UNIQUE bridge to Qiskit)
-| Feature | Status | Class/Function |
-|---------|--------|----------------|
-| Quantum oracle creation | ✅ Done | `QuantumBooleanFunction.create_quantum_oracle()` |
-| Quantum Fourier analysis | ✅ Done | `QuantumBooleanFunction.quantum_fourier_analysis()` |
-| Quantum property testing | ✅ Done | `QuantumBooleanFunction.quantum_property_testing()` |
-| Quantum resource estimation | ✅ Done | `QuantumBooleanFunction.get_quantum_resources()` |
-| Quantum advantage estimation | ✅ Done | `estimate_quantum_advantage()` |
-| **Grover analysis** | ✅ Done | `QuantumBooleanFunction.grover_analysis()` |
-| **Grover amplitude evolution** | ✅ Done | `QuantumBooleanFunction.grover_amplitude_analysis()` |
-
-### Canalization (from BoolForge/CANA concepts)
-| Feature | Status | Function |
-|---------|--------|----------|
-| Is canalizing | ✅ Done | `is_canalizing()` |
-| K-canalizing | ✅ Done | `is_k_canalizing()` |
-| Canalizing depth | ✅ Done | `get_canalizing_depth()` |
-| Symmetry groups | ✅ Done | `get_symmetry_groups()` |
-| Input redundancy | ✅ Done | `input_redundancy()` |
-| Edge effectiveness | ✅ Done | `edge_effectiveness()` |
-
----
-
-## Still Missing
-
-### Representations
-| Representation | Status | Module |
-|----------------|--------|--------|
-| Truth table | ✅ Done | `representations/truth_table.py` |
-| Sparse truth table | ✅ Done | `representations/sparse_truth_table.py` |
-| Packed (bitarray) | ✅ Done | `representations/packed_truth_table.py` |
-| Fourier expansion | ✅ Done | `representations/fourier_expansion.py` |
-| ANF (Algebraic) | ✅ Done | `representations/anf_form.py` |
-| DNF/CNF | ✅ Done | `representations/dnf_form.py`, `cnf_form.py` |
-| Polynomial | ✅ Done | `representations/polynomial.py` |
-| LTF | ✅ Done | `representations/ltf.py` |
-| **Circuit (gates)** | ✅ Done | `representations/circuit.py` |
-| **BDD** | ✅ Done | `representations/bdd.py` |
-| **Symbolic** | ✅ Done | `representations/symbolic.py` |
-| **Decision Tree export** | ✅ Done | `visualization/decision_tree_export.py` |
-
-### Analysis Methods
-| Method | Status | Priority |
-|--------|--------|----------|
-| Polynomial method lower bounds | ✅ Done | `polynomial_method_bound()` |
-| General adversary method | ✅ Done | `general_adversary_bound()` |
-| **Goldreich-Levin algorithm** | ✅ Done | `analysis/learning.py` |
-| **Communication complexity** | ✅ Done | `analysis/communication_complexity.py` |
-
-### Visualization
-| Feature | Status | Module |
-|---------|--------|--------|
-| Animation of growth | ✅ Done | `visualization/animation.py` |
-| Growth plots | ✅ Done | `visualization/growth_plots.py` |
-| Decision tree viz | ✅ Done | `visualization/decision_tree.py` |
-| Interactive widgets | ✅ Done | `visualization/widgets.py` |
-| **Interactive Fourier spectrum** | ✅ Done | `visualization/interactive.py` |
-| **Influence heatmaps** | ✅ Done | `visualization/interactive.py` |
-| **FourierExplorer dashboard** | ✅ Done | `visualization/interactive.py` |
-
-### Quantum Algorithms
-| Feature | Status | Module |
-|---------|--------|--------|
-| Grover analysis | ✅ Done | `quantum/__init__.py` |
-| **Quantum walk analysis** | ✅ Done | `quantum/__init__.py` |
-| **Element distinctness** | ✅ Done | `quantum/__init__.py` |
-| Quantum walk search | ✅ Done | `quantum/__init__.py` |
-
-### Function Families
-| Family | Status | Module |
-|--------|--------|--------|
-| Majority, Parity, AND, OR | ✅ Done | `families/builtins.py` |
-| Tribes, Threshold, Dictator | ✅ Done | `families/builtins.py` |
-| LTF (weighted) | ✅ Done | `families/builtins.py` |
-| RecursiveMajority3 | ✅ Done | `families/builtins.py` |
-| **Iterated Majority** | ✅ Done | `IteratedMajorityFamily` |
-| **Random DNF** | ✅ Done | `RandomDNFFamily` |
-| **S-box (AES)** | ✅ Done | `SboxFamily` |
-
----
-
-## Performance Optimizations
-
-### High Priority
-- [x] Profile and optimize Walsh-Hadamard for n > 20 - scripts/profile_performance.py, core/optimizations.py
-- [x] Optimize influence computation - vectorized + Numba implementations in core/optimizations.py
-- [x] Add lazy evaluation for chained operations - LazyFourierCoefficients class
-- [x] **Memory optimization (bitarray)** - core/representations/packed_truth_table.py
-
-### Medium Priority
-- [x] GPU acceleration via CuPy - core/gpu.py module
-- [x] **Sparse representation auto-selection for n > 14** - core/auto_representation.py
-- [x] **Parallel computation for influences** - core/optimizations.py (parallel_batch_influences)
-- [x] **Aggressive memoization** - core/optimizations.py (ComputeCache, cached_computation)
-
----
-
-## Infrastructure
-
-### CI/CD Status
-| Feature | Status |
-|---------|--------|
-| GitHub Actions workflow | Done |
-| Multi-OS testing | Done |
-| Multi-Python (3.9-3.12) | Done |
-| Pre-commit hooks | Done |
-| GitHub Pages docs | Done |
-| PyPI publishing | Ready (needs token) |
-| Codecov integration | Configured |
-
-### TODO
-- [ ] Configure PYPI_TOKEN for automated releases
-- [x] Add dependabot for dependency updates
-- [x] **Create Docker image** - Dockerfile, docker-compose.yml
-
----
-
-## v1.0.0 Milestone
-
-Requirements for stable release:
-- [x] 60%+ test coverage (achieved!)
+- [x] 60%+ test coverage
+- [x] Performance benchmarks documented
+- [x] 3+ real-world usage examples
+- [x] LaTeX/TikZ export
 - [ ] Published on PyPI
-- [ ] API stability guarantee
-- [x] **Performance benchmarks documented** - docs/performance.md
-- [x] **At least 3 real-world usage examples verified** - docs/examples/
+- [ ] API stability guarantee documented
+- [ ] Tutorial series complete
+
+---
+
+## 📝 API Stability Guarantee
+
+For v1.0.0, we commit to:
+
+1. **Stable Public API**: Methods in `BooleanFunction`, `PropertyTester`, `QueryComplexityProfile`, and family classes won't change signatures without deprecation warnings.
+
+2. **Deprecation Policy**: 
+   - Deprecated features get warnings for at least one minor version
+   - Breaking changes only in major versions (2.0, 3.0, etc.)
+
+3. **Documented API**: All public methods have docstrings and type hints.
+
+**Affected modules:**
+- `boolfunc.core.base.BooleanFunction`
+- `boolfunc.analysis` (all public functions)
+- `boolfunc.families` (all public classes)
+- `boolfunc.quantum` (QuantumBooleanFunction)
+
+---
+
+## 📂 Tutorial Series Plan
+
+### Beginner Tutorials
+1. **Getting Started** - Installation, basic usage, first function
+2. **Fourier Analysis Basics** - WHT, coefficients, Parseval's identity
+3. **Common Function Families** - AND, OR, majority, parity, tribes
+
+### Intermediate Tutorials
+4. **Property Testing** - BLR, junta, monotonicity testing
+5. **Query Complexity** - Sensitivity, block sensitivity, certificate
+6. **Noise and Stability** - Noise stability, influences
+
+### Advanced Tutorials
+7. **Quantum Applications** - Grover, quantum walks, advantage
+8. **Cryptographic Analysis** - S-box analysis, nonlinearity
+9. **Research Applications** - FKN theorem, communication complexity
+
+---
+
+## 📊 Test Coverage Goals
+
+| Module | Current | Target | Priority |
+|--------|---------|--------|----------|
+| core/base.py | ~65% | 80% | High |
+| analysis/*.py | ~60% | 75% | High |
+| families/*.py | ~50% | 70% | Medium |
+| visualization/*.py | ~40% | 60% | Low |
+| quantum/*.py | ~55% | 70% | Medium |
 
 ---
 
@@ -274,21 +153,15 @@ Requirements for stable release:
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to help.
 
-### Good First Issues
-- Add tests for a specific module
+### Quick Wins
+- Add tests for specific modules
 - Improve docstrings
-- Add type hints where missing
 - Documentation improvements
 
-### Intermediate
+### Medium Effort  
 - Implement a missing algorithm
-- Add a new visualization type
-- Optimize a performance bottleneck
-
-### Advanced
-- Implement a research result
-- Add GPU support for an operation
-- Design new representation strategy
+- Add visualization type
+- Optimize performance
 
 ---
 
