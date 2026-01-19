@@ -35,9 +35,12 @@ dependencies = [
 performance = [
     # numba now included by default
 ]
-# GPU-accelerated Walsh-Hadamard transform (requires CUDA)
+# GPU-accelerated operations (requires CUDA)
 gpu = [
     "pyfwht>=0.2.0",
+    # Note: CuPy must be installed separately based on CUDA version:
+    # pip install cupy-cuda11x  # For CUDA 11.x
+    # pip install cupy-cuda12x  # For CUDA 12.x
 ]
 visualization = [
     "matplotlib>=3.5.0",

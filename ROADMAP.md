@@ -47,7 +47,7 @@ This document tracks planned features, improvements, and known gaps in the boolf
 | Task | Status | Notes |
 |------|--------|-------|
 | GPU acceleration (CuPy) | TODO | For large transforms |
-| Fluent/chainable API | TODO | `f.restrict().fourier()` |
+| Fluent/chainable API | ✅ DONE | xor(), and_(), permute(), extend(), apply_noise(), etc. |
 | Animation of growth | TODO | As n increases |
 | Comparison guide | TODO | vs BoolForge, pyeda, Sage |
 
