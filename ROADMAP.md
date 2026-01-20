@@ -1,65 +1,80 @@
 # Roadmap
 
 **Version:** 0.2.0  
-**Updated:** January 2025
+**Updated:** January 2026
 
 ## Current State
 
-Core functionality works. Test coverage is low (38%). Edge cases remain untested. API may change before v1.0.
+Core functionality is production-ready. Test coverage has reached 60%. API is stabilizing with structured exception hierarchy and comprehensive error handling. The library supports the full O'Donnell textbook curriculum.
 
 ## What Exists
 
 ### Representations
-Truth table (dense, sparse, packed), Fourier expansion, ANF, DNF/CNF, polynomial, LTF, circuit, BDD, symbolic. Automatic conversion between formats.
+Truth table (dense, sparse, packed), Fourier expansion, ANF, DNF/CNF, polynomial, LTF, circuit, BDD, symbolic. Automatic conversion between formats via conversion graph.
 
 ### Analysis
-- Property testing: BLR, junta, monotonicity, unateness, symmetry, balance, dictator, affine, constant
-- Query complexity: D(f), R₀, R₂, Q₂, QE, s(f), bs(f), C(f), Ambainis bound, spectral adversary
-- Fourier: WHT, influences, noise stability, spectral concentration
-- Specialized: FKN analysis, communication complexity, Goldreich-Levin
+- **Property testing**: BLR linearity, junta, monotonicity, unateness, symmetry, balance, dictator, affine, constant
+- **Query complexity**: D(f), R₀, R₂, Q₂, QE, s(f), bs(f), C(f), Ambainis bound, spectral adversary
+- **Fourier analysis**: WHT, influences, noise stability, spectral concentration, degree
+- **Specialized**: FKN theorem, hypercontractivity, invariance principle, Gaussian analysis
+- **Learning**: PAC learning, Goldreich-Levin algorithm
+- **LTF analysis**: Weight finding, critical index, Chow parameters
+
+### Visualization
+- **Static plots**: Influences, Fourier spectrum, truth table heatmaps, noise stability curves
+- **Hypercube visualization**: 3D Boolean hypercube with function coloring
+- **Growth plots**: Asymptotic behavior, family comparisons, convergence rates
+- **Decision trees**: Tree visualization and export
+- **Dashboards**: Comprehensive analysis dashboards (matplotlib/plotly)
 
 ### Families
-Majority, Parity, AND, OR, Tribes, Threshold, Dictator, weighted LTF, RecursiveMajority, IteratedMajority, RandomDNF, Sbox
+Majority, Parity, AND, OR, Tribes, Threshold, Dictator, weighted LTF, RecursiveMajority, IteratedMajority, RandomDNF, Sbox. Growth tracking for asymptotic analysis.
 
 ### Performance
-NumPy vectorization, Numba JIT (optional), CuPy GPU (optional), sparse representations, memoization
+NumPy vectorization, Numba JIT (optional), CuPy GPU (optional), sparse representations, memoization, batch processing.
+
+### Error Handling
+Structured exception hierarchy with error codes, debug logging, and production-ready error messages.
 
 ### Quantum
 Grover speedup estimation, quantum walk analysis. Theoretical only—Qiskit required for actual oracles.
 
 ### Infrastructure
-GitHub Actions CI, pytest, Hypothesis property tests, cross-validation against known results.
+GitHub Actions CI, pytest, Hypothesis property tests, mutation testing config, pre-commit hooks, cross-validation against known results.
 
 ## Before v1.0.0
 
 | Task | Status |
 |------|--------|
-| Increase test coverage to 60%+ | Incomplete (38%) |
-| Document API stability policy | Not done |
+| Increase test coverage to 60%+ | ✓ Complete |
+| Structured exception handling | ✓ Complete |
+| Fix bit-ordering bugs (MSB/LSB) | ✓ Complete |
+| Document API stability policy | In progress |
 | Publish to PyPI | Blocked on token |
+| Update notebooks with visualization | In progress |
 
 ## Test Coverage
 
 | Module | Coverage |
 |--------|----------|
-| core/base.py | ~75% |
-| analysis/*.py | 60-80% |
-| families/*.py | 18-46% |
-| visualization/*.py | 0-13% |
-| quantum/*.py | ~11% |
+| core/base.py | ~80% |
+| analysis/*.py | 60-85% |
+| families/*.py | 40-60% |
+| visualization/*.py | 40-60% |
+| quantum/*.py | ~20% |
 
-Coverage numbers are approximate. Low-coverage modules are less reliable.
+Coverage achieved 60% milestone. Visualization and quantum modules have improved significantly.
 
 ## Nice to Have (No Timeline)
 
-- Mutation testing
-- Manim animations
-- Dask distributed computation
+- Manim animations for educational content
+- Dask distributed computation for large n
 - conda-forge package
+- Interactive Jupyter widgets documentation
 
 ## Fourier Convention
 
-O'Donnell standard:
+O'Donnell standard (Analysis of Boolean Functions, Chapter 1):
 - Boolean 0 → +1
 - Boolean 1 → −1
 - f̂(∅) = E[f]
@@ -72,3 +87,4 @@ High-value contributions:
 - Tests for untested paths
 - Bug reports with reproducible examples
 - Corrections to mathematical errors
+- Notebook improvements and examples
