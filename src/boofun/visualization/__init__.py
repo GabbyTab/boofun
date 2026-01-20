@@ -6,10 +6,14 @@ Boolean functions, including influence plots, Fourier spectrum visualization,
 and interactive analysis tools.
 """
 
+import logging
 import warnings
 from typing import Any, Dict, Optional, Tuple
 
 import numpy as np
+
+# Module logger
+_logger = logging.getLogger("boofun.visualization")
 
 try:
     import matplotlib.patches as patches
@@ -558,7 +562,8 @@ class BooleanFunctionVisualizer:
             try:
                 stability = self.analyzer.noise_stability(rho)
                 stabilities.append(stability)
-            except:
+            except Exception as e:
+                _logger.debug(f"Noise stability computation failed for rho={rho}: {e}")
                 stabilities.append(np.nan)
 
         if self.backend == "matplotlib":

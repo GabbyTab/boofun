@@ -9,7 +9,11 @@ This module provides comprehensive LaTeX export for:
 - Boolean cube visualizations
 """
 
+import logging
 from typing import TYPE_CHECKING, Dict, List, Optional
+
+# Module logger
+_logger = logging.getLogger("boofun.visualization.latex_export")
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
@@ -381,7 +385,8 @@ def export_comparison_table(
                     values.append(f"{val:.3f}")
                 else:
                     values.append(str(val))
-            except:
+            except Exception as e:
+                _logger.debug(f"Property '{prop}' computation failed: {e}")
                 values.append("--")
 
         row = " & ".join([label] + values) + " \\\\"

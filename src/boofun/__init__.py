@@ -48,6 +48,7 @@ from .utils.exceptions import (
     BooleanFunctionError,
     ConfigurationError,
     ConversionError,
+    ErrorCode,
     EvaluationError,
     InvalidInputError,
     InvalidRepresentationError,
@@ -357,6 +358,7 @@ __all__ = [
     # =====================================================
     # EXCEPTIONS (structured error handling)
     # =====================================================
+    "ErrorCode",  # Machine-readable error codes
     "BooleanFunctionError",  # Base exception
     "ValidationError",  # User input validation failures
     "InvalidInputError",  # Invalid function arguments

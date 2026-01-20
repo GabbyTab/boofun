@@ -8,12 +8,16 @@ as n grows, enabling:
 - Discovery of patterns and phase transitions
 """
 
+import logging
 import warnings
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple
 
 import numpy as np
+
+# Module logger
+_logger = logging.getLogger("boofun.families.tracker")
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
@@ -480,7 +484,8 @@ class GrowthTracker:
                     if callable(theory_fn):
                         try:
                             theory = theory_fn(n, **marker.params)
-                        except:
+                        except Exception as e:
+                            _logger.debug(f"Theoretical value computation failed for {marker.name} at n={n}: {e}")
                             theory = None
                 result.theoretical_values.append(theory)
 

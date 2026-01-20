@@ -1,3 +1,4 @@
+import logging
 from typing import Any, Dict, List, Tuple
 
 import numpy as np
@@ -5,6 +6,9 @@ import numpy as np
 from ..spaces import Space
 from .base import BooleanFunctionRepresentation
 from .registry import register_strategy
+
+# Module logger
+_logger = logging.getLogger("boofun.core.representations.symbolic")
 
 
 @register_strategy("symbolic")
@@ -95,7 +99,8 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
             try:
                 result = eval(expr, {"__builtins__": {}}, context)
                 return bool(result)
-            except:
+            except Exception as e:
+                _logger.debug(f"Symbolic expression evaluation failed: {e}")
                 return False
 
         # Batch evaluation
@@ -114,7 +119,8 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
             try:
                 result = eval(expr, {"__builtins__": {}}, context)
                 results.append(bool(result))
-            except:
+            except Exception as e:
+                _logger.debug(f"Symbolic batch evaluation failed for input {inp}: {e}")
                 results.append(False)
 
         return np.array(results)

@@ -4,8 +4,9 @@ Tests for the improved error handling and exception hierarchy.
 This module tests:
 1. Exception taxonomy is correct and exceptions can be caught hierarchically
 2. Error messages contain appropriate context
-3. Fail-fast behavior works correctly
-4. Silent failures are properly eliminated
+3. Error codes are correct and machine-readable
+4. Fail-fast behavior works correctly
+5. Silent failures are properly eliminated
 """
 
 import numpy as np
@@ -16,6 +17,7 @@ from boofun.utils.exceptions import (
     BooleanFunctionError,
     ConfigurationError,
     ConversionError,
+    ErrorCode,
     EvaluationError,
     InvalidInputError,
     InvalidRepresentationError,
@@ -285,3 +287,76 @@ class TestBackwardCompatibility:
         f = bf.create([0, 1, 1, 0])
         with pytest.raises(IndexError):
             f.evaluate(10)  # Out of range for 2-variable function
+
+
+class TestErrorCodes:
+    """Test machine-readable error codes."""
+
+    def test_error_code_enum_exists(self):
+        """ErrorCode enum should be importable."""
+        assert hasattr(bf, "ErrorCode")
+        assert ErrorCode.INVALID_TRUTH_TABLE is not None
+
+    def test_exception_has_error_code(self):
+        """Exceptions should have error code attribute."""
+        exc = InvalidTruthTableError("test", size=5)
+        assert hasattr(exc, "code")
+        assert isinstance(exc.code, ErrorCode)
+
+    def test_truth_table_error_code(self):
+        """Truth table errors should have correct code."""
+        try:
+            bf.create([0, 1, 1])  # Invalid size
+        except InvalidTruthTableError as e:
+            assert e.code == ErrorCode.INVALID_TRUTH_TABLE
+            assert "E13" in e.code.value  # E13xx range
+
+    def test_conversion_error_code(self):
+        """Conversion errors should have correct code."""
+        f = bf.BooleanFunction(n=2)
+        try:
+            f.get_representation("fourier")
+        except ConversionError as e:
+            assert e.code == ErrorCode.CONVERSION_ERROR
+            assert "E3" in e.code.value  # E3xxx range
+
+    def test_error_code_in_message(self):
+        """Error code should appear in formatted message."""
+        exc = InvalidInputError("test error", parameter="x")
+        assert "[E1" in str(exc)  # E1xxx range in message
+
+    def test_to_dict_method(self):
+        """Exception should serialize to dict correctly."""
+        exc = InvalidTruthTableError(
+            "Bad size",
+            size=5,
+            suggestion="Use power of 2"
+        )
+        d = exc.to_dict()
+        assert "error_code" in d
+        assert "error_type" in d
+        assert "message" in d
+        assert "context" in d
+        assert d["error_type"] == "InvalidTruthTableError"
+        assert d["context"]["size"] == 5
+
+    def test_error_codes_are_unique(self):
+        """All error codes should have unique values."""
+        values = [code.value for code in ErrorCode]
+        assert len(values) == len(set(values))
+
+
+class TestLogging:
+    """Test that logging utilities work correctly."""
+
+    def test_logging_module_exists(self):
+        """Logging module should be importable."""
+        from boofun.utils.logging import get_logger, enable_debug_logging
+        assert callable(get_logger)
+        assert callable(enable_debug_logging)
+
+    def test_get_logger(self):
+        """get_logger should return a logger."""
+        from boofun.utils.logging import get_logger
+        logger = get_logger("test")
+        assert logger.name == "boofun.test"

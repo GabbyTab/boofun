@@ -5,7 +5,11 @@ This module provides interactive visualizations for Boolean function analysis,
 including Fourier spectrum exploration, influence heatmaps, and comparison tools.
 """
 
+import logging
 from typing import TYPE_CHECKING, List, Tuple
+
+# Module logger
+_logger = logging.getLogger("boofun.visualization.interactive")
 
 # Check for Plotly
 try:
@@ -369,7 +373,8 @@ def interactive_growth_explorer(
             else:
                 try:
                     data[prop].append(getattr(f, prop)())
-                except:
+                except Exception as e:
+                    _logger.debug(f"Property '{prop}' computation failed for n={n}: {e}")
                     data[prop].append(0)
 
     # Create subplots

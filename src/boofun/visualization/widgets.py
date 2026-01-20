@@ -9,9 +9,13 @@ Requires: ipywidgets (pip install ipywidgets)
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING, Callable, Dict
 
 import numpy as np
+
+# Module logger
+_logger = logging.getLogger("boofun.visualization.widgets")
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
@@ -321,7 +325,8 @@ class GrowthExplorer:
                     elif prop == "Support Size":
                         val = f.hamming_weight()
                     prop_values.append(val)
-                except Exception:
+                except Exception as e:
+                    _logger.debug(f"Property '{prop}' computation failed for n={n}: {e}")
                     prop_values.append(np.nan)
 
             if HAS_MATPLOTLIB:
@@ -464,7 +469,8 @@ class PropertyDashboard:
                 try:
                     val = prop_func(f)
                     print(f"{str(val):<15}", end="")
-                except:
+                except Exception as e:
+                    _logger.debug(f"Property '{prop_name}' computation failed: {e}")
                     print(f"{'N/A':<15}", end="")
             print()
 

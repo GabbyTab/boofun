@@ -8,9 +8,13 @@ This module provides specialized plotting tools for:
 - Phase transition visualization
 """
 
+import logging
 from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
 
 import numpy as np
+
+# Module logger
+_logger = logging.getLogger("boofun.visualization.growth_plots")
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
@@ -676,7 +680,8 @@ class ComplexityVisualizer:
         try:
             c0, c1 = certificate_complexity(f)
             C = max(c0, c1)
-        except:
+        except Exception as e:
+            _logger.debug(f"Certificate complexity computation failed: {e}")
             C = None
 
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
