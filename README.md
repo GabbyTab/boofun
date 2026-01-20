@@ -47,7 +47,12 @@ f = bf.random(4, seed=42)        # Random
 # Evaluate
 maj.evaluate([1, 1, 0, 0, 1])    # → 1
 
-# Analyze
+# Representations (automatic conversion)
+maj.get_representation("fourier_expansion")
+maj.get_representation("anf")    # Polynomial over GF(2)
+maj.convert_to("dnf")
+
+# Fourier analysis
 maj.fourier()                    # Fourier coefficients
 maj.influences()                 # Variable influences
 maj.total_influence()            # I[f]
@@ -60,6 +65,12 @@ maj.is_monotone()
 maj.is_linear()
 maj.is_junta(k=2)
 
+# Query complexity
+from boofun.analysis import complexity, query_complexity as qc
+complexity.decision_tree_depth(maj)     # D(f)
+complexity.max_sensitivity(maj)         # s(f)
+qc.ambainis_complexity(maj)             # Quantum lower bound
+
 # Quick summary
 maj.analyze()  # dict with all metrics
 ```
@@ -70,26 +81,38 @@ maj.analyze()  # dict with all metrics
 - Truth tables (dense, sparse, packed)
 - Fourier expansion
 - ANF (polynomial over GF(2))
+- Real polynomial
 - DNF/CNF
 - Circuits, BDDs, LTFs
+- Symbolic
 
-Automatic conversion between representations.
+Automatic conversion between any pair via conversion graph.
 
 ### Analysis
-- **Fourier:** Walsh-Hadamard transform, spectral weight by degree, p-biased Fourier coefficients
-- **Influences:** Per-variable and total influence, average sensitivity
-- **Noise stability:** Stab_ρ[f] for ρ ∈ (0,1)
-- **Property testing:** BLR linearity, junta, monotonicity, unateness, symmetry, quasisymmetry, balance
-- **Query complexity:** D(f), R₀(f), R₂(f), Q₂(f), QE(f), sensitivity s(f), block sensitivity bs(f), certificate complexity C(f), Ambainis bound, spectral adversary
+- **Fourier:** Walsh-Hadamard transform, spectral weight by degree, p-biased Fourier, spectral concentration
+- **Influences:** Per-variable, total, average sensitivity
+- **Noise stability:** Stab_ρ[f] for ρ ∈ [-1,1]
+- **Property testing:** BLR linearity, junta, monotonicity, unateness, symmetry, quasisymmetry, balance, dictator, affine, constant
+- **Query complexity:** D(f), D_avg(f), R₀(f), R₁(f), R₂(f), Q₂(f), QE(f), s(f), bs(f), es(f), C(f), Ambainis bound, spectral adversary, polynomial method
 - **Structural:** Primality, dependence, decomposition
+- **Advanced:** FKN theorem, hypercontractivity, Gaussian analysis, invariance principle, PAC learning, Goldreich-Levin, LTF analysis (Chow parameters, critical index), communication complexity, Huang's theorem
 
 ### Built-in Functions
 `majority(n)`, `parity(n)`, `tribes(k, n)`, `threshold(n, k)`, `dictator(n, i)`, `AND(n)`, `OR(n)`, `weighted_majority(weights)`, `random(n)`
 
-### Extras
-- **Families:** Track asymptotic growth of function properties
-- **Visualization:** Influence plots, Fourier spectra (requires matplotlib)
-- **Quantum:** Grover speedup estimation, quantum walk analysis (theoretical; oracles require Qiskit)
+### Families
+Track asymptotic behavior as n grows. Built-in: `MajorityFamily`, `ParityFamily`, `TribesFamily`, `ThresholdFamily`, `ANDFamily`, `ORFamily`, `DictatorFamily`, `LTFFamily`. Compare empirical results against theoretical bounds (e.g., I[MAJ_n] ≈ √(2/π)·√n).
+
+### Visualization
+- Influence bar plots, Fourier spectrum (box plots, spectral concentration)
+- Truth table heatmaps, hypercube graphs (n ≤ 5)
+- Noise stability curves, sensitivity heatmaps
+- Decision tree visualization, growth plots
+- Interactive dashboards (matplotlib/plotly)
+- Animations for asymptotic growth
+
+### Quantum
+Grover speedup estimation, quantum walk analysis (theoretical bounds; oracle implementation requires Qiskit).
 
 ## Mathematical Convention
 
