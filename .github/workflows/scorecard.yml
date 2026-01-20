@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608  # v4
 
-      - uses: ossf/scorecard-action@ff5dd8929f96a8a4dc67d13f32b8c75057829621  # v2.4.0
+      - uses: ossf/scorecard-action@v2.4.1
         with:
           results_file: results.sarif
           results_format: sarif
