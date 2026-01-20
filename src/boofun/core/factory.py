@@ -29,6 +29,7 @@ _SUPPORTED_REP_TYPES = [
     "symbolic",
     "dnf",
     "cnf",
+    "file",
 ]
 
 
@@ -49,6 +50,16 @@ class BooleanFunctionFactory:
         Raises:
             InvalidRepresentationError: If data type cannot be mapped to a representation
         """
+        # Check for file path (string ending with known extensions or Path object)
+        from pathlib import Path
+        if isinstance(data, (str, Path)):
+            path = Path(data)
+            if path.suffix.lower() in (".json", ".bf", ".cnf", ".dimacs"):
+                return "file"
+            # If it looks like a file path but doesn't have known extension, check if it exists
+            if path.exists() and path.is_file():
+                return "file"
+        
         if callable(data):
             return "function"
         if hasattr(data, "rvs"):
@@ -143,6 +154,8 @@ class BooleanFunctionFactory:
             return cls.from_dnf(boolean_function_cls, data, **kwargs)
         elif rep_type == "cnf":
             return cls.from_cnf(boolean_function_cls, data, **kwargs)
+        elif rep_type == "file":
+            return cls.from_file(boolean_function_cls, data, **kwargs)
 
         raise InvalidRepresentationError(
             f"Unknown representation type '{rep_type}'",
@@ -536,3 +549,23 @@ class BooleanFunctionFactory:
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(cnf_formula, rep_type)
         return instance
+
+    @classmethod
+    def from_file(cls, boolean_function_cls, path, **kwargs):
+        """Create from file (JSON, .bf, or DIMACS CNF).
+
+        Args:
+            boolean_function_cls: The BooleanFunction class to instantiate
+            path: Path to file (str or Path object)
+            **kwargs: Additional arguments passed to the loader
+
+        Returns:
+            BooleanFunction instance
+
+        Example:
+            >>> bf.create("function.json")
+            >>> bf.create("function.bf")
+            >>> bf.create("function.cnf")
+        """
+        from .io import load
+        return load(path, **kwargs)

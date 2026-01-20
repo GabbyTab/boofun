@@ -91,7 +91,21 @@ bf.create({(0,1), (1,0)}, n=2)             # Set → true inputs
 bf.create(iter([0,1,1,0]))                 # Iterator → streaming
 ```
 
-Also accepts scipy distributions, DNF/CNF formula objects, and adapts legacy code via `LegacyAdapter`.
+Also accepts scipy distributions, DNF/CNF formula objects, file paths, and adapts legacy code via `LegacyAdapter`.
+
+```python
+# Load from file (format auto-detected)
+f = bf.load("function.json")
+f = bf.load("function.bf")      # Aaronson format
+f = bf.load("function.cnf")     # DIMACS CNF
+
+# Or directly via create
+f = bf.create("function.json")
+
+# Save to file
+bf.save(f, "output.json")
+bf.save(f, "output.bf")
+```
 
 Evaluation is equally flexible:
 

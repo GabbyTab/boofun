@@ -67,12 +67,27 @@ Coverage achieved 60% milestone. Visualization and quantum modules have improved
 
 ## Nice to Have (No Timeline)
 
-- File loading (`.bf` format, JSON, DIMACS CNF)
-- Partial representations (incomplete truth tables with confidence)
 - Manim animations for educational content
 - Dask distributed computation for large n
 - conda-forge package
 - Interactive Jupyter widgets documentation
+
+## Recently Completed
+
+### File I/O (v0.2.1)
+- `bf.load(path)` and `bf.save(func, path)` at top level
+- JSON format with full metadata
+- `.bf` format (Scott Aaronson's Boolean Function Wizard)
+- DIMACS CNF format (SAT solver standard)
+- Auto-detection from extension or content
+- `bf.create("file.json")` works directly
+
+### Partial Representations (v0.2.1)
+- `PartialRepresentation` class for incomplete data
+- Confidence tracking for known/unknown values
+- Estimation for unknown values using neighbor voting
+- Incremental value addition
+- Conversion to complete with estimation
 
 ## Fourier Convention
 

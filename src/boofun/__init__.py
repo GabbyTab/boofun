@@ -33,6 +33,7 @@ from typing import Optional
 
 from .api import create
 from .core import BooleanFunction, ExactErrorModel, NoiseErrorModel, PACErrorModel, Property, Space
+from .core.io import load, save
 from .core.adapters import (
     CallableAdapter,
     NumPyAdapter,
@@ -333,6 +334,9 @@ __all__ = [
     # Creation
     "create",
     "BooleanFunction",
+    # File I/O
+    "load",
+    "save",
     # Built-in functions (short names)
     "majority",
     "parity",
