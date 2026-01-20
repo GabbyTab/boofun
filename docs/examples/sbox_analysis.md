@@ -52,11 +52,11 @@ def compute_nonlinearity(f: bf.BooleanFunction) -> int:
     fourier = f.fourier()
     n = f.n_vars
     N = 2**n
-    
+
     # Convert Fourier coefficients to Walsh spectrum
     # Walsh(a) = sum_x (-1)^{f(x) + <a,x>}
     walsh = fourier * N
-    
+
     # Nonlinearity = (N - max|Walsh|) / 2
     max_walsh = max(abs(w) for w in walsh)
     return int((N - max_walsh) / 2)
@@ -85,7 +85,7 @@ Good S-boxes should be far from linear:
 ```python
 for i, comp in enumerate(components):
     tester = PropertyTester(comp)
-    
+
     # Should fail - S-box is highly nonlinear
     is_linear = tester.blr_linearity_test(num_queries=1000)
     print(f"Component {i}: linear = {is_linear}")  # Should be False
@@ -99,13 +99,13 @@ Examine the spectral structure:
 for i, comp in enumerate(components):
     # Get Fourier degree (highest level with non-zero weight)
     degree = comp.degree()
-    
+
     # Get spectral weight distribution
     weights = comp.spectral_weight_by_degree()
-    
+
     # Total influence (measure of complexity)
     total_inf = comp.total_influence()
-    
+
     print(f"Component {i}:")
     print(f"  Fourier degree: {degree}")
     print(f"  Total influence: {total_inf:.2f}")
@@ -155,18 +155,18 @@ print(f"Weak S-box passes linearity: {weak_tester.blr_linearity_test()}")
 def analyze_sbox(sbox: list, name: str = "S-box"):
     """Generate comprehensive S-box analysis report."""
     print(f"=== {name} Analysis ===\n")
-    
+
     components = [get_sbox_component(sbox, i) for i in range(8)]
-    
+
     # Per-component analysis
     for i, comp in enumerate(components):
         nl = compute_nonlinearity(comp)
         deg = comp.degree()
         bal = PropertyTester(comp).balanced_test()
         inf = comp.total_influence()
-        
+
         print(f"Bit {i}: NL={nl}, deg={deg}, balanced={bal}, I[f]={inf:.2f}")
-    
+
     # Summary
     nonlinearities = [compute_nonlinearity(c) for c in components]
     print(f"\nMin nonlinearity: {min(nonlinearities)}")

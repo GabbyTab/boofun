@@ -3,7 +3,7 @@ boofun.core.representations
 
 .. automodule:: boofun.core.representations
 
-   
+
 .. rubric:: Modules
 
 .. autosummary::

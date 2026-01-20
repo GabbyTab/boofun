@@ -26,7 +26,7 @@ def sage_fourier_coefficients(f, n):
     """Compute Fourier coefficients in Sage for comparison."""
     size = 2^n
     coeffs = []
-    
+
     for S in range(size):
         # Compute f̂(S) = E[f(x) * χ_S(x)]
         total = 0
@@ -38,7 +38,7 @@ def sage_fourier_coefficients(f, n):
             f_val = 1 - 2*f(x)
             total += f_val * char_val
         coeffs.append(total / size)
-    
+
     return coeffs
 ```
 
@@ -171,12 +171,12 @@ for S in range(size):
 
 print(json.dumps({{"coefficients": coeffs}}))
 '''
-    
+
     result = subprocess.run(
         ["sage", "-c", sage_script],
         capture_output=True, text=True
     )
-    
+
     if result.returncode == 0:
         return json.loads(result.stdout)
     else:
@@ -186,7 +186,7 @@ print(json.dumps({{"coefficients": coeffs}}))
 def compare_with_boofun(n, function_type):
     """Compare Sage results with BooFun."""
     import boofun as bf
-    
+
     # Get BooFun result
     if function_type == "parity":
         f = bf.parity(n)
@@ -194,23 +194,23 @@ def compare_with_boofun(n, function_type):
         f = bf.majority(n)
     elif function_type == "and":
         f = bf.AND(n)
-    
+
     bf_coeffs = f.fourier()
-    
+
     # Get Sage result
     try:
         sage_result = run_sage_comparison(n, function_type)
         sage_coeffs = np.array(sage_result["coefficients"])
-        
+
         # Compare
         max_diff = np.max(np.abs(bf_coeffs - sage_coeffs))
         print(f"{function_type}(n={n}): max difference = {max_diff:.2e}")
-        
+
         if max_diff < 1e-10:
             print("  ✓ PASS")
         else:
             print("  ✗ FAIL")
-            
+
     except FileNotFoundError:
         print("  (Sage not installed - skipping)")
 ```

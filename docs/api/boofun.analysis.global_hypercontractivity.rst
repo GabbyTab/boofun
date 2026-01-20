@@ -3,11 +3,11 @@ boofun.analysis.global\_hypercontractivity
 
 .. automodule:: boofun.analysis.global_hypercontractivity
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       find_critical_p
       generalized_influence
       hypercontractivity_bound
@@ -20,10 +20,9 @@ boofun.analysis.global\_hypercontractivity
       p_biased_total_influence
       sigma
       threshold_curve
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       GlobalHypercontractivityAnalyzer
-   

@@ -3,11 +3,7 @@ from typing import TYPE_CHECKING, Any, Dict, Optional, Protocol
 
 import numpy as np
 
-from ..utils.exceptions import (
-    ConversionError,
-    EvaluationError,
-    InvalidInputError,
-)
+from ..utils.exceptions import ConversionError, EvaluationError, InvalidInputError
 from .conversion_graph import find_conversion_path
 from .errormodels import ExactErrorModel
 from .factory import BooleanFunctionFactory

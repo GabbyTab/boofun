@@ -20,11 +20,7 @@ import pytest
 # Import boofun
 sys.path.insert(0, "src")
 import boofun as bf
-from boofun.core.query_model import (
-    AccessType,
-    QueryModel,
-    get_access_type,
-)
+from boofun.core.query_model import AccessType, QueryModel, get_access_type
 
 # =============================================================================
 # FIXTURES

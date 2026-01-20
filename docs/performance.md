@@ -49,7 +49,7 @@ from boofun.core.auto_representation import recommend_representation
 # Get recommendation for your use case
 rec = recommend_representation(n_vars=18, sparsity=0.1)
 print(rec)
-# {'representation': 'sparse_truth_table', 
+# {'representation': 'sparse_truth_table',
 #  'reason': 'Sparsity 10.0% < 30%'}
 ```
 

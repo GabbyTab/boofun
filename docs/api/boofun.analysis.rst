@@ -3,14 +3,14 @@ boofun.analysis
 
 .. automodule:: boofun.analysis
 
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       PropertyTester
       SpectralAnalyzer
-   
+
 .. rubric:: Modules
 
 .. autosummary::

@@ -1,10 +1,6 @@
 """Utility modules for boofun package."""
 
-from .finite_fields import (
-    HAS_GALOIS,
-    GFField,
-    get_field,
-)
+from .finite_fields import HAS_GALOIS, GFField, get_field
 from .math import (
     binary_tuple_to_int,
     bits,

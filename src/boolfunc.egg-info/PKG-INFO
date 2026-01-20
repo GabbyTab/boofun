@@ -75,8 +75,8 @@ BoolFunc is a comprehensive Python library for the analysis and manipulation of 
 
 ### Multiple Representations
 - **Truth Tables**: Standard binary representation for direct evaluation
-- **Algebraic Normal Form (ANF)**: Polynomial representation over GF(2) 
-- **Fourier Expansion**: Spectral representation 
+- **Algebraic Normal Form (ANF)**: Polynomial representation over GF(2)
+- **Fourier Expansion**: Spectral representation
 - **Binary Decision Diagrams (BDDs)**: Compressed graph-based representation
 - **Circuit Representation**: Gate-based computational model
 - **CNF/DNF Forms**: Conjunctive and disjunctive normal forms
@@ -84,7 +84,7 @@ BoolFunc is a comprehensive Python library for the analysis and manipulation of 
 
 ### Spectral Analysis
 - **Fourier Coefficients**: Complete Walsh-Hadamard transform computation
-- **Influence Measures**: Variable influence and total influence calculation  
+- **Influence Measures**: Variable influence and total influence calculation
 - **Noise Stability**: Correlation under random noise for fixed correlation parameters
 - **Spectral Concentration**: Degree-based spectral weight distribution
 
@@ -96,7 +96,7 @@ BoolFunc is a comprehensive Python library for the analysis and manipulation of 
 
 ### Built-in Function Classes
 - **Tribes Functions**: Disjunction of k-wise conjunctions for complexity analysis
-- **Majority Functions**: Threshold functions for voting theory applications  
+- **Majority Functions**: Threshold functions for voting theory applications
 - **Parity Functions**: Linear functions over GF(2) for coding theory
 - **Dictator Functions**: Single-variable dependencies for social choice theory
 
@@ -195,7 +195,7 @@ h = bf.random(4, seed=42)           # Reproducible random function
 BoolFunc operates on Boolean functions f: {0,1}ⁿ → {0,1}, providing tools for:
 
 - **Fourier Analysis**: Walsh-Hadamard transform and spectral properties
-- **Influence Theory**: Variable influence I_i(f) = Pr[f(x) ≠ f(x ⊕ eᵢ)]  
+- **Influence Theory**: Variable influence I_i(f) = Pr[f(x) ≠ f(x ⊕ eᵢ)]
 - **Noise Stability**: NS_ρ(f) = E[f(x)f(N_ρ(x))] for noise operator N_ρ
 - **Complexity Measures**: Certificate complexity, sensitivity, block sensitivity
 - **Learning Theory**: PAC learning with membership and equivalence queries
@@ -310,7 +310,7 @@ open _build/html/index.html
 
 - **Computational Complexity**: Analysis of Boolean function complexity classes
 - **Social Choice Theory**: Voting systems and preference aggregation
-- **Cryptography**: Security analysis of Boolean functions in stream ciphers  
+- **Cryptography**: Security analysis of Boolean functions in stream ciphers
 - **Quantum Computing**: Boolean function analysis in quantum algorithms
 - **Machine Learning**: Feature selection and Boolean concept learning
 

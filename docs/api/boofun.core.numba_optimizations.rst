@@ -3,11 +3,11 @@ boofun.core.numba\_optimizations
 
 .. automodule:: boofun.core.numba_optimizations
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       anf_batch_eval
       batch_binary_to_indices
       binary_to_index
@@ -25,10 +25,9 @@ boofun.core.numba\_optimizations
       popcount
       truth_table_batch_eval
       walsh_hadamard_transform_inplace
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       NumbaOptimizer
-   

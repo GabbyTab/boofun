@@ -24,10 +24,7 @@ import pytest
 
 import boofun as bf
 from boofun.analysis import PropertyTester, SpectralAnalyzer
-from boofun.analysis.fourier import (
-    fourier_degree,
-    parseval_verify,
-)
+from boofun.analysis.fourier import fourier_degree, parseval_verify
 from boofun.analysis.query_complexity import QueryComplexityProfile
 
 # =============================================================================

@@ -20,7 +20,7 @@ import numpy as np
 import boofun as bf
 from boofun.analysis import PropertyTester
 from boofun.analysis.fkn import (
-    distance_to_dictator, closest_dictator, 
+    distance_to_dictator, closest_dictator,
     is_close_to_dictator, analyze_dictator_proximity
 )
 ```
@@ -56,26 +56,26 @@ def un_security_council():
     Model UN Security Council voting.
     - 5 permanent members (P5): each has veto power
     - 10 non-permanent: need 9 total yes votes (including all P5)
-    
+
     Simplified model: f(x) = 1 iff all P5 vote yes AND ≥4 non-permanent vote yes
     """
     n = 15  # 5 permanent + 10 non-permanent
-    
+
     def evaluate(x):
         # First 5 bits are P5
         p5_votes = [int(x >> i) & 1 for i in range(5)]
         non_perm_votes = [int(x >> i) & 1 for i in range(5, 15)]
-        
+
         # All P5 must vote yes (veto power)
         if not all(p5_votes):
             return 0
-        
+
         # Need at least 4 more yes votes from non-permanent
         if sum(non_perm_votes) < 4:
             return 0
-        
+
         return 1
-    
+
     truth_table = [evaluate(x) for x in range(2**n)]
     return bf.BooleanFunction.from_truth_table(truth_table, n_vars=n)
 
@@ -108,7 +108,7 @@ def weighted_threshold(weights, threshold):
     def evaluate(x):
         total = sum(w * ((x >> i) & 1) for i, w in enumerate(weights))
         return 1 if total >= threshold else 0
-    
+
     truth_table = [evaluate(x) for x in range(2**n)]
     return bf.BooleanFunction.from_truth_table(truth_table, n_vars=n)
 
@@ -167,7 +167,7 @@ def electoral_college_simplified():
     """
     state_votes = [55, 38, 29, 20, 11]
     threshold = 77
-    
+
     return weighted_threshold(state_votes, threshold)
 
 ec = electoral_college_simplified()
@@ -215,27 +215,27 @@ for rho in rhos:
 def analyze_voting_fairness(f: bf.BooleanFunction, name: str):
     """Comprehensive fairness analysis of a voting system."""
     print(f"\n=== {name} Fairness Analysis ===")
-    
+
     tester = PropertyTester(f)
-    
+
     # Is it dictatorial?
     print(f"Is dictator: {tester.dictator_test()}")
-    
+
     # Is it symmetric (all voters equal)?
     print(f"Is symmetric: {tester.symmetry_test()}")
-    
+
     # Is it monotone (more yes votes can't hurt)?
     print(f"Is monotone: {tester.monotonicity_test()}")
-    
+
     # Influence analysis
     influences = f.influences()
     max_inf = max(influences)
     min_inf = min(influences)
-    
+
     print(f"Max influence: {max_inf:.4f} (voter {influences.tolist().index(max_inf)})")
     print(f"Min influence: {min_inf:.4f}")
     print(f"Influence ratio: {max_inf/min_inf:.2f}x")
-    
+
     # FKN analysis
     analysis = analyze_dictator_proximity(f)
     print(f"Close to dictator: {analysis['is_close']}")

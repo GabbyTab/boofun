@@ -3,11 +3,11 @@ boofun.core.optimizations
 
 .. automodule:: boofun.core.optimizations
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       BEST_INFLUENCES
       BEST_WHT
       fast_walsh_hadamard
@@ -19,10 +19,9 @@ boofun.core.optimizations
       vectorized_total_influence_from_fourier
       vectorized_total_influence_numba
       vectorized_truth_table_to_pm
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       LazyFourierCoefficients
-   

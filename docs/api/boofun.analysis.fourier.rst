@@ -3,11 +3,11 @@ boofun.analysis.fourier
 
 .. automodule:: boofun.analysis.fourier
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       compute_and_fourier
       compute_mux3_fourier
       compute_nae3_fourier
@@ -23,4 +23,3 @@ boofun.analysis.fourier
       restriction
       spectral_norm
       tensor_product
-   

@@ -126,10 +126,7 @@ class TestQuantumModuleMore:
 
     def test_quantum_functions(self):
         """Test quantum functions."""
-        from boofun.quantum import (
-            create_quantum_boolean_function,
-            estimate_quantum_advantage,
-        )
+        from boofun.quantum import create_quantum_boolean_function, estimate_quantum_advantage
 
         f = bf.majority(3)
 

@@ -12,11 +12,7 @@ import pytest
 sys.path.insert(0, "src")
 
 import boofun as bf
-from boofun.visualization import (
-    HAS_MATPLOTLIB,
-    HAS_PLOTLY,
-    BooleanFunctionVisualizer,
-)
+from boofun.visualization import HAS_MATPLOTLIB, HAS_PLOTLY, BooleanFunctionVisualizer
 
 
 class TestVisualizerCreation:

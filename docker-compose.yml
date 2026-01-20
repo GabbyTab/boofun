@@ -54,7 +54,7 @@ services:
     volumes:
       - ./docs:/workspace/docs:rw
     command: >
-      sh -c "cd docs && make html && 
+      sh -c "cd docs && make html &&
              python -m http.server 8000 --directory _build/html"
 
   # Benchmark runner

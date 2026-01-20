@@ -30,7 +30,7 @@ Decision trees are naturally Boolean functions:
 def decision_tree_to_boofun(tree_predict, n_features: int):
     """
     Convert sklearn decision tree to BooleanFunction.
-    
+
     Args:
         tree_predict: Function that takes binary array and returns 0/1
         n_features: Number of binary features
@@ -41,7 +41,7 @@ def decision_tree_to_boofun(tree_predict, n_features: int):
         features = np.array([(x >> i) & 1 for i in range(n_features)])
         pred = int(tree_predict(features.reshape(1, -1))[0])
         truth_table.append(pred)
-    
+
     return bf.BooleanFunction.from_truth_table(truth_table, n_vars=n_features)
 
 # Example: Simple decision tree
@@ -76,7 +76,7 @@ Many good ML models are "juntas" - they depend on only k features:
 def analyze_model_sparsity(f: bf.BooleanFunction):
     """Check if model is essentially a k-junta."""
     tester = PropertyTester(f)
-    
+
     # Test for different k values
     for k in [1, 2, 3, 5, 10]:
         if k > f.n_vars:
@@ -100,29 +100,29 @@ Fourier coefficients reveal feature interactions:
 def analyze_feature_interactions(f: bf.BooleanFunction, top_k: int = 10):
     """
     Find the most important feature interactions.
-    
+
     Fourier coefficient f̂(S) measures the interaction strength
     among the features in set S.
     """
     fourier = f.fourier()
     n = f.n_vars
-    
+
     # Get top coefficients by magnitude
     indexed = [(i, fourier[i]) for i in range(len(fourier))]
     sorted_coeffs = sorted(indexed, key=lambda x: abs(x[1]), reverse=True)
-    
+
     print(f"Top {top_k} feature interactions:")
     print("-" * 50)
-    
+
     for rank, (idx, coeff) in enumerate(sorted_coeffs[:top_k], 1):
         # Convert index to feature set
         features = [i for i in range(n) if (idx >> i) & 1]
-        
+
         if len(features) == 0:
             feature_str = "∅ (bias)"
         else:
             feature_str = "{" + ", ".join(f"x{i}" for i in features) + "}"
-        
+
         print(f"{rank:2}. {feature_str:20} | Coefficient: {coeff:+.4f}")
 
 # Analyze our decision tree
@@ -138,7 +138,7 @@ def analyze_model_complexity(f: bf.BooleanFunction):
     """Comprehensive complexity analysis of a model."""
     profile = QueryComplexityProfile(f)
     measures = profile.compute()
-    
+
     print("Model Complexity Measures:")
     print("-" * 40)
     print(f"Decision tree depth (D): {measures.get('D', 'N/A')}")
@@ -146,7 +146,7 @@ def analyze_model_complexity(f: bf.BooleanFunction):
     print(f"Block sensitivity (bs): {measures.get('bs', 'N/A')}")
     print(f"Certificate complexity (C): {measures.get('C', 'N/A')}")
     print(f"Approximate degree: {measures.get('approx_deg', 'N/A')}")
-    
+
     # Interpretation
     if measures.get('D', float('inf')) <= 3:
         print("\n✓ Simple model (depth ≤ 3)")
@@ -164,28 +164,28 @@ Compare different models on the same task:
 def compare_models_interpretability(models: dict, n_features: int):
     """
     Compare interpretability of different models.
-    
+
     Args:
         models: Dict of {name: predict_function}
         n_features: Number of features
     """
     print("Model Interpretability Comparison")
     print("=" * 60)
-    
+
     results = []
-    
+
     for name, predict in models.items():
         f = decision_tree_to_boofun(predict, n_features)
-        
+
         influences = f.influences()
         tester = PropertyTester(f)
-        
+
         # Compute metrics
         max_inf = max(influences)
         num_influential = sum(1 for inf in influences if inf > 0.05)
         is_monotone = tester.monotonicity_test()
         total_inf = f.total_influence()
-        
+
         results.append({
             'name': name,
             'max_influence': max_inf,
@@ -193,7 +193,7 @@ def compare_models_interpretability(models: dict, n_features: int):
             'is_monotone': is_monotone,
             'total_influence': total_inf,
         })
-    
+
     # Print comparison table
     print(f"{'Model':<15} | {'Max Inf':>8} | {'#Features':>9} | {'Monotone':>8} | {'Total I':>8}")
     print("-" * 60)
@@ -227,26 +227,26 @@ Use influence to select features:
 def influence_based_feature_selection(f: bf.BooleanFunction, k: int):
     """
     Select top-k features by influence.
-    
+
     Args:
         f: Model as BooleanFunction
         k: Number of features to select
-        
+
     Returns:
         List of selected feature indices
     """
     influences = f.influences()
-    
+
     # Sort by influence
     indexed = [(i, inf) for i, inf in enumerate(influences)]
     sorted_features = sorted(indexed, key=lambda x: x[1], reverse=True)
-    
+
     selected = [i for i, _ in sorted_features[:k]]
-    
+
     print(f"Selected features (top {k} by influence):")
     for i, inf in sorted_features[:k]:
         print(f"  Feature {i}: influence = {inf:.4f}")
-    
+
     return selected
 
 # Select top 3 features from our tree
@@ -262,20 +262,20 @@ Check how robust predictions are to noise:
 def analyze_noise_robustness(f: bf.BooleanFunction):
     """
     Analyze model robustness to input noise.
-    
+
     Noise stability at ρ = probability that prediction
     stays the same when each input is flipped with prob (1-ρ)/2
     """
     print("Noise Robustness Analysis:")
     print("-" * 40)
-    
+
     rhos = [0.99, 0.95, 0.9, 0.8, 0.7]
-    
+
     for rho in rhos:
         stability = f.noise_stability(rho)
         flip_prob = (1 - rho) / 2
         print(f"ρ={rho:.2f} (flip prob {flip_prob:.1%}): stability = {stability:.3f}")
-    
+
     # Interpretation
     stab_95 = f.noise_stability(0.95)
     if stab_95 > 0.9:
@@ -294,24 +294,24 @@ def full_model_analysis(predict_func, n_features: int, model_name: str = "Model"
     print(f"\n{'='*60}")
     print(f"ANALYSIS: {model_name}")
     print(f"{'='*60}\n")
-    
+
     # Convert to Boolean function
     f = decision_tree_to_boofun(predict_func, n_features)
-    
+
     # 1. Feature importance
     print("1. FEATURE IMPORTANCE")
     influences = f.influences()
     for i, inf in enumerate(influences):
         bar = "█" * int(inf * 50)
         print(f"   x{i}: {inf:.4f} {bar}")
-    
+
     # 2. Model properties
     print("\n2. MODEL PROPERTIES")
     tester = PropertyTester(f)
     print(f"   Monotone: {tester.monotonicity_test()}")
     print(f"   Symmetric: {tester.symmetry_test()}")
     print(f"   Linear: {tester.blr_linearity_test()}")
-    
+
     # 3. Sparsity
     print("\n3. SPARSITY (JUNTA TEST)")
     for k in [1, 2, 3, 5]:
@@ -320,19 +320,19 @@ def full_model_analysis(predict_func, n_features: int, model_name: str = "Model"
         if tester.junta_test(k=k):
             print(f"   Model is a {k}-junta")
             break
-    
+
     # 4. Complexity
     print("\n4. COMPLEXITY")
     profile = QueryComplexityProfile(f)
     measures = profile.compute()
     print(f"   Decision tree depth: {measures.get('D', 'N/A')}")
     print(f"   Total influence: {f.total_influence():.2f}")
-    
+
     # 5. Noise robustness
     print("\n5. NOISE ROBUSTNESS")
     print(f"   Stab(0.95): {f.noise_stability(0.95):.3f}")
     print(f"   Stab(0.90): {f.noise_stability(0.90):.3f}")
-    
+
     return f
 
 # Run full analysis

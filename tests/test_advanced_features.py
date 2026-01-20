@@ -15,10 +15,7 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 import boofun as bf
-from boofun.core.batch_processing import (
-    BatchProcessorManager,
-    get_batch_processor_stats,
-)
+from boofun.core.batch_processing import BatchProcessorManager, get_batch_processor_stats
 from boofun.core.conversion_graph import (
     ConversionCost,
     find_conversion_path,

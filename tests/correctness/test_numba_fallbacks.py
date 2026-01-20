@@ -97,10 +97,7 @@ class TestInfluenceImplementations:
 
     def test_influence_implementations_match(self):
         """All influence implementations should match."""
-        from boofun.core.optimizations import (
-            HAS_NUMBA,
-            vectorized_influences_from_fourier,
-        )
+        from boofun.core.optimizations import HAS_NUMBA, vectorized_influences_from_fourier
 
         if HAS_NUMBA:
             from boofun.core.optimizations import vectorized_influences_numba
@@ -143,9 +140,7 @@ class TestTotalInfluenceImplementations:
 
     def test_total_influence_implementations_match(self):
         """All total influence implementations should match."""
-        from boofun.core.optimizations import (
-            vectorized_total_influence_from_fourier,
-        )
+        from boofun.core.optimizations import vectorized_total_influence_from_fourier
 
         rng = np.random.default_rng(42)
 

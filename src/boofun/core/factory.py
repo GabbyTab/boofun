@@ -4,11 +4,7 @@ from typing import Any, Optional, Type
 
 import numpy as np
 
-from ..utils.exceptions import (
-    InvalidInputError,
-    InvalidRepresentationError,
-    InvalidTruthTableError,
-)
+from ..utils.exceptions import InvalidInputError, InvalidRepresentationError, InvalidTruthTableError
 
 # Import DNF/CNF types for type checking
 try:

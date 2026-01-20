@@ -3,11 +3,11 @@ boofun.analysis.complexity
 
 .. automodule:: boofun.analysis.complexity
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       average_sensitivity
       certificate_complexity
       decision_tree_depth
@@ -16,10 +16,9 @@ boofun.analysis.complexity
       max_sensitivity
       min_sensitivity
       sensitivity
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       ComplexityProfile
-   

@@ -3,11 +3,11 @@ boofun.analysis.invariance
 
 .. automodule:: boofun.analysis.invariance
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       bivariate_gaussian_cdf
       gaussian_cdf
       invariance_distance
@@ -18,10 +18,9 @@ boofun.analysis.invariance
       noise_stability_deficit
       test_function_expectation
       unique_games_hardness_bound
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       InvarianceAnalyzer
-   

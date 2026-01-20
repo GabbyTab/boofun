@@ -25,7 +25,7 @@ Creating Functions
 
    # From truth table
    xor = bf.create([0, 1, 1, 0])
-   
+
    # Built-in
    maj = bf.majority(5)
    par = bf.parity(4)
@@ -47,13 +47,13 @@ Analysis
 .. code-block:: python
 
    f = bf.majority(5)
-   
+
    f.fourier()           # Fourier coefficients
    f.influences()        # Per-variable
    f.total_influence()   # I[f]
    f.noise_stability(0.9)
    f.degree()            # Fourier degree
-   
+
    f.analyze()  # Dict with all metrics
 
 Properties

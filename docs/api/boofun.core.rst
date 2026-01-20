@@ -3,7 +3,7 @@ boofun.core
 
 .. automodule:: boofun.core
 
-   
+
 .. rubric:: Modules
 
 .. autosummary::

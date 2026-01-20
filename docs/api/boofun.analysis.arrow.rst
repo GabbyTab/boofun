@@ -3,11 +3,11 @@ boofun.analysis.arrow
 
 .. automodule:: boofun.analysis.arrow
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       arrow_analysis
       find_dictator
       is_dictatorial
@@ -15,10 +15,9 @@ boofun.analysis.arrow
       is_unanimous
       social_welfare_properties
       voting_power_analysis
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       ArrowAnalyzer
-   

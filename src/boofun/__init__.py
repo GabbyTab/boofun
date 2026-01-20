@@ -61,11 +61,7 @@ from .utils.exceptions import (
 # Legacy adapter for migrating from old BooleanFunc class (kept for backwards compatibility)
 # Import on demand: from boofun.core.legacy_adapter import from_legacy, to_legacy
 try:
-    from .core.legacy_adapter import (  # noqa: F401
-        LegacyWrapper,
-        from_legacy,
-        to_legacy,
-    )
+    from .core.legacy_adapter import LegacyWrapper, from_legacy, to_legacy  # noqa: F401
 
     _HAS_LEGACY = True
 except ImportError:
@@ -319,10 +315,7 @@ except ImportError:
     HAS_VISUALIZATION = False
 
 try:
-    from .quantum import (  # noqa: F401
-        QuantumBooleanFunction,
-        create_quantum_boolean_function,
-    )
+    from .quantum import QuantumBooleanFunction, create_quantum_boolean_function  # noqa: F401
 
     HAS_QUANTUM = True
 except ImportError:

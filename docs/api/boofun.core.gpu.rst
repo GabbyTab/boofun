@@ -3,11 +3,11 @@ boofun.core.gpu
 
 .. automodule:: boofun.core.gpu
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       auto_accelerate
       enable_gpu
       get_array_module
@@ -19,10 +19,9 @@ boofun.core.gpu
       is_gpu_enabled
       to_cpu
       to_gpu
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       GPUBooleanFunctionOps
-   
