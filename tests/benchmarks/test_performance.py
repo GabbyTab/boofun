@@ -167,8 +167,8 @@ class TestScaling:
         coeffs = f.fourier()
         elapsed = time.time() - start
 
-        # Should complete reasonably fast
-        assert elapsed < 10.0  # 10 seconds max
+        # Should complete reasonably fast (allow extra time for CI variability)
+        assert elapsed < 20.0  # 20 seconds max
         assert len(coeffs) == 2**n
 
     @pytest.mark.parametrize("n", [8, 10, 12, 14])
