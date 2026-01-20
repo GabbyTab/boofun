@@ -107,17 +107,17 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
 class PartialRepresentation(Generic[DataType]):
     """
     Wrapper for handling partial/incomplete Boolean function data.
-    
+
     A partial representation is useful when:
     - Only some outputs are known (e.g., from sampling)
     - Data is streaming in incrementally
     - Function is too large to store completely
-    
+
     Provides:
     - Confidence tracking for known vs unknown inputs
     - Interpolation/estimation for unknown values
     - Completion status and statistics
-    
+
     Example:
         >>> # Create partial truth table (only some values known)
         >>> known_values = {0: True, 1: False, 3: True}
@@ -137,7 +137,7 @@ class PartialRepresentation(Generic[DataType]):
     ):
         """
         Initialize partial representation.
-        
+
         Args:
             strategy: The representation strategy to use
             data: The partial data (may have unknown values)
@@ -148,7 +148,7 @@ class PartialRepresentation(Generic[DataType]):
         self.data = data
         self.n_vars = n_vars
         self._confidence_cache: Dict[int, float] = {}
-        
+
         # Initialize or validate known_mask
         if known_mask is None:
             # Assume all data is known if no mask provided
@@ -172,29 +172,29 @@ class PartialRepresentation(Generic[DataType]):
     ) -> "PartialRepresentation":
         """
         Create partial representation from sparse known values.
-        
+
         Args:
             n_vars: Number of variables
             known_values: Dict mapping input indices to output values
             strategy_name: Name of representation strategy
-            
+
         Returns:
             PartialRepresentation with known values filled in
         """
         from .registry import get_strategy
-        
+
         strategy = get_strategy(strategy_name)
         size = 1 << n_vars
-        
+
         # Create data array with default values
         data = np.zeros(size, dtype=bool)
         known_mask = np.zeros(size, dtype=bool)
-        
+
         for idx, value in known_values.items():
             if 0 <= idx < size:
                 data[idx] = value
                 known_mask[idx] = True
-        
+
         return cls(strategy, data, known_mask, n_vars)
 
     @property
@@ -248,24 +248,24 @@ class PartialRepresentation(Generic[DataType]):
     def evaluate(self, inputs: np.ndarray, space: Space) -> Any:
         """
         Evaluate at inputs (returns None for unknown values).
-        
+
         Args:
             inputs: Input index or array
             space: Mathematical space
-            
+
         Returns:
             Boolean result or None if unknown
         """
         if self.known_mask is None or self.is_complete:
             return self.strategy.evaluate(inputs, self.data, space, self.n_vars)
-        
+
         inputs = np.asarray(inputs)
         if inputs.ndim == 0:
             idx = int(inputs)
             if self.is_known(idx):
                 return bool(self.data[idx])
             return None
-        
+
         # Handle array of indices
         results = []
         for idx in inputs.flat:
@@ -282,56 +282,56 @@ class PartialRepresentation(Generic[DataType]):
     ) -> tuple[Any, float]:
         """
         Evaluate with confidence measure.
-        
+
         For known values, confidence is 1.0.
         For unknown values, estimates based on known neighbors.
-        
+
         Args:
             inputs: Input index or array
             space: Mathematical space
-            
+
         Returns:
             Tuple of (estimated_value, confidence)
         """
         if self.is_complete:
             result = self.strategy.evaluate(inputs, self.data, space, self.n_vars)
             return result, 1.0
-        
+
         inputs = np.asarray(inputs)
         idx = int(inputs) if inputs.ndim == 0 else int(inputs.flat[0])
-        
+
         if self.is_known(idx):
             return bool(self.data[idx]), 1.0
-        
+
         return self._estimate_with_uncertainty(idx)
 
     def _estimate_with_uncertainty(self, idx: int) -> tuple[bool, float]:
         """
         Estimate unknown value based on known neighbors.
-        
+
         Uses Hamming-distance-1 neighbors to estimate.
         Confidence is based on how many neighbors are known.
         """
         if idx in self._confidence_cache:
             # Return cached estimate
             return self._confidence_cache[idx]
-        
+
         if self.n_vars is None:
             return False, 0.0
-        
+
         # Find Hamming-distance-1 neighbors
         neighbors = []
         for i in range(self.n_vars):
             neighbor_idx = idx ^ (1 << i)
             if self.is_known(neighbor_idx):
                 neighbors.append(bool(self.data[neighbor_idx]))
-        
+
         if not neighbors:
             # No known neighbors - use global prior (bias of known values)
             known_indices = self.get_known_indices()
             if len(known_indices) == 0:
                 return False, 0.0
-            
+
             bias = np.mean([self.data[i] for i in known_indices])
             estimate = bias > 0.5
             confidence = 0.1  # Very low confidence
@@ -340,12 +340,12 @@ class PartialRepresentation(Generic[DataType]):
             ones = sum(neighbors)
             zeros = len(neighbors) - ones
             estimate = ones > zeros
-            
+
             # Confidence based on agreement and coverage
             agreement = max(ones, zeros) / len(neighbors)
             coverage = len(neighbors) / self.n_vars
             confidence = agreement * coverage * 0.8  # Cap at 0.8 for estimates
-        
+
         # Cache result
         result = (estimate, confidence)
         self._confidence_cache[idx] = result
@@ -354,7 +354,7 @@ class PartialRepresentation(Generic[DataType]):
     def add_value(self, idx: int, value: bool) -> None:
         """
         Add a known value to the partial representation.
-        
+
         Args:
             idx: Input index
             value: Output value
@@ -373,16 +373,16 @@ class PartialRepresentation(Generic[DataType]):
     def to_complete(self, default: bool = False) -> np.ndarray:
         """
         Convert to complete representation, filling unknowns with default.
-        
+
         Args:
             default: Value to use for unknown entries
-            
+
         Returns:
             Complete truth table as numpy array
         """
         if self.is_complete or self.known_mask is None:
             return np.asarray(self.data, dtype=bool)
-        
+
         result = np.asarray(self.data, dtype=bool).copy()
         result[~self.known_mask] = default
         return result
@@ -390,7 +390,7 @@ class PartialRepresentation(Generic[DataType]):
     def to_complete_estimated(self) -> tuple[np.ndarray, np.ndarray]:
         """
         Convert to complete representation using estimation for unknowns.
-        
+
         Returns:
             Tuple of (values, confidence) arrays
         """
@@ -399,17 +399,15 @@ class PartialRepresentation(Generic[DataType]):
                 np.asarray(self.data, dtype=bool),
                 np.ones(len(self.data), dtype=float),
             )
-        
-        from ..spaces import Space
-        
+
         values = np.asarray(self.data, dtype=bool).copy()
         confidence = np.ones(len(values), dtype=float)
-        
+
         for idx in self.get_unknown_indices():
             est_value, est_conf = self._estimate_with_uncertainty(int(idx))
             values[idx] = est_value
             confidence[idx] = est_conf
-        
+
         return values, confidence
 
     def __repr__(self) -> str:

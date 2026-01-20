@@ -1,10 +1,10 @@
 import numbers
 from collections.abc import Iterable
-from typing import Any, Optional, Type
+from typing import Any, Type
 
 import numpy as np
 
-from ..utils.exceptions import InvalidInputError, InvalidRepresentationError, InvalidTruthTableError
+from ..utils.exceptions import InvalidRepresentationError, InvalidTruthTableError
 
 # Import DNF/CNF types for type checking
 try:
@@ -52,6 +52,7 @@ class BooleanFunctionFactory:
         """
         # Check for file path (string ending with known extensions or Path object)
         from pathlib import Path
+
         if isinstance(data, (str, Path)):
             path = Path(data)
             if path.suffix.lower() in (".json", ".bf", ".cnf", ".dimacs"):
@@ -59,7 +60,7 @@ class BooleanFunctionFactory:
             # If it looks like a file path but doesn't have known extension, check if it exists
             if path.exists() and path.is_file():
                 return "file"
-        
+
         if callable(data):
             return "function"
         if hasattr(data, "rvs"):
@@ -204,8 +205,10 @@ class BooleanFunctionFactory:
                 size=size,
                 expected_size=f"{lower_power} or {upper_power}",
                 suggestion=(
-                    f"For {int(math.log2(lower_power))}-variable function, use {lower_power} entries. "
-                    f"For {int(math.log2(upper_power))}-variable function, use {upper_power} entries."
+                    f"For {int(math.log2(lower_power))}-variable function, "
+                    f"use {lower_power} entries. "
+                    f"For {int(math.log2(upper_power))}-variable function, "
+                    f"use {upper_power} entries."
                 ),
             )
 
@@ -568,4 +571,5 @@ class BooleanFunctionFactory:
             >>> bf.create("function.cnf")
         """
         from .io import load
+
         return load(path, **kwargs)
