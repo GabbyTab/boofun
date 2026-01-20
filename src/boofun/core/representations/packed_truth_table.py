@@ -8,15 +8,18 @@ For n=20: standard numpy = 8MB, bitarray = 128KB (64x smaller)
 For n=24: standard numpy = 128MB, bitarray = 2MB (64x smaller)
 """
 
+from typing import Any, Dict, Union
+
 import numpy as np
-from typing import Any, Dict, Optional, Union
-from .registry import register_strategy
-from .base import BooleanFunctionRepresentation
+
 from ..spaces import Space
+from .base import BooleanFunctionRepresentation
+from .registry import register_strategy
 
 # Try to import bitarray
 try:
     from bitarray import bitarray
+
     HAS_BITARRAY = True
 except ImportError:
     HAS_BITARRAY = False
@@ -32,10 +35,10 @@ def is_bitarray_available() -> bool:
 class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
     """
     Memory-efficient truth table using bitarray (1 bit per entry).
-    
+
     This is ideal for large Boolean functions (n > 14) where memory
     becomes a concern. Provides 8x memory savings compared to numpy bool arrays.
-    
+
     Falls back to numpy if bitarray is not installed.
     """
 
@@ -44,13 +47,13 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
     ) -> Union[bool, np.ndarray]:
         """
         Evaluate the packed truth table at given inputs.
-        
+
         Args:
             inputs: Input values (integer indices or binary vectors)
             data: Packed truth table (bitarray or numpy fallback)
             space: Evaluation space
             n_vars: Number of variables
-            
+
         Returns:
             Boolean result(s)
         """
@@ -58,23 +61,23 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
             inputs = np.asarray(inputs)
 
         # Get the underlying data
-        if HAS_BITARRAY and isinstance(data, dict) and 'bitarray' in data:
-            ba = data['bitarray']
+        if HAS_BITARRAY and isinstance(data, dict) and "bitarray" in data:
+            ba = data["bitarray"]
             size = len(ba)
-            
+
             if inputs.ndim == 0:
                 index = int(inputs)
                 if index < 0 or index >= size:
                     raise IndexError(f"Index {index} out of range")
                 return bool(ba[index])
-                
+
             elif inputs.ndim == 1:
                 if len(inputs) == n_vars:
                     index = self._binary_to_index(inputs)
                     return bool(ba[index])
                 else:
                     return np.array([bool(ba[int(idx)]) for idx in inputs], dtype=bool)
-                    
+
             elif inputs.ndim == 2:
                 results = []
                 for row in inputs:
@@ -85,8 +88,8 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
                 raise ValueError(f"Unsupported input shape: {inputs.shape}")
         else:
             # Fallback to numpy array
-            arr = data['array'] if isinstance(data, dict) else data
-            
+            arr = data["array"] if isinstance(data, dict) else data
+
             if inputs.ndim == 0:
                 return bool(arr[int(inputs)])
             elif inputs.ndim == 1:
@@ -107,26 +110,26 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
 
     def dump(self, data: Any, **kwargs) -> Dict[str, Any]:
         """Export packed truth table in serializable format."""
-        if HAS_BITARRAY and isinstance(data, dict) and 'bitarray' in data:
-            ba = data['bitarray']
+        if HAS_BITARRAY and isinstance(data, dict) and "bitarray" in data:
+            ba = data["bitarray"]
             return {
                 "type": "packed_truth_table",
-                "n_vars": data.get('n_vars', int(np.log2(len(ba)))),
+                "n_vars": data.get("n_vars", int(np.log2(len(ba)))),
                 "size": len(ba),
                 "format": "bitarray",
                 "memory_bytes": len(ba) // 8 + 1,
                 # Serialize as base64 for compactness
-                "values": ba.tobytes().hex()
+                "values": ba.tobytes().hex(),
             }
         else:
-            arr = data['array'] if isinstance(data, dict) else data
+            arr = data["array"] if isinstance(data, dict) else data
             return {
                 "type": "packed_truth_table",
-                "n_vars": data.get('n_vars', int(np.log2(len(arr)))),
+                "n_vars": data.get("n_vars", int(np.log2(len(arr)))),
                 "size": len(arr),
                 "format": "numpy_fallback",
                 "memory_bytes": arr.nbytes,
-                "values": arr.tolist()
+                "values": arr.tolist(),
             }
 
     def convert_from(
@@ -139,34 +142,30 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
     ) -> Dict[str, Any]:
         """Convert from any representation to packed truth table."""
         size = 1 << n_vars
-        
+
         if HAS_BITARRAY:
             # Use bitarray for memory efficiency
             ba = bitarray(size)
             ba.setall(False)
-            
+
             for idx in range(size):
                 val = source_repr.evaluate(idx, source_data, space, n_vars)
                 ba[idx] = bool(val)
-            
-            return {
-                'bitarray': ba,
-                'n_vars': n_vars,
-                'size': size
-            }
+
+            return {"bitarray": ba, "n_vars": n_vars, "size": size}
         else:
             # Fallback to numpy packed bits
             arr = np.zeros(size, dtype=bool)
-            
+
             for idx in range(size):
                 val = source_repr.evaluate(idx, source_data, space, n_vars)
                 arr[idx] = bool(val)
-            
+
             return {
-                'array': np.packbits(arr),  # Pack into bytes
-                'n_vars': n_vars,
-                'size': size,
-                'original_dtype': 'packed_uint8'
+                "array": np.packbits(arr),  # Pack into bytes
+                "n_vars": n_vars,
+                "size": size,
+                "original_dtype": "packed_uint8",
             }
 
     def convert_to(
@@ -183,31 +182,31 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
     def create_empty(self, n_vars: int, **kwargs) -> Dict[str, Any]:
         """Create empty packed truth table."""
         size = 1 << n_vars
-        
+
         if HAS_BITARRAY:
             ba = bitarray(size)
             ba.setall(False)
-            return {'bitarray': ba, 'n_vars': n_vars, 'size': size}
+            return {"bitarray": ba, "n_vars": n_vars, "size": size}
         else:
             return {
-                'array': np.packbits(np.zeros(size, dtype=bool)),
-                'n_vars': n_vars,
-                'size': size
+                "array": np.packbits(np.zeros(size, dtype=bool)),
+                "n_vars": n_vars,
+                "size": size,
             }
 
     def is_complete(self, data: Any) -> bool:
         """Check if representation is complete."""
         if isinstance(data, dict):
-            return 'bitarray' in data or 'array' in data
+            return "bitarray" in data or "array" in data
         return data is not None
 
     def to_numpy(self, data: Any) -> np.ndarray:
         """Convert to numpy boolean array."""
-        if HAS_BITARRAY and isinstance(data, dict) and 'bitarray' in data:
-            return np.array(data['bitarray'].tolist(), dtype=bool)
-        elif isinstance(data, dict) and 'array' in data:
-            size = data['size']
-            unpacked = np.unpackbits(data['array'])[:size]
+        if HAS_BITARRAY and isinstance(data, dict) and "bitarray" in data:
+            return np.array(data["bitarray"].tolist(), dtype=bool)
+        elif isinstance(data, dict) and "array" in data:
+            size = data["size"]
+            unpacked = np.unpackbits(data["array"])[:size]
             return unpacked.astype(bool)
         else:
             return np.asarray(data, dtype=bool)
@@ -226,7 +225,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         size = 1 << n_vars
         packed_bytes = size // 8 + (1 if size % 8 else 0)
         numpy_bytes = size  # 1 byte per bool in numpy
-        
+
         return {
             "packed_bytes": packed_bytes,
             "numpy_bool_bytes": numpy_bytes,
@@ -241,39 +240,35 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
 def create_packed_truth_table(truth_table: np.ndarray) -> Dict[str, Any]:
     """
     Create a packed truth table from a numpy array.
-    
+
     Args:
         truth_table: Boolean numpy array
-        
+
     Returns:
         Packed truth table data structure
     """
     size = len(truth_table)
     n_vars = int(np.log2(size))
-    
+
     if HAS_BITARRAY:
         ba = bitarray(truth_table.tolist())
-        return {'bitarray': ba, 'n_vars': n_vars, 'size': size}
+        return {"bitarray": ba, "n_vars": n_vars, "size": size}
     else:
-        return {
-            'array': np.packbits(truth_table.astype(bool)),
-            'n_vars': n_vars,
-            'size': size
-        }
+        return {"array": np.packbits(truth_table.astype(bool)), "n_vars": n_vars, "size": size}
 
 
 def memory_comparison(n_vars: int) -> Dict[str, str]:
     """
     Compare memory usage for different truth table representations.
-    
+
     Args:
         n_vars: Number of variables
-        
+
     Returns:
         Dictionary with memory comparisons
     """
     size = 1 << n_vars
-    
+
     return {
         "n_vars": n_vars,
         "entries": f"{size:,}",

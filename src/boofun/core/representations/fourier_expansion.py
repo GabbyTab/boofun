@@ -1,8 +1,10 @@
+from typing import Any, Dict
+
 import numpy as np
-from typing import Any, Dict, Optional, Union, TypeVar, Generic
-from .registry import register_strategy
-from .base import BooleanFunctionRepresentation
+
 from ..spaces import Space
+from .base import BooleanFunctionRepresentation
+from .registry import register_strategy
 
 
 @register_strategy("fourier_expansion")
@@ -73,9 +75,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         coeffs = []
 
         # Generate all input vectors x (as bits) and their integer indicesc
-        x_bits = np.array(
-            [list(map(int, np.binary_repr(i, n_vars))) for i in range(size)]
-        )
+        x_bits = np.array([list(map(int, np.binary_repr(i, n_vars))) for i in range(size)])
         x_indices = np.arange(size, dtype=int)
 
         # Evaluate function f on all inputs
@@ -127,7 +127,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             "fft_computation": n_vars * size,  # O(n * 2^n) for Walsh-Hadamard transform
             "coefficient_access": 1,  # O(1) for accessing coefficients
             "creation_from_tt": n_vars * size,  # FFT complexity
-            "storage": size  # O(2^n) storage
+            "storage": size,  # O(2^n) storage
         }
 
     def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:

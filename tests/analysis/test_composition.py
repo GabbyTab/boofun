@@ -1,4 +1,5 @@
 import sys
+
 sys.path.insert(0, "src")
 import numpy as np
 import pytest
@@ -52,4 +53,3 @@ def test_compose_space_mismatch_raises():
 
     with pytest.raises(ValueError):
         outer.compose(inner)
-

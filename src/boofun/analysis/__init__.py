@@ -6,12 +6,14 @@ This module implements fundamental algorithms for analyzing Boolean functions
 including Fourier analysis, influence computation, and noise stability.
 """
 
-import numpy as np
-from typing import Dict, List, Optional, Union, Any, Tuple, TYPE_CHECKING
 import warnings
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
+
 from ..core.numba_optimizations import is_numba_available, numba_optimize
 
 
@@ -38,7 +40,7 @@ class SpectralAnalyzer:
         # Cache for expensive computations
         self._fourier_coeffs = None
         self._influences = None
-        
+
         # Track error model for uncertainty propagation
         self.error_model = function.error_model
 
@@ -93,10 +95,11 @@ class SpectralAnalyzer:
         """
         n = self.n_vars
         size = len(f_vals)
-        
+
         # Try pyfwht for GPU-accelerated transform (fastest for large n)
         try:
             from pyfwht import fwht
+
             # pyfwht expects natural order, returns Walsh-Hadamard coefficients
             result = fwht(f_vals.astype(np.float64))
             return result / size
@@ -104,17 +107,18 @@ class SpectralAnalyzer:
             pass
         except Exception:
             pass  # Fall back if pyfwht fails
-        
+
         # Try to use scipy.linalg.hadamard for better performance
         try:
             from scipy.linalg import hadamard
+
             # Hadamard matrix multiply is more cache-friendly for medium n
             if n <= 14:  # scipy.linalg.hadamard has size limitations
                 H = hadamard(size, dtype=float)
                 return (H @ f_vals) / size
         except (ImportError, ValueError):
             pass
-        
+
         # Fall back to iterative implementation (in-place, memory-efficient)
         coeffs = f_vals.copy()
 
@@ -149,10 +153,10 @@ class SpectralAnalyzer:
             return self._influences
 
         # Try Numba optimization if available and function has truth table
-        if is_numba_available() and self.function.has_rep('truth_table'):
+        if is_numba_available() and self.function.has_rep("truth_table"):
             try:
-                truth_table = self.function.get_representation('truth_table')
-                influences = numba_optimize('influences', truth_table, self.n_vars)
+                truth_table = self.function.get_representation("truth_table")
+                influences = numba_optimize("influences", truth_table, self.n_vars)
                 self._influences = influences
                 return influences
             except Exception as e:
@@ -215,7 +219,7 @@ class SpectralAnalyzer:
         # Try Numba optimization
         if is_numba_available():
             try:
-                return numba_optimize('noise_stability', fourier_coeffs, rho)
+                return numba_optimize("noise_stability", fourier_coeffs, rho)
             except Exception as e:
                 warnings.warn(f"Numba noise stability optimization failed: {e}")
 
@@ -303,48 +307,49 @@ class SpectralAnalyzer:
             "spectral_concentration_1": self.spectral_concentration(1),
             "spectral_concentration_2": self.spectral_concentration(2),
         }
-        
+
         # Add error model information
-        if hasattr(self.error_model, 'get_confidence'):
+        if hasattr(self.error_model, "get_confidence"):
             summary["analysis_confidence"] = self.error_model.get_confidence(influences)
             summary["error_model_type"] = type(self.error_model).__name__
-            
-            if hasattr(self.error_model, 'is_reliable'):
+
+            if hasattr(self.error_model, "is_reliable"):
                 summary["analysis_reliable"] = self.error_model.is_reliable(influences)
-        
+
         return summary
 
 
 class PropertyTester:
     """
     Property testing algorithms for Boolean functions.
-    
+
     Implements various randomized and deterministic tests to check
     if Boolean functions satisfy specific properties.
     """
 
     def __init__(self, function: "BooleanFunction", random_seed: Optional[int] = None):
         self.function = function
-        self.n_vars = function.n_vars
-        if self.n_vars is None:
+        n_vars = function.n_vars
+        if n_vars is None:
             raise ValueError("Function must have defined number of variables")
-        
+        self.n_vars: int = n_vars
+
         # Set random seed for reproducible testing
         self.rng = np.random.RandomState(random_seed)
 
     def constant_test(self) -> bool:
         """
         Test if function is constant.
-        
+
         Deterministic test that checks if all outputs are identical.
         Time complexity: O(2^n) for exhaustive check.
-        
+
         Returns:
             True if function is constant, False otherwise
         """
         if self.n_vars == 0:
             return True
-            
+
         first_val = self.function.evaluate(np.array(0))
         for i in range(1, 1 << self.n_vars):
             if self.function.evaluate(np.array(i)) != first_val:
@@ -354,160 +359,160 @@ class PropertyTester:
     def blr_linearity_test(self, num_queries: int = 100, epsilon: float = 0.1) -> bool:
         """
         BLR (Blum-Luby-Rubinfeld) linearity test.
-        
+
         Tests if a function f: {0,1}^n → {0,1} is linear (i.e., f(x ⊕ y) = f(x) ⊕ f(y)).
         Uses randomized queries to test the linearity property.
-        
+
         QUERY COMPLEXITY: O(3 * num_queries) - safe for arbitrarily large n.
-        
+
         Args:
             num_queries: Number of random queries to perform
             epsilon: Error tolerance (function passes if error rate < epsilon)
-            
+
         Returns:
             True if function appears linear, False otherwise
         """
         import random
-        
+
         if self.n_vars == 0:
             return True
-            
+
         violations = 0
         n = self.n_vars
-        
+
         # Use Python's random for arbitrary precision integers (handles n > 63)
         py_rng = random.Random(self.rng.randint(0, 2**31))
-        
+
         for _ in range(num_queries):
             # Generate random inputs x and y using arbitrary precision
             x = py_rng.getrandbits(n)
             y = py_rng.getrandbits(n)
-            
+
             # Compute x ⊕ y
             x_xor_y = x ^ y
-            
+
             # Test linearity condition: f(x) ⊕ f(y) = f(x ⊕ y)
             f_x = self.function.evaluate(x)
             f_y = self.function.evaluate(y)
             f_x_xor_y = self.function.evaluate(x_xor_y)
-            
+
             expected = f_x ^ f_y  # XOR of outputs
             if f_x_xor_y != expected:
                 violations += 1
-        
+
         error_rate = violations / num_queries
         return error_rate < epsilon
 
     def junta_test(self, k: int, num_queries: int = 1000, confidence: float = 0.9) -> bool:
         """
         Test if function is a k-junta (depends on at most k variables).
-        
+
         A function is a k-junta if there exists a set S ⊆ [n] with |S| ≤ k
         such that f(x) depends only on coordinates in S.
-        
+
         Args:
             k: Maximum number of relevant variables
             num_queries: Number of random queries
             confidence: Confidence level for the test
-            
+
         Returns:
             True if function appears to be a k-junta, False otherwise
         """
         if k >= self.n_vars:
             return True  # Trivially true
-            
+
         # Use influence-based approach: if function is k-junta,
         # at most k variables can have non-zero influence
         analyzer = SpectralAnalyzer(self.function)
         influences = analyzer.influences()
-        
+
         # Count variables with significant influence
-        threshold = 1.0 / (2 ** self.n_vars)  # Minimum detectable influence
+        threshold = 1.0 / (2**self.n_vars)  # Minimum detectable influence
         influential_vars = np.sum(influences > threshold)
-        
+
         return influential_vars <= k
 
     def monotonicity_test(self, num_queries: int = 1000) -> bool:
         """
         Test if function is monotone (f(x) ≤ f(y) whenever x ≤ y coordinate-wise).
-        
+
         QUERY COMPLEXITY: O(2 * num_queries) - safe for arbitrarily large n.
-        
+
         Args:
             num_queries: Number of random pairs to test
-            
+
         Returns:
             True if function appears monotone, False otherwise
         """
         import random
-        
+
         violations = 0
         n = self.n_vars
-        
+
         # Use Python's random for arbitrary precision
         py_rng = random.Random(self.rng.randint(0, 2**31))
-        
+
         for _ in range(num_queries):
             # Generate random x using arbitrary precision
             x = py_rng.getrandbits(n)
-            
+
             # Generate y ≥ x by flipping some 0 bits to 1
             y = x
             for i in range(n):
                 if ((x >> i) & 1) == 0 and py_rng.random() < 0.3:
-                    y |= (1 << i)
-            
+                    y |= 1 << i
+
             # Check monotonicity: f(x) ≤ f(y)
             f_x = self.function.evaluate(x)
             f_y = self.function.evaluate(y)
-            
+
             if f_x > f_y:  # Violation of monotonicity
                 violations += 1
-        
+
         # Function is monotone if no violations found
         return violations == 0
 
     def unateness_test(self, num_queries: int = 1000) -> bool:
         """
         Test if function is unate (monotone in each variable, possibly negated).
-        
+
         A function is unate if for each variable x_i, either:
         - f is monotone increasing in x_i, OR
         - f is monotone decreasing in x_i
-        
-        Unate functions generalize monotone functions - they can be monotone 
+
+        Unate functions generalize monotone functions - they can be monotone
         in different "directions" for different variables.
-        
+
         QUERY COMPLEXITY: O(2 * num_queries) - safe for arbitrarily large n.
-        
+
         Args:
             num_queries: Number of random pairs to test per variable
-            
+
         Returns:
             True if function appears unate, False otherwise
         """
         import random
-        
+
         n = self.n_vars
         py_rng = random.Random(self.rng.randint(0, 2**31))
-        
+
         queries_per_var = max(num_queries // n, 10)
-        
+
         for i in range(n):
             # Track if we've seen increasing or decreasing behavior
             saw_increase = False
             saw_decrease = False
-            
+
             for _ in range(queries_per_var):
                 # Generate random x
                 x = py_rng.getrandbits(n)
-                
+
                 # Create x' by flipping bit i
                 x_prime = x ^ (1 << i)
-                
+
                 f_x = self.function.evaluate(x)
                 f_x_prime = self.function.evaluate(x_prime)
-                
+
                 # Check the direction of change when x_i goes 0→1
                 if ((x >> i) & 1) == 0:
                     # x has 0 in position i, x' has 1
@@ -521,88 +526,90 @@ class PropertyTester:
                         saw_increase = True
                     elif f_x < f_x_prime:
                         saw_decrease = True
-                
+
                 # If both directions seen, not unate in this variable
                 if saw_increase and saw_decrease:
                     return False
-        
+
         return True
 
     def symmetry_test(self, num_queries: int = 1000) -> bool:
         """
         Test if function is symmetric (invariant under permutations of variables).
-        
+
         QUERY COMPLEXITY: O(2 * num_queries) - safe for arbitrarily large n.
-        
+
         Args:
             num_queries: Number of random permutations to test
-            
+
         Returns:
             True if function appears symmetric, False otherwise
         """
         import random
-        
+
         n = self.n_vars
-        
+
         # Use Python's random for arbitrary precision
         py_rng = random.Random(self.rng.randint(0, 2**31))
-        
+
         for _ in range(num_queries):
             # Generate random input using arbitrary precision
             x = py_rng.getrandbits(n)
-            
+
             # Generate random permutation
             perm = list(range(n))
             py_rng.shuffle(perm)
-            
+
             # Apply permutation efficiently
             y = 0
             for i in range(n):
                 if (x >> perm[i]) & 1:
-                    y |= (1 << i)
-            
+                    y |= 1 << i
+
             # Check if f(x) = f(permuted(x))
             f_x = self.function.evaluate(x)
             f_y = self.function.evaluate(y)
-            
+
             if f_x != f_y:
                 return False
-        
+
         return True
 
     def balanced_test(self) -> bool:
         """
         Test if function is balanced (outputs 0 and 1 equally often).
-        
+
         Returns:
             True if function is balanced, False otherwise
         """
         if self.n_vars == 0:
             return False
-            
+
         ones_count = 0
         total = 1 << self.n_vars
-        
+
         for i in range(total):
             if self.function.evaluate(np.array(i)):
                 ones_count += 1
-        
+
         return ones_count == total // 2
 
-    def dictator_test(self, num_queries: int = 1000, epsilon: float = 0.1) -> Tuple[bool, Optional[int]]:
+    def dictator_test(
+        self, num_queries: int = 1000, epsilon: float = 0.1
+    ) -> Tuple[bool, Optional[int]]:
         """
         Test if function is a dictator or anti-dictator.
-        
+
         A dictator function is f(x) = x_i for some i.
         An anti-dictator is f(x) = ¬x_i = 1 - x_i.
-        
+
         From O'Donnell Chapter 7: The FKN theorem states that if f is
         Boolean and has small total influence, it's close to a dictator.
-        
+
         Args:
             num_queries: Number of random queries
             epsilon: Distance threshold
-            
+
         Returns:
             Tuple of (is_dictator_like, dictator_index) where:
             - is_dictator_like: True if f is close to a dictator/anti-dictator
@@ -611,123 +618,123 @@ class PropertyTester:
         # Compute influences
         analyzer = SpectralAnalyzer(self.function)
         influences = analyzer.influences()
-        
+
         # Find the variable with maximum influence
         max_inf_idx = int(np.argmax(influences))
         max_inf = influences[max_inf_idx]
-        
+
         # For a dictator, one variable has influence 1, others have 0
         total_inf = np.sum(influences)
-        
+
         # Check if it's close to a dictator
         if max_inf > 1 - epsilon and total_inf < 1 + epsilon:
             # Verify by checking function values
             is_dictator = True
             is_anti_dictator = True
-            
+
             for _ in range(min(num_queries, 1 << self.n_vars)):
                 x = self.rng.randint(0, 1 << self.n_vars)
                 f_x = int(self.function.evaluate(np.array(x)))
-                
+
                 # Extract the i-th bit (in MSB order)
                 x_i = (x >> (self.n_vars - 1 - max_inf_idx)) & 1
-                
+
                 if f_x != x_i:
                     is_dictator = False
                 if f_x != (1 - x_i):
                     is_anti_dictator = False
-                    
+
                 if not is_dictator and not is_anti_dictator:
                     break
-            
+
             if is_dictator or is_anti_dictator:
                 return (True, max_inf_idx)
-        
+
         return (False, None)
 
     def affine_test(self, num_queries: int = 1000, epsilon: float = 0.1) -> bool:
         """
         4-query test for affine functions over GF(2).
-        
+
         From HW1 Problem 4: A function f: F_2^n → F_2 is affine iff
         f(x) + f(y) + f(z) = f(x + y + z) for all x, y, z.
-        
+
         This is a generalization of the BLR linearity test.
-        
+
         Args:
             num_queries: Number of random queries
             epsilon: Error tolerance
-            
+
         Returns:
             True if function appears to be affine
         """
         violations = 0
-        
+
         for _ in range(num_queries):
             # Generate three random inputs
             x = self.rng.randint(0, 1 << self.n_vars)
             y = self.rng.randint(0, 1 << self.n_vars)
             z = self.rng.randint(0, 1 << self.n_vars)
-            
+
             # Compute x + y + z (XOR in GF(2))
             xyz = x ^ y ^ z
-            
+
             # Test: f(x) + f(y) + f(z) = f(x + y + z)
             f_x = int(self.function.evaluate(np.array(x)))
             f_y = int(self.function.evaluate(np.array(y)))
             f_z = int(self.function.evaluate(np.array(z)))
             f_xyz = int(self.function.evaluate(np.array(xyz)))
-            
+
             # XOR of three values should equal fourth
             if (f_x ^ f_y ^ f_z) != f_xyz:
                 violations += 1
-        
+
         return violations / num_queries < epsilon
 
     def run_all_tests(self) -> Dict[str, Any]:
         """
         Run all available property tests.
-        
+
         Returns:
             Dictionary mapping test names to results
         """
-        results = {}
-        
+        results: Dict[str, Any] = {}
+
         try:
             results["constant"] = self.constant_test()
         except Exception as e:
             results["constant"] = f"Error: {e}"
-        
+
         try:
             results["linear"] = self.blr_linearity_test()
         except Exception as e:
             results["linear"] = f"Error: {e}"
-        
+
         try:
             results["balanced"] = self.balanced_test()
         except Exception as e:
             results["balanced"] = f"Error: {e}"
-        
+
         try:
             results["monotone"] = self.monotonicity_test()
         except Exception as e:
             results["monotone"] = f"Error: {e}"
-        
+
         try:
             results["unate"] = self.unateness_test()
         except Exception as e:
             results["unate"] = f"Error: {e}"
-        
+
         try:
             results["symmetric"] = self.symmetry_test()
         except Exception as e:
             results["symmetric"] = f"Error: {e}"
-        
+
         try:
             results["affine"] = self.affine_test()
         except Exception as e:
             results["affine"] = f"Error: {e}"
-        
+
         # Test for small juntas
         for k in [1, 2, 3]:
             if k < self.n_vars:
@@ -735,12 +742,31 @@ class PropertyTester:
                     results[f"{k}-junta"] = self.junta_test(k)
                 except Exception as e:
                     results[f"{k}-junta"] = f"Error: {e}"
-        
+
         return results
 
 
-# Export main classes
-from . import sensitivity, block_sensitivity, certificates, symmetry, complexity, gf2, equivalence, p_biased, learning, fourier, restrictions, hypercontractivity, query_complexity, basic_properties, gaussian, invariance, ltf_analysis, global_hypercontractivity
+# Export main classes and submodules
+from . import (  # noqa: E402
+    basic_properties,
+    block_sensitivity,
+    certificates,
+    complexity,
+    equivalence,
+    fourier,
+    gaussian,
+    gf2,
+    global_hypercontractivity,
+    hypercontractivity,
+    invariance,
+    learning,
+    ltf_analysis,
+    p_biased,
+    query_complexity,
+    restrictions,
+    sensitivity,
+    symmetry,
+)
 
 __all__ = [
     "SpectralAnalyzer",

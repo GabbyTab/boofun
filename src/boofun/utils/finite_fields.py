@@ -38,5 +38,3 @@ def get_field(p: int = 2, m: int = 1) -> GFField:
     """Return a simple GF(p^m) descriptor."""
 
     return GFField(p=p, m=m)
-
-

@@ -1,8 +1,10 @@
+from typing import Any, Dict
+
 import numpy as np
-from typing import Any, Dict, Optional, Union, TypeVar, Generic
-from .registry import register_strategy
-from .base import BooleanFunctionRepresentation
+
 from ..spaces import Space
+from .base import BooleanFunctionRepresentation
+from .registry import register_strategy
 
 
 @register_strategy("truth_table")
@@ -35,9 +37,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             # Single integer index
             index = int(inputs)
             if index < 0 or index >= len(data):
-                raise IndexError(
-                    f"Index {index} out of range for truth table of size {len(data)}"
-                )
+                raise IndexError(f"Index {index} out of range for truth table of size {len(data)}")
             return bool(data[index])
 
         elif inputs.ndim == 1:
@@ -77,9 +77,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
 
     def _binary_to_index(self, binary_vector: np.ndarray) -> int:
         """Convert binary vector to integer index using standard binary encoding."""
-        return int(
-            np.dot(binary_vector, 2 ** np.arange(len(binary_vector) - 1, -1, -1))
-        )
+        return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector) - 1, -1, -1)))
 
     def _compute_index(self, bits: np.ndarray) -> int:
         """Optimized bit packing using NumPy"""
@@ -110,16 +108,16 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
     ) -> np.ndarray:
         """
         Convert from any representation by evaluating all possible inputs.
-        
+
         This is the universal converter - any representation can be converted
         to truth table by exhaustive evaluation.
-        
+
         Args:
             source_repr: Source representation strategy
             source_data: Data in source format
             space: Mathematical space
             n_vars: Number of variables
-            
+
         Returns:
             Truth table as boolean array
         """
@@ -130,7 +128,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         for idx in range(size):
             try:
                 value = source_repr.evaluate(idx, source_data, space, n_vars)
-                
+
                 # Handle different return types and spaces
                 if isinstance(value, (bool, np.bool_)):
                     truth_table[idx] = bool(value)
@@ -141,19 +139,19 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                     # Fourier evaluation returns ±1 values, need to map to {0,1}
                     if abs(value - 1.0) < 1e-10:  # value ≈ 1.0 in ±1 domain
                         truth_table[idx] = False  # 1 in ±1 maps to 0 in {0,1}
-                    elif abs(value - (-1.0)) < 1e-10:  # value ≈ -1.0 in ±1 domain  
-                        truth_table[idx] = True   # -1 in ±1 maps to 1 in {0,1}
+                    elif abs(value - (-1.0)) < 1e-10:  # value ≈ -1.0 in ±1 domain
+                        truth_table[idx] = True  # -1 in ±1 maps to 1 in {0,1}
                     elif space == Space.PLUS_MINUS_CUBE:
                         truth_table[idx] = value > 0  # ±1 space: positive -> True
                     else:
                         truth_table[idx] = value > 0.5  # [0,1] space: > 0.5 -> True
                 else:
                     truth_table[idx] = bool(value)
-                    
+
             except Exception as e:
                 # Handle evaluation errors gracefully
                 truth_table[idx] = False
-                if kwargs.get('strict', False):
+                if kwargs.get("strict", False):
                     raise ValueError(f"Evaluation failed at index {idx}: {e}")
 
         return truth_table

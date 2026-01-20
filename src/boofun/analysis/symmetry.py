@@ -37,5 +37,3 @@ def sens_sym(f: BooleanFunction) -> float:
         return 0.0
     weights = np.arange(len(counts))
     return float(np.dot(weights, counts) / total)
-
-

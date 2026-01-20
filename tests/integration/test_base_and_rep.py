@@ -1,15 +1,15 @@
 import sys
+
 sys.path.insert(0, "src")
-import pytest
 import numpy as np
+import pytest
+
 import boofun as bf
-from boofun.core.spaces import Space
 
 
 @pytest.fixture
 def xor_tt():
     return np.array([0, 1, 1, 0], dtype=bool)
-
 
 
 @pytest.fixture
@@ -40,19 +40,19 @@ def test_create_and_evaluate_and(and_tt):
 def test_conversion_truth_table_to_fourier(and_tt):
     f = bf.create(and_tt)
     # Trigger conversion
-    coeffs = f.get_representation('fourier_expansion')
+    coeffs = f.get_representation("fourier_expansion")
 
     expected = np.array([0.5, 0.5, 0.5, -0.5])
 
     assert np.allclose(coeffs, expected, atol=1e-5)
+
 
 def test_conversion_fourier_to_truth_table():
     coeffs = np.array([0.5, 0.5, 0.5, -0.5])
     f = bf.create(coeffs)
 
     # Convert to truth table
-    table = f.get_representation('truth_table')
-    
+    table = f.get_representation("truth_table")
 
     # Note: The test coefficients [0.5, 0.5, 0.5, -0.5] actually represent NAND
     # The conversion gives [True, True, True, False] which is correct for NAND
@@ -130,18 +130,21 @@ def test_chain_conversion_xor():
     xor = np.array([0, 1, 1, 0])
     f = bf.create(xor)
 
-    f.to('fourier_expansion')
-    f.to('truth_table')
-    assert np.array_equal(f.get_representation('truth_table'), xor)
+    f.to("fourier_expansion")
+    f.to("truth_table")
+    assert np.array_equal(f.get_representation("truth_table"), xor)
+
 
 # 9. Integration Tests
-@pytest.mark.parametrize("input_data,expected_output", [
-    (np.array([0,0]), False),
-    (np.array([0,1]), True),
-    (np.array([1,0]), True),
-    (np.array([1,1]), False)
-])
+@pytest.mark.parametrize(
+    "input_data,expected_output",
+    [
+        (np.array([0, 0]), False),
+        (np.array([0, 1]), True),
+        (np.array([1, 0]), True),
+        (np.array([1, 1]), False),
+    ],
+)
 def test_xor_integration(input_data, expected_output):
     bf_instance = bf.create([0, 1, 1, 0], rep_type="truth_table")
     assert bf_instance.evaluate(input_data, bit_strings=True) == expected_output
-

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from itertools import combinations, product, permutations
-from math import comb, factorial
+from itertools import combinations, permutations, product
+from math import comb
 from typing import Iterator, List, Sequence, Tuple, Union
 
 import numpy as np
@@ -76,9 +76,7 @@ def bits(i: int, n: int) -> List[int]:
     return list(map(int, bin((1 << n) | (i & ((1 << n) - 1)))[3:]))
 
 
-def tensor_product(
-    A: Union[np.ndarray, Sequence], B: Union[np.ndarray, Sequence]
-) -> np.ndarray:
+def tensor_product(A: Union[np.ndarray, Sequence], B: Union[np.ndarray, Sequence]) -> np.ndarray:
     """Compute the Kronecker product of *A* and *B*."""
 
     return np.kron(np.asarray(A), np.asarray(B))
@@ -120,11 +118,11 @@ def generate_permutations(n: int) -> Iterator[Tuple[int, ...]]:
 def int_to_binary_tuple(x: int, n: int) -> Tuple[int, ...]:
     """
     Convert integer x to an n-bit binary tuple (LSB first).
-    
+
     Args:
         x: Integer to convert
         n: Number of bits
-        
+
     Returns:
         Tuple of n bits, e.g., (0, 1, 1) for x=6 with n=3
     """
@@ -134,12 +132,11 @@ def int_to_binary_tuple(x: int, n: int) -> Tuple[int, ...]:
 def binary_tuple_to_int(bits: Sequence[int]) -> int:
     """
     Convert binary tuple (LSB first) to integer.
-    
+
     Args:
         bits: Sequence of bits (0 or 1)
-        
+
     Returns:
         Integer value
     """
     return sum(b << i for i, b in enumerate(bits))
-

@@ -5,21 +5,23 @@ This module implements the Algebraic Normal Form (ANF) representation,
 where Boolean functions are represented as multivariate polynomials over GF(2).
 """
 
+from typing import Any, Dict, List, Union
+
 import numpy as np
-from typing import Any, Dict, List, Set, Tuple, Union
-from .registry import register_strategy
-from .base import BooleanFunctionRepresentation
+
 from ..spaces import Space
+from .base import BooleanFunctionRepresentation
+from .registry import register_strategy
 
 
 @register_strategy("polynomial")
 class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int]]):
     """
     Polynomial (ANF) representation using coefficient dictionaries.
-    
+
     Represents Boolean functions as polynomials over GF(2):
     f(x₁,...,xₙ) = ⊕ᵢ aᵢ ∏ⱼ∈Sᵢ xⱼ
-    
+
     Data format: Dict[frozenset, int] mapping subsets to coefficients
     """
 
@@ -28,13 +30,13 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
     ) -> Union[bool, np.ndarray]:
         """
         Evaluate the polynomial at given inputs.
-        
+
         Args:
             inputs: Input values (integer indices or binary vectors)
             data: Polynomial coefficients as {subset: coefficient}
             space: Evaluation space
             n_vars: Number of variables
-            
+
         Returns:
             Boolean result(s)
         """
@@ -62,23 +64,23 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
     def _evaluate_single(self, x: int, coeffs: Dict[frozenset, int], n_vars: int) -> bool:
         """Evaluate polynomial at single input x (as integer)."""
         result = 0
-        
+
         # Convert x to binary representation
         x_bits = [(x >> i) & 1 for i in range(n_vars)]
-        
+
         # Sum over all monomials
         for subset, coeff in coeffs.items():
             if coeff % 2 == 0:  # Skip zero coefficients in GF(2)
                 continue
-                
+
             # Compute monomial value: ∏ⱼ∈subset xⱼ
             monomial_val = 1
             for var_idx in subset:
                 if var_idx < n_vars:
                     monomial_val *= x_bits[var_idx]
-                    
+
             result ^= monomial_val  # XOR in GF(2)
-            
+
         return bool(result)
 
     def _binary_to_index(self, binary_vector: np.ndarray) -> int:
@@ -88,23 +90,16 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
     def dump(self, data: Dict[frozenset, int], **kwargs) -> Dict[str, Any]:
         """
         Export polynomial in serializable format.
-        
+
         Returns:
             Dictionary with monomials and coefficients
         """
         monomials = []
         for subset, coeff in data.items():
             if coeff % 2 == 1:  # Only non-zero coefficients in GF(2)
-                monomials.append({
-                    "variables": sorted(list(subset)),
-                    "coefficient": coeff % 2
-                })
-        
-        return {
-            "type": "polynomial",
-            "monomials": monomials,
-            "field": "GF(2)"
-        }
+                monomials.append({"variables": sorted(list(subset)), "coefficient": coeff % 2})
+
+        return {"type": "polynomial", "monomials": monomials, "field": "GF(2)"}
 
     def convert_from(
         self,
@@ -116,45 +111,45 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
     ) -> Dict[frozenset, int]:
         """
         Convert from any representation to polynomial using truth table method.
-        
+
         Uses the Möbius transform to compute ANF coefficients.
         """
         # First get truth table
         size = 1 << n_vars
         truth_table = np.zeros(size, dtype=int)
-        
+
         for i in range(size):
             val = source_repr.evaluate(i, source_data, space, n_vars)
             truth_table[i] = int(bool(val))
-        
+
         # Apply Möbius transform to get ANF coefficients
         return self._truth_table_to_anf(truth_table, n_vars)
 
     def _truth_table_to_anf(self, truth_table: np.ndarray, n_vars: int) -> Dict[frozenset, int]:
         """
         Convert truth table to ANF using Möbius transform.
-        
+
         The ANF coefficient for subset S is:
         a_S = ⊕_{T⊇S} f(T)
         """
         coeffs = {}
         size = len(truth_table)
-        
+
         # Iterate over all possible subsets (monomials)
         for s in range(size):
             # Convert subset index to frozenset of variable indices
             subset = frozenset(i for i in range(n_vars) if (s >> i) & 1)
-            
+
             # Compute ANF coefficient using Möbius transform
             coeff = 0
             for t in range(size):
                 # Check if t ⊇ s (all bits in s are also in t)
                 if (t & s) == s:
                     coeff ^= truth_table[t]
-            
+
             if coeff != 0:
                 coeffs[subset] = coeff
-                
+
         return coeffs
 
     def convert_to(
@@ -210,7 +205,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
     ) -> Dict[frozenset, int]:
         """Add two polynomials in GF(2) (XOR operation)."""
         result = poly1.copy()
-        
+
         for subset, coeff in poly2.items():
             if subset in result:
                 result[subset] = (result[subset] + coeff) % 2
@@ -218,7 +213,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
                     del result[subset]
             else:
                 result[subset] = coeff % 2
-                
+
         return result
 
     def multiply_polynomials(
@@ -226,13 +221,13 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
     ) -> Dict[frozenset, int]:
         """Multiply two polynomials in GF(2)."""
         result = {}
-        
+
         for subset1, coeff1 in poly1.items():
             for subset2, coeff2 in poly2.items():
                 # Product of monomials is union of variable sets
                 product_subset = subset1 | subset2
                 product_coeff = (coeff1 * coeff2) % 2
-                
+
                 if product_coeff != 0:
                     if product_subset in result:
                         result[product_subset] = (result[product_subset] + product_coeff) % 2
@@ -240,7 +235,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
                             del result[product_subset]
                     else:
                         result[product_subset] = product_coeff
-                        
+
         return result
 
 

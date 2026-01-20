@@ -1,43 +1,41 @@
 """Utility modules for boofun package."""
 
+from .finite_fields import (
+    HAS_GALOIS,
+    GFField,
+    get_field,
+)
 from .math import (
-    popcnt,
-    poppar,
-    over,
-    subsets,
-    cartesian,
-    num2bin_list,
+    binary_tuple_to_int,
     bits,
-    tensor_product,
-    krawchouk,
-    krawchouk2,
+    cartesian,
+    generate_permutations,
     hamming_distance,
     hamming_weight,
-    generate_permutations,
     int_to_binary_tuple,
-    binary_tuple_to_int,
+    krawchouk,
+    krawchouk2,
+    num2bin_list,
+    over,
+    popcnt,
+    poppar,
+    subsets,
+    tensor_product,
 )
-
 from .number_theory import (
-    gcd,
-    invmod,
-    crt,
-    is_prime,
-    prime_sieve,
-    factor,
-    prime_factorization,
-    euler_phi,
-    totient,
     binomial,
     binomial_sum,
+    crt,
+    euler_phi,
+    factor,
+    gcd,
+    invmod,
+    is_prime,
     lcm,
     mobius,
-)
-
-from .finite_fields import (
-    get_field,
-    GFField,
-    HAS_GALOIS,
+    prime_factorization,
+    prime_sieve,
+    totient,
 )
 
 __all__ = [

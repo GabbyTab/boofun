@@ -15,7 +15,7 @@ particularly for analyzing function structure and cryptographic properties.
 from __future__ import annotations
 
 from functools import lru_cache
-from math import gcd as _gcd, isqrt
+from math import gcd as _gcd
 from typing import Dict, List, Sequence, Tuple
 
 try:  # pragma: no cover - optional dependency
@@ -75,12 +75,19 @@ def invmod(a: int, m: int) -> int:
 
 
 def crt(moduli: Sequence[int], residues: Sequence[int]) -> Tuple[int, int]:
-    """Chinese Remainder Theorem solution (value, modulus)."""
+    """Chinese Remainder Theorem solution (value, modulus).
+
+    Raises:
+        ValueError: If no solution exists (e.g., incompatible moduli).
+    """
 
     if len(moduli) != len(residues):
         raise ValueError("moduli and residues must have same length")
     if _HAS_SYMPY:
-        x, M = _sp.ntheory.modular.crt(list(moduli), list(residues))
+        result = _sp.ntheory.modular.crt(list(moduli), list(residues))
+        if result is None:
+            raise ValueError("no solution")
+        x, M = result
         return int(x % M), int(M)
 
     x, M = 0, 1
@@ -144,13 +151,13 @@ def prime_sieve(upto: int) -> List[int]:
 def factor(n: int) -> List[int]:
     """
     Return prime factorization of n as a list of prime factors (with multiplicity).
-    
+
     Args:
         n: Positive integer to factor
-        
+
     Returns:
         List of prime factors in ascending order
-        
+
     Example:
         >>> factor(60)
         [2, 2, 3, 5]
@@ -159,23 +166,24 @@ def factor(n: int) -> List[int]:
     """
     if n < 2:
         return []
-    
+
     if _HAS_SYMPY:
-        from collections import Counter
+        pass
+
         factorization = _sp.ntheory.factorint(n)
         result = []
         for p, exp in sorted(factorization.items()):
             result.extend([p] * exp)
         return result
-    
+
     factors = []
     tmp = n
-    
+
     # Handle factor of 2
     while tmp % 2 == 0:
         factors.append(2)
         tmp //= 2
-    
+
     # Handle odd factors
     p = 3
     while p * p <= tmp:
@@ -183,33 +191,33 @@ def factor(n: int) -> List[int]:
             factors.append(p)
             tmp //= p
         p += 2
-    
+
     if tmp > 1:
         factors.append(tmp)
-    
+
     return factors
 
 
 def prime_factorization(n: int) -> Dict[int, int]:
     """
     Return prime factorization as a dictionary {prime: exponent}.
-    
+
     Args:
         n: Positive integer to factor
-        
+
     Returns:
         Dictionary mapping primes to their exponents
-        
+
     Example:
         >>> prime_factorization(60)
         {2: 2, 3: 1, 5: 1}
     """
     if n < 2:
         return {}
-    
+
     if _HAS_SYMPY:
         return dict(_sp.ntheory.factorint(n))
-    
+
     result: Dict[int, int] = {}
     for p in factor(n):
         result[p] = result.get(p, 0) + 1
@@ -220,17 +228,17 @@ def prime_factorization(n: int) -> Dict[int, int]:
 def euler_phi(n: int) -> int:
     """
     Compute Euler's totient function φ(n).
-    
+
     φ(n) = count of integers in [1, n] that are coprime to n.
-    
+
     Uses the formula: φ(n) = n * ∏_{p|n} (1 - 1/p)
-    
+
     Args:
         n: Positive integer
-        
+
     Returns:
         Euler's totient of n
-        
+
     Example:
         >>> euler_phi(12)  # 1, 5, 7, 11 are coprime to 12
         4
@@ -239,10 +247,10 @@ def euler_phi(n: int) -> int:
         return 0
     if n == 1:
         return 1
-    
+
     if _HAS_SYMPY:
         return int(_sp.ntheory.totient(n))
-    
+
     # Get unique prime factors
     primes = list(set(factor(n)))
     result = n
@@ -258,16 +266,16 @@ totient = euler_phi
 def binomial(n: int, k: int) -> int:
     """
     Compute binomial coefficient C(n, k) = n! / (k! * (n-k)!).
-    
+
     Uses iterative computation to avoid large intermediate values.
-    
+
     Args:
         n: Total items
         k: Items to choose
-        
+
     Returns:
         Number of ways to choose k items from n
-        
+
     Example:
         >>> binomial(5, 2)
         10
@@ -276,11 +284,11 @@ def binomial(n: int, k: int) -> int:
         return 0
     if k == 0 or k == n:
         return 1
-    
+
     # Use symmetry: C(n,k) = C(n, n-k)
     if k > n - k:
         k = n - k
-    
+
     result = 1
     for i in range(k):
         result = result * (n - i) // (i + 1)
@@ -290,16 +298,16 @@ def binomial(n: int, k: int) -> int:
 def binomial_sum(n: int, k: int) -> int:
     """
     Compute sum of binomial coefficients: Σ_{i=0}^{k} C(n, i).
-    
+
     This is useful for counting functions of low degree.
-    
+
     Args:
         n: Total items
         k: Maximum selection size
-        
+
     Returns:
         Sum of C(n,0) + C(n,1) + ... + C(n,k)
-        
+
     Example:
         >>> binomial_sum(5, 2)  # C(5,0) + C(5,1) + C(5,2) = 1 + 5 + 10
         16
@@ -307,8 +315,8 @@ def binomial_sum(n: int, k: int) -> int:
     if k < 0:
         return 0
     if k >= n:
-        return 2 ** n
-    
+        return 2**n
+
     total = 0
     coeff = 1
     for i in range(k + 1):
@@ -320,10 +328,10 @@ def binomial_sum(n: int, k: int) -> int:
 def lcm(a: int, b: int) -> int:
     """
     Compute least common multiple of a and b.
-    
+
     Args:
         a, b: Integers
-        
+
     Returns:
         LCM(a, b)
     """
@@ -335,20 +343,20 @@ def lcm(a: int, b: int) -> int:
 def mobius(n: int) -> int:
     """
     Compute the Möbius function μ(n).
-    
+
     μ(n) = 0 if n has a squared prime factor
     μ(n) = (-1)^k if n is a product of k distinct primes
     μ(1) = 1
-    
+
     The Möbius function is important in combinatorics and number theory,
     particularly for Möbius inversion.
-    
+
     Args:
         n: Positive integer
-        
+
     Returns:
         μ(n) ∈ {-1, 0, 1}
-        
+
     Example:
         >>> mobius(1)
         1
@@ -361,17 +369,17 @@ def mobius(n: int) -> int:
         return 0
     if n == 1:
         return 1
-    
+
     if _HAS_SYMPY:
         return int(_sp.ntheory.mobius(n))
-    
+
     factorization = prime_factorization(n)
-    
+
     # Check for squared prime factor
     for exp in factorization.values():
         if exp > 1:
             return 0
-    
+
     # Return (-1)^k where k is number of distinct prime factors
     k = len(factorization)
     return (-1) ** k

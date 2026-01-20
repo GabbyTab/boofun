@@ -1,12 +1,14 @@
-import pytest
 import sys
-sys.path.insert(0, 'src')
+
+import pytest
+
+sys.path.insert(0, "src")
 
 import boofun as bf
 from boofun.analysis import SpectralAnalyzer
-from boofun.analysis import sensitivity as sens
 from boofun.analysis import block_sensitivity as bs
 from boofun.analysis import certificates as cert
+from boofun.analysis import sensitivity as sens
 from boofun.analysis import symmetry as sym
 
 
@@ -56,4 +58,3 @@ def test_symmetry_counts_majority():
     assert counts.tolist() == [0, 0, 3, 1]
     assert sym.degree_sym(majority) == 3
     assert sym.sens_sym(majority) == pytest.approx((2 * 3 + 3 * 1) / 4)
-

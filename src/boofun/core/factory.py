@@ -1,12 +1,13 @@
-import numpy as np
-from collections.abc import Iterable
-from .spaces import Space
 import numbers
+from collections.abc import Iterable
+
+import numpy as np
 
 # Import DNF/CNF types for type checking
 try:
-    from .representations.dnf_form import DNFFormula
     from .representations.cnf_form import CNFFormula
+    from .representations.dnf_form import DNFFormula
+
     _DNF_CNF_AVAILABLE = True
 except ImportError:
     _DNF_CNF_AVAILABLE = False
@@ -72,9 +73,7 @@ class BooleanFunctionFactory:
         elif rep_type == "truth_table":
             return cls.from_truth_table(boolean_function_cls, data, **kwargs)
         elif rep_type == "invariant_truth_table":
-            return cls.from_input_invariant_truth_table(
-                boolean_function_cls, data, **kwargs
-            )
+            return cls.from_input_invariant_truth_table(boolean_function_cls, data, **kwargs)
         elif rep_type == "polynomial":
             return cls.from_polynomial(boolean_function_cls, data, **kwargs)
         elif rep_type == "fourier_expansion" or rep_type == "fourier":
@@ -91,9 +90,7 @@ class BooleanFunctionFactory:
         raise TypeError(f"Cannot create BooleanFunction from {type(data)}")
 
     @classmethod
-    def from_truth_table(
-        cls, boolean_function_cls, truth_table, rep_type="truth_table", **kwargs
-    ):
+    def from_truth_table(cls, boolean_function_cls, truth_table, rep_type="truth_table", **kwargs):
         """Create from truth table data"""
 
         n_vars = kwargs.get("n")
@@ -127,18 +124,14 @@ class BooleanFunctionFactory:
         return instance
 
     @classmethod
-    def from_polynomial(
-        cls, boolean_function_cls, coeffs, rep_type="polynomial", **kwargs
-    ):
+    def from_polynomial(cls, boolean_function_cls, coeffs, rep_type="polynomial", **kwargs):
         """Create from polynomial coefficients"""
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(coeffs, rep_type)
         return instance
 
     @classmethod
-    def from_multilinear(
-        cls, boolean_function_cls, coeffs, rep_type="fourier_expansion", **kwargs
-    ):
+    def from_multilinear(cls, boolean_function_cls, coeffs, rep_type="fourier_expansion", **kwargs):
         """Create from multilinear polynomial coefficients"""
         n_vars = kwargs.get("n")
         if n_vars is None:
@@ -150,18 +143,14 @@ class BooleanFunctionFactory:
         return instance
 
     @classmethod
-    def from_iterable(
-        cls, boolean_function_cls, data, rep_type="iterable_rep", **kwargs
-    ):
+    def from_iterable(cls, boolean_function_cls, data, rep_type="iterable_rep", **kwargs):
         """Create from streaming truth table"""
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(list(data), rep_type)
         return instance
 
     @classmethod
-    def from_symbolic(
-        cls, boolean_function_cls, expression, rep_type="symbolic", **kwargs
-    ):
+    def from_symbolic(cls, boolean_function_cls, expression, rep_type="symbolic", **kwargs):
         """Create from symbolic expression string"""
         instance = boolean_function_cls(**kwargs)
         variables = kwargs.get("variables")
@@ -176,9 +165,7 @@ class BooleanFunctionFactory:
         cls, boolean_function_cls, true_inputs, rep_type="truth_table", **kwargs
     ):
         """Create from set of true input vectors"""
-        n_vars = (
-            len(next(iter(true_inputs))) if true_inputs else kwargs.get("n_vars", 0)
-        )
+        n_vars = len(next(iter(true_inputs))) if true_inputs else kwargs.get("n_vars", 0)
         size = 1 << n_vars
         truth_table = np.zeros(size, dtype=bool)
 
@@ -219,7 +206,11 @@ class BooleanFunctionFactory:
 
         if left_is_func and "space" not in kwargs and getattr(left_func, "space", None) is not None:
             kwargs["space"] = left_func.space
-        if right_is_func and "space" not in kwargs and getattr(right_func, "space", None) is not None:
+        if (
+            right_is_func
+            and "space" not in kwargs
+            and getattr(right_func, "space", None) is not None
+        ):
             kwargs["space"] = right_func.space
 
         variables = []
@@ -257,9 +248,8 @@ class BooleanFunctionFactory:
             and left_func.n_vars == right_func.n_vars
         )
 
-        same_space = (
-            same_domain
-            and getattr(left_func, "space", None) == getattr(right_func, "space", None)
+        same_space = same_domain and getattr(left_func, "space", None) == getattr(
+            right_func, "space", None
         )
 
         if right_func is None:
@@ -307,7 +297,11 @@ class BooleanFunctionFactory:
             if result_n_vars is None:
                 raise ValueError("Cannot infer number of variables for composite function")
             kwargs.setdefault("n_vars", result_n_vars)
-            if left_is_func and "space" not in kwargs and getattr(left_func, "space", None) is not None:
+            if (
+                left_is_func
+                and "space" not in kwargs
+                and getattr(left_func, "space", None) is not None
+            ):
                 kwargs["space"] = left_func.space
 
             instance = boolean_function_cls(**kwargs)
@@ -355,7 +349,9 @@ class BooleanFunctionFactory:
         ``inner`` into each input of ``outer``.
         """
 
-        if not (hasattr(outer_func, "get_representation") and hasattr(inner_func, "get_representation")):
+        if not (
+            hasattr(outer_func, "get_representation") and hasattr(inner_func, "get_representation")
+        ):
             raise TypeError("Both operands must be BooleanFunction instances")
 
         if outer_func.n_vars is None or inner_func.n_vars is None:
@@ -393,23 +389,23 @@ class BooleanFunctionFactory:
     @classmethod
     def from_dnf(cls, boolean_function_cls, dnf_formula, rep_type="dnf", **kwargs):
         """Create from DNF (Disjunctive Normal Form) formula.
-        
+
         Args:
             boolean_function_cls: The BooleanFunction class to instantiate
             dnf_formula: A DNFFormula object
             rep_type: Representation type (default "dnf")
             **kwargs: Additional arguments (n_vars, space, etc.)
-            
+
         Returns:
             BooleanFunction instance
         """
         if not _DNF_CNF_AVAILABLE:
             raise ImportError("DNF representation not available")
-        
+
         n_vars = kwargs.get("n_vars") or kwargs.get("n") or dnf_formula.n_vars
         kwargs["n_vars"] = n_vars
         kwargs.pop("n", None)  # Remove 'n' if present to avoid conflict
-        
+
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(dnf_formula, rep_type)
         return instance
@@ -417,23 +413,23 @@ class BooleanFunctionFactory:
     @classmethod
     def from_cnf(cls, boolean_function_cls, cnf_formula, rep_type="cnf", **kwargs):
         """Create from CNF (Conjunctive Normal Form) formula.
-        
+
         Args:
             boolean_function_cls: The BooleanFunction class to instantiate
             cnf_formula: A CNFFormula object
             rep_type: Representation type (default "cnf")
             **kwargs: Additional arguments (n_vars, space, etc.)
-            
+
         Returns:
             BooleanFunction instance
         """
         if not _DNF_CNF_AVAILABLE:
             raise ImportError("CNF representation not available")
-        
+
         n_vars = kwargs.get("n_vars") or kwargs.get("n") or cnf_formula.n_vars
         kwargs["n_vars"] = n_vars
         kwargs.pop("n", None)  # Remove 'n' if present to avoid conflict
-        
+
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(cnf_formula, rep_type)
         return instance

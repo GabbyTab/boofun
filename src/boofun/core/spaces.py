@@ -1,5 +1,6 @@
 from enum import Enum, auto
 from typing import Union
+
 import numpy as np
 
 
@@ -18,19 +19,19 @@ class Space(Enum):
     ) -> Union[int, float, np.ndarray]:
         """
         Translate a scalar or array from one space to another.
-        
+
         Args:
             input: Input value(s) to translate
             source_space: Source mathematical space
             target_space: Target mathematical space
-            
+
         Returns:
             Translated value(s) in target space
-            
+
         Examples:
             >>> Space.translate([0, 1], Space.BOOLEAN_CUBE, Space.PLUS_MINUS_CUBE)
             array([-1,  1])
-            >>> Space.translate([-1, 1], Space.PLUS_MINUS_CUBE, Space.BOOLEAN_CUBE) 
+            >>> Space.translate([-1, 1], Space.PLUS_MINUS_CUBE, Space.BOOLEAN_CUBE)
             array([0, 1])
         """
         if source_space == target_space:
@@ -66,21 +67,23 @@ class Space(Enum):
         if source_space == Space.LOG and target_space == Space.BOOLEAN_CUBE:
             # Interpret log probabilities: exp(log_prob) > 0.5
             return (np.exp(input) > 0.5).astype(int)
-        
+
         if source_space == Space.BOOLEAN_CUBE and target_space == Space.LOG:
             # Convert to log probabilities (avoid log(0))
             prob = np.clip(input.astype(float), 1e-10, 1 - 1e-10)
             return np.log(prob)
 
-        # GAUSSIAN space conversions  
+        # GAUSSIAN space conversions
         if source_space == Space.GAUSSIAN and target_space == Space.BOOLEAN_CUBE:
             # Standard normal CDF > 0.5
             from scipy.stats import norm
+
             return (norm.cdf(input) > 0.5).astype(int)
-        
+
         if source_space == Space.BOOLEAN_CUBE and target_space == Space.GAUSSIAN:
             # Inverse normal CDF
             from scipy.stats import norm
+
             prob = np.clip(input.astype(float), 1e-10, 1 - 1e-10)
             return norm.ppf(prob)
 
@@ -89,7 +92,7 @@ class Space(Enum):
             # LOG → BOOLEAN → ±1
             boolean = Space.translate(input, Space.LOG, Space.BOOLEAN_CUBE)
             return Space.translate(boolean, Space.BOOLEAN_CUBE, Space.PLUS_MINUS_CUBE)
-        
+
         if source_space == Space.PLUS_MINUS_CUBE and target_space == Space.LOG:
             # ±1 → BOOLEAN → LOG
             boolean = Space.translate(input, Space.PLUS_MINUS_CUBE, Space.BOOLEAN_CUBE)
@@ -98,22 +101,22 @@ class Space(Enum):
         raise NotImplementedError(
             f"Translation from {source_space.name} to {target_space.name} not implemented."
         )
-    
+
     @staticmethod
     def get_canonical_space() -> "Space":
         """Get the canonical space for internal computations."""
         return Space.BOOLEAN_CUBE
-    
+
     @staticmethod
     def is_discrete(space: "Space") -> bool:
         """Check if space uses discrete values."""
         return space in {Space.BOOLEAN_CUBE, Space.PLUS_MINUS_CUBE}
-    
+
     @staticmethod
     def is_continuous(space: "Space") -> bool:
-        """Check if space uses continuous values.""" 
+        """Check if space uses continuous values."""
         return space in {Space.REAL, Space.LOG, Space.GAUSSIAN}
-    
+
     @staticmethod
     def get_default_threshold(space: "Space") -> float:
         """Get default threshold for converting continuous to discrete."""

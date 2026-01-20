@@ -1,4 +1,5 @@
 import sys
+
 sys.path.insert(0, "src")
 import numpy as np
 
@@ -37,4 +38,3 @@ def test_krawchouk_values():
     assert values == [3, 1, -1, -3]
     # Legacy variant agrees with closed form for simple inputs
     assert math_utils.krawchouk2(3, 0, 2) == 1
-

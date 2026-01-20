@@ -1,4 +1,5 @@
 import sys
+
 sys.path.insert(0, "src")
 from boofun.utils import number_theory as nt
 
@@ -21,4 +22,3 @@ def test_is_prime_and_sieve():
     assert nt.is_prime(97)
     assert not nt.is_prime(1)
     assert not nt.is_prime(91)
-

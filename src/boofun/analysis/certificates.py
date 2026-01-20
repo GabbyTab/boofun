@@ -50,5 +50,3 @@ def max_certificate_size(f: BooleanFunction) -> int:
     for x in range(size):
         best = max(best, certificate(f, x)[0])
     return best
-
-

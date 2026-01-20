@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional, Union, TypeVar, Generic
-import numpy as np
-from ..spaces import Space
+from typing import Any, Dict, Generic, Optional, TypeVar
 
+import numpy as np
+
+from ..spaces import Space
 
 DataType = TypeVar("DataType")
 
@@ -11,9 +12,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
     """Abstract base class for all Boolean function representations"""
 
     @abstractmethod
-    def evaluate(
-        self, inputs: np.ndarray, data: Any, space: Space, n_vars: int
-    ) -> np.ndarray:
+    def evaluate(self, inputs: np.ndarray, data: Any, space: Space, n_vars: int) -> np.ndarray:
         """
         Evaluate the function on given inputs using the provided data.
 
@@ -24,7 +23,6 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         Returns:
             Boolean result or array of results
         """
-        pass
 
     @abstractmethod
     def dump(self, data: DataType, space: Space, **kwargs) -> Dict[str, Any]:
@@ -38,7 +36,6 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         Returns:
             Dictionary containing the exported representation
         """
-        pass
 
     @abstractmethod
     def convert_from(
@@ -60,7 +57,6 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         Returns:
             Data in this representation's format
         """
-        pass
 
     @abstractmethod
     def convert_to(
@@ -82,27 +78,22 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         Returns:
             Data in target representation's format
         """
-        pass
 
     @abstractmethod
     def create_empty(self, n_vars: int, **kwargs) -> DataType:
         """Create empty representation data structure for n variables."""
-        pass
 
     @abstractmethod
     def is_complete(self, data: DataType) -> bool:
         """Check if the representation contains complete information."""
-        pass
 
     @abstractmethod
     def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
         """Return time_complexity for computing/evalutating n variables."""
-        pass
 
     @abstractmethod
     def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
         """Return memory/storage requirements for n variables."""
-        pass
 
     def __str__(self) -> str:
         """String representation for user display."""
@@ -138,4 +129,3 @@ class partial_representation(Generic[DataType]):
     def _estimate_with_uncertainty(self, inputs: np.ndarray) -> tuple[Any, float]:
         """Estimate result and confidence for incomplete data."""
         # Implementation depends on specific representation
-        pass

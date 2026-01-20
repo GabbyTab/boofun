@@ -9,19 +9,18 @@ This module provides comprehensive LaTeX export for:
 - Boolean cube visualizations
 """
 
-import numpy as np
-from typing import Any, Dict, List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict, List, Optional
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    'export_fourier_tikz',
-    'export_influences_tikz',
-    'export_cube_tikz',
-    'export_comparison_table',
-    'export_spectrum_table',
-    'LaTeXExporter',
+    "export_fourier_tikz",
+    "export_influences_tikz",
+    "export_cube_tikz",
+    "export_comparison_table",
+    "export_spectrum_table",
+    "LaTeXExporter",
 ]
 
 
@@ -31,11 +30,11 @@ def export_fourier_tikz(
     width: float = 10,
     height: float = 5,
     highlight_threshold: float = 0.1,
-    show_labels: bool = True
+    show_labels: bool = True,
 ) -> str:
     """
     Export Fourier spectrum as TikZ bar chart.
-    
+
     Args:
         f: Boolean function
         var_names: Variable names for subset labels
@@ -43,19 +42,19 @@ def export_fourier_tikz(
         height: Chart height in cm
         highlight_threshold: Highlight coefficients above this
         show_labels: Show subset labels on x-axis
-        
+
     Returns:
         TikZ code string
     """
     n = f.n_vars
     fourier = f.fourier()
-    
+
     if var_names is None:
         var_names = [str(i) for i in range(n)]
-    
+
     # Limit for reasonable LaTeX output
     max_show = min(len(fourier), 32)
-    
+
     lines = [
         "\\begin{tikzpicture}",
         f"\\begin{{axis}}[",
@@ -68,7 +67,7 @@ def export_fourier_tikz(
         f"    ymin=-1, ymax=1,",
         f"    xtick=data,",
     ]
-    
+
     if show_labels and n <= 4:
         # Create subset labels
         labels = []
@@ -76,30 +75,30 @@ def export_fourier_tikz(
             if i == 0:
                 labels.append("$\\emptyset$")
             else:
-                bits = [var_names[j] for j in range(n) if (i >> (n-1-j)) & 1]
+                bits = [var_names[j] for j in range(n) if (i >> (n - 1 - j)) & 1]
                 labels.append("$\\{" + ",".join(bits) + "\\}$")
         lines.append(f"    xticklabels={{{', '.join(labels)}}},")
         lines.append(f"    x tick label style={{rotate=45, anchor=east}},")
     else:
         lines.append(f"    xticklabels={{}},")
-    
+
     lines.append("]")
-    
+
     # Add bars
     coords = []
     for i in range(max_show):
         val = float(fourier[i])
-        color = "blue" if abs(val) < highlight_threshold else "red"
+        "blue" if abs(val) < highlight_threshold else "red"
         coords.append(f"({i}, {val:.4f})")
-    
+
     lines.append(f"\\addplot[fill=blue!50] coordinates {{{' '.join(coords)}}};")
-    
+
     # Add zero line
     lines.append(f"\\draw[dashed, gray] (axis cs:0,0) -- (axis cs:{max_show-1},0);")
-    
+
     lines.append("\\end{axis}")
     lines.append("\\end{tikzpicture}")
-    
+
     return "\n".join(lines)
 
 
@@ -108,29 +107,29 @@ def export_influences_tikz(
     var_names: Optional[List[str]] = None,
     width: float = 8,
     height: float = 5,
-    horizontal: bool = True
+    horizontal: bool = True,
 ) -> str:
     """
     Export influences as TikZ bar chart.
-    
+
     Args:
         f: Boolean function
         var_names: Variable names
         width: Chart width in cm
         height: Chart height in cm
         horizontal: Use horizontal bars
-        
+
     Returns:
         TikZ code string
     """
     n = f.n_vars
     influences = f.influences()
-    
+
     if var_names is None:
         var_names = [f"$x_{{{i}}}$" for i in range(n)]
-    
+
     bar_type = "xbar" if horizontal else "ybar"
-    
+
     lines = [
         "\\begin{tikzpicture}",
         f"\\begin{{axis}}[",
@@ -139,24 +138,28 @@ def export_influences_tikz(
         f"    {bar_type},",
         f"    bar width=0.4cm,",
     ]
-    
+
     if horizontal:
-        lines.extend([
-            f"    xlabel={{Influence $\\mathrm{{Inf}}_i[f]$}},",
-            f"    symbolic y coords={{{', '.join(var_names)}}},",
-            f"    ytick=data,",
-            f"    xmin=0,",
-        ])
+        lines.extend(
+            [
+                f"    xlabel={{Influence $\\mathrm{{Inf}}_i[f]$}},",
+                f"    symbolic y coords={{{', '.join(var_names)}}},",
+                f"    ytick=data,",
+                f"    xmin=0,",
+            ]
+        )
     else:
-        lines.extend([
-            f"    ylabel={{Influence $\\mathrm{{Inf}}_i[f]$}},",
-            f"    symbolic x coords={{{', '.join(var_names)}}},",
-            f"    xtick=data,",
-            f"    ymin=0,",
-        ])
-    
+        lines.extend(
+            [
+                f"    ylabel={{Influence $\\mathrm{{Inf}}_i[f]$}},",
+                f"    symbolic x coords={{{', '.join(var_names)}}},",
+                f"    xtick=data,",
+                f"    ymin=0,",
+            ]
+        )
+
     lines.append("]")
-    
+
     # Add bars
     coords = []
     for i, inf in enumerate(influences):
@@ -164,29 +167,29 @@ def export_influences_tikz(
             coords.append(f"({inf:.4f}, {var_names[i]})")
         else:
             coords.append(f"({var_names[i]}, {inf:.4f})")
-    
+
     lines.append(f"\\addplot[fill=blue!60] coordinates {{{' '.join(coords)}}};")
-    
+
     lines.append("\\end{axis}")
     lines.append("\\end{tikzpicture}")
-    
+
     return "\n".join(lines)
 
 
 def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
     """
     Export Boolean cube visualization as TikZ.
-    
+
     Args:
         n: Number of dimensions (2, 3, or 4)
         labels: Show vertex labels
-        
+
     Returns:
         TikZ code string
     """
     if n not in [2, 3, 4]:
         raise ValueError("Cube visualization only supports n=2,3,4")
-    
+
     lines = [
         "\\begin{tikzpicture}[",
         "    scale=2,",
@@ -194,7 +197,7 @@ def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
         "    edge/.style={draw, thick}",
         "]",
     ]
-    
+
     if n == 2:
         # Square
         positions = {
@@ -217,11 +220,16 @@ def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
             "111": (1.4, 1.4),
         }
         edges = [
-            ("000", "001"), ("000", "010"), ("000", "100"),
-            ("001", "011"), ("001", "101"),
-            ("010", "011"), ("010", "110"),
+            ("000", "001"),
+            ("000", "010"),
+            ("000", "100"),
+            ("001", "011"),
+            ("001", "101"),
+            ("010", "011"),
+            ("010", "110"),
             ("011", "111"),
-            ("100", "101"), ("100", "110"),
+            ("100", "101"),
+            ("100", "110"),
             ("101", "111"),
             ("110", "111"),
         ]
@@ -230,103 +238,100 @@ def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
         inner_offset = 0.3
         positions = {}
         for i in range(16):
-            bits = format(i, '04b')
+            bits = format(i, "04b")
             x = int(bits[3]) + inner_offset * int(bits[1])
             y = int(bits[2]) + inner_offset * int(bits[0])
             positions[bits] = (x, y)
-        
+
         edges = []
         for i in range(16):
             for b in range(4):
                 j = i ^ (1 << b)
                 if j > i:
-                    edges.append((format(i, '04b'), format(j, '04b')))
-    
+                    edges.append((format(i, "04b"), format(j, "04b")))
+
     # Draw edges
     for v1, v2 in edges:
         x1, y1 = positions[v1]
         x2, y2 = positions[v2]
         lines.append(f"\\draw[edge] ({x1:.2f}, {y1:.2f}) -- ({x2:.2f}, {y2:.2f});")
-    
+
     # Draw vertices
     for vertex, (x, y) in positions.items():
         label = vertex if labels else ""
         lines.append(f"\\node[vertex] at ({x:.2f}, {y:.2f}) {{{label}}};")
-    
+
     lines.append("\\end{tikzpicture}")
-    
+
     return "\n".join(lines)
 
 
 def export_spectrum_table(
-    f: "BooleanFunction",
-    var_names: Optional[List[str]] = None,
-    max_rows: int = 16
+    f: "BooleanFunction", var_names: Optional[List[str]] = None, max_rows: int = 16
 ) -> str:
     """
     Export Fourier spectrum as LaTeX table.
-    
+
     Args:
         f: Boolean function
         var_names: Variable names
         max_rows: Maximum rows to show
-        
+
     Returns:
         LaTeX table string
     """
     n = f.n_vars
     fourier = f.fourier()
-    
+
     if var_names is None:
         var_names = [str(i) for i in range(n)]
-    
+
     lines = [
         "\\begin{tabular}{|c|c|c|c|}",
         "\\hline",
         "$S$ & Binary & $|S|$ & $\\hat{f}(S)$ \\\\",
         "\\hline",
     ]
-    
+
     # Sort by magnitude
     indexed = [(i, fourier[i]) for i in range(len(fourier))]
     sorted_by_mag = sorted(indexed, key=lambda x: abs(x[1]), reverse=True)[:max_rows]
-    
+
     for idx, coef in sorted_by_mag:
         # Subset label
         if idx == 0:
             subset = "$\\emptyset$"
         else:
-            bits = [var_names[j] for j in range(n) if (idx >> (n-1-j)) & 1]
+            bits = [var_names[j] for j in range(n) if (idx >> (n - 1 - j)) & 1]
             subset = "$\\{" + ", ".join(bits) + "\\}$"
-        
-        binary = format(idx, f'0{n}b')
-        degree = bin(idx).count('1')
-        
+
+        binary = format(idx, f"0{n}b")
+        degree = bin(idx).count("1")
+
         lines.append(f"{subset} & {binary} & {degree} & {coef:.4f} \\\\")
-    
+
     lines.append("\\hline")
     lines.append("\\end{tabular}")
-    
+
     return "\n".join(lines)
 
 
 def export_comparison_table(
-    functions: Dict[str, "BooleanFunction"],
-    properties: List[str] = None
+    functions: Dict[str, "BooleanFunction"], properties: List[str] = None
 ) -> str:
     """
     Export comparison table of multiple functions.
-    
+
     Args:
         functions: Dict mapping names to BooleanFunction objects
         properties: List of properties to compare
-        
+
     Returns:
         LaTeX table string
     """
     if properties is None:
         properties = ["n_vars", "total_influence", "max_influence", "variance", "degree"]
-    
+
     prop_labels = {
         "n_vars": "$n$",
         "total_influence": "$I[f]$",
@@ -336,23 +341,23 @@ def export_comparison_table(
         "sensitivity": "$s(f)$",
         "noise_stability": "$\\mathrm{Stab}_{0.5}[f]$",
     }
-    
+
     names = list(functions.keys())
-    
+
     # Header
     header = " & ".join(["Property"] + names) + " \\\\"
-    
+
     lines = [
         "\\begin{tabular}{|l|" + "c|" * len(names) + "}",
         "\\hline",
         header,
         "\\hline",
     ]
-    
+
     for prop in properties:
         label = prop_labels.get(prop, prop)
         values = []
-        
+
         for name, f in functions.items():
             try:
                 if prop == "n_vars":
@@ -371,20 +376,20 @@ def export_comparison_table(
                     val = f.noise_stability(0.5)
                 else:
                     val = getattr(f, prop)()
-                
+
                 if isinstance(val, float):
                     values.append(f"{val:.3f}")
                 else:
                     values.append(str(val))
             except:
                 values.append("--")
-        
+
         row = " & ".join([label] + values) + " \\\\"
         lines.append(row)
-    
+
     lines.append("\\hline")
     lines.append("\\end{tabular}")
-    
+
     return "\n".join(lines)
 
 
@@ -392,34 +397,30 @@ class LaTeXExporter:
     """
     Unified LaTeX exporter for Boolean function visualizations.
     """
-    
-    def __init__(
-        self,
-        f: "BooleanFunction",
-        var_names: Optional[List[str]] = None
-    ):
+
+    def __init__(self, f: "BooleanFunction", var_names: Optional[List[str]] = None):
         """
         Initialize exporter.
-        
+
         Args:
             f: Boolean function
             var_names: Variable names
         """
         self.function = f
         self.var_names = var_names or [str(i) for i in range(f.n_vars)]
-    
+
     def fourier_spectrum(self, **kwargs) -> str:
         """Export Fourier spectrum as TikZ."""
         return export_fourier_tikz(self.function, self.var_names, **kwargs)
-    
+
     def influences(self, **kwargs) -> str:
         """Export influences as TikZ."""
         return export_influences_tikz(self.function, self.var_names, **kwargs)
-    
+
     def spectrum_table(self, **kwargs) -> str:
         """Export spectrum as LaTeX table."""
         return export_spectrum_table(self.function, self.var_names, **kwargs)
-    
+
     def preamble(self) -> str:
         """Get required LaTeX preamble."""
         return """% Required packages for BooFun visualizations
@@ -428,19 +429,19 @@ class LaTeXExporter:
 \\pgfplotsset{compat=1.18}
 \\usetikzlibrary{positioning, shapes, arrows}
 """
-    
+
     def full_document(self, *contents: str) -> str:
         """
         Wrap content in a complete LaTeX document.
-        
+
         Args:
             *contents: TikZ/table content strings
-            
+
         Returns:
             Complete LaTeX document
         """
         body = "\n\n".join(contents)
-        
+
         return f"""\\documentclass{{article}}
 {self.preamble()}
 \\begin{{document}}
@@ -449,11 +450,11 @@ class LaTeXExporter:
 
 \\end{{document}}
 """
-    
+
     def save(self, filename: str, *contents: str, full_doc: bool = True):
         """
         Save LaTeX to file.
-        
+
         Args:
             filename: Output filename
             *contents: Content strings
@@ -463,6 +464,6 @@ class LaTeXExporter:
             output = self.full_document(*contents)
         else:
             output = "\n\n".join(contents)
-        
-        with open(filename, 'w') as f:
+
+        with open(filename, "w") as f:
             f.write(output)

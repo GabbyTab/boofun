@@ -1,18 +1,18 @@
 # src/boofun/core/representations/__init__.py
 
-from .base import BooleanFunctionRepresentation
-from .truth_table import TruthTableRepresentation
-from .fourier_expansion import FourierExpansionRepresentation
-from .symbolic import SymbolicRepresentation
-from .polynomial import PolynomialRepresentation
 from .anf_form import ANFRepresentation
+from .base import BooleanFunctionRepresentation
 from .bdd import BDDRepresentation
 from .circuit import CircuitRepresentation
-from .sparse_truth_table import SparseTruthTableRepresentation
-from .ltf import LTFRepresentation
-from .dnf_form import DNFRepresentation
 from .cnf_form import CNFRepresentation
 from .distribution import DistributionRepresentation
+from .dnf_form import DNFRepresentation
+from .fourier_expansion import FourierExpansionRepresentation
+from .ltf import LTFRepresentation
+from .polynomial import PolynomialRepresentation
+from .sparse_truth_table import SparseTruthTableRepresentation
+from .symbolic import SymbolicRepresentation
+from .truth_table import TruthTableRepresentation
 
 __all__ = [
     "BooleanFunctionRepresentation",
@@ -21,11 +21,11 @@ __all__ = [
     "SymbolicRepresentation",
     "PolynomialRepresentation",
     "ANFRepresentation",
-    "BDDRepresentation", 
+    "BDDRepresentation",
     "CircuitRepresentation",
     "SparseTruthTableRepresentation",
     "LTFRepresentation",
-    "DNFRepresentation", 
+    "DNFRepresentation",
     "CNFRepresentation",
     "DistributionRepresentation",
 ]

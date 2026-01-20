@@ -1,6 +1,7 @@
 # src/boofun/core/builtins.py
-import numpy as np
 from typing import TYPE_CHECKING
+
+import numpy as np
 
 if TYPE_CHECKING:
     from .base import BooleanFunction
@@ -26,8 +27,8 @@ class BooleanFunctionBuiltins:
         if n <= 0:
             raise ValueError("Number of variables must be positive")
 
-        from .factory import BooleanFunctionFactory
         from .base import BooleanFunction
+        from .factory import BooleanFunctionFactory
 
         # Generate truth table for majority function
         size = 1 << n  # 2^n
@@ -41,9 +42,7 @@ class BooleanFunctionBuiltins:
             # Majority: more than half are 1
             truth_table[i] = ones_count > n // 2
 
-        return BooleanFunctionFactory.from_truth_table(
-            BooleanFunction, truth_table, n=n
-        )
+        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
 
     @classmethod
     def dictator(cls, n: int, i: int = 0) -> "BooleanFunction":
@@ -59,7 +58,7 @@ class BooleanFunctionBuiltins:
 
         Returns:
             BooleanFunction that outputs x_i
-            
+
         Examples:
             >>> bf.dictator(5)     # 5-var dictator on x₀
             >>> bf.dictator(5, 2)  # 5-var dictator on x₂
@@ -69,8 +68,8 @@ class BooleanFunctionBuiltins:
         if i < 0 or i >= n:
             raise ValueError(f"Dictator index {i} must be in range [0, {n-1}]")
 
-        from .factory import BooleanFunctionFactory
         from .base import BooleanFunction
+        from .factory import BooleanFunctionFactory
 
         # Generate truth table for dictator function
         size = 1 << n  # 2^n
@@ -80,9 +79,7 @@ class BooleanFunctionBuiltins:
             # Extract the i-th bit (from the right, 0-indexed)
             truth_table[idx] = bool((idx >> (n - 1 - i)) & 1)
 
-        return BooleanFunctionFactory.from_truth_table(
-            BooleanFunction, truth_table, n=n
-        )
+        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
 
     @classmethod
     def tribes(cls, k: int, n: int) -> "BooleanFunction":
@@ -107,8 +104,8 @@ class BooleanFunctionBuiltins:
         if k > n:
             raise ValueError("Tribe size k cannot exceed total variables n")
 
-        from .factory import BooleanFunctionFactory
         from .base import BooleanFunction
+        from .factory import BooleanFunctionFactory
 
         # Calculate number of complete tribes
         num_tribes = n // k
@@ -140,9 +137,7 @@ class BooleanFunctionBuiltins:
 
             truth_table[idx] = result
 
-        return BooleanFunctionFactory.from_truth_table(
-            BooleanFunction, truth_table, n=n
-        )
+        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
 
     @classmethod
     def parity(cls, n: int) -> "BooleanFunction":
@@ -160,8 +155,8 @@ class BooleanFunctionBuiltins:
         if n <= 0:
             raise ValueError("Number of variables must be positive")
 
-        from .factory import BooleanFunctionFactory
         from .base import BooleanFunction
+        from .factory import BooleanFunctionFactory
 
         # Generate truth table for parity function
         size = 1 << n  # 2^n
@@ -173,9 +168,7 @@ class BooleanFunctionBuiltins:
             # Parity: odd number of 1s
             truth_table[i] = ones_count % 2 == 1
 
-        return BooleanFunctionFactory.from_truth_table(
-            BooleanFunction, truth_table, n=n
-        )
+        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
 
     @classmethod
     def constant(cls, value: bool, n: int) -> "BooleanFunction":
@@ -192,13 +185,11 @@ class BooleanFunctionBuiltins:
         if n <= 0:
             raise ValueError("Number of variables must be positive")
 
-        from .factory import BooleanFunctionFactory
         from .base import BooleanFunction
+        from .factory import BooleanFunctionFactory
 
         # Generate truth table with constant value
         size = 1 << n  # 2^n
         truth_table = np.full(size, value, dtype=bool)
 
-        return BooleanFunctionFactory.from_truth_table(
-            BooleanFunction, truth_table, n=n
-        )
+        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)

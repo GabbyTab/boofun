@@ -1,5 +1,6 @@
 # representations/registry.py
-from typing import Callable, Dict, Type, Any
+from typing import Callable, Dict, Type
+
 from .base import BooleanFunctionRepresentation
 
 STRATEGY_REGISTRY: Dict[str, Type[BooleanFunctionRepresentation]] = {}
@@ -54,19 +55,15 @@ def register_partial_strategy(
     methods = {
         "evaluate": evaluate,
         "dump": dump or (lambda self, data, **kw: {"data": data}),
-        "convert_from": convert_from
-        or (lambda self, src, data, **kw: NotImplementedError()),
-        "convert_to": convert_to
-        or (lambda self, tgt, data, **kw: NotImplementedError()),
+        "convert_from": convert_from or (lambda self, src, data, **kw: NotImplementedError()),
+        "convert_to": convert_to or (lambda self, tgt, data, **kw: NotImplementedError()),
         "create_empty": create_empty or (lambda self, n, **kw: NotImplementedError()),
         "is_complete": is_complete or (lambda self, data: True),
         "get_storage_requirements": get_storage_requirements or (lambda self, n: {}),
         "time_complexity_rank": time_complexity_rank or (lambda self, n: {}),
     }
     # Create new class
-    NewStrategy = type(
-        f"{key.title()}Strategy", (BooleanFunctionRepresentation,), methods
-    )
+    NewStrategy = type(f"{key.title()}Strategy", (BooleanFunctionRepresentation,), methods)
     # Register it
     STRATEGY_REGISTRY[key] = NewStrategy
 
@@ -75,7 +72,7 @@ def register_partial_strategy(
 def _function_evaluate(self, inputs, data, space, n_vars):
     """Evaluate the function directly."""
     import numpy as np
-    
+
     # The function representation receives the raw inputs and calls the adapted function
     # For single evaluation, inputs should be passed directly to the function
     try:
@@ -94,23 +91,30 @@ def _function_evaluate(self, inputs, data, space, n_vars):
         # If direct call fails, the function might expect different input format
         raise ValueError(f"Function evaluation failed: {e}")
 
+
 def _function_convert_from(self, source_repr, source_data, space, n_vars, **kwargs):
     """Convert from another representation to function."""
+
     def func(inputs):
         return source_repr.evaluate(inputs, source_data, space, n_vars)
+
     return func
+
 
 def _function_convert_to(self, target_repr, source_data, space, n_vars, **kwargs):
     """Convert function to another representation."""
     return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
+
 def _function_create_empty(self, n_vars, **kwargs):
     """Create empty function representation."""
     return lambda x: False
 
+
 def _function_is_complete(self, data):
     """Check if function representation is complete."""
     return callable(data)
+
 
 def _function_time_complexity_rank(self, n_vars):
     """Time complexity for function operations."""
@@ -119,12 +123,14 @@ def _function_time_complexity_rank(self, n_vars):
         "conversion": 2**n_vars,  # Need to evaluate all inputs for conversion
     }
 
+
 def _function_get_storage_requirements(self, n_vars):
     """Storage requirements for function representation."""
     return {
         "memory_bytes": 64,  # Just a function reference
         "disk_bytes": 0,  # Functions can't be serialized easily
     }
+
 
 register_partial_strategy(
     "function",

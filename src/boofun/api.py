@@ -12,10 +12,10 @@ from boofun.core.factory import BooleanFunctionFactory
 def create(data=None, **kwargs):
     """
     Create a Boolean function from various data sources.
-    
+
     This is the main entry point for creating Boolean functions. It accepts
     truth tables, functions, distributions, and other representations.
-    
+
     Args:
         data: Input data for the Boolean function. Can be:
             - List/array of boolean values (truth table)
@@ -26,17 +26,17 @@ def create(data=None, **kwargs):
             - n: Number of variables (auto-detected if not provided)
             - space: Mathematical space (default: BOOLEAN_CUBE)
             - rep_type: Representation type override
-    
+
     Returns:
         BooleanFunction: A Boolean function object
-        
+
     Examples:
         >>> # Create XOR function from truth table
         >>> xor = create([0, 1, 1, 0])
-        
+
         >>> # Create majority function
         >>> maj = create(lambda x: sum(x) > len(x)//2, n=3)
-        
+
         >>> # Create from polynomial coefficients
         >>> poly = create({frozenset([0]): 1, frozenset([1]): 1}, rep_type='polynomial')
     """

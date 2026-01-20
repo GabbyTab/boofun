@@ -38,5 +38,3 @@ def total_influence_via_sensitivity(f: BooleanFunction) -> float:
 
     profile = sensitivity_profile(f)
     return float(np.mean(profile))
-
-
