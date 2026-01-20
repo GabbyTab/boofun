@@ -1,6 +1,6 @@
 # Roadmap
 
-**Version:** 0.2.0
+**Version:** 0.2.1
 **Updated:** January 2026
 
 ## Current State
@@ -88,6 +88,16 @@ Coverage achieved 60% milestone. Visualization and quantum modules have improved
 - Estimation for unknown values using neighbor voting
 - Incremental value addition
 - Conversion to complete with estimation
+
+### Flexible Inputs & Oracle Pattern (v0.2.1)
+- `bf.create()` auto-detects: lists, numpy, callables, symbolic strings, dicts, sets, files
+- `f.evaluate()` accepts: int index, list, tuple, numpy array, batch (2D)
+- New tutorial: `notebooks/flexible_inputs_and_oracles.ipynb`
+- **Oracle pattern**: analyze huge functions (n=100+) without materializing 2^n truth table
+  - BLR linearity testing via random queries
+  - Fourier coefficient estimation via sampling
+  - PAC learning with sample access only
+  - Real-world examples: ML classifiers, external APIs as Boolean functions
 
 ## Fourier Convention
 
