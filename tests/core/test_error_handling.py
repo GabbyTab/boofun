@@ -189,6 +189,7 @@ class TestTruthTableConversionStrictMode:
 
     def test_strict_mode_raises_on_failure(self):
         """Strict mode (default) should raise on evaluation failure."""
+
         # Create a function that will fail during evaluation
         def failing_func(x):
             if x == 2:
@@ -200,8 +201,8 @@ class TestTruthTableConversionStrictMode:
         f.add_representation(failing_func, "function")
 
         # Getting truth table should fail in strict mode
-        from boofun.core.representations.truth_table import TruthTableRepresentation
         from boofun.core.representations.registry import get_strategy
+        from boofun.core.representations.truth_table import TruthTableRepresentation
 
         tt_strategy = get_strategy("truth_table")
         func_strategy = get_strategy("function")
@@ -217,13 +218,14 @@ class TestTruthTableConversionStrictMode:
 
     def test_lenient_mode_substitutes_false(self):
         """Lenient mode should substitute False and warn on failure."""
+
         def failing_func(x):
             if x == 2:
                 raise ValueError("Intentional failure")
             return x % 2
 
-        from boofun.core.representations.truth_table import TruthTableRepresentation
         from boofun.core.representations.registry import get_strategy
+        from boofun.core.representations.truth_table import TruthTableRepresentation
 
         tt_strategy = get_strategy("truth_table")
         func_strategy = get_strategy("function")
@@ -327,11 +329,7 @@ class TestErrorCodes:
 
     def test_to_dict_method(self):
         """Exception should serialize to dict correctly."""
-        exc = InvalidTruthTableError(
-            "Bad size",
-            size=5,
-            suggestion="Use power of 2"
-        )
+        exc = InvalidTruthTableError("Bad size", size=5, suggestion="Use power of 2")
         d = exc.to_dict()
         assert "error_code" in d
         assert "error_type" in d
@@ -351,12 +349,14 @@ class TestLogging:
 
     def test_logging_module_exists(self):
         """Logging module should be importable."""
-        from boofun.utils.logging import get_logger, enable_debug_logging
+        from boofun.utils.logging import enable_debug_logging, get_logger
+
         assert callable(get_logger)
         assert callable(enable_debug_logging)
 
     def test_get_logger(self):
         """get_logger should return a logger."""
         from boofun.utils.logging import get_logger
+
         logger = get_logger("test")
         assert logger.name == "boofun.test"

@@ -93,7 +93,7 @@ Automatic conversion between representations.
 ## Mathematical Convention
 
 We follow O'Donnell's convention:
-- Boolean 0 → +1, Boolean 1 → −1
+- Boolean 0 -> +1, Boolean 1 -> -1
 - f̂(∅) = E[f] in the ±1 domain
 - All formulas match the textbook
 
@@ -132,11 +132,11 @@ Test coverage is incomplete. Cross-validation against known results is in `tests
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especially valuable—they help verify correctness where I couldn't.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especially valuable as they help verify correctness where I couldn't.
 
 ## Acknowledgments
 
-Based on material from O'Donnell's *Analysis of Boolean Functions* and CS 294-92 (Spring 2025). Partially developed with AI assistance—design and verification are human-led.
+Based on material from O'Donnell's *Analysis of Boolean Functions* and CS 294-92 (Spring 2025). Partially developed with AI assistance; design and verification are human-led.
 
 ## License
 

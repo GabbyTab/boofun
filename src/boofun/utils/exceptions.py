@@ -493,7 +493,9 @@ class ResourceUnavailableError(BooleanFunctionError):
         ctx = context or {}
         if resource:
             ctx["resource"] = resource
-        suggestion = install_hint or (f"Install {resource} to enable this feature" if resource else None)
+        suggestion = install_hint or (
+            f"Install {resource} to enable this feature" if resource else None
+        )
         super().__init__(message, code, ctx, suggestion)
 
 

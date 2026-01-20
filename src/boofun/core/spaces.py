@@ -37,40 +37,40 @@ class Space(Enum):
         if source_space == target_space:
             return input
 
-        input = np.asarray(input)
+        arr = np.asarray(input)
 
         # Boolean (0/1) → ±1
         if source_space == Space.BOOLEAN_CUBE and target_space == Space.PLUS_MINUS_CUBE:
-            return 2 * input - 1
+            return 2 * arr - 1
 
         # ±1 → Boolean (0/1)
         if source_space == Space.PLUS_MINUS_CUBE and target_space == Space.BOOLEAN_CUBE:
-            return ((input + 1) // 2).astype(int)
+            return ((arr + 1) // 2).astype(int)
 
         # Real-valued input → Boolean (mod 2)
         if source_space == Space.REAL and target_space == Space.BOOLEAN_CUBE:
-            return (np.round(input) % 2).astype(int)
+            return (np.round(arr) % 2).astype(int)
 
         # Boolean → Real (just cast)
         if source_space == Space.BOOLEAN_CUBE and target_space == Space.REAL:
-            return input.astype(float)
+            return arr.astype(float)
 
         # ±1 → Real
         if source_space == Space.PLUS_MINUS_CUBE and target_space == Space.REAL:
-            return input.astype(float)
+            return arr.astype(float)
 
         # Real → ±1 (e.g., sign function)
         if source_space == Space.REAL and target_space == Space.PLUS_MINUS_CUBE:
-            return np.where(input >= 0, 1, -1)
+            return np.where(arr >= 0, 1, -1)
 
         # LOG space conversions
         if source_space == Space.LOG and target_space == Space.BOOLEAN_CUBE:
             # Interpret log probabilities: exp(log_prob) > 0.5
-            return (np.exp(input) > 0.5).astype(int)
+            return (np.exp(arr) > 0.5).astype(int)
 
         if source_space == Space.BOOLEAN_CUBE and target_space == Space.LOG:
             # Convert to log probabilities (avoid log(0))
-            prob = np.clip(input.astype(float), 1e-10, 1 - 1e-10)
+            prob = np.clip(arr.astype(float), 1e-10, 1 - 1e-10)
             return np.log(prob)
 
         # GAUSSIAN space conversions
@@ -78,24 +78,24 @@ class Space(Enum):
             # Standard normal CDF > 0.5
             from scipy.stats import norm
 
-            return (norm.cdf(input) > 0.5).astype(int)
+            return (norm.cdf(arr) > 0.5).astype(int)
 
         if source_space == Space.BOOLEAN_CUBE and target_space == Space.GAUSSIAN:
             # Inverse normal CDF
             from scipy.stats import norm
 
-            prob = np.clip(input.astype(float), 1e-10, 1 - 1e-10)
+            prob = np.clip(arr.astype(float), 1e-10, 1 - 1e-10)
             return norm.ppf(prob)
 
         # Cross-conversions through intermediate spaces
         if source_space == Space.LOG and target_space == Space.PLUS_MINUS_CUBE:
-            # LOG → BOOLEAN → ±1
-            boolean = Space.translate(input, Space.LOG, Space.BOOLEAN_CUBE)
+            # LOG -> BOOLEAN -> ±1
+            boolean = Space.translate(arr, Space.LOG, Space.BOOLEAN_CUBE)
             return Space.translate(boolean, Space.BOOLEAN_CUBE, Space.PLUS_MINUS_CUBE)
 
         if source_space == Space.PLUS_MINUS_CUBE and target_space == Space.LOG:
-            # ±1 → BOOLEAN → LOG
-            boolean = Space.translate(input, Space.PLUS_MINUS_CUBE, Space.BOOLEAN_CUBE)
+            # ±1 -> BOOLEAN -> LOG
+            boolean = Space.translate(arr, Space.PLUS_MINUS_CUBE, Space.BOOLEAN_CUBE)
             return Space.translate(boolean, Space.BOOLEAN_CUBE, Space.LOG)
 
         raise NotImplementedError(

@@ -485,7 +485,9 @@ class GrowthTracker:
                         try:
                             theory = theory_fn(n, **marker.params)
                         except Exception as e:
-                            _logger.debug(f"Theoretical value computation failed for {marker.name} at n={n}: {e}")
+                            _logger.debug(
+                                f"Theoretical value computation failed for {marker.name} at n={n}: {e}"
+                            )
                             theory = None
                 result.theoretical_values.append(theory)
 

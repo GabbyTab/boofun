@@ -121,8 +121,8 @@ class TestDerivative:
         d0 = and_func.derivative(0)
         assert d0.evaluate(0) == False  # x₁=0
         assert d0.evaluate(1) == False  # x₁=0
-        assert d0.evaluate(2) == True   # x₁=1
-        assert d0.evaluate(3) == True   # x₁=1
+        assert d0.evaluate(2) == True  # x₁=1
+        assert d0.evaluate(3) == True  # x₁=1
 
     def test_derivative_constant(self):
         """Derivative of constant function should be 0."""

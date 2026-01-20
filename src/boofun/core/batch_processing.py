@@ -201,7 +201,7 @@ class OptimizedTruthTableProcessor(VectorizedBatchProcessor):
         # CPU implementation
         if inputs.ndim == 1 and inputs.dtype != np.bool_:
             # Integer indices - direct lookup
-            indices = inputs.astype(int)
+            indices: np.ndarray = inputs.astype(int)
             # Bounds checking
             valid_mask = (indices >= 0) & (indices < len(function_data))
             results = np.zeros(len(indices), dtype=bool)

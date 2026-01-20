@@ -34,10 +34,10 @@ xor = bf.create(xor_table)
 print(f"XOR function created with {xor.n_vars} variables")
 
 # Using built-in generators (recommended for standard functions)
-and_3 = bf.AND(3)        # AND of 3 variables
-or_3 = bf.OR(3)          # OR of 3 variables
-maj_5 = bf.majority(5)   # Majority of 5 variables
-par_4 = bf.parity(4)     # Parity (XOR) of 4 variables
+and_3 = bf.AND(3)  # AND of 3 variables
+or_3 = bf.OR(3)  # OR of 3 variables
+maj_5 = bf.majority(5)  # Majority of 5 variables
+par_4 = bf.parity(4)  # Parity (XOR) of 4 variables
 print(f"AND_3: {and_3.n_vars} vars, MAJ_5: {maj_5.n_vars} vars")
 
 
@@ -96,7 +96,7 @@ truth_table = f.get_representation("truth_table")
 
 print("AND_3 truth table:")
 for i in range(2**3):
-    bits = format(i, '03b')
+    bits = format(i, "03b")
     print(f"  {bits} -> {truth_table[i]}")
 
 
@@ -128,7 +128,7 @@ functions = {
     "Parity_4": bf.parity(4),
     "Majority_5": bf.majority(5),
     "Threshold_3/5": bf.threshold(5, 3),  # At least 3 of 5
-    "Dictator_0": bf.dictator(4, 0),      # Just returns x_0
+    "Dictator_0": bf.dictator(4, 0),  # Just returns x_0
 }
 
 print(f"{'Function':<15} {'n_vars':<8} {'Balanced':<10} {'Var[f]':<10}")

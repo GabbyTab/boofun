@@ -4,7 +4,7 @@
 
 This is a solo-maintained project. I built it while studying Boolean function analysis and wanted tools that didn't exist. It's large, partially AI-assisted, and I haven't verified every edge case.
 
-Your contributions—bug reports, test cases, corrections, improvements—directly improve reliability. I treat contributions seriously because they catch things I missed.
+Your contributions (bug reports, test cases, corrections, improvements) directly improve reliability. I treat contributions seriously because they catch things I missed.
 
 Response times vary. I'll review when I can.
 

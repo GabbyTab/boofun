@@ -37,7 +37,7 @@ NumPy vectorization, Numba JIT (optional), CuPy GPU (optional), sparse represent
 Structured exception hierarchy with error codes, debug logging, and production-ready error messages.
 
 ### Quantum
-Grover speedup estimation, quantum walk analysis. Theoretical only—Qiskit required for actual oracles.
+Grover speedup estimation, quantum walk analysis. Theoretical only; Qiskit required for actual oracles.
 
 ### Infrastructure
 GitHub Actions CI, pytest, Hypothesis property tests, mutation testing config, pre-commit hooks, cross-validation against known results.
@@ -76,7 +76,7 @@ Coverage achieved 60% milestone. Visualization and quantum modules have improved
 
 O'Donnell standard (Analysis of Boolean Functions, Chapter 1):
 - Boolean 0 → +1
-- Boolean 1 → −1
+- Boolean 1 → -1
 - f̂(∅) = E[f]
 
 ## Contributing

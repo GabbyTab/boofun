@@ -6,11 +6,11 @@ enabling users to configure debug logging for troubleshooting.
 
 Usage:
     import logging
-    
+
     # Enable debug logging for BooFun
     logging.getLogger("boofun").setLevel(logging.DEBUG)
     logging.getLogger("boofun").addHandler(logging.StreamHandler())
-    
+
     # Or use the convenience function
     from boofun.utils.logging import enable_debug_logging
     enable_debug_logging()
@@ -35,14 +35,14 @@ def enable_debug_logging(
 ) -> None:
     """
     Enable debug logging for the BooFun library.
-    
+
     This is a convenience function for users who want to see
     detailed logging output for debugging purposes.
-    
+
     Args:
         level: Logging level (default: DEBUG)
         format_string: Custom format string (default: timestamp, level, name, message)
-        
+
     Example:
         >>> from boofun.utils.logging import enable_debug_logging
         >>> enable_debug_logging()
@@ -50,10 +50,10 @@ def enable_debug_logging(
     """
     if format_string is None:
         format_string = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
-    
+
     handler = logging.StreamHandler()
     handler.setFormatter(logging.Formatter(format_string))
-    
+
     logger.setLevel(level)
     logger.addHandler(handler)
 
@@ -61,10 +61,10 @@ def enable_debug_logging(
 def get_logger(name: str) -> logging.Logger:
     """
     Get a logger for a specific BooFun submodule.
-    
+
     Args:
         name: Submodule name (e.g., "core.base", "analysis.fourier")
-        
+
     Returns:
         Logger instance
     """

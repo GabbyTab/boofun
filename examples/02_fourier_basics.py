@@ -14,6 +14,7 @@ References:
 """
 
 import numpy as np
+
 import boofun as bf
 
 
@@ -21,6 +22,7 @@ def get_expectation(f):
     """Compute E[f] = Pr[f(x) = 1] for uniform random x."""
     tt = f.get_representation("truth_table")
     return sum(1 for x in tt if x) / len(tt)
+
 
 print("=" * 60)
 print("Tutorial 2: Fourier Analysis Basics")
@@ -32,7 +34,8 @@ print("=" * 60)
 # =============================================================================
 print("\n--- 1. Introduction ---\n")
 
-print("""
+print(
+    """
 Every Boolean function f: {0,1}^n → {0,1} can be written as:
 
     f(x) = Σ_S f̂(S) · χ_S(x)
@@ -43,7 +46,8 @@ where:
 - χ_S(x) = (-1)^{Σ_{i∈S} x_i} is the parity function on S
 
 The Fourier coefficients tell us about the function's structure!
-""")
+"""
+)
 
 
 # =============================================================================
@@ -58,7 +62,7 @@ fourier = f.fourier()
 print("Parity_3 Fourier coefficients:")
 for i, coef in enumerate(fourier):
     if abs(coef) > 0.001:
-        bits = format(i, '03b')
+        bits = format(i, "03b")
         print(f"  f̂({bits}) = {coef:.4f}")
 
 print("\n→ Parity has ONE non-zero coefficient: f̂(111) = ±1")
@@ -71,7 +75,7 @@ fourier = f.fourier()
 print("\nAND_3 Fourier coefficients:")
 for i, coef in enumerate(fourier):
     if abs(coef) > 0.001:
-        bits = format(i, '03b')
+        bits = format(i, "03b")
         print(f"  f̂({bits}) = {coef:.4f}")
 
 
@@ -80,12 +84,14 @@ for i, coef in enumerate(fourier):
 # =============================================================================
 print("\n--- 3. Parseval's Identity ---\n")
 
-print("""
+print(
+    """
 Parseval's Identity: Σ_S f̂(S)² = 1
 
 In the ±1 domain, f: {-1,+1}^n → {-1,+1}, we have E[f²] = 1.
 So Σ_S f̂(S)² = 1 always (the L2 norm is preserved).
-""")
+"""
+)
 
 f = bf.majority(5)
 fourier = f.fourier()
@@ -103,11 +109,13 @@ print(f"  Should equal 1.0: {abs(sum_squared - 1.0) < 0.01}")
 # =============================================================================
 print("\n--- 4. Variance and Expectation ---\n")
 
-print("""
+print(
+    """
 Key facts:
 - f̂(∅) = E[f] (the 'DC component')
 - Var[f] = Σ_{S≠∅} f̂(S)² = E[f²] - E[f]²
-""")
+"""
+)
 
 f = bf.majority(5)
 fourier = f.fourier()
@@ -127,12 +135,14 @@ print(f"  Var   = {f.variance():.4f} (direct)")
 # =============================================================================
 print("\n--- 5. Fourier Degree ---\n")
 
-print("""
+print(
+    """
 Fourier degree = max |S| such that f̂(S) ≠ 0
 
 - Degree 1: dictators, linear functions
 - Degree n: can depend on all variables (like parity)
-""")
+"""
+)
 
 functions = {
     "Dictator": bf.dictator(5, 0),
@@ -151,11 +161,13 @@ for name, f in functions.items():
 # =============================================================================
 print("\n--- 6. Spectral Weight by Degree ---\n")
 
-print("""
+print(
+    """
 Spectral weight at level k: W^{=k}[f] = Σ_{|S|=k} f̂(S)²
 
 This tells us how much of the function's 'variance' is at each level.
-""")
+"""
+)
 
 f = bf.majority(5)
 weights = f.spectral_weight_by_degree()
@@ -173,11 +185,13 @@ print("\n→ Majority has most weight on level 1 (individual influences)")
 # =============================================================================
 print("\n--- 7. Total Influence ---\n")
 
-print("""
+print(
+    """
 Total Influence: I[f] = Σ_S |S| · f̂(S)²
 
 This measures how 'complex' or 'noise-sensitive' a function is.
-""")
+"""
+)
 
 functions = {
     "Dictator_5": bf.dictator(5, 0),

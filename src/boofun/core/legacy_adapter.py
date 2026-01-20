@@ -204,7 +204,7 @@ class LegacyWrapper:
         from ..analysis import SpectralAnalyzer
 
         analyzer = SpectralAnalyzer(self._func)
-        return analyzer.influences()[i]
+        return float(analyzer.influences()[i])
 
     def total_influence(self) -> float:
         """Compute total influence."""

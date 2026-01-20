@@ -22,7 +22,6 @@ import pytest
 
 import boofun as bf
 
-
 # Load golden test data
 GOLDEN_PATH = Path(__file__).parent.parent / "golden" / "bit_ordering_golden.json"
 
@@ -106,7 +105,9 @@ class TestBitOrderingConvention:
             bits = np.array([(i >> j) & 1 for j in range(3)])
             by_index = int(f.evaluate(i))
             by_bits = int(f.evaluate(bits, bit_strings=True))
-            assert by_index == by_bits, f"AND(3): index {i} gave {by_index}, bits {bits} gave {by_bits}"
+            assert (
+                by_index == by_bits
+            ), f"AND(3): index {i} gave {by_index}, bits {bits} gave {by_bits}"
 
 
 class TestGoldenBitOrdering:
@@ -134,9 +135,9 @@ class TestGoldenBitOrdering:
 
                 # Test by index
                 actual = int(f.evaluate(index))
-                assert actual == expected_output, (
-                    f"{case['name']}: evaluate({index}) = {actual}, expected {expected_output}"
-                )
+                assert (
+                    actual == expected_output
+                ), f"{case['name']}: evaluate({index}) = {actual}, expected {expected_output}"
 
     def test_golden_evaluations_by_bitstring(self, golden_data):
         """Verify evaluation by bitstring works correctly."""
@@ -150,9 +151,9 @@ class TestGoldenBitOrdering:
 
                 # Test by bits using bit_strings=True parameter
                 actual_bits = int(f.evaluate(bits, bit_strings=True))
-                assert actual_bits == expected_output, (
-                    f"{case['name']}: evaluate({bits}, bit_strings=True) = {actual_bits}, expected {expected_output}"
-                )
+                assert (
+                    actual_bits == expected_output
+                ), f"{case['name']}: evaluate({bits}, bit_strings=True) = {actual_bits}, expected {expected_output}"
 
 
 class TestFourierBitOrdering:
@@ -169,13 +170,13 @@ class TestFourierBitOrdering:
                 expected_idx = 1 << i
                 for s in range(len(coeffs)):
                     if s == expected_idx:
-                        assert abs(coeffs[s] - 1.0) < 1e-10, (
-                            f"dictator({n}, {i}): f̂({s}) = {coeffs[s]}, expected 1.0"
-                        )
+                        assert (
+                            abs(coeffs[s] - 1.0) < 1e-10
+                        ), f"dictator({n}, {i}): f̂({s}) = {coeffs[s]}, expected 1.0"
                     else:
-                        assert abs(coeffs[s]) < 1e-10, (
-                            f"dictator({n}, {i}): f̂({s}) = {coeffs[s]}, expected 0.0"
-                        )
+                        assert (
+                            abs(coeffs[s]) < 1e-10
+                        ), f"dictator({n}, {i}): f̂({s}) = {coeffs[s]}, expected 0.0"
 
     def test_parity_fourier_coefficient(self):
         """Parity should have only full-set coefficient non-zero."""
@@ -187,13 +188,13 @@ class TestFourierBitOrdering:
             full_set = (1 << n) - 1
             for s in range(len(coeffs)):
                 if s == full_set:
-                    assert abs(coeffs[s] - 1.0) < 1e-10 or abs(coeffs[s] + 1.0) < 1e-10, (
-                        f"parity({n}): f̂({s}) = {coeffs[s]}, expected ±1.0"
-                    )
+                    assert (
+                        abs(coeffs[s] - 1.0) < 1e-10 or abs(coeffs[s] + 1.0) < 1e-10
+                    ), f"parity({n}): f̂({s}) = {coeffs[s]}, expected ±1.0"
                 else:
-                    assert abs(coeffs[s]) < 1e-10, (
-                        f"parity({n}): f̂({s}) = {coeffs[s]}, expected 0.0"
-                    )
+                    assert (
+                        abs(coeffs[s]) < 1e-10
+                    ), f"parity({n}): f̂({s}) = {coeffs[s]}, expected 0.0"
 
     def test_golden_fourier_coefficients(self, golden_data):
         """Verify Fourier coefficients against golden data."""
@@ -203,8 +204,11 @@ class TestFourierBitOrdering:
             expected = np.array(case["fourier_coeffs"])
 
             np.testing.assert_allclose(
-                coeffs, expected, rtol=1e-10, atol=1e-10,
-                err_msg=f"{name}: Fourier coefficients mismatch"
+                coeffs,
+                expected,
+                rtol=1e-10,
+                atol=1e-10,
+                err_msg=f"{name}: Fourier coefficients mismatch",
             )
 
 
@@ -220,9 +224,9 @@ class TestInfluenceBitOrdering:
 
                 for j in range(n):
                     expected = 1.0 if i == j else 0.0
-                    assert abs(influences[j] - expected) < 1e-10, (
-                        f"dictator({n}, {i}): Inf[{j}] = {influences[j]}, expected {expected}"
-                    )
+                    assert (
+                        abs(influences[j] - expected) < 1e-10
+                    ), f"dictator({n}, {i}): Inf[{j}] = {influences[j]}, expected {expected}"
 
     def test_and_influences(self):
         """AND function has specific influence values."""
@@ -232,9 +236,9 @@ class TestInfluenceBitOrdering:
         # For AND, Inf_i = 2^(1-n) = 0.25 for n=3
         expected = 0.25
         for i in range(3):
-            assert abs(influences[i] - expected) < 1e-10, (
-                f"AND(3): Inf[{i}] = {influences[i]}, expected {expected}"
-            )
+            assert (
+                abs(influences[i] - expected) < 1e-10
+            ), f"AND(3): Inf[{i}] = {influences[i]}, expected {expected}"
 
 
 class TestConversionBitOrdering:
@@ -270,14 +274,14 @@ class TestConversionBitOrdering:
                 chi = 1.0
                 for i in range(n):
                     if (s >> i) & 1:
-                        chi *= (1 - 2 * ((x >> i) & 1))
+                        chi *= 1 - 2 * ((x >> i) & 1)
                 val += coeffs[s] * chi
             # Convert from {-1, +1} to {0, 1}
             reconstructed.append(int(round((1 - val) / 2)))
 
-        assert reconstructed == tt, (
-            f"Fourier reconstruction changed truth table: {reconstructed} vs {tt}"
-        )
+        assert (
+            reconstructed == tt
+        ), f"Fourier reconstruction changed truth table: {reconstructed} vs {tt}"
 
 
 class TestBuiltinBitOrdering:
@@ -289,7 +293,7 @@ class TestBuiltinBitOrdering:
 
         # All inputs with 2 ones should give 1
         for idx in range(8):
-            hw = bin(idx).count('1')
+            hw = bin(idx).count("1")
             expected = 1 if hw > 1 else 0
             assert int(f.evaluate(idx)) == expected, f"majority(3)[{idx}] wrong"
 
@@ -312,7 +316,7 @@ class TestBuiltinBitOrdering:
         f = bf.threshold(3, 2)  # Output 1 iff at least 2 inputs are 1
 
         for idx in range(8):
-            hw = bin(idx).count('1')
+            hw = bin(idx).count("1")
             expected = 1 if hw >= 2 else 0
             actual = int(f.evaluate(idx))
             assert actual == expected, f"threshold(3,2)[{idx}] = {actual}, expected {expected}"

@@ -23,13 +23,13 @@ class TestParsevalsIdentity:
         # XOR is balanced
         f = bf.parity(3)
         coeffs = f.fourier()
-        sum_sq = sum(c ** 2 for c in coeffs)
+        sum_sq = sum(c**2 for c in coeffs)
         assert abs(sum_sq - 1.0) < 1e-10, f"Parseval for parity(3): {sum_sq}"
 
         # Majority(3) is balanced
         f = bf.majority(3)
         coeffs = f.fourier()
-        sum_sq = sum(c ** 2 for c in coeffs)
+        sum_sq = sum(c**2 for c in coeffs)
         assert abs(sum_sq - 1.0) < 1e-10, f"Parseval for majority(3): {sum_sq}"
 
     def test_parseval_constant_functions(self):
@@ -37,13 +37,13 @@ class TestParsevalsIdentity:
         # Constant 0: f̂(∅) = 1
         f = bf.create([0, 0, 0, 0])
         coeffs = f.fourier()
-        sum_sq = sum(c ** 2 for c in coeffs)
+        sum_sq = sum(c**2 for c in coeffs)
         assert abs(sum_sq - 1.0) < 1e-10, f"Parseval for constant 0: {sum_sq}"
 
         # Constant 1: f̂(∅) = -1
         f = bf.create([1, 1, 1, 1])
         coeffs = f.fourier()
-        sum_sq = sum(c ** 2 for c in coeffs)
+        sum_sq = sum(c**2 for c in coeffs)
         assert abs(sum_sq - 1.0) < 1e-10, f"Parseval for constant 1: {sum_sq}"
 
     def test_parseval_dictators(self):
@@ -52,10 +52,8 @@ class TestParsevalsIdentity:
             for i in range(n):
                 f = bf.dictator(n, i)
                 coeffs = f.fourier()
-                sum_sq = sum(c ** 2 for c in coeffs)
-                assert abs(sum_sq - 1.0) < 1e-10, (
-                    f"Parseval for dictator({n}, {i}): {sum_sq}"
-                )
+                sum_sq = sum(c**2 for c in coeffs)
+                assert abs(sum_sq - 1.0) < 1e-10, f"Parseval for dictator({n}, {i}): {sum_sq}"
 
     def test_parseval_random_functions(self):
         """Random functions should satisfy Parseval."""
@@ -65,15 +63,13 @@ class TestParsevalsIdentity:
                 tt = rng.integers(0, 2, size=2**n).tolist()
                 f = bf.create(tt)
                 coeffs = f.fourier()
-                sum_sq = sum(c ** 2 for c in coeffs)
+                sum_sq = sum(c**2 for c in coeffs)
 
                 # E[f²] = E[f] for Boolean functions
                 expected = sum(tt) / len(tt)
                 expected_pm = 1 - 2 * expected  # Map to ±1 convention
                 # In ±1 domain, E[f²] = 1 always
-                assert abs(sum_sq - 1.0) < 1e-10, (
-                    f"Parseval for random n={n}: {sum_sq}"
-                )
+                assert abs(sum_sq - 1.0) < 1e-10, f"Parseval for random n={n}: {sum_sq}"
 
 
 class TestFourierCoefficients:
@@ -185,7 +181,7 @@ class TestFourierEdgeCases:
                     chi = 1.0
                     for i in range(n):
                         if (s >> i) & 1:
-                            chi *= (1 - 2 * ((x >> i) & 1))
+                            chi *= 1 - 2 * ((x >> i) & 1)
                     val += coeffs[s] * chi
                 # Convert from ±1 to {0,1}
                 reconstructed.append(int(round((1 - val) / 2)))
@@ -211,9 +207,9 @@ class TestInfluenceFourierRelation:
                 influence_from_fourier = sum(
                     coeffs[s] ** 2 for s in range(len(coeffs)) if (s >> i) & 1
                 )
-                assert abs(influences[i] - influence_from_fourier) < 1e-10, (
-                    f"n={n}, i={i}: {influences[i]} vs {influence_from_fourier}"
-                )
+                assert (
+                    abs(influences[i] - influence_from_fourier) < 1e-10
+                ), f"n={n}, i={i}: {influences[i]} vs {influence_from_fourier}"
 
     def test_total_influence_spectral(self):
         """Total influence = Σ_i Inf_i = Σ_S |S| f̂(S)²."""
@@ -223,9 +219,7 @@ class TestInfluenceFourierRelation:
             total = sum(influences)
 
             coeffs = f.fourier()
-            spectral_total = sum(
-                bin(s).count('1') * coeffs[s] ** 2 for s in range(len(coeffs))
-            )
+            spectral_total = sum(bin(s).count("1") * coeffs[s] ** 2 for s in range(len(coeffs)))
 
             assert abs(total - spectral_total) < 1e-10
 
@@ -243,9 +237,9 @@ class TestNoiseStability:
 
                 for rho in [0.0, 0.5, 0.9, 1.0]:
                     stab = f.noise_stability(rho)
-                    assert -1.0 - 1e-10 <= stab <= 1.0 + 1e-10, (
-                        f"Noise stability {stab} out of bounds for rho={rho}"
-                    )
+                    assert (
+                        -1.0 - 1e-10 <= stab <= 1.0 + 1e-10
+                    ), f"Noise stability {stab} out of bounds for rho={rho}"
 
     def test_noise_stability_rho_0(self):
         """At ρ=0, noise stability = 𝔼[f]² = f̂(∅)²."""

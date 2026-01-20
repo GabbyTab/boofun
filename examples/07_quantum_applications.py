@@ -15,11 +15,9 @@ Topics covered:
 """
 
 import numpy as np
+
 import boofun as bf
-from boofun.quantum import (
-    grover_speedup, quantum_walk_analysis, 
-    element_distinctness_analysis
-)
+from boofun.quantum import element_distinctness_analysis, grover_speedup, quantum_walk_analysis
 
 print("=" * 60)
 print("Tutorial 7: Quantum Applications")
@@ -30,7 +28,8 @@ print("=" * 60)
 # =============================================================================
 print("\n--- 1. Quantum Query Complexity ---\n")
 
-print("""
+print(
+    """
 In quantum computing, we can query multiple inputs in superposition.
 
 Key measures:
@@ -41,21 +40,24 @@ Key relationships:
 - Q₂(f) ≥ Ω(√(bs(f)))   [polynomial method]
 - Q₂(f) ≥ Ω(√(D(f)))    [in many cases]
 - Q₂(f) ≤ O(√(n·D(f)))  [Grover-type speedup]
-""")
+"""
+)
 
 # =============================================================================
 # 2. Grover's Algorithm Speedup
 # =============================================================================
 print("\n--- 2. Grover's Algorithm Analysis ---\n")
 
-print("""
+print(
+    """
 Grover's algorithm finds marked items in unstructured search.
 
 For f: {0,1}ⁿ → {0,1}, Grover finds x where f(x) = 1.
 
 Classical: O(N) queries where N = 2ⁿ
 Quantum:   O(√N) queries - quadratic speedup!
-""")
+"""
+)
 
 # Analyze different functions with Grover
 functions = [
@@ -70,34 +72,38 @@ print("-" * 55)
 
 for name, f in functions:
     result = grover_speedup(f)
-    speedup = result['speedup']
+    speedup = result["speedup"]
     n = f.n_vars
-    
+
     if speedup > 3:
         interp = "High speedup"
     elif speedup > 1.5:
         interp = "Moderate speedup"
     else:
         interp = "Minimal speedup"
-    
+
     print(f"{name:<12} {n:<4} {speedup:<15.2f}x {interp}")
 
-print("""
+print(
+    """
 Observations:
 - AND has 1 solution → maximum Grover speedup
 - OR has many solutions → less speedup needed
 - Majority has 50% solutions → modest speedup
-""")
+"""
+)
 
 # =============================================================================
 # 3. Quantum Advantage Estimation
 # =============================================================================
 print("\n--- 3. Quantum Advantage Estimation ---\n")
 
-print("""
+print(
+    """
 The estimate_quantum_advantage function provides a comprehensive
 analysis of potential quantum speedups for a given function.
-""")
+"""
+)
 
 f = bf.AND(4)
 grover_result = grover_speedup(f)
@@ -115,7 +121,8 @@ print(f"  Optimal iterations: {grover_result['optimal_iterations']}")
 # =============================================================================
 print("\n--- 4. Quantum Walk Algorithms ---\n")
 
-print("""
+print(
+    """
 Quantum walks generalize classical random walks.
 They can achieve polynomial speedups for various problems.
 
@@ -123,14 +130,15 @@ Key applications:
 - Element distinctness: O(n^(2/3)) vs classical O(n)
 - Spatial search on graphs
 - Triangle finding
-""")
+"""
+)
 
 # Analyze quantum walks
 print("Quantum walk analysis:\n")
 
 for name, f in [("AND_4", bf.AND(4)), ("OR_4", bf.OR(4))]:
     walk = quantum_walk_analysis(f)
-    
+
     print(f"{name}:")
     print(f"  Classical hitting time: {walk['classical_hitting_time']:.2f}")
     print(f"  Quantum hitting time: {walk['quantum_hitting_time']:.2f}")
@@ -142,14 +150,16 @@ for name, f in [("AND_4", bf.AND(4)), ("OR_4", bf.OR(4))]:
 # =============================================================================
 print("\n--- 5. Element Distinctness Problem ---\n")
 
-print("""
+print(
+    """
 Element Distinctness: Given a list, determine if all elements are distinct.
 
 Classical: O(n) or O(n log n) depending on model
 Quantum: O(n^(2/3)) using Ambainis' quantum walk algorithm!
 
 This is optimal - matches the quantum lower bound.
-""")
+"""
+)
 
 # Analyze element distinctness for different sizes
 print("Element distinctness complexity:\n")
@@ -158,9 +168,9 @@ print("-" * 40)
 
 for n in [8, 16, 64, 256, 1024]:
     classical = n
-    quantum = n ** (2/3)
+    quantum = n ** (2 / 3)
     speedup = classical / quantum
-    
+
     print(f"{n:<8} {classical:<12.0f} {quantum:<12.1f} {speedup:.2f}x")
 
 # =============================================================================
@@ -168,7 +178,8 @@ for n in [8, 16, 64, 256, 1024]:
 # =============================================================================
 print("\n--- 6. Quantum Query Complexity Bounds ---\n")
 
-print("""
+print(
+    """
 Key lower bounds for quantum query complexity:
 
 1. Polynomial Method: Q₂(f) ≥ deg(f)/2
@@ -181,7 +192,8 @@ Key lower bounds for quantum query complexity:
    Q₂(OR_n) = Θ(√n)
    Q₂(Majority_n) = Θ(n)  (no quantum speedup!)
    Q₂(Parity_n) = Θ(n)    (no quantum speedup!)
-""")
+"""
+)
 
 print("Quantum vs Classical complexity:\n")
 
@@ -204,10 +216,12 @@ for name, q, d, speedup in complexity_data:
 # =============================================================================
 print("\n--- 7. Grover Speedup Scaling ---\n")
 
-print("""
+print(
+    """
 Grover's algorithm achieves quadratic speedup.
 The speedup grows as √N where N = 2ⁿ.
-""")
+"""
+)
 
 print("Grover speedup for OR_n (unstructured search):\n")
 print(f"{'n':<6} {'N=2^n':<12} {'Classical':<12} {'Quantum':<12} {'Speedup'}")
@@ -218,7 +232,7 @@ for n in [4, 6, 8, 10, 12]:
     classical = N  # Expected queries to find 1 element
     quantum = np.sqrt(N)
     speedup = classical / quantum
-    
+
     print(f"{n:<6} {N:<12} {classical:<12} {quantum:<12.1f} {speedup:.1f}x")
 
 # =============================================================================
@@ -226,7 +240,8 @@ for n in [4, 6, 8, 10, 12]:
 # =============================================================================
 print("\n--- 8. When Does Quantum Help? ---\n")
 
-print("""
+print(
+    """
 Summary of quantum advantages for Boolean functions:
 
 DEFINITE SPEEDUP:
@@ -246,7 +261,8 @@ DEPENDS ON STRUCTURE:
 
 Key insight: Quantum helps most when the problem has
 "unstructured" or "symmetric" components.
-""")
+"""
+)
 
 # =============================================================================
 # 9. Comparing Functions
@@ -265,11 +281,11 @@ print("-" * 45)
 
 for name, f in functions:
     grover_result = grover_speedup(f)
-    grover_sp = grover_result['speedup']
+    grover_sp = grover_result["speedup"]
     walk = quantum_walk_analysis(f)
-    walk_sp = walk['speedup_over_classical']
+    walk_sp = walk["speedup_over_classical"]
     best = max(grover_sp, walk_sp)
-    
+
     print(f"{name:<12} {grover_sp:<10.2f}x {walk_sp:<10.2f}x {best:.2f}x")
 
 # =============================================================================

@@ -8,6 +8,7 @@ These tests verify that:
 """
 
 import os
+
 import numpy as np
 import pytest
 
@@ -37,9 +38,9 @@ class TestWHTImplementations:
     def test_wht_implementations_match(self):
         """All WHT implementations should produce identical results."""
         from boofun.core.optimizations import (
+            HAS_NUMBA,
             fast_walsh_hadamard,
             get_best_wht_implementation,
-            HAS_NUMBA,
         )
 
         if HAS_NUMBA:
@@ -59,15 +60,19 @@ class TestWHTImplementations:
                 best_result = best_impl(values)
 
                 np.testing.assert_allclose(
-                    best_result, numpy_result, rtol=1e-10,
-                    err_msg=f"{impl_name} differs from NumPy for n={n}"
+                    best_result,
+                    numpy_result,
+                    rtol=1e-10,
+                    err_msg=f"{impl_name} differs from NumPy for n={n}",
                 )
 
                 if HAS_NUMBA:
                     numba_result = fast_walsh_hadamard_numba(values)
                     np.testing.assert_allclose(
-                        numba_result, numpy_result, rtol=1e-10,
-                        err_msg=f"Numba differs from NumPy for n={n}"
+                        numba_result,
+                        numpy_result,
+                        rtol=1e-10,
+                        err_msg=f"Numba differs from NumPy for n={n}",
                     )
 
     def test_wht_power_of_two_only(self):
@@ -93,8 +98,8 @@ class TestInfluenceImplementations:
     def test_influence_implementations_match(self):
         """All influence implementations should match."""
         from boofun.core.optimizations import (
-            vectorized_influences_from_fourier,
             HAS_NUMBA,
+            vectorized_influences_from_fourier,
         )
 
         if HAS_NUMBA:
@@ -113,8 +118,10 @@ class TestInfluenceImplementations:
                 if HAS_NUMBA:
                     numba_result = vectorized_influences_numba(coeffs, n)
                     np.testing.assert_allclose(
-                        numba_result, numpy_result, rtol=1e-10,
-                        err_msg=f"Numba influences differ for n={n}"
+                        numba_result,
+                        numpy_result,
+                        rtol=1e-10,
+                        err_msg=f"Numba influences differ for n={n}",
                     )
 
     def test_influence_correctness(self):
@@ -198,10 +205,10 @@ class TestNoiseStabilityImplementations:
         for rho in [0.0, 0.5, 1.0]:
             result = noise_stability_from_fourier(coeffs, rho)
             expected = (
-                0.5**2 * rho**0 +  # |∅| = 0
-                0.5**2 * rho**1 +  # |{0}| = 1
-                0.5**2 * rho**2 +  # |{0,1}| = 2
-                0.5**2 * rho**3    # |{0,1,2}| = 3
+                0.5**2 * rho**0  # |∅| = 0
+                + 0.5**2 * rho**1  # |{0}| = 1
+                + 0.5**2 * rho**2  # |{0,1}| = 2
+                + 0.5**2 * rho**3  # |{0,1,2}| = 3
             )
             assert abs(result - expected) < 1e-10
 
@@ -272,9 +279,9 @@ class TestOptimizationDisabled:
 
         from boofun.core.optimizations import (
             fast_walsh_hadamard,
+            noise_stability_from_fourier,
             vectorized_influences_from_fourier,
             vectorized_total_influence_from_fourier,
-            noise_stability_from_fourier,
         )
 
         # Test WHT

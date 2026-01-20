@@ -2,7 +2,7 @@
 
 ## Principles
 
-We engage as peers—capable adults who can disagree, be wrong, and learn.
+We engage as peers: capable adults who can disagree, be wrong, and learn.
 
 ### Intellectual Standards
 

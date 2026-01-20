@@ -210,9 +210,9 @@ class TestNumericalStability:
                 coeffs = f.fourier()
 
                 sum_sq = sum(c**2 for c in coeffs)
-                assert abs(sum_sq - 1.0) < 1e-12, (
-                    f"Parseval deviation: {abs(sum_sq - 1.0)} for n={n}"
-                )
+                assert (
+                    abs(sum_sq - 1.0) < 1e-12
+                ), f"Parseval deviation: {abs(sum_sq - 1.0)} for n={n}"
 
     def test_influence_non_negative(self):
         """Influences must be non-negative."""
@@ -225,9 +225,9 @@ class TestNumericalStability:
                 influences = f.influences()
 
                 # Allow tiny negative values due to floating point
-                assert all(i >= -1e-14 for i in influences), (
-                    f"Negative influence: {min(influences)}"
-                )
+                assert all(
+                    i >= -1e-14 for i in influences
+                ), f"Negative influence: {min(influences)}"
 
     def test_noise_stability_bounds(self):
         """Noise stability must be in [-1, 1]."""
@@ -256,7 +256,7 @@ class TestSymmetricFunctions:
                 expected = 1 if hw > n // 2 else 0
 
                 for i in range(2**n):
-                    if bin(i).count('1') == hw:
+                    if bin(i).count("1") == hw:
                         assert int(f.evaluate(i)) == expected
 
     def test_threshold_symmetry(self):
@@ -266,7 +266,7 @@ class TestSymmetricFunctions:
                 f = bf.threshold(n, k)
 
                 for i in range(2**n):
-                    hw = bin(i).count('1')
+                    hw = bin(i).count("1")
                     expected = 1 if hw >= k else 0
                     assert int(f.evaluate(i)) == expected
 
@@ -282,8 +282,9 @@ class TestDegenerateCases:
 
             # Should be equivalent to dictator x₀
             x0 = bf.dictator(n, 0)
-            assert list(f.get_representation("truth_table")) == \
-                   list(x0.get_representation("truth_table"))
+            assert list(f.get_representation("truth_table")) == list(
+                x0.get_representation("truth_table")
+            )
 
     def test_checkerboard_truth_table(self):
         """Truth table [0,0,1,1,0,0,1,1,...] is dictator x₁."""
@@ -293,8 +294,9 @@ class TestDegenerateCases:
 
             # Should be equivalent to dictator x₁
             x1 = bf.dictator(n, 1)
-            assert list(f.get_representation("truth_table")) == \
-                   list(x1.get_representation("truth_table"))
+            assert list(f.get_representation("truth_table")) == list(
+                x1.get_representation("truth_table")
+            )
 
 
 class TestBuiltinConsistency:

@@ -119,9 +119,9 @@ class TestCoreFunctionality:
         # Index 0 = 00 (x₀=0, x₁=0), Index 1 = 01 (x₀=1, x₁=0)
         # Index 2 = 10 (x₀=0, x₁=1), Index 3 = 11 (x₀=1, x₁=1)
         assert x1.evaluate(0) == False  # x₀=0
-        assert x1.evaluate(1) == True   # x₀=1
+        assert x1.evaluate(1) == True  # x₀=1
         assert x2.evaluate(0) == False  # x₁=0
-        assert x2.evaluate(2) == True   # x₁=1
+        assert x2.evaluate(2) == True  # x₁=1
 
         # Note: Function composition may not be fully implemented yet
         # This test verifies basic function creation works

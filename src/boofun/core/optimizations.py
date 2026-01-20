@@ -115,7 +115,7 @@ def vectorized_influences_from_fourier(fourier_coeffs: np.ndarray, n_vars: int) 
     size = len(fourier_coeffs)
 
     # Precompute squared coefficients
-    squared = fourier_coeffs**2
+    squared: np.ndarray = fourier_coeffs**2
 
     # For each variable i, sum squared coefficients of subsets containing i
     for i in range(n_vars):
@@ -160,7 +160,7 @@ def vectorized_total_influence_from_fourier(fourier_coeffs: np.ndarray, n_vars: 
     Uses the formula: I[f] = Σ_S |S| · f̂(S)²
     """
     size = len(fourier_coeffs)
-    squared = fourier_coeffs**2
+    squared: np.ndarray = fourier_coeffs**2
 
     # Compute |S| for each subset S (popcount)
     subset_sizes = np.array([bin(s).count("1") for s in range(size)], dtype=np.float64)
@@ -200,7 +200,7 @@ def noise_stability_from_fourier(fourier_coeffs: np.ndarray, rho: float) -> floa
     Stab_ρ[f] = Σ_S ρ^|S| · f̂(S)²
     """
     size = len(fourier_coeffs)
-    squared = fourier_coeffs**2
+    squared: np.ndarray = fourier_coeffs**2
 
     # Compute ρ^|S| for each subset
     subset_sizes = np.array([bin(s).count("1") for s in range(size)])

@@ -16,6 +16,7 @@ Topics covered:
 """
 
 import numpy as np
+
 import boofun as bf
 from boofun.analysis.query_complexity import QueryComplexityProfile
 
@@ -28,7 +29,8 @@ print("=" * 60)
 # =============================================================================
 print("\n--- 1. What is Query Complexity? ---\n")
 
-print("""
+print(
+    """
 Query complexity asks: How many input bits must we look at to
 determine f(x)?
 
@@ -41,7 +43,8 @@ Key measures:
 
 For all Boolean functions:
   s(f) ≤ bs(f) ≤ C(f) ≤ D(f) ≤ n
-""")
+"""
+)
 
 # =============================================================================
 # 2. Complete Profile for AND
@@ -59,14 +62,16 @@ print(profile.summary())
 # =============================================================================
 print("\n--- 3. Sensitivity s(f) ---\n")
 
-print("""
+print(
+    """
 Sensitivity at input x: number of bits i where f(x) ≠ f(x ⊕ eᵢ)
 (flipping bit i changes the output)
 
 s(f) = max over all x of sensitivity at x
 
 This is available directly on BooleanFunction.
-""")
+"""
+)
 
 functions = [
     ("AND_4", bf.AND(4)),
@@ -81,7 +86,7 @@ print("-" * 50)
 
 for name, f in functions:
     s = f.sensitivity()
-    
+
     if "Parity" in name:
         interp = "All bits matter equally"
     elif "AND" in name or "OR" in name:
@@ -90,7 +95,7 @@ for name, f in functions:
         interp = "Depends on balance point"
     else:
         interp = "Single bit determines output"
-    
+
     print(f"{name:<15} {s:<8} {interp}")
 
 # =============================================================================
@@ -98,11 +103,13 @@ for name, f in functions:
 # =============================================================================
 print("\n--- 4. Comparing Functions via Profiles ---\n")
 
-print("""
+print(
+    """
 For more complexity measures, use QueryComplexityProfile.
 It computes sensitivity, block sensitivity, certificate complexity,
 decision tree depth, and more.
-""")
+"""
+)
 
 # Extract key measures from profiles
 print(f"{'Function':<12} {'s(f)':<6} {'D(f)':<6} {'deg':<6} {'Q₂(f)'}")
@@ -111,14 +118,14 @@ print("-" * 40)
 for name, f in functions:
     profile = QueryComplexityProfile(f)
     summary = profile.summary()
-    
+
     # Parse key values from summary (simplified approach)
     s = f.sensitivity()
     deg = f.degree()
-    
+
     # Get quantum estimate (approximate)
     q2_approx = np.sqrt(s) * 1.5  # rough approximation
-    
+
     print(f"{name:<12} {s:<6} {f.n_vars:<6} {deg:<6} ~{q2_approx:.1f}")
 
 # =============================================================================
@@ -126,14 +133,16 @@ for name, f in functions:
 # =============================================================================
 print("\n--- 5. Degree vs Sensitivity ---\n")
 
-print("""
+print(
+    """
 The degree of f (in the Fourier representation) relates to sensitivity.
 
 Key relationship (Nisan-Szegedy):
   deg(f) ≤ 2 · s(f)²
 
 Higher degree → potentially higher sensitivity.
-""")
+"""
+)
 
 print(f"{'Function':<15} {'s(f)':<8} {'deg(f)':<8} {'2·s(f)²'}")
 print("-" * 40)
@@ -142,7 +151,7 @@ for name, f in functions:
     s = f.sensitivity()
     deg = f.degree()
     bound = 2 * s * s
-    
+
     ok = "✓" if deg <= bound else "✗"
     print(f"{name:<15} {s:<8} {deg:<8} {bound:<8} {ok}")
 
@@ -151,13 +160,15 @@ for name, f in functions:
 # =============================================================================
 print("\n--- 6. Influences and Sensitivity Connection ---\n")
 
-print("""
+print(
+    """
 Sensitivity is closely related to influences:
 
 - Sensitivity at x = number of influential variables at x
 - max_influence ≤ s(f) / n
 - Total influence relates to average sensitivity
-""")
+"""
+)
 
 print(f"{'Function':<12} {'s(f)':<6} {'Total Inf':<10} {'Max Inf'}")
 print("-" * 40)
@@ -166,7 +177,7 @@ for name, f in functions:
     s = f.sensitivity()
     total_inf = f.total_influence()
     max_inf = f.max_influence()
-    
+
     print(f"{name:<12} {s:<6} {total_inf:<10.3f} {max_inf:.4f}")
 
 # =============================================================================
@@ -174,7 +185,8 @@ for name, f in functions:
 # =============================================================================
 print("\n--- 7. Quantum Query Complexity ---\n")
 
-print("""
+print(
+    """
 Quantum computers can sometimes compute f with fewer queries.
 
 Q₂(f) = bounded-error quantum (succeeds with prob ≥ 2/3)
@@ -185,7 +197,8 @@ Key bounds:
 
 Grover's algorithm shows:
 - For OR_n: classical D(f) = n, quantum Q₂(f) = O(√n)
-""")
+"""
+)
 
 # Show quantum advantage for OR (search)
 print("Quantum speedup for OR (unstructured search):\n")
@@ -194,7 +207,7 @@ for n in [4, 9, 16, 25]:
     classical = n  # D(OR_n) = n
     quantum = np.sqrt(n)  # Grover's bound
     speedup = classical / quantum
-    
+
     print(f"  OR_{n}: D(f)={classical}, Q₂(f)≈{quantum:.1f}, speedup≈{speedup:.1f}x")
 
 # =============================================================================
