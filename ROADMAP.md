@@ -13,10 +13,10 @@ Core functionality is production-ready. Test coverage has reached 60%. API is st
 Truth table (dense, sparse, packed), Fourier expansion, ANF, DNF/CNF, polynomial, LTF, circuit, BDD, symbolic. Automatic conversion between formats via conversion graph.
 
 ### Analysis
-- **Property testing**: BLR linearity, junta, monotonicity, unateness, symmetry, balance, dictator, affine, constant
-- **Query complexity**: D(f), R₀, R₂, Q₂, QE, s(f), bs(f), C(f), Ambainis bound, spectral adversary
-- **Fourier analysis**: WHT, influences, noise stability, spectral concentration, degree
-- **Specialized**: FKN theorem, hypercontractivity, invariance principle, Gaussian analysis
+- **Property testing**: BLR linearity, junta, monotonicity, unateness, symmetry, quasisymmetry, balance, dictator, affine, constant, primality
+- **Query complexity**: D(f), D_avg(f), R₀(f), R₁(f), R₂(f), Q₂(f), QE(f), s(f), bs(f), es(f), C(f), Ambainis bound, spectral adversary, polynomial method bound, general adversary bound
+- **Fourier analysis**: WHT, influences, noise stability, spectral concentration, degree, p-biased Fourier coefficients, approximate degree, threshold degree
+- **Specialized**: FKN theorem, hypercontractivity, invariance principle, Gaussian analysis, communication complexity
 - **Learning**: PAC learning, Goldreich-Levin algorithm
 - **LTF analysis**: Weight finding, critical index, Chow parameters
 
@@ -78,6 +78,14 @@ O'Donnell standard (Analysis of Boolean Functions, Chapter 1):
 - Boolean 0 → +1
 - Boolean 1 → -1
 - f̂(∅) = E[f]
+
+## Prior Art
+
+The query complexity module builds on ideas from:
+- **Scott Aaronson's Boolean Function Wizard** (2000): Implemented D(f), R(f), Q(f), sensitivity, block sensitivity, certificate complexity, and degree measures.
+- **Avishay Tal's library**: Fourier transforms, sensitivity, decision trees, polynomial representations.
+
+See `src/boofun/analysis/query_complexity.py` for specific citations.
 
 ## Contributing
 

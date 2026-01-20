@@ -76,11 +76,12 @@ maj.analyze()  # dict with all metrics
 Automatic conversion between representations.
 
 ### Analysis
-- **Fourier:** Walsh-Hadamard transform, spectral weight by degree
-- **Influences:** Per-variable and total influence
+- **Fourier:** Walsh-Hadamard transform, spectral weight by degree, p-biased Fourier coefficients
+- **Influences:** Per-variable and total influence, average sensitivity
 - **Noise stability:** Stab_ρ[f] for ρ ∈ (0,1)
-- **Property testing:** BLR linearity, junta, monotonicity, symmetry
-- **Query complexity:** D(f), R(f), Q(f), sensitivity, block sensitivity, certificates
+- **Property testing:** BLR linearity, junta, monotonicity, unateness, symmetry, quasisymmetry, balance
+- **Query complexity:** D(f), R₀(f), R₂(f), Q₂(f), QE(f), sensitivity s(f), block sensitivity bs(f), certificate complexity C(f), Ambainis bound, spectral adversary
+- **Structural:** Primality, dependence, decomposition
 
 ### Built-in Functions
 `majority(n)`, `parity(n)`, `tribes(k, n)`, `threshold(n, k)`, `dictator(n, i)`, `AND(n)`, `OR(n)`, `weighted_majority(weights)`, `random(n)`
@@ -136,7 +137,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especiall
 
 ## Acknowledgments
 
-Based on material from O'Donnell's *Analysis of Boolean Functions* and CS 294-92 (Spring 2025). Partially developed with AI assistance; design and verification are human-led.
+**Prior Art:**
+- **Scott Aaronson's Boolean Function Wizard** (2000): The query complexity module draws on Aaronson's "Algorithms for Boolean Function Query Measures," which implemented D(f), R(f), Q(f), sensitivity, block sensitivity, and certificate complexity. His work established the algorithmic foundations we build on.
+- **Avishay Tal's Boolean function library** (PhD-era): Professor Tal generously shared his Python library, which included Fourier transforms, sensitivity calculations, decision tree algorithms, and polynomial representations. His code informed several design decisions.
+
+**Theoretical Foundation:**
+- O'Donnell's *Analysis of Boolean Functions* (Cambridge, 2014)
+- CS 294-92 at UC Berkeley (Spring 2025)
+
+Partially developed with AI assistance; design and verification are human-led.
 
 ## License
 

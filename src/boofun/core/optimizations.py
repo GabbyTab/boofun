@@ -134,7 +134,7 @@ if HAS_NUMBA:
         """Numba-accelerated influence computation."""
         size = len(fourier_coeffs)
         influences = np.zeros(n_vars, dtype=np.float64)
-        squared = fourier_coeffs**2
+        squared = fourier_coeffs**2  # type: ignore[var-annotated]
 
         for i in prange(n_vars):
             bit_mask = 1 << i

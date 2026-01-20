@@ -16,10 +16,14 @@ BooFun focuses on theoretical computer science: Fourier analysis (O'Donnell styl
 
 ## What BooFun Has
 
-**Query Complexity** (I haven't found this elsewhere):
-- D(f), R₀(f), R₂(f), Q₂(f)
-- Sensitivity, block sensitivity, certificate complexity
-- Ambainis bound, spectral adversary
+**Query Complexity** (based on Aaronson's Boolean Function Wizard):
+- Deterministic: D(f), D_avg(f)
+- Randomized: R₀(f), R₁(f), R₂(f), nondeterministic variants
+- Quantum: Q₂(f), QE(f), nondeterministic variants
+- Sensitivity: s(f), bs(f), es(f) (everywhere sensitivity)
+- Certificates: C(f), C₀(f), C₁(f)
+- Lower bounds: Ambainis, spectral adversary, polynomial method, general adversary
+- Degree measures: exact, approximate, threshold, nondeterministic
 
 **Property Testing:**
 - BLR linearity
@@ -122,7 +126,17 @@ pip install cana  # CANA
 pip install pyeda  # pyeda
 ```
 
+## Prior Art
+
+BooFun's query complexity module builds on:
+- **Scott Aaronson's Boolean Function Wizard** (2000): C implementation of D(f), R(f), Q(f), sensitivity, block sensitivity, certificate complexity, approximate degrees. See Aaronson, "Algorithms for Boolean Function Query Measures."
+- **Avishay Tal's library**: Python implementation of Fourier transforms, sensitivity, decision trees, polynomial representations over F₂ and reals.
+
+These tools inspired BooFun's design but were either no longer maintained or not publicly distributed. BooFun aims to provide a modern, documented, tested implementation of these ideas.
+
 ## References
 
+- Aaronson, S. (2000). "Algorithms for Boolean Function Query Measures."
 - O'Donnell, R. (2014). *Analysis of Boolean Functions*. Cambridge.
+- Buhrman, H. & de Wolf, R. (2002). "Complexity Measures and Decision Tree Complexity."
 - Correia et al. (2018). CANA. Frontiers in Physiology.
