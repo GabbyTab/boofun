@@ -301,3 +301,9 @@ exclude_lines = [
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod"
 ]
+
+[tool.mutmut]
+paths_to_mutate = "src/boofun/core/optimizations.py"
+tests_dir = "tests/"
+runner = "pytest -x --tb=no -q"
+dict_synonyms = "Mapping,MutableMapping"
