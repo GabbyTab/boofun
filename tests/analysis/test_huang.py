@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 """
 Tests for Huang's Sensitivity Theorem module.
 

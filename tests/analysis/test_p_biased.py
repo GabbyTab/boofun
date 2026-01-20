@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 """
 Tests for p_biased module.
 

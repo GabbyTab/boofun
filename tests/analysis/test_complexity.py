@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 """Tests for complexity measures module."""
 
 import pytest

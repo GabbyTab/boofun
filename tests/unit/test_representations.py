@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 import pytest
 import numpy as np
 from boofun.core.representations.truth_table import TruthTableRepresentation

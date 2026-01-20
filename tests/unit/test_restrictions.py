@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 """Tests for restriction operations on Boolean functions."""
 
 import pytest

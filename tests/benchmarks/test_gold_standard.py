@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 """
 Gold Standard Tests for boofun library.
 

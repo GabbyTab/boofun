@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 """
 Comprehensive integration tests for BooFun library.
 

@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 """
 Aggressive tests for distribution representation.
 

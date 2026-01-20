@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 import numpy as np
 
 from boofun.utils import math as math_utils

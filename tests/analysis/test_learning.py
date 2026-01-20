@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, "src")
 """
 Tests for learning module (Goldreich-Levin algorithm and related).
 
