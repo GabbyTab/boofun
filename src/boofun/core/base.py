@@ -184,10 +184,10 @@ class BooleanFunction(Evaluable, Representable):
         return self.evaluate(inputs)
 
     def __str__(self):
-        return f"BooleanFunction(vars={self.n_vars}, space={self.space})"  # TODO figure out what should be outputed here
+        return f"BooleanFunction(vars={self.n_vars}, space={self.space})"  # TODO figure out what should be outputted here
 
     def __repr__(self):
-        return f"BooleanFunction(space={self.space}, n_vars={self.n_vars})"  # TODO figure out what should be outputed here
+        return f"BooleanFunction(space={self.space}, n_vars={self.n_vars})"  # TODO figure out what should be outputted here
 
     def _create_space(self, space_type):
         # Handle both string and Space enum inputs

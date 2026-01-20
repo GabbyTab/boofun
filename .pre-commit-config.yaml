@@ -42,6 +42,14 @@ repos:
       - id: check-merge-conflict
       - id: debug-statements
 
+  # codespell - spell checker for code and docs
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.6
+    hooks:
+      - id: codespell
+        args: [--skip, "*.ipynb,*.json,*.csv,*.lock,_build", --ignore-words-list, "crate,nd,ot,iff,disjointness"]
+        files: \.(py|md|rst|txt|yaml|yml)$
+
   # mypy - type checker (optional, for strict mode)
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.8.0

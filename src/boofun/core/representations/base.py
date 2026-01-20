@@ -90,7 +90,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
 
     @abstractmethod
     def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
-        """Return time_complexity for computing/evalutating n variables."""
+        """Return time_complexity for computing/evaluating n variables."""
 
     @abstractmethod
     def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
