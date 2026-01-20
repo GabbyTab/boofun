@@ -22,6 +22,8 @@ A collection of tools for working with Boolean functions: representations, Fouri
 
 **Limitations:** This is a large codebase, partially AI-assisted. I've tested the core paths and verified mathematical properties where I could, but edge cases exist that I haven't found. If something breaks or gives wrong results, please report it.
 
+**[Documentation](https://gabbytab.github.io/boofun/)**
+
 ## Installation
 
 ```bash
@@ -74,6 +76,22 @@ qc.ambainis_complexity(maj)             # Quantum lower bound
 # Quick summary
 maj.analyze()  # dict with all metrics
 ```
+
+## Flexible Input
+
+Pass data in whatever form you have—BooFun infers the representation:
+
+```python
+bf.create([0, 1, 1, 0])                    # List → truth table
+bf.create(np.array([0, 1, 1, 0]))          # NumPy array → truth table
+bf.create(lambda x: x[0] ^ x[1], n=2)      # Callable → function
+bf.create("x0 and not x1", n=2)            # String → symbolic
+bf.create({frozenset([0]): 1}, n=2)        # Dict → polynomial
+bf.create({(0,1), (1,0)}, n=2)             # Set → true inputs
+bf.create(iter([0,1,1,0]))                 # Iterator → streaming
+```
+
+Also accepts scipy distributions, DNF/CNF formula objects, and adapts legacy code via `LegacyAdapter`.
 
 ## What's Included
 

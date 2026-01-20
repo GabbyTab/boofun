@@ -67,6 +67,8 @@ Coverage achieved 60% milestone. Visualization and quantum modules have improved
 
 ## Nice to Have (No Timeline)
 
+- File loading (`.bf` format, JSON, DIMACS CNF)
+- Partial representations (incomplete truth tables with confidence)
 - Manim animations for educational content
 - Dask distributed computation for large n
 - conda-forge package
