@@ -1,0 +1,13 @@
+# Code Owners for BooFun
+# These users will be requested for review on PRs that modify these paths
+
+# Default owner for everything
+* @GabbyTab
+
+# Core library
+/src/boofun/core/ @GabbyTab
+/src/boofun/analysis/ @GabbyTab
+
+# Security-sensitive files
+/SECURITY.md @GabbyTab
+/.github/workflows/ @GabbyTab
