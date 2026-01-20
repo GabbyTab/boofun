@@ -171,8 +171,8 @@ class SpectralAnalyzer:
             disagreements = 0
 
             for x in range(size):
-                # Flip the i-th bit
-                x_flipped = x ^ (1 << (self.n_vars - 1 - i))
+                # Flip the i-th bit (LSB=x₀ convention)
+                x_flipped = x ^ (1 << i)
 
                 # Evaluate function at both points
                 f_x = self.function.evaluate(np.array(x))

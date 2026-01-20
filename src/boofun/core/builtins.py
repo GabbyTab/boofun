@@ -76,8 +76,8 @@ class BooleanFunctionBuiltins:
         truth_table = np.zeros(size, dtype=bool)
 
         for idx in range(size):
-            # Extract the i-th bit (from the right, 0-indexed)
-            truth_table[idx] = bool((idx >> (n - 1 - i)) & 1)
+            # Extract the i-th bit (LSB=x₀ convention: x_i is bit i from the right)
+            truth_table[idx] = bool((idx >> i) & 1)
 
         return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
 

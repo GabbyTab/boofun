@@ -156,8 +156,8 @@ if HAS_NUMBA:
             disagreements = 0
 
             for x in range(size):
-                # Flip the var-th bit
-                x_flipped = x ^ (1 << (n_vars - 1 - var))
+                # Flip the var-th bit (LSB=x₀ convention)
+                x_flipped = x ^ (1 << var)
 
                 if x_flipped < size:  # Bounds check
                     if truth_table[x] != truth_table[x_flipped]:
@@ -428,7 +428,8 @@ def fallback_influences(truth_table: np.ndarray, n_vars: int) -> np.ndarray:
     for var in range(n_vars):
         disagreements = 0
         for x in range(size):
-            x_flipped = x ^ (1 << (n_vars - 1 - var))
+            # Flip the var-th bit (LSB=x₀ convention)
+            x_flipped = x ^ (1 << var)
             if x_flipped < size and truth_table[x] != truth_table[x_flipped]:
                 disagreements += 1
         influences[var] = disagreements / size

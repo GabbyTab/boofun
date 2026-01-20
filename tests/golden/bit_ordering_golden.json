@@ -1,0 +1,81 @@
+{
+  "description": "Golden test data for bit-ordering conventions. BooFun uses LSB=x₀ convention.",
+  "convention": "LSB=x₀: index i means x₀=(i>>0)&1, x₁=(i>>1)&1, ...",
+  "cases": [
+    {
+      "name": "AND(2): x₀ ∧ x₁",
+      "n": 2,
+      "truth_table": [0, 0, 0, 1],
+      "evaluations": [
+        {"index": 0, "bits": [0, 0], "output": 0, "comment": "0∧0=0"},
+        {"index": 1, "bits": [1, 0], "output": 0, "comment": "1∧0=0"},
+        {"index": 2, "bits": [0, 1], "output": 0, "comment": "0∧1=0"},
+        {"index": 3, "bits": [1, 1], "output": 1, "comment": "1∧1=1"}
+      ]
+    },
+    {
+      "name": "OR(2): x₀ ∨ x₁",
+      "n": 2,
+      "truth_table": [0, 1, 1, 1],
+      "evaluations": [
+        {"index": 0, "bits": [0, 0], "output": 0},
+        {"index": 1, "bits": [1, 0], "output": 1},
+        {"index": 2, "bits": [0, 1], "output": 1},
+        {"index": 3, "bits": [1, 1], "output": 1}
+      ]
+    },
+    {
+      "name": "x₀ (dictator on first variable)",
+      "n": 3,
+      "truth_table": [0, 1, 0, 1, 0, 1, 0, 1],
+      "evaluations": [
+        {"index": 0, "bits": [0, 0, 0], "output": 0},
+        {"index": 1, "bits": [1, 0, 0], "output": 1},
+        {"index": 4, "bits": [0, 0, 1], "output": 0},
+        {"index": 5, "bits": [1, 0, 1], "output": 1}
+      ]
+    },
+    {
+      "name": "x₁ (dictator on second variable)",
+      "n": 3,
+      "truth_table": [0, 0, 1, 1, 0, 0, 1, 1],
+      "evaluations": [
+        {"index": 0, "bits": [0, 0, 0], "output": 0},
+        {"index": 2, "bits": [0, 1, 0], "output": 1},
+        {"index": 4, "bits": [0, 0, 1], "output": 0},
+        {"index": 6, "bits": [0, 1, 1], "output": 1}
+      ]
+    },
+    {
+      "name": "Majority(3)",
+      "n": 3,
+      "truth_table": [0, 0, 0, 1, 0, 1, 1, 1],
+      "evaluations": [
+        {"index": 0, "bits": [0, 0, 0], "output": 0, "comment": "0 ones"},
+        {"index": 3, "bits": [1, 1, 0], "output": 1, "comment": "2 ones"},
+        {"index": 5, "bits": [1, 0, 1], "output": 1, "comment": "2 ones"},
+        {"index": 7, "bits": [1, 1, 1], "output": 1, "comment": "3 ones"}
+      ]
+    }
+  ],
+  "fourier_golden": {
+    "parity_2": {
+      "n": 2,
+      "truth_table": [0, 1, 1, 0],
+      "fourier_coeffs": [0.0, 0.0, 0.0, 1.0],
+      "comment": "XOR/Parity: only the {0,1} Fourier coefficient is non-zero"
+    },
+    "constant_one_2": {
+      "n": 2,
+      "truth_table": [1, 1, 1, 1],
+      "fourier_coeffs": [-1.0, 0.0, 0.0, 0.0],
+      "comment": "Constant 1 function has bias -1"
+    },
+    "dictator_0_2": {
+      "n": 2,
+      "truth_table": [0, 1, 0, 1],
+      "fourier_coeffs": [0.0, 1.0, 0.0, 0.0],
+      "comment": "x₀ has only the {0} coefficient non-zero"
+    }
+  }
+}
