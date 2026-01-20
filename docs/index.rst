@@ -1,97 +1,70 @@
-BooFun Documentation
-=====================
+BooFun
+======
 
 .. image:: ../logos/boo_horizontal.png
    :width: 600
    :align: center
    :alt: BooFun Logo
 
-A Comprehensive Python Library for Boolean Function Analysis and Computation
+Boolean function analysis in Python.
 
-Overview
---------
-
-BooFun is a comprehensive Python library for the analysis and manipulation of Boolean functions, 
-designed for researchers and practitioners in theoretical computer science, computational complexity, 
-and quantum computing. The library provides a unified framework for working with Boolean functions 
-across multiple mathematical representations, enabling efficient computation of spectral properties, 
-influence measures, and complexity-theoretic characteristics.
+Tools for Fourier analysis, property testing, and complexity measures of Boolean functions. Built while studying O'Donnell's *Analysis of Boolean Functions*.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    quickstart
-   api/index
-   examples/index
-   theory/index
-   advanced/index
-
-Quick Start
------------
+   performance
+   comparison_guide
+   cross_validation
 
 Installation
-~~~~~~~~~~~~
+------------
 
 .. code-block:: bash
 
    pip install boofun
 
-Basic Usage
-~~~~~~~~~~~
+Usage
+-----
 
 .. code-block:: python
 
    import boofun as bf
 
-   # Create Boolean functions
-   xor = bf.create([0, 1, 1, 0])  # XOR function
-   maj = bf.majority(3)  # 3-variable majority
+   # Create
+   xor = bf.create([0, 1, 1, 0])
+   maj = bf.majority(5)
 
-   # Evaluate functions
-   print(f"XOR(1,0) = {xor.evaluate(2)}")  # True (input 2 = binary 10)
-   print(f"Majority(1,1,0) = {maj.evaluate(6)}")  # True (input 6 = binary 110)
+   # Evaluate
+   maj.evaluate([1, 1, 0, 0, 1])  # 1
 
-   # Fourier analysis (direct methods)
-   fourier = xor.fourier()
-   influences = xor.influences()
-   noise_stability = xor.noise_stability(0.9)
+   # Analyze
+   maj.fourier()           # Fourier coefficients
+   maj.influences()        # Variable influences
+   maj.noise_stability(0.9)
+   maj.is_monotone()
 
-Mathematical Convention
-~~~~~~~~~~~~~~~~~~~~~~~
+Convention
+----------
 
-BooFun uses the O'Donnell convention for Fourier analysis:
+O'Donnell standard: Boolean 0 → +1, Boolean 1 → −1.
 
-- Boolean 0 → +1 (in ±1 domain)
-- Boolean 1 → -1 (in ±1 domain)
+This ensures ``f̂(∅) = E[f]``.
 
-This ensures ``f̂(∅) = E[f]`` and aligns with *Analysis of Boolean Functions* (O'Donnell, 2014).
+What's Here
+-----------
 
-   print(f"Variable influences: {influences}")
-   print(f"Noise stability (ρ=0.9): {noise_stability}")
+* **Fourier**: Walsh-Hadamard transform, influences, noise stability
+* **Property Testing**: BLR, junta, monotonicity
+* **Query Complexity**: D(f), R(f), Q(f), sensitivity, certificates
+* **Representations**: Truth tables, ANF, BDD, circuits, Fourier expansion
 
-Mathematical Foundation
------------------------
+Limitations
+-----------
 
-BooFun operates on Boolean functions :math:`f: \{0,1\}^n \to \{0,1\}`, providing tools for:
-
-* **Fourier Analysis**: Walsh-Hadamard transform and spectral properties
-* **Influence Theory**: Variable influence :math:`I_i(f) = \Pr[f(x) \neq f(x \oplus e_i)]`
-* **Noise Stability**: :math:`NS_\rho(f) = \mathbb{E}[f(x)f(N_\rho(x))]` for noise operator :math:`N_\rho`
-* **Complexity Measures**: Certificate complexity, sensitivity, block sensitivity
-* **Query Complexity**: D(f), R0(f), R2(f), Q2(f) (Boolean Function Wizard style)
-* **Gaussian Analysis**: Hermite polynomials, Berry-Esseen bounds (O'Donnell Ch. 10)
-* **Invariance Principles**: Majority is Stablest theorem (O'Donnell Ch. 11)
-* **Learning Theory**: PAC learning with membership and equivalence queries
-
-Applications
-------------
-
-* **Computational Complexity**: Analysis of Boolean function complexity classes
-* **Social Choice Theory**: Voting systems and preference aggregation  
-* **Cryptography**: Security analysis of Boolean functions in stream ciphers
-* **Quantum Computing**: Boolean function analysis in quantum algorithms
-* **Machine Learning**: Feature selection and Boolean concept learning
+Test coverage is low (~38%). Edge cases may have bugs. If something breaks, please report it.
 
 API Reference
 =============
@@ -102,9 +75,8 @@ API Reference
 
    boofun
 
-Indices and tables
-==================
+Indices
+=======
 
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`

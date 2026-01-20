@@ -1,34 +1,39 @@
 # Code of Conduct
 
-## Our Pledge
+## Principles
 
-We are committed to making participation in this project a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
+We engage as peers—capable adults who can disagree, be wrong, and learn.
 
-## Our Standards
+### Intellectual Standards
 
-**Examples of behavior that contributes to a positive environment:**
+- **Precision over politeness theater.** Be clear. Say what you mean.
+- **Good faith.** Assume others are trying to help or understand.
+- **Openness to being wrong.** If you're shown to be incorrect, update. Expect the same from others.
+- **Epistemic humility.** Distinguish what we know from what we assume. Acknowledge uncertainty.
+- **Direct criticism is welcome.** "This is wrong because X" is helpful. Personal attacks are not.
 
-- Using welcoming and inclusive language
-- Being respectful of differing viewpoints and experiences
-- Gracefully accepting constructive criticism
-- Focusing on what is best for the community
-- Showing empathy towards other community members
+### Behavior
 
-**Examples of unacceptable behavior:**
+**Do:**
+- Point out errors directly
+- Ask clarifying questions
+- Disagree with reasoning, not people
+- Accept corrections gracefully
 
-- Trolling, insulting/derogatory comments, and personal or political attacks
-- Public or private harassment
-- Publishing others' private information without explicit permission
-- Other conduct which could reasonably be considered inappropriate in a professional setting
+**Don't:**
+- Harass or demean
+- Make it personal
+- Act in bad faith
+- Waste others' time with noise
 
 ## Scope
 
-This Code of Conduct applies within all project spaces, including issues, pull requests, discussions, and any other communication channels associated with this project.
+Applies to all project spaces: issues, PRs, discussions, and related channels.
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by opening an issue or contacting the maintainer directly. All complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances.
+Violations can be reported by opening an issue or contacting the maintainer. I'll handle it.
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.0.
+Adapted from the [Contributor Covenant](https://www.contributor-covenant.org) v2.0, with additions reflecting our values.

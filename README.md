@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>A Comprehensive Python Library for Boolean Function Analysis and Computation</strong>
+  <strong>Boolean Function Analysis in Python</strong>
 </p>
 
 <p align="center">
@@ -14,304 +14,142 @@
   <a href="https://codecov.io/gh/GabbyTab/boofun"><img src="https://codecov.io/gh/GabbyTab/boofun/branch/main/graph/badge.svg" alt="codecov"></a>
 </p>
 
-## Overview
+## What This Is
 
-BooFun is a comprehensive Python library for the analysis and manipulation of Boolean functions, designed for researchers and practitioners in theoretical computer science, computational complexity, and quantum computing. The library provides a unified framework for working with Boolean functions across multiple mathematical representations, enabling efficient computation of spectral properties, influence measures, and complexity-theoretic characteristics.
+A collection of tools for working with Boolean functions: representations, Fourier analysis, property testing, and complexity measures. I built this while studying O'Donnell's *Analysis of Boolean Functions* and wanted a unified toolkit that didn't exist.
 
-## Key Features
+**Intent:** Make the subject more approachable. If these tools save you time or help you understand something, that's the goal.
 
-### Multiple Representations
-- **Truth Tables**: Standard binary representation for direct evaluation
-- **Algebraic Normal Form (ANF)**: Polynomial representation over GF(2) 
-- **Fourier Expansion**: Spectral representation 
-- **Binary Decision Diagrams (BDDs)**: Compressed graph-based representation
-- **Circuit Representation**: Gate-based computational model
-- **CNF/DNF Forms**: Conjunctive and disjunctive normal forms
-- **Linear Threshold Functions (LTF)**: Weighted threshold-based functions
+**Limitations:** This is a large codebase, partially AI-assisted. I've tested the core paths and verified mathematical properties where I could, but edge cases exist that I haven't found. If something breaks or gives wrong results, please report it.
 
-### Spectral Analysis
-- **Fourier Coefficients**: Complete Walsh-Hadamard transform computation
-- **Influence Measures**: Variable influence and total influence calculation  
-- **Noise Stability**: Correlation under random noise for fixed correlation parameters
-- **Spectral Concentration**: Degree-based spectral weight distribution
-
-### Property Testing
-- **Linearity Testing**: BLR-style linearity detection algorithms
-- **Monotonicity Testing**: Efficient monotonicity verification
-- **Balance Testing**: Statistical balance and bias measurement
-- **Junta Testing**: k-junta identification and variable relevance
-
-### Built-in Function Classes
-- **Tribes Functions**: Disjunction of k-wise conjunctions for complexity analysis
-- **Majority Functions**: Threshold functions for voting theory applications  
-- **Parity Functions**: Linear functions over GF(2) for coding theory
-- **Dictator Functions**: Single-variable dependencies for social choice theory
-
-## Architecture Overview
-
-The library is organized into several interconnected modules:
-
-- **Core**: Boolean function representations, factory, conversion graph
-- **Analysis**: Spectral analysis, property testing, query complexity
-- **Families**: Function families (Majority, Parity, Tribes) with growth tracking
-- **Visualization**: Influence plots, Fourier spectrum, dashboards
-- **Quantum**: Theoretical quantum analysis (educational, requires Qiskit for oracles)
-
-## Quick Start
-
-### Installation
+## Installation
 
 ```bash
 pip install boofun
 ```
 
-For development installation:
-
+Development:
 ```bash
 git clone https://github.com/GabbyTab/boofun.git
-cd boofun
-pip install -e ".[dev]"
+cd boofun && pip install -e ".[dev]"
 ```
 
-### Basic Usage
+## Usage
 
 ```python
 import boofun as bf
 
-# Create Boolean functions (multiple ways)
-xor = bf.create([0, 1, 1, 0])       # From truth table
-maj = bf.majority(5)                 # Built-in majority
-parity = bf.parity(4)                # Built-in parity
-dictator = bf.dictator(3, i=0)       # Dictator on first variable
-tribes = bf.tribes(2, 6)             # Tribes function
+# Create functions
+xor = bf.create([0, 1, 1, 0])    # From truth table
+maj = bf.majority(5)             # Built-in
+f = bf.random(4, seed=42)        # Random
 
 # Evaluate
-print(f"MAJ(1,1,0,0,1) = {maj.evaluate([1,1,0,0,1])}")  # 1
+maj.evaluate([1, 1, 0, 0, 1])    # → 1
 
-# Direct analysis methods
-print(f"Fourier degree: {maj.degree()}")
-print(f"Total influence: {maj.total_influence():.4f}")
-print(f"Max influence: {maj.max_influence():.4f}")
-print(f"Variance: {maj.variance():.4f}")
-print(f"Noise stability (ρ=0.9): {maj.noise_stability(0.9):.4f}")
+# Analyze
+maj.fourier()                    # Fourier coefficients
+maj.influences()                 # Variable influences
+maj.total_influence()            # I[f]
+maj.noise_stability(0.9)         # Stab_ρ[f]
+maj.degree()                     # Fourier degree
 
-# Quick summary of all metrics
-print(maj.analyze())
-# {'n_vars': 5, 'is_balanced': True, 'variance': 1.0, 'degree': 5, ...}
+# Properties
+maj.is_balanced()
+maj.is_monotone()
+maj.is_linear()
+maj.is_junta(k=2)
 
-# Fourier analysis
-coeffs = maj.fourier()                    # All Fourier coefficients
-heavy = maj.heavy_coefficients(tau=0.3)   # Coefficients above threshold
-weights = maj.spectral_weight_by_degree() # Weight at each degree
-
-# Property testing
-print(f"Is linear: {maj.is_linear()}")
-print(f"Is monotone: {maj.is_monotone()}")
-print(f"Is balanced: {maj.is_balanced()}")
-print(f"Is 2-junta: {maj.is_junta(2)}")
+# Quick summary
+maj.analyze()  # dict with all metrics
 ```
 
-### Advanced Features
+## What's Included
 
-```python
-# Linear Threshold Functions (LTFs)
-ltf = bf.weighted_majority([3, 2, 2, 1, 1])
-from boofun.analysis.ltf_analysis import analyze_ltf, is_ltf
-print(f"Is LTF: {is_ltf(maj)}")
-analysis = analyze_ltf(ltf)
+### Representations
+- Truth tables (dense, sparse, packed)
+- Fourier expansion
+- ANF (polynomial over GF(2))
+- DNF/CNF
+- Circuits, BDDs, LTFs
 
-# Function Growth Tracking
-from boofun.families import MajorityFamily, GrowthTracker
-tracker = GrowthTracker(MajorityFamily())
-tracker.mark("total_influence")
-tracker.mark("max_influence")
-tracker.observe([3, 5, 7, 9, 11, 13])
-tracker.plot("total_influence", show_theory=True)
+Automatic conversion between representations.
 
-# Global Hypercontractivity (p-biased analysis)
-from boofun.analysis.global_hypercontractivity import GlobalHypercontractivityAnalyzer
-analyzer = GlobalHypercontractivityAnalyzer(maj, p=0.3)
-print(analyzer.summary())
+### Analysis
+- **Fourier:** Walsh-Hadamard transform, spectral weight by degree
+- **Influences:** Per-variable and total influence
+- **Noise stability:** Stab_ρ[f] for ρ ∈ (0,1)
+- **Property testing:** BLR linearity, junta, monotonicity, symmetry
+- **Query complexity:** D(f), R(f), Q(f), sensitivity, block sensitivity, certificates
 
-# Random functions
-f = bf.random(4)                    # Random 4-variable function
-g = bf.random(4, balanced=True)     # Random balanced function
-h = bf.random(4, seed=42)           # Reproducible random function
-```
+### Built-in Functions
+`majority(n)`, `parity(n)`, `tribes(k, n)`, `threshold(n, k)`, `dictator(n, i)`, `AND(n)`, `OR(n)`, `weighted_majority(weights)`, `random(n)`
 
-## Mathematical Foundation
+### Extras
+- **Families:** Track asymptotic growth of function properties
+- **Visualization:** Influence plots, Fourier spectra (requires matplotlib)
+- **Quantum:** Grover speedup estimation, quantum walk analysis (theoretical; oracles require Qiskit)
 
-BooFun operates on Boolean functions f: {0,1}ⁿ → {0,1}, providing tools for:
+## Mathematical Convention
 
-- **Fourier Analysis**: Walsh-Hadamard transform and spectral properties
-- **Influence Theory**: Variable influence I_i(f) = Pr[f(x) ≠ f(x ⊕ eᵢ)]  
-- **Noise Stability**: NS_ρ(f) = E[f(x)f(N_ρ(x))] for noise operator N_ρ
-- **Complexity Measures**: Certificate complexity, sensitivity, block sensitivity
-- **Learning Theory**: PAC learning with membership and equivalence queries
-- **p-Biased Analysis**: Generalized Fourier analysis for biased input distributions
-- **Global Hypercontractivity**: Inverse Cauchy-Schwarz with noise
-
-**Fourier Convention:** We follow O'Donnell's convention for the ±1 representation:
-- Boolean 0 → +1, Boolean 1 → -1
-- This ensures f̂(∅) = E[f] in the ±1 domain
-- All Fourier coefficients match the textbook formulas
-
-## Supported Representations
-
-BooFun supports **12+ different representations** for Boolean functions:
-
-| Category | Representations |
-|----------|-----------------|
-| **Truth Tables** | Standard Truth Table, Sparse Truth Table |
-| **Algebraic** | Polynomial (ANF), DNF Form, CNF Form |
-| **Structural** | Boolean Circuits, Binary Decision Diagrams (BDD), Linear Threshold Functions (LTF) |
-| **Spectral** | Fourier Expansion, Distribution |
-| **Symbolic** | Symbolic representation for formal verification |
-
-**Automatic Conversion:** All representations support seamless conversion between each other via an intelligent conversion graph.
-
-## Core Modules
-
-| Module | Description |
-|--------|-------------|
-| `boofun.core` | Multiple Boolean function representations with automatic conversion |
-| `boofun.analysis` | Fourier expansion, influences, noise stability, hypercontractivity |
-| `boofun.testing` | BLR linearity testing, constant/balance testing, custom framework |
-| `boofun.families` | Function families (Majority, Parity, Tribes) with growth tracking |
-| `boofun.visualization` | Influence plots, Fourier spectrum, noise stability curves |
-| `boofun.quantum` | Quantum speedup analysis (Grover, quantum walks); requires Qiskit for oracles |
-
-## Educational Notebooks
-
-The `notebooks/` directory contains 16+ Jupyter notebooks aligned with CS 294-92: Analysis of Boolean Functions (O'Donnell book):
-
-| Type | Notebooks |
-|------|-----------|
-| **Homework** | HW1 (Fourier basics), HW2 (LTFs, decision trees), HW3 (DNFs, restrictions), HW4 (hypercontractivity) |
-| **Lectures** | Lectures 1-11 covering Fourier expansion through Invariance Principle |
-| **Research** | Global hypercontractivity, asymptotic visualization, real-world applications |
-
-```bash
-cd notebooks && jupyter notebook
-```
+We follow O'Donnell's convention:
+- Boolean 0 → +1, Boolean 1 → −1
+- f̂(∅) = E[f] in the ±1 domain
+- All formulas match the textbook
 
 ## Examples
 
-The `examples/` directory contains comprehensive usage examples:
+`examples/` contains tutorials:
+| File | Topic |
+|------|-------|
+| `01_getting_started.py` | Basics |
+| `02_fourier_basics.py` | WHT, Parseval |
+| `03_common_families.py` | Majority, Parity, Tribes |
+| `04_property_testing.py` | BLR, junta tests |
+| `05_query_complexity.py` | Sensitivity, certificates |
+| `06_noise_stability.py` | Influences, voting |
+| `07_quantum_applications.py` | Grover, quantum walks |
 
-| Example | Description |
-|---------|-------------|
-| `usage.py` | Core functionality, perfect for getting started |
-| `advanced_features_demo.py` | ANF, conversion graph, batch processing, GPU acceleration |
-| `quantum_analysis_demo.py` | Quantum speedup estimation (Grover, quantum walks) |
-| `educational_examples.py` | Boolean logic fundamentals for teaching |
-| `advanced_analysis.py` | Research workflows and mathematical property verification |
-| `representations_demo.py` | Multiple representations (circuits, BDDs, conversions) |
-| `visualization_examples.py` | Plotting and interactive analysis dashboards |
-| `complete_demo.py` | Comprehensive showcase of all library features |
+`notebooks/` has 18 Jupyter notebooks aligned with O'Donnell's course.
 
 ## Performance
 
-BooFun is optimized for both small research examples and large-scale computations:
+- NumPy vectorization throughout
+- Optional Numba JIT for WHT, influences
+- Optional GPU via CuPy
+- Sparse representations for large n
 
-- **Vectorized Operations**: Efficient NumPy-based implementations
-- **Memory Efficiency**: Sparse representations for large functions
-- **GPU Acceleration**: Optional CUDA/OpenCL support for large transforms
-- **Numba JIT**: Just-in-time compilation of critical operations
-
-```python
-import boofun as bf
-import time
-
-# Analyze 10-variable Boolean function
-f = bf.tribes(2, 10)
-start = time.time()
-
-# Direct methods (new simplified API)
-influences = f.influences()
-fourier_coeffs = f.fourier()
-
-print(f"Analysis completed in {time.time() - start:.3f} seconds")
-```
+For n ≤ 14, most operations complete in milliseconds. For n > 18, consider sparse representations or GPU.
 
 ## Testing
 
 ```bash
-# Run all tests
 pytest tests/
-
-# Run with coverage
 pytest --cov=boofun tests/
-
-# Run specific test category
-pytest tests/integration/
-pytest tests/property/
 ```
 
-## Documentation
-
-Online documentation: [https://gabbytab.github.io/boofun/](https://gabbytab.github.io/boofun/)
-
-To build documentation locally:
-
-```bash
-pip install -e ".[docs]"
-cd docs && make html
-open _build/html/index.html
-```
-
-## Applications
-
-- **Computational Complexity**: Analysis of Boolean function complexity classes
-- **Social Choice Theory**: Voting systems and preference aggregation
-- **Cryptography**: Security analysis of Boolean functions in stream ciphers  
-- **Quantum Computing**: Theoretical analysis of quantum speedups (Grover, quantum walks)
-- **Machine Learning**: Feature selection and Boolean concept learning
+Test coverage is incomplete. Cross-validation against known results is in `tests/test_cross_validation.py`.
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-```bash
-# Development setup
-git clone https://github.com/GabbyTab/boofun.git
-cd boofun
-pip install -e ".[dev]"
-
-# Run tests and linting
-pytest
-black src/
-flake8 src/
-```
-
-See [ROADMAP.md](ROADMAP.md) for planned features and areas where help is needed.
-
-## Support
-
-- **Issues:** [GitHub Issues](https://github.com/GabbyTab/boofun/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/GabbyTab/boofun/discussions)
-
-## License
-
-This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especially valuable—they help verify correctness where I couldn't.
 
 ## Acknowledgments
 
-This project was inspired by material from CS 294-92: Analysis of Boolean Functions (Spring 2025), which provided the theoretical foundation.
+Based on material from O'Donnell's *Analysis of Boolean Functions* and CS 294-92 (Spring 2025). Partially developed with AI assistance—design and verification are human-led.
 
-**A note on development:** This is a large library, and a significant portion of the implementation was developed with the assistance of generative AI tools. The design, architecture, mathematical correctness, testing strategy, and verification are human-led. However, given the library's scope, not every edge case has been manually verified. Bug reports, test cases, and contributions are greatly appreciated—see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+## License
+
+MIT. See [LICENSE](LICENSE).
 
 ## Citation
-
-If you use BooFun in your research, please cite:
 
 ```bibtex
 @software{boofun2025,
   title={BooFun: A Python Library for Boolean Function Analysis},
   author={Gabriel Taboada},
   year={2025},
-  url={https://github.com/GabbyTab/boofun},
-  version={0.2.0}
+  url={https://github.com/GabbyTab/boofun}
 }
 ```
 

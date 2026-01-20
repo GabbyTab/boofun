@@ -1,183 +1,74 @@
-# BooFun Roadmap
+# Roadmap
 
-**Last Updated**: January 2025  
-**Current Version**: 0.2.0
+**Version:** 0.2.0  
+**Updated:** January 2025
 
----
+## Current State
 
-## 🎯 Status: Primary Functionality Complete!
+Core functionality works. Test coverage is low (38%). Edge cases remain untested. API may change before v1.0.
 
-All core features are implemented. Remaining work focuses on polish, testing, and documentation.
+## What Exists
 
----
-
-## ✅ What's Done (Collapsed)
-
-<details>
-<summary><strong>Click to expand completed features</strong></summary>
-
-### Representations (12+)
-- Truth table, sparse, packed (bitarray)
-- Fourier expansion, ANF, DNF/CNF, polynomial
-- LTF, circuit, BDD, symbolic
-- Decision tree export (ASCII, DOT, JSON, TikZ)
+### Representations
+Truth table (dense, sparse, packed), Fourier expansion, ANF, DNF/CNF, polynomial, LTF, circuit, BDD, symbolic. Automatic conversion between formats.
 
 ### Analysis
-- Property testing: BLR, junta, monotonicity, unateness, symmetry, balanced, dictator, affine, constant
-- Query complexity: D(f), R0, R2, Q2, QE, s(f), bs(f), C(f), Ambainis, spectral adversary, polynomial method, general adversary
-- FKN/dictatorship analysis
-- Communication complexity
-- Goldreich-Levin sparse learning
+- Property testing: BLR, junta, monotonicity, unateness, symmetry, balance, dictator, affine, constant
+- Query complexity: D(f), R₀, R₂, Q₂, QE, s(f), bs(f), C(f), Ambainis bound, spectral adversary
+- Fourier: WHT, influences, noise stability, spectral concentration
+- Specialized: FKN analysis, communication complexity, Goldreich-Levin
 
-### Quantum Speedup Analysis
-- Grover speedup estimation, quantum walks, element distinctness
-- Theoretical analysis tools (no Qiskit required for speedup estimation)
-- Oracle creation available with Qiskit installed
-
-### Function Families
-- Majority, Parity, AND, OR, Tribes, Threshold, Dictator
-- LTF (weighted), RecursiveMajority3
-- IteratedMajority, RandomDNF, SboxFamily
-
-### Visualization
-- Animation, growth plots, decision tree viz
-- Interactive Plotly: spectrum, heatmaps, dashboard
-- LaTeX/TikZ export for all diagrams
+### Families
+Majority, Parity, AND, OR, Tribes, Threshold, Dictator, weighted LTF, RecursiveMajority, IteratedMajority, RandomDNF, Sbox
 
 ### Performance
-- WHT optimization, Numba JIT, GPU (CuPy)
-- Memory optimization (bitarray, sparse)
-- Parallel batch operations, memoization
+NumPy vectorization, Numba JIT (optional), CuPy GPU (optional), sparse representations, memoization
+
+### Quantum
+Grover speedup estimation, quantum walk analysis. Theoretical only—Qiskit required for actual oracles.
 
 ### Infrastructure
-- GitHub Actions CI/CD (multi-OS, multi-Python)
-- GitHub Pages docs, Codecov, dependabot
-- Docker (Dockerfile + docker-compose)
+GitHub Actions CI, pytest, Hypothesis property tests, cross-validation against known results.
 
-### Recent Fixes (v0.2.x)
-- **Fourier Sign Convention**: Fixed to use O'Donnell standard (Boolean 0 → +1, Boolean 1 → -1)
-- **Test Determinism**: All PropertyTester instances now use seeded randomness
-- **GPU Module**: Aligned with O'Donnell convention
-- **Theoretical Bounds Tests**: Huang theorem, Nisan-Szegedy, complexity chain verification
+## Before v1.0.0
 
-</details>
+| Task | Status |
+|------|--------|
+| Increase test coverage to 60%+ | Incomplete (38%) |
+| Document API stability policy | Not done |
+| Publish to PyPI | Blocked on token |
 
----
+## Test Coverage
 
-## 📋 Remaining Tasks
+| Module | Coverage |
+|--------|----------|
+| core/base.py | ~75% |
+| analysis/*.py | 60-80% |
+| families/*.py | 18-46% |
+| visualization/*.py | 0-13% |
+| quantum/*.py | ~11% |
 
-### P0 - Before v1.0.0
+Coverage numbers are approximate. Low-coverage modules are less reliable.
 
-| Task | Status | Notes |
-|------|--------|-------|
-| PyPI publication | ⏳ Blocked | Need PYPI_TOKEN configured |
-| API stability guarantee | TODO | Document public API, add deprecation policy |
-| Tutorial series | ✅ Done | 7 tutorials covering beginner to advanced |
-| Test coverage 60%+ | TODO | Currently at 38%, need to increase |
+## Nice to Have (No Timeline)
 
-### P1 - Quality & Polish
+- Mutation testing
+- Manim animations
+- Dask distributed computation
+- conda-forge package
 
-| Task | Status | Notes |
-|------|--------|-------|
-| Integration tests for new features | ✅ Done | 60+ tests in integration/ |
-| Revamp examples/ folder | ✅ Done | 7 tutorials, cleaned old files |
-| Clean up Jupyter notebooks | ✅ Done | Already use simplified API |
-| Fuzz testing | ✅ Done | 18 Hypothesis-based fuzz tests |
-| Theoretical bounds verification | ✅ Done | Huang, Nisan-Szegedy, certificate bounds |
-| Cross-validation tests | ✅ Done | 31 tests against known values |
+## Fourier Convention
 
-### P2 - Nice to Have
-
-| Task | Notes |
-|------|-------|
-| Mutation testing | Run mutmut on critical paths |
-| Manim animations | Video content |
-| Distributed computation | Dask support |
-| conda-forge recipe | Alternative installation |
-
----
-
-## 🎯 v1.0.0 Milestone Checklist
-
-- [ ] 60%+ test coverage (currently 38%)
-- [x] Performance benchmarks documented
-- [x] 3+ real-world usage examples
-- [x] LaTeX/TikZ export
-- [ ] Published on PyPI
-- [ ] API stability guarantee documented
-- [x] Tutorial series complete (7 tutorials)
-- [x] Fuzz testing in place
-- [x] Theoretical bounds verified
-
----
-
-## 📝 API Stability Guarantee
-
-For v1.0.0, we commit to:
-
-1. **Stable Public API**: Methods in `BooleanFunction`, `PropertyTester`, `QueryComplexityProfile`, and family classes won't change signatures without deprecation warnings.
-
-2. **Deprecation Policy**: 
-   - Deprecated features get warnings for at least one minor version
-   - Breaking changes only in major versions (2.0, 3.0, etc.)
-
-3. **Documented API**: All public methods have docstrings and type hints.
-
-**Affected modules:**
-- `boofun.core.base.BooleanFunction`
-- `boofun.analysis` (all public functions)
-- `boofun.families` (all public classes)
-- `boofun.quantum` (QuantumBooleanFunction)
-
----
-
-## 📊 Test Coverage Status
-
-| Module | Current | Target | Priority |
-|--------|---------|--------|----------|
-| core/base.py | 75% | 80% | High |
-| analysis/*.py | 60-80% | 75% | High |
-| families/*.py | 18-46% | 70% | Medium |
-| visualization/*.py | 0-13% | 60% | Low |
-| quantum/*.py | 11% | 70% | Medium |
-
-**Total: ~1620 tests, 38% line coverage**
-
-### Test Categories
-- Unit tests: `tests/unit/`
-- Integration tests: `tests/integration/`
-- Property-based (Hypothesis): `tests/property/`
-- Fuzz tests: `tests/fuzz/`
-- Benchmarks: `tests/benchmarks/`
-- Cross-validation: `tests/test_cross_validation.py`
-
----
-
-## 📂 Mathematical Foundation
-
-### Fourier Convention (O'Donnell Standard)
-This library uses the O'Donnell convention for Fourier analysis:
-- Boolean 0 → +1 (in ±1 domain)
-- Boolean 1 → -1 (in ±1 domain)
-
-This ensures `f̂(∅) = E[f]` and aligns with *Analysis of Boolean Functions* (O'Donnell, 2014).
-
----
+O'Donnell standard:
+- Boolean 0 → +1
+- Boolean 1 → −1
+- f̂(∅) = E[f]
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for how to help.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-### Quick Wins
-- Add tests for low-coverage modules (visualization, quantum)
-- Improve docstrings
-- Documentation improvements
-
-### Medium Effort  
-- Implement a missing algorithm
-- Add visualization type
-- Optimize performance
-
----
-
-*This roadmap is a living document. Please open issues or PRs to suggest additions!*
+High-value contributions:
+- Tests for untested paths
+- Bug reports with reproducible examples
+- Corrections to mathematical errors

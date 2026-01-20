@@ -23,7 +23,7 @@ BooFun uses multiple optimization strategies, automatically selecting the best a
 ### Tier 2: Numba JIT Compilation (Recommended)
 - Requires: `pip install numba`
 - 2-10x faster than NumPy for iterative operations
-- Automatic parallelization with `prange`
+- JIT compilation of hot paths
 - Used for: WHT, influences, sensitivity
 
 ### Tier 3: GPU Acceleration (Optional)
@@ -77,7 +77,7 @@ print(memory_comparison(20))
 from boofun.core.optimizations import parallel_batch_influences, parallel_batch_fourier
 
 # Compute influences for many functions at once
-functions = [bf.random_function(n=10) for _ in range(100)]
+functions = [bf.random(n=10) for _ in range(100)]
 all_influences = parallel_batch_influences(functions)
 
 # Fourier coefficients in parallel
@@ -89,7 +89,7 @@ all_fourier = parallel_batch_fourier(functions)
 Numba functions automatically use all CPU cores:
 
 ```python
-# These use prange internally:
+# These are JIT-compiled with Numba:
 # - _vectorized_influences_numba
 # - _total_influence_numba
 # - _fast_wht_numba
@@ -218,7 +218,7 @@ print(f"Influences backend: {INFLUENCES_BACKEND}")
 
 # Time specific operations
 import time
-f = bf.random_function(n=16)
+f = bf.random(n=16)
 
 start = time.time()
 _ = f.fourier()
