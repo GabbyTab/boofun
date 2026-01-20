@@ -11,10 +11,7 @@ Tests cover:
 """
 
 import json
-import tempfile
-from pathlib import Path
 
-import numpy as np
 import pytest
 
 import boofun as bf
@@ -92,10 +89,10 @@ class TestJSONFormat:
         """Round-trip for truth table representation."""
         f = bf.create([0, 1, 1, 0])  # XOR
         path = tmp_path / "xor.json"
-        
+
         save_json(f, path)
         loaded = load_json(path)
-        
+
         assert loaded.n_vars == 2
         for i in range(4):
             assert loaded.evaluate(i) == f.evaluate(i)
@@ -104,10 +101,10 @@ class TestJSONFormat:
         """Round-trip for majority function."""
         f = bf.majority(3)
         path = tmp_path / "maj3.json"
-        
+
         save(f, path)
         loaded = load(path)
-        
+
         assert loaded.n_vars == 3
         for i in range(8):
             assert loaded.evaluate(i) == f.evaluate(i)
@@ -116,9 +113,9 @@ class TestJSONFormat:
         """Test pretty-printed JSON output."""
         f = bf.create([0, 1, 1, 0])
         path = tmp_path / "pretty.json"
-        
+
         save_json(f, path, pretty=True)
-        
+
         content = path.read_text()
         # Pretty format should have newlines
         assert "\n" in content
@@ -128,9 +125,9 @@ class TestJSONFormat:
         """Test compact JSON output."""
         f = bf.create([0, 1, 1, 0])
         path = tmp_path / "compact.json"
-        
+
         save_json(f, path, pretty=False)
-        
+
         content = path.read_text()
         # Compact format is single line
         lines = content.strip().split("\n")
@@ -145,7 +142,7 @@ class TestJSONFormat:
         }
         path = tmp_path / "with_meta.json"
         path.write_text(json.dumps(data))
-        
+
         loaded = load_json(path)
         assert loaded.n_vars == 2
 
@@ -157,7 +154,7 @@ class TestJSONFormat:
         }
         path = tmp_path / "minimal.json"
         path.write_text(json.dumps(data))
-        
+
         loaded = load_json(path)
         assert loaded.n_vars == 2
 
@@ -166,10 +163,10 @@ class TestJSONFormat:
         # Create a random function
         f = bf.random(4, seed=42)
         path = tmp_path / "random.json"
-        
+
         save(f, path)
         loaded = load(path)
-        
+
         # Check all 16 values
         for i in range(16):
             assert loaded.evaluate(i) == f.evaluate(i), f"Mismatch at input {i}"
@@ -182,10 +179,10 @@ class TestBFFormat:
         """Round-trip for XOR function."""
         f = bf.parity(2)
         path = tmp_path / "xor.bf"
-        
+
         save_bf(f, path)
         loaded = load_bf(path)
-        
+
         assert loaded.n_vars == 2
         for i in range(4):
             assert loaded.evaluate(i) == f.evaluate(i)
@@ -194,9 +191,9 @@ class TestBFFormat:
         """Save with input bit strings."""
         f = bf.create([0, 1, 1, 0])
         path = tmp_path / "with_inputs.bf"
-        
+
         save_bf(f, path, include_inputs=True)
-        
+
         content = path.read_text()
         assert "00 0" in content or "00 1" in content
         assert "01" in content
@@ -207,11 +204,11 @@ class TestBFFormat:
         """Save without input bit strings (compact)."""
         f = bf.create([0, 1, 1, 0])
         path = tmp_path / "no_inputs.bf"
-        
+
         save_bf(f, path, include_inputs=False)
-        
+
         content = path.read_text()
-        lines = [l for l in content.strip().split("\n") if l]
+        lines = [line for line in content.strip().split("\n") if line]
         # First line is n_vars, rest are values only
         assert lines[0] == "2"
         assert len(lines) == 5  # n_vars + 4 values
@@ -225,14 +222,14 @@ class TestBFFormat:
 11 0"""
         path = tmp_path / "xor.bf"
         path.write_text(content)
-        
+
         loaded = load_bf(path)
-        
+
         assert loaded.n_vars == 2
-        assert loaded.evaluate(0) == False  # 00
-        assert loaded.evaluate(1) == True   # 01
-        assert loaded.evaluate(2) == True   # 10
-        assert loaded.evaluate(3) == False  # 11
+        assert not loaded.evaluate(0)  # 00
+        assert loaded.evaluate(1)  # 01
+        assert loaded.evaluate(2)  # 10
+        assert not loaded.evaluate(3)  # 11
 
     def test_load_bf_format_values_only(self, tmp_path):
         """Load .bf file with values only (no input strings)."""
@@ -243,12 +240,12 @@ class TestBFFormat:
 0"""
         path = tmp_path / "xor.bf"
         path.write_text(content)
-        
+
         loaded = load_bf(path)
-        
+
         assert loaded.n_vars == 2
-        assert loaded.evaluate(0) == False
-        assert loaded.evaluate(1) == True
+        assert not loaded.evaluate(0)
+        assert loaded.evaluate(1)
 
     def test_load_partial_function(self, tmp_path):
         """Load .bf file with undefined values (-1)."""
@@ -259,21 +256,21 @@ class TestBFFormat:
 11 -1"""
         path = tmp_path / "partial.bf"
         path.write_text(content)
-        
+
         loaded = load_bf(path)
-        
+
         # Check metadata indicates partial
-        assert loaded._metadata.get("partial") == True
+        assert loaded._metadata.get("partial")
         assert "known_mask" in loaded._metadata
 
     def test_roundtrip_majority(self, tmp_path):
         """Round-trip test for majority function."""
         f = bf.majority(5)
         path = tmp_path / "maj5.bf"
-        
+
         save(f, path, format="bf")
         loaded = load(path)
-        
+
         assert loaded.n_vars == 5
         for i in range(32):
             assert loaded.evaluate(i) == f.evaluate(i)
@@ -291,18 +288,18 @@ p cnf 2 2
 -1 2 0"""
         path = tmp_path / "simple.cnf"
         path.write_text(content)
-        
+
         loaded = load_dimacs_cnf(path)
-        
+
         assert loaded.n_vars == 2
         # x1=0, x2=0: (0 OR 0) AND (1 OR 0) = False
         # x1=0, x2=1: (0 OR 1) AND (1 OR 1) = True
         # x1=1, x2=0: (1 OR 0) AND (0 OR 0) = False
         # x1=1, x2=1: (1 OR 1) AND (0 OR 1) = True
-        assert loaded.evaluate([0, 0]) == False
-        assert loaded.evaluate([0, 1]) == True
-        assert loaded.evaluate([1, 0]) == False
-        assert loaded.evaluate([1, 1]) == True
+        assert not loaded.evaluate([0, 0])
+        assert loaded.evaluate([0, 1])
+        assert not loaded.evaluate([1, 0])
+        assert loaded.evaluate([1, 1])
 
     def test_load_cnf_with_comments(self, tmp_path):
         """Load CNF with multiple comment lines."""
@@ -313,7 +310,7 @@ p cnf 2 1
 1 2 0"""
         path = tmp_path / "comments.cnf"
         path.write_text(content)
-        
+
         loaded = load_dimacs_cnf(path)
         assert loaded.n_vars == 2
 
@@ -322,9 +319,9 @@ p cnf 2 1
         # Create AND function (only satisfiable when all inputs are 1)
         f = bf.AND(2)
         path = tmp_path / "and.cnf"
-        
+
         save_dimacs_cnf(f, path, comment="AND function")
-        
+
         content = path.read_text()
         assert "p cnf" in content
         assert "c AND function" in content
@@ -336,10 +333,10 @@ p cnf 2 1
         # but should preserve function values
         f = bf.create([0, 0, 0, 1])  # AND
         path = tmp_path / "test.cnf"
-        
+
         save(f, path, format="dimacs_cnf")
         loaded = load(path)
-        
+
         # Verify function values match
         for i in range(4):
             assert loaded.evaluate(i) == f.evaluate(i)
@@ -353,7 +350,7 @@ class TestGenericLoadSave:
         f = bf.create([0, 1, 1, 0])
         path = tmp_path / "test.json"
         save(f, path)
-        
+
         loaded = load(path)
         assert loaded.n_vars == 2
 
@@ -361,7 +358,7 @@ class TestGenericLoadSave:
         """Load auto-detects .bf format."""
         path = tmp_path / "test.bf"
         path.write_text("2\n0\n1\n1\n0")
-        
+
         loaded = load(path)
         assert loaded.n_vars == 2
 
@@ -370,7 +367,7 @@ class TestGenericLoadSave:
         f = bf.create([0, 1, 1, 0])
         path = tmp_path / "test.txt"
         save_json(f, path)
-        
+
         loaded = load(path, format="json")
         assert loaded.n_vars == 2
 
@@ -378,16 +375,16 @@ class TestGenericLoadSave:
         """Save defaults to JSON for unknown extension."""
         f = bf.create([0, 1, 1, 0])
         path = tmp_path / "test.xyz"
-        
+
         save(f, path)  # Should default to JSON
-        
+
         content = path.read_text()
         assert content.startswith("{")
 
     def test_load_nonexistent_raises(self, tmp_path):
         """Load nonexistent file raises FileNotFoundError."""
         path = tmp_path / "nonexistent.json"
-        
+
         with pytest.raises(FileNotFoundError):
             load(path)
 
@@ -395,7 +392,7 @@ class TestGenericLoadSave:
         """Load with unknown format raises FileIOError."""
         path = tmp_path / "test.json"
         path.write_text("{}")
-        
+
         with pytest.raises(FileIOError):
             load(path, format="unknown_format")
 
@@ -407,7 +404,7 @@ class TestEdgeCases:
         """Empty .bf file raises FileIOError."""
         path = tmp_path / "empty.bf"
         path.write_text("")
-        
+
         with pytest.raises(FileIOError):
             load_bf(path)
 
@@ -415,7 +412,7 @@ class TestEdgeCases:
         """Invalid first line in .bf file raises FileIOError."""
         path = tmp_path / "invalid.bf"
         path.write_text("not_a_number\n0\n1\n1\n0")
-        
+
         with pytest.raises(FileIOError):
             load_bf(path)
 
@@ -423,10 +420,10 @@ class TestEdgeCases:
         """Round-trip works for larger functions."""
         f = bf.random(8, seed=123)  # 256 values
         path = tmp_path / "large.json"
-        
+
         save(f, path)
         loaded = load(path)
-        
+
         assert loaded.n_vars == 8
         # Spot check some values
         for i in [0, 127, 255]:
@@ -437,7 +434,7 @@ class TestEdgeCases:
         f = bf.BooleanFunction()
         f.n_vars = None
         path = tmp_path / "no_nvars.bf"
-        
+
         with pytest.raises(FileIOError):
             save_bf(f, path)
 
@@ -457,10 +454,10 @@ class TestTopLevelAPI:
         """Round-trip using bf.load and bf.save."""
         f = bf.majority(3)
         path = tmp_path / "maj.json"
-        
+
         bf.save(f, path)
         loaded = bf.load(path)
-        
+
         assert loaded.n_vars == 3
         for i in range(8):
             assert loaded.evaluate(i) == f.evaluate(i)

@@ -33,7 +33,6 @@ from typing import Optional
 
 from .api import create
 from .core import BooleanFunction, ExactErrorModel, NoiseErrorModel, PACErrorModel, Property, Space
-from .core.io import load, save
 from .core.adapters import (
     CallableAdapter,
     NumPyAdapter,
@@ -43,6 +42,7 @@ from .core.adapters import (
     adapt_sympy_expr,
 )
 from .core.builtins import BooleanFunctionBuiltins
+from .core.io import load, save
 
 # Exception hierarchy for structured error handling
 from .utils.exceptions import (
