@@ -93,6 +93,16 @@ bf.create(iter([0,1,1,0]))                 # Iterator → streaming
 
 Also accepts scipy distributions, DNF/CNF formula objects, and adapts legacy code via `LegacyAdapter`.
 
+Evaluation is equally flexible:
+
+```python
+f.evaluate(3)                   # Integer index (binary: 011)
+f.evaluate([0, 1, 1])           # List of bits
+f.evaluate((0, 1, 1))           # Tuple
+f.evaluate(np.array([0, 1, 1])) # NumPy array
+f.evaluate([[0,0], [0,1], [1,0], [1,1]])  # Batch
+```
+
 ## What's Included
 
 ### Representations
