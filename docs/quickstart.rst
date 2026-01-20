@@ -23,23 +23,54 @@ Creating Functions
 
    import boofun as bf
 
-   # From truth table
+   # From truth table (list or numpy array)
    xor = bf.create([0, 1, 1, 0])
 
-   # Built-in
+   # From callable (your own function)
+   f = bf.create(lambda x: x[0] and x[1], n=3)
+
+   # From file
+   f = bf.load("function.json")
+   f = bf.create("function.bf")  # Aaronson format
+
+   # Built-in families
    maj = bf.majority(5)
    par = bf.parity(4)
    dic = bf.dictator(3, i=0)
    tribes = bf.tribes(2, 6)
    ltf = bf.weighted_majority([3, 2, 1, 1, 1])
 
-Evaluation
-----------
+Flexible Input Types
+--------------------
+
+``bf.create()`` auto-detects input type:
 
 .. code-block:: python
 
-   xor.evaluate([1, 0])  # True
-   maj.evaluate([1, 1, 0, 0, 1])  # 1
+   bf.create([0, 1, 1, 0])           # list → truth table
+   bf.create(np.array([0, 1, 1, 0])) # numpy → truth table
+   bf.create(lambda x: x[0] ^ x[1], n=2)  # callable
+   bf.create({frozenset(): 1, frozenset({0}): 1})  # dict → polynomial
+   bf.create("x0 & x1")              # string → symbolic
+   bf.create({(0,1), (1,0)})         # set of tuples → which inputs are True
+
+   # From files
+   bf.load("func.json")   # JSON with metadata
+   bf.load("func.bf")     # Aaronson .bf format
+   bf.load("func.cnf")    # DIMACS CNF
+
+Evaluation
+----------
+
+Evaluation is equally flexible:
+
+.. code-block:: python
+
+   f.evaluate(3)                   # Integer index (binary: 011)
+   f.evaluate([0, 1, 1])           # List of bits
+   f.evaluate((0, 1, 1))           # Tuple
+   f.evaluate(np.array([0, 1, 1])) # NumPy array
+   f.evaluate([[0,0], [0,1], [1,0]])  # Batch (2D array)
 
 Analysis
 --------
