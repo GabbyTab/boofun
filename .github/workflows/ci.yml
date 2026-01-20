@@ -28,8 +28,32 @@ jobs:
     - name: Run pre-commit hooks
       run: pre-commit run --all-files
 
+  # Detect what files changed to skip unnecessary jobs
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+      docs: ${{ steps.filter.outputs.docs }}
+    steps:
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608  # v4
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36  # v3
+        id: filter
+        with:
+          filters: |
+            code:
+              - 'src/**'
+              - 'tests/**'
+              - 'pyproject.toml'
+              - 'setup.py'
+            docs:
+              - 'docs/**'
+              - 'notebooks/**'
+              - '*.md'
+
   typecheck:
     runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.code == 'true' || github.event_name == 'workflow_dispatch'
     steps:
     - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608  # v4
 
@@ -48,7 +72,8 @@ jobs:
 
   test:
     runs-on: ${{ matrix.os }}
-    needs: [lint, typecheck]
+    needs: [lint, changes]
+    if: needs.changes.outputs.code == 'true' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
