@@ -125,7 +125,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
 
         return np.array(results)
 
-    def dump(self, data: Tuple[str, List[str]], **kwargs) -> Dict[str, Any]:
+    def dump(self, data: Tuple[str, List[str]], space=None, **kwargs) -> Dict[str, Any]:
         """
         Export the symbolic representation as a dictionary.
 

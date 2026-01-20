@@ -108,7 +108,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         """Convert binary vector to integer index."""
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector) - 1, -1, -1)))
 
-    def dump(self, data: Any, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: Any, space=None, **kwargs) -> Dict[str, Any]:
         """Export packed truth table in serializable format."""
         if HAS_BITARRAY and isinstance(data, dict) and "bitarray" in data:
             ba = data["bitarray"]

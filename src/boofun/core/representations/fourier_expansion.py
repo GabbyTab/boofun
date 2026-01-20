@@ -47,7 +47,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             results[idx] = self._evaluate_single(x, coeffs)
         return results
 
-    def dump(self, data: np.ndarray, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: np.ndarray, space=None, **kwargs) -> Dict[str, Any]:
         """Export Fourier coefficients in serializable format"""
         return {
             "coefficients": data.tolist(),

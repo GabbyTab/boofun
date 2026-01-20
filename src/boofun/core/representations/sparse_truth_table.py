@@ -96,7 +96,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
         """Convert binary vector to integer index."""
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector) - 1, -1, -1)))
 
-    def dump(self, data: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+    def dump(self, data: Dict[str, Any], space=None, **kwargs) -> Dict[str, Any]:
         """Export sparse truth table in serializable format."""
         return {
             "type": "sparse_truth_table",
@@ -272,7 +272,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, A
         """Convert to another representation."""
         return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
-    def dump(self, data: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+    def dump(self, data: Dict[str, Any], space=None, **kwargs) -> Dict[str, Any]:
         """Export adaptive representation."""
         base_info = {
             "type": "adaptive_truth_table",

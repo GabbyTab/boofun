@@ -263,7 +263,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         """Convert integer index to binary vector."""
         return [(index >> i) & 1 for i in range(n_vars - 1, -1, -1)]
 
-    def dump(self, data: DNFFormula, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: DNFFormula, space=None, **kwargs) -> Dict[str, Any]:
         """Export DNF representation."""
         result = data.to_dict()
         result["type"] = "dnf"

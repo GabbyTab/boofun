@@ -419,7 +419,7 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
         else:
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def dump(self, data: BooleanDistribution, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: BooleanDistribution, space=None, **kwargs) -> Dict[str, Any]:
         """Export distribution representation."""
         result = data.to_dict()
         result["type"] = "distribution"

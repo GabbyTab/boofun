@@ -275,7 +275,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
         """Convert integer index to binary vector."""
         return [(index >> i) & 1 for i in range(n_vars - 1, -1, -1)]
 
-    def dump(self, data: CNFFormula, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: CNFFormula, space=None, **kwargs) -> Dict[str, Any]:
         """Export CNF representation."""
         result = data.to_dict()
         result["type"] = "cnf"

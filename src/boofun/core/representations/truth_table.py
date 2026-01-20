@@ -85,7 +85,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         """Optimized bit packing using NumPy"""
         return int(np.packbits(bits.astype(np.uint8), bitorder="big")[0])
 
-    def dump(self, data: np.ndarray, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: np.ndarray, space=None, **kwargs) -> Dict[str, Any]:
         """
         Export the truth table.
 

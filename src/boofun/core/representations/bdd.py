@@ -206,7 +206,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         """Convert integer index to binary vector."""
         return [(index >> i) & 1 == 1 for i in range(n_vars - 1, -1, -1)]
 
-    def dump(self, data: BDD, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: BDD, space=None, **kwargs) -> Dict[str, Any]:
         """Export BDD representation."""
         return {"type": "bdd", "n_vars": data.n_vars, "node_count": data.get_node_count()}
 

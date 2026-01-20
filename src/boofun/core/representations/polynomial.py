@@ -87,7 +87,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         """Convert binary vector to integer index."""
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector) - 1, -1, -1)))
 
-    def dump(self, data: Dict[frozenset, int], **kwargs) -> Dict[str, Any]:
+    def dump(self, data: Dict[frozenset, int], space=None, **kwargs) -> Dict[str, Any]:
         """
         Export polynomial in serializable format.
 

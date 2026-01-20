@@ -25,12 +25,13 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         """
 
     @abstractmethod
-    def dump(self, data: DataType, space: Space, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: DataType, space: Space = None, **kwargs) -> Dict[str, Any]:
         """
         Export the representation data in a serializable format.
 
         Args:
             data: The representation data to export
+            space: Optional space specification (some representations need this)
             **kwargs: Representation-specific options
 
         Returns:

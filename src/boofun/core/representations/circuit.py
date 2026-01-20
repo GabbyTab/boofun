@@ -314,7 +314,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         """Convert integer index to binary vector."""
         return [(index >> i) & 1 == 1 for i in range(n_vars - 1, -1, -1)]
 
-    def dump(self, data: BooleanCircuit, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: BooleanCircuit, space=None, **kwargs) -> Dict[str, Any]:
         """Export circuit representation."""
         circuit_dict = data.to_dict()
         circuit_dict["type"] = "circuit"
