@@ -117,11 +117,12 @@ class TestDerivative:
         and_func = bf.create([0, 0, 0, 1])
 
         # D_0(x0 AND x1) = (0 AND x1) XOR (1 AND x1) = 0 XOR x1 = x1
+        # With LSB=x₀: Index 0,1 have x₁=0; Index 2,3 have x₁=1
         d0 = and_func.derivative(0)
-        assert d0.evaluate(0) == False  # x1=0
-        assert d0.evaluate(1) == True  # x1=1
-        assert d0.evaluate(2) == False  # x1=0
-        assert d0.evaluate(3) == True  # x1=1
+        assert d0.evaluate(0) == False  # x₁=0
+        assert d0.evaluate(1) == False  # x₁=0
+        assert d0.evaluate(2) == True   # x₁=1
+        assert d0.evaluate(3) == True   # x₁=1
 
     def test_derivative_constant(self):
         """Derivative of constant function should be 0."""

@@ -230,7 +230,8 @@ def p_biased_influence(f: "BooleanFunction", i: int, p: float, samples: int = 50
         x1 = x.copy()
         x1[i] = 1
 
-        if f.evaluate(x0) != f.evaluate(x1):
+        # Use bit_strings=True to interpret arrays as bit vectors
+        if f.evaluate(x0, bit_strings=True) != f.evaluate(x1, bit_strings=True):
             count += 1
 
     return count / samples

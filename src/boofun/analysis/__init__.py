@@ -272,11 +272,11 @@ class SpectralAnalyzer:
         fourier_coeffs = self.fourier_expansion()
 
         if isinstance(subset, list):
-            # Convert list of indices to integer representation
+            # Convert list of indices to integer representation (LSB=x₀ convention)
             index = 0
             for i in subset:
                 if 0 <= i < self.n_vars:
-                    index |= 1 << (self.n_vars - 1 - i)
+                    index |= 1 << i
                 else:
                     raise ValueError(f"Variable index {i} out of range")
         else:
@@ -636,8 +636,8 @@ class PropertyTester:
                 x = self.rng.randint(0, 1 << self.n_vars)
                 f_x = int(self.function.evaluate(np.array(x)))
 
-                # Extract the i-th bit (in MSB order)
-                x_i = (x >> (self.n_vars - 1 - max_inf_idx)) & 1
+                # Extract the i-th bit (LSB=x₀ convention)
+                x_i = (x >> max_inf_idx) & 1
 
                 if f_x != x_i:
                     is_dictator = False

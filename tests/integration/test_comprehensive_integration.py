@@ -118,12 +118,13 @@ class TestBuiltinFunctionComprehensive:
             dict_func = bf.BooleanFunctionBuiltins.dictator(n, pos)
             assert dict_func.n_vars == n
 
-            # Test all possible inputs
+            # Test all possible inputs using LSB=x₀ convention
             for i in range(2**n):
-                bits = [(i >> j) & 1 for j in range(n - 1, -1, -1)]
-                result = dict_func.evaluate(bits)
-                expected = bool(bits[pos])
-                assert result == expected, f"Dictator({pos}, {n}) failed for {bits}"
+                # Use index-based evaluation (simpler and more reliable)
+                result = dict_func.evaluate(i)
+                # x_pos is bit pos of index i (from LSB)
+                expected = bool((i >> pos) & 1)
+                assert result == expected, f"Dictator({pos}, {n}) failed for index {i}"
 
     def test_constant_functions(self):
         """Test constant functions."""
@@ -132,11 +133,10 @@ class TestBuiltinFunctionComprehensive:
                 const = bf.BooleanFunctionBuiltins.constant(value, n)
                 assert const.n_vars == n
 
-                # Test all inputs give same result
+                # Test all inputs give same result (use index-based evaluation)
                 for i in range(2**n):
-                    bits = [(i >> j) & 1 for j in range(n - 1, -1, -1)]
-                    result = const.evaluate(bits)
-                    assert result == value, f"Constant({value}, {n}) failed for {bits}"
+                    result = const.evaluate(i)
+                    assert result == value, f"Constant({value}, {n}) failed for index {i}"
 
 
 class TestSpectralAnalysisComprehensive:

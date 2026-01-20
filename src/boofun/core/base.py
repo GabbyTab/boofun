@@ -615,8 +615,8 @@ class BooleanFunction(Evaluable, Representable):
         new_tt = np.zeros(size, dtype=bool)
 
         for x in range(size):
-            # Flip bit at position var (from MSB, so position n-1-var from LSB)
-            x_flipped = x ^ (1 << (n - 1 - var))
+            # Flip bit at position var (LSB=x₀ convention)
+            x_flipped = x ^ (1 << var)
             new_tt[x] = old_tt[x] ^ old_tt[x_flipped]
 
         return BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=n)

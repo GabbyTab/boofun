@@ -55,9 +55,9 @@ class TestLargeNCreation:
         """Dictator with n=20 should work."""
         f = bf.dictator(20, 0)
         assert f.n_vars == 20
-        # First bit determines output
-        assert f.evaluate(1 << 19) == 1
-        assert f.evaluate(0) == 0
+        # x₀ determines output (LSB=x₀ convention)
+        assert f.evaluate(1) == 1  # x₀ = 1
+        assert f.evaluate(0) == 0  # x₀ = 0
 
     def test_create_tribes_large(self):
         """Tribes with large parameters should work."""

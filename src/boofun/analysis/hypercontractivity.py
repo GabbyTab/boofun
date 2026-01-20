@@ -293,11 +293,11 @@ def junta_approximation_error(f: "BooleanFunction", junta_vars: List[int]) -> fl
             # Build input that matches x on junta_vars
             x_prime = x
             for j, var in enumerate(non_junta):
-                # Set bit var in x_prime to bit j of y
+                # Set bit var in x_prime to bit j of y (LSB=x₀ convention)
                 if (y >> j) & 1:
-                    x_prime |= 1 << (n - 1 - var)
+                    x_prime |= 1 << var
                 else:
-                    x_prime &= ~(1 << (n - 1 - var))
+                    x_prime &= ~(1 << var)
 
             total += pm_values[x_prime]
             count += 1
