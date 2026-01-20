@@ -170,7 +170,7 @@ def interactive_fourier_spectrum(
     )
 
     # Add annotations for stats
-    variance = sum(c**2 for c in coefficients if i > 0 for i, c in enumerate(coefficients))
+    variance = sum(c**2 for i, c in enumerate(coefficients) if i > 0)
     total_inf = f.total_influence()
 
     fig.add_annotation(
