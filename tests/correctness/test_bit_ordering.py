@@ -29,7 +29,7 @@ GOLDEN_PATH = Path(__file__).parent.parent / "golden" / "bit_ordering_golden.jso
 @pytest.fixture
 def golden_data():
     """Load golden test data."""
-    with open(GOLDEN_PATH) as f:
+    with open(GOLDEN_PATH, encoding="utf-8") as f:
         return json.load(f)
 
 
