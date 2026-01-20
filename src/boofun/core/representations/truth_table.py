@@ -1,7 +1,9 @@
+import warnings
 from typing import Any, Dict
 
 import numpy as np
 
+from ...utils.exceptions import EvaluationError
 from ..spaces import Space
 from .base import BooleanFunctionRepresentation
 from .registry import register_strategy
@@ -117,12 +119,20 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             source_data: Data in source format
             space: Mathematical space
             n_vars: Number of variables
+            **kwargs: Additional options:
+                - lenient (bool): If True, substitute False for failed evaluations
+                  and emit a warning. Default is False (strict mode).
 
         Returns:
             Truth table as boolean array
+
+        Raises:
+            EvaluationError: If evaluation fails at any index (unless lenient=True)
         """
         size = 1 << n_vars  # 2^n
         truth_table = np.zeros(size, dtype=bool)
+        lenient = kwargs.get("lenient", False)
+        failed_indices = []
 
         # Generate all possible input indices
         for idx in range(size):
@@ -149,10 +159,28 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                     truth_table[idx] = bool(value)
 
             except Exception as e:
-                # Handle evaluation errors gracefully
-                truth_table[idx] = False
-                if kwargs.get("strict", False):
-                    raise ValueError(f"Evaluation failed at index {idx}: {e}")
+                if lenient:
+                    # Lenient mode: substitute False and track failures
+                    truth_table[idx] = False
+                    failed_indices.append((idx, str(e)))
+                else:
+                    # Strict mode (default): raise immediately with context
+                    raise EvaluationError(
+                        f"Evaluation failed during truth table conversion at index {idx}",
+                        input_value=idx,
+                        representation=type(source_repr).__name__,
+                        context={"n_vars": n_vars, "total_size": size},
+                        suggestion="Use lenient=True to substitute False for failed evaluations",
+                    ) from e
+
+        # In lenient mode, warn about failures
+        if failed_indices:
+            warnings.warn(
+                f"Truth table conversion: {len(failed_indices)} evaluations failed "
+                f"(substituted False). First failure at index {failed_indices[0][0]}: "
+                f"{failed_indices[0][1]}",
+                UserWarning,
+            )
 
         return truth_table
 

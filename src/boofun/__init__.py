@@ -43,6 +43,20 @@ from .core.adapters import (
 )
 from .core.builtins import BooleanFunctionBuiltins
 
+# Exception hierarchy for structured error handling
+from .utils.exceptions import (
+    BooleanFunctionError,
+    ConfigurationError,
+    ConversionError,
+    EvaluationError,
+    InvalidInputError,
+    InvalidRepresentationError,
+    InvalidTruthTableError,
+    InvariantViolationError,
+    ResourceUnavailableError,
+    ValidationError,
+)
+
 # Legacy adapter for migrating from old BooleanFunc class (kept for backwards compatibility)
 # Import on demand: from boofun.core.legacy_adapter import from_legacy, to_legacy
 try:
@@ -340,6 +354,19 @@ __all__ = [
     # Analysis (use directly or via function methods)
     "SpectralAnalyzer",
     "PropertyTester",
+    # =====================================================
+    # EXCEPTIONS (structured error handling)
+    # =====================================================
+    "BooleanFunctionError",  # Base exception
+    "ValidationError",  # User input validation failures
+    "InvalidInputError",  # Invalid function arguments
+    "InvalidRepresentationError",  # Unsupported representation
+    "InvalidTruthTableError",  # Malformed truth table
+    "EvaluationError",  # Function evaluation failures
+    "ConversionError",  # Representation conversion failures
+    "ConfigurationError",  # Setup/configuration errors
+    "ResourceUnavailableError",  # Optional deps unavailable
+    "InvariantViolationError",  # Internal library bugs
     # =====================================================
     # SECONDARY API (advanced users)
     # =====================================================

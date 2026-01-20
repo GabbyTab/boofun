@@ -1,7 +1,14 @@
 import numbers
 from collections.abc import Iterable
+from typing import Any, Optional, Type
 
 import numpy as np
+
+from ..utils.exceptions import (
+    InvalidInputError,
+    InvalidRepresentationError,
+    InvalidTruthTableError,
+)
 
 # Import DNF/CNF types for type checking
 try:
@@ -15,12 +22,37 @@ except ImportError:
     CNFFormula = None
 
 
+# Supported representation types for better error messages
+_SUPPORTED_REP_TYPES = [
+    "truth_table",
+    "function",
+    "distribution",
+    "polynomial",
+    "fourier_expansion",
+    "fourier",
+    "symbolic",
+    "dnf",
+    "cnf",
+]
+
+
 class BooleanFunctionFactory:
-    """Factory for creating BooleanFunction instances from various representations"""
+    """Factory for creating BooleanFunction instances from various representations."""
 
     @classmethod
-    def _determine_rep_type(cls, data):
-        """Determine the representation type based on data type"""
+    def _determine_rep_type(cls, data: Any) -> str:
+        """
+        Determine the representation type based on data type.
+
+        Args:
+            data: Input data to analyze
+
+        Returns:
+            String representation type name
+
+        Raises:
+            InvalidRepresentationError: If data type cannot be mapped to a representation
+        """
         if callable(data):
             return "function"
         if hasattr(data, "rvs"):
@@ -40,6 +72,12 @@ class BooleanFunctionFactory:
             # Polynomial coefficients should be passed as dict
             return "truth_table"
         if isinstance(data, list):
+            if len(data) == 0:
+                raise InvalidTruthTableError(
+                    "Cannot create Boolean function from empty list",
+                    size=0,
+                    suggestion="Provide a non-empty truth table or other representation",
+                )
             return cls._determine_rep_type(np.array(data))
         if isinstance(data, dict):
             return "polynomial"
@@ -50,13 +88,36 @@ class BooleanFunctionFactory:
         if isinstance(data, Iterable):
             return "iterable_rep"
 
-        raise TypeError(f"Cannot determine representation type for {type(data)}")
+        raise InvalidRepresentationError(
+            f"Cannot determine representation type for data of type '{type(data).__name__}'",
+            representation=type(data).__name__,
+            available=_SUPPORTED_REP_TYPES,
+            suggestion=(
+                "Expected: list, np.ndarray (truth table), callable (function), "
+                "dict (polynomial), str (symbolic expression), or DNF/CNF formula"
+            ),
+        )
 
     @classmethod
-    def create(cls, boolean_function_cls, data=None, **kwargs):
+    def create(cls, boolean_function_cls: Type, data: Any = None, **kwargs):
         """
-        Main factory method that dispatches to specialized creators
-        based on input data type
+        Main factory method that dispatches to specialized creators based on input data type.
+
+        Args:
+            boolean_function_cls: The BooleanFunction class to instantiate
+            data: Input data in one of the supported formats
+            **kwargs: Additional arguments (n_vars, space, rep_type, etc.)
+
+        Returns:
+            BooleanFunction instance
+
+        Raises:
+            InvalidRepresentationError: If data type is not supported
+            InvalidTruthTableError: If truth table has invalid structure
+
+        Example:
+            >>> bf.create([0, 1, 1, 0])  # From truth table
+            >>> bf.create(lambda x: x[0] ^ x[1], n=2)  # From function
         """
         if data is None:
             return boolean_function_cls(**kwargs)
@@ -87,15 +148,61 @@ class BooleanFunctionFactory:
         elif rep_type == "cnf":
             return cls.from_cnf(boolean_function_cls, data, **kwargs)
 
-        raise TypeError(f"Cannot create BooleanFunction from {type(data)}")
+        raise InvalidRepresentationError(
+            f"Unknown representation type '{rep_type}'",
+            representation=rep_type,
+            available=_SUPPORTED_REP_TYPES,
+        )
 
     @classmethod
     def from_truth_table(cls, boolean_function_cls, truth_table, rep_type="truth_table", **kwargs):
-        """Create from truth table data"""
+        """
+        Create from truth table data.
+
+        Args:
+            boolean_function_cls: The BooleanFunction class to instantiate
+            truth_table: List or array of boolean values (length must be power of 2)
+            rep_type: Representation type name (default "truth_table")
+            **kwargs: Additional arguments
+
+        Returns:
+            BooleanFunction instance
+
+        Raises:
+            InvalidTruthTableError: If truth table size is not a power of 2
+        """
+        # Convert to array for validation
+        tt_array = np.asarray(truth_table)
+        size = len(tt_array)
+
+        # Validate size is power of 2
+        if size == 0:
+            raise InvalidTruthTableError(
+                "Truth table cannot be empty",
+                size=0,
+                suggestion="Provide at least one value for a constant function",
+            )
+
+        if size & (size - 1) != 0:
+            # Not a power of 2
+            # Find the closest powers of 2
+            import math
+
+            lower_power = 2 ** int(math.floor(math.log2(size)))
+            upper_power = 2 ** int(math.ceil(math.log2(size + 1)))
+            raise InvalidTruthTableError(
+                f"Truth table size must be a power of 2, got {size}",
+                size=size,
+                expected_size=f"{lower_power} or {upper_power}",
+                suggestion=(
+                    f"For {int(math.log2(lower_power))}-variable function, use {lower_power} entries. "
+                    f"For {int(math.log2(upper_power))}-variable function, use {upper_power} entries."
+                ),
+            )
 
         n_vars = kwargs.get("n")
         if n_vars is None:
-            n_vars = int(np.log2(len(truth_table)))
+            n_vars = int(np.log2(size))
             kwargs["n"] = n_vars
 
         instance = boolean_function_cls(**kwargs)

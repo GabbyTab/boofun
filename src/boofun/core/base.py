@@ -3,6 +3,11 @@ from typing import TYPE_CHECKING, Any, Dict, Optional, Protocol
 
 import numpy as np
 
+from ..utils.exceptions import (
+    ConversionError,
+    EvaluationError,
+    InvalidInputError,
+)
 from .conversion_graph import find_conversion_path
 from .errormodels import ExactErrorModel
 from .factory import BooleanFunctionFactory
@@ -12,15 +17,20 @@ from .spaces import Space
 if TYPE_CHECKING:
     from .query_model import AccessType, QueryModel
 
-# The BooleanFunctionRepresentations and Spaces and ErrorModels are in separate files in the same directory, should I import them?
-
+# Check Numba availability (optional optimization)
 try:
-    pass
+    import numba  # noqa: F401
 
     USE_NUMBA = True
 except ImportError:
     USE_NUMBA = False
-    warnings.warn("Numba not installed - using pure Python mode")
+    # Only warn once at import time, not on every operation
+    # Using UserWarning instead of ImportWarning to avoid pytest treating it as error
+    warnings.warn(
+        "Numba not installed - using pure Python mode. "
+        "Install numba for 10-100x faster computations: pip install numba",
+        UserWarning,
+    )
 
 
 class Property:
@@ -206,16 +216,24 @@ class BooleanFunction(Evaluable, Representable):
 
         Uses Dijkstra's algorithm to find optimal conversion path from
         available representations to target representation.
+
+        Raises:
+            ConversionError: If no conversion path exists or conversion fails
         """
         if rep_type in self.representations:
             return None
 
         if not self.representations:
-            raise KeyError("Boolean Function is Empty (no representations)")
+            raise ConversionError(
+                "Cannot compute representation: Boolean function has no representations",
+                target_repr=rep_type,
+                suggestion="Add a representation first using add_representation() or create()",
+            )
 
         # Find the best source representation using conversion graph
         best_path = None
         best_source_data = None
+        available_reps = list(self.representations.keys())
 
         for source_rep_type, source_data in self.representations.items():
             path = find_conversion_path(source_rep_type, rep_type, self.n_vars)
@@ -233,12 +251,28 @@ class BooleanFunction(Evaluable, Representable):
             try:
                 result = source_strategy.convert_to(target_strategy, data, self.space, self.n_vars)
             except NotImplementedError:
-                raise ValueError(
-                    f"No conversion path available from {source_rep_type} to {rep_type}"
+                raise ConversionError(
+                    f"No conversion path available from '{source_rep_type}' to '{rep_type}'",
+                    source_repr=source_rep_type,
+                    target_repr=rep_type,
+                    context={"available_representations": available_reps},
+                    suggestion=f"Available representations: {', '.join(available_reps)}",
                 )
+            except Exception as e:
+                raise ConversionError(
+                    f"Conversion from '{source_rep_type}' to '{rep_type}' failed: {e}",
+                    source_repr=source_rep_type,
+                    target_repr=rep_type,
+                ) from e
         else:
             # Use optimal path from conversion graph
-            result = best_path.execute(best_source_data, self.space, self.n_vars)
+            try:
+                result = best_path.execute(best_source_data, self.space, self.n_vars)
+            except Exception as e:
+                raise ConversionError(
+                    f"Conversion to '{rep_type}' failed during path execution: {e}",
+                    target_repr=rep_type,
+                ) from e
 
         self.add_representation(result, rep_type)
         return None
@@ -270,6 +304,10 @@ class BooleanFunction(Evaluable, Representable):
 
         Returns:
             Boolean result(s) or distribution (with error model applied)
+
+        Raises:
+            InvalidInputError: If inputs are empty or have unsupported type
+            EvaluationError: If evaluation fails
         """
         bit_strings = False or kwargs.get("bit_strings")
         if bit_strings:
@@ -278,12 +316,25 @@ class BooleanFunction(Evaluable, Representable):
         # Get base result
         if hasattr(inputs, "rvs"):  # scipy.stats random variable
             result = self._evaluate_stochastic(inputs, rep_type=rep_type, **kwargs)
-        elif isinstance(inputs, (list, np.ndarray, int, float)):
+        elif isinstance(inputs, (list, tuple, np.ndarray, int, float)):
+            # Convert tuple to list for consistent processing
+            if isinstance(inputs, tuple):
+                inputs = list(inputs)
             # Check for empty inputs (only for lists and multi-dimensional arrays)
             if isinstance(inputs, list) and len(inputs) == 0:
-                raise ValueError("Cannot evaluate empty input list")
+                raise InvalidInputError(
+                    "Cannot evaluate empty input list",
+                    parameter="inputs",
+                    received=[],
+                    expected="non-empty list of inputs",
+                )
             elif isinstance(inputs, np.ndarray) and inputs.ndim > 0 and inputs.size == 0:
-                raise ValueError("Cannot evaluate empty input array")
+                raise InvalidInputError(
+                    "Cannot evaluate empty input array",
+                    parameter="inputs",
+                    received=f"empty array with shape {inputs.shape}",
+                    expected="non-empty array",
+                )
 
             # Convert single values to array for consistent processing
             is_scalar_input = isinstance(inputs, (int, float))
@@ -298,15 +349,25 @@ class BooleanFunction(Evaluable, Representable):
                 elif hasattr(result, "__len__") and len(result) == 1:
                     result = result[0]
         else:
-            raise TypeError(f"Unsupported input type: {type(inputs)}")
+            raise InvalidInputError(
+                f"Unsupported input type for evaluation",
+                parameter="inputs",
+                received=type(inputs).__name__,
+                expected="list, tuple, np.ndarray, int, float, or scipy random variable",
+            )
 
         # Apply error model if not exact
         if hasattr(self.error_model, "apply_error"):
             try:
                 result = self.error_model.apply_error(result)
-            except Exception:
-                # If error model fails, use original result
-                pass
+            except Exception as e:
+                # Only warn if error model was explicitly configured (not default ExactErrorModel)
+                if not isinstance(self.error_model, ExactErrorModel):
+                    warnings.warn(
+                        f"Error model {type(self.error_model).__name__} failed: {e}. "
+                        f"Using unadjusted result.",
+                        UserWarning,
+                    )
 
         return result
 
@@ -332,9 +393,17 @@ class BooleanFunction(Evaluable, Representable):
 
             try:
                 return process_batch(inputs, data, rep_type, self.space, self.n_vars)
-            except Exception:
-                # Fallback to standard evaluation
+            except ImportError:
+                # Batch processing not available, use standard path
                 pass
+            except Exception as e:
+                # Log the fallback so users know about potential performance impact
+                warnings.warn(
+                    f"Batch processing failed ({type(e).__name__}: {e}), "
+                    f"falling back to sequential evaluation. "
+                    f"This may be slower for large inputs.",
+                    UserWarning,
+                )
 
         # Standard evaluation for small inputs or fallback
         strategy = get_strategy(rep_type)

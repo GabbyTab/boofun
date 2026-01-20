@@ -8,6 +8,7 @@ import pytest
 
 import boofun as bf
 from boofun.core.representations.truth_table import TruthTableRepresentation
+from boofun.utils.exceptions import ConversionError
 
 # Fixtures for reusable test objects
 
@@ -344,7 +345,7 @@ def test_string_representations(xor_function):
 def test_missing_truth_table():
     """Test __array__ without truth table representation"""
     func = bf.BooleanFunction()
-    with pytest.raises(KeyError):
+    with pytest.raises(ConversionError):
         np.array(func)
 
 
