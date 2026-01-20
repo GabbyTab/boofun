@@ -196,6 +196,16 @@ pytest --cov=boofun tests/
 
 Test coverage is incomplete. Cross-validation against known results is in `tests/test_cross_validation.py`.
 
+## API Stability
+
+As of v1.0, the public API is stable:
+- `bf.create()`, `bf.load()`, `bf.save()`, built-in functions (`bf.majority`, `bf.parity`, etc.)
+- `f.evaluate()`, `f.fourier()`, `f.influences()`, `f.analyze()`
+- `f.get_representation()`, `f.is_*()` property methods
+- Analysis classes: `SpectralAnalyzer`, `PropertyTester`, `QueryComplexityProfile`
+
+Breaking changes will increment the major version. Internal modules (`_*`, implementation details) may change between minor versions.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especially valuable as they help verify correctness where I couldn't.
@@ -219,10 +229,10 @@ MIT. See [LICENSE](LICENSE).
 ## Citation
 
 ```bibtex
-@software{boofun2025,
+@software{boofun2026,
   title={BooFun: A Python Library for Boolean Function Analysis},
   author={Gabriel Taboada},
-  year={2025},
+  year={2026},
   url={https://github.com/GabbyTab/boofun}
 }
 ```

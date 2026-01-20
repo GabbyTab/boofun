@@ -1,6 +1,6 @@
 # Roadmap
 
-**Version:** 0.2.1
+**Version:** 1.0.0
 **Updated:** January 2026
 
 ## Current State
@@ -42,16 +42,18 @@ Grover speedup estimation, quantum walk analysis. Theoretical only; Qiskit requi
 ### Infrastructure
 GitHub Actions CI, pytest, Hypothesis property tests, mutation testing config, pre-commit hooks, cross-validation against known results.
 
-## Before v1.0.0
+## v1.0.0 Milestone (Complete)
 
 | Task | Status |
 |------|--------|
 | Increase test coverage to 60%+ | ✓ Complete |
 | Structured exception handling | ✓ Complete |
 | Fix bit-ordering bugs (MSB/LSB) | ✓ Complete |
-| Document API stability policy | In progress |
-| Publish to PyPI | Blocked on token |
-| Update notebooks with visualization | In progress |
+| Document API stability policy | ✓ Complete |
+| Publish to PyPI | ✓ Complete |
+| File I/O (JSON, .bf, DIMACS CNF) | ✓ Complete |
+| Partial representations | ✓ Complete |
+| Flexible inputs & oracle pattern | ✓ Complete |
 
 ## Test Coverage
 
