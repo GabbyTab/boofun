@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install -e ".[dev,visualization]"
           pip install hypothesis atheris psutil
 
       - name: Run Hypothesis fuzz tests
