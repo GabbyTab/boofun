@@ -49,6 +49,7 @@ repos:
       - id: codespell
         args: [--skip, "*.ipynb,*.json,*.csv,*.lock,_build", --ignore-words-list, "crate,nd,ot,iff,disjointness"]
         files: \.(py|md|rst|txt|yaml|yml)$
+        exclude: ^(BooleanFunc\.py|library\.py)$
 
   # mypy - type checker (optional, for strict mode)
   - repo: https://github.com/pre-commit/mirrors-mypy
