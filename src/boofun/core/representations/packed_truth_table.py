@@ -87,20 +87,29 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
             else:
                 raise ValueError(f"Unsupported input shape: {inputs.shape}")
         else:
-            # Fallback to numpy array
+            # Fallback to numpy packed bytes array
             arr = data["array"] if isinstance(data, dict) else data
+            size = data.get("size", len(arr) * 8) if isinstance(data, dict) else len(arr) * 8
+            
+            # Helper to get bit at index from packed array
+            def get_bit(idx: int) -> bool:
+                if idx < 0 or idx >= size:
+                    raise IndexError(f"Index {idx} out of range for size {size}")
+                byte_idx = idx // 8
+                bit_idx = 7 - (idx % 8)  # np.packbits uses MSB first
+                return bool((arr[byte_idx] >> bit_idx) & 1)
 
             if inputs.ndim == 0:
-                return bool(arr[int(inputs)])
+                return get_bit(int(inputs))
             elif inputs.ndim == 1:
                 if len(inputs) == n_vars:
                     index = self._binary_to_index(inputs)
-                    return bool(arr[index])
+                    return get_bit(index)
                 else:
-                    return np.array([bool(arr[int(idx)]) for idx in inputs], dtype=bool)
+                    return np.array([get_bit(int(idx)) for idx in inputs], dtype=bool)
             elif inputs.ndim == 2:
                 indices = [self._binary_to_index(row) for row in inputs]
-                return np.array([bool(arr[i]) for i in indices], dtype=bool)
+                return np.array([get_bit(i) for i in indices], dtype=bool)
             else:
                 raise ValueError(f"Unsupported input shape: {inputs.shape}")
 

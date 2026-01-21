@@ -226,8 +226,62 @@ class BooleanFunctionFactory:
             kwargs["n"] = n_vars
 
         instance = boolean_function_cls(**kwargs)
-        instance.add_representation(truth_table, rep_type)
+        
+        # For specialized truth table representations, convert the data format
+        if rep_type in ("sparse_truth_table", "adaptive_truth_table"):
+            # Convert truth table to sparse format
+            data = cls._convert_to_sparse_format(tt_array, n_vars)
+            instance.add_representation(data, rep_type)
+        elif rep_type == "packed_truth_table":
+            # Convert truth table to packed format
+            data = cls._convert_to_packed_format(tt_array, n_vars)
+            instance.add_representation(data, rep_type)
+        else:
+            instance.add_representation(truth_table, rep_type)
         return instance
+    
+    @staticmethod
+    def _convert_to_sparse_format(tt_array: np.ndarray, n_vars: int) -> dict:
+        """Convert truth table array to sparse format dictionary."""
+        size = len(tt_array)
+        tt_bool = np.asarray(tt_array, dtype=bool)
+        
+        # Determine the most common value (default)
+        true_count = np.sum(tt_bool)
+        default_value = true_count > (size // 2)
+        
+        # Build exceptions dictionary (indices where value != default)
+        exceptions = {}
+        for i in range(size):
+            if tt_bool[i] != default_value:
+                exceptions[i] = bool(tt_bool[i])
+        
+        return {
+            "default_value": default_value,
+            "exceptions": exceptions,
+            "n_vars": n_vars,
+            "size": size,
+        }
+    
+    @staticmethod
+    def _convert_to_packed_format(tt_array: np.ndarray, n_vars: int) -> dict:
+        """Convert truth table array to packed format dictionary."""
+        size = len(tt_array)
+        tt_bool = np.asarray(tt_array, dtype=bool)
+        
+        # Try to use bitarray if available
+        try:
+            from bitarray import bitarray
+            ba = bitarray(tt_bool.tolist())
+            return {"bitarray": ba, "n_vars": n_vars, "size": size}
+        except ImportError:
+            # Fallback to numpy packed
+            return {
+                "array": np.packbits(tt_bool),
+                "n_vars": n_vars,
+                "size": size,
+                "original_dtype": "packed_uint8",
+            }
 
     @classmethod
     def from_function(
