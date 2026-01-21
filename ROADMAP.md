@@ -78,19 +78,21 @@ The `BooleanFunc.py` and `library.py` files contain valuable functionality from 
 - ✅ `fourier_weight_distribution()` - Weight distribution by degree
 - ✅ `min_fourier_coefficient_size()` - Minimum |S| with non-zero f̂(S)
 
-#### Remaining (Lower Priority)
+#### Recently Added (Jan 2026)
 
-**`analysis/restrictions.py`:**
-| Function | Description | Priority |
-|----------|-------------|----------|
-| `min_fixing(go_up)` | Minimum fixing to constant | Medium |
-| `shift(sh)` | Shift by integer mask | Medium |
+**Enhanced `analysis/symmetry.py`:**
+- ✅ `is_symmetric(f)` - Check if function is symmetric
+- ✅ `symmetrize_profile(f)` - Detailed profile by Hamming weight
+- ✅ `sens_sym_by_weight(f)` - Sensitivity at each weight class
+- ✅ `shift_function(f, shift)` - XOR shift transformation
+- ✅ `find_monotone_shift(f)` - Find shift to make monotone
+- ✅ `symmetric_representation(f)` - Symmetric specification
 
-**`analysis/symmetry.py`:**
-| Function | Description | Priority |
-|----------|-------------|----------|
-| `degree_sym(f)` | Degree for symmetric functions (fast) | Medium |
-| `sens_sym(f)` | Sensitivity for symmetric functions | Medium |
+**Enhanced `analysis/restrictions.py`:**
+- ✅ `min_fixing_to_constant(f, target)` - Greedy fixing to constant
+- ✅ `shift_by_mask(f, mask)` - XOR transformation
+
+#### Remaining (Low Priority)
 
 **`utils/math.py`:**
 | Function | Description | Priority |
@@ -139,20 +141,23 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 
 ### 3. Increase Test Coverage to 70-75%
 
-**Status:** In Progress (currently ~67%, target 70-75%)
+**Status:** In Progress (currently ~68%, target 70-75%)
 
 | Module | Current | Target | Notes |
 |--------|---------|--------|-------|
 | core/base.py | ~80% | 85% | |
-| analysis/*.py | 65-85% | 75-85% | +102 new tests from Tal integration |
-| families/*.py | 40-60% | 65-75% | |
+| analysis/*.py | 70-85% | 75-85% | +145 new tests (Tal + sampling) |
+| families/*.py | 55-70% | 65-75% | +28 new tests |
 | visualization/*.py | 40-60% | 60-70% | |
 | quantum/*.py | ~20% | 40-50% | |
-| **Overall** | **~67%** | **70-75%** | |
+| **Overall** | **~68%** | **70-75%** | **2820 tests** |
 
-#### Recent Progress
-- ✅ Added 102 tests for Tal library integration (decision_trees, sparsity, p_biased, fourier, sensitivity)
-- ✅ 940 tests passing in analysis module
+#### Recent Progress (Jan 2026)
+- ✅ Added 145+ tests for Tal library integration
+- ✅ Added 43 tests for sampling module
+- ✅ Added 28 tests for families module  
+- ✅ Added 35 tests for symmetry/restrictions enhancements
+- ✅ Created tutorial notebook for random variables
 
 #### Priority Areas
 - [ ] Edge cases in representation conversions
