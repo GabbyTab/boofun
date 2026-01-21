@@ -150,7 +150,7 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 | families/*.py | 55-70% | 65-75% | +28 new tests |
 | visualization/*.py | 40-60% | 60-70% | |
 | quantum/*.py | ~20% | 40-50% | |
-| **Overall** | **~69%** | **70-75%** | **2878 tests** |
+| **Overall** | **~69%** | **70-75%** | **2926 tests** |
 
 #### Recent Progress (Jan 2026)
 - ✅ Added 145+ tests for Tal library integration
@@ -158,6 +158,7 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 - ✅ Added 28 tests for families module  
 - ✅ Added 35 tests for symmetry/restrictions enhancements
 - ✅ Added 58 tests for cryptographic module (LAT/DDT, algebraic immunity)
+- ✅ Added 46 tests for partial functions (streaming, hex I/O)
 - ✅ Created tutorial notebook for random variables
 
 #### Priority Areas
@@ -242,6 +243,78 @@ We could use it via PyO3/Rust FFI for:
 
 #### Remaining Tasks
 - [ ] Consider Rust FFI for large computations
+
+### 6. Partial Boolean Functions API
+
+**Status:** ✅ Complete (Jan 2026)
+
+User-friendly API for working with partial/streaming Boolean function specification, inspired by thomasarmel/boolean_function's partial representation capabilities.
+
+#### ✅ Implemented Features
+
+| Feature | API | Description |
+|---------|-----|-------------|
+| Partial function | `bf.partial(n=20)` | Create with only some known outputs |
+| Incremental add | `p.add(idx, value)` | Add values one at a time (streaming) |
+| Batch add | `p.add_batch({...})` | Add multiple values at once |
+| Completeness | `p.completeness` | Fraction of known values |
+| Confidence estimation | `p.evaluate_with_confidence(idx)` | Estimate unknown values |
+| Convert to full | `p.to_function()` | Convert to BooleanFunction |
+| Hex input | `bf.from_hex("ac90", n=4)` | thomasarmel-compatible |
+| Hex output | `bf.to_hex(f)` | Export to hex string |
+| Storage hints | `bf.create(tt, storage='packed')` | Choose storage strategy |
+
+#### PartialBooleanFunction Class
+
+```python
+# Create partial - only some outputs known
+p = bf.partial(n=30, known_values={0: True, 1: False})
+
+# Stream in data
+p.add(5, True)
+p.add_batch({10: True, 11: False, 12: True})
+
+# Query status  
+p.completeness      # 0.0000001 (fraction known)
+p.num_known         # 6
+p.is_known(5)       # True
+
+# Evaluate
+p.evaluate(0)       # True (known)
+p.evaluate(100)     # None (unknown)
+p[0]                # Indexing syntax
+
+# Estimation
+val, conf = p.evaluate_with_confidence(100)  # (False, 0.3)
+
+# Convert when ready
+f = p.to_function(fill_unknown=False)
+```
+
+#### Hex String I/O (thomasarmel-compatible)
+
+```python
+# From thomasarmel examples
+f = bf.from_hex("0xac90", n=4)        # 4-bit bent function
+f = bf.from_hex("0113077C165E76A8", n=6)  # 6-bit bent
+
+# Export
+bf.to_hex(f)  # "ac90"
+```
+
+#### Storage Hints
+
+```python
+bf.create(tt, storage='auto')    # Default - selects best
+bf.create(tt, storage='dense')   # Standard truth table
+bf.create(tt, storage='packed')  # 1 bit per entry (n > 14)
+bf.create(tt, storage='sparse')  # Only store exceptions
+bf.create(oracle, n=20, storage='lazy')  # Compute on demand
+```
+
+#### Tests
+- 46 comprehensive tests for partial functions
+- Cross-validation with thomasarmel/boolean_function examples
 
 ---
 

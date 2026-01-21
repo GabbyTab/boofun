@@ -31,7 +31,8 @@ Basic Usage:
 
 from typing import Optional
 
-from .api import create
+from .api import create, from_hex, partial, to_hex
+from .core.partial import PartialBooleanFunction
 from .core import BooleanFunction, ExactErrorModel, NoiseErrorModel, PACErrorModel, Property, Space
 from .core.adapters import (
     CallableAdapter,
@@ -334,6 +335,12 @@ __all__ = [
     # Creation
     "create",
     "BooleanFunction",
+    # Partial functions (streaming/incremental)
+    "partial",
+    "PartialBooleanFunction",
+    # Hex string I/O (thomasarmel-compatible)
+    "from_hex",
+    "to_hex",
     # File I/O
     "load",
     "save",
