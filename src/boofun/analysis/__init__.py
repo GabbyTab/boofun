@@ -765,6 +765,7 @@ from . import (  # noqa: E402
     p_biased,
     query_complexity,
     restrictions,
+    sampling,
     sensitivity,
     sparsity,
     symmetry,
@@ -792,6 +793,8 @@ __all__ = [
     "decision_trees",
     # Fourier sparsity analysis (Tal's algorithms)
     "sparsity",
+    # Boolean functions as random variables (O'Donnell Chapters 1-3)
+    "sampling",
     # O'Donnell Chapters 10-11: Gaussian analysis and Invariance Principle
     "gaussian",
     "invariance",

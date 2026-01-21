@@ -48,155 +48,117 @@ GitHub Actions CI, pytest, Hypothesis property tests, mutation testing config, p
 
 ### 1. Avishay Tal's PhD Library Integration
 
-**Status:** Planning
+**Status:** ✅ Mostly Complete (Jan 2026)
 
-The `BooleanFunc.py` and `library.py` files contain valuable functionality from **Avishay Tal's PhD-era library** (shared via email, August 2025). The integration strategy is to **enhance existing modules** where possible rather than creating parallel "legacy" code. Query complexity measures (D, R, Q, certificates, sensitivity, block sensitivity) are already implemented in the modern `analysis/` modules.
+The `BooleanFunc.py` and `library.py` files contain valuable functionality from **Avishay Tal's PhD-era library** (shared via email, August 2025). The integration strategy was to **enhance existing modules** where possible.
 
-#### Integration Map: Tal's Code → Existing Modules
+#### ✅ Completed (102 new tests)
 
-**Enhance `analysis/sensitivity.py`:**
-| Function | Description | Priority |
-|----------|-------------|----------|
-| `average_sensitivity_moment(t)` | t-th moment of sensitivity distribution | Medium |
-| `sens_coor(x)` | Return sensitive coordinates at input x | Low |
-| `ts_2`, `ts_2_max` | 2-step transitive sensitivity | Low |
+**New Modules Created:**
+- `analysis/decision_trees.py` - DP algorithms, tree enumeration, randomized complexity
+- `analysis/sparsity.py` - Fourier sparsity measures and support analysis
 
-**Enhance `analysis/p_biased.py`:**
-| Function | Description | Priority |
-|----------|-------------|----------|
-| `FourierCoefMuP` | Alternative p-biased formula (cross-validate) | Medium |
-| `asMuP` | Average sensitivity under μ_p | High |
-| `asFourierMuP` | Total influence via p-biased Fourier | High |
-| `parity_biased(n,k,i)` | Bias of parity function | Medium |
+**Enhanced `analysis/sensitivity.py`:**
+- ✅ `average_sensitivity_moment(t)` - t-th moment of sensitivity distribution
+- ✅ `sensitive_coordinates(x)` - Return sensitive coordinates at input x
+- ✅ `sensitivity_histogram()` - Distribution of sensitivity values
+- ✅ `arg_max_sensitivity()`, `arg_min_sensitivity()` - Find extremal inputs
 
-**Enhance `analysis/fourier.py`:**
-| Function | Description | Priority |
-|----------|-------------|----------|
-| `ann_influence(i, rho)` | Annealed/noisy influence | Medium |
-| `truncated_degree_d(d)` | Truncate Fourier to degree d | Medium |
-| `correlation(other)` | Correlation between functions | High |
-| `fourier_weights()` | Weight distribution by degree | High |
+**Enhanced `analysis/p_biased.py`:**
+- ✅ `p_biased_fourier_coefficient()` - Tal's efficient formula
+- ✅ `p_biased_average_sensitivity()` - Average sensitivity under μ_p
+- ✅ `p_biased_total_influence_fourier()` - Via Fourier (with correct 1/4p(1-p) normalization)
+- ✅ `parity_biased_coefficient()` - Bias of parity function
+- ✅ `PBiasedAnalyzer.validate()` - Cross-validation method
 
-**Enhance `analysis/restrictions.py`:**
+**Enhanced `analysis/fourier.py`:**
+- ✅ `annealed_influence(i, rho)` - Annealed/noisy influence
+- ✅ `truncate_to_degree(d)` - Truncate Fourier to degree d
+- ✅ `correlation(f, g)` - Correlation between functions
+- ✅ `fourier_weight_distribution()` - Weight distribution by degree
+- ✅ `min_fourier_coefficient_size()` - Minimum |S| with non-zero f̂(S)
+
+#### Remaining (Lower Priority)
+
+**`analysis/restrictions.py`:**
 | Function | Description | Priority |
 |----------|-------------|----------|
 | `min_fixing(go_up)` | Minimum fixing to constant | Medium |
-| `fix_func(func, val)` | Advanced restriction by function | Low |
 | `shift(sh)` | Shift by integer mask | Medium |
 
-**Enhance `analysis/symmetry.py`:**
+**`analysis/symmetry.py`:**
 | Function | Description | Priority |
 |----------|-------------|----------|
 | `degree_sym(f)` | Degree for symmetric functions (fast) | Medium |
 | `sens_sym(f)` | Sensitivity for symmetric functions | Medium |
-| `shift_to_mono()` | Shift to monotone form | Low |
 
-**Enhance `utils/math.py`:**
+**`utils/math.py`:**
 | Function | Description | Priority |
 |----------|-------------|----------|
 | `lagrange_interpolation` | Polynomial interpolation | Medium |
-| `span_nums` | Linear span over GF(2) | Low |
-
-**Enhance `utils/finite_fields.py`:**
-| Function | Description | Priority |
-|----------|-------------|----------|
-| `GF` class | Standalone GF(2^k) (no galois dep) | Medium |
-
-#### New Modules to Create
-
-**`analysis/decision_trees.py`** (High Priority):
-- `calc_decision_tree_DP` - Basic DP for optimal tree
-- `calc_decision_tree_DP_uniform` - Uniform distribution  
-- `calc_decision_tree_DP_with_prob` - Custom input distribution
-- `all_decision_trees` - Enumerate all trees
-- `randomized_decision_tree` - Game-theoretic R(f) analysis
-- `minimax` - LP solver for randomized complexity
-
-**`analysis/sparsity.py`** (Medium Priority):
-- `fourier_sparsity(f)` - Number of non-zero coefficients
-- `fourier_sparsity_up_to_constants(f)` - Ignoring constant multiples
-- `min_size_fourier_coef(f)` - Minimum |S| with non-zero f̂(S)
 
 **`core/polynomials.py`** (Low Priority):
 - `Polynomial` class - Real coefficients with arithmetic
 - `FiniteFieldPolynomial` class - GF(q) coefficients
 
-**`families/patterns.py`** (Low Priority):
-- `pattern_function(pattern)` - Function from bit pattern
-- `pattern_cyclic_function(pattern)` - Cyclic pattern families
-
-#### Already Implemented (Cross-Validate Only)
-
-The following exist in both codebases—use Tal's for test cases:
-- Krawchouk polynomials (`utils/math.py` ✓)
-- Sensitivity, block sensitivity (`analysis/sensitivity.py`, `analysis/block_sensitivity.py` ✓)
-- Certificates (`analysis/certificates.py` ✓)
-- Fourier/ANF transforms (`analysis/fourier.py`, `analysis/gf2.py` ✓)
-- Influences (`analysis/fourier.py` ✓)
-- Automorphisms (`analysis/symmetry.py` ✓)
-- Basic utilities: `popcnt`, `poppar`, `over`, `subsets` (`utils/math.py` ✓)
-
-#### Integration Workflow
-1. **Cross-validate**: Run Tal's code against modern implementations, collect test cases
-2. **Enhance existing**: Add missing functions to appropriate existing modules
-3. **Create new sparingly**: Only create new modules when no natural home exists
-4. **Type + document**: Add type hints, docstrings, O'Donnell references
-5. **Test**: Property tests + Tal's known values as regression tests
-
 ### 2. Boolean Functions as Random Variables
 
-**Status:** Planning
+**Status:** ✅ Complete (Jan 2026)
 
-Flesh out the probabilistic treatment of Boolean functions and sampling from spectral distributions. Reference: O'Donnell, Chapters 1-3.
+New module `analysis/sampling.py` provides probabilistic treatment of Boolean functions. Reference: O'Donnell, Chapters 1-3.
 
-#### Why This Matters (from O'Donnell)
-- Boolean functions can be viewed as random variables on the hypercube {-1, +1}^n
-- The Fourier expansion f = Σ f̂(S)χ_S is an orthonormal decomposition
-- Parseval: E[f²] = Σ f̂(S)² gives "energy" distribution across frequencies
-- Sampling from the spectrum enables:
-  - Estimating Fourier coefficients without full enumeration
-  - Testing structural properties (juntas, low-degree)
-  - Learning algorithms (Goldreich-Levin, KM algorithm)
+#### ✅ Implemented Features
 
-#### New Features to Implement
+| Feature | Function | Status |
+|---------|----------|--------|
+| Uniform sampling | `sample_uniform(n, n_samples)` | ✅ |
+| P-biased sampling | `sample_biased(n, p, n_samples)` | ✅ |
+| Spectral sampling | `sample_spectral(f, n_samples)` | ✅ |
+| Input-output pairs | `sample_input_output_pairs(f, n_samples)` | ✅ |
+| Fourier estimation | `estimate_fourier_coefficient(f, S, n_samples)` | ✅ |
+| Influence estimation | `estimate_influence(f, i, n_samples)` | ✅ |
+| Total influence est. | `estimate_total_influence(f, n_samples)` | ✅ |
+| Random variable view | `RandomVariableView(f, p)` | ✅ |
+| Spectral distribution | `SpectralDistribution.from_function(f)` | ✅ |
 
-| Feature | Description |
-|---------|-------------|
-| `f.sample(n_samples)` | Sample uniformly from {-1,+1}^n, return (x, f(x)) pairs |
-| `f.spectral_sample(n_samples)` | Sample S with probability ∝ f̂(S)² |
-| `f.estimate_fourier_coef(S, n_samples, confidence)` | Monte Carlo estimation of f̂(S) |
-| `f.estimate_influence(i, n_samples)` | Estimate Inf_i[f] via sampling |
-| `f.as_random_variable()` | Return object supporting E[], Var[], covariance |
-| `spectral_distribution(f)` | Return scipy-like distribution object |
-| `biased_sample(f, p, n_samples)` | Sample from μ_p distribution |
+#### RandomVariableView Features
+- `rv.expectation()`, `rv.variance()` - exact values
+- `rv.estimate_expectation(n)`, `rv.estimate_variance(n)` - Monte Carlo estimates  
+- `rv.sample(n)` - sample (input, output) pairs
+- `rv.sample_spectral(n)` - sample from Fourier weight distribution
+- `rv.validate_estimates(n)` - cross-validate estimates vs exact
+- `rv.summary()` - human-readable summary
 
-#### Tasks
-- [ ] Implement `RandomVariableView` class
-- [ ] Add spectral sampling with exact and approximate modes
-- [ ] Implement coefficient estimation with confidence intervals
-- [ ] Add cross-validation tests against exact computation
+#### Tests
+- 43 comprehensive tests covering all functions
+- Statistical convergence tests (law of large numbers)
+- Cross-validation against exact computations
+
+#### Remaining
 - [ ] Create tutorial notebook: `notebooks/boolean_functions_as_random_variables.ipynb`
-- [ ] Document connection to O'Donnell Chapters 1-3
 
 ### 3. Increase Test Coverage to 70-75%
 
-**Status:** In Progress (currently 65%)
+**Status:** In Progress (currently ~67%, target 70-75%)
 
-| Module | Current | Target |
-|--------|---------|--------|
-| core/base.py | ~80% | 85% |
-| analysis/*.py | 60-85% | 75-85% |
-| families/*.py | 40-60% | 65-75% |
-| visualization/*.py | 40-60% | 60-70% |
-| quantum/*.py | ~20% | 40-50% |
-| **Overall** | **65%** | **70-75%** |
+| Module | Current | Target | Notes |
+|--------|---------|--------|-------|
+| core/base.py | ~80% | 85% | |
+| analysis/*.py | 65-85% | 75-85% | +102 new tests from Tal integration |
+| families/*.py | 40-60% | 65-75% | |
+| visualization/*.py | 40-60% | 60-70% | |
+| quantum/*.py | ~20% | 40-50% | |
+| **Overall** | **~67%** | **70-75%** | |
+
+#### Recent Progress
+- ✅ Added 102 tests for Tal library integration (decision_trees, sparsity, p_biased, fourier, sensitivity)
+- ✅ 940 tests passing in analysis module
 
 #### Priority Areas
 - [ ] Edge cases in representation conversions
 - [ ] Error handling paths
 - [ ] Visualization module (mock matplotlib)
 - [ ] Quantum module basic coverage
-- [ ] Tal library code after integration (Krawchouk, p-biased, etc.)
 
 ### 4. Documentation Improvements
 
