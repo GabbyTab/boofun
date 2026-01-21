@@ -44,13 +44,20 @@ __all__ = [
     "algebraic_degree",
     "algebraic_normal_form",
     "anf_monomials",
+    "algebraic_immunity",
     # Additional measures
     "correlation_immunity",
     "resiliency",
     "propagation_criterion",
     "strict_avalanche_criterion",
+    # S-box analysis (LAT/DDT)
+    "linear_approximation_table",
+    "difference_distribution_table",
+    "differential_uniformity",
+    "linearity",
     # Analysis class
     "CryptographicAnalyzer",
+    "SBoxAnalyzer",
 ]
 
 
@@ -526,4 +533,399 @@ class CryptographicAnalyzer:
             "resiliency": self.resiliency(),
             "satisfies_sac": self.satisfies_sac(),
             "walsh_spectrum": self.walsh_spectrum(),
+        }
+
+
+# =============================================================================
+# Algebraic Immunity
+# =============================================================================
+
+def algebraic_immunity(f: "BooleanFunction") -> int:
+    """
+    Compute the algebraic immunity of a Boolean function.
+    
+    Algebraic immunity AI(f) is the minimum degree d such that there exists
+    a nonzero function g with degree d where f·g = 0 or (1⊕f)·g = 0.
+    
+    This measures resistance to algebraic attacks on stream ciphers.
+    
+    Args:
+        f: BooleanFunction to analyze
+        
+    Returns:
+        Algebraic immunity (integer from 1 to ceil(n/2))
+        
+    Note:
+        AI(f) ≤ ceil(n/2) always holds.
+        Computing exact AI is expensive for large n.
+        
+    Reference:
+        Meier, Pasalic, Carlet: "Algebraic Attacks and Decomposition of Boolean Functions"
+    """
+    n = f.n_vars or 0
+    if n == 0:
+        return 0
+    
+    max_ai = (n + 1) // 2  # Upper bound
+    
+    # Get truth table as array
+    size = 1 << n
+    f_vals = np.array([int(f.evaluate(x)) for x in range(size)])
+    f_complement = 1 - f_vals
+    
+    # Check for annihilators of increasing degree
+    for d in range(1, max_ai + 1):
+        # Check if there's an annihilator of degree d for f
+        if _has_annihilator(f_vals, n, d):
+            return d
+        # Check if there's an annihilator of degree d for 1⊕f
+        if _has_annihilator(f_complement, n, d):
+            return d
+    
+    return max_ai
+
+
+def _has_annihilator(f_vals: np.ndarray, n: int, d: int) -> bool:
+    """
+    Check if f has a nonzero annihilator of degree at most d.
+    
+    An annihilator g satisfies f·g = 0 (pointwise AND then check all zeros).
+    """
+    # For small d, we can enumerate all monomials up to degree d
+    # and check if any nonzero combination annihilates f
+    
+    # Get indices where f = 1 (these constrain the annihilator)
+    support = np.where(f_vals == 1)[0]
+    
+    if len(support) == 0:
+        # f is identically 0, any nonzero function is an annihilator
+        return True
+    
+    # Build matrix of monomial evaluations on support
+    # A monomial m_S evaluates to 1 on x iff S ⊆ x (all bits of S are set in x)
+    monomials = []
+    for s in range(1 << n):
+        if bin(s).count("1") <= d:
+            monomials.append(s)
+    
+    if not monomials:
+        return False
+    
+    # Matrix A where A[i,j] = 1 iff monomial j evaluates to 1 on support[i]
+    num_rows = len(support)
+    num_cols = len(monomials)
+    
+    # For each support point x, monomial s evaluates to 1 iff (x & s) == s
+    # We need to find if there's a nonzero vector in the null space of A over GF(2)
+    
+    # Build the matrix
+    A = np.zeros((num_rows, num_cols), dtype=np.uint8)
+    for i, x in enumerate(support):
+        for j, s in enumerate(monomials):
+            if (x & s) == s:
+                A[i, j] = 1
+    
+    # Check if rank(A) < num_cols (means null space is nontrivial)
+    # Use Gaussian elimination over GF(2)
+    rank = _gf2_rank(A)
+    
+    return rank < num_cols
+
+
+def _gf2_rank(A: np.ndarray) -> int:
+    """Compute rank of matrix A over GF(2) using Gaussian elimination."""
+    A = A.copy()
+    m, n = A.shape
+    
+    rank = 0
+    for col in range(n):
+        # Find pivot
+        pivot_row = None
+        for row in range(rank, m):
+            if A[row, col] == 1:
+                pivot_row = row
+                break
+        
+        if pivot_row is None:
+            continue
+        
+        # Swap rows
+        A[[rank, pivot_row]] = A[[pivot_row, rank]]
+        
+        # Eliminate
+        for row in range(m):
+            if row != rank and A[row, col] == 1:
+                A[row] = A[row] ^ A[rank]
+        
+        rank += 1
+    
+    return rank
+
+
+# =============================================================================
+# S-Box Analysis: LAT and DDT
+# =============================================================================
+
+def linear_approximation_table(sbox: List[int]) -> np.ndarray:
+    """
+    Compute the Linear Approximation Table (LAT) of an S-box.
+    
+    The LAT measures linear correlations between input and output masks:
+        LAT[a,b] = #{x : <a,x> = <b,S(x)>} - 2^{n-1}
+    
+    This is used in linear cryptanalysis of block ciphers.
+    
+    Args:
+        sbox: S-box as list of output values (sbox[x] = S(x))
+        
+    Returns:
+        2D numpy array of size 2^n × 2^m where n=input bits, m=output bits
+        
+    Note:
+        For an n-bit to m-bit S-box, input masks range over 2^n,
+        output masks range over 2^m.
+        
+    Reference:
+        Matsui, "Linear Cryptanalysis Method for DES Cipher"
+        
+    Cross-validation:
+        BooLSPLG computes the same LAT for S-box analysis.
+    """
+    n = len(sbox)
+    if n == 0:
+        return np.array([[]])
+    
+    # Determine input/output bit sizes
+    n_bits = (n - 1).bit_length()  # Input bits
+    m_bits = max(sbox).bit_length() if max(sbox) > 0 else 1  # Output bits
+    
+    input_size = 1 << n_bits
+    output_size = 1 << m_bits
+    
+    lat = np.zeros((input_size, output_size), dtype=np.int32)
+    
+    for a in range(input_size):  # Input mask
+        for b in range(output_size):  # Output mask
+            count = 0
+            for x in range(input_size):
+                # Compute <a,x> XOR <b,S(x)>
+                ax = bin(a & x).count("1") % 2
+                bsx = bin(b & sbox[x]).count("1") % 2
+                if ax == bsx:
+                    count += 1
+            lat[a, b] = count - (input_size // 2)
+    
+    return lat
+
+
+def difference_distribution_table(sbox: List[int]) -> np.ndarray:
+    """
+    Compute the Difference Distribution Table (DDT) of an S-box.
+    
+    The DDT measures differential propagation:
+        DDT[Δx, Δy] = #{x : S(x) ⊕ S(x ⊕ Δx) = Δy}
+    
+    This is used in differential cryptanalysis of block ciphers.
+    
+    Args:
+        sbox: S-box as list of output values (sbox[x] = S(x))
+        
+    Returns:
+        2D numpy array of size 2^n × 2^m
+        
+    Note:
+        DDT[0,0] = 2^n always (trivial differential).
+        
+    Reference:
+        Biham & Shamir, "Differential Cryptanalysis of DES-like Cryptosystems"
+        
+    Cross-validation:
+        BooLSPLG computes the same DDT.
+    """
+    n = len(sbox)
+    if n == 0:
+        return np.array([[]])
+    
+    # Determine bit sizes
+    n_bits = (n - 1).bit_length()
+    m_bits = max(sbox).bit_length() if max(sbox) > 0 else 1
+    
+    input_size = 1 << n_bits
+    output_size = 1 << m_bits
+    
+    ddt = np.zeros((input_size, output_size), dtype=np.int32)
+    
+    for dx in range(input_size):  # Input difference
+        for x in range(input_size):
+            # Output difference
+            dy = sbox[x] ^ sbox[x ^ dx]
+            ddt[dx, dy] += 1
+    
+    return ddt
+
+
+def differential_uniformity(sbox: List[int]) -> int:
+    """
+    Compute the differential uniformity of an S-box.
+    
+    Differential uniformity is the maximum non-trivial entry in the DDT:
+        δ = max{DDT[Δx, Δy] : Δx ≠ 0}
+    
+    Lower values indicate better resistance to differential cryptanalysis.
+    The minimum possible value is 2 for bijective S-boxes (APN functions).
+    
+    Args:
+        sbox: S-box as list of output values
+        
+    Returns:
+        Differential uniformity (positive integer)
+        
+    Note:
+        - δ = 2: Almost Perfect Nonlinear (APN)
+        - δ = 4: Used in AES S-box
+    """
+    ddt = difference_distribution_table(sbox)
+    
+    # Exclude trivial row (dx = 0)
+    if ddt.shape[0] > 1:
+        return int(np.max(ddt[1:, :]))
+    return 0
+
+
+def linearity(sbox: List[int]) -> int:
+    """
+    Compute the linearity of an S-box.
+    
+    Linearity is twice the maximum absolute value in the LAT:
+        L = 2 × max{|LAT[a,b]| : (a,b) ≠ (0,0)}
+    
+    Lower values indicate better resistance to linear cryptanalysis.
+    
+    Args:
+        sbox: S-box as list of output values
+        
+    Returns:
+        Linearity (positive integer)
+        
+    Note:
+        For n-bit S-boxes, L ≥ 2^{n/2} (bent bound).
+        AES S-box has L = 32.
+    """
+    lat = linear_approximation_table(sbox)
+    
+    # Exclude trivial entry (0,0)
+    lat[0, 0] = 0
+    
+    return int(2 * np.max(np.abs(lat)))
+
+
+class SBoxAnalyzer:
+    """
+    Comprehensive S-box analysis for cryptographic applications.
+    
+    An S-box (Substitution box) is a basic component of symmetric key algorithms.
+    This analyzer computes various measures of cryptographic strength.
+    
+    Example:
+        >>> # Analyze a 4-bit S-box
+        >>> sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,
+        ...         0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]
+        >>> analyzer = SBoxAnalyzer(sbox)
+        >>> print(analyzer.summary())
+    """
+    
+    def __init__(self, sbox: List[int]):
+        """
+        Initialize S-box analyzer.
+        
+        Args:
+            sbox: S-box as list where sbox[x] = S(x)
+        """
+        self.sbox = list(sbox)
+        self._lat: Optional[np.ndarray] = None
+        self._ddt: Optional[np.ndarray] = None
+    
+    @property
+    def n_inputs(self) -> int:
+        """Number of input bits."""
+        return (len(self.sbox) - 1).bit_length() if self.sbox else 0
+    
+    @property
+    def n_outputs(self) -> int:
+        """Number of output bits."""
+        if not self.sbox:
+            return 0
+        return max(self.sbox).bit_length() if max(self.sbox) > 0 else 1
+    
+    @property
+    def lat(self) -> np.ndarray:
+        """Linear Approximation Table (cached)."""
+        if self._lat is None:
+            self._lat = linear_approximation_table(self.sbox)
+        return self._lat
+    
+    @property
+    def ddt(self) -> np.ndarray:
+        """Difference Distribution Table (cached)."""
+        if self._ddt is None:
+            self._ddt = difference_distribution_table(self.sbox)
+        return self._ddt
+    
+    def is_bijective(self) -> bool:
+        """Check if S-box is a bijection (permutation)."""
+        return len(set(self.sbox)) == len(self.sbox)
+    
+    def differential_uniformity(self) -> int:
+        """Compute differential uniformity."""
+        ddt = self.ddt
+        if ddt.shape[0] > 1:
+            return int(np.max(ddt[1:, :]))
+        return 0
+    
+    def linearity(self) -> int:
+        """Compute linearity."""
+        lat = self.lat.copy()
+        lat[0, 0] = 0
+        return int(2 * np.max(np.abs(lat)))
+    
+    def nonlinearity(self) -> int:
+        """
+        Compute nonlinearity of the S-box.
+        
+        For an S-box, nonlinearity is:
+            NL = 2^{n-1} - L/2
+        where L is the linearity.
+        """
+        n = self.n_inputs
+        L = self.linearity()
+        return (1 << (n - 1)) - L // 2
+    
+    def is_apn(self) -> bool:
+        """Check if S-box is Almost Perfect Nonlinear (differential uniformity = 2)."""
+        return self.differential_uniformity() == 2
+    
+    def summary(self) -> str:
+        """Return human-readable summary."""
+        lines = [
+            f"SBoxAnalyzer ({self.n_inputs}-bit to {self.n_outputs}-bit)",
+            f"  Size: {len(self.sbox)} entries",
+            f"  Bijective: {self.is_bijective()}",
+            f"  Differential uniformity: {self.differential_uniformity()}",
+            f"  Linearity: {self.linearity()}",
+            f"  Nonlinearity: {self.nonlinearity()}",
+            f"  APN: {self.is_apn()}",
+        ]
+        return "\n".join(lines)
+    
+    def to_dict(self) -> Dict:
+        """Export measures as dictionary."""
+        return {
+            "n_inputs": self.n_inputs,
+            "n_outputs": self.n_outputs,
+            "size": len(self.sbox),
+            "bijective": self.is_bijective(),
+            "differential_uniformity": self.differential_uniformity(),
+            "linearity": self.linearity(),
+            "nonlinearity": self.nonlinearity(),
+            "is_apn": self.is_apn(),
         }

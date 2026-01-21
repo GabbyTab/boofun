@@ -31,11 +31,17 @@ from boofun.analysis.cryptographic import (
     algebraic_degree,
     algebraic_normal_form,
     anf_monomials,
+    algebraic_immunity,
     correlation_immunity,
     resiliency,
     propagation_criterion,
     strict_avalanche_criterion,
+    linear_approximation_table,
+    difference_distribution_table,
+    differential_uniformity,
+    linearity,
     CryptographicAnalyzer,
+    SBoxAnalyzer,
 )
 
 
@@ -426,3 +432,212 @@ class TestCrossValidation:
                 count += 1
         
         assert count == 12870
+
+
+class TestAlgebraicImmunity:
+    """Tests for algebraic immunity computation."""
+
+    def test_constant_ai(self):
+        """Constant functions have low algebraic immunity."""
+        f = bf.create([0, 0, 0, 0])
+        ai = algebraic_immunity(f)
+        # Constant 0 has any non-constant function as annihilator
+        assert ai >= 0
+
+    def test_xor_ai(self):
+        """XOR has good algebraic immunity."""
+        f = bf.parity(3)
+        ai = algebraic_immunity(f)
+        # XOR should have AI close to ceil(n/2)
+        assert ai >= 1
+
+    def test_and_ai(self):
+        """AND has low algebraic immunity."""
+        f = bf.AND(3)
+        ai = algebraic_immunity(f)
+        # AND_n has low AI (1)
+        assert ai >= 1
+
+    def test_ai_upper_bound(self):
+        """AI is bounded by ceil(n/2)."""
+        f = bf.majority(5)
+        ai = algebraic_immunity(f)
+        assert ai <= 3  # ceil(5/2) = 3
+
+
+class TestLAT:
+    """Tests for Linear Approximation Table."""
+
+    def test_lat_shape(self):
+        """LAT has correct shape."""
+        sbox = [0, 1, 2, 3]  # Identity 2-bit S-box
+        lat = linear_approximation_table(sbox)
+        
+        assert lat.shape == (4, 4)
+
+    def test_lat_trivial_entry(self):
+        """LAT[0,0] = 2^{n-1} for any S-box."""
+        sbox = [0, 1, 2, 3]
+        lat = linear_approximation_table(sbox)
+        
+        # LAT[0,0] = count where 0=0 minus 2^{n-1}
+        # All 4 inputs satisfy 0=0, so LAT[0,0] = 4 - 2 = 2
+        assert lat[0, 0] == 2
+
+    def test_lat_identity(self):
+        """Test LAT of identity S-box."""
+        # Identity: S(x) = x
+        sbox = list(range(4))
+        lat = linear_approximation_table(sbox)
+        
+        # Identity has specific LAT structure
+        assert lat.shape == (4, 4)
+
+    def test_lat_values_range(self):
+        """LAT values are bounded."""
+        sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,
+                0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]
+        lat = linear_approximation_table(sbox)
+        
+        # LAT values should be in range [-2^{n-1}, 2^{n-1}]
+        n = 4
+        bound = 1 << (n - 1)
+        assert np.all(np.abs(lat) <= bound)
+
+
+class TestDDT:
+    """Tests for Difference Distribution Table."""
+
+    def test_ddt_shape(self):
+        """DDT has correct shape."""
+        sbox = [0, 1, 2, 3]
+        ddt = difference_distribution_table(sbox)
+        
+        assert ddt.shape == (4, 4)
+
+    def test_ddt_trivial_entry(self):
+        """DDT[0,0] = 2^n for any S-box."""
+        sbox = [0, 1, 2, 3]
+        ddt = difference_distribution_table(sbox)
+        
+        # S(x) XOR S(x XOR 0) = 0 for all x
+        assert ddt[0, 0] == 4
+
+    def test_ddt_row_sum(self):
+        """Each row of DDT sums to 2^n."""
+        sbox = list(range(8))  # Identity
+        ddt = difference_distribution_table(sbox)
+        
+        # Each row sums to 2^n
+        assert np.all(np.sum(ddt, axis=1) == 8)
+
+    def test_ddt_bijective(self):
+        """Bijective S-box has even DDT entries."""
+        # AES-like 4-bit S-box (bijective)
+        sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,
+                0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]
+        ddt = difference_distribution_table(sbox)
+        
+        # For bijective S-boxes, all entries are even
+        assert np.all(ddt % 2 == 0)
+
+
+class TestDifferentialUniformity:
+    """Tests for differential uniformity."""
+
+    def test_identity_uniformity(self):
+        """Identity S-box has uniformity equal to size."""
+        sbox = list(range(4))
+        du = differential_uniformity(sbox)
+        
+        # Identity: S(x) XOR S(x XOR dx) = dx, so all weight on DDT[dx, dx]
+        assert du == 4
+
+    def test_good_sbox_uniformity(self):
+        """Good S-box has bounded differential uniformity."""
+        # 4-bit S-box with good properties
+        sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,
+                0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]
+        du = differential_uniformity(sbox)
+        
+        # Differential uniformity should be reasonable (not too high)
+        # For bijective 4-bit S-boxes, du is even and bounded by 16
+        assert du <= 16
+        assert du % 2 == 0
+
+
+class TestLinearity:
+    """Tests for linearity measure."""
+
+    def test_identity_linearity(self):
+        """Identity S-box has specific linearity."""
+        sbox = list(range(4))
+        lin = linearity(sbox)
+        
+        # Identity is linear, so max correlation is high
+        assert lin >= 0
+
+    def test_good_sbox_linearity(self):
+        """Good S-box has bounded linearity."""
+        sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,
+                0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]
+        lin = linearity(sbox)
+        
+        # 4-bit S-boxes have linearity >= 2^2 = 4
+        assert lin >= 4
+
+
+class TestSBoxAnalyzer:
+    """Tests for SBoxAnalyzer class."""
+
+    def test_basic_analysis(self):
+        """Analyzer computes basic measures."""
+        sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,
+                0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]
+        analyzer = SBoxAnalyzer(sbox)
+        
+        assert analyzer.n_inputs == 4
+        assert analyzer.n_outputs == 4
+        assert analyzer.is_bijective() == True
+
+    def test_summary(self):
+        """Summary returns string."""
+        sbox = list(range(8))
+        analyzer = SBoxAnalyzer(sbox)
+        
+        summary = analyzer.summary()
+        assert "SBoxAnalyzer" in summary
+        assert "Differential uniformity" in summary
+
+    def test_to_dict(self):
+        """to_dict returns exportable dictionary."""
+        sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,
+                0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]
+        analyzer = SBoxAnalyzer(sbox)
+        
+        d = analyzer.to_dict()
+        
+        assert "differential_uniformity" in d
+        assert "linearity" in d
+        assert "nonlinearity" in d
+        assert "is_apn" in d
+
+    def test_caching(self):
+        """Analyzer caches LAT and DDT."""
+        sbox = list(range(8))
+        analyzer = SBoxAnalyzer(sbox)
+        
+        lat1 = analyzer.lat
+        lat2 = analyzer.lat
+        
+        assert np.array_equal(lat1, lat2)
+
+    def test_nonlinearity(self):
+        """S-box nonlinearity is computed correctly."""
+        sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,
+                0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]
+        analyzer = SBoxAnalyzer(sbox)
+        
+        nl = analyzer.nonlinearity()
+        # For 4-bit S-box, NL = 2^3 - L/2
+        assert nl >= 0

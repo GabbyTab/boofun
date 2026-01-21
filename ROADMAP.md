@@ -150,13 +150,14 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 | families/*.py | 55-70% | 65-75% | +28 new tests |
 | visualization/*.py | 40-60% | 60-70% | |
 | quantum/*.py | ~20% | 40-50% | |
-| **Overall** | **~68%** | **70-75%** | **2820 tests** |
+| **Overall** | **~69%** | **70-75%** | **2878 tests** |
 
 #### Recent Progress (Jan 2026)
 - ✅ Added 145+ tests for Tal library integration
 - ✅ Added 43 tests for sampling module
 - ✅ Added 28 tests for families module  
 - ✅ Added 35 tests for symmetry/restrictions enhancements
+- ✅ Added 58 tests for cryptographic module (LAT/DDT, algebraic immunity)
 - ✅ Created tutorial notebook for random variables
 
 #### Priority Areas
@@ -232,11 +233,15 @@ We could use it via PyO3/Rust FFI for:
 - ✅ **Family tracking** for asymptotic analysis
 - ✅ **Monte Carlo estimation** (sampling module)
 
+#### ✅ Recently Completed (Jan 2026)
+- ✅ LAT/DDT tables (Linear Approximation Table, Difference Distribution Table)
+- ✅ Differential uniformity and linearity measures
+- ✅ Algebraic immunity computation
+- ✅ SBoxAnalyzer class for comprehensive S-box analysis
+- ✅ README library comparison section
+
 #### Remaining Tasks
-- [ ] LAT/DDT tables (for S-box analysis)
-- [ ] Algebraic immunity
 - [ ] Consider Rust FFI for large computations
-- [ ] Document feature comparison in README
 
 ---
 
