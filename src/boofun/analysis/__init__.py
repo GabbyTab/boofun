@@ -752,6 +752,7 @@ from . import (  # noqa: E402
     block_sensitivity,
     certificates,
     complexity,
+    cryptographic,
     decision_trees,
     equivalence,
     fourier,
@@ -795,6 +796,8 @@ __all__ = [
     "sparsity",
     # Boolean functions as random variables (O'Donnell Chapters 1-3)
     "sampling",
+    # Cryptographic analysis (nonlinearity, bent functions, SAC)
+    "cryptographic",
     # O'Donnell Chapters 10-11: Gaussian analysis and Invariance Principle
     "gaussian",
     "invariance",

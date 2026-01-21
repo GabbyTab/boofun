@@ -181,39 +181,61 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 
 ### 5. Library Comparison & Cross-Validation
 
-**Status:** Research
+**Status:** ✅ In Progress (Jan 2026)
+
+#### New Cryptographic Module
+
+Created `analysis/cryptographic.py` with cryptographic measures that match thomasarmel/boolean_function:
+
+| Feature | boofun | thomasarmel | Status |
+|---------|--------|-------------|--------|
+| Nonlinearity | `nonlinearity(f)` | `f.nonlinearity()` | ✅ Cross-validated |
+| Bent detection | `is_bent(f)` | `f.is_bent()` | ✅ Cross-validated |
+| Balanced check | `is_balanced(f)` | `f.is_balanced()` | ✅ Cross-validated |
+| Walsh transform | `walsh_transform(f)` | Internal | ✅ |
+| Walsh spectrum | `walsh_spectrum(f)` | - | ✅ |
+| Algebraic degree | `algebraic_degree(f)` | `f.algebraic_normal_form().degree()` | ✅ |
+| ANF | `algebraic_normal_form(f)` | `f.algebraic_normal_form()` | ✅ |
+| Correlation immunity | `correlation_immunity(f)` | - | ✅ |
+| Resiliency | `resiliency(f)` | - | ✅ |
+| SAC | `strict_avalanche_criterion(f)` | - | ✅ |
+
+#### Cross-Validation Tests (37 tests)
+- ✅ 0xac90 (4-var bent): both libraries agree
+- ✅ 0x0113077C165E76A8 (6-var bent): both libraries agree  
+- ✅ Balanced count: C(16,8) = 12870
 
 #### Libraries to Analyze
 
 | Library | Language | Focus | Notable Features |
 |---------|----------|-------|------------------|
-| **thomasarmel/boolean_function** | Rust | Cryptographic analysis | ANF, bent detection, nonlinearity, fast/parallelizable |
-| **BooLSPLG** | CUDA C++ | GPU acceleration | S-box analysis, LAT/DDT tables, massively parallel |
-| **SageMath** | Python | General math | Comprehensive but slow |
-| **SET (S-box Evaluation Tool)** | C++ | S-box analysis | Linearity, differential uniformity |
+| **thomasarmel/boolean_function** | Rust | Cryptographic | ANF, bent, nonlinearity, **parallel** |
+| **BooLSPLG** | CUDA C++ | GPU | S-box analysis, LAT/DDT, **massively parallel** |
+| **SageMath** | Python | General | Comprehensive but slow |
+
+#### Potential Rust FFI Integration
+thomasarmel's library provides:
+- `SmallBooleanFunction` (≤6 vars, u64 storage)
+- `BigBooleanFunction` (>6 vars, BigUint)
+- Native CPU optimizations (POPCNT instruction)
+
+We could use it via PyO3/Rust FFI for:
+- Large function exhaustive search
+- Performance-critical cryptographic computations
+- Cross-validation of our implementations
 
 #### What We Have That Others Don't
 - ✅ **Global hypercontractivity** analysis
 - ✅ **Query complexity** (D, R, Q, certificates, Ambainis)
 - ✅ **Property testing** with probability bounds
-- ✅ **O'Donnell curriculum** alignment (educational notebooks)
-- ✅ **Flexible inputs** (oracle pattern, streaming)
+- ✅ **O'Donnell curriculum** alignment
 - ✅ **Family tracking** for asymptotic analysis
+- ✅ **Monte Carlo estimation** (sampling module)
 
-#### What Others Have That We Could Add
-- ❓ **Bent function detection** (thomasarmel)
-- ❓ **Nonlinearity computation** (cryptographic measure)
-- ❓ **Linear Approximation Table (LAT)** (BooLSPLG)
-- ❓ **Difference Distribution Table (DDT)** (BooLSPLG)
-- ❓ **S-box differential uniformity** (BooLSPLG)
-- ❓ **Algebraic immunity** (cryptographic)
-- ❓ **GPU acceleration** (BooLSPLG style)
-
-#### Tasks
-- [ ] Install and test thomasarmel/boolean_function
-- [ ] Review BooLSPLG paper for missing features
-- [ ] Add cross-validation tests against other libraries
-- [ ] Implement missing cryptographic measures
+#### Remaining Tasks
+- [ ] LAT/DDT tables (for S-box analysis)
+- [ ] Algebraic immunity
+- [ ] Consider Rust FFI for large computations
 - [ ] Document feature comparison in README
 
 ---
