@@ -4,7 +4,7 @@
 # ============================================================================
 # Stage 1: Builder
 # ============================================================================
-FROM python:3.11-slim AS builder
+FROM python:3.11-slim@sha256:89abad2fb0c3633705054018ae09caae4bd0e0febf57fb57a96fd41769c94e12 AS builder
 
 WORKDIR /build
 
@@ -29,7 +29,7 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
 # ============================================================================
 # Stage 2: Production Image
 # ============================================================================
-FROM python:3.11-slim AS production
+FROM python:3.11-slim@sha256:89abad2fb0c3633705054018ae09caae4bd0e0febf57fb57a96fd41769c94e12 AS production
 
 LABEL maintainer="Gabriel Taboada <gabtab@berkeley.edu>"
 LABEL description="BooFun: Boolean Function Analysis Library"
@@ -62,7 +62,7 @@ CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--no
 # ============================================================================
 # Stage 3: Development Image
 # ============================================================================
-FROM python:3.11 AS development
+FROM python:3.11@sha256:387dc0304019d0c6e347b816377886a15a311c6a42c336ccdf262d3fa2fdbaca AS development
 
 LABEL description="BooFun Development Environment"
 
