@@ -141,12 +141,14 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 
 ### 3. Increase Test Coverage to 70-75%
 
-**Status:** In Progress (currently ~68%, target 70-75%)
+**Status:** In Progress (currently ~69%, target 70-75%)
 
 | Module | Current | Target | Notes |
 |--------|---------|--------|-------|
 | core/base.py | ~80% | 85% | |
 | analysis/*.py | 70-85% | 75-85% | +145 new tests (Tal + sampling) |
+| analysis/hypercontractivity.py | ~40% | 70% | Needs more tests |
+| analysis/global_hypercontractivity.py | ~35% | 70% | Needs more tests |
 | families/*.py | 55-70% | 65-75% | +28 new tests |
 | visualization/*.py | 40-60% | 60-70% | |
 | quantum/*.py | ~20% | 40-50% | |
@@ -160,8 +162,12 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 - ✅ Added 58 tests for cryptographic module (LAT/DDT, algebraic immunity)
 - ✅ Added 46 tests for partial functions (streaming, hex I/O)
 - ✅ Created tutorial notebook for random variables
+- ✅ Registered PackedTruthTableRepresentation in factory
+- ✅ Exposed hypercontractivity API at top level
 
 #### Priority Areas
+- [ ] Hypercontractivity module tests (Chapter 9 O'Donnell)
+- [ ] Global hypercontractivity tests (Keevash et al.)
 - [ ] Edge cases in representation conversions
 - [ ] Error handling paths
 - [ ] Visualization module (mock matplotlib)
@@ -311,6 +317,70 @@ bf.create(tt, storage='packed')  # 1 bit per entry (n > 14)
 bf.create(tt, storage='sparse')  # Only store exceptions
 bf.create(oracle, n=20, storage='lazy')  # Compute on demand
 ```
+
+### 7. API Improvements & Feature Exposure
+
+**Status:** ✅ In Progress (Jan 2026)
+
+Exposing existing but hidden functionality through the public API.
+
+#### ✅ Completed
+
+**Representation Registration:**
+- ✅ `packed_truth_table` - Now registered via `representations/__init__.py`
+- ✅ `sparse_truth_table` - Already registered
+- ✅ `adaptive_truth_table` - Already registered
+- ✅ Factory updated to accept new representation types
+
+**Hypercontractivity API (Chapter 9 O'Donnell):**
+
+Now accessible at top-level via `bf.*`:
+
+```python
+import boofun as bf
+
+# KKL Theorem bounds
+bf.kkl_lower_bound(total_influence, n)
+bf.max_influence_bound(f)
+
+# Bonami's Lemma and hypercontractivity
+bf.noise_operator(f, rho)
+bf.bonami_lemma_bound(f, q, rho)
+bf.hypercontractive_inequality(f, rho, p, q)
+bf.level_d_inequality(f, d, q)
+bf.lq_norm(f, q)
+
+# Friedgut's Junta Theorem
+bf.friedgut_junta_bound(total_influence, epsilon)
+bf.junta_approximation_error(f, junta_vars)
+```
+
+**Global Hypercontractivity (Keevash, Lifshitz, Long & Minzer):**
+
+```python
+# Analyze p-biased measures and global functions
+bf.GlobalHypercontractivityAnalyzer(f, p=0.5)
+bf.is_alpha_global(f, alpha, max_set_size)
+bf.generalized_influence(f, S, p)
+
+# p-biased analysis
+bf.p_biased_expectation(f, p, samples)
+bf.p_biased_influence(f, i, p, samples)
+bf.p_biased_total_influence(f, p, samples)
+bf.noise_stability_p_biased(f, rho, p, samples)
+
+# Threshold phenomena
+bf.threshold_curve(f, p_range, samples)
+bf.find_critical_p(f, samples, tolerance)
+bf.hypercontractivity_bound(f, p)
+```
+
+#### Remaining Tasks
+
+- [ ] Add tests for hypercontractivity functions
+- [ ] Add tests for global hypercontractivity
+- [ ] Fix sparse_truth_table evaluation bug
+- [ ] Document hypercontractivity API in README
 
 #### Tests
 - 46 comprehensive tests for partial functions

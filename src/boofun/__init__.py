@@ -99,6 +99,34 @@ from .analysis.gf2 import (
     gf2_to_string,
     is_linear_over_gf2,
 )
+
+# Hypercontractivity (Chapter 9 O'Donnell)
+from .analysis.hypercontractivity import (
+    bonami_lemma_bound,
+    friedgut_junta_bound,
+    hypercontractive_inequality,
+    junta_approximation_error,
+    kkl_lower_bound,
+    level_d_inequality,
+    lq_norm,
+    max_influence_bound,
+    noise_operator,
+)
+
+# Global Hypercontractivity (Keevash, Lifshitz, Long & Minzer)
+from .analysis.global_hypercontractivity import (
+    GlobalHypercontractivityAnalyzer,
+    find_critical_p,
+    generalized_influence,
+    hypercontractivity_bound,
+    is_alpha_global,
+    noise_stability_p_biased,
+    p_biased_expectation,
+    p_biased_influence,
+    p_biased_total_influence,
+    threshold_curve,
+)
+
 from .testing import BooleanFunctionValidator, quick_validate, validate_representation
 from .utils.finite_fields import GFField
 from .utils.finite_fields import get_field as get_gf_field
@@ -403,6 +431,27 @@ __all__ = [
     "gf2_to_string",
     "is_linear_over_gf2",
     "correlation_with_parity",
+    # Hypercontractivity (Chapter 9 O'Donnell)
+    "noise_operator",
+    "lq_norm",
+    "bonami_lemma_bound",
+    "kkl_lower_bound",
+    "max_influence_bound",
+    "friedgut_junta_bound",
+    "junta_approximation_error",
+    "level_d_inequality",
+    "hypercontractive_inequality",
+    # Global Hypercontractivity (Keevash et al.)
+    "GlobalHypercontractivityAnalyzer",
+    "generalized_influence",
+    "is_alpha_global",
+    "p_biased_expectation",
+    "p_biased_influence",
+    "p_biased_total_influence",
+    "noise_stability_p_biased",
+    "threshold_curve",
+    "find_critical_p",
+    "hypercontractivity_bound",
     # Testing and validation
     "BooleanFunctionValidator",
     "quick_validate",

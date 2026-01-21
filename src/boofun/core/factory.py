@@ -21,6 +21,9 @@ except ImportError:
 # Supported representation types for better error messages
 _SUPPORTED_REP_TYPES = [
     "truth_table",
+    "packed_truth_table",
+    "sparse_truth_table",
+    "adaptive_truth_table",
     "function",
     "distribution",
     "polynomial",
@@ -141,6 +144,11 @@ class BooleanFunctionFactory:
             return cls.from_scipy_distribution(boolean_function_cls, data, **kwargs)
         elif rep_type == "truth_table":
             return cls.from_truth_table(boolean_function_cls, data, **kwargs)
+        elif rep_type in ("packed_truth_table", "sparse_truth_table", "adaptive_truth_table"):
+            # These are specialized truth table representations
+            # Remove rep_type from kwargs if present to avoid duplicate
+            kwargs_clean = {k: v for k, v in kwargs.items() if k != "rep_type"}
+            return cls.from_truth_table(boolean_function_cls, data, rep_type=rep_type, **kwargs_clean)
         elif rep_type == "invariant_truth_table":
             return cls.from_input_invariant_truth_table(boolean_function_cls, data, **kwargs)
         elif rep_type == "polynomial":
