@@ -39,13 +39,22 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
+    # Core p-biased analysis
     "p_biased_fourier_coefficients",
+    "p_biased_fourier_coefficient",
     "p_biased_influence",
     "p_biased_total_influence",
     "p_biased_noise_stability",
     "p_biased_expectation",
     "p_biased_variance",
     "biased_measure_mass",
+    # Sensitivity under μ_p (from Tal's library)
+    "p_biased_sensitivity",
+    "p_biased_average_sensitivity",
+    "p_biased_total_influence_fourier",
+    # Utility functions
+    "parity_biased_coefficient",
+    # Analyzer class
     "PBiasedAnalyzer",
 ]
 
@@ -300,6 +309,241 @@ def p_biased_noise_stability(f: "BooleanFunction", rho: float, p: float = 0.5) -
     return stability
 
 
+# ============================================================================
+# Functions from Avishay Tal's library
+# ============================================================================
+
+
+def p_biased_fourier_coefficient(f: "BooleanFunction", p: float, S: int) -> float:
+    """
+    Compute single p-biased Fourier coefficient using Tal's formula.
+    
+    This is an alternative (and often faster) formula for computing
+    individual p-biased Fourier coefficients. Uses the explicit basis:
+    
+        φ_S^(p)(x) = ∏_{i∈S} φ^(p)(x_i)
+        
+    where φ^(p)(x_i) = -√(q/p) if x_i = -1, else √(p/q)
+    (with q = 1-p)
+    
+    This formula is from Tal's FourierCoefMuP function.
+    
+    Args:
+        f: BooleanFunction to analyze
+        p: Bias parameter in (0, 1)
+        S: Subset mask (integer with bits indicating which variables)
+        
+    Returns:
+        The p-biased Fourier coefficient f̂(S)_p
+        
+    References:
+        - Tal's BooleanFunc.py: FourierCoefMuP
+        - O'Donnell Chapter 8
+    """
+    if not (0 < p < 1):
+        raise ValueError(f"p must be in (0,1), got {p}")
+    
+    n = f.n_vars or 0
+    if n == 0:
+        return float(f.evaluate(0)) if S == 0 else 0.0
+    
+    q = 1.0 - p
+    sqrt_q_over_p = np.sqrt(q / p)
+    sqrt_p_over_q = np.sqrt(p / q)
+    
+    truth_table = np.asarray(f.get_representation("truth_table"), dtype=int)
+    
+    val = 0.0
+    size = 1 << n
+    popcnt_S = bin(S).count("1")
+    
+    for x in range(size):
+        # Probability of x under μ_p
+        popcnt_x = bin(x).count("1")
+        pr = (p ** popcnt_x) * (q ** (n - popcnt_x))
+        
+        # Compute φ_S^(p)(x):
+        # For each i in S: if x_i = -1 (bit set), use -√(q/p)
+        #                  if x_i = +1 (bit not set), use √(p/q)
+        overlap = bin(x & S).count("1")  # Number of bits set in both x and S
+        phi = ((-sqrt_q_over_p) ** overlap) * (sqrt_p_over_q ** (popcnt_S - overlap))
+        
+        # f in ±1 convention: 0 → +1, 1 → -1
+        f_x = -1.0 if truth_table[x] else 1.0
+        
+        val += pr * phi * f_x
+    
+    return val
+
+
+def p_biased_sensitivity(f: "BooleanFunction", x: int, p: float = 0.5) -> int:
+    """
+    Compute the sensitivity of f at input x.
+    
+    This is the same as standard sensitivity (number of sensitive coordinates),
+    independent of p. Included for API consistency with p_biased_average_sensitivity.
+    
+    Args:
+        f: BooleanFunction to analyze
+        x: Input point (integer)
+        p: Bias parameter (not used, for API consistency)
+        
+    Returns:
+        Number of coordinates i where f(x) ≠ f(x^i)
+    """
+    n = f.n_vars or 0
+    if n == 0:
+        return 0
+    
+    truth_table = np.asarray(f.get_representation("truth_table"), dtype=int)
+    f_x = truth_table[x]
+    
+    sens = 0
+    for i in range(n):
+        x_flip = x ^ (1 << i)
+        if truth_table[x_flip] != f_x:
+            sens += 1
+    
+    return sens
+
+
+def p_biased_average_sensitivity(f: "BooleanFunction", p: float = 0.5) -> float:
+    """
+    Compute the average sensitivity under p-biased distribution μ_p.
+    
+    This computes:
+        as_p(f) = E_{x ~ μ_p}[s(f, x)]
+        
+    where s(f, x) is the sensitivity at input x.
+    
+    This is Tal's `asMuP` function. Note that by Poincaré's inequality,
+    this equals the p-biased total influence for Boolean functions.
+    
+    Args:
+        f: BooleanFunction to analyze  
+        p: Bias parameter
+        
+    Returns:
+        Average sensitivity under μ_p
+        
+    References:
+        - Tal's BooleanFunc.py: asMuP
+        - O'Donnell Proposition 8.28
+    """
+    if not (0 < p < 1):
+        raise ValueError(f"p must be in (0,1), got {p}")
+    
+    n = f.n_vars or 0
+    if n == 0:
+        return 0.0
+    
+    q = 1.0 - p
+    truth_table = np.asarray(f.get_representation("truth_table"), dtype=int)
+    
+    total = 0.0
+    size = 1 << n
+    
+    for x in range(size):
+        # Probability of x under μ_p
+        popcnt_x = bin(x).count("1")
+        pr = (p ** popcnt_x) * (q ** (n - popcnt_x))
+        
+        # Sensitivity at x
+        sens = p_biased_sensitivity(f, x, p)
+        
+        total += pr * sens
+    
+    return total
+
+
+def p_biased_total_influence_fourier(f: "BooleanFunction", p: float = 0.5) -> float:
+    """
+    Compute total p-biased influence via Fourier coefficients.
+    
+    The p-biased total influence via Fourier is:
+        I^(p)[f] = (1 / (4p(1-p))) × Σ_S |S| · f̂(S)_p²
+        
+    The normalization factor 4p(1-p) is the variance of a single ±1 coordinate
+    under the p-biased distribution. At p=0.5, this factor equals 1.
+    
+    This should equal the average sensitivity under μ_p (Poincaré inequality).
+    
+    Note: Tal's original `asFourierMuP` function computes Σ_S |S| f̂(S)_p²
+    WITHOUT the normalization, which only equals the total influence at p=0.5.
+    
+    Args:
+        f: BooleanFunction to analyze
+        p: Bias parameter
+        
+    Returns:
+        Total p-biased influence (via Fourier)
+        
+    References:
+        - O'Donnell Theorem 8.32 (p-biased Poincaré inequality)
+        - O'Donnell Proposition 8.28
+    """
+    if not (0 < p < 1):
+        raise ValueError(f"p must be in (0,1), got {p}")
+    
+    n = f.n_vars or 0
+    if n == 0:
+        return 0.0
+    
+    size = 1 << n
+    total = 0.0
+    
+    for S in range(size):
+        coeff = p_biased_fourier_coefficient(f, p, S)
+        popcnt_S = bin(S).count("1")
+        total += coeff ** 2 * popcnt_S
+    
+    # Normalization factor: 4p(1-p) is the variance of a single coordinate
+    # At p=0.5, this is 4 * 0.5 * 0.5 = 1, so no change
+    normalization = 4.0 * p * (1.0 - p)
+    
+    return total / normalization
+
+
+def parity_biased_coefficient(n: int, k: int, i: int) -> float:
+    """
+    Compute the p-biased Fourier coefficient of the parity function.
+    
+    For the parity function PAR_n(x) = x_1 ⊕ x_2 ⊕ ... ⊕ x_n (XOR of all bits),
+    this computes a specific coefficient related to the bias.
+    
+    The formula uses Krawchouk-like recurrence:
+        S = Σ_{j=0}^{i} (-1)^j * C(n-k, j) * C(k, i-j)
+        result = S / C(n, i)
+        
+    where k relates to the bias via k = p*n (expected number of 1s).
+    
+    This is Tal's `parity_biased` function.
+    
+    Args:
+        n: Number of variables
+        k: Bias-related parameter (typically floor(p*n) or similar)
+        i: Coefficient index
+        
+    Returns:
+        The biased parity coefficient
+        
+    References:
+        - Tal's BooleanFunc.py: parity_biased
+        - Krawchouk polynomials in coding theory
+    """
+    from ..utils.math import over
+    
+    if i < 0 or i > n:
+        return 0.0
+    
+    S = 0.0
+    for j in range(i + 1):
+        S += ((-1) ** j) * over(n - k, j) * over(k, i - j)
+    
+    denom = over(n, i)
+    return S / float(denom) if denom > 0 else 0.0
+
+
 class PBiasedAnalyzer:
     """
     Comprehensive p-biased analysis for Boolean functions.
@@ -370,6 +614,58 @@ class PBiasedAnalyzer:
         max_idx = int(np.argmax(influences))
         return (max_idx, influences[max_idx])
 
+    def average_sensitivity(self) -> float:
+        """
+        Compute average sensitivity under μ_p distribution.
+        
+        By Poincaré's inequality, this equals total_influence() for Boolean functions.
+        """
+        return p_biased_average_sensitivity(self.function, self.p)
+    
+    def total_influence_fourier(self) -> float:
+        """
+        Compute total influence via Fourier formula.
+        
+        This should equal average_sensitivity() and total_influence(),
+        providing a cross-validation check.
+        """
+        return p_biased_total_influence_fourier(self.function, self.p)
+    
+    def fourier_coefficient(self, S: int) -> float:
+        """
+        Compute single Fourier coefficient using Tal's efficient formula.
+        
+        Args:
+            S: Subset mask
+            
+        Returns:
+            The p-biased Fourier coefficient f̂(S)_p
+        """
+        return p_biased_fourier_coefficient(self.function, self.p, S)
+    
+    def validate(self, tol: float = 1e-6) -> Dict[str, bool]:
+        """
+        Cross-validate p-biased computations.
+        
+        Checks that mathematically equivalent quantities match:
+        - total_influence() ≈ average_sensitivity() ≈ total_influence_fourier()
+        
+        Args:
+            tol: Tolerance for floating point comparison
+            
+        Returns:
+            Dictionary of validation checks and their results
+        """
+        ti = self.total_influence()
+        as_p = self.average_sensitivity()
+        ti_f = self.total_influence_fourier()
+        
+        return {
+            "total_influence ≈ average_sensitivity": abs(ti - as_p) < tol,
+            "total_influence ≈ fourier_formula": abs(ti - ti_f) < tol,
+            "average_sensitivity ≈ fourier_formula": abs(as_p - ti_f) < tol,
+        }
+
     def summary(self) -> str:
         """Get human-readable summary of p-biased analysis."""
         lines = [
@@ -378,6 +674,7 @@ class PBiasedAnalyzer:
             f"  Expectation: {self.expectation():.6f}",
             f"  Variance: {self.variance():.6f}",
             f"  Total Influence: {self.total_influence():.6f}",
+            f"  Average Sensitivity (μ_p): {self.average_sensitivity():.6f}",
             f"  Non-zero Fourier coefficients: {len(self.coefficients)}",
         ]
         return "\n".join(lines)

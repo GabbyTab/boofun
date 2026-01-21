@@ -46,33 +46,102 @@ GitHub Actions CI, pytest, Hypothesis property tests, mutation testing config, p
 
 ## v1.1.0 Goals (In Progress)
 
-### 1. Legacy Code Documentation & Integration
+### 1. Avishay Tal's PhD Library Integration
 
 **Status:** Planning
 
-The `BooleanFunc.py` and `library.py` files contain valuable functionality from **Avishay Tal's PhD-era library**. This code needs proper documentation, testing, and integration into the main module structure.
+The `BooleanFunc.py` and `library.py` files contain valuable functionality from **Avishay Tal's PhD-era library** (shared via email, August 2025). The integration strategy is to **enhance existing modules** where possible rather than creating parallel "legacy" code. Query complexity measures (D, R, Q, certificates, sensitivity, block sensitivity) are already implemented in the modern `analysis/` modules.
 
-#### Legacy Functionality to Document/Integrate
+#### Integration Map: Tal's Code → Existing Modules
 
-| Category | Functions | Target Module |
-|----------|-----------|---------------|
-| **Fourier Transforms** | `FourierTransform`, `XorFourierTransform`, `invFourierTransform_2d` | `core/transforms.py` (new) |
-| **Sensitivity Analysis** | `sensitivity`, `max_sensitivity`, `block_sensitivity_fast`, `average_sensitivity_moment` | `analysis/sensitivity.py` (new) |
-| **Decision Trees** | `decision_tree_size`, `min_fixing`, `minimax` | `analysis/decision_trees.py` (new) |
-| **Polynomial Operations** | `polynomial01`, `deg_F2`, `Lagrange interpolation`, `modulo` | `core/polynomials.py` (new) |
-| **Krawchouk Polynomials** | `Krawchouk`, `Krawchouk2` | `analysis/orthogonal_polynomials.py` (new) |
-| **Galois Field** | `GF` class | `core/galois.py` (new) |
-| **Biased Analysis** | `FourierCoefMuP`, `asMuP`, `asFourierMuP`, `parity_biased` | `analysis/biased.py` (enhance) |
-| **Symmetrization** | `symmetrize`, `canonical`, `automorphisms` | `analysis/symmetry.py` (new) |
-| **Sparsity** | `sparsity`, `sparsity_upto_constants` | `analysis/sparsity.py` (new) |
+**Enhance `analysis/sensitivity.py`:**
+| Function | Description | Priority |
+|----------|-------------|----------|
+| `average_sensitivity_moment(t)` | t-th moment of sensitivity distribution | Medium |
+| `sens_coor(x)` | Return sensitive coordinates at input x | Low |
+| `ts_2`, `ts_2_max` | 2-step transitive sensitivity | Low |
 
-#### Tasks
-- [ ] Audit `BooleanFunc.py` for all unique functionality
-- [ ] Write docstrings with mathematical definitions
-- [ ] Add type hints
-- [ ] Create unit tests with known values
-- [ ] Integrate into main package structure
-- [ ] Update API documentation
+**Enhance `analysis/p_biased.py`:**
+| Function | Description | Priority |
+|----------|-------------|----------|
+| `FourierCoefMuP` | Alternative p-biased formula (cross-validate) | Medium |
+| `asMuP` | Average sensitivity under μ_p | High |
+| `asFourierMuP` | Total influence via p-biased Fourier | High |
+| `parity_biased(n,k,i)` | Bias of parity function | Medium |
+
+**Enhance `analysis/fourier.py`:**
+| Function | Description | Priority |
+|----------|-------------|----------|
+| `ann_influence(i, rho)` | Annealed/noisy influence | Medium |
+| `truncated_degree_d(d)` | Truncate Fourier to degree d | Medium |
+| `correlation(other)` | Correlation between functions | High |
+| `fourier_weights()` | Weight distribution by degree | High |
+
+**Enhance `analysis/restrictions.py`:**
+| Function | Description | Priority |
+|----------|-------------|----------|
+| `min_fixing(go_up)` | Minimum fixing to constant | Medium |
+| `fix_func(func, val)` | Advanced restriction by function | Low |
+| `shift(sh)` | Shift by integer mask | Medium |
+
+**Enhance `analysis/symmetry.py`:**
+| Function | Description | Priority |
+|----------|-------------|----------|
+| `degree_sym(f)` | Degree for symmetric functions (fast) | Medium |
+| `sens_sym(f)` | Sensitivity for symmetric functions | Medium |
+| `shift_to_mono()` | Shift to monotone form | Low |
+
+**Enhance `utils/math.py`:**
+| Function | Description | Priority |
+|----------|-------------|----------|
+| `lagrange_interpolation` | Polynomial interpolation | Medium |
+| `span_nums` | Linear span over GF(2) | Low |
+
+**Enhance `utils/finite_fields.py`:**
+| Function | Description | Priority |
+|----------|-------------|----------|
+| `GF` class | Standalone GF(2^k) (no galois dep) | Medium |
+
+#### New Modules to Create
+
+**`analysis/decision_trees.py`** (High Priority):
+- `calc_decision_tree_DP` - Basic DP for optimal tree
+- `calc_decision_tree_DP_uniform` - Uniform distribution  
+- `calc_decision_tree_DP_with_prob` - Custom input distribution
+- `all_decision_trees` - Enumerate all trees
+- `randomized_decision_tree` - Game-theoretic R(f) analysis
+- `minimax` - LP solver for randomized complexity
+
+**`analysis/sparsity.py`** (Medium Priority):
+- `fourier_sparsity(f)` - Number of non-zero coefficients
+- `fourier_sparsity_up_to_constants(f)` - Ignoring constant multiples
+- `min_size_fourier_coef(f)` - Minimum |S| with non-zero f̂(S)
+
+**`core/polynomials.py`** (Low Priority):
+- `Polynomial` class - Real coefficients with arithmetic
+- `FiniteFieldPolynomial` class - GF(q) coefficients
+
+**`families/patterns.py`** (Low Priority):
+- `pattern_function(pattern)` - Function from bit pattern
+- `pattern_cyclic_function(pattern)` - Cyclic pattern families
+
+#### Already Implemented (Cross-Validate Only)
+
+The following exist in both codebases—use Tal's for test cases:
+- Krawchouk polynomials (`utils/math.py` ✓)
+- Sensitivity, block sensitivity (`analysis/sensitivity.py`, `analysis/block_sensitivity.py` ✓)
+- Certificates (`analysis/certificates.py` ✓)
+- Fourier/ANF transforms (`analysis/fourier.py`, `analysis/gf2.py` ✓)
+- Influences (`analysis/fourier.py` ✓)
+- Automorphisms (`analysis/symmetry.py` ✓)
+- Basic utilities: `popcnt`, `poppar`, `over`, `subsets` (`utils/math.py` ✓)
+
+#### Integration Workflow
+1. **Cross-validate**: Run Tal's code against modern implementations, collect test cases
+2. **Enhance existing**: Add missing functions to appropriate existing modules
+3. **Create new sparingly**: Only create new modules when no natural home exists
+4. **Type + document**: Add type hints, docstrings, O'Donnell references
+5. **Test**: Property tests + Tal's known values as regression tests
 
 ### 2. Boolean Functions as Random Variables
 
@@ -127,7 +196,7 @@ Flesh out the probabilistic treatment of Boolean functions and sampling from spe
 - [ ] Error handling paths
 - [ ] Visualization module (mock matplotlib)
 - [ ] Quantum module basic coverage
-- [ ] Legacy code after integration
+- [ ] Tal library code after integration (Krawchouk, p-biased, etc.)
 
 ### 4. Documentation Improvements
 
@@ -248,7 +317,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 High-value contributions:
 - Tests for untested paths (priority: visualization, quantum)
-- Legacy code documentation and integration
+- Avishay Tal library integration (Krawchouk, p-biased, decision tree DP)
 - Cross-validation tests against other libraries
 - Bug reports with reproducible examples
 - Corrections to mathematical errors

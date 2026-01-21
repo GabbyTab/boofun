@@ -47,6 +47,12 @@ __all__ = [
     "spectral_norm",
     "fourier_sparsity",
     "dominant_coefficients",
+    # From Tal's library
+    "correlation",
+    "truncate_to_degree",
+    "annealed_influence",
+    "fourier_weight_distribution",
+    "min_fourier_coefficient_size",
     # Examples from O'Donnell
     "compute_mux3_fourier",
     "compute_nae3_fourier",
@@ -456,6 +462,231 @@ def dominant_coefficients(
             break
 
     return result
+
+
+# =============================================================================
+# Functions from Avishay Tal's library
+# =============================================================================
+
+
+def correlation(f: "BooleanFunction", g: "BooleanFunction") -> float:
+    """
+    Compute the correlation between two Boolean functions.
+    
+    The correlation is defined as:
+        Corr(f, g) = E[f(x)g(x)] = ⟨f, g⟩
+        
+    where the expectation is over the uniform distribution on {-1,+1}^n.
+    
+    For ±1-valued functions, Corr(f,f) = 1, and Corr(f,g) ∈ [-1,1].
+    
+    This is mathematically equivalent to plancherel_inner_product but
+    provided as a more intuitive interface from Tal's library.
+    
+    Args:
+        f: First BooleanFunction
+        g: Second BooleanFunction
+        
+    Returns:
+        Correlation ⟨f, g⟩ in [-1, 1]
+        
+    Raises:
+        ValueError: If f and g have different number of variables
+        
+    References:
+        - Tal's BooleanFunc.py: correlation
+        - O'Donnell Definition 1.6
+    """
+    if f.n_vars != g.n_vars:
+        raise ValueError(f"Functions must have same n_vars: {f.n_vars} vs {g.n_vars}")
+    
+    n = f.n_vars or 0
+    if n == 0:
+        f_val = 1.0 - 2.0 * float(f.evaluate(0))
+        g_val = 1.0 - 2.0 * float(g.evaluate(0))
+        return f_val * g_val
+    
+    f_tt = np.asarray(f.get_representation("truth_table"), dtype=float)
+    g_tt = np.asarray(g.get_representation("truth_table"), dtype=float)
+    
+    # Convert to ±1
+    f_pm = 1.0 - 2.0 * f_tt
+    g_pm = 1.0 - 2.0 * g_tt
+    
+    return float(np.mean(f_pm * g_pm))
+
+
+def truncate_to_degree(f: "BooleanFunction", d: int) -> np.ndarray:
+    """
+    Truncate the Fourier expansion of f to degree at most d.
+    
+    Returns the function:
+        f^{≤d}(x) = Σ_{|S| ≤ d} f̂(S) χ_S(x)
+        
+    This is useful for approximating functions by their low-degree parts.
+    The truncated function is generally not Boolean-valued.
+    
+    Args:
+        f: BooleanFunction to truncate
+        d: Maximum degree to keep
+        
+    Returns:
+        Array of function values for f^{≤d} (real-valued, not necessarily Boolean)
+        
+    References:
+        - Tal's BooleanFunc.py: truncated_degree_d
+        - O'Donnell Definition 1.14 (degree-d part)
+    """
+    n = f.n_vars or 0
+    if n == 0:
+        val = float(f.evaluate(0))
+        return np.array([1.0 - 2.0 * val])
+    
+    size = 1 << n
+    coeffs = _get_fourier_coefficients(f)
+    
+    # Zero out coefficients with |S| > d
+    truncated_coeffs = np.zeros(size)
+    for s in range(size):
+        if bin(s).count("1") <= d:
+            truncated_coeffs[s] = coeffs[s]
+    
+    # Inverse Fourier transform to get function values
+    result = np.zeros(size)
+    for x in range(size):
+        total = 0.0
+        for s in range(size):
+            # χ_S(x) = (-1)^{|x ∩ S|}
+            chi_val = 1 - 2 * (bin(x & s).count("1") % 2)
+            total += truncated_coeffs[s] * chi_val
+        result[x] = total
+    
+    return result
+
+
+def annealed_influence(f: "BooleanFunction", i: int, rho: float) -> float:
+    """
+    Compute the annealed (noisy) influence of variable i.
+    
+    The annealed influence at correlation ρ is:
+        Inf_i^{(ρ)}[f] = Σ_{S∋i} ρ^{|S|-1} f̂(S)²
+        
+    This interpolates between:
+    - ρ = 1: Standard influence Inf_i[f] = Σ_{S∋i} f̂(S)²
+    - ρ → 0: Only degree-1 contributions
+    
+    The annealed influence measures how sensitive f is to variable i
+    after noise has been applied.
+    
+    Args:
+        f: BooleanFunction to analyze
+        i: Variable index (0-indexed)
+        rho: Noise correlation parameter in (0, 1]
+        
+    Returns:
+        Annealed influence of variable i
+        
+    References:
+        - Tal's BooleanFunc.py: ann_influence
+        - O'Donnell Chapter 2 (noise sensitivity)
+    """
+    n = f.n_vars or 0
+    if n == 0:
+        return 0.0
+    
+    if i < 0 or i >= n:
+        raise ValueError(f"Variable index {i} out of range [0, {n})")
+    
+    if not (0 < rho <= 1):
+        raise ValueError(f"rho must be in (0, 1], got {rho}")
+    
+    coeffs = _get_fourier_coefficients(f)
+    size = 1 << n
+    
+    total = 0.0
+    for s in range(size):
+        # Check if i is in S
+        if (s >> i) & 1:
+            subset_size = bin(s).count("1")
+            # ρ^{|S|-1} f̂(S)²
+            total += (rho ** (subset_size - 1)) * (coeffs[s] ** 2)
+    
+    return total
+
+
+def fourier_weight_distribution(f: "BooleanFunction") -> Dict[int, float]:
+    """
+    Compute the distribution of Fourier weight by degree.
+    
+    Returns W^k[f] = Σ_{|S|=k} f̂(S)² for each k.
+    
+    By Parseval's identity: Σ_k W^k[f] = 1 for ±1-valued functions.
+    
+    This is useful for understanding the "spectral profile" of a function:
+    - Low-degree weight → function is "simple"
+    - High-degree weight → function is "complex"
+    
+    Args:
+        f: BooleanFunction to analyze
+        
+    Returns:
+        Dictionary mapping degree k to W^k[f]
+        
+    References:
+        - Tal's BooleanFunc.py: fourier_weights
+        - O'Donnell Definition 1.14 (spectral sample)
+    """
+    n = f.n_vars or 0
+    if n == 0:
+        return {0: 1.0}
+    
+    coeffs = _get_fourier_coefficients(f)
+    size = 1 << n
+    
+    weights: Dict[int, float] = {}
+    
+    for s in range(size):
+        degree = bin(s).count("1")
+        weight = coeffs[s] ** 2
+        weights[degree] = weights.get(degree, 0.0) + weight
+    
+    return weights
+
+
+def min_fourier_coefficient_size(f: "BooleanFunction", threshold: float = 1e-10) -> int:
+    """
+    Find the minimum subset size |S| with non-zero f̂(S).
+    
+    Returns min { |S| : f̂(S) ≠ 0 }.
+    
+    This is 0 if f has non-zero bias (f̂(∅) ≠ 0), otherwise it's
+    the minimum degree of a non-zero Fourier coefficient.
+    
+    Args:
+        f: BooleanFunction to analyze
+        threshold: Minimum magnitude to count as non-zero
+        
+    Returns:
+        Minimum subset size with non-zero coefficient
+        
+    References:
+        - Tal's BooleanFunc.py: min_size_fourier_coef
+    """
+    n = f.n_vars or 0
+    if n == 0:
+        return 0
+    
+    coeffs = _get_fourier_coefficients(f)
+    
+    min_size = n + 1  # Sentinel
+    for s, coeff in enumerate(coeffs):
+        if abs(coeff) > threshold:
+            size = bin(s).count("1")
+            min_size = min(min_size, size)
+            if min_size == 0:
+                break  # Can't get smaller than 0
+    
+    return min_size if min_size <= n else 0
 
 
 # =============================================================================

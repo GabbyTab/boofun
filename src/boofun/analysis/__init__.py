@@ -752,6 +752,7 @@ from . import (  # noqa: E402
     block_sensitivity,
     certificates,
     complexity,
+    decision_trees,
     equivalence,
     fourier,
     gaussian,
@@ -765,6 +766,7 @@ from . import (  # noqa: E402
     query_complexity,
     restrictions,
     sensitivity,
+    sparsity,
     symmetry,
 )
 
@@ -786,6 +788,10 @@ __all__ = [
     # BFW-style analysis (Scott Aaronson's Boolean Function Wizard)
     "query_complexity",
     "basic_properties",
+    # Decision tree analysis (Tal's algorithms)
+    "decision_trees",
+    # Fourier sparsity analysis (Tal's algorithms)
+    "sparsity",
     # O'Donnell Chapters 10-11: Gaussian analysis and Invariance Principle
     "gaussian",
     "invariance",
