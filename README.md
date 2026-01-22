@@ -183,37 +183,6 @@ analyzer = SBoxAnalyzer(sbox)
 print(analyzer.summary())
 ```
 
-## Library Comparison
-
-BooFun is designed for **analysis and education**. Other libraries excel at different tasks:
-
-| Feature | BooFun | thomasarmel (Rust) | BooLSPLG (CUDA) | SageMath |
-|---------|--------|-------------------|-----------------|----------|
-| **Focus** | Analysis, education | Cryptographic | GPU S-box | General math |
-| **Speed** | Medium | Fast | Very fast | Slow |
-| **Fourier analysis** | ✅ Full | - | - | ✅ |
-| **Query complexity** | ✅ Full | - | - | Partial |
-| **Property testing** | ✅ Full | - | - | Partial |
-| **Nonlinearity/Bent** | ✅ | ✅ | ✅ | ✅ |
-| **LAT/DDT** | ✅ | - | ✅ | ✅ |
-| **GPU acceleration** | Optional | - | ✅ Native | - |
-| **Parallelization** | NumPy | Rayon | CUDA | - |
-
-**What BooFun has that others don't:**
-- Global hypercontractivity analysis
-- Full query complexity suite (D, R, Q, Ambainis, certificates)
-- Property testing with probability bounds
-- O'Donnell textbook alignment with educational notebooks
-- Monte Carlo Fourier estimation via sampling
-- Family tracking for asymptotic analysis
-
-**When to use other libraries:**
-- **thomasarmel/boolean_function:** Exhaustive search over many functions (Rust parallelization)
-- **BooLSPLG:** Large-scale S-box analysis on GPU
-- **SageMath:** General mathematical computation
-
-Cross-validation tests ensure our cryptographic measures agree with thomasarmel's Rust implementation.
-
 ## Hypercontractivity (Chapter 9)
 
 Full implementation of hypercontractivity tools from O'Donnell Chapter 9 and global hypercontractivity from Keevash et al.:

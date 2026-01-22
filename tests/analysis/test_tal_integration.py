@@ -252,10 +252,7 @@ class TestSensitivityEnhancements:
         """Test t-th moment of sensitivity."""
         xor3 = bf.create([0, 1, 1, 0, 1, 0, 0, 1])  # XOR of 3 vars
 
-        from boofun.analysis.sensitivity import (
-            average_sensitivity,
-            average_sensitivity_moment,
-        )
+        from boofun.analysis.sensitivity import average_sensitivity, average_sensitivity_moment
 
         # 1st moment = average sensitivity
         as_1 = average_sensitivity_moment(xor3, 1)
