@@ -9,22 +9,22 @@ Tests cover:
 - Known complexity values
 """
 
-import pytest
 import numpy as np
-import boofun as bf
+import pytest
 
+import boofun as bf
 from boofun.analysis.decision_trees import (
+    DecisionTree,
+    count_decision_trees,
     decision_tree_depth_dp,
     decision_tree_depth_uniform_dp,
     decision_tree_depth_weighted_dp,
     decision_tree_size_dp,
     enumerate_decision_trees,
-    count_decision_trees,
-    DecisionTree,
+    randomized_complexity_matrix,
+    reconstruct_tree,
     tree_depth,
     tree_size,
-    reconstruct_tree,
-    randomized_complexity_matrix,
 )
 
 
@@ -130,23 +130,23 @@ class TestDecisionTreeWeightedDP:
     def test_uniform_matches_uniform_dp(self):
         """Uniform distribution matches dedicated uniform function."""
         f = bf.create([0, 1, 1, 0])
-        
+
         # Uniform distribution
         probs = [0.25, 0.25, 0.25, 0.25]
-        
+
         depth_uniform, _ = decision_tree_depth_uniform_dp(f)
         depth_weighted, _ = decision_tree_depth_weighted_dp(f, probs)
-        
+
         # Should be approximately equal
         assert abs(depth_uniform - depth_weighted) < 0.01
 
     def test_concentrated_distribution(self):
         """Concentrated distribution can reduce expected depth."""
         f = bf.create([0, 1, 1, 0])
-        
+
         # All probability on input 0
         probs = [1.0, 0.0, 0.0, 0.0]
-        
+
         depth, tree = decision_tree_depth_weighted_dp(f, probs)
         # Expected depth should be 0 since only input with prob is constant
         # (Actually XOR(0,0) = 0 is always output, but tree still exists)
@@ -195,7 +195,7 @@ class TestDecisionTreeClass:
         left = DecisionTree(value=0)
         right = DecisionTree(value=1)
         node = DecisionTree(var=0, left=left, right=right)
-        
+
         assert not node.is_leaf()
         assert node.var == 0
         assert node.depth() == 1
@@ -209,7 +209,7 @@ class TestDecisionTreeClass:
         n1 = DecisionTree(var=2, left=l0, right=l1)
         n2 = DecisionTree(var=1, left=l0, right=n1)
         root = DecisionTree(var=0, left=n2, right=l1)
-        
+
         assert root.depth() == 3
 
     def test_evaluate_dictator(self):
@@ -217,7 +217,7 @@ class TestDecisionTreeClass:
         left = DecisionTree(value=0)
         right = DecisionTree(value=1)
         tree = DecisionTree(var=0, left=left, right=right)
-        
+
         # f(x) = x0
         assert tree.evaluate(0b00, 2) == 0
         assert tree.evaluate(0b01, 2) == 1
@@ -229,17 +229,15 @@ class TestDecisionTreeClass:
         left = DecisionTree(value=0)
         right = DecisionTree(value=1)
         tree = DecisionTree(var=0, left=left, right=right)
-        
+
         # Always makes exactly 1 query
         assert tree.query_depth(0b00, 2) == 1
         assert tree.query_depth(0b11, 2) == 1
 
     def test_to_dict(self):
         """Convert tree to dictionary."""
-        tree = DecisionTree(var=0, 
-                           left=DecisionTree(value=0),
-                           right=DecisionTree(value=1))
-        
+        tree = DecisionTree(var=0, left=DecisionTree(value=0), right=DecisionTree(value=1))
+
         d = tree.to_dict()
         assert d["type"] == "internal"
         assert d["var"] == 0
@@ -325,22 +323,22 @@ class TestRandomizedComplexityMatrix:
         """Matrix has correct shape."""
         f = bf.create([0, 1, 1, 0])
         matrix = randomized_complexity_matrix(f)
-        
+
         # Rows = inputs, columns = trees
         n_inputs = 4
         n_trees = len(enumerate_decision_trees(f))
-        
+
         assert matrix.shape[0] == n_inputs
         assert matrix.shape[1] == n_trees
 
     def test_filter_by_output(self):
         """Filter inputs by output value."""
         f = bf.create([0, 0, 0, 1])  # AND
-        
+
         # Only 1-inputs
         matrix_1 = randomized_complexity_matrix(f, output_value=1)
         assert matrix_1.shape[0] == 1  # Only one 1-input (11)
-        
+
         # Only 0-inputs
         matrix_0 = randomized_complexity_matrix(f, output_value=0)
         assert matrix_0.shape[0] == 3  # Three 0-inputs
@@ -349,7 +347,7 @@ class TestRandomizedComplexityMatrix:
         """Matrix entries are query depths."""
         f = bf.create([0, 1, 0, 1])  # Dictator x0
         matrix = randomized_complexity_matrix(f)
-        
+
         # All entries should be non-negative integers
         assert np.all(matrix >= 0)
         assert np.all(matrix <= 2)  # Max depth is 2 for 2-var function

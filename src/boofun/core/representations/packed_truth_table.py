@@ -90,7 +90,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
             # Fallback to numpy packed bytes array
             arr = data["array"] if isinstance(data, dict) else data
             size = data.get("size", len(arr) * 8) if isinstance(data, dict) else len(arr) * 8
-            
+
             # Helper to get bit at index from packed array
             def get_bit(idx: int) -> bool:
                 if idx < 0 or idx >= size:

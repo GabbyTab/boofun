@@ -32,7 +32,6 @@ Basic Usage:
 from typing import Optional
 
 from .api import create, from_hex, partial, to_hex
-from .core.partial import PartialBooleanFunction
 from .core import BooleanFunction, ExactErrorModel, NoiseErrorModel, PACErrorModel, Property, Space
 from .core.adapters import (
     CallableAdapter,
@@ -44,6 +43,7 @@ from .core.adapters import (
 )
 from .core.builtins import BooleanFunctionBuiltins
 from .core.io import load, save
+from .core.partial import PartialBooleanFunction
 
 # Exception hierarchy for structured error handling
 from .utils.exceptions import (
@@ -100,19 +100,6 @@ from .analysis.gf2 import (
     is_linear_over_gf2,
 )
 
-# Hypercontractivity (Chapter 9 O'Donnell)
-from .analysis.hypercontractivity import (
-    bonami_lemma_bound,
-    friedgut_junta_bound,
-    hypercontractive_inequality,
-    junta_approximation_error,
-    kkl_lower_bound,
-    level_d_inequality,
-    lq_norm,
-    max_influence_bound,
-    noise_operator,
-)
-
 # Global Hypercontractivity (Keevash, Lifshitz, Long & Minzer)
 from .analysis.global_hypercontractivity import (
     GlobalHypercontractivityAnalyzer,
@@ -127,6 +114,18 @@ from .analysis.global_hypercontractivity import (
     threshold_curve,
 )
 
+# Hypercontractivity (Chapter 9 O'Donnell)
+from .analysis.hypercontractivity import (
+    bonami_lemma_bound,
+    friedgut_junta_bound,
+    hypercontractive_inequality,
+    junta_approximation_error,
+    kkl_lower_bound,
+    level_d_inequality,
+    lq_norm,
+    max_influence_bound,
+    noise_operator,
+)
 from .testing import BooleanFunctionValidator, quick_validate, validate_representation
 from .utils.finite_fields import GFField
 from .utils.finite_fields import get_field as get_gf_field

@@ -112,58 +112,58 @@ class TestBitOrderingConvention:
 
 class TestDirectBinaryVectorEvaluation:
     """Test direct binary vector evaluation (without bit_strings=True).
-    
+
     This tests the _binary_to_index method in representation strategies,
     verifying the LSB=x₀ convention is correctly implemented.
     """
 
     def test_dictator_binary_vector_lsb_convention(self):
         """Verify dictator correctly interprets binary vectors.
-        
+
         For dictator x₀, passing [1, 0, 0] (x₀=1, x₁=0, x₂=0) should return 1.
         This tests that _binary_to_index uses LSB-first convention.
         """
         f = bf.dictator(3, 0)  # x₀ dictator
-        
+
         # Binary vector [1, 0, 0] means x₀=1, x₁=0, x₂=0
         # Correct index = 1*2^0 + 0*2^1 + 0*2^2 = 1
         # If bug exists (MSB-first), would compute 1*2^2 + 0*2^1 + 0*2^0 = 4
         bits = np.array([1, 0, 0])
         result = int(f.evaluate(bits, bit_strings=True))
-        
+
         # x₀ dictator should return 1 when x₀=1
         assert result == 1, f"dictator(3,0) with bits [1,0,0] gave {result}, expected 1"
 
     def test_dictator_x1_binary_vector(self):
         """Verify x₁ dictator with binary vector [0, 1, 0]."""
         f = bf.dictator(3, 1)  # x₁ dictator
-        
+
         # Binary vector [0, 1, 0] means x₀=0, x₁=1, x₂=0
         bits = np.array([0, 1, 0])
         result = int(f.evaluate(bits, bit_strings=True))
-        
+
         # x₁ dictator should return 1 when x₁=1
         assert result == 1, f"dictator(3,1) with bits [0,1,0] gave {result}, expected 1"
 
     def test_dictator_x2_binary_vector(self):
         """Verify x₂ dictator with binary vector [0, 0, 1]."""
         f = bf.dictator(3, 2)  # x₂ dictator
-        
+
         # Binary vector [0, 0, 1] means x₀=0, x₁=0, x₂=1
         bits = np.array([0, 0, 1])
         result = int(f.evaluate(bits, bit_strings=True))
-        
+
         # x₂ dictator should return 1 when x₂=1
         assert result == 1, f"dictator(3,2) with bits [0,0,1] gave {result}, expected 1"
 
     def test_non_symmetric_binary_vectors(self):
         """Test with asymmetric inputs that would fail with wrong bit ordering."""
         f = bf.dictator(3, 0)  # x₀ dictator
-        
+
         # [1, 1, 0] means x₀=1, x₁=1, x₂=0, index=3
         # x₀=1, so dictator should return 1
         assert int(f.evaluate(np.array([1, 1, 0]), bit_strings=True)) == 1
-        
+
         # [0, 1, 1] means x₀=0, x₁=1, x₂=1, index=6
         # x₀=0, so dictator should return 0
         assert int(f.evaluate(np.array([0, 1, 1]), bit_strings=True)) == 0
@@ -173,20 +173,20 @@ class TestDirectBinaryVectorEvaluation:
         for n in [2, 3, 4]:
             for dictator_var in range(n):
                 f = bf.dictator(n, dictator_var)
-                
+
                 for index in range(2**n):
                     # Create binary vector for this index
                     bits = np.array([(index >> i) & 1 for i in range(n)])
-                    
+
                     by_index = int(f.evaluate(index))
                     by_bits = int(f.evaluate(bits, bit_strings=True))
-                    
+
                     # Both should agree
                     assert by_index == by_bits, (
                         f"dictator({n}, {dictator_var}): "
                         f"index {index} gave {by_index}, bits {bits} gave {by_bits}"
                     )
-                    
+
                     # And both should equal the value of the dictator variable
                     expected = (index >> dictator_var) & 1
                     assert by_index == expected, (

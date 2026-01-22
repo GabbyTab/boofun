@@ -352,42 +352,42 @@ def min_fixing_to_constant(
 ) -> Optional[Dict[int, int]]:
     """
     Find a minimum set of variable assignments that fixes f to a constant.
-    
+
     This implements Tal's min_fixing algorithm: find the smallest partial
     assignment that makes f constant (always 0 or always 1).
-    
+
     Args:
         f: BooleanFunction to analyze
         target_value: Target constant value (0 or 1)
         rng: Random number generator (for tie-breaking)
-        
+
     Returns:
         Dictionary {var_index: value} of minimum fixing, or None if impossible
-        
+
     Note:
         This is related to certificate complexity. The size of the minimum
         fixing to 1 is the 1-certificate complexity at the all-zeros input.
-        
+
     Reference:
         Tal's library: min_fixing(go_up) function
     """
     if rng is None:
         rng = np.random.default_rng()
-    
+
     n = f.n_vars or 0
     if n == 0:
         return {} if bool(f.evaluate(0)) == target_value else None
-    
+
     # Greedy approach: try to fix variables one at a time
     # This doesn't guarantee minimum but is efficient
     fixed = {}
     remaining = set(range(n))
-    
+
     while remaining:
         # Check if already constant
         is_constant = True
         first_val = None
-        
+
         for x in range(1 << n):
             # Check if x is consistent with current fixing
             consistent = True
@@ -396,7 +396,7 @@ def min_fixing_to_constant(
                 if bit != val:
                     consistent = False
                     break
-            
+
             if consistent:
                 val = bool(f.evaluate(x))
                 if first_val is None:
@@ -404,23 +404,23 @@ def min_fixing_to_constant(
                 elif val != first_val:
                     is_constant = False
                     break
-        
+
         if is_constant and first_val == target_value:
             return fixed
-        
+
         if not remaining:
             break
-        
+
         # Try fixing each remaining variable
         best_var = None
         best_val = None
-        best_remaining_diversity = float('inf')
-        
+        best_remaining_diversity = float("inf")
+
         for var in remaining:
             for val in [0, 1]:
                 test_fixed = dict(fixed)
                 test_fixed[var] = val
-                
+
                 # Count diversity of outputs under this fixing
                 outputs = set()
                 for x in range(1 << n):
@@ -432,24 +432,24 @@ def min_fixing_to_constant(
                             break
                     if consistent:
                         outputs.add(bool(f.evaluate(x)))
-                
+
                 if len(outputs) == 1 and target_value in outputs:
                     # This single fix achieves the target!
                     fixed[var] = val
                     return fixed
-                
+
                 diversity = len(outputs)
                 if diversity < best_remaining_diversity:
                     best_remaining_diversity = diversity
                     best_var = var
                     best_val = val
-        
+
         if best_var is not None:
             fixed[best_var] = best_val
             remaining.remove(best_var)
         else:
             break
-    
+
     # Final check
     for x in range(1 << n):
         consistent = True
@@ -461,45 +461,45 @@ def min_fixing_to_constant(
         if consistent:
             if bool(f.evaluate(x)) != target_value:
                 return None
-    
+
     return fixed
 
 
 def shift_by_mask(f: "BooleanFunction", mask: int) -> "BooleanFunction":
     """
     Shift a Boolean function by XORing all inputs with a mask.
-    
+
     Returns g where g(x) = f(x ⊕ mask).
-    
+
     This is useful for:
     - Converting between different input conventions
     - Finding monotone representations
     - Analyzing function structure under affine transformations
-    
+
     Args:
         f: BooleanFunction to shift
         mask: Integer mask to XOR with inputs
-        
+
     Returns:
         Shifted BooleanFunction
-        
+
     Reference:
         Tal's library: shift(sh) function
     """
     import boofun as bf
-    
+
     n = f.n_vars or 0
     if n == 0:
         return f
-    
+
     # Validate mask
     if mask < 0 or mask >= (1 << n):
         raise ValueError(f"Mask {mask} out of range for {n}-variable function")
-    
+
     # Build new truth table
     new_tt = []
     for x in range(1 << n):
         shifted_x = x ^ mask
         new_tt.append(int(f.evaluate(shifted_x)))
-    
+
     return bf.create(new_tt)

@@ -9,17 +9,17 @@ Tests cover:
 - Known sparsity bounds
 """
 
-import pytest
 import numpy as np
-import boofun as bf
+import pytest
 
+import boofun as bf
 from boofun.analysis.sparsity import (
+    effective_sparsity,
     fourier_sparsity,
     fourier_sparsity_up_to_constants,
-    granularity,
     fourier_support,
+    granularity,
     sparsity_by_degree,
-    effective_sparsity,
 )
 
 
@@ -49,7 +49,7 @@ class TestFourierSparsity:
         # XOR of 2 variables
         f = bf.create([0, 1, 1, 0])
         assert fourier_sparsity(f) == 1
-        
+
         # XOR of 3 variables
         f = bf.create([0, 1, 1, 0, 1, 0, 0, 1])
         assert fourier_sparsity(f) == 1
@@ -68,13 +68,13 @@ class TestFourierSparsity:
     def test_threshold_affects_count(self):
         """Threshold parameter affects count."""
         f = bf.create([0, 0, 0, 1])
-        
+
         # Default threshold
         sp1 = fourier_sparsity(f, threshold=1e-10)
-        
+
         # Higher threshold might exclude small coefficients
         sp2 = fourier_sparsity(f, threshold=0.1)
-        
+
         assert sp2 <= sp1
 
 
@@ -109,7 +109,7 @@ class TestGranularity:
         """AND has coefficients ±1/4."""
         f = bf.create([0, 0, 0, 1])
         result = granularity(f, threshold=0.01)
-        
+
         # Should have coefficients at ±0.25 and ±0.5
         # Check that we got multiple distinct values
         assert len(result) > 1
@@ -118,7 +118,7 @@ class TestGranularity:
         """Parity has single non-zero coefficient value."""
         f = bf.create([0, 1, 1, 0])
         result = granularity(f, threshold=0.01)
-        
+
         # Should have mostly zeros and one ±1
         non_zero = {k: v for k, v in result.items() if abs(k) > 0.01}
         assert len(non_zero) <= 2  # +1 and/or -1
@@ -160,7 +160,7 @@ class TestFourierSupport:
         """Support is sorted by degree then value."""
         f = bf.create([0, 0, 0, 1])
         support = fourier_support(f)
-        
+
         # Check sorting: degree 0, then degree 1, then degree 2
         degrees = [bin(s).count("1") for s in support]
         assert degrees == sorted(degrees)
@@ -191,12 +191,12 @@ class TestSparsityByDegree:
         """AND has sparsity at all degrees."""
         f = bf.create([0, 0, 0, 1])
         by_degree = sparsity_by_degree(f)
-        
+
         # Should have entries at degrees 0, 1, 2
         assert 0 in by_degree
         assert 1 in by_degree
         assert 2 in by_degree
-        
+
         # Degree 0: 1 coefficient (∅)
         # Degree 1: 2 coefficients ({0}, {1})
         # Degree 2: 1 coefficient ({0,1})
@@ -212,7 +212,7 @@ class TestEffectiveSparsity:
         """Parity has effective sparsity 1 (all weight on one coeff)."""
         f = bf.create([0, 1, 1, 0])
         eff_sparse, weight = effective_sparsity(f, weight_threshold=0.01)
-        
+
         assert eff_sparse == 1
         assert abs(weight - 1.0) < 0.01
 
@@ -220,16 +220,16 @@ class TestEffectiveSparsity:
         """Weight captured is in [0, 1]."""
         f = bf.create([0, 0, 0, 1])
         eff_sparse, weight = effective_sparsity(f)
-        
+
         assert 0 <= weight <= 1.0
 
     def test_lower_threshold_means_more_coeffs(self):
         """Lower threshold requires more coefficients."""
         f = bf.create([0, 0, 0, 1])
-        
+
         eff_low, _ = effective_sparsity(f, weight_threshold=0.001)
         eff_high, _ = effective_sparsity(f, weight_threshold=0.5)
-        
+
         assert eff_low >= eff_high
 
 
@@ -242,28 +242,28 @@ class TestSparsityBounds:
             # Random function
             tt = [np.random.randint(0, 2) for _ in range(1 << n)]
             f = bf.create(tt)
-            
+
             assert fourier_sparsity(f) <= (1 << n)
 
     def test_degree_d_sparsity_bound(self):
         """If deg(f) = d, sparsity ≤ sum of binomial(n,k) for k ≤ d."""
         from math import comb
-        
+
         # Dictator has degree 1
         f = bf.create([0, 1, 0, 1])  # x0 on 2 vars
         n = 2
         d = 1
-        
+
         # Bound: sum_{k=0}^{d} C(n,k)
         bound = sum(comb(n, k) for k in range(d + 1))
-        
+
         assert fourier_sparsity(f) <= bound
 
     def test_juntas_have_low_sparsity(self):
         """k-juntas have sparsity at most 2^k."""
         # x0 is a 1-junta
         f = bf.create([0, 1, 0, 1, 0, 1, 0, 1])  # x0 on 3 vars
-        
+
         # Sparsity should be at most 2^1 = 2
         # But actually for balanced dictator it's 1
         assert fourier_sparsity(f) <= 2
@@ -275,7 +275,7 @@ class TestEdgeCases:
     def test_single_variable(self):
         """Single variable function."""
         f = bf.create([0, 1])  # x0
-        
+
         assert fourier_sparsity(f) == 1
         support = fourier_support(f)
         assert support == [1]  # Only {x0}
@@ -284,7 +284,7 @@ class TestEdgeCases:
         """Constant 0 vs constant 1."""
         f0 = bf.create([0, 0])
         f1 = bf.create([1, 1])
-        
+
         # Both constant, both have one non-zero coefficient
         assert fourier_sparsity(f0) == fourier_sparsity(f1) == 1
 
@@ -292,5 +292,5 @@ class TestEdgeCases:
         """f and NOT(f) have same sparsity."""
         f = bf.create([0, 1, 1, 0])
         not_f = bf.create([1, 0, 0, 1])
-        
+
         assert fourier_sparsity(f) == fourier_sparsity(not_f)
