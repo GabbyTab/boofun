@@ -78,8 +78,9 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _binary_to_index(self, binary_vector: np.ndarray) -> int:
-        """Convert binary vector to integer index using standard binary encoding."""
-        return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector) - 1, -1, -1)))
+        """Convert binary vector to integer index using LSB=x₀ convention."""
+        # LSB-first: binary_vector[i] corresponds to x_i, so index = Σ x_i * 2^i
+        return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector))))
 
     def _compute_index(self, bits: np.ndarray) -> int:
         """Optimized bit packing using NumPy"""

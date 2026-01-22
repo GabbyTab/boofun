@@ -77,16 +77,21 @@ def create(data=None, storage: str = "auto", **kwargs):
         return _create_lazy_function(data, **kwargs)
     
     # Handle storage hints by setting representation type
-    if storage == "packed":
+    # Only apply to array-like data, not callables (which use query access)
+    is_array_like = hasattr(data, "__len__") and not callable(data)
+    
+    if storage == "packed" and is_array_like:
         kwargs.setdefault("rep_type", "packed_truth_table")
-    elif storage == "sparse":
+    elif storage == "sparse" and is_array_like:
         kwargs.setdefault("rep_type", "sparse_truth_table")
-    elif storage == "auto" and data is not None:
-        # Auto-select based on size
+    elif storage == "auto" and is_array_like:
+        # Auto-select based on size for array-like data
         n = kwargs.get("n")
-        if n is None and hasattr(data, "__len__"):
+        if n is None:
             try:
-                n = int(np.log2(len(data)))
+                data_len = len(data)
+                if data_len > 0:
+                    n = int(np.log2(data_len))
             except (TypeError, ValueError):
                 pass
         if n is not None and n > 14:

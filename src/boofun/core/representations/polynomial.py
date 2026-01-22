@@ -84,8 +84,9 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         return bool(result)
 
     def _binary_to_index(self, binary_vector: np.ndarray) -> int:
-        """Convert binary vector to integer index."""
-        return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector) - 1, -1, -1)))
+        """Convert binary vector to integer index using LSB=x₀ convention."""
+        # LSB-first: binary_vector[i] corresponds to x_i, so index = Σ x_i * 2^i
+        return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector))))
 
     def dump(self, data: Dict[frozenset, int], space=None, **kwargs) -> Dict[str, Any]:
         """

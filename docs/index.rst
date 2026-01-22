@@ -18,6 +18,7 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
    performance
    comparison_guide
    cross_validation
+   error_handling
 
 Installation
 ------------
@@ -56,15 +57,38 @@ This ensures ``f̂(∅) = E[f]``.
 What's Here
 -----------
 
-* **Fourier**: Walsh-Hadamard transform, influences, noise stability
-* **Property Testing**: BLR, junta, monotonicity
-* **Query Complexity**: D(f), R(f), Q(f), sensitivity, certificates
-* **Representations**: Truth tables, ANF, BDD, circuits, Fourier expansion
+**Core Analysis**
 
-Limitations
------------
+* **Fourier**: Walsh-Hadamard transform, influences, noise stability, spectral concentration
+* **Property Testing**: BLR, junta, monotonicity, symmetry, balance
+* **Query Complexity**: D(f), R(f), Q(f), sensitivity, certificates, Ambainis bound
+* **Representations**: Truth tables, ANF, BDD, circuits, DNF/CNF, Fourier expansion
 
-Test coverage is low (~38%). Edge cases may have bugs. If something breaks, please report it.
+**New in v1.1**
+
+* **Hypercontractivity**: Noise operator, Bonami's Lemma, KKL theorem, Friedgut's junta theorem
+* **Global Hypercontractivity**: p-biased analysis, threshold phenomena (Keevash et al.)
+* **Cryptographic Analysis**: Nonlinearity, bent functions, LAT/DDT, S-box analysis
+* **Partial Functions**: Streaming specification, hex I/O, storage hints
+* **Advanced Sensitivity**: Moments, histograms, p-biased sensitivity
+* **Decision Trees**: DP algorithms, tree enumeration, randomized complexity
+
+What's Unique
+-------------
+
+Features not found in other Boolean function libraries:
+
+* **Global hypercontractivity** analysis (Keevash, Lifshitz, Long & Minzer)
+* **Full query complexity suite** (D, R, Q, Ambainis, spectral adversary)
+* **Property testing** with probability bounds
+* **Family tracking** for asymptotic analysis
+* **Monte Carlo Fourier estimation** via sampling
+* **O'Donnell textbook alignment** with educational notebooks
+
+Test Coverage
+-------------
+
+Test coverage is ~70% with 2900+ tests. If something breaks, please report it.
 
 API Reference
 =============

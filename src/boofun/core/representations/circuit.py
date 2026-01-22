@@ -311,8 +311,9 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _index_to_binary(self, index: int, n_vars: int) -> List[bool]:
-        """Convert integer index to binary vector."""
-        return [(index >> i) & 1 == 1 for i in range(n_vars - 1, -1, -1)]
+        """Convert integer index to binary vector using LSB=x₀ convention."""
+        # LSB-first: result[i] = x_i = (index >> i) & 1
+        return [(index >> i) & 1 == 1 for i in range(n_vars)]
 
     def dump(self, data: BooleanCircuit, space=None, **kwargs) -> Dict[str, Any]:
         """Export circuit representation."""

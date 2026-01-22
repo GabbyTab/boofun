@@ -203,8 +203,9 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _index_to_binary(self, index: int, n_vars: int) -> List[bool]:
-        """Convert integer index to binary vector."""
-        return [(index >> i) & 1 == 1 for i in range(n_vars - 1, -1, -1)]
+        """Convert integer index to binary vector using LSB=x₀ convention."""
+        # LSB-first: result[i] = x_i = (index >> i) & 1
+        return [(index >> i) & 1 == 1 for i in range(n_vars)]
 
     def dump(self, data: BDD, space=None, **kwargs) -> Dict[str, Any]:
         """Export BDD representation."""
@@ -239,7 +240,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         Build BDD from truth table using Shannon expansion.
 
         Args:
-            truth_table: Boolean truth table
+            truth_table: Boolean truth table (LSB=x₀ ordering)
             n_vars: Number of variables
 
         Returns:
@@ -247,38 +248,43 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         """
         bdd = BDD(n_vars)
 
-        # Use Shannon expansion recursively
-        bdd.root = self._shannon_expansion(truth_table, 0, n_vars, bdd)
+        # Build BDD starting from highest-indexed variable (standard BDD convention)
+        # Variable order: x_{n-1} at top, x_0 at bottom
+        indices = list(range(len(truth_table)))
+        bdd.root = self._shannon_expansion_lsb(truth_table, indices, n_vars - 1, bdd)
 
         return bdd
 
-    def _shannon_expansion(
-        self, truth_table: List[bool], var: int, n_vars: int, bdd: BDD
+    def _shannon_expansion_lsb(
+        self, truth_table: List[bool], indices: List[int], var: int, bdd: BDD
     ) -> BDDNode:
         """
-        Apply Shannon expansion for variable var.
+        Apply Shannon expansion with LSB=x₀ convention.
+
+        We build BDD from x_{n-1} (top) down to x_0 (bottom).
+        This gives a natural variable ordering where higher variables are tested first.
 
         Args:
-            truth_table: Current truth table
-            var: Current variable index
-            n_vars: Total number of variables
+            truth_table: Full truth table
+            indices: List of indices currently under consideration
+            var: Current variable index (counting down from n_vars-1 to 0)
             bdd: BDD instance
 
         Returns:
             BDD node for this expansion
         """
-        if var >= n_vars:
-            # Terminal case
-            return bdd.create_terminal(truth_table[0])
+        if var < 0:
+            # Terminal case - all indices should have same value
+            return bdd.create_terminal(truth_table[indices[0]])
 
-        # Split truth table for current variable
-        half_size = len(truth_table) // 2
-        low_table = truth_table[:half_size]
-        high_table = truth_table[half_size:]
+        # Split indices based on whether x_var is 0 or 1
+        # With LSB=x₀, x_var is at bit position var
+        low_indices = [i for i in indices if ((i >> var) & 1) == 0]
+        high_indices = [i for i in indices if ((i >> var) & 1) == 1]
 
         # Recursive expansion
-        low_node = self._shannon_expansion(low_table, var + 1, n_vars, bdd)
-        high_node = self._shannon_expansion(high_table, var + 1, n_vars, bdd)
+        low_node = self._shannon_expansion_lsb(truth_table, low_indices, var - 1, bdd)
+        high_node = self._shannon_expansion_lsb(truth_table, high_indices, var - 1, bdd)
 
         # Create node for current variable
         return bdd.create_node(var, low_node, high_node)

@@ -214,6 +214,60 @@ BooFun is designed for **analysis and education**. Other libraries excel at diff
 
 Cross-validation tests ensure our cryptographic measures agree with thomasarmel's Rust implementation.
 
+## Hypercontractivity (Chapter 9)
+
+Full implementation of hypercontractivity tools from O'Donnell Chapter 9 and global hypercontractivity from Keevash et al.:
+
+```python
+import boofun as bf
+
+f = bf.majority(5)
+
+# Noise operator T_ρ
+noisy_f = bf.noise_operator(f, rho=0.5)
+
+# L_q norms
+bf.lq_norm(f, q=4)
+
+# Bonami's Lemma: ‖T_ρ f‖_q ≤ ‖f‖_2 for ρ ≤ 1/√(q-1)
+lq_noisy, l2 = bf.bonami_lemma_bound(f, q=4, rho=0.5)
+
+# KKL Theorem bounds (max influence ≥ c·I[f]·log(n)/n)
+max_inf, kkl_bound, total = bf.max_influence_bound(f)
+
+# Friedgut's Junta Theorem (functions with low total influence are close to juntas)
+junta_size = bf.friedgut_junta_bound(total_influence=2.0, epsilon=0.1)
+error = bf.junta_approximation_error(f, junta_vars=[0, 1, 2])
+
+# Hypercontractive inequality: ‖T_ρ f‖_q ≤ ‖f‖_p
+lq, lp, satisfied = bf.hypercontractive_inequality(f, rho=0.5, p=2, q=4)
+```
+
+### Global Hypercontractivity (Keevash et al.)
+
+For analyzing Boolean functions under p-biased measures:
+
+```python
+# Global hypercontractivity analyzer
+analyzer = bf.GlobalHypercontractivityAnalyzer(f, p=0.5)
+print(analyzer.summary())
+
+# Check if function is α-global (no small set has large generalized influence)
+is_global, details = bf.is_alpha_global(f, alpha=0.01, max_set_size=3)
+
+# Generalized influence of a set S under μ_p
+bf.generalized_influence(f, S={0, 1}, p=0.5)
+
+# p-biased expectation and influence
+bf.p_biased_expectation(f, p=0.3)
+bf.p_biased_influence(f, i=0, p=0.3)
+bf.p_biased_total_influence(f, p=0.3)
+
+# Threshold phenomena
+curve = bf.threshold_curve(f, p_range=np.linspace(0, 1, 50))
+p_crit = bf.find_critical_p(f)
+```
+
 ## Mathematical Convention
 
 We follow O'Donnell's convention:
@@ -242,6 +296,17 @@ We follow O'Donnell's convention:
 - Optional Numba JIT for WHT, influences
 - Optional GPU via CuPy
 - Sparse representations for large n
+- **Batch processing:** Pass NumPy arrays for vectorized evaluation
+
+```python
+# Batch evaluation (vectorized)
+inputs = np.array([[0,0], [0,1], [1,0], [1,1]])
+results = f.evaluate(inputs)  # Returns array of results
+
+# Large batches auto-use optimized processing
+inputs = np.random.randint(0, 2, (10000, n))
+results = f.evaluate(inputs)  # Fast vectorized evaluation
+```
 
 For n ≤ 14, most operations complete in milliseconds. For n > 18, consider sparse representations or GPU.
 
@@ -252,7 +317,7 @@ pytest tests/
 pytest --cov=boofun tests/
 ```
 
-Test coverage is incomplete. Cross-validation against known results is in `tests/test_cross_validation.py`.
+**2900+ tests** covering core functionality, mathematical properties, and bit-ordering conventions. Cross-validation against known results is in `tests/test_cross_validation.py`.
 
 ## API Stability
 
@@ -272,7 +337,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especiall
 
 **Prior Art:**
 - **Scott Aaronson's Boolean Function Wizard** (2000): The query complexity module draws on Aaronson's "Algorithms for Boolean Function Query Measures," which implemented D(f), R(f), Q(f), sensitivity, block sensitivity, and certificate complexity. His work established the algorithmic foundations we build on.
-- **Avishay Tal's Boolean function library** (PhD-era): Professor Tal generously shared his Python library, which included Fourier transforms, sensitivity calculations, decision tree algorithms, and polynomial representations. His code informed several design decisions.
+- **Avishay Tal**: Professor Tal generously shared his PhD-era Python library, which informed several design decisions including sensitivity moments, p-biased analysis, decision tree algorithms, and polynomial representations.
 
 **Theoretical Foundation:**
 - O'Donnell's *Analysis of Boolean Functions* (Cambridge, 2014)

@@ -46,15 +46,19 @@ __all__ = [
 
 
 def noise_operator(f: "BooleanFunction", rho: float) -> np.ndarray:
-    """
+    r"""
     Apply the noise operator T_ρ to a Boolean function.
 
     The noise operator is defined as:
-        (T_ρ f)(x) = E_y[f(y)]
+
+    .. math::
+
+        (T_\rho f)(x) = \mathbb{E}_y[f(y)]
+
     where y is obtained by independently keeping each bit of x with
     probability (1+ρ)/2 and flipping it with probability (1-ρ)/2.
 
-    In Fourier domain: (T_ρ f)^(S) = ρ^|S| · f̂(S)
+    In Fourier domain: :math:`\widehat{T_\rho f}(S) = \rho^{|S|} \cdot \hat{f}(S)`
 
     Args:
         f: BooleanFunction to apply noise to
@@ -65,6 +69,11 @@ def noise_operator(f: "BooleanFunction", rho: float) -> np.ndarray:
 
     Note:
         Returns real values in [-1, 1], not Boolean values.
+
+    See Also:
+        - :func:`bonami_lemma_bound`: Bounds using noise operator
+        - :func:`~boofun.analysis.SpectralAnalyzer.noise_stability`: Noise stability Stab_ρ[f]
+        - O'Donnell Chapter 9 for theoretical background
     """
     from . import SpectralAnalyzer
 
@@ -160,18 +169,21 @@ def bonami_lemma_bound(f: "BooleanFunction", q: float, rho: float) -> Tuple[floa
 
 
 def kkl_lower_bound(total_influence: float, n: int) -> float:
-    """
+    r"""
     KKL theorem lower bound on maximum influence.
 
     KKL Theorem (O'Donnell Theorem 9.24):
     For any Boolean f: {±1}^n → {±1} that is not constant:
-        max_i Inf_i[f] ≥ Ω(log n / n) · Var[f]
 
-    More precisely, if I[f] is the total influence:
-        max_i Inf_i[f] ≥ Var[f] · Ω(log n) / n
+    .. math::
+
+        \max_i \text{Inf}_i[f] \geq \Omega\left(\frac{\log n}{n}\right) \cdot \text{Var}[f]
 
     For balanced functions (Var[f] = 1):
-        max_i Inf_i[f] ≥ c · log n / n for some constant c
+
+    .. math::
+
+        \max_i \text{Inf}_i[f] \geq c \cdot \frac{\log n}{n}
 
     Args:
         total_influence: Total influence I[f]
@@ -182,6 +194,10 @@ def kkl_lower_bound(total_influence: float, n: int) -> float:
 
     Note:
         The constant c ≈ 0.57 in the precise statement.
+
+    See Also:
+        - :func:`max_influence_bound`: Computes bound for a specific function
+        - :func:`friedgut_junta_bound`: Related junta approximation theorem
     """
     if n <= 1:
         return 0.0
