@@ -351,7 +351,7 @@ except ImportError:
     HAS_QUANTUM = False
 
 # Version information
-__version__ = "0.2.0"
+__version__ = "1.1.0"
 __author__ = "Gabriel Taboada"
 
 # Core exports for typical usage
