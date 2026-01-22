@@ -125,7 +125,7 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 
 #### RandomVariableView Features
 - `rv.expectation()`, `rv.variance()` - exact values
-- `rv.estimate_expectation(n)`, `rv.estimate_variance(n)` - Monte Carlo estimates  
+- `rv.estimate_expectation(n)`, `rv.estimate_variance(n)` - Monte Carlo estimates
 - `rv.sample(n)` - sample (input, output) pairs
 - `rv.sample_spectral(n)` - sample from Fourier weight distribution
 - `rv.validate_estimates(n)` - cross-validate estimates vs exact
@@ -157,7 +157,7 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 #### Recent Progress (Jan 2026)
 - ✅ Added 145+ tests for advanced analysis features
 - ✅ Added 43 tests for sampling module
-- ✅ Added 28 tests for families module  
+- ✅ Added 28 tests for families module
 - ✅ Added 35 tests for symmetry/restrictions enhancements
 - ✅ Added 58 tests for cryptographic module (LAT/DDT, algebraic immunity)
 - ✅ Added 46 tests for partial functions (streaming, hex I/O)
@@ -217,7 +217,7 @@ Created `analysis/cryptographic.py` with cryptographic measures that match thoma
 
 #### Cross-Validation Tests (37 tests)
 - ✅ 0xac90 (4-var bent): both libraries agree
-- ✅ 0x0113077C165E76A8 (6-var bent): both libraries agree  
+- ✅ 0x0113077C165E76A8 (6-var bent): both libraries agree
 - ✅ Balanced count: C(16,8) = 12870
 
 #### Libraries to Analyze
@@ -287,7 +287,7 @@ p = bf.partial(n=30, known_values={0: True, 1: False})
 p.add(5, True)
 p.add_batch({10: True, 11: False, 12: True})
 
-# Query status  
+# Query status
 p.completeness      # 0.0000001 (fraction known)
 p.num_known         # 6
 p.is_known(5)       # True

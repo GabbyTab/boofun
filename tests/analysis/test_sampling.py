@@ -401,10 +401,10 @@ class TestRandomVariableView:
         f = bf.create([0, 1, 1, 0])  # XOR
         rv = RandomVariableView(f)
 
-        I = rv.total_influence()
+        total_inf = rv.total_influence()
 
         # XOR has total influence = 2
-        assert abs(I - 2.0) < 0.01
+        assert abs(total_inf - 2.0) < 0.01
 
     def test_sample_method(self):
         """Sample method returns pairs."""

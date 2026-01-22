@@ -13,24 +13,25 @@ Features covered:
 """
 
 import numpy as np
+
 import boofun as bf
-from boofun.analysis.sensitivity import (
-    sensitivity_at,
-    sensitive_coordinates,
-    max_sensitivity,
-    min_sensitivity,
-    average_sensitivity,
-    average_sensitivity_moment,
-    sensitivity_histogram,
-    arg_max_sensitivity,
-    arg_min_sensitivity,
-)
+from boofun.analysis.complexity import decision_tree_depth, max_certificate_complexity
 from boofun.analysis.decision_trees import (
-    decision_tree_depth_dp,
     compute_randomized_complexity,
     count_decision_trees,
+    decision_tree_depth_dp,
 )
-from boofun.analysis.complexity import max_certificate_complexity, decision_tree_depth
+from boofun.analysis.sensitivity import (
+    arg_max_sensitivity,
+    arg_min_sensitivity,
+    average_sensitivity,
+    average_sensitivity_moment,
+    max_sensitivity,
+    min_sensitivity,
+    sensitive_coordinates,
+    sensitivity_at,
+    sensitivity_histogram,
+)
 
 
 def demo_pointwise_sensitivity():
@@ -38,9 +39,9 @@ def demo_pointwise_sensitivity():
     print("=" * 60)
     print("Pointwise Sensitivity Analysis")
     print("=" * 60)
-    
+
     f = bf.majority(5)
-    
+
     print("\n1. Sensitivity at specific inputs")
     print("-" * 50)
     # Test at different Hamming weights (0, 2, 3, 5 ones)
@@ -48,9 +49,9 @@ def demo_pointwise_sensitivity():
     for x in [0, 3, 7, 31]:  # 0 ones, 2 ones, 3 ones, 5 ones
         s = sensitivity_at(f, x)
         coords = sensitive_coordinates(f, x)
-        ones = bin(x).count('1')
+        ones = bin(x).count("1")
         print(f"   x={x:05b} ({ones} ones): s={s}, sensitive coords: {coords}")
-    
+
     print("\n2. Find extremal inputs")
     print("-" * 50)
     x_max, s_max = arg_max_sensitivity(f)
@@ -64,14 +65,14 @@ def demo_aggregate_sensitivity():
     print("\n" + "=" * 60)
     print("Aggregate Sensitivity Measures")
     print("=" * 60)
-    
+
     functions = {
         "Parity(4)": bf.parity(4),
         "Majority(5)": bf.majority(5),
         "AND(4)": bf.AND(4),
         "OR(4)": bf.OR(4),
     }
-    
+
     print("\n1. Basic sensitivity measures")
     print("-" * 50)
     print(f"   {'Function':<15} {'s(f)':<8} {'as(f)':<10}")
@@ -80,7 +81,7 @@ def demo_aggregate_sensitivity():
         s = max_sensitivity(f)
         avg_s = average_sensitivity(f)
         print(f"   {name:<15} {s:<8} {avg_s:<10.4f}")
-    
+
     print("\n2. Sensitivity moments (t-th moment of sensitivity)")
     print("-" * 50)
     f = bf.majority(5)
@@ -94,10 +95,10 @@ def demo_sensitivity_histogram():
     print("\n" + "=" * 60)
     print("Sensitivity Histogram")
     print("=" * 60)
-    
+
     f = bf.majority(5)
     hist = sensitivity_histogram(f)
-    
+
     print("\n   Sensitivity value distribution for Majority(5):")
     print("-" * 50)
     # hist is an array where hist[s] = count of inputs with sensitivity s
@@ -113,14 +114,14 @@ def demo_decision_trees():
     print("\n" + "=" * 60)
     print("Decision Tree Analysis")
     print("=" * 60)
-    
+
     functions = {
         "Parity(4)": bf.parity(4),
         "Majority(3)": bf.majority(3),
         "AND(4)": bf.AND(4),
         "OR(4)": bf.OR(4),
     }
-    
+
     print("\n1. Decision tree depth D(f)")
     print("-" * 50)
     print(f"   {'Function':<15} {'D(f)':<8} {'C₀(f)':<8} {'C₁(f)':<8}")
@@ -130,7 +131,7 @@ def demo_decision_trees():
         c0 = max_certificate_complexity(f, value=0)
         c1 = max_certificate_complexity(f, value=1)
         print(f"   {name:<15} {d:<8} {c0:<8} {c1:<8}")
-    
+
     print("\n2. Randomized decision tree depth R(f)")
     print("-" * 50)
     for name, f in functions.items():
@@ -143,7 +144,7 @@ def demo_tree_enumeration():
     print("\n" + "=" * 60)
     print("Decision Tree Enumeration")
     print("=" * 60)
-    
+
     print("\n1. Counting decision trees")
     print("-" * 50)
     for n in [2, 3]:
@@ -157,20 +158,20 @@ def demo_complexity_relationships():
     print("\n" + "=" * 60)
     print("Complexity Measure Relationships")
     print("=" * 60)
-    
+
     f = bf.majority(5)
-    
+
     print("\n   For Majority(5):")
     print("-" * 50)
-    
+
     s = max_sensitivity(f)
     d = decision_tree_depth(f)
     deg = f.degree()
-    
+
     print(f"   Sensitivity s(f):       {s}")
     print(f"   Decision tree D(f):     {d}")
     print(f"   Fourier degree deg(f):  {deg}")
-    
+
     print("\n   Key relationships (from Huang's theorem):")
     print(f"   - s(f) ≥ √deg(f): {s} ≥ √{deg} = {np.sqrt(deg):.2f} ✓")
     print(f"   - D(f) ≥ s(f):    {d} ≥ {s} ✓")
@@ -181,14 +182,14 @@ def main():
     print("\n" + "=" * 60)
     print("BooFun Sensitivity & Decision Tree Analysis Demo")
     print("=" * 60)
-    
+
     demo_pointwise_sensitivity()
     demo_aggregate_sensitivity()
     demo_sensitivity_histogram()
     demo_decision_trees()
     demo_tree_enumeration()
     demo_complexity_relationships()
-    
+
     print("\n" + "=" * 60)
     print("Demo complete!")
     print("=" * 60)
