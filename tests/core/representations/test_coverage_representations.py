@@ -130,9 +130,7 @@ class TestPackedTruthTableEvaluation:
 
     def test_binary_to_index(self):
         """Test _binary_to_index helper method."""
-        from boofun.core.representations.packed_truth_table import (
-            PackedTruthTableRepresentation,
-        )
+        from boofun.core.representations.packed_truth_table import PackedTruthTableRepresentation
 
         repr_obj = PackedTruthTableRepresentation()
 
@@ -171,9 +169,7 @@ class TestPackedTruthTableConversion:
 
     def test_convert_from_truth_table(self):
         """Test conversion from truth table to packed."""
-        from boofun.core.representations.packed_truth_table import (
-            PackedTruthTableRepresentation,
-        )
+        from boofun.core.representations.packed_truth_table import PackedTruthTableRepresentation
         from boofun.core.representations.truth_table import TruthTableRepresentation
 
         tt_repr = TruthTableRepresentation()
@@ -210,9 +206,7 @@ class TestPackedTruthTableUtilities:
 
     def test_create_empty(self):
         """Test create_empty method."""
-        from boofun.core.representations.packed_truth_table import (
-            PackedTruthTableRepresentation,
-        )
+        from boofun.core.representations.packed_truth_table import PackedTruthTableRepresentation
 
         repr_obj = PackedTruthTableRepresentation()
         empty = repr_obj.create_empty(4)
@@ -253,9 +247,7 @@ class TestPackedTruthTableUtilities:
 
     def test_time_complexity_rank(self):
         """Test time_complexity_rank method."""
-        from boofun.core.representations.packed_truth_table import (
-            PackedTruthTableRepresentation,
-        )
+        from boofun.core.representations.packed_truth_table import PackedTruthTableRepresentation
 
         repr_obj = PackedTruthTableRepresentation()
         rank = repr_obj.time_complexity_rank(10)
@@ -265,9 +257,7 @@ class TestPackedTruthTableUtilities:
 
     def test_get_storage_requirements(self):
         """Test get_storage_requirements method."""
-        from boofun.core.representations.packed_truth_table import (
-            PackedTruthTableRepresentation,
-        )
+        from boofun.core.representations.packed_truth_table import PackedTruthTableRepresentation
 
         repr_obj = PackedTruthTableRepresentation()
         req = repr_obj.get_storage_requirements(10)
@@ -286,9 +276,7 @@ class TestLTFParameters:
         """Test LTFParameters creation."""
         from boofun.core.representations.ltf import LTFParameters
 
-        params = LTFParameters(
-            weights=np.array([1.0, 2.0, 3.0]), threshold=2.5, n_vars=3
-        )
+        params = LTFParameters(weights=np.array([1.0, 2.0, 3.0]), threshold=2.5, n_vars=3)
         assert params.n_vars == 3
         assert params.threshold == 2.5
 
@@ -778,9 +766,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_create_sparse(self):
         """Test creating sparse representation."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
 
@@ -792,9 +778,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_evaluate_scalar(self):
         """Test evaluating sparse representation at scalar index."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
         space = Space.BOOLEAN_CUBE
@@ -813,9 +797,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_evaluate_binary_vector(self):
         """Test evaluating sparse representation at binary vector."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
         space = Space.BOOLEAN_CUBE
@@ -833,9 +815,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_evaluate_array_indices(self):
         """Test evaluating sparse representation at array of indices."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
         space = Space.BOOLEAN_CUBE
@@ -855,9 +835,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_evaluate_batch_binary(self):
         """Test evaluating sparse representation at batch of binary vectors."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
         space = Space.BOOLEAN_CUBE
@@ -875,9 +853,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_evaluate_index_out_of_range(self):
         """Test that out of range index raises error."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
         space = Space.BOOLEAN_CUBE
@@ -894,9 +870,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_evaluate_unsupported_shape(self):
         """Test that unsupported shape raises error."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
         space = Space.BOOLEAN_CUBE
@@ -913,9 +887,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_dump(self):
         """Test dump method."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
 
@@ -932,9 +904,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_is_complete(self):
         """Test is_complete method."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
 
@@ -950,9 +920,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_time_complexity_rank(self):
         """Test time_complexity_rank method."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
         rank = repr_obj.time_complexity_rank(10)
@@ -961,9 +929,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_get_storage_requirements(self):
         """Test get_storage_requirements method."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
         req = repr_obj.get_storage_requirements(10)
@@ -972,9 +938,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_get_compression_stats(self):
         """Test get_compression_stats method."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
 
         repr_obj = SparseTruthTableRepresentation()
 
@@ -991,9 +955,7 @@ class TestSparseTruthTableRepresentation:
 
     def test_sparse_convert_from(self):
         """Test conversion from truth table to sparse."""
-        from boofun.core.representations.sparse_truth_table import (
-            SparseTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import SparseTruthTableRepresentation
         from boofun.core.representations.truth_table import TruthTableRepresentation
 
         tt_repr = TruthTableRepresentation()
@@ -1013,9 +975,7 @@ class TestAdaptiveTruthTableRepresentation:
 
     def test_create_adaptive(self):
         """Test creating adaptive representation."""
-        from boofun.core.representations.sparse_truth_table import (
-            AdaptiveTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import AdaptiveTruthTableRepresentation
 
         repr_obj = AdaptiveTruthTableRepresentation()
         empty = repr_obj.create_empty(3)
@@ -1024,9 +984,7 @@ class TestAdaptiveTruthTableRepresentation:
 
     def test_adaptive_is_complete(self):
         """Test is_complete method."""
-        from boofun.core.representations.sparse_truth_table import (
-            AdaptiveTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import AdaptiveTruthTableRepresentation
 
         repr_obj = AdaptiveTruthTableRepresentation()
         empty = repr_obj.create_empty(3)
@@ -1035,9 +993,7 @@ class TestAdaptiveTruthTableRepresentation:
 
     def test_adaptive_time_complexity_rank(self):
         """Test time_complexity_rank method."""
-        from boofun.core.representations.sparse_truth_table import (
-            AdaptiveTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import AdaptiveTruthTableRepresentation
 
         repr_obj = AdaptiveTruthTableRepresentation()
         rank = repr_obj.time_complexity_rank(10)
@@ -1046,9 +1002,7 @@ class TestAdaptiveTruthTableRepresentation:
 
     def test_adaptive_get_storage_requirements(self):
         """Test get_storage_requirements method."""
-        from boofun.core.representations.sparse_truth_table import (
-            AdaptiveTruthTableRepresentation,
-        )
+        from boofun.core.representations.sparse_truth_table import AdaptiveTruthTableRepresentation
 
         repr_obj = AdaptiveTruthTableRepresentation()
         req = repr_obj.get_storage_requirements(10)
