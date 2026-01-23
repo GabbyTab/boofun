@@ -78,7 +78,7 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     needs: [lint, changes]
-    if: needs.changes.outputs.code == 'true' || github.event_name == 'workflow_dispatch'
+    if: needs.changes.outputs.code == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
     strategy:
       fail-fast: false
       matrix:
