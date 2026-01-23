@@ -68,6 +68,7 @@ maj.analyze()  # dict with all metrics
 | **Query Complexity** | D(f), R(f), Q(f), sensitivity, block sensitivity, certificates, Ambainis bound |
 | **Property Testing** | BLR linearity, junta, monotonicity, symmetry, balance |
 | **Hypercontractivity** | Noise operator, Bonami's Lemma, KKL theorem, Friedgut's junta theorem |
+| **Learning Theory** | Goldreich-Levin, PAC learning, junta learning, LMN algorithm |
 | **Cryptographic** | Nonlinearity, bent functions, Walsh spectrum, LAT/DDT, S-box analysis |
 | **Visualization** | Influence plots, Fourier spectrum, truth table heatmaps, decision trees |
 
@@ -78,6 +79,7 @@ Detailed documentation for each topic:
 - **[Spectral Analysis](https://gabbytab.github.io/boofun/guides/spectral_analysis.html)** — Fourier, influences, p-biased, sensitivity, sampling
 - **[Query Complexity](https://gabbytab.github.io/boofun/guides/query_complexity.html)** — D/R/Q, certificates, decision trees, Huang's theorem
 - **[Hypercontractivity](https://gabbytab.github.io/boofun/guides/hypercontractivity.html)** — KKL, Bonami, Friedgut, global hypercontractivity
+- **[Learning Theory](https://gabbytab.github.io/boofun/guides/learning.html)** — Goldreich-Levin, PAC learning, junta learning, LMN
 - **[Cryptographic Analysis](https://gabbytab.github.io/boofun/guides/cryptographic.html)** — Nonlinearity, bent, LAT/DDT, S-box
 - **[Representations](https://gabbytab.github.io/boofun/guides/representations.html)** — All formats, conversion graph, storage hints
 

@@ -24,6 +24,7 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
    guides/query_complexity
    guides/hypercontractivity
    guides/cryptographic
+   guides/learning
    guides/representations
 
 .. toctree::
