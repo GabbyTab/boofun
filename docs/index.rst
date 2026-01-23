@@ -10,6 +10,8 @@ Boolean function analysis in Python.
 
 Tools for Fourier analysis, property testing, and complexity measures of Boolean functions. Built while studying O'Donnell's *Analysis of Boolean Functions*.
 
+`GitHub Repository <https://github.com/GabbyTab/boofun>`_ · `PyPI <https://pypi.org/project/boofun/>`_ · `Issues <https://github.com/GabbyTab/boofun/issues>`_
+
 .. toctree::
    :maxdepth: 2
    :caption: Getting Started:
