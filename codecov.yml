@@ -1,0 +1,42 @@
+# Codecov Configuration
+# https://docs.codecov.com/docs/codecovyml-reference
+
+coverage:
+  precision: 2
+  round: down
+  range: "60...80"
+  
+  status:
+    project:
+      default:
+        # Use only line coverage (not branch) for project status
+        target: 70%
+        threshold: 2%
+        # Only check files that were changed
+        only_pulls: true
+    patch:
+      default:
+        target: 60%
+        threshold: 5%
+
+# Ignore visualization modules (hard to test without GUI)
+ignore:
+  - "src/boofun/visualization/animation.py"
+  - "src/boofun/visualization/growth_plots.py"
+  - "src/boofun/visualization/interactive.py"
+  - "src/boofun/visualization/widgets.py"
+  - "**/__pycache__/**"
+  - "**/test_*.py"
+
+# Comment settings for PRs
+comment:
+  layout: "reach,diff,flags,files"
+  behavior: default
+  require_changes: true
+
+# Flag definitions
+flags:
+  unittests:
+    paths:
+      - src/boofun/
+    carryforward: true
