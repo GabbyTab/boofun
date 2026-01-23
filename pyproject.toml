@@ -305,7 +305,30 @@ exclude_lines = [
 ]
 
 [tool.mutmut]
-paths_to_mutate = "src/boofun/core/optimizations.py"
+# Mutation testing targets - focus on critical algorithmic code
+# Run with: mutmut run --paths-to-mutate=<path>
+# Or: mutmut run  (uses default paths below)
+paths_to_mutate = """
+src/boofun/core/optimizations.py
+src/boofun/analysis/fourier.py
+src/boofun/analysis/sensitivity.py
+src/boofun/analysis/hypercontractivity.py
+src/boofun/analysis/complexity.py
+src/boofun/analysis/learning.py
+src/boofun/core/representations/truth_table.py
+src/boofun/core/representations/fourier_expansion.py
+"""
 tests_dir = "tests/"
-runner = "pytest -x --tb=no -q"
+runner = "pytest -x --tb=no -q tests/correctness/ tests/property/ tests/fuzz/"
 dict_synonyms = "Mapping,MutableMapping"
+
+# Exclude lines that shouldn't be mutated
+[tool.mutmut.exclude]
+# Skip defensive programming / type checks
+patterns = [
+    "raise.*Error",
+    "assert ",
+    "logging\\.",
+    "warnings\\.warn",
+    "if TYPE_CHECKING:",
+]

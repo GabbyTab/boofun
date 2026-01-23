@@ -1,5 +1,13 @@
 """
-Final coverage push - targeting remaining low coverage modules.
+Module exploration and integration tests.
+
+Tests that exercise module APIs systematically to verify:
+- All public functions are callable
+- Basic operations don't crash
+- Integration between modules works
+
+Note: These tests are designed to catch regressions and verify basic functionality,
+not to test specific behaviors (those are in dedicated test files).
 """
 
 import sys

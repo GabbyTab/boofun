@@ -1,12 +1,12 @@
 """
-Comprehensive tests to boost coverage for low-coverage modules.
+Tests for batch processing infrastructure and error models.
 
-Targets:
-- batch_processing.py (52%)
-- errormodels.py (73%)
-- dnf_form.py (68%)
-- quantum module (49%)
-- families/base.py (73%)
+This module tests:
+- Batch processing: VectorizedBatchProcessor, ParallelBatchProcessor,
+  OptimizedTruthTableProcessor, OptimizedFourierProcessor, OptimizedANFProcessor
+- Error models: ExactErrorModel, PACErrorModel, NoiseErrorModel
+- DNF/CNF representation handling
+- Integration of batch processing with function families
 """
 
 import sys

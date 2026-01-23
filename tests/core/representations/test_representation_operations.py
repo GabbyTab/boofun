@@ -1,11 +1,11 @@
 """
-Comprehensive tests for representation modules to increase coverage.
+Tests for advanced representation operations.
 
 Tests cover:
-- packed_truth_table.py
-- ltf.py
-- polynomial.py
-- sparse_truth_table.py
+- PackedTruthTable: bit-packed storage, evaluation, conversion
+- LTF (Linear Threshold Functions): weights, thresholds, Chow parameters
+- Polynomial: real polynomial representation, degree operations
+- SparseTruthTable: sparse storage for functions with few true inputs
 """
 
 import sys
