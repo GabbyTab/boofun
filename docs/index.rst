@@ -12,13 +12,28 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Getting Started:
 
    quickstart
-   performance
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Guides:
+
+   guides/spectral_analysis
+   guides/query_complexity
+   guides/hypercontractivity
+   guides/cryptographic
+   guides/representations
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Reference:
+
    comparison_guide
-   cross_validation
+   performance
    error_handling
+   cross_validation
 
 Installation
 ------------
@@ -88,7 +103,7 @@ Features not found in other Boolean function libraries:
 Test Coverage
 -------------
 
-Test coverage is ~70% with 2900+ tests. If something breaks, please report it.
+Test coverage is 71% with 3056 tests. If something breaks, please report it.
 
 API Reference
 =============

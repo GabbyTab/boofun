@@ -24,6 +24,7 @@ BooFun focuses on theoretical computer science: Fourier analysis (O'Donnell styl
 - Certificates: C(f), C₀(f), C₁(f)
 - Lower bounds: Ambainis, spectral adversary, polynomial method, general adversary
 - Degree measures: exact, approximate, threshold, nondeterministic
+- Decision tree algorithms: DP optimal depth, tree enumeration, randomized complexity
 
 **Property Testing:**
 - BLR linearity
@@ -35,6 +36,36 @@ BooFun focuses on theoretical computer science: Fourier analysis (O'Donnell styl
 - Noise stability
 - Spectral weight by degree
 - KKL theorem bounds
+- p-biased Fourier analysis
+- Annealed influence, truncation, correlation
+
+**Sensitivity Analysis:**
+- Sensitivity moments and histograms
+- p-biased sensitivity
+- Pointwise sensitivity, sensitive coordinates
+- arg_max/arg_min sensitivity
+
+**Hypercontractivity (v1.1):**
+- Noise operator T_ρ, L_q norms
+- Bonami's Lemma, hypercontractive inequality
+- KKL theorem, Friedgut's junta theorem
+- Level-d inequality
+
+**Global Hypercontractivity (v1.1, unique):**
+- GlobalHypercontractivityAnalyzer
+- α-global function detection
+- Generalized influence under μ_p
+- Threshold curves, critical p
+
+**Cryptographic Analysis (v1.1):**
+- Nonlinearity, bent function detection
+- Walsh transform and spectrum
+- Algebraic Normal Form, algebraic degree
+- Correlation immunity, resiliency
+- Strict Avalanche Criterion (SAC)
+- Linear Approximation Table (LAT)
+- Difference Distribution Table (DDT)
+- S-box analyzer
 
 **Quantum** (theoretical estimation only):
 - Grover speedup
@@ -43,11 +74,12 @@ BooFun focuses on theoretical computer science: Fourier analysis (O'Donnell styl
 ## What BooFun Lacks
 
 Features better served by other libraries:
-- Cryptographic analysis (bent, correlation immunity) → SageMath
-- SAT solving, BDD operations → pyeda
+- SAT solving, advanced BDD operations → pyeda
 - Boolean networks, attractors → BoolForge
 - Network control theory → CANA
 - Canalization analysis → BoolForge/CANA
+
+Note: As of v1.1, BooFun now includes comprehensive cryptographic analysis (bent functions, nonlinearity, correlation immunity, LAT/DDT).
 
 ## Comparison Tables
 
@@ -59,10 +91,12 @@ Features better served by other libraries:
 | Influences | ✓ | ✗ |
 | Total influence | ✓ | ✗ |
 | Noise stability | ✓ | ✗ |
-| Bent functions | ✗ | ✓ |
-| Correlation immunity | ✗ | ✓ |
+| Bent functions | ✓ | ✓ |
+| Correlation immunity | ✓ | ✓ |
+| Hypercontractivity | ✓ | ✗ |
+| p-biased analysis | ✓ | ✗ |
 
-Different focus: BooFun follows O'Donnell; SageMath focuses on cryptographic properties.
+BooFun now covers both O'Donnell-style analysis and cryptographic properties.
 
 ### Property Testing
 
@@ -91,10 +125,12 @@ pyeda's BDD implementation is more mature.
 - Query complexity research
 - Property testing algorithms
 - Influence/noise stability analysis
+- Hypercontractivity and threshold phenomena
+- Cryptographic analysis (nonlinearity, bent, LAT/DDT, S-box)
 
 **SageMath:**
-- Cryptographic analysis
-- Bent functions, nonlinearity
+- Deeper algebraic cryptanalysis
+- Finite field computations
 
 **pyeda:**
 - SAT solving
@@ -120,10 +156,10 @@ See `tests/test_cross_validation.py` for details. Not everything has been cross-
 ## Installation
 
 ```bash
-pip install git+https://github.com/GabbyTab/boofun  # BooFun
+pip install boofun      # BooFun (PyPI)
 pip install git+https://github.com/ckadelka/BoolForge  # BoolForge
-pip install cana  # CANA
-pip install pyeda  # pyeda
+pip install cana        # CANA
+pip install pyeda       # pyeda
 ```
 
 ## Prior Art
