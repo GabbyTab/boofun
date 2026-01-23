@@ -6,11 +6,11 @@ Algorithms for learning Boolean functions from queries or samples.
 
 BooFun provides implementations of key learning algorithms from computational learning theory:
 
-- **Goldreich-Levin** — Find heavy Fourier coefficients with query access
-- **PAC Learning** — Probably Approximately Correct learning framework
-- **Junta Learning** — Learn functions that depend on few variables
-- **LMN Algorithm** — Learn decision trees from uniform samples
-- **Sparse Fourier Learning** — Learn functions with few Fourier coefficients
+- **Goldreich-Levin**: Find heavy Fourier coefficients with query access
+- **PAC Learning**: Probably Approximately Correct learning framework
+- **Junta Learning**: Learn functions that depend on few variables
+- **LMN Algorithm**: Learn decision trees from uniform samples
+- **Sparse Fourier Learning**: Learn functions with few Fourier coefficients
 
 ## Goldreich-Levin Algorithm
 
@@ -62,9 +62,9 @@ print(f"Coefficients found: {len(heavy_coeffs)}")
 ## PAC Learning
 
 The PAC (Probably Approximately Correct) framework:
-- **Given**: Sample access to f (can draw (x, f(x)) for random x)
-- **Goal**: Output hypothesis h such that Pr[h(x) ≠ f(x)] ≤ ε
-- **With probability**: at least 1 - δ
+- **Given:** Sample access to f (can draw (x, f(x)) for random x)
+- **Goal:** Output hypothesis h such that Pr[h(x) != f(x)] <= epsilon
+- **With probability:** at least 1 - delta
 
 ### Learning Low-Degree Functions
 
@@ -248,8 +248,8 @@ A concept class C is PAC-learnable if there exists an algorithm A such that:
 
 ## See Also
 
-- [Spectral Analysis Guide](spectral_analysis.md) — Fourier coefficients
-- [Query Complexity Guide](query_complexity.md) — Query models
-- `notebooks/lecture7_goldreich_levin.ipynb` — Goldreich-Levin tutorial
-- `notebooks/lecture8_learning_juntas.ipynb` — Junta learning tutorial
+- [Spectral Analysis Guide](spectral_analysis.md): Fourier coefficients
+- [Query Complexity Guide](query_complexity.md): Query models
+- `notebooks/lecture7_goldreich_levin.ipynb`: Goldreich-Levin tutorial
+- `notebooks/lecture8_learning_juntas.ipynb`: Junta learning tutorial
 - O'Donnell, *Analysis of Boolean Functions*, Chapter 3

@@ -70,18 +70,20 @@ maj.analyze()  # dict with all metrics
 | **Hypercontractivity** | Noise operator, Bonami's Lemma, KKL theorem, Friedgut's junta theorem |
 | **Learning Theory** | Goldreich-Levin, PAC learning, junta learning, LMN algorithm |
 | **Cryptographic** | Nonlinearity, bent functions, Walsh spectrum, LAT/DDT, S-box analysis |
+| **Advanced** | Gaussian analysis, invariance principle, communication complexity, LTF analysis |
 | **Visualization** | Influence plots, Fourier spectrum, truth table heatmaps, decision trees |
 
 ## Guides
 
 Detailed documentation for each topic:
 
-- **[Spectral Analysis](https://gabbytab.github.io/boofun/guides/spectral_analysis.html)** — Fourier, influences, p-biased, sensitivity, sampling
-- **[Query Complexity](https://gabbytab.github.io/boofun/guides/query_complexity.html)** — D/R/Q, certificates, decision trees, Huang's theorem
-- **[Hypercontractivity](https://gabbytab.github.io/boofun/guides/hypercontractivity.html)** — KKL, Bonami, Friedgut, global hypercontractivity
-- **[Learning Theory](https://gabbytab.github.io/boofun/guides/learning.html)** — Goldreich-Levin, PAC learning, junta learning, LMN
-- **[Cryptographic Analysis](https://gabbytab.github.io/boofun/guides/cryptographic.html)** — Nonlinearity, bent, LAT/DDT, S-box
-- **[Representations](https://gabbytab.github.io/boofun/guides/representations.html)** — All formats, conversion graph, storage hints
+- **[Spectral Analysis](https://gabbytab.github.io/boofun/guides/spectral_analysis.html)**: Fourier, influences, p-biased, sensitivity, sampling
+- **[Query Complexity](https://gabbytab.github.io/boofun/guides/query_complexity.html)**: D/R/Q, certificates, decision trees, Huang's theorem
+- **[Hypercontractivity](https://gabbytab.github.io/boofun/guides/hypercontractivity.html)**: KKL, Bonami, Friedgut, global hypercontractivity
+- **[Learning Theory](https://gabbytab.github.io/boofun/guides/learning.html)**: Goldreich-Levin, PAC learning, junta learning, LMN
+- **[Cryptographic Analysis](https://gabbytab.github.io/boofun/guides/cryptographic.html)**: Nonlinearity, bent, LAT/DDT, S-box
+- **[Representations](https://gabbytab.github.io/boofun/guides/representations.html)**: All formats, conversion graph, storage hints
+- **[Advanced Topics](https://gabbytab.github.io/boofun/guides/advanced.html)**: Gaussian, invariance, communication complexity, LTF, restrictions
 
 ## Flexible Input
 
@@ -134,8 +136,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especiall
 
 ## Acknowledgments
 
-- **Scott Aaronson's Boolean Function Wizard** (2000) — Query complexity foundations
-- **Avishay Tal** — Sensitivity, p-biased analysis, decision tree algorithms
+- **Scott Aaronson's Boolean Function Wizard** (2000): Query complexity foundations
+- **Avishay Tal**: Sensitivity, p-biased analysis, decision tree algorithms
 - **O'Donnell's *Analysis of Boolean Functions*** (Cambridge, 2014)
 
 ## License

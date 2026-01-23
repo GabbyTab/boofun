@@ -26,6 +26,7 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
    guides/cryptographic
    guides/learning
    guides/representations
+   guides/advanced
 
 .. toctree::
    :maxdepth: 2
