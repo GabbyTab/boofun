@@ -191,9 +191,13 @@ class TestVisualizationOutput:
             try:
                 fig = viz.plot_influences(save_path=str(save_file), show=False)
                 assert fig is not None
-            except Exception:
-                pass  # Some formats may not be supported
-            plt.close("all")
+            except (ValueError, OSError) as e:
+                # Some formats may not be supported by the backend
+                # ValueError: unsupported file format
+                # OSError: cannot write to file
+                pass
+            finally:
+                plt.close("all")
 
 
 if __name__ == "__main__":

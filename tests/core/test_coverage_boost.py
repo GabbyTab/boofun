@@ -43,28 +43,31 @@ class TestVectorizedBatchProcessor:
         assert not proc.supports_representation("unknown_repr")
 
     def test_process_small_batch(self):
-        """Test processing small batch."""
+        """Test processing small batch returns correct shape."""
         from boofun.core.batch_processing import VectorizedBatchProcessor
 
         proc = VectorizedBatchProcessor(chunk_size=100)
         inputs = np.array([0, 1, 2, 3])
-        # Just verify it doesn't crash
-        try:
-            proc.process_batch(inputs, None, Space.BOOLEAN_CUBE, 2)
-        except Exception:
-            pass  # Expected to fail without proper function data
+
+        # Note: VectorizedBatchProcessor's base implementation returns False
+        # for all inputs. Specific representations override this behavior.
+        # Here we just test the infrastructure works.
+        results = proc.process_batch(inputs, None, Space.BOOLEAN_CUBE, 2)
+        assert len(results) == 4
+        assert results.dtype == bool
 
     def test_process_large_batch_chunks(self):
-        """Test processing batch that requires chunking."""
+        """Test processing batch that requires chunking uses chunks."""
         from boofun.core.batch_processing import VectorizedBatchProcessor
 
         proc = VectorizedBatchProcessor(chunk_size=10)
         inputs = np.arange(50)
-        # Verify chunking logic is exercised
-        try:
-            proc.process_batch(inputs, None, Space.BOOLEAN_CUBE, 6)
-        except Exception:
-            pass
+
+        # Verify chunking is used (50 > chunk_size=10)
+        # The base implementation returns False, but we test the infrastructure
+        results = proc.process_batch(inputs, None, Space.BOOLEAN_CUBE, 6)
+        assert len(results) == 50
+        assert results.dtype == bool
 
 
 class TestParallelBatchProcessor:
@@ -92,12 +95,10 @@ class TestParallelBatchProcessor:
         from boofun.core.batch_processing import ParallelBatchProcessor
 
         proc = ParallelBatchProcessor(n_workers=4)
-        # Small batch should use sequential
-        inputs = np.array([0, 1, 2])
-        try:
-            proc.process_batch(inputs, None, Space.BOOLEAN_CUBE, 2)
-        except Exception:
-            pass
+        # Small batch should use sequential - just verify it exists and has attributes
+        assert proc.n_workers == 4
+        # Note: ParallelBatchProcessor is designed for symbolic/circuit representations
+        # which require different test setup than simple truth tables
 
 
 class TestOptimizedTruthTableProcessor:
@@ -685,14 +686,21 @@ class TestIntegration:
         f = bf.majority(4)
 
         for repr_name in ["truth_table", "fourier_expansion"]:
-            try:
-                data = f.get_representation(repr_name)
-                if data is not None:
-                    # Evaluate at multiple points
-                    results = [f.evaluate(i) for i in range(16)]
-                    assert len(results) == 16
-            except Exception:
-                pass  # Some representations may not support all operations
+            data = f.get_representation(repr_name)
+            assert data is not None, f"Failed to get {repr_name} representation"
+
+            # Evaluate at multiple points
+            results = [f.evaluate(i) for i in range(16)]
+            assert len(results) == 16
+
+            # Verify majority function: output 1 if more than half of inputs are 1
+            for i in range(16):
+                bits = bin(i).count("1")
+                expected = 1 if bits > 2 else 0
+                assert results[i] == expected, (
+                    f"Majority(4) at input {i} (bits={bits}): "
+                    f"expected {expected}, got {results[i]}"
+                )
 
     def test_error_model_with_analysis(self):
         """Test using error models with analysis."""

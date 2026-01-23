@@ -84,12 +84,18 @@ class TestGPUAccelerationModule:
     def test_gpu_manager(self):
         """Test GPUManager class."""
         from boofun.core.gpu_acceleration import GPUManager
+        from boofun.utils.exceptions import ResourceUnavailableError
 
         try:
             manager = GPUManager()
             assert manager is not None
-        except Exception:
-            pass
+            # Check for actual GPUManager methods
+            assert hasattr(manager, "is_gpu_available")
+            assert hasattr(manager, "should_use_gpu")
+        except ResourceUnavailableError:
+            pass  # Expected when GPU not available
+        except ImportError:
+            pass  # CuPy not installed
 
     def test_accelerator_classes(self):
         """Test accelerator classes exist."""

@@ -1,5 +1,11 @@
 """
 Visualization branch coverage tests.
+
+NOTE: These tests are designed to exercise visualization code paths for coverage.
+They catch exceptions broadly because visualization methods may fail for various
+reasons (missing backends, unsupported operations, etc.) that don't indicate bugs.
+
+For behavioral tests, see test_visualization.py and test_visualization_comprehensive.py.
 """
 
 import sys
@@ -23,11 +29,31 @@ def cleanup_plots():
     plt.close("all")
 
 
+def _call_method_safely(attr):
+    """
+    Attempt to call a visualization method safely.
+
+    This is for coverage testing - we want to exercise the code path
+    regardless of whether it succeeds or fails due to backend issues.
+    """
+    try:
+        return attr(show=False)
+    except TypeError:
+        # Method doesn't take show= parameter, try without
+        try:
+            return attr()
+        except Exception:
+            pass
+    except Exception:
+        pass
+    return None
+
+
 class TestVisualizerMethods:
-    """Test all visualizer methods systematically."""
+    """Test all visualizer methods systematically for coverage."""
 
     def test_all_methods_majority(self):
-        """Test all methods with majority function."""
+        """Exercise all methods with majority function."""
         f = bf.majority(5)
         viz = BooleanFunctionVisualizer(f)
 
@@ -36,18 +62,10 @@ class TestVisualizerMethods:
                 continue
             attr = getattr(viz, name)
             if callable(attr):
-                try:
-                    result = attr(show=False)
-                except TypeError:
-                    try:
-                        attr()
-                    except:
-                        pass
-                except:
-                    pass
+                _call_method_safely(attr)
 
     def test_all_methods_parity(self):
-        """Test all methods with parity function."""
+        """Exercise all methods with parity function."""
         f = bf.parity(4)
         viz = BooleanFunctionVisualizer(f)
 
@@ -56,18 +74,10 @@ class TestVisualizerMethods:
                 continue
             attr = getattr(viz, name)
             if callable(attr):
-                try:
-                    result = attr(show=False)
-                except TypeError:
-                    try:
-                        attr()
-                    except:
-                        pass
-                except:
-                    pass
+                _call_method_safely(attr)
 
     def test_all_methods_and(self):
-        """Test all methods with AND function."""
+        """Exercise all methods with AND function."""
         f = bf.AND(3)
         viz = BooleanFunctionVisualizer(f)
 
@@ -76,15 +86,7 @@ class TestVisualizerMethods:
                 continue
             attr = getattr(viz, name)
             if callable(attr):
-                try:
-                    result = attr(show=False)
-                except TypeError:
-                    try:
-                        attr()
-                    except:
-                        pass
-                except:
-                    pass
+                _call_method_safely(attr)
 
 
 class TestVisualizerOptions:
@@ -114,6 +116,48 @@ class TestVisualizerOptions:
         assert fig is not None
 
 
+def _exercise_module_for_coverage(module, f=None):
+    """
+    Exercise all callables in a module for coverage.
+
+    This is a coverage exploration helper - it tries to call everything
+    without failing the test if calls don't work.
+    """
+    for name in dir(module):
+        if name.startswith("_"):
+            continue
+        obj = getattr(module, name)
+        if isinstance(obj, type):
+            try:
+                if f is not None:
+                    obj(f)
+                else:
+                    obj()
+            except (TypeError, ValueError, AttributeError):
+                try:
+                    obj()
+                except Exception:
+                    pass
+            except Exception:
+                pass
+        elif callable(obj):
+            try:
+                if f is not None:
+                    obj(f, show=False)
+                else:
+                    obj(show=False)
+            except TypeError:
+                try:
+                    if f is not None:
+                        obj(f)
+                    else:
+                        obj()
+                except Exception:
+                    pass
+            except Exception:
+                pass
+
+
 class TestGrowthPlotsMore:
     """More growth plots tests."""
 
@@ -136,19 +180,7 @@ class TestGrowthPlotsMore:
         from boofun.visualization import growth_plots
 
         f = bf.majority(3)
-
-        for name in dir(growth_plots):
-            if name.startswith("_"):
-                continue
-            obj = getattr(growth_plots, name)
-            if callable(obj) and not isinstance(obj, type):
-                try:
-                    obj(f)
-                except:
-                    try:
-                        obj()
-                    except:
-                        pass
+        _exercise_module_for_coverage(growth_plots, f)
 
 
 class TestAnimationMore:
@@ -173,19 +205,7 @@ class TestAnimationMore:
         from boofun.visualization import animation
 
         f = bf.majority(3)
-
-        for name in dir(animation):
-            if name.startswith("_"):
-                continue
-            obj = getattr(animation, name)
-            if callable(obj) and not isinstance(obj, type):
-                try:
-                    result = obj(f, show=False)
-                except:
-                    try:
-                        obj(f)
-                    except:
-                        pass
+        _exercise_module_for_coverage(animation, f)
 
 
 class TestWidgetsMore:
@@ -196,19 +216,7 @@ class TestWidgetsMore:
         from boofun.visualization import widgets
 
         f = bf.majority(3)
-
-        for name in dir(widgets):
-            if name.startswith("_"):
-                continue
-            obj = getattr(widgets, name)
-            if isinstance(obj, type):
-                try:
-                    obj(f)
-                except:
-                    try:
-                        obj()
-                    except:
-                        pass
+        _exercise_module_for_coverage(widgets, f)
 
 
 class TestInteractiveMore:
@@ -219,19 +227,7 @@ class TestInteractiveMore:
         from boofun.visualization import interactive
 
         f = bf.AND(3)
-
-        for name in dir(interactive):
-            if name.startswith("_"):
-                continue
-            obj = getattr(interactive, name)
-            if callable(obj):
-                try:
-                    obj(f)
-                except:
-                    try:
-                        obj()
-                    except:
-                        pass
+        _exercise_module_for_coverage(interactive, f)
 
 
 class TestLatexExportMore:
@@ -242,19 +238,7 @@ class TestLatexExportMore:
         from boofun.visualization import latex_export
 
         f = bf.OR(2)
-
-        for name in dir(latex_export):
-            if name.startswith("_"):
-                continue
-            obj = getattr(latex_export, name)
-            if callable(obj):
-                try:
-                    obj(f)
-                except:
-                    try:
-                        obj()
-                    except:
-                        pass
+        _exercise_module_for_coverage(latex_export, f)
 
 
 class TestDecisionTreeExportMore:
@@ -265,19 +249,7 @@ class TestDecisionTreeExportMore:
         from boofun.visualization import decision_tree_export
 
         f = bf.AND(3)
-
-        for name in dir(decision_tree_export):
-            if name.startswith("_"):
-                continue
-            obj = getattr(decision_tree_export, name)
-            if callable(obj):
-                try:
-                    obj(f)
-                except:
-                    try:
-                        obj()
-                    except:
-                        pass
+        _exercise_module_for_coverage(decision_tree_export, f)
 
 
 if __name__ == "__main__":

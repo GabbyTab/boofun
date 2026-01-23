@@ -22,9 +22,9 @@ class TestFourierPrecision:
             parseval_sum = np.sum(coeffs**2)
 
             # Should be exactly 1.0 (within machine epsilon)
-            assert abs(parseval_sum - 1.0) < 1e-14, (
-                f"Parseval failed for n={n}: sum={parseval_sum}, error={abs(parseval_sum - 1.0)}"
-            )
+            assert (
+                abs(parseval_sum - 1.0) < 1e-14
+            ), f"Parseval failed for n={n}: sum={parseval_sum}, error={abs(parseval_sum - 1.0)}"
 
     def test_parseval_constant_function(self):
         """Constant function has f̂(∅) = ±1, all others 0."""
@@ -49,13 +49,13 @@ class TestFourierPrecision:
             full_set = (1 << n) - 1  # All bits set
             for i in range(len(coeffs)):
                 if i == full_set:
-                    assert abs(abs(coeffs[i]) - 1.0) < 1e-14, (
-                        f"Parity({n}) f̂(full_set) should be ±1, got {coeffs[i]}"
-                    )
+                    assert (
+                        abs(abs(coeffs[i]) - 1.0) < 1e-14
+                    ), f"Parity({n}) f̂(full_set) should be ±1, got {coeffs[i]}"
                 else:
-                    assert abs(coeffs[i]) < 1e-14, (
-                        f"Parity({n}) f̂({i}) should be 0, got {coeffs[i]}"
-                    )
+                    assert (
+                        abs(coeffs[i]) < 1e-14
+                    ), f"Parity({n}) f̂({i}) should be 0, got {coeffs[i]}"
 
     def test_dictator_single_nonzero_coefficient(self):
         """Dictator has only f̂({i}) = 1."""
@@ -67,13 +67,13 @@ class TestFourierPrecision:
                 expected_idx = 1 << i
                 for j in range(len(coeffs)):
                     if j == expected_idx:
-                        assert abs(coeffs[j] - 1.0) < 1e-14, (
-                            f"Dictator({n}, {i}) f̂({j}) should be 1, got {coeffs[j]}"
-                        )
+                        assert (
+                            abs(coeffs[j] - 1.0) < 1e-14
+                        ), f"Dictator({n}, {i}) f̂({j}) should be 1, got {coeffs[j]}"
                     else:
-                        assert abs(coeffs[j]) < 1e-14, (
-                            f"Dictator({n}, {i}) f̂({j}) should be 0, got {coeffs[j]}"
-                        )
+                        assert (
+                            abs(coeffs[j]) < 1e-14
+                        ), f"Dictator({n}, {i}) f̂({j}) should be 0, got {coeffs[j]}"
 
 
 class TestInfluencePrecision:
@@ -86,9 +86,9 @@ class TestInfluencePrecision:
             infs = f.influences()
             total = f.total_influence()
 
-            assert abs(np.sum(infs) - total) < 1e-14, (
-                f"Influence sum mismatch for n={n}: sum={np.sum(infs)}, total={total}"
-            )
+            assert (
+                abs(np.sum(infs) - total) < 1e-14
+            ), f"Influence sum mismatch for n={n}: sum={np.sum(infs)}, total={total}"
 
     def test_dictator_influence_exact(self):
         """Dictator has Inf_i = 1 and Inf_j = 0 for j ≠ i."""
@@ -99,9 +99,9 @@ class TestInfluencePrecision:
 
                 for j in range(n):
                     expected = 1.0 if j == i else 0.0
-                    assert abs(infs[j] - expected) < 1e-14, (
-                        f"Dictator({n}, {i}) Inf[{j}] should be {expected}, got {infs[j]}"
-                    )
+                    assert (
+                        abs(infs[j] - expected) < 1e-14
+                    ), f"Dictator({n}, {i}) Inf[{j}] should be {expected}, got {infs[j]}"
 
     def test_parity_uniform_influence(self):
         """Parity has Inf_i = 1 for all i."""
@@ -110,9 +110,9 @@ class TestInfluencePrecision:
             infs = f.influences()
 
             for i in range(n):
-                assert abs(infs[i] - 1.0) < 1e-14, (
-                    f"Parity({n}) Inf[{i}] should be 1, got {infs[i]}"
-                )
+                assert (
+                    abs(infs[i] - 1.0) < 1e-14
+                ), f"Parity({n}) Inf[{i}] should be 1, got {infs[i]}"
 
 
 class TestNoiseStabilityPrecision:
@@ -127,9 +127,9 @@ class TestNoiseStabilityPrecision:
             expectation = f.fourier()[0]
 
             expected = expectation**2
-            assert abs(stability - expected) < 1e-14, (
-                f"Stab_0 should be E[f]^2 = {expected}, got {stability}"
-            )
+            assert (
+                abs(stability - expected) < 1e-14
+            ), f"Stab_0 should be E[f]^2 = {expected}, got {stability}"
 
     def test_noise_stability_at_one(self):
         """Stab_1[f] = 1 for any f."""
@@ -137,9 +137,7 @@ class TestNoiseStabilityPrecision:
             f = bf.random(n, seed=300 + n)
             stability = f.noise_stability(1.0)
 
-            assert abs(stability - 1.0) < 1e-14, (
-                f"Stab_1 should be 1, got {stability}"
-            )
+            assert abs(stability - 1.0) < 1e-14, f"Stab_1 should be 1, got {stability}"
 
     def test_noise_stability_symmetry(self):
         """Stab_rho is a polynomial in rho, test at several points."""
@@ -151,16 +149,14 @@ class TestNoiseStabilityPrecision:
 
         # All values should be in [-1, 1]
         for rho, stab in zip(rhos, stabs):
-            assert -1.0 - 1e-14 <= stab <= 1.0 + 1e-14, (
-                f"Stab_{rho} = {stab} out of range"
-            )
+            assert -1.0 - 1e-14 <= stab <= 1.0 + 1e-14, f"Stab_{rho} = {stab} out of range"
 
         # Should be monotonically increasing (for most functions)
         # This is true for majority
         for i in range(len(stabs) - 1):
-            assert stabs[i] <= stabs[i + 1] + 1e-10, (
-                f"Stability not monotonic: Stab_{rhos[i]} = {stabs[i]} > Stab_{rhos[i+1]} = {stabs[i+1]}"
-            )
+            assert (
+                stabs[i] <= stabs[i + 1] + 1e-10
+            ), f"Stability not monotonic: Stab_{rhos[i]} = {stabs[i]} > Stab_{rhos[i+1]} = {stabs[i+1]}"
 
 
 class TestSubtractiveCancellation:
@@ -189,9 +185,7 @@ class TestSubtractiveCancellation:
         exp = f.fourier()[0]
 
         # Verify it's computed correctly (not lost to cancellation)
-        assert abs(exp - (-0.125)) < 1e-14, (
-            f"Expectation should be -0.125, got {exp}"
-        )
+        assert abs(exp - (-0.125)) < 1e-14, f"Expectation should be -0.125, got {exp}"
 
 
 class TestLargeFunctions:
@@ -206,9 +200,9 @@ class TestLargeFunctions:
 
             # Tolerance scales slightly with problem size due to accumulated error
             tol = n * 1e-14
-            assert abs(parseval_sum - 1.0) < tol, (
-                f"Parseval failed for n={n}: sum={parseval_sum}, error={abs(parseval_sum - 1.0)}"
-            )
+            assert (
+                abs(parseval_sum - 1.0) < tol
+            ), f"Parseval failed for n={n}: sum={parseval_sum}, error={abs(parseval_sum - 1.0)}"
 
     def test_influence_sum_large(self):
         """Influence sum equals total for larger functions."""
@@ -218,9 +212,9 @@ class TestLargeFunctions:
             total = f.total_influence()
 
             tol = n * 1e-14
-            assert abs(np.sum(infs) - total) < tol, (
-                f"Influence sum mismatch for n={n}: error={abs(np.sum(infs) - total)}"
-            )
+            assert (
+                abs(np.sum(infs) - total) < tol
+            ), f"Influence sum mismatch for n={n}: error={abs(np.sum(infs) - total)}"
 
 
 class TestEdgeCaseInputs:
@@ -299,9 +293,7 @@ class TestFloatingPointSpecialValues:
             infs = f.influences()
 
             # Allow tiny negative values due to floating point
-            assert np.all(infs >= -1e-14), (
-                f"Negative influence for n={n}: min={np.min(infs)}"
-            )
+            assert np.all(infs >= -1e-14), f"Negative influence for n={n}: min={np.min(infs)}"
 
 
 class TestDegreeComputations:

@@ -84,11 +84,20 @@ class TestGPUManager:
 
     def test_manager_singleton_or_instance(self):
         """GPUManager should be usable."""
+        # GPUManager might fail to initialize without GPU hardware
+        # but it should raise a specific error, not crash
+        from boofun.utils.exceptions import ResourceUnavailableError
+
         try:
             manager = GPUManager()
             assert manager is not None
-        except Exception:
-            pass  # May need special initialization
+            # Check for actual GPUManager methods
+            assert hasattr(manager, "is_gpu_available")
+            assert hasattr(manager, "should_use_gpu")
+        except ResourceUnavailableError:
+            pass  # Expected when GPU not available
+        except ImportError:
+            pass  # CuPy not installed
 
 
 class TestIsGPUAvailable:
