@@ -15,18 +15,13 @@
   <a href="https://codecov.io/gh/GabbyTab/boofun"><img src="https://codecov.io/gh/GabbyTab/boofun/branch/main/graph/badge.svg" alt="codecov"></a>
   <a href="https://github.com/GabbyTab/boofun"><img src="https://img.shields.io/badge/typed-mypy-blue.svg" alt="Typed"></a>
   <a href="https://securityscorecards.dev/viewer/?uri=github.com/GabbyTab/boofun"><img src="https://api.securityscorecards.dev/projects/github.com/GabbyTab/boofun/badge" alt="OpenSSF Scorecard"></a>
-  <a href="https://www.bestpractices.dev/projects/11808"><img src="https://www.bestpractices.dev/projects/11808/badge?v=2" alt="OpenSSF Best Practices"></a>
 </p>
 
 ## What This Is
 
-A collection of tools for working with Boolean functions: representations, Fourier analysis, property testing, and complexity measures. I built this while studying O'Donnell's *Analysis of Boolean Functions* and wanted a unified toolkit that didn't exist.
+A toolkit for Boolean function analysis: Fourier analysis, property testing, query complexity, and more. Built while studying O'Donnell's *Analysis of Boolean Functions*.
 
-**Intent:** Make the subject more approachable. If these tools save you time or help you understand something, that's the goal.
-
-**Limitations:** This is a large codebase, partially AI-assisted. I've tested the core paths and verified mathematical properties where I could, but edge cases exist that I haven't found. If something breaks or gives wrong results, please report it.
-
-**[Documentation](https://gabbytab.github.io/boofun/)**
+**[Full Documentation](https://gabbytab.github.io/boofun/)** · **[Quick Start](https://gabbytab.github.io/boofun/quickstart.html)**
 
 ## Installation
 
@@ -34,219 +29,73 @@ A collection of tools for working with Boolean functions: representations, Fouri
 pip install boofun
 ```
 
-Development:
-```bash
-git clone https://github.com/GabbyTab/boofun.git
-cd boofun && pip install -e ".[dev]"
-```
-
-## Usage
+## Quick Start
 
 ```python
 import boofun as bf
 
 # Create functions
-xor = bf.create([0, 1, 1, 0])    # From truth table
-maj = bf.majority(5)             # Built-in
-f = bf.random(4, seed=42)        # Random
+maj = bf.majority(5)
+xor = bf.create([0, 1, 1, 0])
 
 # Evaluate
-maj.evaluate([1, 1, 0, 0, 1])    # → 1
-
-# Representations (automatic conversion)
-maj.get_representation("fourier_expansion")
-maj.get_representation("anf")    # Polynomial over GF(2)
-maj.convert_to("dnf")
+maj.evaluate([1, 1, 0, 0, 1])  # → 1
 
 # Fourier analysis
-maj.fourier()                    # Fourier coefficients
-maj.influences()                 # Variable influences
-maj.total_influence()            # I[f]
-maj.noise_stability(0.9)         # Stab_ρ[f]
-maj.degree()                     # Fourier degree
+maj.fourier()           # Fourier coefficients
+maj.influences()        # Per-variable influences
+maj.total_influence()   # I[f]
+maj.noise_stability(0.9)
 
-# Properties
-maj.is_balanced()
+# Properties and complexity
 maj.is_monotone()
-maj.is_linear()
-maj.is_junta(k=2)
+maj.is_balanced()
 
-# Query complexity
-from boofun.analysis import complexity, query_complexity as qc
-complexity.decision_tree_depth(maj)     # D(f)
-complexity.max_sensitivity(maj)         # s(f)
-qc.ambainis_complexity(maj)             # Quantum lower bound
+from boofun.analysis import complexity
+complexity.decision_tree_depth(maj)  # D(f)
+complexity.max_sensitivity(maj)      # s(f)
 
-# Quick summary
+# Full analysis
 maj.analyze()  # dict with all metrics
 ```
 
+## Features
+
+| Category | What's Included |
+|----------|-----------------|
+| **Representations** | Truth tables (dense/sparse/packed), Fourier, ANF, DNF/CNF, BDD, circuits, LTF |
+| **Fourier Analysis** | WHT, influences, noise stability, spectral concentration, p-biased analysis |
+| **Query Complexity** | D(f), R(f), Q(f), sensitivity, block sensitivity, certificates, Ambainis bound |
+| **Property Testing** | BLR linearity, junta, monotonicity, symmetry, balance |
+| **Hypercontractivity** | Noise operator, Bonami's Lemma, KKL theorem, Friedgut's junta theorem |
+| **Cryptographic** | Nonlinearity, bent functions, Walsh spectrum, LAT/DDT, S-box analysis |
+| **Visualization** | Influence plots, Fourier spectrum, truth table heatmaps, decision trees |
+
+## Guides
+
+Detailed documentation for each topic:
+
+- **[Spectral Analysis](https://gabbytab.github.io/boofun/guides/spectral_analysis.html)** — Fourier, influences, p-biased, sensitivity, sampling
+- **[Query Complexity](https://gabbytab.github.io/boofun/guides/query_complexity.html)** — D/R/Q, certificates, decision trees, Huang's theorem
+- **[Hypercontractivity](https://gabbytab.github.io/boofun/guides/hypercontractivity.html)** — KKL, Bonami, Friedgut, global hypercontractivity
+- **[Cryptographic Analysis](https://gabbytab.github.io/boofun/guides/cryptographic.html)** — Nonlinearity, bent, LAT/DDT, S-box
+- **[Representations](https://gabbytab.github.io/boofun/guides/representations.html)** — All formats, conversion graph, storage hints
+
 ## Flexible Input
 
-Pass data in whatever form you have—BooFun infers the representation:
-
 ```python
-bf.create([0, 1, 1, 0])                    # List → truth table
-bf.create(np.array([0, 1, 1, 0]))          # NumPy array → truth table
-bf.create(lambda x: x[0] ^ x[1], n=2)      # Callable → function
-bf.create("x0 and not x1", n=2)            # String → symbolic
-bf.create({frozenset([0]): 1}, n=2)        # Dict → polynomial
-bf.create({(0,1), (1,0)}, n=2)             # Set → true inputs
-bf.create(iter([0,1,1,0]))                 # Iterator → streaming
+bf.create([0, 1, 1, 0])              # List → truth table
+bf.create(lambda x: x[0] ^ x[1], n=2) # Callable
+bf.create("x0 and not x1", n=2)      # String → symbolic
+bf.load("function.cnf")              # DIMACS CNF
 ```
 
-Also accepts scipy distributions, DNF/CNF formula objects, file paths, and adapts legacy code via `LegacyAdapter`.
+## Built-in Functions
 
-```python
-# Load from file (format auto-detected)
-f = bf.load("function.json")
-f = bf.load("function.bf")      # Aaronson format
-f = bf.load("function.cnf")     # DIMACS CNF
-
-# Or directly via create
-f = bf.create("function.json")
-
-# Save to file
-bf.save(f, "output.json")
-bf.save(f, "output.bf")
-```
-
-Evaluation is equally flexible:
-
-```python
-f.evaluate(3)                   # Integer index (binary: 011)
-f.evaluate([0, 1, 1])           # List of bits
-f.evaluate((0, 1, 1))           # Tuple
-f.evaluate(np.array([0, 1, 1])) # NumPy array
-f.evaluate([[0,0], [0,1], [1,0], [1,1]])  # Batch
-```
-
-## What's Included
-
-### Representations
-- Truth tables (dense, sparse, packed)
-- Fourier expansion
-- ANF (polynomial over GF(2))
-- Real polynomial
-- DNF/CNF
-- Circuits, BDDs, LTFs
-- Symbolic
-
-Automatic conversion between any pair via conversion graph.
-
-### Analysis
-- **Fourier:** Walsh-Hadamard transform, spectral weight by degree, p-biased Fourier, spectral concentration
-- **Influences:** Per-variable, total, average sensitivity
-- **Noise stability:** Stab_ρ[f] for ρ ∈ [-1,1]
-- **Property testing:** BLR linearity, junta, monotonicity, unateness, symmetry, quasisymmetry, balance, dictator, affine, constant
-- **Query complexity:** D(f), D_avg(f), R₀(f), R₁(f), R₂(f), Q₂(f), QE(f), s(f), bs(f), es(f), C(f), Ambainis bound, spectral adversary, polynomial method
-- **Structural:** Primality, dependence, decomposition
-- **Advanced:** FKN theorem, hypercontractivity, Gaussian analysis, invariance principle, PAC learning, Goldreich-Levin, LTF analysis (Chow parameters, critical index), communication complexity, Huang's theorem
-
-### Built-in Functions
-`majority(n)`, `parity(n)`, `tribes(k, n)`, `threshold(n, k)`, `dictator(n, i)`, `AND(n)`, `OR(n)`, `weighted_majority(weights)`, `random(n)`
-
-### Families
-Track asymptotic behavior as n grows. Built-in: `MajorityFamily`, `ParityFamily`, `TribesFamily`, `ThresholdFamily`, `ANDFamily`, `ORFamily`, `DictatorFamily`, `LTFFamily`. Compare empirical results against theoretical bounds (e.g., I[MAJ_n] ≈ √(2/π)·√n).
-
-### Visualization
-- Influence bar plots, Fourier spectrum (box plots, spectral concentration)
-- Truth table heatmaps, hypercube graphs (n ≤ 5)
-- Noise stability curves, sensitivity heatmaps
-- Decision tree visualization, growth plots
-- Interactive dashboards (matplotlib/plotly)
-- Animations for asymptotic growth
-
-### Quantum
-Grover speedup estimation, quantum walk analysis (theoretical bounds; oracle implementation requires Qiskit).
-
-### Cryptographic Analysis
-For S-box and block cipher design:
-- **Nonlinearity:** Distance to nearest affine function
-- **Bent functions:** Maximum nonlinearity detection
-- **Walsh spectrum:** Linear correlation analysis
-- **LAT/DDT:** Linear Approximation Table, Difference Distribution Table
-- **Algebraic immunity:** Resistance to algebraic attacks
-- **SAC/PC:** Strict Avalanche Criterion, Propagation Criterion
-
-```python
-from boofun.analysis.cryptographic import (
-    nonlinearity, is_bent, walsh_transform,
-    linear_approximation_table, difference_distribution_table,
-    SBoxAnalyzer
-)
-
-# Analyze an S-box
-sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,
-        0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]
-analyzer = SBoxAnalyzer(sbox)
-print(analyzer.summary())
-```
-
-## Hypercontractivity (Chapter 9)
-
-Full implementation of hypercontractivity tools from O'Donnell Chapter 9 and global hypercontractivity from Keevash et al.:
-
-```python
-import boofun as bf
-
-f = bf.majority(5)
-
-# Noise operator T_ρ
-noisy_f = bf.noise_operator(f, rho=0.5)
-
-# L_q norms
-bf.lq_norm(f, q=4)
-
-# Bonami's Lemma: ‖T_ρ f‖_q ≤ ‖f‖_2 for ρ ≤ 1/√(q-1)
-lq_noisy, l2 = bf.bonami_lemma_bound(f, q=4, rho=0.5)
-
-# KKL Theorem bounds (max influence ≥ c·I[f]·log(n)/n)
-max_inf, kkl_bound, total = bf.max_influence_bound(f)
-
-# Friedgut's Junta Theorem (functions with low total influence are close to juntas)
-junta_size = bf.friedgut_junta_bound(total_influence=2.0, epsilon=0.1)
-error = bf.junta_approximation_error(f, junta_vars=[0, 1, 2])
-
-# Hypercontractive inequality: ‖T_ρ f‖_q ≤ ‖f‖_p
-lq, lp, satisfied = bf.hypercontractive_inequality(f, rho=0.5, p=2, q=4)
-```
-
-### Global Hypercontractivity (Keevash et al.)
-
-For analyzing Boolean functions under p-biased measures:
-
-```python
-# Global hypercontractivity analyzer
-analyzer = bf.GlobalHypercontractivityAnalyzer(f, p=0.5)
-print(analyzer.summary())
-
-# Check if function is α-global (no small set has large generalized influence)
-is_global, details = bf.is_alpha_global(f, alpha=0.01, max_set_size=3)
-
-# Generalized influence of a set S under μ_p
-bf.generalized_influence(f, S={0, 1}, p=0.5)
-
-# p-biased expectation and influence
-bf.p_biased_expectation(f, p=0.3)
-bf.p_biased_influence(f, i=0, p=0.3)
-bf.p_biased_total_influence(f, p=0.3)
-
-# Threshold phenomena
-curve = bf.threshold_curve(f, p_range=np.linspace(0, 1, 50))
-p_crit = bf.find_critical_p(f)
-```
-
-## Mathematical Convention
-
-We follow O'Donnell's convention:
-- Boolean 0 -> +1, Boolean 1 -> -1
-- f̂(∅) = E[f] in the ±1 domain
-- All formulas match the textbook
+`majority(n)`, `parity(n)`, `tribes(k, n)`, `threshold(n, k)`, `AND(n)`, `OR(n)`, `dictator(n, i)`, `weighted_majority(weights)`, `random(n)`
 
 ## Examples
 
-`examples/` contains tutorials:
 | File | Topic |
 |------|-------|
 | `01_getting_started.py` | Basics |
@@ -254,30 +103,15 @@ We follow O'Donnell's convention:
 | `03_common_families.py` | Majority, Parity, Tribes |
 | `04_property_testing.py` | BLR, junta tests |
 | `05_query_complexity.py` | Sensitivity, certificates |
-| `06_noise_stability.py` | Influences, voting |
-| `07_quantum_applications.py` | Grover, quantum walks |
 
-`notebooks/` has 18 Jupyter notebooks aligned with O'Donnell's course.
+Plus 18 Jupyter notebooks aligned with O'Donnell's course in `notebooks/`.
 
 ## Performance
 
 - NumPy vectorization throughout
-- Optional Numba JIT for WHT, influences
-- Optional GPU via CuPy
-- Sparse representations for large n
-- **Batch processing:** Pass NumPy arrays for vectorized evaluation
-
-```python
-# Batch evaluation (vectorized)
-inputs = np.array([[0,0], [0,1], [1,0], [1,1]])
-results = f.evaluate(inputs)  # Returns array of results
-
-# Large batches auto-use optimized processing
-inputs = np.random.randint(0, 2, (10000, n))
-results = f.evaluate(inputs)  # Fast vectorized evaluation
-```
-
-For n ≤ 14, most operations complete in milliseconds. For n > 18, consider sparse representations or GPU.
+- Optional Numba JIT, CuPy GPU acceleration
+- Sparse/packed representations for large n
+- Most operations complete in milliseconds for n ≤ 14
 
 ## Testing
 
@@ -286,33 +120,21 @@ pytest tests/
 pytest --cov=boofun tests/
 ```
 
-**2900+ tests** covering core functionality, mathematical properties, and bit-ordering conventions. Cross-validation against known results is in `tests/test_cross_validation.py`.
+3000+ tests with 71% coverage. Cross-validation against known results in `tests/test_cross_validation.py`.
 
-## API Stability
+## Convention
 
-As of v1.0, the public API is stable:
-- `bf.create()`, `bf.load()`, `bf.save()`, built-in functions (`bf.majority`, `bf.parity`, etc.)
-- `f.evaluate()`, `f.fourier()`, `f.influences()`, `f.analyze()`
-- `f.get_representation()`, `f.is_*()` property methods
-- Analysis classes: `SpectralAnalyzer`, `PropertyTester`, `QueryComplexityProfile`
-
-Breaking changes will increment the major version. Internal modules (`_*`, implementation details) may change between minor versions.
+O'Donnell standard: Boolean 0 → +1, Boolean 1 → −1. This ensures f̂(∅) = E[f].
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especially valuable as they help verify correctness where I couldn't.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especially valuable.
 
 ## Acknowledgments
 
-**Prior Art:**
-- **Scott Aaronson's Boolean Function Wizard** (2000): The query complexity module draws on Aaronson's "Algorithms for Boolean Function Query Measures," which implemented D(f), R(f), Q(f), sensitivity, block sensitivity, and certificate complexity. His work established the algorithmic foundations we build on.
-- **Avishay Tal**: Professor Tal generously shared his PhD-era Python library, which informed several design decisions including sensitivity moments, p-biased analysis, decision tree algorithms, and polynomial representations.
-
-**Theoretical Foundation:**
-- O'Donnell's *Analysis of Boolean Functions* (Cambridge, 2014)
-- CS 294-92 at UC Berkeley (Spring 2025)
-
-Partially developed with AI assistance; design and verification are human-led.
+- **Scott Aaronson's Boolean Function Wizard** (2000) — Query complexity foundations
+- **Avishay Tal** — Sensitivity, p-biased analysis, decision tree algorithms
+- **O'Donnell's *Analysis of Boolean Functions*** (Cambridge, 2014)
 
 ## License
 
