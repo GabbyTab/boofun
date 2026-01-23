@@ -98,45 +98,43 @@ class TestGrowthTracker:
 
     def test_tracker_creation_with_family(self):
         """GrowthTracker should be creatable with a family."""
-        try:
-            from boofun.families import MajorityFamily
+        from boofun.families import MajorityFamily
 
-            family = MajorityFamily()
-            tracker = GrowthTracker(family)
+        family = MajorityFamily()
+        tracker = GrowthTracker(family)
 
-            assert tracker is not None
-            assert tracker.family is not None
-        except ImportError:
-            pytest.skip("MajorityFamily not available")
+        assert tracker.family is family
+        assert hasattr(tracker, "markers")
+        assert hasattr(tracker, "results")
 
     def test_mark_property(self):
         """GrowthTracker should allow marking properties."""
-        try:
-            from boofun.families import MajorityFamily
+        from boofun.families import MajorityFamily
 
-            family = MajorityFamily()
-            tracker = GrowthTracker(family)
+        family = MajorityFamily()
+        tracker = GrowthTracker(family)
 
-            tracker.mark("total_influence")
+        tracker.mark("total_influence")
 
-            assert len(tracker.markers) >= 1
-        except ImportError:
-            pytest.skip("MajorityFamily not available")
+        assert "total_influence" in tracker.markers
 
     def test_observe_n_values(self):
         """GrowthTracker should observe values across n."""
-        try:
-            from boofun.families import MajorityFamily
+        from boofun.families import MajorityFamily
 
-            family = MajorityFamily()
-            tracker = GrowthTracker(family)
-            tracker.mark("total_influence")
+        family = MajorityFamily()
+        tracker = GrowthTracker(family)
+        tracker.mark("total_influence")
 
-            results = tracker.observe([3, 5, 7])
+        results = tracker.observe([3, 5, 7])
 
-            assert results is not None
-        except ImportError:
-            pytest.skip("MajorityFamily not available")
+        # Results is a dict keyed by marker name
+        assert "total_influence" in results
+        tracking_result = results["total_influence"]
+        # Should have computed values for each n
+        assert len(tracking_result.computed_values) == 3
+        # Total influence grows with n
+        assert tracking_result.computed_values[0] < tracking_result.computed_values[2]
 
 
 class TestGrowthTrackerWithFamilies:
@@ -144,34 +142,42 @@ class TestGrowthTrackerWithFamilies:
 
     def test_track_majority_influence(self):
         """Track total influence of majority family."""
-        try:
-            from boofun.families import MajorityFamily
+        from boofun.families import MajorityFamily
 
-            family = MajorityFamily()
-            tracker = GrowthTracker(family)
-            tracker.mark("total_influence")
+        family = MajorityFamily()
+        tracker = GrowthTracker(family)
+        tracker.mark("total_influence")
 
-            results = tracker.observe([3, 5, 7])
+        results = tracker.observe([3, 5, 7])
 
-            assert results is not None
-        except ImportError:
-            pytest.skip("MajorityFamily not available")
+        # Get computed values
+        values = results["total_influence"].computed_values
+
+        # Majority total influence is approximately sqrt(2n/pi)
+        # For n=3: sqrt(6/pi) ≈ 1.38, computed ≈ 1.5
+        # For n=5: sqrt(10/pi) ≈ 1.78, computed ≈ 1.875
+        # For n=7: sqrt(14/pi) ≈ 2.11, computed ≈ 2.1875
+        assert 1.0 < values[0] < 2.0
+        assert 1.5 < values[1] < 2.5
+        assert 1.8 < values[2] < 2.8
 
     def test_track_multiple_properties(self):
         """Track multiple properties."""
-        try:
-            from boofun.families import MajorityFamily
+        from boofun.families import MajorityFamily
 
-            family = MajorityFamily()
-            tracker = GrowthTracker(family)
-            tracker.mark("total_influence")
-            tracker.mark("expectation")
+        family = MajorityFamily()
+        tracker = GrowthTracker(family)
+        tracker.mark("total_influence")
+        tracker.mark("expectation")
 
-            results = tracker.observe([3, 5])
+        results = tracker.observe([3, 5])
 
-            assert results is not None
-        except ImportError:
-            pytest.skip("MajorityFamily not available")
+        # Both properties should be present in results
+        assert "total_influence" in results
+        assert "expectation" in results
+        # Majority is balanced, so expectation ≈ 0
+        for val in results["expectation"].computed_values:
+            assert abs(val) < 0.1
 
 
 class TestGrowthTrackerAnalysis:
@@ -179,18 +185,18 @@ class TestGrowthTrackerAnalysis:
 
     def test_tracker_stores_results(self):
         """Tracker should store results."""
-        try:
-            from boofun.families import MajorityFamily
+        from boofun.families import MajorityFamily
 
-            family = MajorityFamily()
-            tracker = GrowthTracker(family)
-            tracker.mark("total_influence")
+        family = MajorityFamily()
+        tracker = GrowthTracker(family)
+        tracker.mark("total_influence")
 
-            tracker.observe([3, 5])
+        tracker.observe([3, 5])
 
-            assert len(tracker.results) > 0 or tracker.results is not None
-        except ImportError:
-            pytest.skip("MajorityFamily not available")
+        # Results dict has one entry per marker
+        assert "total_influence" in tracker.results
+        # Should have 2 computed values (for n=3 and n=5)
+        assert len(tracker.results["total_influence"].computed_values) == 2
 
 
 class TestTrackerEdgeCases:
@@ -198,17 +204,16 @@ class TestTrackerEdgeCases:
 
     def test_single_n_value(self):
         """Track with single n value."""
-        try:
-            from boofun.families import MajorityFamily
+        from boofun.families import MajorityFamily
 
-            family = MajorityFamily()
-            tracker = GrowthTracker(family)
-            tracker.mark("total_influence")
+        family = MajorityFamily()
+        tracker = GrowthTracker(family)
+        tracker.mark("total_influence")
 
-            results = tracker.observe([3])
-            assert results is not None
-        except ImportError:
-            pytest.skip("MajorityFamily not available")
+        results = tracker.observe([3])
+        assert "total_influence" in results
+        assert len(results["total_influence"].computed_values) == 1
+        assert results["total_influence"].computed_values[0] > 0
 
 
 if __name__ == "__main__":

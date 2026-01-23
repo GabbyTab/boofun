@@ -192,53 +192,56 @@ class TestRepresentationEdgeCases:
 
 
 class TestDNFCNFRepresentations:
-    """Test DNF/CNF representations if available."""
+    """Test DNF/CNF representations."""
 
-    def test_dnf_available(self):
-        """Check if DNF representation is available."""
+    def test_dnf_for_and(self):
+        """DNF representation for AND function."""
         f = bf.AND(3)
+        dnf = f.get_representation("dnf")
 
-        try:
-            dnf = f.get_representation("dnf")
-            assert dnf is not None
-        except (KeyError, AttributeError):
-            pytest.skip("DNF representation not available")
+        # AND(3) in DNF is a single term: x0 AND x1 AND x2
+        assert dnf is not None
+        # Verify function still evaluates correctly
+        assert f.evaluate([1, 1, 1]) == 1
+        assert f.evaluate([0, 1, 1]) == 0
 
-    def test_cnf_available(self):
-        """Check if CNF representation is available."""
+    def test_cnf_for_or(self):
+        """CNF representation for OR function."""
         f = bf.OR(3)
+        cnf = f.get_representation("cnf")
 
-        try:
-            cnf = f.get_representation("cnf")
-            assert cnf is not None
-        except (KeyError, AttributeError):
-            pytest.skip("CNF representation not available")
+        # OR(3) in CNF is a single clause: x0 OR x1 OR x2
+        assert cnf is not None
+        # Verify function still evaluates correctly
+        assert f.evaluate([0, 0, 0]) == 0
+        assert f.evaluate([1, 0, 0]) == 1
 
 
 class TestBDDRepresentation:
-    """Test BDD representation if available."""
+    """Test BDD representation."""
 
-    def test_bdd_via_function_api(self):
-        """BDD should be accessible via function API."""
+    def test_bdd_for_and(self):
+        """BDD representation for AND function."""
         f = bf.AND(3)
+        bdd = f.get_representation("bdd")
 
-        try:
-            bdd = f.get_representation("bdd")
-            assert bdd is not None
-        except (KeyError, AttributeError):
-            pytest.skip("BDD representation not available via API")
+        assert bdd is not None
+        # AND has a simple BDD structure
+        # Verify evaluation is correct
+        assert f.evaluate([1, 1, 1]) == 1
+        for i in range(7):  # All inputs except 111
+            assert f.evaluate(i) == 0
 
-    def test_bdd_evaluation_via_api(self):
-        """BDD should evaluate correctly via API."""
+    def test_bdd_for_or(self):
+        """BDD representation for OR function."""
         f = bf.OR(3)
+        bdd = f.get_representation("bdd")
 
-        try:
-            f.get_representation("bdd")
-            # Function should still evaluate correctly
-            for x in range(8):
-                assert f.evaluate(x) in [0, 1, True, False]
-        except (KeyError, AttributeError):
-            pytest.skip("BDD representation not available via API")
+        assert bdd is not None
+        # Verify all evaluations are correct
+        assert f.evaluate([0, 0, 0]) == 0
+        for i in range(1, 8):  # All inputs except 000
+            assert f.evaluate(i) == 1
 
 
 if __name__ == "__main__":

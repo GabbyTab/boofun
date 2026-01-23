@@ -117,9 +117,13 @@ class TestFindLTFWeights:
         f = bf.majority(3)
         weights, threshold = find_ltf_weights(f)
 
-        # All weights should be equal (up to sign)
+        # All weights should be exactly equal for majority
         abs_weights = np.abs(weights)
-        assert np.allclose(abs_weights, abs_weights[0], rtol=0.1)
+        assert np.allclose(
+            abs_weights, abs_weights[0], rtol=1e-10
+        ), f"Majority weights should be equal, got: {abs_weights}"
+        # Weights should be positive for unweighted majority
+        assert np.all(weights > 0), f"Majority weights should be positive, got: {weights}"
 
     def test_non_ltf_raises(self):
         """Non-LTF raises ValueError."""

@@ -357,25 +357,23 @@ class TestStorageHints:
         """Packed storage hint is accepted (falls back gracefully)."""
         tt = [0, 1, 1, 0]
 
-        # Note: packed_truth_table representation may not be registered
-        # in the factory, so this may fall back to default
-        try:
-            f = bf.create(tt, storage="packed")
-            assert f.evaluate(0) == False
-        except Exception:
-            # If representation not registered, that's ok for this test
-            pytest.skip("packed_truth_table representation not registered")
+        f = bf.create(tt, storage="packed")
+        # Verify function evaluates correctly
+        assert f.evaluate(0) == False
+        assert f.evaluate(1) == True
+        assert f.evaluate(2) == True
+        assert f.evaluate(3) == False
 
     def test_sparse_storage_hint_accepted(self):
         """Sparse storage hint is accepted (falls back gracefully)."""
         tt = [0] * 16
         tt[0] = 1
 
-        try:
-            f = bf.create(tt, storage="sparse")
-            assert f.evaluate(0) == True
-        except Exception:
-            pytest.skip("sparse_truth_table representation not registered")
+        f = bf.create(tt, storage="sparse")
+        # Verify function evaluates correctly
+        assert f.evaluate(0) == True
+        for i in range(1, 16):
+            assert f.evaluate(i) == False
 
     def test_lazy_storage(self):
         """Lazy storage for callable."""

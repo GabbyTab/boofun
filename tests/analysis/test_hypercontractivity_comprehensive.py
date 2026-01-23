@@ -112,8 +112,11 @@ class TestBonamiLemmaBound:
 
         # Bound should be positive
         assert bound > 0
-        # Actual value should satisfy bound
-        assert actual <= bound or np.isclose(actual, bound, rtol=0.1)
+        # Actual value should strictly satisfy bound (with tiny tolerance for float)
+        assert actual <= bound + 1e-10, f"Bonami bound violated: {actual} > {bound}"
+        # Verify values are in reasonable range
+        assert 0 <= actual <= 1
+        assert 0 < bound <= 2  # Bound depends on rho and q
 
 
 class TestKKLLowerBound:

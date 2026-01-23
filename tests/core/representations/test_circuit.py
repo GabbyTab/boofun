@@ -104,15 +104,25 @@ class TestBuildParityCircuit:
 class TestCircuitIntegration:
     """Integration tests for circuit representations."""
 
-    def test_circuit_from_function(self):
-        """Should be able to get circuit representation from function."""
+    def test_circuit_from_and(self):
+        """Should be able to get circuit representation from AND function."""
         f = bf.AND(3)
+        circuit = f.get_representation("circuit")
 
-        try:
-            circuit = f.get_representation("circuit")
-            assert circuit is not None
-        except (KeyError, AttributeError):
-            pytest.skip("Circuit representation not available via API")
+        assert circuit is not None
+        # AND function should still evaluate correctly
+        assert f.evaluate([1, 1, 1]) == 1
+        assert f.evaluate([0, 1, 1]) == 0
+
+    def test_circuit_from_or(self):
+        """Should be able to get circuit representation from OR function."""
+        f = bf.OR(3)
+        circuit = f.get_representation("circuit")
+
+        assert circuit is not None
+        # OR function should still evaluate correctly
+        assert f.evaluate([0, 0, 0]) == 0
+        assert f.evaluate([1, 0, 0]) == 1
 
 
 if __name__ == "__main__":
