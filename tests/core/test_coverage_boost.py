@@ -276,10 +276,7 @@ class TestBatchProcessingFunctions:
 
     def test_set_batch_thresholds(self):
         """Test set_batch_thresholds function."""
-        from boofun.core.batch_processing import (
-            _batch_manager,
-            set_batch_thresholds,
-        )
+        from boofun.core.batch_processing import _batch_manager, set_batch_thresholds
 
         set_batch_thresholds(vectorized_threshold=500, parallel_threshold=5000)
         assert _batch_manager.vectorized_threshold == 500
