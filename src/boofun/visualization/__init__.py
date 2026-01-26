@@ -128,14 +128,15 @@ class BooleanFunctionVisualizer:
                 va="bottom",
             )
 
-        # Add total influence annotation
+        # Add total influence annotation (bottom-right to avoid title overlap)
         total_influence = np.sum(influences)
         ax.text(
-            0.02,
             0.98,
+            0.02,
             f"Total Influence: {total_influence:.3f}",
             transform=ax.transAxes,
-            verticalalignment="top",
+            horizontalalignment="right",
+            verticalalignment="bottom",
             bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.8),
         )
 
@@ -172,14 +173,16 @@ class BooleanFunctionVisualizer:
             showlegend=False,
         )
 
-        # Add total influence annotation
+        # Add total influence annotation (bottom-right to avoid title overlap)
         total_influence = np.sum(influences)
         fig.add_annotation(
             text=f"Total Influence: {total_influence:.3f}",
             xref="paper",
             yref="paper",
-            x=0.02,
-            y=0.98,
+            x=0.98,
+            y=0.02,
+            xanchor="right",
+            yanchor="bottom",
             showarrow=False,
             bgcolor="wheat",
             bordercolor="black",
