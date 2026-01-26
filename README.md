@@ -111,7 +111,10 @@ bf.load("function.cnf")              # DIMACS CNF
 
 ## Course Notebooks
 
-Interactive notebooks following CS294-92 (Analysis of Boolean Functions). **View pre-run** on nbviewer or **play interactively** in Colab:
+Interactive notebooks following CS294-92 (Analysis of Boolean Functions). **View pre-run** on nbviewer or **play interactively** in Colab.
+
+<details>
+<summary><strong>Lecture Notebooks (11)</strong></summary>
 
 | Lecture | Topic | View | Play |
 |---------|-------|------|------|
@@ -127,8 +130,10 @@ Interactive notebooks following CS294-92 (Analysis of Boolean Functions). **View
 | 10 | Fourier Concentration | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture10_fourier_concentration.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture10_fourier_concentration.ipynb) |
 | 11 | Invariance Principle | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture11_invariance_principle.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture11_invariance_principle.ipynb) |
 
+</details>
+
 <details>
-<summary><strong>Homework Notebooks</strong></summary>
+<summary><strong>Homework Notebooks (4)</strong></summary>
 
 | HW | Topic | View | Play |
 |----|-------|------|------|
