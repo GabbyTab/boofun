@@ -296,15 +296,21 @@ class SpectralAnalyzer:
         """
         influences = self.influences()
 
-        # Basic statistics (bias first as it's fundamental)
+        # Organize statistics by category
         summary = {
-            "bias": self.function.bias(),
+            # Fundamental probabilistic measures
+            "expectation": self.function.bias(),  # E[f] = f̂(∅)
+            "variance": self.function.variance(),  # Var[f] = 1 - E[f]²
+            # Complexity measures
+            "degree": self.function.degree(),  # Fourier degree
+            "sparsity": self.function.sparsity(),  # Non-zero coefficients
+            # Influence measures
             "total_influence": self.total_influence(),
             "max_influence": np.max(influences),
-            "min_influence": np.min(influences),
-            "avg_influence": np.mean(influences),
+            # Noise robustness
             "noise_stability_0.9": self.noise_stability(0.9),
             "noise_stability_0.5": self.noise_stability(0.5),
+            # Spectral concentration
             "spectral_concentration_1": self.spectral_concentration(1),
             "spectral_concentration_2": self.spectral_concentration(2),
         }
