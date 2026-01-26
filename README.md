@@ -83,6 +83,7 @@ Detailed documentation for each topic:
 - **[Learning Theory](https://gabbytab.github.io/boofun/guides/learning.html)**: Goldreich-Levin, PAC learning, junta learning, LMN
 - **[Cryptographic Analysis](https://gabbytab.github.io/boofun/guides/cryptographic.html)**: Nonlinearity, bent, LAT/DDT, S-box
 - **[Representations](https://gabbytab.github.io/boofun/guides/representations.html)**: All formats, conversion graph, storage hints
+- **[Operations](https://gabbytab.github.io/boofun/guides/operations.html)**: Boolean operators, composition, restriction, permutation
 - **[Advanced Topics](https://gabbytab.github.io/boofun/guides/advanced.html)**: Gaussian, invariance, communication complexity, LTF, restrictions
 
 ## Flexible Input
