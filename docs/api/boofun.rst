@@ -1,13 +1,13 @@
 ﻿boofun
-========
+======
 
 .. automodule:: boofun
 
-
+   
    .. rubric:: Functions
 
    .. autosummary::
-
+   
       AND
       OR
       constant
@@ -19,7 +19,7 @@
       threshold
       tribes
       weighted_majority
-
+   
 .. rubric:: Modules
 
 .. autosummary::

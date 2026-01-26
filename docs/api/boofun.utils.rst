@@ -1,9 +1,9 @@
 boofun.utils
-==============
+============
 
 .. automodule:: boofun.utils
 
-
+   
 .. rubric:: Modules
 
 .. autosummary::
@@ -12,5 +12,6 @@ boofun.utils
 
    exceptions
    finite_fields
+   logging
    math
    number_theory

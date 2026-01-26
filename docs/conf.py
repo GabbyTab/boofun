@@ -34,7 +34,15 @@ try:
     import myst_parser
 
     extensions.append("myst_parser")
-    myst_enable_extensions = ["colon_fence", "deflist"]
+    # Enable math extensions for LaTeX rendering in markdown
+    myst_enable_extensions = [
+        "colon_fence",
+        "deflist",
+        "dollarmath",  # Enables $...$ and $$...$$ math syntax
+        "amsmath",  # Enables LaTeX math environments
+    ]
+    # Don't parse single $ as math (avoids conflicts with currency, etc.)
+    myst_dmath_double_inline = True
 except ImportError:
     myst_parser = None
 

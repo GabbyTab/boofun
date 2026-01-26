@@ -1,9 +1,9 @@
 boofun.families
-=================
+===============
 
 .. automodule:: boofun.families
 
-
+   
 .. rubric:: Modules
 
 .. autosummary::

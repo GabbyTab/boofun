@@ -1,16 +1,16 @@
 boofun.analysis
-=================
+===============
 
 .. automodule:: boofun.analysis
 
-
+   
    .. rubric:: Classes
 
    .. autosummary::
-
+   
       PropertyTester
       SpectralAnalyzer
-
+   
 .. rubric:: Modules
 
 .. autosummary::
@@ -22,7 +22,10 @@ boofun.analysis
    block_sensitivity
    canalization
    certificates
+   communication_complexity
    complexity
+   cryptographic
+   decision_trees
    equivalence
    fkn
    fourier
@@ -38,5 +41,7 @@ boofun.analysis
    pac_learning
    query_complexity
    restrictions
+   sampling
    sensitivity
+   sparsity
    symmetry

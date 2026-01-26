@@ -1,13 +1,13 @@
 boofun.analysis.query\_complexity
-===================================
+=================================
 
 .. automodule:: boofun.analysis.query_complexity
 
-
+   
    .. rubric:: Functions
 
    .. autosummary::
-
+   
       ambainis_complexity
       approximate_degree
       average_deterministic_complexity
@@ -31,9 +31,10 @@ boofun.analysis.query\_complexity
       threshold_degree
       weak_nondeterministic_degree
       zero_error_randomized_complexity
-
+   
    .. rubric:: Classes
 
    .. autosummary::
-
+   
       QueryComplexityProfile
+   

@@ -1,13 +1,13 @@
 boofun.analysis.canalization
-==============================
+============================
 
 .. automodule:: boofun.analysis.canalization
 
-
+   
    .. rubric:: Functions
 
    .. autosummary::
-
+   
       edge_effectiveness
       effective_degree
       get_canalizing_depth
@@ -19,9 +19,10 @@ boofun.analysis.canalization
       is_canalizing
       is_k_canalizing
       is_nested_canalizing
-
+   
    .. rubric:: Classes
 
    .. autosummary::
-
+   
       CanalizationAnalyzer
+   

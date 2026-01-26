@@ -1,13 +1,13 @@
 boofun.utils.math
-===================
+=================
 
 .. automodule:: boofun.utils.math
 
-
+   
    .. rubric:: Functions
 
    .. autosummary::
-
+   
       binary_tuple_to_int
       bits
       cartesian
@@ -23,3 +23,4 @@ boofun.utils.math
       poppar
       subsets
       tensor_product
+   

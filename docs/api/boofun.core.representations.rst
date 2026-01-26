@@ -1,9 +1,9 @@
 boofun.core.representations
-=============================
+===========================
 
 .. automodule:: boofun.core.representations
 
-
+   
 .. rubric:: Modules
 
 .. autosummary::
@@ -19,6 +19,7 @@ boofun.core.representations
    dnf_form
    fourier_expansion
    ltf
+   packed_truth_table
    polynomial
    registry
    sparse_truth_table
