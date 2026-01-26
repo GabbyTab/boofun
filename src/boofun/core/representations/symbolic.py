@@ -30,8 +30,8 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
         Each sub-function is evaluated on a slice of those bits, passed as an integer or array of integers.
 
         Args:
-            inputs: np.ndarray of shape () or (batch,) — each integer encodes a bitstring.
-            data: Tuple (expr: str, funcs: List[BooleanFunction]) — symbolic expression and sub-functions.
+            inputs: np.ndarray of shape () or (batch,) - each integer encodes a bitstring.
+            data: Tuple (expr: str, funcs: List[BooleanFunction]) - symbolic expression and sub-functions.
             space: evaluation space.
             kwargs: must include 'n_vars': total number of bits in each bitstring.
 
@@ -156,10 +156,10 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
             source_data: The original representation data.
             space: The evaluation space (e.g. Boolean cube).
             n_vars: Number of variables in the original function.
-            kwargs: Must include 'functions' — the BooleanFunction constructor/class.
+            kwargs: Must include 'functions' - the BooleanFunction constructor/class.
 
         Returns:
-            Tuple[str, List[BooleanFunction]] — symbolic expression and subfunctions list.
+            Tuple[str, List[BooleanFunction]] - symbolic expression and subfunctions list.
         """
 
         # Wrap the original function as one symbolic call: x0

@@ -395,6 +395,94 @@ bf.hypercontractivity_bound(f, p)
 
 ---
 
+## v1.2.0 Goals (Proposed)
+
+### 1. Function Family Enhancements
+
+**Status:** Planning
+
+Improve the families module for easier growth analysis and visualization.
+
+#### N-Value Generators
+
+Currently, users manually specify `n_values=[3, 5, 7, ...]`. Add convenience generators:
+
+```python
+from boofun.families import n_values
+
+# Built-in generators
+n_values.odd(3, 15)           # [3, 5, 7, 9, 11, 13, 15]
+n_values.powers(2, max_n=64)  # [2, 4, 8, 16, 32, 64]
+n_values.adaptive(3, 100)     # [3, 6, 12, 24, 48, 96] - doubling
+n_values.stepped(3, 100, [10, 50])  # every 1 up to 10, every 5 up to 50, every 10 after
+```
+
+#### Parameter Sweep Visualization
+
+Plot properties vs parameters other than n:
+
+```python
+# Vary tribe size k while fixing n
+tracker.sweep_parameter('k', values=[2, 3, 4, 5], fixed_n=20)
+viz.plot_parameter_sweep(tracker, 'influence_max')
+
+# Compare LTF weight patterns
+trackers = {
+    'Uniform': LTFFamily.uniform(),
+    'Geometric(0.5)': LTFFamily.geometric(0.5),
+    'Harmonic': LTFFamily.harmonic(),
+}
+viz.plot_family_comparison(trackers, 'total_influence')
+```
+
+#### Perturbation and Constraint Families
+
+```python
+# Add noise to any family
+noisy_maj = NoisyFamily(MajorityFamily(), noise_rate=0.05)
+
+# Apply constraints
+restricted = ConstrainedFamily(TribesFamily(),
+    constraint=lambda f: f.is_balanced())
+
+# Custom growth rules
+class MyFamily(InductiveFamily):
+    def step(self, f_prev, n, n_prev):
+        return f_prev.extend(n, fill='random')
+```
+
+#### Lazy/Approximate Analysis
+
+For large n, avoid full truth table computation:
+
+```python
+tracker.mark('total_influence', approximate=True, samples=10000)
+tracker.mark('noise_stability', approximate=True, samples=5000, rho=0.9)
+```
+
+### 2. Families Documentation
+
+**Status:** Planning
+
+| Task | Priority |
+|------|----------|
+| Create `docs/guides/families.md` guide | High |
+| Add families examples to notebooks | Medium |
+| Document theoretical bounds | Medium |
+| Add growth visualization tutorial | High |
+
+### 3. Dashboard and Visualization Improvements
+
+**Status:** In Progress
+
+- [x] Summary statistics: expectation, variance, degree, sparsity
+- [x] Truth table legend and axis labels
+- [x] Vertical bars with short labels
+- [ ] Interactive parameter sliders (Jupyter widgets)
+- [ ] Export to LaTeX/TikZ
+
+---
+
 ## v1.0.0 Milestone (Complete)
 
 | Task | Status |

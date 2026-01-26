@@ -29,6 +29,7 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
    guides/learning
    guides/representations
    guides/operations
+   guides/families
    guides/advanced
 
 .. toctree::
