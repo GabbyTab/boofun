@@ -2,6 +2,8 @@
 
 BooFun supports building complex functions from simpler ones using Boolean operators and other operations.
 
+> **Note:** For creating functions from data (truth tables, strings, files), see the [Representations Guide](representations.md).
+
 ## Boolean Operators
 
 Combine functions using Python operators:

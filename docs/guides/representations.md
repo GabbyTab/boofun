@@ -321,6 +321,21 @@ f = bf.create("x0 XOR x1", n=2)
 f = bf.create("(x0 | x1) & ~x2", n=3)
 ```
 
+### From Existing Functions
+
+Combine functions using Boolean operators:
+
+```python
+and3 = bf.AND(3)
+or3 = bf.OR(3)
+
+f = and3 ^ or3    # XOR
+g = and3 & ~or3   # AND with NOT
+h = and3 | or3    # OR
+```
+
+See the [Operations Guide](operations.md) for full details on `&`, `|`, `^`, `~` and other transformations.
+
 ### From File
 
 ```python
@@ -341,6 +356,7 @@ bf.save(f, "maj5.bf")      # Aaronson format
 
 ## See Also
 
+- [Operations Guide](operations.md) - Combining functions with Boolean operators
 - [Spectral Analysis Guide](spectral_analysis.md) - Fourier representation
 - [Cryptographic Guide](cryptographic.md) - ANF and algebraic analysis
 - [Performance Guide](../performance.md) - Memory optimization
