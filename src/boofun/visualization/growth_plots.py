@@ -724,7 +724,7 @@ class ComplexityVisualizer:
 # Convenience function to quickly visualize growth
 def quick_growth_plot(
     family_name: str,
-    properties: List[str] = ["total_influence", "noise_stability"],
+    properties: List[str] = ["total_influence"],
     n_values: Optional[List[int]] = None,
     **kwargs,
 ):
@@ -773,7 +773,9 @@ def quick_growth_plot(
     tracker.observe(n_values=n_values)
 
     viz = GrowthVisualizer()
-    return viz.plot_multi_property_growth(tracker, properties)
+    # Use actual marker names (e.g., "noise_stability_0.5" not "noise_stability")
+    marker_names = list(tracker.markers.keys())
+    return viz.plot_multi_property_growth(tracker, marker_names)
 
 
 __all__ = [

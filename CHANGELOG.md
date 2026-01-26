@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+**Dashboard Improvements (Jan 2026)**
+- Summary statistics now include expectation, variance, degree, and sparsity
+- Dashboard uses vertical bars with short labels to prevent text bleeding
+- Truth table visualization includes legend (red=1, blue=0) and clear axis labels
+
+**Summary Statistics Enhancements**
+- `SpectralAnalyzer.summary()` now returns:
+  - `expectation` (E[f]) - previously called "bias"
+  - `variance` (Var[f]) - NEW
+  - `degree` - NEW: Fourier degree
+  - `sparsity` - NEW: number of non-zero Fourier coefficients
+  - `total_influence`, `max_influence` - kept
+  - `noise_stability_0.9`, `noise_stability_0.5` - kept
+
+### Fixed
+
+- Dashboard summary statistics labels no longer bleed into adjacent plots
+- Truth table visualization now has legend explaining red/blue coloring
+
 ---
 
 ## [1.1.0] - 2026-01-23
