@@ -3,11 +3,11 @@ boofun.families.builtins
 
 .. automodule:: boofun.families.builtins
 
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       ANDFamily
       DictatorFamily
       IteratedMajorityFamily
@@ -20,4 +20,3 @@ boofun.families.builtins
       SboxFamily
       ThresholdFamily
       TribesFamily
-   

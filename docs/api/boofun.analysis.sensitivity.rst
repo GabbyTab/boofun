@@ -3,11 +3,11 @@ boofun.analysis.sensitivity
 
 .. automodule:: boofun.analysis.sensitivity
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       arg_max_sensitivity
       arg_min_sensitivity
       average_sensitivity
@@ -19,4 +19,3 @@ boofun.analysis.sensitivity
       sensitivity_histogram
       sensitivity_profile
       total_influence_via_sensitivity
-   

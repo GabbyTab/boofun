@@ -3,11 +3,11 @@ boofun.analysis.fourier
 
 .. automodule:: boofun.analysis.fourier
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       annealed_influence
       compute_and_fourier
       compute_mux3_fourier
@@ -28,4 +28,3 @@ boofun.analysis.fourier
       spectral_norm
       tensor_product
       truncate_to_degree
-   

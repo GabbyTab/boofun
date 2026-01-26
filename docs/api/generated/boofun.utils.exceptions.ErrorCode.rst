@@ -5,18 +5,18 @@
 
 .. autoclass:: ErrorCode
 
-   
+
    .. automethod:: __init__
 
-   
-   
 
-   
-   
+
+
+
+
    .. rubric:: Attributes
 
    .. autosummary::
-   
+
       ~ErrorCode.VALIDATION_ERROR
       ~ErrorCode.INVALID_INPUT
       ~ErrorCode.INVALID_PARAMETER_VALUE
@@ -54,5 +54,3 @@
       ~ErrorCode.INVARIANT_VIOLATION
       ~ErrorCode.STATE_CORRUPTION
       ~ErrorCode.ALGORITHM_ERROR
-   
-   

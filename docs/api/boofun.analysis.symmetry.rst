@@ -3,11 +3,11 @@ boofun.analysis.symmetry
 
 .. automodule:: boofun.analysis.symmetry
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       degree_sym
       find_monotone_shift
       is_symmetric
@@ -17,4 +17,3 @@ boofun.analysis.symmetry
       symmetric_representation
       symmetrize
       symmetrize_profile
-   

@@ -3,11 +3,11 @@ boofun.analysis.invariance
 
 .. automodule:: boofun.analysis.invariance
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       bivariate_gaussian_cdf
       compute_test_function_expectation
       gaussian_cdf
@@ -18,10 +18,9 @@ boofun.analysis.invariance
       multilinear_extension_gaussian_expectation
       noise_stability_deficit
       unique_games_hardness_bound
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       InvarianceAnalyzer
-   

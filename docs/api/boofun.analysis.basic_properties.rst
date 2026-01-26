@@ -3,11 +3,11 @@ boofun.analysis.basic\_properties
 
 .. automodule:: boofun.analysis.basic_properties
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       bias
       dependent_variables
       essential_variables
@@ -22,4 +22,3 @@ boofun.analysis.basic\_properties
       monotone_closure
       symmetry_type
       weight
-   

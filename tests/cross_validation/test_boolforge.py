@@ -54,7 +54,9 @@ class TestBoolForgeCrossValidation:
         bf_result = is_canalizing(bf_func)
         boolforge_result = boolforge_func.is_canalizing()
 
-        assert bf_result == boolforge_result, f"{name}: BooFun={bf_result}, BoolForge={boolforge_result}"
+        assert (
+            bf_result == boolforge_result
+        ), f"{name}: BooFun={bf_result}, BoolForge={boolforge_result}"
 
     @pytest.mark.parametrize("name,bf_func,tt", TEST_CASES)
     def test_canalizing_depth(self, name, bf_func, tt):
@@ -64,7 +66,9 @@ class TestBoolForgeCrossValidation:
         bf_result = get_canalizing_depth(bf_func)
         boolforge_result = boolforge_func.get_canalizing_depth()
 
-        assert bf_result == boolforge_result, f"{name}: BooFun={bf_result}, BoolForge={boolforge_result}"
+        assert (
+            bf_result == boolforge_result
+        ), f"{name}: BooFun={bf_result}, BoolForge={boolforge_result}"
 
     @pytest.mark.parametrize("name,bf_func,tt", TEST_CASES)
     def test_essential_variables(self, name, bf_func, tt):
@@ -74,7 +78,9 @@ class TestBoolForgeCrossValidation:
         bf_result = len(get_essential_variables(bf_func))
         boolforge_result = boolforge_func.get_number_of_essential_variables()
 
-        assert bf_result == boolforge_result, f"{name}: BooFun={bf_result}, BoolForge={boolforge_result}"
+        assert (
+            bf_result == boolforge_result
+        ), f"{name}: BooFun={bf_result}, BoolForge={boolforge_result}"
 
     @pytest.mark.parametrize("name,bf_func,tt", TEST_CASES)
     def test_is_monotonic(self, name, bf_func, tt):
@@ -84,7 +90,9 @@ class TestBoolForgeCrossValidation:
         bf_result = bf_func.is_monotone()
         boolforge_result = boolforge_func.is_monotonic()
 
-        assert bf_result == boolforge_result, f"{name}: BooFun={bf_result}, BoolForge={boolforge_result}"
+        assert (
+            bf_result == boolforge_result
+        ), f"{name}: BooFun={bf_result}, BoolForge={boolforge_result}"
 
     def test_symmetry_groups_majority(self):
         """Verify symmetry groups for symmetric functions."""
@@ -128,7 +136,9 @@ class TestBoolForgeCrossValidation:
             boolforge_func = boolforge.BooleanFunction(tt)
 
             assert not is_canalizing(bf_func), f"PARITY({n}) should not be canalizing"
-            assert not boolforge_func.is_canalizing(), f"BoolForge PARITY({n}) should not be canalizing"
+            assert (
+                not boolforge_func.is_canalizing()
+            ), f"BoolForge PARITY({n}) should not be canalizing"
 
             assert get_canalizing_depth(bf_func) == 0, f"PARITY({n}) depth should be 0"
             assert boolforge_func.get_canalizing_depth() == 0
