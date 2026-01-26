@@ -174,7 +174,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especiall
 - **[Avishay Tal](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html)**: Course instructor, sensitivity analysis, p-biased measures, decision tree algorithms
 - **[Patrick Bales](https://www.linkedin.com/in/patrickbbales/)**: Course materials and notebook review
 - **O'Donnell's *Analysis of Boolean Functions*** (Cambridge, 2014): Theoretical foundation
-- **Scott Aaronson's Boolean Function Wizard** (2000): Query complexity foundations
+- **[Scott Aaronson](https://scottaaronson.blog/)'s Boolean Function Wizard** (2000): Query complexity foundations
 
 ## License
 
