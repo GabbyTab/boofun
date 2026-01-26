@@ -1,12 +1,60 @@
-# Cross-Validation with Sage/Mathematica
+# Cross-Validation
 
-This document describes how to cross-validate BooFun results with established mathematical software.
+This document describes how to cross-validate BooFun results with other libraries and established mathematical software.
 
 ## Overview
 
 Cross-validation ensures our implementations are mathematically correct by comparing results with:
-1. **SageMath** - Open-source mathematics software
-2. **Mathematica** - Wolfram's computational mathematics platform
+1. **BoolForge** - Boolean function/network library for systems biology
+2. **SageMath** - Open-source mathematics software
+3. **Mathematica** - Wolfram's computational mathematics platform
+
+## BoolForge Cross-Validation
+
+[BoolForge](https://github.com/ckadelka/BoolForge) (Kadelka & Coberly, 2025) is a Python library for Boolean functions and networks, focused on canalization for systems biology.
+
+### What We Validate
+
+| Property | BooFun | BoolForge | Status |
+|----------|--------|-----------|--------|
+| is_canalizing | `is_canalizing(f)` | `f.is_canalizing()` | ✓ Matches |
+| canalizing_depth | `get_canalizing_depth(f)` | `f.get_canalizing_depth()` | ✓ Matches |
+| essential_variables | `get_essential_variables(f)` | `f.get_number_of_essential_variables()` | ✓ Matches |
+| is_monotonic | `f.is_monotone()` | `f.is_monotonic()` | ✓ Matches |
+| symmetry_groups | `get_symmetry_groups(f)` | `f.get_symmetry_groups()` | ✓ Matches |
+
+### Running the Tests
+
+```bash
+# Install BoolForge
+pip install git+https://github.com/ckadelka/BoolForge
+
+# Run cross-validation tests
+pytest tests/cross_validation/test_boolforge.py -v
+```
+
+### Example Validation
+
+```python
+import boolforge
+import boofun as bf
+from boofun.analysis.canalization import is_canalizing, get_canalizing_depth
+
+# Create same function in both libraries
+bf_and = bf.AND(3)
+boolforge_and = boolforge.BooleanFunction([0, 0, 0, 0, 0, 0, 0, 1])
+
+# Compare canalization
+assert is_canalizing(bf_and) == boolforge_and.is_canalizing()  # Both True
+assert get_canalizing_depth(bf_and) == boolforge_and.get_canalizing_depth()  # Both 3
+```
+
+### Notes on BoolForge
+
+- BoolForge uses **Monte Carlo** for some measures (like `get_average_sensitivity()`), so values may vary slightly from BooFun's exact computations.
+- BoolForge focuses on **Boolean networks** (interconnected functions) which BooFun does not support.
+- BoolForge has features BooFun lacks: `get_layer_structure()`, `get_canalizing_strength()`, random generators with constraints.
+- BooFun has features BoolForge lacks: Fourier analysis, query complexity, property testing, hypercontractivity.
 
 ## Key Functions to Validate
 
