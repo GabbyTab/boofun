@@ -51,6 +51,45 @@ stab = maj.noise_stability(0.9)
 print(f"Noise stability Stab_0.9[f] = {stab:.4f}")
 ```
 
+## Inner Products and Correlations
+
+The inner product ⟨f, g⟩ = E[f·g] measures how "similar" two functions are.
+
+| Task | Function | Description |
+|------|----------|-------------|
+| Inner product ⟨f, g⟩ | `fourier.plancherel_inner_product(f, g)` | E[f·g] = Σ f̂(S)·ĝ(S) |
+| Correlation | `fourier.correlation(f, g)` | Same as inner product |
+| Convolution | `fourier.convolution(f, g)` | (f * g)(x) = E_y[f(y)·g(x⊕y)] |
+
+### Three Ways to Compute Inner Products
+
+```python
+import boofun as bf
+from boofun.analysis.fourier import plancherel_inner_product
+
+f = bf.AND(3)
+g = bf.OR(3)
+
+# Method 1: Library function
+ip1 = plancherel_inner_product(f, g)
+
+# Method 2: NumPy dot product (Plancherel's identity!)
+ip2 = f.fourier() @ g.fourier()
+
+# Method 3: Probabilistic view using XOR
+# Because XOR = multiplication in ±1, and f̂(∅) = E[f]
+ip3 = (f ^ g).fourier()[0]
+
+# All three give the same answer: -0.5
+```
+
+### Interpretation
+
+- **⟨f, f⟩ = 1** for any Boolean function (Parseval's identity)
+- **⟨f, g⟩ > 0** means f and g are positively correlated (tend to agree)
+- **⟨f, g⟩ < 0** means f and g are negatively correlated (tend to disagree)
+- **⟨f, g⟩ = 0** means f and g are uncorrelated (orthogonal)
+
 ## Advanced Spectral Features
 
 Additional tools for deeper spectral analysis.
@@ -59,7 +98,6 @@ Additional tools for deeper spectral analysis.
 |------|----------|-----------|
 | Annealed/noisy influence | `fourier.annealed_influence(f, i, rho)` | |
 | Truncate to degree d | `fourier.truncate_to_degree(f, d)` | |
-| Correlation corr(f,g) | `fourier.correlation(f, g)` | |
 | Weight distribution | `fourier.fourier_weight_distribution(f)` | |
 | Min coefficient size | `fourier.min_fourier_coefficient_size(f)` | |
 
@@ -149,6 +187,52 @@ for i, count in enumerate(hist):
 for t in [1, 2, 3]:
     moment = sensitivity.average_sensitivity_moment(f, t)
     print(f"  {t}-th moment: {moment:.4f}")
+```
+
+## Probabilistic View
+
+Boolean functions can be viewed as random variables over uniformly random inputs.
+
+### Key Identities
+
+| Quantity | Formula | Computation |
+|----------|---------|-------------|
+| Expectation E[f] | f̂(∅) | `f.fourier()[0]` |
+| Variance Var[f] | Σ_{S≠∅} f̂(S)² | `1 - f.fourier()[0]**2` |
+| Inner product E[f·g] | Σ f̂(S)·ĝ(S) | `f.fourier() @ g.fourier()` |
+| Product expectation E[f·g] | (f ^ g)^ (∅) | `(f ^ g).fourier()[0]` |
+
+### The XOR Trick
+
+In ±1 notation, XOR corresponds to multiplication:
+- f(x) ⊕ g(x) in {0,1} becomes f(x) · g(x) in {±1}
+
+This gives an elegant way to compute products:
+
+```python
+f = bf.majority(3)
+g = bf.parity(3)
+
+# E[f·g] using the XOR trick
+inner_product = (f ^ g).fourier()[0]
+
+# Verify: this equals the Fourier inner product
+assert inner_product == f.fourier() @ g.fourier()
+```
+
+### Fourier Coefficients as Expectations
+
+The inversion formula says f̂(S) = E[f·χ_S]:
+
+```python
+maj = bf.majority(3)
+
+# Build character χ_{0} = x₀ (just a dictator!)
+chi_0 = bf.dictator(3, 0)
+
+# f̂({0}) = E[f·χ_{0}] = (f ^ χ_{0}).fourier()[0]
+coeff = (maj ^ chi_0).fourier()[0]
+assert coeff == maj.fourier()[1]  # Index 1 = 2^0 = {0}
 ```
 
 ## Sampling & Monte Carlo
