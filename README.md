@@ -63,6 +63,7 @@ maj.analyze()  # dict with all metrics
 
 | Category | What's Included |
 |----------|-----------------|
+| **Built-in Functions** | Majority, Parity, AND, OR, Tribes, Threshold, Dictator, weighted LTF, random |
 | **Representations** | Truth tables (dense/sparse/packed), Fourier, ANF, DNF/CNF, BDD, circuits, LTF |
 | **Fourier Analysis** | WHT, influences, noise stability, spectral concentration, p-biased analysis |
 | **Query Complexity** | D(f), R(f), Q(f), sensitivity, block sensitivity, certificates, Ambainis bound |
@@ -170,9 +171,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especiall
 
 ## Acknowledgments
 
+- **[Avishay Tal](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html)**: Course instructor, sensitivity analysis, p-biased measures, decision tree algorithms
+- **[Patrick Bales](https://www.linkedin.com/in/patrickbbales/)**: Course materials and notebook review
+- **O'Donnell's *Analysis of Boolean Functions*** (Cambridge, 2014): Theoretical foundation
 - **Scott Aaronson's Boolean Function Wizard** (2000): Query complexity foundations
-- **Avishay Tal**: Sensitivity, p-biased analysis, decision tree algorithms
-- **O'Donnell's *Analysis of Boolean Functions*** (Cambridge, 2014)
 
 ## License
 
