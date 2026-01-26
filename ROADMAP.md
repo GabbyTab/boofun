@@ -451,27 +451,118 @@ class MyFamily(InductiveFamily):
         return f_prev.extend(n, fill='random')
 ```
 
-#### Lazy/Approximate Analysis
-
-For large n, avoid full truth table computation:
-
-```python
-tracker.mark('total_influence', approximate=True, samples=10000)
-tracker.mark('noise_stability', approximate=True, samples=5000, rho=0.9)
-```
-
-### 2. Families Documentation
+### 2. Lazy Property System (Architecture)
 
 **Status:** Planning
 
-| Task | Priority |
-|------|----------|
-| Create `docs/guides/families.md` guide | High |
-| Add families examples to notebooks | Medium |
-| Document theoretical bounds | Medium |
-| Add growth visualization tutorial | High |
+A general architecture for lazy computation and caching of function properties.
 
-### 3. Dashboard and Visualization Improvements
+#### Core Concept
+
+Each BooleanFunction has a **PropertyStore** that:
+1. Caches computed properties (avoid recomputation)
+2. Knows which algorithms can compute each property
+3. Selects the best algorithm based on context
+
+```python
+# User just asks for a property
+inf = f.total_influence()  # Internally:
+                           # 1. Check cache - return if computed
+                           # 2. Select algorithm based on:
+                           #    - Function size (n_vars)
+                           #    - Available representations
+                           #    - User hints
+                           # 3. Compute, cache, return
+```
+
+#### Algorithm Registry
+
+For each property, register multiple computation methods:
+
+```python
+# Pseudocode for registry
+PropertyRegistry.register(
+    name='total_influence',
+    algorithms=[
+        Algorithm(
+            name='exact_fourier',
+            compute=lambda f: sum(f.influences()),
+            requires=['fourier'],
+            complexity=O(2**n),
+            exact=True,
+        ),
+        Algorithm(
+            name='sample_pivotal',
+            compute=lambda f, samples: estimate_total_influence(f, samples),
+            requires=[],  # Works with any representation
+            complexity=O(samples * n),
+            exact=False,
+        ),
+    ]
+)
+```
+
+#### Smart Selection
+
+The system picks algorithms based on:
+
+| Factor | Small n (≤12) | Medium n (13-20) | Large n (>20) |
+|--------|---------------|------------------|---------------|
+| Default | Exact | Exact if cached, else approximate | Approximate |
+| Has Fourier | Use spectral formula | Use spectral formula | Use spectral formula |
+| Query-only | Sample-based | Sample-based | Sample-based |
+
+#### User Control
+
+```python
+# Let system decide
+f.total_influence()
+
+# Force exact (may be slow)
+f.total_influence(exact=True)
+
+# Force approximate with sample count
+f.total_influence(approximate=True, samples=10000)
+
+# Check what's cached
+f.properties.cached()  # ['fourier', 'total_influence', ...]
+
+# Clear cache (e.g., after mutation)
+f.properties.clear()
+```
+
+#### Where to Store
+
+Options being considered:
+
+| Location | Pros | Cons |
+|----------|------|------|
+| `BooleanFunction.properties` | Direct access, intuitive | Clutters base class |
+| `core/properties.py` (new) | Clean separation | Extra import |
+| Extend `core/representations/` | Properties derived from reps | Conceptually different |
+
+**Recommendation**: New `core/properties.py` module with `PropertyStore` class attached to each function instance.
+
+#### Integration with Families
+
+```python
+# In GrowthTracker, properties are computed lazily
+tracker.mark('total_influence')  # Registers intent
+tracker.observe(n_values=[...])  # Computes, using best algorithm for each n
+```
+
+### 3. Families Documentation
+
+**Status:** Complete
+
+| Task | Status |
+|------|--------|
+| Create `docs/guides/families.md` guide | ✅ Done |
+| Add families examples to notebooks | Medium priority |
+| Document theoretical bounds | Medium priority |
+| Add growth visualization tutorial | Medium priority |
+
+### 4. Dashboard and Visualization Improvements
 
 **Status:** In Progress
 
