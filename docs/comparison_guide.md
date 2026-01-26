@@ -75,11 +75,79 @@ BooFun focuses on theoretical computer science: Fourier analysis (O'Donnell styl
 
 Features better served by other libraries:
 - SAT solving, advanced BDD operations → pyeda
-- Boolean networks, attractors → BoolForge
+- Boolean networks, attractors → BoolForge, biobalm
 - Network control theory → CANA
-- Canalization analysis → BoolForge/CANA
+- Canalizing layer structure → BoolForge
 
-Note: As of v1.1, BooFun now includes comprehensive cryptographic analysis (bent functions, nonlinearity, correlation immunity, LAT/DDT).
+Note: As of v1.1, BooFun includes canalization analysis (depth, nested canalizing detection, essential variables) and cryptographic analysis (bent functions, nonlinearity, correlation immunity, LAT/DDT).
+
+## BoolForge Comparison (Systems Biology)
+
+BoolForge (Kadelka & Coberly, 2025) focuses on Boolean **networks** for systems biology, while BooFun focuses on Boolean **functions** for theoretical CS.
+
+### What BoolForge Does Well
+
+**Random Generation with Constraints:**
+```python
+# BoolForge can generate functions with specific properties
+random_k_canalizing_function(n, k)  # Specific canalizing depth
+random_NCF(n, layer_structure)       # Nested canalizing with structure
+random_non_degenerated_function(n, bias)  # Specific bias
+```
+
+**Boolean Networks:**
+- Networks of interconnected Boolean functions
+- Attractor analysis (steady states, limit cycles)
+- Network robustness metrics
+- Modular structure detection
+
+**Null Model Generation:**
+- Generate ensembles for statistical comparison
+- Control for degree distribution, canalization, bias
+
+### Feature Comparison
+
+| Feature | BooFun | BoolForge |
+|---------|--------|-----------|
+| **Canalization** | | |
+| is_canalizing | ✓ | ✓ |
+| canalizing_depth | ✓ | ✓ |
+| is_nested_canalizing | ✓ | ✓ |
+| get_layer_structure | ✗ | ✓ |
+| canalizing_strength | ✗ | ✓ |
+| **Random Generation** | | |
+| Random k-canalizing | ✗ | ✓ |
+| Random with bias | ✗ | ✓ |
+| Random layer structure | ✗ | ✓ |
+| **Analysis** | | |
+| Monotonicity | ✓ | ✓ |
+| Symmetry groups | ✓ | ✓ |
+| Sensitivity | ✓ | ✓ |
+| Essential variables | ✓ | ✓ |
+| **Networks** | | |
+| Network representation | ✗ | ✓ |
+| Attractor analysis | ✗ | ✓ |
+| Network motifs | ✗ | ✓ |
+| **Unique to BooFun** | | |
+| Fourier analysis | ✓ | ✗ |
+| Query complexity | ✓ | ✗ |
+| Property testing | ✓ | ✗ |
+| Hypercontractivity | ✓ | ✗ |
+| Cryptographic analysis | ✓ | ✗ |
+
+### When to Use Which
+
+**Use BoolForge when:**
+- Modeling gene regulatory networks
+- Need to generate ensembles with specific canalization properties
+- Studying network dynamics and attractors
+- Comparing biological networks to null models
+
+**Use BooFun when:**
+- Studying theoretical properties (Fourier, query complexity)
+- Following O'Donnell's textbook
+- Property testing algorithms
+- Cryptographic analysis of Boolean functions
 
 ## Comparison Tables
 

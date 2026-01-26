@@ -591,12 +591,23 @@ tracker.observe(n_values=[...])  # Computes, using best algorithm for each n
 
 ## Nice to Have (No Timeline)
 
+**Infrastructure:**
 - Manim animations for educational content
 - Dask distributed computation for large n
 - ~~conda-forge package~~ (PR submitted, awaiting review)
 - Interactive Jupyter widgets documentation
 - GPU acceleration via CuPy/CUDA (BooLSPLG-inspired)
 - Rust FFI for performance-critical paths
+
+**Inspired by BoolForge (Kadelka & Coberly, 2025):**
+- Random function generators with constraints:
+  - `random_k_canalizing(n, k)` - specific canalizing depth
+  - `random_with_bias(n, bias)` - specific bias/Hamming weight
+  - `random_layer_structure(n, layers)` - nested canalizing with structure
+- Canalizing layer structure analysis (`get_layer_structure()`)
+- Canalizing strength metric
+- Null model generation for ensemble experiments
+- Consider: Basic Boolean network support (out of scope for TCS focus?)
 
 ---
 
