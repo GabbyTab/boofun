@@ -672,16 +672,27 @@ class BooleanFunctionVisualizer:
         ax2.set_xlabel("Coefficient Index")
         ax2.set_ylabel("|Coefficient|")
 
-        # 3. Summary statistics
+        # 3. Summary statistics (vertical bars with rotated labels)
         ax3 = fig.add_subplot(gs[0, 2])
         summary = self.analyzer.summary()
         metrics = list(summary.keys())[:6]  # Show first 6 metrics
         values = [summary[m] for m in metrics]
 
-        y_pos = np.arange(len(metrics))
-        bars = ax3.barh(y_pos, values, alpha=0.7, color="lightgreen")
-        ax3.set_yticks(y_pos)
-        ax3.set_yticklabels([m.replace("_", " ").title() for m in metrics])
+        # Use shorter labels to avoid bleeding
+        short_labels = {
+            "total_influence": "Total Inf",
+            "max_influence": "Max Inf",
+            "min_influence": "Min Inf",
+            "avg_influence": "Avg Inf",
+            "noise_stability_0.9": "Stab(0.9)",
+            "noise_stability_0.5": "Stab(0.5)",
+        }
+        labels = [short_labels.get(m, m[:10]) for m in metrics]
+
+        x_pos = np.arange(len(metrics))
+        ax3.bar(x_pos, values, alpha=0.7, color="lightgreen")
+        ax3.set_xticks(x_pos)
+        ax3.set_xticklabels(labels, rotation=45, ha="right", fontsize=8)
         ax3.set_title("Summary Statistics")
 
         # 4. Noise stability (if function is small enough)
