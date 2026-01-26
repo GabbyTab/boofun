@@ -680,6 +680,7 @@ class BooleanFunctionVisualizer:
 
         # Use shorter labels to avoid bleeding
         short_labels = {
+            "bias": "Bias",
             "total_influence": "Total Inf",
             "max_influence": "Max Inf",
             "min_influence": "Min Inf",

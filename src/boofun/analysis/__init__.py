@@ -296,8 +296,9 @@ class SpectralAnalyzer:
         """
         influences = self.influences()
 
-        # Basic statistics
+        # Basic statistics (bias first as it's fundamental)
         summary = {
+            "bias": self.function.bias(),
             "total_influence": self.total_influence(),
             "max_influence": np.max(influences),
             "min_influence": np.min(influences),
