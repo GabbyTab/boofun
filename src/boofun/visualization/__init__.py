@@ -716,15 +716,24 @@ class BooleanFunctionVisualizer:
             size = len(truth_table)
             x_pos = np.arange(size)
             colors = ["red" if val else "blue" for val in truth_table]
-            bars = ax5.bar(x_pos, [1] * size, color=colors, alpha=0.7)
+            ax5.bar(x_pos, [1] * size, color=colors, alpha=0.7)
 
-            # Add binary labels
+            # Add binary labels for x-axis (input values)
             labels = [format(i, f"0{self.n_vars}b") for i in range(size)]
             ax5.set_xticks(x_pos)
-            ax5.set_xticklabels(labels, rotation=45 if size > 8 else 0)
-            ax5.set_title("Truth Table")
-            ax5.set_ylabel("Output")
-            ax5.set_ylim(0, 1.2)
+            ax5.set_xticklabels(labels, rotation=45 if size > 8 else 0, fontsize=8)
+            ax5.set_title("Truth Table: f(x) for each input x")
+            ax5.set_xlabel("Input x (binary)")
+            ax5.set_yticks([])  # Hide y-axis ticks (height is meaningless)
+
+            # Add legend
+            from matplotlib.patches import Patch
+
+            legend_elements = [
+                Patch(facecolor="red", alpha=0.7, label="f(x) = 1 (True)"),
+                Patch(facecolor="blue", alpha=0.7, label="f(x) = 0 (False)"),
+            ]
+            ax5.legend(handles=legend_elements, loc="upper right", fontsize=8)
 
         fig.suptitle(f"Boolean Function Analysis Dashboard (n={self.n_vars})", fontsize=16)
 
