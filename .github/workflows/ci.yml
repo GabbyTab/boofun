@@ -264,6 +264,14 @@ jobs:
         cd docs
         make html
 
+    - name: Convert notebooks to HTML
+      run: |
+        mkdir -p docs/_build/html/notebooks
+        pip install nbconvert
+        for nb in notebooks/lecture*.ipynb notebooks/hw*.ipynb; do
+          jupyter nbconvert --to html "$nb" --output-dir docs/_build/html/notebooks/
+        done
+
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       uses: peaceiris/actions-gh-pages@4a2e02b36f31d8974a0d09d3bb9f3172aa2d0d0d  # v3

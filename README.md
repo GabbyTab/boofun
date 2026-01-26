@@ -111,36 +111,36 @@ bf.load("function.cnf")              # DIMACS CNF
 
 ## Course Notebooks
 
-Interactive notebooks following CS294-92 (Analysis of Boolean Functions). **View pre-run** on nbviewer or **play interactively** in Colab.
+Interactive notebooks following CS294-92 (Analysis of Boolean Functions). Click **Topic** to view or **Play** to run in Colab.
 
 <details>
 <summary><strong>Lecture Notebooks (11)</strong></summary>
 
-| Lecture | Topic | View | Play |
-|---------|-------|------|------|
-| 1 | Fourier Expansion | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture1_fourier_expansion.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture1_fourier_expansion.ipynb) |
-| 2 | Linearity Testing | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture2_linearity_testing.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture2_linearity_testing.ipynb) |
-| 3 | Social Choice & Influences | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture3_social_choice_influences.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture3_social_choice_influences.ipynb) |
-| 4 | Influences & Effects | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture4_influences_effects.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture4_influences_effects.ipynb) |
-| 5 | Noise Stability | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture5_noise_stability.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture5_noise_stability.ipynb) |
-| 6 | Spectral Concentration | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture6_spectral_concentration.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture6_spectral_concentration.ipynb) |
-| 7 | Goldreich-Levin | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture7_goldreich_levin.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture7_goldreich_levin.ipynb) |
-| 8 | Learning Juntas | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture8_learning_juntas.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture8_learning_juntas.ipynb) |
-| 9 | DNFs & Restrictions | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture9_dnf_restrictions.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture9_dnf_restrictions.ipynb) |
-| 10 | Fourier Concentration | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture10_fourier_concentration.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture10_fourier_concentration.ipynb) |
-| 11 | Invariance Principle | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/lecture11_invariance_principle.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture11_invariance_principle.ipynb) |
+| Lecture | Topic | Play |
+|---------|-------|------|
+| 1 | [Fourier Expansion](https://gabbytab.github.io/boofun/notebooks/lecture1_fourier_expansion.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture1_fourier_expansion.ipynb) |
+| 2 | [Linearity Testing](https://gabbytab.github.io/boofun/notebooks/lecture2_linearity_testing.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture2_linearity_testing.ipynb) |
+| 3 | [Social Choice & Influences](https://gabbytab.github.io/boofun/notebooks/lecture3_social_choice_influences.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture3_social_choice_influences.ipynb) |
+| 4 | [Influences & Effects](https://gabbytab.github.io/boofun/notebooks/lecture4_influences_effects.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture4_influences_effects.ipynb) |
+| 5 | [Noise Stability](https://gabbytab.github.io/boofun/notebooks/lecture5_noise_stability.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture5_noise_stability.ipynb) |
+| 6 | [Spectral Concentration](https://gabbytab.github.io/boofun/notebooks/lecture6_spectral_concentration.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture6_spectral_concentration.ipynb) |
+| 7 | [Goldreich-Levin](https://gabbytab.github.io/boofun/notebooks/lecture7_goldreich_levin.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture7_goldreich_levin.ipynb) |
+| 8 | [Learning Juntas](https://gabbytab.github.io/boofun/notebooks/lecture8_learning_juntas.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture8_learning_juntas.ipynb) |
+| 9 | [DNFs & Restrictions](https://gabbytab.github.io/boofun/notebooks/lecture9_dnf_restrictions.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture9_dnf_restrictions.ipynb) |
+| 10 | [Fourier Concentration](https://gabbytab.github.io/boofun/notebooks/lecture10_fourier_concentration.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture10_fourier_concentration.ipynb) |
+| 11 | [Invariance Principle](https://gabbytab.github.io/boofun/notebooks/lecture11_invariance_principle.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture11_invariance_principle.ipynb) |
 
 </details>
 
 <details>
 <summary><strong>Homework Notebooks (4)</strong></summary>
 
-| HW | Topic | View | Play |
-|----|-------|------|------|
-| 1 | Fourier Expansion | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/hw1_fourier_expansion.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/hw1_fourier_expansion.ipynb) |
-| 2 | LTFs & Decision Trees | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/hw2_ltf_decision_trees.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/hw2_ltf_decision_trees.ipynb) |
-| 3 | DNFs & Restrictions | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/hw3_dnf_restrictions.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/hw3_dnf_restrictions.ipynb) |
-| 4 | Hypercontractivity | [![nbviewer](https://img.shields.io/badge/view-nbviewer-orange)](https://nbviewer.org/github/GabbyTab/boofun/blob/main/notebooks/hw4_hypercontractivity.ipynb) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/hw4_hypercontractivity.ipynb) |
+| HW | Topic | Play |
+|----|-------|------|
+| 1 | [Fourier Expansion](https://gabbytab.github.io/boofun/notebooks/hw1_fourier_expansion.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/hw1_fourier_expansion.ipynb) |
+| 2 | [LTFs & Decision Trees](https://gabbytab.github.io/boofun/notebooks/hw2_ltf_decision_trees.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/hw2_ltf_decision_trees.ipynb) |
+| 3 | [DNFs & Restrictions](https://gabbytab.github.io/boofun/notebooks/hw3_dnf_restrictions.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/hw3_dnf_restrictions.ipynb) |
+| 4 | [Hypercontractivity](https://gabbytab.github.io/boofun/notebooks/hw4_hypercontractivity.html) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/hw4_hypercontractivity.ipynb) |
 
 </details>
 
