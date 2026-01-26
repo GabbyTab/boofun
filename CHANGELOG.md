@@ -23,10 +23,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `total_influence`, `max_influence` - kept
   - `noise_stability_0.9`, `noise_stability_0.5` - kept
 
+**Cross-Validation (Jan 2026)**
+- BoolForge cross-validation tests (33 tests) - validates canalization analysis
+- Compares `is_canalizing`, `get_canalizing_depth`, `get_essential_variables`, `is_monotonic`, `get_symmetry_groups`
+
+**Documentation Improvements (Jan 2026)**
+- LaTeX rendering enabled in Sphinx markdown files (`dollarmath`, `amsmath` extensions)
+- All notebooks now have "Open in Colab" badges
+- README has nbviewer/Colab links for all 11 lectures and 4 homework notebooks
+- Notebook attributions: "Based on lecture notes by X. Notebook by Gabriel Taboada."
+- Course Notebooks section in README is collapsible
+- Function Families guide added to Sphinx documentation
+
 ### Fixed
 
 - Dashboard summary statistics labels no longer bleed into adjacent plots
 - Truth table visualization now has legend explaining red/blue coloring
+- Total Influence annotation moved to bottom-right to avoid title overlap
+- LaTeX formulas now render properly in Sphinx documentation
 
 ---
 
