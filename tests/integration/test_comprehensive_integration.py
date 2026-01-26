@@ -447,7 +447,15 @@ class TestAnalysisToolsIntegration:
 
             # Summary should be a dictionary with expected keys
             assert isinstance(summary, dict)
-            expected_keys = ["total_influence", "max_influence", "min_influence", "avg_influence"]
+            # Updated keys after summary statistics enhancement (Jan 2026)
+            expected_keys = [
+                "expectation",
+                "variance",
+                "degree",
+                "sparsity",
+                "total_influence",
+                "max_influence",
+            ]
             for key in expected_keys:
                 assert key in summary, f"Missing {key} in summary"
                 assert isinstance(summary[key], (int, float, np.number)), f"Invalid type for {key}"
