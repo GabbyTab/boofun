@@ -207,7 +207,7 @@ Boolean functions can be viewed as random variables over uniformly random inputs
 In ±1 notation, XOR corresponds to multiplication:
 - f(x) ⊕ g(x) in {0,1} becomes f(x) · g(x) in {±1}
 
-This gives an elegant way to compute products:
+This gives a way to compute products:
 
 ```python
 f = bf.majority(3)
