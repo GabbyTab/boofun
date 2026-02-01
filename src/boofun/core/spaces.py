@@ -1,3 +1,18 @@
+"""
+Mathematical spaces for Boolean function analysis.
+
+Provides conversions between different representations:
+- BOOLEAN_CUBE: {0, 1}^n
+- PLUS_MINUS_CUBE: {-1, +1}^n
+- REAL: ℝ^n
+- LOG: Log-probability space
+- GAUSSIAN: Standard normal space
+
+WARNING: Some conversions are lossy (continuous → discrete).
+These will emit warnings unless explicitly silenced.
+"""
+
+import warnings
 from enum import Enum, auto
 from typing import Union
 
@@ -47,8 +62,14 @@ class Space(Enum):
         if source_space == Space.PLUS_MINUS_CUBE and target_space == Space.BOOLEAN_CUBE:
             return ((arr + 1) // 2).astype(int)
 
-        # Real-valued input → Boolean (mod 2)
+        # Real-valued input → Boolean (mod 2) - LOSSY!
         if source_space == Space.REAL and target_space == Space.BOOLEAN_CUBE:
+            warnings.warn(
+                "Lossy conversion: REAL → BOOLEAN_CUBE uses round() % 2. "
+                "Magnitude information is lost.",
+                UserWarning,
+                stacklevel=2,
+            )
             return (np.round(arr) % 2).astype(int)
 
         # Boolean → Real (just cast)
@@ -59,13 +80,24 @@ class Space(Enum):
         if source_space == Space.PLUS_MINUS_CUBE and target_space == Space.REAL:
             return arr.astype(float)
 
-        # Real → ±1 (e.g., sign function)
+        # Real → ±1 (sign function) - LOSSY!
         if source_space == Space.REAL and target_space == Space.PLUS_MINUS_CUBE:
+            warnings.warn(
+                "Lossy conversion: REAL → PLUS_MINUS_CUBE uses sign(). "
+                "Magnitude information is lost.",
+                UserWarning,
+                stacklevel=2,
+            )
             return np.where(arr >= 0, 1, -1)
 
-        # LOG space conversions
+        # LOG space conversions - LOSSY!
         if source_space == Space.LOG and target_space == Space.BOOLEAN_CUBE:
-            # Interpret log probabilities: exp(log_prob) > 0.5
+            warnings.warn(
+                "Lossy conversion: LOG → BOOLEAN_CUBE uses threshold at 0.5. "
+                "Probability magnitude is lost.",
+                UserWarning,
+                stacklevel=2,
+            )
             return (np.exp(arr) > 0.5).astype(int)
 
         if source_space == Space.BOOLEAN_CUBE and target_space == Space.LOG:
@@ -73,9 +105,14 @@ class Space(Enum):
             prob = np.clip(arr.astype(float), 1e-10, 1 - 1e-10)
             return np.log(prob)
 
-        # GAUSSIAN space conversions
+        # GAUSSIAN space conversions - LOSSY!
         if source_space == Space.GAUSSIAN and target_space == Space.BOOLEAN_CUBE:
-            # Standard normal CDF > 0.5
+            warnings.warn(
+                "Lossy conversion: GAUSSIAN → BOOLEAN_CUBE uses CDF threshold. "
+                "Distribution information is lost.",
+                UserWarning,
+                stacklevel=2,
+            )
             from scipy.stats import norm
 
             return (norm.cdf(arr) > 0.5).astype(int)

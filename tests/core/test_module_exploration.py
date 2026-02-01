@@ -1,13 +1,12 @@
 """
 Module exploration and integration tests.
 
-Tests that exercise module APIs systematically to verify:
-- All public functions are callable
-- Basic operations don't crash
-- Integration between modules works
+These tests verify that all public modules:
+1. Import correctly
+2. Have expected public API
+3. Produce valid results (not just "something")
 
-Note: These tests are designed to catch regressions and verify basic functionality,
-not to test specific behaviors (those are in dedicated test files).
+Note: For detailed mathematical correctness, see dedicated test files.
 """
 
 import sys
@@ -24,318 +23,255 @@ class TestAutoRepresentation:
     """Test auto_representation module."""
 
     def test_module_imports(self):
-        """Module should import."""
+        """Module should import without errors."""
         from boofun.core import auto_representation
 
-        assert auto_representation is not None
+        # Verify module has expected content
+        assert hasattr(auto_representation, "__name__")
 
-    def test_module_contents(self):
-        """Module should have functions/classes."""
+    def test_auto_rep_has_public_api(self):
+        """Module should expose public functions/classes."""
         from boofun.core import auto_representation
 
-        contents = [n for n in dir(auto_representation) if not n.startswith("_")]
-        assert len(contents) > 0
-
-    def test_auto_rep_functions(self):
-        """Test auto representation functions."""
-        from boofun.core import auto_representation
-
-        f = bf.majority(3)
-
-        for name in dir(auto_representation):
-            if name.startswith("_"):
-                continue
-            obj = getattr(auto_representation, name)
-            if callable(obj):
-                try:
-                    obj(f)
-                except (TypeError, ValueError, AttributeError):
-                    try:
-                        obj()
-                    except (TypeError, ValueError, AttributeError):
-                        pass
+        public_names = [n for n in dir(auto_representation) if not n.startswith("_")]
+        assert len(public_names) > 0, "Module should have public API"
 
 
 class TestLegacyAdapter:
     """Test legacy_adapter module."""
 
     def test_module_imports(self):
-        """Module should import."""
+        """Module should import without errors."""
         from boofun.core import legacy_adapter
 
-        assert legacy_adapter is not None
+        assert hasattr(legacy_adapter, "__name__")
 
-    def test_legacy_function_creation(self):
-        """Test legacy function creation via main API."""
-        f = bf.create([0, 0, 0, 1])
-        assert f is not None
+    def test_create_produces_valid_function(self):
+        """bf.create should produce a valid BooleanFunction."""
+        f = bf.create([0, 0, 0, 1])  # AND function
 
-    def test_legacy_methods(self):
-        """Test legacy methods exist."""
-        f = bf.create([0, 1, 1, 0])
+        # Verify it's a proper function with correct behavior
+        assert f.n_vars == 2, f"Expected 2 vars, got {f.n_vars}"
+        assert f.evaluate(0b11) == 1, "AND(1,1) should be 1"
+        assert f.evaluate(0b00) == 0, "AND(0,0) should be 0"
 
-        # Test common methods
-        if hasattr(f, "fourier"):
-            fourier = f.fourier()
-            assert fourier is not None
+    def test_fourier_returns_valid_coefficients(self):
+        """Fourier method should return valid coefficients."""
+        f = bf.create([0, 1, 1, 0])  # XOR
+
+        fourier = f.fourier()
+        assert len(fourier) == 4, f"Expected 4 coefficients, got {len(fourier)}"
+
+        # XOR has coefficient only at {0,1}
+        assert abs(fourier[3]) > 0.9, "XOR should have large coefficient at {0,1}"
+
+    def test_influences_are_valid(self):
+        """Influences should be non-negative and sum correctly."""
+        f = bf.majority(3)
 
         if hasattr(f, "influences"):
             influences = f.influences()
-            assert influences is not None
+            assert len(influences) == 3, "Should have 3 influences"
+            assert all(i >= 0 for i in influences), "Influences should be non-negative"
+
+    def test_total_influence_in_valid_range(self):
+        """Total influence should be in [0, n]."""
+        f = bf.parity(4)
 
         if hasattr(f, "total_influence"):
             ti = f.total_influence()
-            assert ti is not None
+            assert 0 <= ti <= 4, f"Total influence {ti} out of range [0, 4]"
 
 
 class TestPackedTruthTable:
     """Test packed_truth_table module."""
 
     def test_module_imports(self):
-        """Module should import."""
+        """Module should import without errors."""
         from boofun.core.representations import packed_truth_table
 
-        assert packed_truth_table is not None
+        assert hasattr(packed_truth_table, "__name__")
 
-    def test_packed_tt_contents(self):
-        """Test module contents."""
+    def test_module_has_representation_class(self):
+        """Module should have representation-related classes."""
         from boofun.core.representations import packed_truth_table
 
-        contents = [n for n in dir(packed_truth_table) if not n.startswith("_")]
-        assert len(contents) > 0
-
-    def test_packed_operations(self):
-        """Test packed operations."""
-        from boofun.core.representations import packed_truth_table
-
-        for name in dir(packed_truth_table):
-            if name.startswith("_"):
-                continue
-            obj = getattr(packed_truth_table, name)
-            if callable(obj):
-                try:
-                    obj(np.array([0, 1, 1, 0]))
-                except (TypeError, ValueError, AttributeError):
-                    pass
+        public_names = [n for n in dir(packed_truth_table) if not n.startswith("_")]
+        assert len(public_names) > 0
 
 
 class TestLTFRepresentation:
     """Test LTF (Linear Threshold Function) representation."""
 
     def test_module_imports(self):
-        """Module should import."""
+        """Module should import without errors."""
         from boofun.core.representations import ltf
 
-        assert ltf is not None
+        assert hasattr(ltf, "__name__")
 
-    def test_ltf_contents(self):
-        """Test module contents."""
+    def test_ltf_has_expected_classes(self):
+        """Module should have LTF-related classes."""
         from boofun.core.representations import ltf
 
-        contents = [n for n in dir(ltf) if not n.startswith("_")]
-        assert len(contents) > 0
+        # Should have LTFParameters or similar
+        public_names = [n for n in dir(ltf) if not n.startswith("_")]
+        assert len(public_names) > 0
 
-    def test_ltf_functions(self):
-        """Test LTF functions."""
-        from boofun.core.representations import ltf
-
-        f = bf.majority(3)
-
-        for name in dir(ltf):
-            if name.startswith("_"):
-                continue
-            obj = getattr(ltf, name)
-            if callable(obj) and not isinstance(obj, type):
-                try:
-                    obj(f)
-                except (TypeError, ValueError, AttributeError):
-                    pass
+        # Check for key classes
+        assert hasattr(ltf, "LTFParameters") or hasattr(ltf, "LTFRepresentation")
 
 
 class TestCoreSpaces:
     """Test core spaces module."""
 
-    def test_space_creation(self):
-        """Test space creation."""
+    def test_space_enum_exists(self):
+        """Space enum should exist with expected values."""
         from boofun.core.spaces import Space
 
-        s = Space(3)
-        assert s is not None
+        # Verify key space types exist
+        assert hasattr(Space, "BOOLEAN_CUBE")
+        assert hasattr(Space, "PLUS_MINUS_CUBE")
 
-    def test_space_methods(self):
-        """Test space methods."""
+    def test_space_translation(self):
+        """Space translation should convert between representations."""
         from boofun.core.spaces import Space
 
-        s = Space(4)
+        # Boolean -> ±1
+        result = Space.translate([0, 1], Space.BOOLEAN_CUBE, Space.PLUS_MINUS_CUBE)
+        expected = np.array([-1, 1])
+        assert np.allclose(result, expected), f"Expected {expected}, got {result}"
 
-        # Test available attributes/methods
-        for attr in ["size", "n", "dim", "__len__"]:
-            if hasattr(s, attr):
-                val = getattr(s, attr)
-                if callable(val):
-                    val = val()
-                assert val is not None
+        # ±1 -> Boolean
+        result = Space.translate([-1, 1], Space.PLUS_MINUS_CUBE, Space.BOOLEAN_CUBE)
+        expected = np.array([0, 1])
+        assert np.allclose(result, expected), f"Expected {expected}, got {result}"
 
 
 class TestAnalysisInvariance:
     """Test analysis invariance module."""
 
     def test_module_imports(self):
-        """Module should import."""
+        """Module should import without errors."""
         from boofun.analysis import invariance
 
-        assert invariance is not None
-
-    def test_invariance_functions(self):
-        """Test invariance functions."""
-        from boofun.analysis import invariance
-
-        f = bf.majority(3)
-
-        for name in dir(invariance):
-            if name.startswith("_"):
-                continue
-            obj = getattr(invariance, name)
-            if callable(obj):
-                try:
-                    obj(f)
-                except (TypeError, ValueError):
-                    pass
+        assert hasattr(invariance, "__name__")
 
 
-class TestMoreBooleanFunctionMethods:
-    """Test more BooleanFunction methods."""
+class TestBooleanFunctionMethods:
+    """Test BooleanFunction methods produce valid results."""
 
-    def test_evaluate_all(self):
-        """Test evaluate on all inputs."""
+    def test_evaluate_returns_boolean(self):
+        """Evaluate should return 0/1 or True/False."""
         f = bf.AND(3)
 
         for x in range(8):
             result = f(x)
-            assert result in [0, 1, True, False, np.True_, np.False_]
+            # Accept various boolean representations
+            assert result in [0, 1, True, False] or isinstance(
+                result, (bool, np.bool_)
+            ), f"Unexpected result type: {type(result)}"
 
-    def test_truth_table_access(self):
-        """Test truth table access."""
+    def test_truth_table_has_correct_size(self):
+        """Truth table should have 2^n entries."""
         f = bf.OR(3)
 
-        # Try different ways to get truth table
-        if hasattr(f, "truth_table"):
-            tt = f.truth_table() if callable(f.truth_table) else f.truth_table
-            assert len(tt) == 8
-        elif hasattr(f, "get_representation"):
-            tt = f.get_representation("truth_table")
-            assert tt is not None
+        tt = f.get_representation("truth_table")
+        assert len(tt) == 8, f"Expected 8 entries, got {len(tt)}"
 
-    def test_function_properties(self):
-        """Test function property methods."""
+    def test_function_properties_return_booleans(self):
+        """Property methods should return boolean values."""
         f = bf.majority(5)
 
-        # Test various properties - accept numpy booleans
         if hasattr(f, "is_balanced"):
-            bal = f.is_balanced()
-            assert bal in [True, False, np.True_, np.False_]
+            result = f.is_balanced()
+            assert isinstance(result, (bool, np.bool_))
 
         if hasattr(f, "is_monotone"):
-            mono = f.is_monotone()
-            assert mono in [True, False, np.True_, np.False_]
+            result = f.is_monotone()
+            assert isinstance(result, (bool, np.bool_))
 
         if hasattr(f, "is_symmetric"):
-            sym = f.is_symmetric()
-            assert sym in [True, False, np.True_, np.False_]
-
-    def validate_representations_property(self):
-        """Test representations property."""
-        f = bf.parity(3)
-
-        if hasattr(f, "representations"):
-            reps = f.representations
-            assert reps is not None
+            result = f.is_symmetric()
+            assert isinstance(result, (bool, np.bool_))
 
 
 class TestFamilyMethods:
-    """Test family methods."""
+    """Test family methods produce valid functions."""
 
-    def test_majority_family(self):
-        """Test majority family."""
+    def test_majority_family_generates_majority(self):
+        """MajorityFamily should generate actual majority functions."""
         from boofun.families import MajorityFamily
 
         fam = MajorityFamily()
-        assert fam is not None
+        f = fam.generate(3)
 
-        # Try generate method
-        if hasattr(fam, "generate"):
-            f3 = fam.generate(3)
-            assert f3 is not None
-        elif hasattr(fam, "__call__"):
-            f3 = fam(3)
-            assert f3 is not None
+        # Verify it's actually majority
+        assert f.evaluate(0b111) == 1, "MAJ(1,1,1) should be 1"
+        assert f.evaluate(0b000) == 0, "MAJ(0,0,0) should be 0"
+        assert f.evaluate(0b011) == 1, "MAJ(0,1,1) should be 1"
 
-    def test_parity_family(self):
-        """Test parity family."""
+    def test_parity_family_generates_parity(self):
+        """ParityFamily should generate actual parity functions."""
         from boofun.families import ParityFamily
 
         fam = ParityFamily()
-        assert fam is not None
+        f = fam.generate(3)
 
-        if hasattr(fam, "generate"):
-            f2 = fam.generate(2)
-            assert f2 is not None
-        elif hasattr(fam, "__call__"):
-            f2 = fam(2)
-            assert f2 is not None
-
-    def test_threshold_family(self):
-        """Test threshold family."""
-        from boofun.families import ThresholdFamily
-
-        try:
-            fam = ThresholdFamily(threshold=2)
-        except TypeError:
-            try:
-                fam = ThresholdFamily(2)
-            except TypeError:
-                fam = ThresholdFamily()
-
-        assert fam is not None
+        # Verify it's actually parity (XOR)
+        for x in range(8):
+            expected = bin(x).count("1") % 2
+            actual = int(f.evaluate(x))
+            assert actual == expected, f"PAR({bin(x)}) = {actual}, expected {expected}"
 
 
-class TestMoreAnalysisFunctions:
-    """Test more analysis functions."""
+class TestSpectralAnalyzer:
+    """Test SpectralAnalyzer produces valid results."""
 
-    def test_spectral_analyzer_all_methods(self):
-        """Test all SpectralAnalyzer methods."""
+    def test_fourier_expansion_sums_to_1(self):
+        """Parseval: sum of squared coefficients should be 1."""
         from boofun.analysis import SpectralAnalyzer
 
-        f = bf.majority(5)
+        f = bf.majority(3)
         analyzer = SpectralAnalyzer(f)
 
-        # Test all methods
-        for name in dir(analyzer):
-            if name.startswith("_"):
-                continue
-            method = getattr(analyzer, name)
-            if callable(method):
-                try:
-                    method()
-                except TypeError:
-                    pass
+        coeffs = analyzer.fourier_expansion()
+        sum_squared = np.sum(coeffs**2)
 
-    def test_property_tester_all_methods(self):
-        """Test all PropertyTester methods."""
-        from boofun.analysis import PropertyTester
+        assert np.isclose(sum_squared, 1.0), f"Parseval violated: Σf̂(S)² = {sum_squared}"
+
+    def test_total_influence_in_range(self):
+        """Total influence should be in [0, n]."""
+        from boofun.analysis import SpectralAnalyzer
 
         f = bf.AND(4)
+        analyzer = SpectralAnalyzer(f)
+
+        ti = analyzer.total_influence()
+        assert 0 <= ti <= 4, f"Total influence {ti} out of range [0, 4]"
+
+
+class TestPropertyTester:
+    """Test PropertyTester produces valid results."""
+
+    def test_blr_test_on_linear_function(self):
+        """BLR should accept linear functions."""
+        from boofun.analysis import PropertyTester
+
+        f = bf.parity(4)  # Linear function
         tester = PropertyTester(f)
 
-        for name in dir(tester):
-            if name.startswith("_"):
-                continue
-            method = getattr(tester, name)
-            if callable(method):
-                try:
-                    method()
-                except TypeError:
-                    pass
+        result = tester.blr_linearity_test(100)
+        assert result is True, "BLR should accept parity (linear)"
+
+    def test_blr_test_on_nonlinear_function(self):
+        """BLR should reject non-linear functions (with high probability)."""
+        from boofun.analysis import PropertyTester
+
+        f = bf.majority(5)  # Not linear
+        tester = PropertyTester(f)
+
+        result = tester.blr_linearity_test(100)
+        assert result is False, "BLR should reject majority (non-linear)"
 
 
 if __name__ == "__main__":
