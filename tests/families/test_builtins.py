@@ -194,14 +194,19 @@ class TestDictatorFamily:
         assert dictator_var is not None, "Function is not a dictator"
 
     def test_dictator_is_linear(self):
-        """Dictator is a linear function (character χ_{i})."""
+        """Dictator is a linear function (character χ_{i}).
+
+        Dictator x_i = χ_{i} has exactly ONE non-zero Fourier coefficient:
+        f̂({i}) = 1, all others are 0. This is because dictator IS the
+        character function, which forms a basis element.
+        """
         family = DictatorFamily()
         f = family.generate(3)
 
-        # Dictator has exactly 2 non-zero Fourier coefficients
+        # Dictator has exactly 1 non-zero Fourier coefficient
         coeffs = f.fourier()
         non_zero = sum(1 for c in coeffs if abs(c) > 0.01)
-        assert non_zero == 2, f"Dictator should have 2 non-zero coeffs, got {non_zero}"
+        assert non_zero == 1, f"Dictator should have 1 non-zero coeff (χ_{{i}}), got {non_zero}"
 
 
 class TestTribesFamily:
