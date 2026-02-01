@@ -96,6 +96,49 @@ class TestBLRLinearityTest:
             blr_result = tester.blr_linearity_test(num_queries=100)
             assert blr_result is True, f"BLR failed on linear function"
 
+    def test_blr_acceptance_probability_formula(self):
+        """Verify BLR acceptance probability matches the formula.
+
+        Theorem (O'Donnell): E[f(x)f(y)f(x⊕y)] = Σ_S f̂(S)³
+
+        Since BLR accepts when f(x)·f(y)·f(x⊕y) = 1:
+            Pr[BLR accepts] = (1 + Σ_S f̂(S)³) / 2
+
+        This is a critical mathematical property that catches formula bugs.
+        """
+        test_functions = [
+            ("parity_3", bf.parity(3)),
+            ("majority_3", bf.majority(3)),
+            ("and_3", bf.AND(3)),
+            ("or_3", bf.OR(3)),
+            ("dictator", bf.dictator(4, 0)),
+        ]
+
+        for name, f in test_functions:
+            n = f.n_vars
+            fourier = f.fourier()
+            sum_cubed = sum(c**3 for c in fourier)
+            theoretical_acceptance = (1 + sum_cubed) / 2
+
+            # Compute exact acceptance probability by exhaustive enumeration
+            accepts = 0
+            total = 0
+            for x in range(2**n):
+                for y in range(2**n):
+                    xy = x ^ y
+                    fx = 1 - 2 * int(f.evaluate(x))  # ±1
+                    fy = 1 - 2 * int(f.evaluate(y))
+                    fxy = 1 - 2 * int(f.evaluate(xy))
+                    if fx * fy == fxy:
+                        accepts += 1
+                    total += 1
+            exact_acceptance = accepts / total
+
+            # Both should match theoretical formula
+            assert np.isclose(
+                theoretical_acceptance, exact_acceptance
+            ), f"{name}: theoretical={(1+sum_cubed)/2:.4f} != exact={exact_acceptance:.4f}"
+
 
 class TestMonotonicityTest:
     """Test monotonicity_test method."""
