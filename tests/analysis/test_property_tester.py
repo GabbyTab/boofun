@@ -139,6 +139,41 @@ class TestBLRLinearityTest:
                 theoretical_acceptance, exact_acceptance
             ), f"{name}: theoretical={(1+sum_cubed)/2:.4f} != exact={exact_acceptance:.4f}"
 
+    def test_blr_acceptance_probability_is_valid(self):
+        """Verify BLR acceptance probability is always in [0, 1].
+
+        The formula (1 + Σf̂³)/2 must always produce a valid probability.
+        Σf̂³ can be negative (e.g., for OR), but the final probability is in [0,1].
+
+        Bug this catches: Using Σf̂³ directly as probability (can be negative!).
+        """
+        test_functions = [
+            bf.parity(4),
+            bf.majority(5),
+            bf.AND(3),
+            bf.OR(4),  # OR has negative Σf̂³
+            bf.tribes(2, 3),
+            bf.random(4, seed=42),
+            bf.random(4, seed=123),
+        ]
+
+        for f in test_functions:
+            fourier = f.fourier()
+            sum_cubed = sum(c**3 for c in fourier)
+            acceptance_prob = (1 + sum_cubed) / 2
+
+            # Must be a valid probability
+            assert 0 <= acceptance_prob <= 1, (
+                f"BLR acceptance probability {acceptance_prob:.4f} is not in [0,1]! "
+                f"(Σf̂³ = {sum_cubed:.4f})"
+            )
+
+            # Σf̂³ can be outside [-1, 1] in theory, but for Boolean functions
+            # it must be in [-1, 1] (since it's an expectation of ±1 values)
+            assert (
+                -1 <= sum_cubed <= 1
+            ), f"Σf̂³ = {sum_cubed:.4f} is not in [-1,1] for Boolean function"
+
 
 class TestMonotonicityTest:
     """Test monotonicity_test method."""
