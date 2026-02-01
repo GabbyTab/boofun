@@ -7,40 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [1.1.1] - 2026-02-01
+
 ### Added
 
-**Dashboard Improvements (Jan 2026)**
-- Summary statistics now include expectation, variance, degree, and sparsity
-- Dashboard uses vertical bars with short labels to prevent text bleeding
-- Truth table visualization includes legend (red=1, blue=0) and clear axis labels
-
-**Summary Statistics Enhancements**
-- `SpectralAnalyzer.summary()` now returns:
-  - `expectation` (E[f]) - previously called "bias"
-  - `variance` (Var[f]) - NEW
-  - `degree` - NEW: Fourier degree
-  - `sparsity` - NEW: number of non-zero Fourier coefficients
-  - `total_influence`, `max_influence` - kept
-  - `noise_stability_0.9`, `noise_stability_0.5` - kept
-
-**Cross-Validation (Jan 2026)**
-- BoolForge cross-validation tests (33 tests) - validates canalization analysis
-- Compares `is_canalizing`, `get_canalizing_depth`, `get_essential_variables`, `is_monotonic`, `get_symmetry_groups`
-
-**Documentation Improvements (Jan 2026)**
-- LaTeX rendering enabled in Sphinx markdown files (`dollarmath`, `amsmath` extensions)
-- All notebooks now have "Open in Colab" badges
-- README has GitHub Pages/Colab links for all 11 lectures and 4 homework notebooks
-- Notebook attributions: "Based on lecture notes by X. Notebook by Gabriel Taboada."
-- Course Notebooks section in README is collapsible
-- Function Families guide added to Sphinx documentation
+- `PropertyTester.local_correct(x, repetitions)` - Local correction for linearity testing
+- `PropertyTester.local_correct_all(repetitions)` - Correct all inputs at once
+- New test `test_blr_acceptance_probability_formula` verifying BLR math
 
 ### Fixed
 
-- Dashboard summary statistics labels no longer bleed into adjacent plots
-- Truth table visualization now has legend explaining red/blue coloring
-- Total Influence annotation moved to bottom-right to avoid title overlap
-- LaTeX formulas now render properly in Sphinx documentation
+- **BLR acceptance probability formula** in lecture2 notebook: was `Σ f̂(S)³`, now correctly `(1 + Σ f̂(S)³) / 2`
+- **Convolution demo** in lecture2 notebook: `convolution()` returns ndarray, not BooleanFunction
+- **Dictator Fourier coefficient test**: dictator has 1 non-zero coefficient, not 2
+- **All 20 notebooks** now use `pip install --upgrade boofun` to ensure Colab gets latest version
+
+### Documentation
+
+- Summary statistics now include expectation, variance, degree, and sparsity
+- Dashboard uses vertical bars with short labels to prevent text bleeding
+- Truth table visualization includes legend (red=1, blue=0) and clear axis labels
+- LaTeX rendering enabled in Sphinx markdown files
+- Function Families guide added to Sphinx documentation
 
 ---
 
