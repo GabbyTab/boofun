@@ -41,6 +41,14 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
    error_handling
    cross_validation
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Contributing:
+
+   CONTRIBUTING
+   STYLE_GUIDE
+   TEST_GUIDELINES
+
 Installation
 ------------
 

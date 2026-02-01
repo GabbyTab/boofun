@@ -149,32 +149,3 @@ class TestFunctionName:
 | test_visualization_*.py | 70+ | Visual output, hard to verify |
 | test_gpu_*.py | 21 | Infrastructure tests |
 | test_benchmarks.py | 9 | Performance tests |
-
----
-
-## Library Gaps Found
-
-### Local Correction (not in library)
-
-The notebook `lecture2_linearity_testing.ipynb` demonstrates local correction,
-but the library doesn't expose this as a function. Consider adding:
-
-```python
-# Proposed addition to PropertyTester
-def local_correct(self, x: int, repetitions: int = 10) -> int:
-    """
-    Local correction for functions close to linear.
-
-    If f is ε-close to χ_S, then for random y:
-    f(y) ⊕ f(x⊕y) = χ_S(x) with probability ≥ 1-2ε
-
-    Args:
-        x: Input to correct
-        repetitions: Number of random samples (use majority vote)
-
-    Returns:
-        Corrected value in {-1, +1}
-    """
-```
-
-This would enable testing the BLR self-correction property.

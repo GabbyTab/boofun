@@ -591,6 +591,13 @@ tracker.observe(n_values=[...])  # Computes, using best algorithm for each n
 
 ## Nice to Have (No Timeline)
 
+**PropertyTester Enhancements:**
+- Local Correction: Self-correction for functions close to linear (BLR theorem)
+  - Add `PropertyTester.local_correct(x, repetitions)` method
+  - For f that is ε-close to χ_S: `f(y) ⊕ f(x⊕y) = χ_S(x)` with probability ≥ 1-2ε
+  - Use majority voting over multiple random samples
+  - Currently only in `notebooks/lecture2_linearity_testing.ipynb`
+
 **Infrastructure:**
 - Manim animations for educational content
 - Dask distributed computation for large n
