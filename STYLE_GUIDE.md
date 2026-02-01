@@ -95,10 +95,10 @@ Every function documents its contract:
 def convolution(f: BooleanFunction, g: BooleanFunction) -> np.ndarray:
     """
     Fourier coefficients of f*g.
-    
+
     Domain: f, g with same n_vars
     Codomain: array of reals (NOT a BooleanFunction!)
-    
+
     Raises: ValueError if n_vars mismatch
     """
 ```
