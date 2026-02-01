@@ -26,17 +26,63 @@ from boofun.analysis.pac_learning import (
 
 
 def compute_error_rate(hypothesis, target, n_vars):
-    """Compute fraction of inputs where hypothesis differs from target."""
+    """Compute fraction of inputs where hypothesis differs from target.
+
+    Args:
+        hypothesis: BooleanFunction, Dict[int, float] (Fourier coefficients),
+                   or Tuple[List[int], Dict[int, int]] (junta: relevant_vars, truth_table)
+        target: BooleanFunction
+        n_vars: Number of variables
+    """
     if hypothesis is None:
         return 1.0
+
     errors = 0
     total = 2**n_vars
+
+    # Handle junta format: (relevant_vars, truth_table)
+    if isinstance(hypothesis, tuple) and len(hypothesis) == 2:
+        relevant_vars, truth_table = hypothesis
+        for x in range(total):
+            try:
+                t_val = int(target.evaluate(x))
+                # Project x onto relevant variables
+                x_proj = 0
+                for i, var in enumerate(relevant_vars):
+                    if (x >> var) & 1:
+                        x_proj |= 1 << i
+                h_val = truth_table.get(x_proj, 0)
+                if int(h_val) != t_val:
+                    errors += 1
+            except Exception:
+                errors += 1
+        return errors / total
+
     for x in range(total):
         try:
-            if hypothesis.evaluate(x) != target.evaluate(x):
+            # Get target value (convert to ±1)
+            t_val = target.evaluate(x)
+            t_pm = 1 - 2 * int(t_val)  # 0 → +1, 1 → -1
+
+            # Get hypothesis value
+            if isinstance(hypothesis, dict):
+                # Hypothesis is Fourier coefficients: h(x) = sum_S coeff[S] * χ_S(x)
+                h_real = 0.0
+                for s, coeff in hypothesis.items():
+                    chi_s = 1 - 2 * (bin(x & s).count("1") % 2)
+                    h_real += coeff * chi_s
+                # Threshold to get ±1 value
+                h_pm = 1 if h_real >= 0 else -1
+            else:
+                # Hypothesis is BooleanFunction
+                h_val = hypothesis.evaluate(x)
+                h_pm = 1 - 2 * int(h_val)
+
+            if h_pm != t_pm:
                 errors += 1
         except Exception:
             errors += 1
+
     return errors / total
 
 
