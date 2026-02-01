@@ -698,6 +698,96 @@ class PropertyTester:
 
         return violations / num_queries < epsilon
 
+    def local_correct(self, x: int, repetitions: int = 10) -> int:
+        """
+        Local correction for functions close to linear.
+
+        If f is ε-close to some linear function χ_S, then for random y:
+            f(y) ⊕ f(x⊕y) = χ_S(x) with probability ≥ 1-2ε
+
+        Uses majority voting over multiple random samples to improve accuracy.
+
+        From O'Donnell Lecture 2 / BLR Theorem: This is the "self-correction"
+        property of linear functions. Even if f has some errors, we can
+        compute χ_S(x) correctly with high probability.
+
+        Args:
+            x: Input to correct (integer index in {0, 1, ..., 2^n - 1})
+            repetitions: Number of random samples for majority vote
+
+        Returns:
+            Corrected value in {-1, +1} (±1 representation)
+
+        Raises:
+            ValueError: If x is out of range or repetitions < 1
+
+        Example:
+            >>> f = bf.parity(4)  # Linear function
+            >>> tester = PropertyTester(f)
+            >>> tester.local_correct(5)  # Should return χ_S(5)
+            1 or -1
+        """
+        import random
+
+        if repetitions < 1:
+            raise ValueError(f"repetitions must be ≥ 1, got {repetitions}")
+
+        n = self.n_vars
+        max_x = (1 << n) - 1
+
+        if not (0 <= x <= max_x):
+            raise ValueError(f"x must be in [0, {max_x}], got {x}")
+
+        # Use Python's random for arbitrary precision integers (handles n > 63)
+        py_rng = random.Random(self.rng.randint(0, 2**31))
+
+        votes_plus_one = 0
+        votes_minus_one = 0
+
+        for _ in range(repetitions):
+            # Generate random y
+            y = py_rng.getrandbits(n)
+
+            # Compute f(y) and f(x ⊕ y)
+            f_y = int(self.function.evaluate(y))
+            f_x_xor_y = int(self.function.evaluate(x ^ y))
+
+            # Convert {0,1} outputs to {+1,-1}: 0 → +1, 1 → -1
+            f_y_pm = 1 - 2 * f_y
+            f_x_xor_y_pm = 1 - 2 * f_x_xor_y
+
+            # Self-correction: f(y) · f(x⊕y) should equal χ_S(x)
+            vote = f_y_pm * f_x_xor_y_pm
+
+            if vote == 1:
+                votes_plus_one += 1
+            else:
+                votes_minus_one += 1
+
+        # Majority vote
+        return 1 if votes_plus_one >= votes_minus_one else -1
+
+    def local_correct_all(self, repetitions: int = 10) -> np.ndarray:
+        """
+        Apply local correction to all inputs.
+
+        Returns the corrected function values for all 2^n inputs.
+
+        Args:
+            repetitions: Number of random samples per input
+
+        Returns:
+            numpy array of shape (2^n,) with values in {-1, +1}
+        """
+        n = self.n_vars
+        size = 1 << n
+        corrected = np.zeros(size, dtype=np.int8)
+
+        for x in range(size):
+            corrected[x] = self.local_correct(x, repetitions)
+
+        return corrected
+
     def run_all_tests(self) -> Dict[str, Any]:
         """
         Run all available property tests.

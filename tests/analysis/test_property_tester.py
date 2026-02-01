@@ -380,6 +380,117 @@ class TestReproducibility:
         assert tester2.balanced_test() is True
 
 
+class TestLocalCorrect:
+    """Test local_correct method.
+
+    Mathematical contract (O'Donnell Lecture 2, BLR Theorem):
+    If f is ε-close to linear χ_S, then for random y:
+        f(y) ⊕ f(x⊕y) = χ_S(x) with probability ≥ 1-2ε
+    """
+
+    def test_exact_linear_function_corrects_perfectly(self):
+        """For exact linear function, local_correct = χ_S(x)."""
+        f = bf.parity(4)  # Linear: χ_[n](x) = (-1)^popcount(x)
+        tester = PropertyTester(f, random_seed=42)
+
+        # For parity, χ_S(x) = (-1)^popcount(x) where S = all vars
+        for x in range(16):
+            corrected = tester.local_correct(x, repetitions=20)
+            expected = 1 - 2 * (bin(x).count("1") % 2)  # ±1 rep
+            assert corrected == expected, f"x={x}: got {corrected}, expected {expected}"
+
+    def test_dictator_corrects_perfectly(self):
+        """Dictator is linear, should correct perfectly."""
+        for i in range(3):
+            f = bf.dictator(3, i)
+            tester = PropertyTester(f, random_seed=42)
+
+            for x in range(8):
+                corrected = tester.local_correct(x, repetitions=20)
+                # Dictator χ_{i}(x) = (-1)^x_i
+                x_i = (x >> i) & 1
+                expected = 1 - 2 * x_i
+                assert corrected == expected
+
+    def test_noisy_linear_function_mostly_correct(self):
+        """Noisy linear function should be mostly corrected."""
+        # Create parity with ~10% noise
+        n = 4
+        true_parity = [bin(x).count("1") % 2 for x in range(16)]
+        noisy_tt = true_parity.copy()
+        # Flip bit at index 5 (10% noise)
+        noisy_tt[5] = 1 - noisy_tt[5]
+
+        f = bf.create(noisy_tt)
+        tester = PropertyTester(f, random_seed=42)
+
+        # Should still correct most inputs correctly
+        correct_count = 0
+        for x in range(16):
+            corrected = tester.local_correct(x, repetitions=30)
+            expected = 1 - 2 * true_parity[x]
+            if corrected == expected:
+                correct_count += 1
+
+        # With 1/16 ≈ 6% noise, should get ≥ 80% correct
+        accuracy = correct_count / 16
+        assert accuracy >= 0.75, f"Accuracy {accuracy} too low for noisy linear"
+
+    def test_local_correct_all_returns_array(self):
+        """local_correct_all should return full corrected array."""
+        f = bf.parity(3)
+        tester = PropertyTester(f, random_seed=42)
+
+        corrected = tester.local_correct_all(repetitions=10)
+
+        assert len(corrected) == 8
+        assert corrected.dtype == np.int8
+        assert all(v in [-1, 1] for v in corrected)
+
+    def test_invalid_x_raises(self):
+        """Out-of-range x should raise ValueError."""
+        f = bf.parity(3)
+        tester = PropertyTester(f, random_seed=42)
+
+        with pytest.raises(ValueError, match="x must be in"):
+            tester.local_correct(8)  # Max is 7 for n=3
+
+        with pytest.raises(ValueError, match="x must be in"):
+            tester.local_correct(-1)
+
+    def test_invalid_repetitions_raises(self):
+        """Invalid repetitions should raise ValueError."""
+        f = bf.parity(3)
+        tester = PropertyTester(f, random_seed=42)
+
+        with pytest.raises(ValueError, match="repetitions must be"):
+            tester.local_correct(0, repetitions=0)
+
+        with pytest.raises(ValueError, match="repetitions must be"):
+            tester.local_correct(0, repetitions=-5)
+
+    def test_more_repetitions_improves_accuracy(self):
+        """Higher repetitions should give more consistent results."""
+        # Create slightly noisy function
+        tt = [bin(x).count("1") % 2 for x in range(8)]
+        tt[3] = 1 - tt[3]  # Flip one bit
+        f = bf.create(tt)
+        tester = PropertyTester(f, random_seed=42)
+
+        # Low repetitions - less consistent
+        low_rep_results = [tester.local_correct(0, repetitions=1) for _ in range(10)]
+
+        # High repetitions - more consistent (should converge)
+        high_rep_results = [tester.local_correct(0, repetitions=50) for _ in range(10)]
+
+        # High reps should be more consistent (lower variance)
+        low_unique = len(set(low_rep_results))
+        high_unique = len(set(high_rep_results))
+
+        # With enough reps, should converge to single value
+        assert high_unique <= low_unique or high_unique == 1
+
+
 class TestEdgeCases:
     """Test edge cases and boundary conditions."""
 
