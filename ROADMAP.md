@@ -13,7 +13,7 @@ Core functionality is production-ready. Test coverage at **71%** with 3056 tests
 Truth table (dense, sparse, packed), Fourier expansion, ANF, DNF/CNF, polynomial, LTF, circuit, BDD, symbolic. Automatic conversion between formats via conversion graph.
 
 ### Analysis
-- **Property testing**: BLR linearity, junta, monotonicity, unateness, symmetry, quasisymmetry, balance, dictator, affine, constant, primality
+- **Property testing**: BLR linearity, junta, monotonicity, unateness, symmetry, quasisymmetry, balance, dictator, affine, constant, primality, **local correction** (BLR self-correction)
 - **Query complexity**: D(f), D_avg(f), R₀(f), R₁(f), R₂(f), Q₂(f), QE(f), s(f), bs(f), es(f), C(f), Ambainis bound, spectral adversary, polynomial method bound, general adversary bound
 - **Fourier analysis**: WHT, influences, noise stability, spectral concentration, degree, p-biased Fourier coefficients, approximate degree, threshold degree
 - **Specialized**: FKN theorem, hypercontractivity (global), invariance principle, Gaussian analysis, communication complexity
@@ -155,6 +155,7 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 | **Overall** | **71%** | **70-75%** | **3056 tests** ✅ |
 
 #### Recent Progress (Jan 2026)
+- ✅ Added `PropertyTester.local_correct()` - BLR self-correction (7 tests)
 - ✅ Added 145+ tests for advanced analysis features
 - ✅ Added 43 tests for sampling module
 - ✅ Added 28 tests for families module
@@ -590,13 +591,6 @@ tracker.observe(n_values=[...])  # Computes, using best algorithm for each n
 ---
 
 ## Nice to Have (No Timeline)
-
-**PropertyTester Enhancements:**
-- Local Correction: Self-correction for functions close to linear (BLR theorem)
-  - Add `PropertyTester.local_correct(x, repetitions)` method
-  - For f that is ε-close to χ_S: `f(y) ⊕ f(x⊕y) = χ_S(x)` with probability ≥ 1-2ε
-  - Use majority voting over multiple random samples
-  - Currently only in `notebooks/lecture2_linearity_testing.ipynb`
 
 **Infrastructure:**
 - Manim animations for educational content
