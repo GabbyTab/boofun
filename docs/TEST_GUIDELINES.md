@@ -129,17 +129,52 @@ class TestFunctionName:
 
 ---
 
-## Files That Need Attention
+## Files Status
 
-Top files with weak `assert is not None` patterns:
+### Fixed (Jan 2026)
 
-| File | Count | Priority |
-|------|-------|----------|
-| test_pac_learning.py | 24 | High |
-| test_module_exploration.py | 20 | Medium |
-| test_visualization_full.py | 19 | Low |
-| test_builtins.py | 14 | High |
-| test_gpu_final.py | 14 | Low |
-| test_quantum.py | 13 | Medium |
+| File | Issue | Fix |
+|------|-------|-----|
+| test_pac_learning.py | 24 weak assertions | Added error rate verification |
+| test_builtins.py | 14 weak assertions | Added truth table verification |
+| test_module_exploration.py | 20 weak assertions | Added correctness checks |
+| test_quantum.py | 13 weak assertions | Added mathematical property tests |
+| test_circuit.py | 10 weak assertions | Added circuit evaluation tests |
+| test_property_tester.py | (new) | Comprehensive PropertyTester tests |
 
-**Priority**: High = core functionality, should verify math
+### Remaining Low Priority
+
+| File | Count | Reason |
+|------|-------|--------|
+| test_visualization_*.py | 70+ | Visual output, hard to verify |
+| test_gpu_*.py | 21 | Infrastructure tests |
+| test_benchmarks.py | 9 | Performance tests |
+
+---
+
+## Library Gaps Found
+
+### Local Correction (not in library)
+
+The notebook `lecture2_linearity_testing.ipynb` demonstrates local correction,
+but the library doesn't expose this as a function. Consider adding:
+
+```python
+# Proposed addition to PropertyTester
+def local_correct(self, x: int, repetitions: int = 10) -> int:
+    """
+    Local correction for functions close to linear.
+
+    If f is ε-close to χ_S, then for random y:
+    f(y) ⊕ f(x⊕y) = χ_S(x) with probability ≥ 1-2ε
+
+    Args:
+        x: Input to correct
+        repetitions: Number of random samples (use majority vote)
+
+    Returns:
+        Corrected value in {-1, +1}
+    """
+```
+
+This would enable testing the BLR self-correction property.
