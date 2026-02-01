@@ -36,6 +36,7 @@ __all__ = [
     "parseval_verify",
     "plancherel_inner_product",
     "convolution",
+    "convolution_values",
     # Function transformations (from HW1)
     "negate_inputs",
     "odd_part",
@@ -138,69 +139,84 @@ def plancherel_inner_product(f: "BooleanFunction", g: "BooleanFunction") -> floa
     return float(np.sum(f_coeffs * g_coeffs))
 
 
-def convolution(f: "BooleanFunction", g: "BooleanFunction") -> "BooleanFunction":
+def convolution(f: "BooleanFunction", g: "BooleanFunction") -> np.ndarray:
     """
-    Compute the convolution of two Boolean functions.
+    Compute the Fourier coefficients of the convolution of two Boolean functions.
 
     The convolution is defined as:
         (f * g)(x) = E_y[f(y)g(x ⊕ y)]
 
-    In the Fourier domain, convolution becomes pointwise multiplication:
+    By the Convolution Theorem, in the Fourier domain this becomes pointwise
+    multiplication:
         (f * g)^(S) = f̂(S) · ĝ(S)
 
     Args:
         f, g: BooleanFunctions to convolve
 
     Returns:
-        New BooleanFunction representing f * g
+        numpy array of Fourier coefficients (f * g)^(S) indexed by S
 
     Raises:
         ValueError: If f and g have different number of variables
 
     Note:
-        The result is a real-valued function, represented by its truth table
-        of real values. For Boolean functions, this represents the correlation.
+        The convolution of two Boolean functions is generally NOT a Boolean
+        function - it's a real-valued function with values in [-1, 1].
+        This function returns the exact Fourier coefficients without any
+        loss of information.
+
+    Example:
+        >>> f = bf.majority(3)
+        >>> g = bf.parity(3)
+        >>> conv_coeffs = convolution(f, g)
+        >>> # Verify: (f*g)^(S) = f̂(S) · ĝ(S)
+        >>> assert np.allclose(conv_coeffs, f.fourier() * g.fourier())
     """
     if f.n_vars != g.n_vars:
         raise ValueError(f"Functions must have same number of variables: {f.n_vars} vs {g.n_vars}")
 
-    from ..core.base import BooleanFunction
-    from ..core.factory import BooleanFunctionFactory
-
-    n = f.n_vars or 0
-    size = 1 << n
-
-    # Method 1: Direct computation
-    # (f * g)(x) = (1/2^n) Σ_y f(y)g(x ⊕ y)
-    f_tt = np.asarray(f.get_representation("truth_table"), dtype=float)
-    g_tt = np.asarray(g.get_representation("truth_table"), dtype=float)
-
-    # Convert to ±1
-    1.0 - 2.0 * f_tt
-    1.0 - 2.0 * g_tt
-
-    # Compute convolution via Fourier (more efficient)
+    # The Convolution Theorem: (f * g)^(S) = f̂(S) · ĝ(S)
+    # This IS the convolution in Fourier space - just pointwise multiplication!
     f_coeffs = _get_fourier_coefficients(f)
     g_coeffs = _get_fourier_coefficients(g)
 
-    # Pointwise product in Fourier domain
-    conv_coeffs = f_coeffs * g_coeffs
+    return f_coeffs * g_coeffs
 
-    # Inverse transform to get convolution values
-    # Since Walsh-Hadamard is its own inverse (up to normalization)
-    conv_values = np.zeros(size)
+
+def convolution_values(f: "BooleanFunction", g: "BooleanFunction") -> np.ndarray:
+    """
+    Compute the time-domain values of the convolution of two Boolean functions.
+
+    The convolution is defined as:
+        (f * g)(x) = E_y[f(y)g(x ⊕ y)]
+
+    This function computes (f * g)(x) for all x via inverse Fourier transform.
+
+    Args:
+        f, g: BooleanFunctions to convolve
+
+    Returns:
+        numpy array of real values (f * g)(x) indexed by x
+
+    Note:
+        The values are in [-1, 1], NOT {0, 1} or {-1, 1}.
+        This is the correlation between f and g shifted by x.
+    """
+    conv_coeffs = convolution(f, g)
+    n = f.n_vars or 0
+    size = 1 << n
+
+    # Inverse Fourier transform: (f*g)(x) = Σ_S (f*g)^(S) · χ_S(x)
+    values = np.zeros(size)
     for x in range(size):
         total = 0.0
         for s in range(size):
-            # χ_S(x) = (-1)^{|x ∩ S|}
+            # χ_S(x) = (-1)^{popcount(x & S)}
             chi_val = 1 - 2 * (bin(x & s).count("1") % 2)
             total += conv_coeffs[s] * chi_val
-        conv_values[x] = total
+        values[x] = total
 
-    # Convert back to {0,1} by thresholding
-    result_tt = (conv_values < 0).astype(bool)
-
-    return BooleanFunctionFactory.from_truth_table(BooleanFunction, result_tt, n=n)
+    return values
 
 
 def negate_inputs(f: "BooleanFunction") -> "BooleanFunction":
