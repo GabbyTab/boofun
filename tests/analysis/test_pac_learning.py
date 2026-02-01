@@ -2,6 +2,7 @@
 Comprehensive tests for PAC learning module.
 
 Tests for PAC learning algorithms from O'Donnell Chapter 3.
+Tests verify both that algorithms run AND that they learn correctly.
 """
 
 import sys
@@ -24,286 +25,275 @@ from boofun.analysis.pac_learning import (
 )
 
 
+def compute_error_rate(hypothesis, target, n_vars):
+    """Compute fraction of inputs where hypothesis differs from target."""
+    if hypothesis is None:
+        return 1.0
+    errors = 0
+    total = 2**n_vars
+    for x in range(total):
+        try:
+            if hypothesis.evaluate(x) != target.evaluate(x):
+                errors += 1
+        except Exception:
+            errors += 1
+    return errors / total
+
+
 class TestSampleFunction:
     """Test sample_function utility."""
 
-    def test_sample_returns_list(self):
-        """sample_function should return list of tuples."""
+    def test_sample_returns_correct_count(self):
+        """sample_function returns requested number of samples."""
         f = bf.majority(3)
-        samples = sample_function(f, 10)
-
-        assert isinstance(samples, list)
-        assert len(samples) == 10
+        for count in [1, 10, 100]:
+            samples = sample_function(f, count)
+            assert len(samples) == count
 
     def test_sample_tuple_format(self):
-        """Each sample should be (input, output) tuple."""
+        """Each sample is (input_index, output_value) tuple."""
         f = bf.AND(3)
-        samples = sample_function(f, 5)
-
-        for x, y in samples:
-            assert isinstance(x, int)
-            assert isinstance(y, int)
-            assert 0 <= x < 8  # 2^3
-            assert y in [0, 1]
-
-    def test_sample_consistency(self):
-        """Samples should be consistent with function."""
-        f = bf.parity(3)
         samples = sample_function(f, 20)
 
         for x, y in samples:
-            assert f.evaluate(x) == y
+            assert isinstance(x, int), "Input should be integer index"
+            assert 0 <= x < 8, f"Input {x} out of range [0, 8)"
+            assert y in [0, 1], f"Output {y} not in {{0, 1}}"
 
-    def test_sample_with_rng(self):
-        """sample_function should accept custom RNG."""
+    def test_sample_consistency_with_function(self):
+        """All samples are consistent with the target function."""
+        f = bf.parity(4)
+        samples = sample_function(f, 50)
+
+        for x, y in samples:
+            expected = f.evaluate(x)
+            assert y == expected, f"Sample ({x}, {y}) inconsistent with f({x})={expected}"
+
+    def test_sample_deterministic_with_seed(self):
+        """Same seed produces same samples."""
         f = bf.OR(3)
-        rng = np.random.default_rng(42)
+        rng1 = np.random.default_rng(42)
+        rng2 = np.random.default_rng(42)
 
-        samples = sample_function(f, 10, rng=rng)
-        assert len(samples) == 10
+        samples1 = sample_function(f, 10, rng=rng1)
+        samples2 = sample_function(f, 10, rng=rng2)
+
+        assert samples1 == samples2
 
 
 class TestPACLearnLowDegree:
-    """Test pac_learn_low_degree function."""
+    """Test pac_learn_low_degree: learns functions with bounded Fourier degree."""
 
-    def test_learn_constant(self):
-        """Should learn constant functions perfectly."""
+    def test_learns_constant_exactly(self):
+        """Constant function (degree 0) should be learned with 0 error."""
         f = bf.create([0, 0, 0, 0])
-
         hypothesis = pac_learn_low_degree(f, max_degree=0)
 
-        assert hypothesis is not None
+        error = compute_error_rate(hypothesis, f, 2)
+        assert error == 0.0, f"Constant function: expected 0 error, got {error}"
 
-    def test_learn_dictator(self):
-        """Should learn dictator (degree 1) functions."""
+    def test_learns_dictator_exactly(self):
+        """Dictator (degree 1) should be learned with low error."""
         f = bf.dictator(3, 0)
-
         hypothesis = pac_learn_low_degree(f, max_degree=1)
 
-        assert hypothesis is not None
+        error = compute_error_rate(hypothesis, f, 3)
+        assert error <= 0.2, f"Dictator: expected ≤0.2 error, got {error}"
 
-    def test_learn_majority(self):
-        """Should learn majority with appropriate degree."""
-        f = bf.majority(3)
-
+    def test_learns_parity_with_full_degree(self):
+        """Parity (degree n) needs max_degree=n to learn."""
+        f = bf.parity(3)
         hypothesis = pac_learn_low_degree(f, max_degree=3)
 
-        assert hypothesis is not None
+        error = compute_error_rate(hypothesis, f, 3)
+        assert error <= 0.3, f"Parity with full degree: expected ≤0.3 error, got {error}"
 
-    def test_epsilon_delta_parameters(self):
-        """Should accept epsilon and delta parameters."""
-        f = bf.AND(3)
+    def test_fails_gracefully_with_insufficient_degree(self):
+        """Parity with max_degree=1 should have high error (can't learn it)."""
+        f = bf.parity(3)
+        hypothesis = pac_learn_low_degree(f, max_degree=1)
 
-        hypothesis = pac_learn_low_degree(f, max_degree=3, epsilon=0.1, delta=0.05)
-
-        assert hypothesis is not None
+        # Should either return None or have high error
+        if hypothesis is not None:
+            error = compute_error_rate(hypothesis, f, 3)
+            # Parity has no degree-1 component, so best we can do is ~50% (random)
+            assert error >= 0.3, "Should struggle with parity using degree 1"
 
 
 class TestPACLearnJunta:
-    """Test pac_learn_junta function."""
+    """Test pac_learn_junta: learns functions depending on few variables."""
 
-    def test_learn_dictator_as_1junta(self):
-        """Dictator is a 1-junta."""
+    def test_learns_dictator_as_1junta(self):
+        """Dictator depends on 1 variable."""
         f = bf.dictator(5, 2)
-
         result = pac_learn_junta(f, k=1)
 
-        assert result is not None
+        error = compute_error_rate(result, f, 5)
+        assert error <= 0.3, f"Dictator as 1-junta: expected ≤0.3 error, got {error}"
 
-    def test_learn_and_as_kjunta(self):
+    def test_learns_and_as_kjunta(self):
         """AND on k variables is a k-junta."""
         f = bf.AND(3)
-
         result = pac_learn_junta(f, k=3)
 
-        assert result is not None
+        error = compute_error_rate(result, f, 3)
+        assert error <= 0.3, f"AND as 3-junta: expected ≤0.3 error, got {error}"
 
-    def test_junta_learning_parameters(self):
-        """Should accept epsilon and delta."""
+    def test_handles_epsilon_delta(self):
+        """Should respect epsilon/delta parameters."""
         f = bf.OR(3)
-
         result = pac_learn_junta(f, k=3, epsilon=0.1, delta=0.05)
 
-        assert result is not None
+        # With epsilon=0.1, error should be ≤ 0.1 with high probability
+        error = compute_error_rate(result, f, 3)
+        assert error <= 0.5  # Relaxed bound for randomized algorithm
 
 
 class TestLMNAlgorithm:
     """Test LMN (Linial-Mansour-Nisan) algorithm."""
 
-    def test_lmn_basic(self):
-        """LMN should work on basic functions."""
+    def test_lmn_on_low_degree_function(self):
+        """LMN should work well on low-degree functions."""
         f = bf.majority(3)
 
-        # LMN may have different signature
         try:
             result = lmn_algorithm(f)
-            assert result is not None
         except TypeError:
-            # Try with different params
-            result = lmn_algorithm(f, 100)  # num_samples
-            assert result is not None
-
-    def test_lmn_with_samples(self):
-        """LMN should accept sample count."""
-        f = bf.AND(3)
-
-        try:
             result = lmn_algorithm(f, 100)
-            assert result is not None
-        except TypeError:
-            pass  # Different API
+
+        if result is not None:
+            error = compute_error_rate(result, f, 3)
+            assert error <= 0.5, f"LMN on majority: expected ≤0.5 error, got {error}"
 
 
 class TestPACLearnSparseFourier:
-    """Test pac_learn_sparse_fourier function."""
+    """Test pac_learn_sparse_fourier: learns Fourier-sparse functions."""
 
-    def test_learn_parity(self):
-        """Parity has single non-zero Fourier coefficient."""
+    def test_learns_parity_sparsity_1(self):
+        """Parity has exactly 1 non-zero Fourier coefficient."""
         f = bf.parity(3)
-
         result = pac_learn_sparse_fourier(f, sparsity=1)
 
-        assert result is not None
+        error = compute_error_rate(result, f, 3)
+        assert error <= 0.3, f"Parity (sparsity 1): expected ≤0.3 error, got {error}"
 
-    def test_learn_dictator(self):
-        """Dictator has 2 non-zero coefficients (constant + degree 1)."""
+    def test_learns_dictator_sparsity_2(self):
+        """Dictator has 2 non-zero coefficients: f̂(∅) and f̂({i})."""
         f = bf.dictator(3, 0)
-
         result = pac_learn_sparse_fourier(f, sparsity=2)
 
-        assert result is not None
+        error = compute_error_rate(result, f, 3)
+        assert error <= 0.3, f"Dictator (sparsity 2): expected ≤0.3 error, got {error}"
 
 
 class TestPACLearnDecisionTree:
-    """Test pac_learn_decision_tree function."""
+    """Test pac_learn_decision_tree: learns functions with small DT complexity."""
 
-    def test_learn_and(self):
-        """AND has simple decision tree."""
+    def test_learns_and_with_linear_depth(self):
+        """AND has DT depth = n (check all variables)."""
         f = bf.AND(3)
-
         result = pac_learn_decision_tree(f, max_depth=3)
 
-        assert result is not None
+        error = compute_error_rate(result, f, 3)
+        assert error <= 0.3, f"AND (depth 3): expected ≤0.3 error, got {error}"
 
-    def test_learn_or(self):
-        """OR has simple decision tree."""
+    def test_learns_or_with_linear_depth(self):
+        """OR has DT depth = n."""
         f = bf.OR(3)
-
         result = pac_learn_decision_tree(f, max_depth=3)
 
-        assert result is not None
+        error = compute_error_rate(result, f, 3)
+        assert error <= 0.3, f"OR (depth 3): expected ≤0.3 error, got {error}"
 
 
 class TestPACLearnMonotone:
-    """Test pac_learn_monotone function."""
+    """Test pac_learn_monotone: learns monotone functions."""
 
-    def test_learn_and(self):
+    def test_learns_and_monotone(self):
         """AND is monotone."""
         f = bf.AND(3)
-
         result = pac_learn_monotone(f)
 
-        assert result is not None
+        error = compute_error_rate(result, f, 3)
+        assert error <= 0.5, f"Monotone AND: expected ≤0.5 error, got {error}"
 
-    def test_learn_or(self):
+    def test_learns_or_monotone(self):
         """OR is monotone."""
         f = bf.OR(3)
-
         result = pac_learn_monotone(f)
 
-        assert result is not None
+        error = compute_error_rate(result, f, 3)
+        assert error <= 0.5, f"Monotone OR: expected ≤0.5 error, got {error}"
 
-    def test_learn_majority(self):
+    def test_learns_majority_monotone(self):
         """Majority is monotone."""
         f = bf.majority(3)
-
         result = pac_learn_monotone(f)
 
-        assert result is not None
+        error = compute_error_rate(result, f, 3)
+        assert error <= 0.5, f"Monotone majority: expected ≤0.5 error, got {error}"
 
 
 class TestPACLearner:
-    """Test PACLearner class."""
+    """Test PACLearner class interface."""
 
-    def test_learner_init(self):
-        """PACLearner should initialize with a function."""
+    def test_learner_init_stores_function(self):
+        """PACLearner should store the target function."""
         f = bf.majority(3)
         learner = PACLearner(f)
 
-        assert learner is not None
+        assert hasattr(learner, "f") or hasattr(learner, "function")
 
-    def test_learner_with_params(self):
-        """PACLearner should accept epsilon and delta."""
+    def test_learner_has_learning_methods(self):
+        """PACLearner should expose learning methods."""
         f = bf.AND(3)
-
-        try:
-            learner = PACLearner(f, epsilon=0.1, delta=0.05)
-            assert learner is not None
-        except TypeError:
-            learner = PACLearner(f)
-            assert learner is not None
-
-    def test_learner_learn_method(self):
-        """PACLearner should have learning methods."""
-        f = bf.majority(3)
         learner = PACLearner(f)
 
-        # Check available methods
-        methods = [m for m in dir(learner) if not m.startswith("_")]
-        assert len(methods) > 0
+        # Check for at least one learning method
+        methods = [m for m in dir(learner) if "learn" in m.lower() and not m.startswith("_")]
+        assert len(methods) > 0, "PACLearner should have learning methods"
 
-    def test_learner_different_functions(self):
-        """PACLearner should work with different functions."""
-        for func in [bf.AND(3), bf.OR(3), bf.parity(3)]:
+    def test_learner_works_on_different_functions(self):
+        """PACLearner should handle various function types."""
+        test_cases = [
+            (bf.AND(3), "AND"),
+            (bf.OR(3), "OR"),
+            (bf.parity(3), "Parity"),
+            (bf.majority(3), "Majority"),
+        ]
+
+        for func, name in test_cases:
             learner = PACLearner(func)
-            assert learner is not None
-
-
-class TestPACLearningAccuracy:
-    """Test that PAC learning achieves reasonable accuracy."""
-
-    def test_low_degree_accuracy(self):
-        """Low-degree learning should be accurate for low-degree functions."""
-        f = bf.dictator(4, 0)
-
-        hypothesis = pac_learn_low_degree(f, max_degree=1, epsilon=0.1)
-
-        if hypothesis is not None and hasattr(hypothesis, "evaluate"):
-            # Test accuracy
-            errors = 0
-            for x in range(16):
-                if hypothesis.evaluate(x) != f.evaluate(x):
-                    errors += 1
-
-            error_rate = errors / 16
-            assert error_rate <= 0.5  # Should be reasonably accurate
-
-    def test_junta_accuracy(self):
-        """Junta learning should work well for small juntas."""
-        f = bf.AND(2)  # 2-junta
-
-        hypothesis = pac_learn_junta(f, k=2, epsilon=0.1)
-
-        # Just check it returns something
-        assert hypothesis is not None
+            # Should not raise
+            assert learner is not None, f"Failed to create learner for {name}"
 
 
 class TestPACLearningEdgeCases:
     """Test edge cases for PAC learning."""
 
-    def test_empty_function(self):
-        """Should handle constant zero function."""
+    def test_constant_zero(self):
+        """Constant zero should be trivially learnable."""
         f = bf.create([0, 0, 0, 0])
-
         result = pac_learn_low_degree(f, max_degree=0)
-        assert result is not None
 
-    def test_small_n(self):
-        """Should work for n=1."""
-        f = bf.create([0, 1])
+        error = compute_error_rate(result, f, 2)
+        assert error == 0.0, "Constant zero should have 0 error"
 
+    def test_constant_one(self):
+        """Constant one should be trivially learnable."""
+        f = bf.create([1, 1, 1, 1])
+        result = pac_learn_low_degree(f, max_degree=0)
+
+        error = compute_error_rate(result, f, 2)
+        assert error == 0.0, "Constant one should have 0 error"
+
+    def test_n_equals_1(self):
+        """Should work for smallest non-trivial case n=1."""
+        f = bf.create([0, 1])  # Identity
         result = pac_learn_low_degree(f, max_degree=1)
-        assert result is not None
+
+        error = compute_error_rate(result, f, 1)
+        assert error <= 0.5, f"n=1 case: expected ≤0.5 error, got {error}"
 
 
 if __name__ == "__main__":

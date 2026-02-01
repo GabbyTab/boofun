@@ -26,7 +26,7 @@ def test_convolution_theorem_holds(self):
     """Verify (f*g)^(S) = f̂(S)·ĝ(S)."""
     conv_coeffs = convolution(f, g)
     expected = f.fourier() * g.fourier()
-    
+
     assert np.allclose(conv_coeffs, expected)  # Verifies math!
 ```
 
@@ -102,15 +102,15 @@ class TestFunctionName:
 
     def test_mathematical_property(self):
         """Verify [specific mathematical property].
-        
+
         Theorem: [state the theorem being tested]
         """
         # Arrange
         f = bf.some_function(3)
-        
+
         # Act
         result = function_name(f)
-        
+
         # Assert - verify the MATH, not just existence
         expected = compute_expected_value(f)
         assert np.allclose(result, expected), f"Expected {expected}, got {result}"
