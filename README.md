@@ -159,7 +159,7 @@ pytest tests/
 pytest --cov=boofun tests/
 ```
 
-3000+ tests with 71% coverage. Cross-validation against known results in `tests/test_cross_validation.py`.
+3000+ tests with 72% coverage. Cross-validation against known results in `tests/test_cross_validation.py`.
 
 ## Convention
 

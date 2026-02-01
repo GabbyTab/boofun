@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **Documentation Improvements (Jan 2026)**
 - LaTeX rendering enabled in Sphinx markdown files (`dollarmath`, `amsmath` extensions)
 - All notebooks now have "Open in Colab" badges
-- README has nbviewer/Colab links for all 11 lectures and 4 homework notebooks
+- README has GitHub Pages/Colab links for all 11 lectures and 4 homework notebooks
 - Notebook attributions: "Based on lecture notes by X. Notebook by Gabriel Taboada."
 - Course Notebooks section in README is collapsible
 - Function Families guide added to Sphinx documentation
