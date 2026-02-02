@@ -24,6 +24,13 @@ pre-commit install
 pytest tests/ -v --tb=short
 ```
 
+Or use Docker:
+```bash
+docker-compose up dev      # Interactive dev shell
+docker-compose run test    # Run tests
+docker-compose up notebook # Jupyter at localhost:8888
+```
+
 ## Project Structure
 
 ```

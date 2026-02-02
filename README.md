@@ -29,6 +29,11 @@ A toolkit for Boolean function analysis: Fourier analysis, property testing, que
 pip install boofun
 ```
 
+Or run notebooks in Docker:
+```bash
+docker-compose up notebook  # localhost:8888, token: boofun
+```
+
 ## Quick Start
 
 ```python
