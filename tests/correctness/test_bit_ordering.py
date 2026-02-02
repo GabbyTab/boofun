@@ -369,6 +369,135 @@ class TestConversionBitOrdering:
         ), f"Fourier reconstruction changed truth table: {reconstructed} vs {tt}"
 
 
+class TestLTFBitOrdering:
+    """Test that Linear Threshold Functions follow bit ordering convention.
+
+    This class specifically tests weighted_majority and related LTF constructors
+    to catch bugs like using MSB-first instead of LSB-first when building truth tables.
+    """
+
+    def test_weighted_majority_highest_weight_highest_influence(self):
+        """Variable with highest weight should have highest influence.
+
+        This is the key test that catches the MSB/LSB bug: if weights are
+        applied in wrong order, x_0 with weight 5 would have low influence.
+        """
+        weights = [5, 1, 1, 1, 1]  # x_0 has highest weight
+        f = bf.weighted_majority(weights)
+        influences = f.influences()
+
+        # x_0 must have highest influence
+        assert influences[0] == max(influences), (
+            f"x_0 with weight {weights[0]} should have highest influence. "
+            f"Got influences: {list(influences)}"
+        )
+
+    def test_weighted_majority_weight_order_matches_influence_order(self):
+        """Influence ordering should roughly match weight ordering."""
+        weights = [4, 3, 2, 1]
+        f = bf.weighted_majority(weights)
+        influences = f.influences()
+
+        # Strictly decreasing weights → decreasing influences
+        for i in range(len(weights) - 1):
+            assert influences[i] >= influences[i + 1], (
+                f"Weight ordering violated: x_{i} (weight={weights[i]}) has influence "
+                f"{influences[i]:.4f} but x_{i+1} (weight={weights[i+1]}) has {influences[i+1]:.4f}"
+            )
+
+    def test_weighted_majority_extreme_weight_approaches_dictator(self):
+        """Very high weight on x_0 should make it nearly a dictator."""
+        weights = [100, 1, 1, 1, 1]
+        f = bf.weighted_majority(weights)
+        influences = f.influences()
+
+        # x_0 influence should be close to 1
+        assert (
+            influences[0] > 0.9
+        ), f"Extreme weight should give high influence, got {influences[0]}"
+
+        # Other influences should be very small
+        for i in range(1, len(weights)):
+            assert influences[i] < 0.1, f"x_{i} should have low influence, got {influences[i]}"
+
+    def test_weighted_majority_uniform_is_negated_majority(self):
+        """Uniform weights with threshold=0 gives negated majority.
+
+        This is because weighted_majority uses ±1 domain:
+        - 0 → +1, 1 → -1
+        - f(x) = 1 if sum(±1 values) ≥ 0
+
+        So uniform weights give 1 when majority of inputs are 0, not 1.
+        """
+        for n in [3, 5, 7]:
+            weighted = bf.weighted_majority([1] * n)
+            majority = bf.majority(n)
+
+            tt_w = list(weighted.get_representation("truth_table"))
+            tt_m = [int(v) for v in majority.get_representation("truth_table")]
+
+            # They should be negations of each other
+            tt_m_negated = [1 - v for v in tt_m]
+            assert tt_w == tt_m_negated, (
+                f"n={n}: uniform weighted majority should be negated majority. "
+                f"Got {tt_w}, expected {tt_m_negated}"
+            )
+
+    def test_weighted_majority_specific_input(self):
+        """Test specific input to verify bit ordering.
+
+        For weights [3, 1, 1] and input index 1 (x_0=1, x_1=0, x_2=0):
+        - In ±1 domain: x_0 → -1, x_1 → +1, x_2 → +1
+        - Weighted sum: 3*(-1) + 1*(+1) + 1*(+1) = -1 < 0 → output 0
+
+        If MSB-first bug exists, index 1 would be interpreted as x_2=1,
+        giving sum 3*(+1) + 1*(+1) + 1*(-1) = +3 > 0 → output 1 (wrong!)
+        """
+        weights = [3, 1, 1]
+        f = bf.weighted_majority(weights)
+
+        # Index 1 = binary 001 = x_0=1, x_1=0, x_2=0
+        result = int(f.evaluate(1))
+        assert result == 0, f"weighted_majority([3,1,1]) at index 1 should be 0, got {result}"
+
+        # Index 4 = binary 100 = x_0=0, x_1=0, x_2=1
+        # Sum: 3*(+1) + 1*(+1) + 1*(-1) = +3 > 0 → output 1
+        result = int(f.evaluate(4))
+        assert result == 1, f"weighted_majority([3,1,1]) at index 4 should be 1, got {result}"
+
+    def test_threshold_bit_ordering(self):
+        """Threshold function should count bits correctly.
+
+        threshold(n, k) outputs 1 iff at least k inputs are 1.
+        """
+        f = bf.threshold(3, 2)
+
+        # Check all inputs
+        for idx in range(8):
+            bits = [(idx >> i) & 1 for i in range(3)]
+            hamming_weight = sum(bits)
+            expected = 1 if hamming_weight >= 2 else 0
+            actual = int(f.evaluate(idx))
+            assert actual == expected, (
+                f"threshold(3,2)[{idx}] = {actual}, expected {expected}. "
+                f"Bits (LSB=x_0): {bits}, hamming weight: {hamming_weight}"
+            )
+
+    def test_from_weights_bit_ordering(self):
+        """bf.from_weights should also respect LSB=x_0."""
+        weights = [5, 1, 1]
+        threshold_val = 3
+
+        f = bf.from_weights(weights, threshold_val)
+        influences = f.influences()
+
+        # x_0 with weight 5 should have highest influence
+        assert influences[0] == max(influences), (
+            f"from_weights([5,1,1], 3): x_0 should have highest influence. "
+            f"Got: {list(influences)}"
+        )
+
+
 class TestBuiltinBitOrdering:
     """Test that built-in functions follow bit ordering convention."""
 

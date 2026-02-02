@@ -2,6 +2,42 @@
 
 BooFun supports 10+ representations of Boolean functions with automatic conversion between them.
 
+## Bit-Ordering Convention
+
+BooFun uses **LSB = x₀** (least significant bit is variable 0):
+
+```python
+# Truth table index i corresponds to:
+#   x₀ = (i >> 0) & 1
+#   x₁ = (i >> 1) & 1
+#   x₂ = (i >> 2) & 1
+#   ...
+
+# Example: index 5 = 0b101 means x₀=1, x₁=0, x₂=1
+import boofun as bf
+
+# Dictator x₀ has truth table [0,1,0,1,0,1,0,1]
+# because x₀=1 for odd indices (where bit 0 is set)
+x0 = bf.dictator(3, 0)
+print(list(x0.get_representation("truth_table")))
+# [0, 1, 0, 1, 0, 1, 0, 1]
+
+# Dictator x₂ has truth table [0,0,0,0,1,1,1,1]
+# because x₂=1 for indices 4-7 (where bit 2 is set)
+x2 = bf.dictator(3, 2)
+print(list(x2.get_representation("truth_table")))
+# [0, 0, 0, 0, 1, 1, 1, 1]
+```
+
+This convention is consistent across all functions, including weighted majority:
+
+```python
+# weights[0] applies to x₀, weights[1] applies to x₁, etc.
+f = bf.weighted_majority([5, 1, 1, 1, 1])
+print(f.influences())
+# x₀ has highest influence because it has highest weight
+```
+
 ## Overview
 
 Boolean functions can be represented in many ways, each suited for different tasks:

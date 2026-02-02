@@ -107,6 +107,27 @@ def convolution(f: BooleanFunction, g: BooleanFunction) -> np.ndarray:
 
 ---
 
+## Bit-Ordering Convention
+
+BooFun uses **LSB = x₀** everywhere. This must be consistent across all code.
+
+```python
+# Index i maps to bits via: x_j = (i >> j) & 1
+# Index 5 = 0b101 means x₀=1, x₁=0, x₂=1
+
+# Good: LSB-first
+x = [(i >> j) & 1 for j in range(n)]
+
+# Bad: MSB-first (common bug!)
+x = [int(b) for b in format(i, f"0{n}b")]  # WRONG ORDER
+```
+
+**Rule**: When building truth tables from index → bit vectors, always use `(i >> j) & 1`.
+
+See `CONTRIBUTING.md` for the full specification.
+
+---
+
 ## Quick Test
 
 Before committing, ask:
