@@ -388,11 +388,12 @@ def create_weighted_majority(
     if threshold is None:
         threshold = 0.0
 
-    # Build truth table
+    # Build truth table (LSB = x_0 convention)
     truth_table = []
     for i in range(2**n):
-        x = np.array([int(b) for b in format(i, f"0{n}b")])
-        # Convert to ±1: x_pm = 1 - 2*x, but simpler to compute directly
+        # Extract bits with LSB = x_0
+        x = np.array([(i >> j) & 1 for j in range(n)])
+        # Convert to ±1: 0 → +1, 1 → -1
         x_pm = 1 - 2 * x
         val = 1 if np.dot(weights, x_pm) >= threshold else 0
         truth_table.append(val)
