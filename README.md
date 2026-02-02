@@ -151,6 +151,19 @@ Interactive notebooks following CS294-92 (Analysis of Boolean Functions). Click 
 
 </details>
 
+<details>
+<summary><strong>Supplementary Notebooks (5)</strong></summary>
+
+| Topic | Description | Play |
+|-------|-------------|------|
+| [Global Hypercontractivity](https://gabbytab.github.io/boofun/notebooks/global_hypercontractivity.html) | Keevash et al. threshold phenomena | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/global_hypercontractivity.ipynb) |
+| [Boolean Functions as Random Variables](https://gabbytab.github.io/boofun/notebooks/boolean_functions_as_random_variables.html) | Probabilistic perspective | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/boolean_functions_as_random_variables.ipynb) |
+| [Flexible Inputs & Oracles](https://gabbytab.github.io/boofun/notebooks/flexible_inputs_and_oracles.html) | Input formats, lazy evaluation | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/flexible_inputs_and_oracles.ipynb) |
+| [Real World Applications](https://gabbytab.github.io/boofun/notebooks/real_world_applications.html) | Cryptography, ML, voting | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/real_world_applications.ipynb) |
+| [Asymptotic Visualization](https://gabbytab.github.io/boofun/notebooks/asymptotic_visualization.html) | Growth rates and scaling | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/asymptotic_visualization.ipynb) |
+
+</details>
+
 ## Performance
 
 - NumPy vectorization throughout

@@ -21,7 +21,7 @@ flowchart TB
 
     subgraph Representations["Representations (Strategy Pattern)"]
         Registry["Registry<br/>(STRATEGY_REGISTRY)"]
-        
+
         subgraph RepTypes["Representation Types"]
             TT["TruthTable"]
             Fourier["FourierExpansion"]
@@ -73,33 +73,33 @@ flowchart TB
     create --> Factory
     builtins --> Factory
     io --> BF
-    
+
     Factory --> BF
     Factory --> Registry
-    
+
     BF --> Registry
     BF --> ConvGraph
     BF --> Space
     BF --> ErrorModel
-    
+
     Registry --> RepTypes
-    
+
     ConvGraph --> ConvCost
     ConvGraph --> PathFind
     ConvGraph --> Registry
-    
+
     BF --> Spectral
     BF --> PropTest
     BF --> Complexity
     BF --> Learning
     BF --> Hyper
     BF --> Crypto
-    
+
     Families --> Factory
-    
+
     BF --> Plotter
     Complexity --> DecTree
-    
+
     Analysis --> Sampling
     Analysis --> Math
     Core --> Exceptions
@@ -226,7 +226,7 @@ Standard Boolean functions used in research:
 
 ```python
 bf.majority(n)      # MAJ_n: output 1 if >n/2 inputs are 1
-bf.parity(n)        # XOR_n: output XOR of all inputs  
+bf.parity(n)        # XOR_n: output XOR of all inputs
 bf.tribes(k, n)     # Tribes function (k groups of n)
 bf.dictator(n, i)   # Output = x_i
 bf.threshold(n, k)  # Output 1 if ≥k inputs are 1
@@ -308,10 +308,10 @@ class MyRepresentation(BooleanFunctionRepresentation):
 ```
 User: bf.create(lambda x: x[0] ^ x[1], n=2)
   ↓
-Factory.from_callable() 
+Factory.from_callable()
   → stores callable in representations["function"]
   → returns BooleanFunction
-  
+
 User: f.fourier()
   ↓
 BooleanFunction.get_representation("fourier_expansion")
@@ -336,7 +336,7 @@ api.py
             ├── truth_table.py
             ├── fourier_expansion.py
             └── ... (other representations)
-            
+
 analysis/
   ├── __init__.py (SpectralAnalyzer, PropertyTester)
   ├── fourier.py
