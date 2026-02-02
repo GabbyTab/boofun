@@ -573,6 +573,98 @@ tracker.observe(n_values=[...])  # Computes, using best algorithm for each n
 - [ ] Interactive parameter sliders (Jupyter widgets)
 - [ ] Export to LaTeX/TikZ
 
+### 5. PAC Learning and Estimation Enhancements
+
+**Status:** Planning
+
+Enhance the PAC learning module with richer estimation support, confidence intervals, and adaptive sampling. Reference: O'Donnell Chapter 3, Lecture 6.
+
+#### EstimatedBooleanFunction Class
+
+A function backed by estimated Fourier coefficients with confidence intervals:
+
+```python
+from boofun.analysis.pac_learning import EstimatedBooleanFunction
+
+# Create from samples (query access to unknown function)
+est_f = EstimatedBooleanFunction.from_oracle(oracle, n=10, initial_samples=1000)
+
+# Coefficients are estimates with confidence intervals
+coeff, stderr = est_f.fourier_coefficient(S)  # Returns (estimate, standard_error)
+
+# Automatically increase samples when needed
+est_f.refine(target_stderr=0.01)  # Add more samples until stderr < 0.01
+
+# Access confidence information
+est_f.confidence_level        # Current confidence (e.g., 0.95)
+est_f.total_samples           # Total samples used
+est_f.coefficient_errors      # Dict of {S: stderr} for all estimated coefficients
+
+# Convert to regular function when sufficiently confident
+f = est_f.to_function(threshold=0.05)  # Zero out coefficients with |est| < threshold
+```
+
+#### Adaptive Sampling
+
+Automatically determine sample complexity based on target accuracy:
+
+```python
+from boofun.analysis.learning import estimate_fourier_coefficient
+
+# Current API
+est, stderr = estimate_fourier_coefficient(f, S, num_samples=1000)
+
+# Proposed: adaptive sampling
+est, stderr = estimate_fourier_coefficient(
+    f, S,
+    target_error=0.01,      # Stop when stderr < target_error
+    confidence=0.95,         # Confidence level
+    max_samples=100000,      # Budget limit
+)
+
+# Returns additional info
+result = estimate_fourier_coefficient(f, S, target_error=0.01, return_info=True)
+# result.estimate, result.stderr, result.samples_used, result.converged
+```
+
+#### Integration with `uncertainties` Library
+
+The `errormodels.py` module already has optional `uncertainties` support. Extend to learning:
+
+```python
+from boofun.analysis.pac_learning import pac_learn_low_degree
+
+# With uncertainties integration
+coeffs = pac_learn_low_degree(f, max_degree=3, epsilon=0.1, with_uncertainties=True)
+# coeffs[S] is a ufloat with value and uncertainty
+
+# Propagates through computations
+hypothesis_value = sum(c * chi_S(x) for S, c in coeffs.items())
+# hypothesis_value.nominal_value, hypothesis_value.std_dev
+```
+
+#### Estimation Convergence Visualization
+
+```python
+from boofun.visualization import plot_estimation_convergence
+
+# Show how estimate improves with samples
+fig = plot_estimation_convergence(
+    f, S,
+    sample_sizes=[50, 100, 200, 500, 1000, 2000],
+    true_value=f.fourier()[S],  # Optional: show true value
+)
+```
+
+#### Implementation Priority
+
+| Feature | Priority | Complexity | Dependencies |
+|---------|----------|------------|--------------|
+| Adaptive sampling | High | Low | None |
+| `EstimatedBooleanFunction` | Medium | Medium | None |
+| Convergence visualization | Medium | Low | matplotlib |
+| `uncertainties` integration | Low | Low | uncertainties (optional) |
+
 ---
 
 ## v1.0.0 Milestone (Complete)
