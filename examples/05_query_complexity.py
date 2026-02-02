@@ -152,7 +152,7 @@ for name, f in functions:
     deg = f.degree()
     bound = 2 * s * s
 
-    ok = "✓" if deg <= bound else "✗"
+    ok = "[ok]" if deg <= bound else "[fail]"
     print(f"{name:<15} {s:<8} {deg:<8} {bound:<8} {ok}")
 
 # =============================================================================

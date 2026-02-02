@@ -173,8 +173,8 @@ def demo_complexity_relationships():
     print(f"   Fourier degree deg(f):  {deg}")
 
     print("\n   Key relationships (from Huang's theorem):")
-    print(f"   - s(f) ≥ √deg(f): {s} ≥ √{deg} = {np.sqrt(deg):.2f} ✓")
-    print(f"   - D(f) ≥ s(f):    {d} ≥ {s} ✓")
+    print(f"   - s(f) >= sqrt(deg(f)): {s} >= sqrt({deg}) = {np.sqrt(deg):.2f} [ok]")
+    print(f"   - D(f) >= s(f):        {d} >= {s} [ok]")
 
 
 def main():

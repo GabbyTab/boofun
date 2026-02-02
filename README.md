@@ -40,28 +40,29 @@ docker-compose up notebook  # localhost:8888, token: boofun
 import boofun as bf
 
 # Create functions
-maj = bf.majority(5)
-xor = bf.create([0, 1, 1, 0])
+maj_5 = bf.majority(5)
+xor_2 = bf.create([0, 1, 1, 0])
 
-# Evaluate
-maj.evaluate([1, 1, 0, 0, 1])  # → 1
+# Evaluate (callable syntax)
+maj_5([1, 1, 0, 0, 1])  # → True (majority satisfied)
+maj_5(7)                # → True (7 = 00111 in binary, 3 ones)
 
 # Fourier analysis
-maj.fourier()           # Fourier coefficients
-maj.influences()        # Per-variable influences
-maj.total_influence()   # I[f]
-maj.noise_stability(0.9)
+maj_5.fourier()           # Fourier coefficients
+maj_5.influences()        # Per-variable influences
+maj_5.total_influence()   # I[f]
+maj_5.noise_stability(0.9)
 
 # Properties and complexity
-maj.is_monotone()
-maj.is_balanced()
+maj_5.is_monotone()
+maj_5.is_balanced()
 
 from boofun.analysis import complexity
-complexity.decision_tree_depth(maj)  # D(f)
-complexity.max_sensitivity(maj)      # s(f)
+complexity.D(maj_5)  # Decision tree depth D(f)
+complexity.s(maj_5)  # Max sensitivity s(f)
 
 # Full analysis
-maj.analyze()  # dict with all metrics
+maj_5.analyze()  # dict with all metrics
 ```
 
 ## Features

@@ -35,7 +35,13 @@ __all__ = [
 
 
 def _random_subset(n: int, rng: np.random.Generator) -> int:
-    """Generate a random subset of [n] as a bitmask."""
+    """Generate a random subset of [n] as a bitmask.
+    
+    Raises:
+        ValueError: If n >= 64 (overflow)
+    """
+    if n >= 64:
+        raise ValueError(f"_random_subset requires n < 64, got {n}")
     return rng.integers(0, 1 << n)
 
 
@@ -61,6 +67,9 @@ def estimate_fourier_coefficient(
 
     Returns:
         Tuple of (estimate, standard_error)
+        
+    Raises:
+        ValueError: If n >= 64 (use sampling.estimate_fourier_coefficient instead)
     """
     if rng is None:
         rng = np.random.default_rng()
@@ -68,10 +77,18 @@ def estimate_fourier_coefficient(
     n = f.n_vars or 0
     if n == 0:
         return (float(f.evaluate(0)), 0.0)
+    
+    if n >= 64:
+        raise ValueError(
+            f"estimate_fourier_coefficient in learning.py requires n < 64 (got n={n}). "
+            f"For large n, the sampling range 2^n overflows int64. "
+            f"Consider using bit-array based sampling or oracle patterns."
+        )
 
     # Sample and compute estimate
     samples = []
     for _ in range(num_samples):
+        # Generate random input (safe for n < 64)
         x = int(rng.integers(0, 1 << n))
 
         # Evaluate f(x) in ±1 convention

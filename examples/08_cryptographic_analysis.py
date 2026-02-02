@@ -138,9 +138,10 @@ def demo_sbox_analysis():
     print("\n3. Comprehensive S-box Analysis")
     print("-" * 50)
     analyzer = SBoxAnalyzer(sbox)
-    summary = analyzer.summary()
-    print(f"   Bits: {summary['bits']}")
-    print(f"   Is bijective: {summary['is_bijective']}")
+    summary = analyzer.to_dict()  # Use to_dict() for dict access
+    print(f"   Input bits: {summary['n_inputs']}")
+    print(f"   Output bits: {summary['n_outputs']}")
+    print(f"   Is bijective: {summary['bijective']}")
     print(f"   Nonlinearity: {summary['nonlinearity']}")
     print(f"   Differential uniformity: {summary['differential_uniformity']}")
     print(f"   Linearity: {summary['linearity']}")
@@ -157,10 +158,15 @@ def demo_algebraic_properties():
     print("\n1. Algebraic Normal Form (ANF)")
     print("-" * 50)
     anf = algebraic_normal_form(f)
-    print(f"   Majority(3) ANF terms: {len(anf)} terms")
-    for term, coeff in sorted(anf.items(), key=lambda x: len(x[0])):
-        if coeff:
-            vars_str = " AND ".join([f"x{i}" for i in term]) if term else "1"
+    n = f.n_vars
+    nonzero_count = np.sum(anf != 0)
+    print(f"   Majority({n}) ANF: {nonzero_count} nonzero terms out of {len(anf)}")
+    print("   Nonzero terms:")
+    for i in range(len(anf)):
+        if anf[i]:
+            # Convert index to subset
+            term = [j for j in range(n) if (i >> j) & 1]
+            vars_str = " AND ".join([f"x{j}" for j in term]) if term else "1"
             print(f"      {vars_str}")
 
 

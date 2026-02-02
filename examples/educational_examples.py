@@ -56,7 +56,7 @@ def boolean_logic_basics():
 
         # NAND should be NOT AND
         verification = (not and_result) == nand_result
-        status = "✓" if verification else "✗"
+        status = "[ok]" if verification else "[fail]"
         print(f"   {bits}: NOT({and_result}) = {nand_result} {status}")
 
 
@@ -237,7 +237,7 @@ def main():
         fourier_analysis_education()
         cryptographic_properties()
 
-        print("\n✅ All educational examples completed!")
+        print("\n[PASS] All educational examples completed!")
         print("\n📚 Educational Topics Covered:")
         print("  - Boolean logic fundamentals")
         print("  - Function complexity and influence")
@@ -252,7 +252,7 @@ def main():
         print("  - Boolean Function Analysis")
 
     except Exception as e:
-        print(f"❌ Error in educational examples: {e}")
+        print(f"[FAIL] Error in educational examples: {e}")
         import traceback
 
         traceback.print_exc()

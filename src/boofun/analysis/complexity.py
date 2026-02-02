@@ -21,6 +21,7 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
+    # Full names
     "decision_tree_depth",
     "decision_tree_size",
     "sensitivity",
@@ -29,6 +30,9 @@ __all__ = [
     "average_sensitivity",
     "certificate_complexity",
     "ComplexityProfile",
+    # Standard notation aliases
+    "D",  # Decision tree depth D(f)
+    "s",  # Max sensitivity s(f)
 ]
 
 
@@ -487,3 +491,56 @@ class ComplexityProfile:
         checks["avg_sens = I(f)"] = True  # By definition
 
         return checks
+
+
+# =============================================================================
+# Standard notation aliases
+# =============================================================================
+
+def D(f: "BooleanFunction") -> int:
+    """
+    Decision tree depth D(f).
+    
+    Alias for :func:`decision_tree_depth`.
+    
+    The minimum number of adaptive queries needed to compute f(x)
+    in the worst case.
+    
+    Args:
+        f: BooleanFunction to analyze
+        
+    Returns:
+        Optimal decision tree depth
+        
+    Example:
+        >>> from boofun.analysis import complexity
+        >>> maj_5 = bf.majority(5)
+        >>> complexity.D(maj_5)
+        3
+    """
+    return decision_tree_depth(f)
+
+
+def s(f: "BooleanFunction", value: Optional[int] = None) -> int:
+    """
+    Max sensitivity s(f).
+    
+    Alias for :func:`max_sensitivity`.
+    
+    The maximum number of Hamming neighbors x' of any input x
+    where f(x') != f(x).
+    
+    Args:
+        f: BooleanFunction to analyze
+        value: If specified (0 or 1), only consider inputs where f(x) = value
+        
+    Returns:
+        Maximum sensitivity
+        
+    Example:
+        >>> from boofun.analysis import complexity
+        >>> maj_5 = bf.majority(5)
+        >>> complexity.s(maj_5)
+        5
+    """
+    return max_sensitivity(f, value)

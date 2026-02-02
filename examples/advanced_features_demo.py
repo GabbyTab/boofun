@@ -28,7 +28,7 @@ import boofun as bf
 
 def demo_anf_representation():
     """Demonstrate ANF (Algebraic Normal Form) representation."""
-    print("🔢 ANF Representation Demo")
+    print("[ANF] ANF Representation Demo")
     print("=" * 50)
 
     # Create different types of functions
@@ -65,7 +65,7 @@ def demo_anf_representation():
 
 def demo_conversion_graph():
     """Demonstrate conversion graph system."""
-    print("\n🔄 Conversion Graph Demo")
+    print("\n[CONV] Conversion Graph Demo")
     print("=" * 50)
 
     # Create a function
@@ -105,7 +105,7 @@ def demo_conversion_graph():
 
 def demo_batch_processing():
     """Demonstrate batch processing capabilities."""
-    print("\n⚡ Batch Processing Demo")
+    print("\n[BATCH] Batch Processing Demo")
     print("=" * 50)
 
     # Create a function for testing
@@ -142,7 +142,7 @@ def demo_batch_processing():
 
 def demo_gpu_acceleration():
     """Demonstrate GPU acceleration (if available)."""
-    print("\n🚀 GPU Acceleration Demo")
+    print("\n[PERF] GPU Acceleration Demo")
     print("=" * 50)
 
     from boofun.core.gpu_acceleration import get_gpu_info, is_gpu_available
@@ -161,15 +161,15 @@ def demo_gpu_acceleration():
         print("No GPU devices detected")
 
     if is_gpu_available():
-        print("\n🎯 GPU acceleration is available and will be used automatically")
+        print("\n[NOTE] GPU acceleration is available and will be used automatically")
         print("   for large batch operations when beneficial.")
     else:
-        print("\n💡 GPU acceleration not available - using CPU optimizations")
+        print("\n[TIP] GPU acceleration not available - using CPU optimizations")
 
 
 def demo_numba_optimization():
     """Demonstrate Numba JIT optimization."""
-    print("\n🔥 Numba JIT Optimization Demo")
+    print("\n[JIT] Numba JIT Optimization Demo")
     print("=" * 50)
 
     from boofun.core.numba_optimizations import get_numba_stats, is_numba_available
@@ -179,7 +179,7 @@ def demo_numba_optimization():
 
     if stats["numba_available"]:
         print(f"Compiled Functions: {stats['compiled_functions']}")
-        print("🎯 Numba optimizations are active for:")
+        print("[NOTE] Numba optimizations are active for:")
         print("  - Batch evaluations")
         print("  - Influence computations")
         print("  - Noise stability calculations")
@@ -201,12 +201,12 @@ def demo_numba_optimization():
         print(f"  Influences: {influences} ({influence_time:.2f}ms)")
         print(f"  Noise Stability: {stability:.4f} ({stability_time:.2f}ms)")
     else:
-        print("💡 Numba not available - using pure Python/NumPy implementations")
+        print("[TIP] Numba not available - using pure Python/NumPy implementations")
 
 
 def demo_testing_framework():
     """Demonstrate testing and validation framework."""
-    print("\n🧪 Testing Framework Demo")
+    print("\n[TEST] Testing Framework Demo")
     print("=" * 50)
 
     # Create a function to test
@@ -224,22 +224,24 @@ def demo_testing_framework():
 
     for category, result in results.items():
         if category != "overall_status" and isinstance(result, dict):
-            status = "✅ PASS" if result.get("passed", False) else "❌ FAIL"
+            status = "[PASS] PASS" if result.get("passed", False) else "[FAIL] FAIL"
             print(f"  {category.replace('_', ' ').title()}: {status}")
 
     # Test representation
     print("\nRepresentation Testing:")
     from boofun.core.representations.truth_table import TruthTableRepresentation
 
-    repr_results = bf.test_representation(TruthTableRepresentation())
-    overall_passed = repr_results.get("overall_passed", False)
-    status = "✅ PASS" if overall_passed else "❌ FAIL"
+    # Use validate_representation for representation testing
+    f = bf.AND(3)
+    repr_results = bf.validate_representation(f, "truth_table")
+    overall_passed = repr_results.get("valid", False)
+    status = "PASS" if overall_passed else "FAIL"
     print(f"  Truth Table Representation: {status}")
 
 
 def demo_adapter_system():
     """Demonstrate adapter system for external functions."""
-    print("\n🔌 Adapter System Demo")
+    print("\n[ADAPTER] Adapter System Demo")
     print("=" * 50)
 
     # Example 1: Adapt a Python lambda
@@ -290,7 +292,7 @@ def demo_adapter_system():
 
 def demo_error_models():
     """Demonstrate error models."""
-    print("\n🎯 Error Models Demo")
+    print("\n[NOTE] Error Models Demo")
     print("=" * 50)
 
     # Create functions with different error models
@@ -327,7 +329,7 @@ def demo_error_models():
 
 def demo_quantum_features():
     """Demonstrate quantum Boolean function analysis."""
-    print("\n⚛️  Quantum Features Demo")
+    print("\n[QUANTUM]  Quantum Features Demo")
     print("=" * 50)
 
     # Create quantum Boolean function
@@ -362,7 +364,7 @@ def demo_quantum_features():
             else:
                 print(f"  {prop.capitalize()}: {result}")
         except Exception as e:
-            print(f"  {prop.capitalize()}: ⚠️ Error - {type(e).__name__}")
+            print(f"  {prop.capitalize()}: [WARN] Error - {type(e).__name__}")
 
     # Quantum resource estimation
     print("\n3. Quantum Resource Requirements:")
@@ -389,7 +391,7 @@ def demo_quantum_features():
 
 def demo_comprehensive_analysis():
     """Demonstrate comprehensive Boolean function analysis."""
-    print("\n📊 Comprehensive Analysis Demo")
+    print("\n[ANALYSIS] Comprehensive Analysis Demo")
     print("=" * 50)
 
     # Create a more interesting function
@@ -472,7 +474,7 @@ def demo_comprehensive_analysis():
 
 def create_visualization_examples():
     """Create visualization examples (if matplotlib available)."""
-    print("\n📈 Creating Visualization Examples")
+    print("\n[VIZ] Creating Visualization Examples")
     print("=" * 50)
 
     try:
@@ -503,7 +505,7 @@ def create_visualization_examples():
         plt.savefig(os.path.join(output_dir, "influence_comparison.png"), dpi=300)
         plt.close()
 
-        print(f"  ✅ Influence comparison saved to generated/influence_comparison.png")
+        print(f"  [PASS] Influence comparison saved to generated/influence_comparison.png")
 
         # Example 2: Noise stability curves
         majority = bf.create([False, False, False, True, False, True, True, True])
@@ -523,15 +525,15 @@ def create_visualization_examples():
         plt.savefig(os.path.join(output_dir, "noise_stability.png"), dpi=300)
         plt.close()
 
-        print(f"  ✅ Noise stability curve saved to generated/noise_stability.png")
+        print(f"  [PASS] Noise stability curve saved to generated/noise_stability.png")
 
     except Exception as e:
-        print(f"  ⚠️  Visualization examples require matplotlib: {e}")
+        print(f"  [WARN]  Visualization examples require matplotlib: {e}")
 
 
 def main():
     """Run all demos."""
-    print("🚀 BooFun Advanced Features Demo")
+    print("[PERF] BooFun Advanced Features Demo")
     print("=" * 60)
     print("This demo showcases the advanced features of the BooFun library.")
     print("Note: Some features may not be available if dependencies are missing.\n")
@@ -549,8 +551,8 @@ def main():
     demo_comprehensive_analysis()
     create_visualization_examples()
 
-    print("\n🎉 Demo completed! Check the generated/ directory for visualization outputs.")
-    print("\n💡 Next steps:")
+    print("\n[DONE] Demo completed! Check the generated/ directory for visualization outputs.")
+    print("\n[TIP] Next steps:")
     print("   - Explore the examples/ directory for more specific use cases")
     print("   - Check the documentation for detailed API reference")
     print("   - Run the test suite with: python -m pytest tests/")

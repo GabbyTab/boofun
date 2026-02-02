@@ -70,25 +70,75 @@ def register_partial_strategy(
 
 # Register a simple function representation for adapted external functions
 def _function_evaluate(self, inputs, data, space, n_vars):
-    """Evaluate the function directly."""
+    """
+    Evaluate the function directly.
+    
+    This handles the conversion between different input formats:
+    - Integer index (e.g., 5) -> convert to binary array [1, 0, 1, 0, 0]
+    - Array with single integer (e.g., [5]) -> extract and convert to binary
+    - Array matching n_vars (e.g., [1, 0, 1, 0, 0]) -> pass directly
+    
+    User lambdas typically expect array inputs like `lambda x: x[0] ^ x[1]`,
+    but truth table conversion passes integer indices. This function bridges
+    both calling conventions.
+    """
     import numpy as np
 
-    # The function representation receives the raw inputs and calls the adapted function
-    # For single evaluation, inputs should be passed directly to the function
+    def index_to_binary(idx, n):
+        """Convert integer index to binary array (LSB convention: bit i at position i)."""
+        return [(idx >> i) & 1 for i in range(n)]
+
+    # Normalize inputs to array format for user functions
+    # Handle n_vars being None - in this case, don't convert integers to binary
+    if n_vars is None:
+        # No conversion possible, pass input as-is
+        binary_inputs = inputs if not isinstance(inputs, np.ndarray) else inputs.tolist() if inputs.ndim > 0 else int(inputs)
+    elif isinstance(inputs, (int, np.integer)):
+        # Integer index - convert to binary array for user lambdas
+        binary_inputs = index_to_binary(int(inputs), n_vars)
+    elif isinstance(inputs, np.ndarray) and inputs.ndim == 0:
+        # 0-dimensional numpy array (scalar)
+        binary_inputs = index_to_binary(int(inputs), n_vars)
+    elif isinstance(inputs, np.ndarray) and inputs.ndim == 1 and len(inputs) == 1:
+        # Array with single element (wrapped integer from evaluate()) - extract and convert
+        binary_inputs = index_to_binary(int(inputs[0]), n_vars)
+    elif hasattr(inputs, '__len__'):
+        # Array-like with multiple elements
+        if len(inputs) < n_vars:
+            # Input is shorter than expected - might be an integer stored as array
+            # Check if it looks like a single integer
+            if len(inputs) == 1:
+                binary_inputs = index_to_binary(int(inputs[0]), n_vars)
+            else:
+                # Pad with zeros
+                binary_inputs = list(inputs) + [0] * (n_vars - len(inputs))
+        else:
+            # Already correct length
+            binary_inputs = list(inputs)
+    else:
+        # Unknown format - try as-is
+        binary_inputs = inputs
+
+    # Try calling the function with array input first (most common for user lambdas)
     try:
-        result = data(inputs)
+        result = data(binary_inputs)
         # Ensure we return a boolean scalar, not an array
         if isinstance(result, (list, np.ndarray)):
-            # If result is an array, take the first element or check if it's all the same
             if len(result) == 1:
                 return bool(result[0])
             else:
-                # This shouldn't happen for single evaluation
-                return bool(result[0])  # Take first element as fallback
+                return bool(result[0])
         else:
             return bool(result)
-    except Exception as e:
-        # If direct call fails, the function might expect different input format
+    except (IndexError, TypeError, ValueError) as e:
+        # If array call fails, try with original inputs (integer)
+        # This supports functions that expect integer indices
+        if isinstance(inputs, (int, np.integer)):
+            try:
+                result = data(inputs)
+                return bool(result) if not isinstance(result, (list, np.ndarray)) else bool(result[0])
+            except Exception:
+                pass  # Fall through to error
         raise ValueError(f"Function evaluation failed: {e}")
 
 

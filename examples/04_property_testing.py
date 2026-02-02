@@ -75,7 +75,7 @@ for name, f in functions:
     # Check if actually linear (parity is linear)
     expected = "parity" in name.lower()
 
-    status = "✓" if blr_result == expected else "✗"
+    status = "[ok]" if blr_result == expected else "[fail]"
     print(f"{name:<15} {str(expected):<15} {blr_result} {status}")
 
 # =============================================================================
@@ -145,7 +145,7 @@ for name, f, expected in test_functions:
     tester = PropertyTester(f)
     result = tester.monotonicity_test()
 
-    status = "✓" if result == expected else "✗"
+    status = "[ok]" if result == expected else "[fail]"
     print(f"{name:<15} {str(expected):<12} {result} {status}")
 
 # =============================================================================
@@ -178,7 +178,7 @@ for name, f, expected in test_functions:
     tester = PropertyTester(f)
     result = tester.symmetry_test()
 
-    status = "✓" if result == expected else "✗"
+    status = "[ok]" if result == expected else "[fail]"
     print(f"{name:<15} {str(expected):<12} {result} {status}")
 
 # =============================================================================

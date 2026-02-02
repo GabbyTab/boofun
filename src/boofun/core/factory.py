@@ -335,12 +335,50 @@ class BooleanFunctionFactory:
 
     @classmethod
     def from_symbolic(cls, boolean_function_cls, expression, rep_type="symbolic", **kwargs):
-        """Create from symbolic expression string"""
+        """Create from symbolic expression string.
+        
+        Args:
+            boolean_function_cls: The BooleanFunction class to instantiate
+            expression: Symbolic expression (e.g., 'x0 & x1', 'a or b')
+            rep_type: Representation type name (default "symbolic")
+            **kwargs: Additional arguments:
+                - variables: List of variable names in order (auto-detected if not provided)
+                - n: Number of variables (used to generate x0, x1, ... if variables not provided)
+        
+        Variable auto-detection:
+            1. If 'variables' kwarg provided, use those
+            2. Else if 'n' kwarg provided, generate ['x0', 'x1', ..., 'x{n-1}']
+            3. Else extract from expression: 'x0', 'x1', ... patterns, sorted numerically
+        """
+        import re
+        
         instance = boolean_function_cls(**kwargs)
         variables = kwargs.get("variables")
-        # if variables is None:
-        #    variables = [f'x{i}' for i in range(instance.n_vars)]
-        # kwargs.get('variables', [f'x{i}' for i in range(instance.n_vars)])
+        
+        if variables is None:
+            n = kwargs.get("n")
+            if n is not None:
+                # Use x0, x1, ... xn-1 convention
+                variables = [f"x{i}" for i in range(n)]
+            else:
+                # Auto-detect variables from expression
+                # Match x0, x1, x2, ... patterns
+                var_pattern = re.findall(r'\bx(\d+)\b', expression)
+                if var_pattern:
+                    # Found x0, x1, ... style variables
+                    max_idx = max(int(idx) for idx in var_pattern)
+                    variables = [f"x{i}" for i in range(max_idx + 1)]
+                else:
+                    # Try to find alphabetic variable names (a, b, c, etc.)
+                    # Exclude Python keywords and operators
+                    keywords = {'and', 'or', 'not', 'True', 'False', 'None', 'in', 'is'}
+                    word_pattern = re.findall(r'\b([a-zA-Z_]\w*)\b', expression)
+                    variables = sorted(set(v for v in word_pattern if v not in keywords))
+        
+        # Set n_vars if not already set
+        if instance.n_vars is None and variables:
+            instance.n_vars = len(variables)
+        
         instance.add_representation((expression, variables), rep_type)
         return instance
 

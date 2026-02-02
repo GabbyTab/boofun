@@ -24,7 +24,7 @@ Creating Functions
    import boofun as bf
 
    # From truth table (list or numpy array)
-   xor = bf.create([0, 1, 1, 0])
+   xor_2 = bf.create([0, 1, 1, 0])
 
    # From callable (your own function)
    f = bf.create(lambda x: x[0] and x[1], n=3)
@@ -33,11 +33,11 @@ Creating Functions
    f = bf.load("function.json")
    f = bf.create("function.bf")  # Aaronson format
 
-   # Built-in families
-   maj = bf.majority(5)
-   par = bf.parity(4)
-   dic = bf.dictator(3, i=0)
-   tribes = bf.tribes(2, 6)
+   # Built-in families (use descriptive names)
+   maj_5 = bf.majority(5)
+   par_4 = bf.parity(4)
+   dic_3 = bf.dictator(3, i=0)
+   tribes_2_6 = bf.tribes(2, 6)
    ltf = bf.weighted_majority([3, 2, 1, 1, 1])
 
 Flexible Input Types
@@ -62,30 +62,45 @@ Flexible Input Types
 Evaluation
 ----------
 
-Evaluation is equally flexible:
+Functions are callable. Evaluation is flexible:
 
 .. code-block:: python
 
-   f.evaluate(3)                   # Integer index (binary: 011)
-   f.evaluate([0, 1, 1])           # List of bits
-   f.evaluate((0, 1, 1))           # Tuple
-   f.evaluate(np.array([0, 1, 1])) # NumPy array
-   f.evaluate([[0,0], [0,1], [1,0]])  # Batch (2D array)
+   maj_5 = bf.majority(5)
+
+   # Callable syntax (preferred)
+   maj_5([1, 1, 0, 0, 1])  # → True (majority satisfied)
+   maj_5(7)                # → True (7 = 00111, 3 ones)
+
+   # Equivalent .evaluate() method
+   maj_5.evaluate([1, 1, 0, 0, 1])
+
+   # All input formats work
+   maj_5(3)                    # Integer index (binary: 00011)
+   maj_5([0, 1, 1, 0, 0])      # List of bits
+   maj_5((0, 1, 1, 0, 0))      # Tuple
+   maj_5(np.array([0,1,1,0,0]))  # NumPy array
 
 Analysis
 --------
 
 .. code-block:: python
 
-   f = bf.majority(5)
+   maj_5 = bf.majority(5)
 
-   f.fourier()           # Fourier coefficients
-   f.influences()        # Per-variable
-   f.total_influence()   # I[f]
-   f.noise_stability(0.9)
-   f.degree()            # Fourier degree
+   # Fourier analysis
+   maj_5.fourier()           # Fourier coefficients
+   maj_5.influences()        # Per-variable
+   maj_5.total_influence()   # I[f]
+   maj_5.noise_stability(0.9)
+   maj_5.degree()            # Fourier degree
 
-   f.analyze()  # Dict with all metrics
+   # Query complexity
+   from boofun.analysis import complexity
+   complexity.D(maj_5)       # Decision tree depth D(f)
+   complexity.s(maj_5)       # Max sensitivity s(f)
+
+   maj_5.analyze()  # Dict with all metrics
 
 Properties
 ----------

@@ -35,6 +35,7 @@ from .api import create, from_hex, partial, to_hex
 from .core import BooleanFunction, ExactErrorModel, NoiseErrorModel, PACErrorModel, Property, Space
 from .core.adapters import (
     CallableAdapter,
+    LegacyAdapter,
     NumPyAdapter,
     SymPyAdapter,
     adapt_callable,
@@ -457,6 +458,7 @@ __all__ = [
     "validate_representation",
     # Adapters for external integration
     "CallableAdapter",
+    "LegacyAdapter",
     "SymPyAdapter",
     "NumPyAdapter",
     "adapt_callable",

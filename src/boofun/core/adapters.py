@@ -106,33 +106,48 @@ class LegacyAdapter(BooleanFunctionAdapter):
         # Convert output to expected format
         return self._adapt_output(result)
 
-    def _adapt_inputs(self, inputs: np.ndarray) -> Any:
-        """Convert inputs to legacy format."""
+    def _adapt_inputs(self, inputs) -> Any:
+        """Convert inputs to legacy format.
+        
+        Args:
+            inputs: Can be numpy array, list, or scalar
+        """
+        # Determine input characteristics
+        is_numpy = isinstance(inputs, np.ndarray)
+        is_scalar = (
+            isinstance(inputs, (int, np.integer)) or 
+            (is_numpy and inputs.ndim == 0)
+        )
+        is_1d_array = (
+            (is_numpy and inputs.ndim == 1) or
+            (isinstance(inputs, (list, tuple)) and not is_scalar)
+        )
+        
         if self.input_format == "auto":
             # Try to detect format
-            if inputs.ndim == 0:
-                return int(inputs)  # Single integer
-            elif inputs.ndim == 1:
-                return inputs.tolist()  # Binary vector as list
+            if is_scalar:
+                return int(inputs) if not is_numpy else int(inputs.item())
+            elif is_1d_array:
+                return list(inputs) if not is_numpy else inputs.tolist()
             else:
-                return inputs  # Keep as array
+                return inputs  # Keep as-is
 
         elif self.input_format == "integer":
-            if inputs.ndim == 0:
-                return int(inputs)
-            elif inputs.ndim == 1 and len(inputs) == self.n_vars:
+            if is_scalar:
+                return int(inputs) if not is_numpy else int(inputs.item())
+            elif is_1d_array and len(inputs) == self.n_vars:
                 # Convert binary vector to integer
                 return sum(int(inputs[i]) * (2**i) for i in range(len(inputs)))
             else:
                 return inputs
 
         elif self.input_format == "binary":
-            if inputs.ndim == 0:
+            if is_scalar:
                 # Convert integer to binary vector
-                x = int(inputs)
+                x = int(inputs) if not is_numpy else int(inputs.item())
                 return [(x >> i) & 1 for i in range(self.n_vars or 8)]
             else:
-                return inputs.tolist()
+                return list(inputs) if not is_numpy else inputs.tolist()
 
         return inputs
 
@@ -186,23 +201,33 @@ class CallableAdapter(BooleanFunctionAdapter):
             BooleanFunction, wrapper_function, n=self.n_vars
         )
 
-    def _call_with_adapted_inputs(self, func: Callable, inputs: np.ndarray) -> bool:
-        """Call function with properly formatted inputs."""
-
+    def _call_with_adapted_inputs(self, func: Callable, inputs) -> bool:
+        """Call function with properly formatted inputs.
+        
+        Args:
+            func: The callable to invoke
+            inputs: Can be numpy array, list, or scalar
+        """
+        # Normalize inputs - determine if scalar or array
+        is_scalar = (
+            isinstance(inputs, (int, np.integer)) or 
+            (isinstance(inputs, np.ndarray) and inputs.ndim == 0)
+        )
+        
         if self.input_type == "binary_vector":
             # Pass as single binary vector argument
-            if inputs.ndim == 0:
+            if is_scalar:
                 # Convert integer to binary vector
-                x = int(inputs)
+                x = int(inputs) if not isinstance(inputs, np.ndarray) else int(inputs.item())
                 binary_vec = [(x >> i) & 1 for i in range(self.n_vars or 8)]
                 return bool(func(binary_vec))
             else:
-                return bool(func(inputs))
+                return bool(func(list(inputs) if not isinstance(inputs, np.ndarray) else inputs))
 
         elif self.input_type == "individual_args":
             # Pass each bit as separate argument
-            if inputs.ndim == 0:
-                x = int(inputs)
+            if is_scalar:
+                x = int(inputs) if not isinstance(inputs, np.ndarray) else int(inputs.item())
                 args = [(x >> i) & 1 for i in range(self.n_vars or 8)]
                 return bool(func(*args))
             else:
@@ -210,8 +235,9 @@ class CallableAdapter(BooleanFunctionAdapter):
 
         elif self.input_type == "integer":
             # Pass as single integer
-            if inputs.ndim == 0:
-                return bool(func(int(inputs)))
+            if is_scalar:
+                x = int(inputs) if not isinstance(inputs, np.ndarray) else int(inputs.item())
+                return bool(func(x))
             else:
                 # Convert binary vector to integer
                 x = sum(int(inputs[i]) * (2**i) for i in range(len(inputs)))

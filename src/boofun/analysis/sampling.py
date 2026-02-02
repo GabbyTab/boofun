@@ -62,11 +62,51 @@ def sample_uniform(n: int, n_samples: int, rng: Optional[np.random.Generator] = 
 
     Returns:
         Array of shape (n_samples,) with integer inputs in [0, 2^n)
+        
+    Raises:
+        ValueError: If n >= 64 (integer overflow limitation)
+        
+    Note:
+        For n >= 64, the range [0, 2^n) exceeds int64 capacity.
+        For such large functions, consider:
+        - Using sample_uniform_bits() which returns bit arrays
+        - Oracle-based evaluation patterns
+        - Streaming/lazy evaluation approaches
     """
     if rng is None:
         rng = np.random.default_rng()
+    
+    if n >= 64:
+        raise ValueError(
+            f"sample_uniform requires n < 64 (got n={n}). "
+            f"For n >= 64, use sample_uniform_bits() which returns bit arrays, "
+            f"or consider oracle-based approaches for such large domains."
+        )
 
     return rng.integers(0, 1 << n, size=n_samples, dtype=np.int64)
+
+
+def sample_uniform_bits(
+    n: int, n_samples: int, rng: Optional[np.random.Generator] = None
+) -> np.ndarray:
+    """
+    Sample uniformly from {0,1}^n, returning bit arrays.
+    
+    This function works for any n (no overflow limitation).
+    
+    Args:
+        n: Number of variables
+        n_samples: Number of samples to draw
+        rng: Random number generator
+        
+    Returns:
+        Array of shape (n_samples, n) with bit values in {0, 1}
+    """
+    if rng is None:
+        rng = np.random.default_rng()
+    
+    # Generate random bits directly
+    return rng.integers(0, 2, size=(n_samples, n), dtype=np.int8)
 
 
 def sample_biased(

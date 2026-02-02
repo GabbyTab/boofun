@@ -30,7 +30,7 @@ def basic_representations():
 
     for inputs, exp in zip(test_cases, expected):
         result = and_func.evaluate(inputs)
-        status = "✓" if result == exp else "✗"
+        status = "[ok]" if result == exp else "[fail]"
         print(f"   AND{inputs} = {result} {status}")
 
 
@@ -66,7 +66,7 @@ def circuit_representations():
 
         for inputs, exp in zip(test_cases, expected):
             result = circuit.evaluate(inputs)
-            status = "✓" if result == exp else "✗"
+            status = "[ok]" if result == exp else "[fail]"
             print(f"   XOR_circuit{inputs} = {result} {status}")
 
         print("\n3. Circuit information:")
@@ -78,7 +78,7 @@ def circuit_representations():
         return True
 
     except ImportError as e:
-        print(f"   ⚠️  Circuit representation not available: {e}")
+        print(f"   [WARN]  Circuit representation not available: {e}")
         return False
 
 
@@ -105,7 +105,7 @@ def bdd_representations():
 
         for inputs, exp in zip(test_cases, expected):
             result = bdd.evaluate(inputs)
-            status = "✓" if result == exp else "✗"
+            status = "[ok]" if result == exp else "[fail]"
             print(f"   BDD(x0){inputs} = {result} {status}")
 
         print("\n3. BDD properties:")
@@ -116,7 +116,7 @@ def bdd_representations():
         return True
 
     except ImportError as e:
-        print(f"   ⚠️  BDD representation not available: {e}")
+        print(f"   [WARN]  BDD representation not available: {e}")
         return False
 
 
@@ -147,9 +147,9 @@ def representation_conversions():
                 original_func.get_representation("truth_table"), rep_type
             )
             successful_conversions.append(rep_name)
-            print(f"   ✓ {rep_name} conversion successful")
+            print(f"   [ok] {rep_name} conversion successful")
         except Exception as e:
-            print(f"   ⚠️  {rep_name} conversion: {str(e)[:50]}...")
+            print(f"   [WARN]  {rep_name} conversion: {str(e)[:50]}...")
 
     print(
         f"\n3. Successfully converted to {len(successful_conversions)} additional representations"
@@ -170,7 +170,7 @@ def representation_conversions():
                 pass
 
         if len(set(results)) <= 1:  # All results are the same
-            print(f"   {inputs}: All representations agree ✓")
+            print(f"   {inputs}: All representations agree [ok]")
         else:
             print(f"   {inputs}: Inconsistent results: {results}")
 
@@ -263,14 +263,14 @@ def main():
         representation_conversions()
         advanced_function_analysis()
 
-        print("\n✅ All representation examples completed!")
+        print("\n[PASS] All representation examples completed!")
         print("\nNext steps:")
         print("  - Try visualization: python examples/visualization_examples.py")
         print("  - Explore the library: python examples/usage.py")
         print("  - Run tests: pytest tests/integration/")
 
     except Exception as e:
-        print(f"❌ Error in representation examples: {e}")
+        print(f"[FAIL] Error in representation examples: {e}")
         import traceback
 
         traceback.print_exc()
