@@ -36,7 +36,7 @@ __all__ = [
 
 def _random_subset(n: int, rng: np.random.Generator) -> int:
     """Generate a random subset of [n] as a bitmask.
-    
+
     Raises:
         ValueError: If n >= 64 (overflow)
     """
@@ -67,7 +67,7 @@ def estimate_fourier_coefficient(
 
     Returns:
         Tuple of (estimate, standard_error)
-        
+
     Raises:
         ValueError: If n >= 64 (use sampling.estimate_fourier_coefficient instead)
     """
@@ -77,7 +77,7 @@ def estimate_fourier_coefficient(
     n = f.n_vars or 0
     if n == 0:
         return (float(f.evaluate(0)), 0.0)
-    
+
     if n >= 64:
         raise ValueError(
             f"estimate_fourier_coefficient in learning.py requires n < 64 (got n={n}). "

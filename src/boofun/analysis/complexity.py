@@ -497,21 +497,22 @@ class ComplexityProfile:
 # Standard notation aliases
 # =============================================================================
 
+
 def D(f: "BooleanFunction") -> int:
     """
     Decision tree depth D(f).
-    
+
     Alias for :func:`decision_tree_depth`.
-    
+
     The minimum number of adaptive queries needed to compute f(x)
     in the worst case.
-    
+
     Args:
         f: BooleanFunction to analyze
-        
+
     Returns:
         Optimal decision tree depth
-        
+
     Example:
         >>> from boofun.analysis import complexity
         >>> maj_5 = bf.majority(5)
@@ -524,19 +525,19 @@ def D(f: "BooleanFunction") -> int:
 def s(f: "BooleanFunction", value: Optional[int] = None) -> int:
     """
     Max sensitivity s(f).
-    
+
     Alias for :func:`max_sensitivity`.
-    
+
     The maximum number of Hamming neighbors x' of any input x
     where f(x') != f(x).
-    
+
     Args:
         f: BooleanFunction to analyze
         value: If specified (0 or 1), only consider inputs where f(x) = value
-        
+
     Returns:
         Maximum sensitivity
-        
+
     Example:
         >>> from boofun.analysis import complexity
         >>> maj_5 = bf.majority(5)

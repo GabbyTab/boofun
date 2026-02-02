@@ -83,53 +83,54 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
 
     def _evaluate_variable_expression(self, inputs, expr, variables, space, n_vars):
         """Evaluate symbolic expression with variable names.
-        
+
         Handles different input formats:
         - Integer index (e.g., 5) -> single evaluation, convert to binary
         - 1D array matching n_vars (e.g., [0, 1]) -> single evaluation, use as bit vector
         - 2D array (e.g., [[0,0], [0,1]]) -> batch evaluation
         """
         inputs_array = np.atleast_1d(inputs)
-        
+
         def evaluate_single_point(inp):
             """Evaluate at a single input point (integer or bit vector)."""
-            if isinstance(inp, (int, np.integer)) or (isinstance(inp, np.ndarray) and inp.ndim == 0):
+            if isinstance(inp, (int, np.integer)) or (
+                isinstance(inp, np.ndarray) and inp.ndim == 0
+            ):
                 # Integer input - convert to binary
                 x = int(inp)
                 context = {var: bool((x >> i) & 1) for i, var in enumerate(variables)}
             elif hasattr(inp, "__len__"):
                 # Binary vector input
                 context = {
-                    var: bool(inp[i]) if i < len(inp) else False
-                    for i, var in enumerate(variables)
+                    var: bool(inp[i]) if i < len(inp) else False for i, var in enumerate(variables)
                 }
             else:
                 # Scalar that we can convert
                 context = {var: bool((int(inp) >> i) & 1) for i, var in enumerate(variables)}
-            
+
             try:
                 result = eval(expr, {"__builtins__": {}}, context)
                 return bool(result)
             except Exception as e:
                 _logger.debug(f"Symbolic expression evaluation failed: {e}")
                 return False
-        
+
         # Determine if this is a single evaluation or batch
         # Single evaluation: scalar, 0-d array, or 1-d array matching n_vars
         is_single = (
-            np.isscalar(inputs) or 
-            (isinstance(inputs, np.ndarray) and inputs.ndim == 0) or
-            (inputs_array.ndim == 1 and len(inputs_array) == n_vars)
+            np.isscalar(inputs)
+            or (isinstance(inputs, np.ndarray) and inputs.ndim == 0)
+            or (inputs_array.ndim == 1 and len(inputs_array) == n_vars)
         )
-        
+
         if is_single:
             return evaluate_single_point(inputs)
-        
+
         # Batch evaluation - inputs is 2D or 1D with batch of integers
         results = []
         for inp in inputs_array:
             results.append(evaluate_single_point(inp))
-        
+
         return np.array(results)
 
     def dump(self, data: Tuple[str, List[str]], space=None, **kwargs) -> Dict[str, Any]:

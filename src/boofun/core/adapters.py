@@ -108,21 +108,17 @@ class LegacyAdapter(BooleanFunctionAdapter):
 
     def _adapt_inputs(self, inputs) -> Any:
         """Convert inputs to legacy format.
-        
+
         Args:
             inputs: Can be numpy array, list, or scalar
         """
         # Determine input characteristics
         is_numpy = isinstance(inputs, np.ndarray)
-        is_scalar = (
-            isinstance(inputs, (int, np.integer)) or 
-            (is_numpy and inputs.ndim == 0)
+        is_scalar = isinstance(inputs, (int, np.integer)) or (is_numpy and inputs.ndim == 0)
+        is_1d_array = (is_numpy and inputs.ndim == 1) or (
+            isinstance(inputs, (list, tuple)) and not is_scalar
         )
-        is_1d_array = (
-            (is_numpy and inputs.ndim == 1) or
-            (isinstance(inputs, (list, tuple)) and not is_scalar)
-        )
-        
+
         if self.input_format == "auto":
             # Try to detect format
             if is_scalar:
@@ -203,17 +199,16 @@ class CallableAdapter(BooleanFunctionAdapter):
 
     def _call_with_adapted_inputs(self, func: Callable, inputs) -> bool:
         """Call function with properly formatted inputs.
-        
+
         Args:
             func: The callable to invoke
             inputs: Can be numpy array, list, or scalar
         """
         # Normalize inputs - determine if scalar or array
-        is_scalar = (
-            isinstance(inputs, (int, np.integer)) or 
-            (isinstance(inputs, np.ndarray) and inputs.ndim == 0)
+        is_scalar = isinstance(inputs, (int, np.integer)) or (
+            isinstance(inputs, np.ndarray) and inputs.ndim == 0
         )
-        
+
         if self.input_type == "binary_vector":
             # Pass as single binary vector argument
             if is_scalar:
