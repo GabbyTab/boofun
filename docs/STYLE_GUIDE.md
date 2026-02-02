@@ -118,3 +118,28 @@ Before committing, ask:
 5. **Domain/Codomain**: Are types obvious from the signature?
 
 If any answer is wrong, fix it.
+
+---
+
+## Documentation & Notebooks
+
+**Tone**: Clear, mathematical, concise. Let examples speak for themselves.
+
+```markdown
+# Bad: Self-promotion
+"The POWER of the library: test ANY function!"
+"This incredibly useful feature..."
+
+# Good: Just show it
+# Testing user-defined functions
+def my_hash(x): ...
+f = bf.create(my_hash, n=5)
+tester.blr_linearity_test(f)  # Works on any function
+```
+
+**Rules**:
+- No emojis in technical content
+- No "power of" / "incredibly" / "amazing" language
+- Quality is self-evident from examples, not claims
+- Prefer equations and code over prose
+- Keep notebooks short — one concept per section
