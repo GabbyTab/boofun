@@ -4,6 +4,11 @@ BooFun is a modular Boolean function analysis library designed around lazy evalu
 
 ## Architecture Diagram
 
+![BooFun Architecture](architecture_diagram.png)
+
+<details>
+<summary>Mermaid source (for GitHub rendering)</summary>
+
 ```mermaid
 flowchart TB
     subgraph API["Public API"]
@@ -104,6 +109,8 @@ flowchart TB
     Analysis --> Math
     Core --> Exceptions
 ```
+
+</details>
 
 ## Component Overview
 
