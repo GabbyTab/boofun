@@ -36,6 +36,7 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
    :maxdepth: 2
    :caption: Reference:
 
+   architecture
    comparison_guide
    performance
    error_handling
@@ -64,17 +65,18 @@ Usage
    import boofun as bf
 
    # Create
-   xor = bf.create([0, 1, 1, 0])
-   maj = bf.majority(5)
+   xor_2 = bf.create([0, 1, 1, 0])
+   maj_5 = bf.majority(5)
 
-   # Evaluate
-   maj.evaluate([1, 1, 0, 0, 1])  # 1
+   # Evaluate (callable syntax)
+   maj_5([1, 1, 0, 0, 1])  # True
+   maj_5(7)                # True (7 = 00111)
 
    # Analyze
-   maj.fourier()           # Fourier coefficients
-   maj.influences()        # Variable influences
-   maj.noise_stability(0.9)
-   maj.is_monotone()
+   maj_5.fourier()           # Fourier coefficients
+   maj_5.influences()        # Variable influences
+   maj_5.noise_stability(0.9)
+   maj_5.is_monotone()
 
 Convention
 ----------
