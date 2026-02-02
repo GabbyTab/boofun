@@ -78,7 +78,9 @@ class BooleanFunction(Evaluable, Representable):
         self.error_model = error_model or ExactErrorModel()
         self.tracking = kwargs.get("tracking")
         self.restrictions = kwargs.get("restrictions")
-        self.n_vars = kwargs.get("n") or kwargs.get("n_vars")
+        # Use explicit None check to handle n=0 (constant functions) correctly
+        n = kwargs.get("n")
+        self.n_vars = n if n is not None else kwargs.get("n_vars")
         self._metadata = kwargs.get("metadata", {})
         self.nickname = kwargs.get("nickname") or "x_0"
 

@@ -97,6 +97,31 @@ class TestFixOperations:
         with pytest.raises(ValueError):
             xor.fix(-1, 0)
 
+    def test_fix_all_variables_gives_constant(self):
+        """Test that fixing all variables gives a constant function with n_vars=0."""
+        # Parity-2: f(x0, x1) = x0 XOR x1
+        xor = bf.create([0, 1, 1, 0])
+
+        # Fix both variables: should give constant with n_vars=0
+        f_const = xor.fix([0, 1], [1, 0])
+        assert f_const.n_vars == 0  # Not None!
+        assert f_const.evaluate(0) == True  # 1 XOR 0 = 1
+
+        # Comparison should work without TypeError
+        assert f_const.n_vars >= 0
+        assert not (f_const.n_vars > 0)
+
+    def test_constant_function_n_vars_is_zero(self):
+        """Test that constant functions have n_vars=0, not None."""
+        # Create constant function directly
+        const = bf.create([1], n=0)
+        assert const.n_vars == 0
+        assert const.n_vars is not None
+
+        # Comparison operators should work
+        assert const.n_vars >= 0
+        assert const.n_vars == 0
+
 
 class TestDerivative:
     """Tests for the derivative operation."""
