@@ -112,12 +112,8 @@ class TestKnownFunctions:
         """Dictator (single variable): linear, balanced, is a dictator."""
         for n in [3, 4, 5]:
             for i in range(n):
-                # Create dictator on variable i
-                def dictator_i(x, var=i, num_vars=n):
-                    bits = [(x >> j) & 1 for j in range(num_vars)]
-                    return bits[var]
-
-                f = bf.create(dictator_i, n=n)
+                # Use built-in dictator function
+                f = bf.dictator(n, i)
                 tester = PropertyTester(f, random_seed=42)
 
                 # Dictator is linear
