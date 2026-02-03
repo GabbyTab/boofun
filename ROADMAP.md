@@ -573,7 +573,95 @@ tracker.observe(n_values=[...])  # Computes, using best algorithm for each n
 - [ ] Interactive parameter sliders (Jupyter widgets)
 - [ ] Export to LaTeX/TikZ
 
-### 5. PAC Learning and Estimation Enhancements
+### 5. Globality Properties in PropertyStore
+
+**Status:** Planning
+
+Add α-globality as a first-class property in the `PropertyStore`, enabling lazy computation and caching of global hypercontractivity measures.
+
+#### Motivation
+
+Currently, `is_alpha_global()` is a standalone function. Integrating it into `PropertyStore` would:
+1. Allow caching of computed generalized influences
+2. Enable property-based testing (`f.is_global(alpha)`)
+3. Support automatic algorithm selection (exact vs Monte Carlo)
+
+#### Proposed API
+
+```python
+# Simple check
+f.is_global(alpha=4.0)  # Returns bool
+
+# Full details with caching
+f.globality_alpha(max_set_size=3)  # Returns minimum α for which f is α-global
+
+# Property access
+f.properties.get('alpha_global')  # Cached minimum α
+f.properties.get('max_generalized_influence')  # Cached max I_S
+f.properties.get('worst_influence_set')  # The set S achieving max I_S
+
+# Computed generalized influences
+f.generalized_influence({0, 1})  # I_{0,1}(f) with caching
+```
+
+#### Implementation Tasks
+
+| Task | Priority | Complexity |
+|------|----------|------------|
+| Add `alpha_global` property to PropertyStore | High | Medium |
+| Add `f.is_global(alpha)` method to BooleanFunction | High | Low |
+| Add `f.generalized_influence(S)` method | Medium | Low |
+| Cache generalized influences in PropertyStore | Medium | Medium |
+| Add tests for globality properties | High | Medium |
+
+### 6. P-Biased Measures in Spaces Module
+
+**Status:** Planning
+
+Move p-biased measure functionality into the `core/spaces.py` module, treating p-biased measures as a fundamental space alongside the existing boolean/±1 cubes.
+
+#### Motivation
+
+Currently, p-biased analysis is scattered across modules. A unified approach would:
+1. Treat `μ_p` as a first-class measure on the hypercube
+2. Enable consistent p-biased expectation, variance, norms across the library
+3. Support space-aware property computation
+
+#### Proposed Architecture
+
+```python
+from boofun.core.spaces import Space, Measure
+
+# Measures as first-class objects
+uniform = Measure.uniform()        # p = 0.5
+biased = Measure.p_biased(p=0.1)   # μ_p with p = 0.1
+
+# Function properties under different measures
+f.expectation(measure=biased)       # E_μp[f]
+f.variance(measure=biased)          # Var_μp[f]  
+f.total_influence(measure=biased)   # I^p[f]
+f.noise_stability(rho, measure=biased)  # S_ρ^p[f]
+
+# Fourier analysis under measures
+analyzer = SpectralAnalyzer(f, measure=biased)
+analyzer.fourier_coefficients()  # p-biased Fourier coefficients
+
+# Space translation with measures
+Space.translate(x, Space.BOOLEAN_CUBE, Space.PLUS_MINUS_CUBE, measure=biased)
+```
+
+#### Implementation Tasks
+
+| Task | Priority | Complexity |
+|------|----------|------------|
+| Add `Measure` class to `core/spaces.py` | High | Medium |
+| Add `Measure.uniform()` and `Measure.p_biased(p)` | High | Low |
+| Extend `BooleanFunction` methods to accept `measure` param | High | High |
+| Migrate `analysis/p_biased.py` to use Measure | Medium | Medium |
+| Update `SpectralAnalyzer` to support measures | Medium | High |
+| Add tests for measure-aware computations | High | Medium |
+
+### 7. PAC Learning and Estimation Enhancements
 
 **Status:** Planning
 
