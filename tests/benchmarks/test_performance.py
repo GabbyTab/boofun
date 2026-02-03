@@ -97,9 +97,8 @@ class TestQuerySafety:
 
         def counting_parity(x):
             query_counter.calls += 1
-            if isinstance(x, np.ndarray):
-                x = int(x.item()) if x.ndim == 0 else int(x[0])
-            return bin(int(x)).count("1") % 2
+            # x is now a list of bits
+            return sum(x) % 2
 
         f = bf.create(counting_parity, n=30)  # Large n
         query_counter.reset()
@@ -115,9 +114,8 @@ class TestQuerySafety:
 
         def counting_func(x):
             query_counter.calls += 1
-            if isinstance(x, np.ndarray):
-                x = int(x.item()) if x.ndim == 0 else int(x[0])
-            return bin(int(x)).count("1") >= 2
+            # x is now a list of bits
+            return sum(x) >= 2
 
         f = bf.create(counting_func, n=30)
         query_counter.reset()
@@ -188,9 +186,8 @@ class TestScaling:
         """BLR test should be O(1) in n."""
 
         def simple_func(x):
-            if isinstance(x, np.ndarray):
-                x = int(x.item()) if x.ndim == 0 else int(x[0])
-            return bin(int(x)).count("1") % 2
+            # x is now a list of bits - parity is sum mod 2
+            return sum(x) % 2
 
         f = bf.create(simple_func, n=n)
 

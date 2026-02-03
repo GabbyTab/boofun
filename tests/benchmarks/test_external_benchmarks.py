@@ -468,11 +468,8 @@ class TestODonnellExamples:
         n = 5
         rho = 0.9
 
-        # Create dictator (first variable)
-        def dict_0(x):
-            return x & 1
-
-        dictator = bf.create(dict_0, n=n)
+        # Use built-in dictator (first variable)
+        dictator = bf.dictator(n, 0)
 
         # Majority
         majority = bf.majority(n)
