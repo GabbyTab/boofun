@@ -638,7 +638,7 @@ biased = Measure.p_biased(p=0.1)   # μ_p with p = 0.1
 
 # Function properties under different measures
 f.expectation(measure=biased)       # E_μp[f]
-f.variance(measure=biased)          # Var_μp[f]  
+f.variance(measure=biased)          # Var_μp[f]
 f.total_influence(measure=biased)   # I^p[f]
 f.noise_stability(rho, measure=biased)  # S_ρ^p[f]
 
