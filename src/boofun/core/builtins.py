@@ -84,14 +84,19 @@ class BooleanFunctionBuiltins:
     @classmethod
     def tribes(cls, k: int, n: int) -> "BooleanFunction":
         """
-        Generate tribes function (k-wise AND of n/k ORs).
+        Generate tribes function (AND of ⌈n/k⌉ ORs, each of size k).
 
         The tribes function divides n variables into groups of k,
-        computes OR within each group, then AND across groups.
+        computes OR within each group, then AND across groups:
+
+            Tribes_{k,n}(x) = ⋀_{j=1}^{⌈n/k⌉} ⋁_{i∈T_j} x_i
+
+        This is the **dual tribes** convention (AND-of-ORs). The textbook tribes
+        (O'Donnell Ch. 4) uses OR-of-ANDs; the two are related by negation.
 
         Args:
-            k: Size of each tribe (group)
-            n: Total number of variables (should be divisible by k)
+            k: Size of each tribe (number of variables per group)
+            n: Total number of variables
 
         Returns:
             BooleanFunction implementing the tribes function

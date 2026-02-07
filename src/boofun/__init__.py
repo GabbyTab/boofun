@@ -162,10 +162,18 @@ def tribes(k: int, n: int) -> BooleanFunction:
     """
     Create tribes function: AND of ORs on groups of k variables.
 
-    Tribes_{k,n}(x) = ⋀_{j=1}^{n/k} ⋁_{i∈T_j} x_i
+    Tribes_{k,n}(x) = ⋀_{j=1}^{⌈n/k⌉} ⋁_{i∈T_j} x_i
 
-    Example:
-        >>> t = bf.tribes(2, 4)  # (x₁ ∨ x₂) ∧ (x₃ ∨ x₄)
+    This is the **dual tribes** convention (AND-of-ORs). The textbook tribes
+    (O'Donnell Ch. 4) uses OR-of-ANDs; the two are related by negation.
+
+    Args:
+        k: Size of each tribe (number of variables per group)
+        n: Total number of variables (if not divisible by k, last group is smaller)
+
+    Examples:
+        >>> t = bf.tribes(2, 4)  # (x₀ ∨ x₁) ∧ (x₂ ∨ x₃), 4 variables
+        >>> t = bf.tribes(3, 9)  # (x₀∨x₁∨x₂) ∧ (x₃∨x₄∨x₅) ∧ (x₆∨x₇∨x₈), 9 variables
     """
     return BooleanFunctionBuiltins.tribes(k, n)
 
