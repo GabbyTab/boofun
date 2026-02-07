@@ -213,7 +213,7 @@ inv = InvarianceAnalyzer(f)
 inv.invariance_bound()          # O(max Inf^{1/4}) bound
 inv.compare_domains()           # Boolean vs Gaussian stats
 inv.noise_stability_deficit(rho)  # Gap from Majority
-inv.is_stablest_candidate()     # Check MiS conditions
+inv.is_stablest_candidate()     # Check Majority-is-Stablest conditions
 
 # Gaussian analysis
 ga = GaussianAnalyzer(f)
