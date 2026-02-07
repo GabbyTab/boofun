@@ -19,7 +19,7 @@
 
 ## What This Is
 
-A toolkit for Boolean function analysis: Fourier analysis, property testing, query complexity, and more. Built while studying O'Donnell's *Analysis of Boolean Functions*.
+A toolkit for Boolean function analysis: Fourier analysis, property testing, query complexity, and more. Covers the probabilistic perspective (p-biased measures, threshold phenomena, Monte Carlo estimation), cryptographic analysis (nonlinearity, bent functions), the invariance principle, and connections to pseudorandomness. Built while studying O'Donnell's *Analysis of Boolean Functions*.
 
 **[Full Documentation](https://gabbytab.github.io/boofun/)** · **[Quick Start](https://gabbytab.github.io/boofun/quickstart.html)**
 
@@ -89,6 +89,7 @@ Detailed documentation for each topic:
 - **[Hypercontractivity](https://gabbytab.github.io/boofun/guides/hypercontractivity.html)**: KKL, Bonami, Friedgut, global hypercontractivity
 - **[Learning Theory](https://gabbytab.github.io/boofun/guides/learning.html)**: Goldreich-Levin, PAC learning, junta learning, LMN
 - **[Cryptographic Analysis](https://gabbytab.github.io/boofun/guides/cryptographic.html)**: Nonlinearity, bent, LAT/DDT, S-box
+- **[Probabilistic View](https://gabbytab.github.io/boofun/guides/probabilistic.html)**: Random variables, p-biased measures, estimation, pseudorandomness
 - **[Representations](https://gabbytab.github.io/boofun/guides/representations.html)**: All formats, conversion graph, storage hints
 - **[Operations](https://gabbytab.github.io/boofun/guides/operations.html)**: Boolean operators, composition, restriction, permutation
 - **[Advanced Topics](https://gabbytab.github.io/boofun/guides/advanced.html)**: Gaussian, invariance, communication complexity, LTF, restrictions

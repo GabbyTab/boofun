@@ -30,6 +30,7 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
    guides/representations
    guides/operations
    guides/families
+   guides/probabilistic
    guides/advanced
 
 .. toctree::
@@ -99,7 +100,9 @@ What's Here
 
 * **Hypercontractivity**: Noise operator, Bonami's Lemma, KKL theorem, Friedgut's junta theorem
 * **Global Hypercontractivity**: p-biased analysis, threshold phenomena (Keevash et al.)
+* **Invariance Principle**: Gaussian analysis, Berry-Esseen bounds, Majority is Stablest
 * **Cryptographic Analysis**: Nonlinearity, bent functions, LAT/DDT, S-box analysis
+* **Probabilistic View**: Monte Carlo estimation, p-biased measures, spectral sampling
 * **Partial Functions**: Streaming specification, hex I/O, storage hints
 * **Advanced Sensitivity**: Moments, histograms, p-biased sensitivity
 * **Decision Trees**: DP algorithms, tree enumeration, randomized complexity
@@ -111,9 +114,11 @@ Features not found in other Boolean function libraries:
 
 * **Global hypercontractivity** analysis (Keevash, Lifshitz, Long & Minzer)
 * **Full query complexity suite** (D, R, Q, Ambainis, spectral adversary)
+* **Invariance principle** with Gaussian analysis and Berry-Esseen bounds
 * **Property testing** with probability bounds
 * **Family tracking** for asymptotic analysis
-* **Monte Carlo Fourier estimation** via sampling
+* **Monte Carlo Fourier estimation** via sampling — scales beyond exact computation
+* **Pseudorandomness connections** — spectral concentration, threshold phenomena
 * **O'Donnell textbook alignment** with educational notebooks
 
 Test Coverage
