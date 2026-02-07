@@ -11,6 +11,15 @@ Formatting is handled by CI. This is about *how* we write code.
 | **Fail Loud** | Errors should scream, not whisper. |
 | **Functional** | Pure functions. No mutation. |
 | **Domain/Codomain** | Always document what goes in and out. |
+| **Deterministic** | Same inputs → same outputs. Always. |
+
+### When Principles Conflict
+
+Use this precedence:
+
+**Correctness → Determinism → Clarity (KISS) → DRY → Performance**
+
+Example: a cache improves performance and avoids recomputation (DRY), but if it makes behavior harder to reason about (KISS) or introduces nondeterminism, skip it.
 
 ---
 
@@ -69,6 +78,40 @@ result = (values < 0).astype(bool)  # Destroys magnitude!
 
 **Rule**: Never silently coerce, truncate, or threshold.
 
+### assert vs raise
+
+In **library code**, use explicit `raise ValueError(...)` for validation. Python's `-O` flag strips `assert` statements, so `assert` is not a reliable guard in production.
+
+In **test code**, use plain `assert` freely — pytest rewrites assertions for helpful error output.
+
+```python
+# Good: library validation
+if n <= 0:
+    raise ValueError(f"n must be positive, got {n}")
+
+# Good: test assertion
+assert np.isclose(result, expected), f"Got {result}, expected {expected}"
+
+# Bad: library validation via assert (stripped by -O)
+assert n > 0  # Disappears in optimized mode!
+```
+
+### Exception chaining
+
+When translating low-level exceptions into domain exceptions, always chain with `from`:
+
+```python
+# Good: preserves causal context
+try:
+    truth_table = f.get_representation("truth_table")
+except KeyError as e:
+    raise ConversionError(f"Cannot get truth table for {f}") from e
+
+# Bad: loses the original traceback
+except KeyError:
+    raise ConversionError("Cannot get truth table")
+```
+
 ---
 
 ## Functional
@@ -104,6 +147,38 @@ def convolution(f: BooleanFunction, g: BooleanFunction) -> np.ndarray:
 ```
 
 **Rule**: Reader should know types without reading the code.
+
+**Rule**: Public functions MUST have type hints on all parameters and return values.
+
+```python
+# Good: types are part of the interface
+def noise_stability(f: BooleanFunction, rho: float) -> float: ...
+
+# Bad: reader has to guess
+def noise_stability(f, rho): ...
+```
+
+---
+
+## Determinism
+
+Monte Carlo results must be reproducible. Randomness is a controlled input, not an accident.
+
+```python
+# Good: caller controls the seed
+def estimate_influence(f, i, n_samples, rng=None):
+    rng = rng or np.random.default_rng()
+    ...
+
+# Good: notebook sets seed once at the top
+np.random.seed(42)
+
+# Bad: hidden nondeterminism
+def estimate_influence(f, i, n_samples):
+    samples = np.random.randint(...)  # Which seed? Unknown!
+```
+
+**Rule**: Any function that uses randomness SHOULD accept an `rng` parameter (or seed). Notebooks MUST set a seed at the top.
 
 ---
 

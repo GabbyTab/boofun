@@ -94,6 +94,52 @@ Before writing a test, answer:
 
 ---
 
+## Property-Based Testing with Hypothesis
+
+Parameterized tests cover *specific* cases. Property-based tests cover *invariants* that must hold across all inputs.
+
+BooFun uses [Hypothesis](https://hypothesis.readthedocs.io/) for this. Key properties to test:
+
+```python
+from hypothesis import given, strategies as st
+
+@given(n=st.integers(min_value=1, max_value=8))
+def test_parseval_identity_any_majority(n):
+    """Parseval: Σ f̂(S)² = 1 for any ±1-valued f."""
+    if n % 2 == 0:
+        n += 1  # Majority needs odd n
+    f = bf.majority(n)
+    assert np.isclose(sum(f.fourier()**2), 1.0)
+
+@given(n=st.integers(min_value=1, max_value=6))
+def test_influences_are_nonnegative(n):
+    """Influences are probabilities: always in [0, 1]."""
+    f = bf.random(n)
+    for inf in f.influences():
+        assert 0 <= inf <= 1
+```
+
+**When to use property tests**: monotonicity, symmetry, Parseval, nonnegativity, consistency between related functions (e.g., `is_linear` ↔ `nonlinearity`).
+
+---
+
+## Cross-Validation Testing
+
+The strongest tests verify library output against **independent computations**: closed-form formulas, other libraries, or hand-calculated values.
+
+```python
+def test_majority_total_influence_exact(self):
+    """Cross-validate against closed-form: I[Maj_n] = n * C(n-1,(n-1)/2) / 2^(n-1)."""
+    from math import comb
+    for n in [3, 5, 7, 9]:
+        exact = n * comb(n - 1, (n - 1) // 2) / (2 ** (n - 1))
+        assert np.isclose(bf.majority(n).total_influence(), exact)
+```
+
+**Rule**: For every mathematical function, there should be at least one test that computes the expected value *independently* of the library code being tested.
+
+---
+
 ## Test Template
 
 ```python
