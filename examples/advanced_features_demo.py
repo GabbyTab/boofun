@@ -328,10 +328,11 @@ def demo_error_models():
 
 
 def demo_quantum_complexity():
-    """Demonstrate quantum complexity bound computation."""
-    print("\n[COMPLEXITY] Quantum Complexity Bounds Demo")
+    """Demonstrate quantum complexity bound computation (experimental)."""
+    print("\n[COMPLEXITY] Quantum Complexity Bounds Demo (experimental)")
     print("=" * 50)
-    print("Note: All computations are classical (closed-form formulas).\n")
+    print("This is a playground — all computations are classical (closed-form formulas).")
+    print("We're still figuring out what to build here. See ROADMAP.md for v2.0.0 plans.\n")
 
     from boofun.quantum_complexity import (
         QuantumComplexityAnalyzer,

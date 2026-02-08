@@ -67,10 +67,11 @@ BooFun focuses on theoretical computer science: Fourier analysis (O'Donnell styl
 - Difference Distribution Table (DDT)
 - S-box analyzer
 
-**Quantum Complexity Bounds** (classical computation of quantum query estimates):
-- Grover complexity bounds
-- Quantum walk complexity bounds
+**Quantum Complexity Bounds** (experimental playground — classical computation of quantum query estimates):
+- Grover complexity bounds (closed-form formulas)
+- Quantum walk complexity bounds (analytical)
 - Element distinctness analysis
+- *Actual quantum simulation planned for v2.0.0*
 
 ## What BooFun Lacks
 

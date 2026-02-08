@@ -4,12 +4,16 @@ Tutorial 7: Quantum Complexity Bounds with BooFun
 ====================================================
 
 Boolean function analysis has deep connections to quantum computing.
-This tutorial explores quantum query complexity bounds — what we can
-compute *classically* about how quantum algorithms would perform.
+This tutorial is a playground for exploring those connections — what we
+can figure out *classically* about how quantum algorithms would perform
+on different Boolean functions.
 
-**Important:** Everything in this tutorial runs on a classical CPU.
-We are computing closed-form complexity bounds from quantum query
-complexity theory, not simulating quantum circuits.
+**Status:** This is an experimental part of BooFun. Everything here runs
+on a classical CPU — we're computing textbook formulas, not simulating
+quantum circuits. Think of it as a sketch pad for building intuition
+about quantum query complexity. We're still figuring out what belongs
+here and what's most useful; actual quantum simulation is planned for
+v2.0.0.
 
 Topics covered:
 - Quantum query complexity (theoretical bounds)
@@ -29,7 +33,7 @@ from boofun.quantum_complexity import (
 
 print("=" * 60)
 print("Tutorial 7: Quantum Complexity Bounds")
-print("  (classical computation of quantum query estimates)")
+print("  (experimental playground — all classical computation)")
 print("=" * 60)
 
 # =============================================================================
@@ -307,10 +311,12 @@ for name, f in functions:
 # =============================================================================
 print("\n" + "=" * 60)
 print("Key Takeaways:")
+print("- This module is an experimental playground — API may change")
 print("- grover_speedup(f): Computes Grover's algorithm complexity bounds")
 print("- quantum_walk_bounds(f): Computes quantum walk complexity bounds")
-print("- element_distinctness_analysis(): Analyzes collision structure + O(n^(2/3)) bound")
-print("- All computations are classical — no quantum simulation")
+print("- element_distinctness_analysis(): Collision structure + O(n^(2/3)) bound")
+print("- All computations are classical — no quantum simulation yet")
 print("- Use boofun.analysis.query_complexity for lower bounds (Ambainis, etc.)")
-print("- Full quantum simulation planned for v2.0.0")
+print("- We're thinking about what real quantum simulation should look like")
+print("  for v2.0.0 — ideas welcome! See CONTRIBUTING.md")
 print("=" * 60)

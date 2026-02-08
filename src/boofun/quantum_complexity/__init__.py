@@ -1,41 +1,52 @@
 """
 Classical simulation of quantum query models for Boolean functions.
 
-.. note:: **Work in Progress — Classical Computations Only**
+.. warning:: **Experimental playground — API will change**
 
-   Everything in this module runs on a classical CPU. There is no quantum
-   hardware or quantum simulator involved (unless you install Qiskit and
-   explicitly call :meth:`create_quantum_oracle`, which builds a circuit
-   object but does not execute it).
+   This module is an **exploratory sandbox** for thinking about quantum
+   query complexity in the context of Boolean function analysis. It is
+   *not* a finished feature. The API is unstable, the scope is still
+   being figured out, and everything here may be reorganized, expanded,
+   or removed in a future release.
 
-   What this module *actually* provides:
+   **Everything runs on a classical CPU.** There is no quantum hardware
+   or quantum simulator involved. The functions compute closed-form
+   formulas from textbooks (Grover iteration counts, quantum walk hitting
+   times, etc.) — useful for building intuition, but not a substitute
+   for actual quantum simulation.
 
-   * **Grover complexity bounds** — closed-form formulas for the query
-     count and success probability of Grover's algorithm, given the
-     number of satisfying assignments.
-   * **Quantum walk complexity bounds** — analytical estimates of
-     Szegedy quantum walk hitting times on the Boolean hypercube.
-   * **Element distinctness analysis** — classical enumeration of
-     collision structure plus the known O(N^{2/3}) quantum upper bound.
-   * **Oracle circuit construction** — a valid Qiskit ``QuantumCircuit``
-     (if Qiskit is installed) implementing the standard phase oracle.
-     The circuit is never executed.
+   What's here today:
+
+   * **Grover complexity bounds** — closed-form ``O(√(N/M))`` formulas.
+   * **Quantum walk complexity bounds** — analytical Szegedy walk
+     estimates on the Boolean hypercube.
+   * **Element distinctness analysis** — classical collision enumeration
+     plus the known ``O(N^{2/3})`` quantum upper bound.
+   * **Oracle circuit construction** — a Qiskit ``QuantumCircuit`` that
+     implements the standard phase oracle (if Qiskit is installed).
+     The circuit is built but **never executed**.
+
+   What we're thinking about for v2.0.0 (see ROADMAP.md):
+
+   * A lightweight statevector simulator so Grover / walk results come
+     from actual simulated quantum dynamics, not just formulas.
+   * Optional Qiskit/Cirq backends for larger simulations.
+   * Genuine quantum property testers (BLR, monotonicity, junta).
+   * Comparing simulated vs. analytical results side by side.
+
+   If you have ideas about what would be most useful here, we'd love
+   to hear them — see CONTRIBUTING.md.
 
    The ``boofun.analysis.query_complexity`` module provides the
    complementary quantum *lower bounds* (Ambainis adversary, spectral
-   adversary, polynomial method, etc.).  Those functions are correctly
-   named after the mathematical objects they compute and do not need
-   renaming.
-
-   Full quantum simulation support is planned for BooFun v2.0.0
-   (see ROADMAP.md).
+   adversary, polynomial method).  Those are mature, well-tested, and
+   correctly named.
 
    **What was removed (v1.3.0):** The previous ``quantum`` module
-   contained classical algorithms dressed up with ``quantum_`` prefixes
-   — Fourier analysis, influence estimation, linearity/monotonicity/junta
-   testing — that duplicated functionality already available in
-   ``SpectralAnalyzer`` and ``PropertyTester``.  Those wrappers have been
-   deleted.  Use the canonical implementations instead::
+   contained classical algorithms with misleading ``quantum_`` prefixes
+   (Fourier analysis, influence estimation, property testing) that
+   duplicated ``SpectralAnalyzer`` and ``PropertyTester``.  Use those
+   instead::
 
        analyzer = SpectralAnalyzer(f)
        analyzer.fourier_expansion()   # was quantum_fourier_analysis()
@@ -74,18 +85,23 @@ class QuantumComplexityAnalyzer:
     """
     Compute quantum complexity bounds for a Boolean function.
 
-    This is a *classical* analyzer that computes closed-form complexity
-    estimates from quantum query complexity theory.  It does **not**
+    .. warning:: **Experimental** — this class is part of BooFun's quantum
+       complexity playground. The API may change in future releases.
+
+    This is a *classical* analyzer that plugs numbers into closed-form
+    formulas from quantum query complexity theory. It does **not**
     simulate quantum circuits or run quantum algorithms.
 
-    Use it to answer questions like:
+    Useful for building intuition about questions like:
+
     - "How many Grover iterations would be optimal for this function?"
     - "What is the quantum walk hitting time on the hypercube?"
     - "What does the Grover amplitude evolution look like analytically?"
 
-    For actual Fourier analysis, influences, or property testing, use
+    For Fourier analysis, influences, or property testing, use
     :class:`~boofun.analysis.SpectralAnalyzer` and
-    :class:`~boofun.analysis.PropertyTester` instead.
+    :class:`~boofun.analysis.PropertyTester` — those are mature and
+    well-tested.
 
     Example::
 

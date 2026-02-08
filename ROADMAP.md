@@ -75,7 +75,7 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 
 ### Quantum Simulation (extending `quantum_complexity`)
 
-The `boofun.quantum_complexity` module (renamed from `quantum` in v1.3.0) currently provides honest classical computation of quantum complexity bounds — Grover iteration formulas, quantum walk hitting times, element distinctness bounds. v2.0.0 will add actual quantum simulation alongside these analytical results.
+The `boofun.quantum_complexity` module (renamed from `quantum` in v1.3.0) is currently an **experimental playground**: it computes textbook formulas for quantum complexity bounds (Grover, walks, element distinctness) on a classical CPU. It's useful for building intuition, but nothing is simulated. v2.0.0 aims to turn this into a real quantum simulation layer — the items below are what we're *thinking about*, not commitments.
 
 | Item | Why |
 |------|-----|
