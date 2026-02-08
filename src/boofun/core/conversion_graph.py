@@ -120,20 +120,16 @@ class ConversionPath:
             Converted data
         """
         current_data = data
-        self.source
 
         for edge in self.edges:
             if edge.converter:
-                # Use custom converter
                 current_data = edge.converter(current_data, space, n_vars)
             else:
-                # Use standard representation conversion
                 source_strategy = get_strategy(edge.source)
                 target_strategy = get_strategy(edge.target)
                 current_data = source_strategy.convert_to(
                     target_strategy, current_data, space, n_vars
                 )
-            edge.target
 
         return current_data
 

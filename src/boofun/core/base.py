@@ -185,8 +185,29 @@ class BooleanFunction(Evaluable, Representable):
     def __call__(self, inputs):
         return self.evaluate(inputs)
 
+    def __eq__(self, other):
+        """Two BooleanFunctions are equal if they have the same truth table."""
+        if not isinstance(other, BooleanFunction):
+            return NotImplemented
+        if self.n_vars != other.n_vars:
+            return False
+        try:
+            tt_self = list(self.get_representation("truth_table"))
+            tt_other = list(other.get_representation("truth_table"))
+            return tt_self == tt_other
+        except Exception:
+            return NotImplemented
+
+    def __hash__(self):
+        """Hash based on truth table content."""
+        try:
+            tt = tuple(self.get_representation("truth_table"))
+            return hash((self.n_vars, tt))
+        except Exception:
+            return id(self)
+
     def __str__(self):
-        return f"BooleanFunction(vars={self.n_vars}, space={self.space})"  # TODO figure out what should be outputted here
+        return f"BooleanFunction(vars={self.n_vars}, space={self.space})"
 
     def __repr__(self):
         return f"BooleanFunction(space={self.space}, n_vars={self.n_vars})"  # TODO figure out what should be outputted here
@@ -369,9 +390,14 @@ class BooleanFunction(Evaluable, Representable):
 
         return result
 
-    def _compute_index(self, bits: np.ndarray) -> int:
-        """Convert boolean vector to integer index using bit packing"""
-        return np.array(int(np.packbits(bits.astype(np.uint8), bitorder="little")[0]))
+    def _compute_index(self, bits) -> int:
+        """Convert boolean vector to integer index.
+
+        Uses positional summation instead of np.packbits, which only
+        handles 8 bits. This works correctly for any n.
+        """
+        bits = np.asarray(bits, dtype=int)
+        return int(sum(int(b) << i for i, b in enumerate(bits)))
 
     def _evaluate_deterministic(self, inputs, rep_type=None):
         """
@@ -1136,7 +1162,11 @@ class BooleanFunction(Evaluable, Representable):
             >>> bf.majority(3).hamming_weight()  # 4 (inputs with ≥2 ones)
             >>> bf.AND(3).hamming_weight()       # 1 (only 111)
         """
-        return int(sum(self.evaluate(x) for x in range(2**self.n_vars)))
+        try:
+            tt = np.asarray(self.get_representation("truth_table"))
+            return int(np.sum(tt))
+        except Exception:
+            return int(sum(self.evaluate(x) for x in range(2**self.n_vars)))
 
     def support(self) -> list:
         """
@@ -1151,7 +1181,11 @@ class BooleanFunction(Evaluable, Representable):
             >>> bf.AND(2).support()  # [3] (binary 11)
             >>> bf.OR(2).support()   # [1, 2, 3] (01, 10, 11)
         """
-        return [x for x in range(2**self.n_vars) if self.evaluate(x) == 1]
+        try:
+            tt = np.asarray(self.get_representation("truth_table"))
+            return [int(x) for x in np.nonzero(tt)[0]]
+        except Exception:
+            return [x for x in range(2**self.n_vars) if self.evaluate(x) == 1]
 
     def restriction(self, fixed_vars: dict) -> "BooleanFunction":
         """
