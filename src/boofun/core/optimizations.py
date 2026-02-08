@@ -9,6 +9,7 @@ This module provides optimized implementations of critical operations:
 These optimizations are automatically used when available.
 """
 
+from collections import OrderedDict
 from typing import Any, Callable, Optional
 
 import numpy as np
@@ -405,20 +406,13 @@ class ComputeCache:
     """
     LRU cache for expensive Boolean function computations.
 
-    Caches results keyed by function hash and computation type.
-    Automatically evicts least-recently-used entries when full.
+    Uses OrderedDict for O(1) get/put/evict instead of the previous
+    hand-rolled list with O(n) remove.
     """
 
     def __init__(self, max_size: int = 1000):
-        """
-        Initialize cache.
-
-        Args:
-            max_size: Maximum number of cached entries
-        """
         self.max_size = max_size
-        self._cache: Dict[str, Any] = {}
-        self._access_order: list = []
+        self._cache: OrderedDict = OrderedDict()
         self._hits = 0
         self._misses = 0
 
@@ -428,41 +422,31 @@ class ComputeCache:
         return f"{func_hash}_{computation}_{args_str}"
 
     def get(self, func_hash: str, computation: str, *args) -> Tuple[bool, Any]:
-        """
-        Try to get cached result.
-
-        Returns:
-            Tuple of (found, value)
-        """
+        """Try to get cached result. Returns (found, value)."""
         key = self._make_key(func_hash, computation, *args)
 
         if key in self._cache:
             self._hits += 1
-            # Move to end (most recently used)
-            if key in self._access_order:
-                self._access_order.remove(key)
-            self._access_order.append(key)
+            self._cache.move_to_end(key)  # O(1) LRU update
             return (True, self._cache[key])
 
         self._misses += 1
         return (False, None)
 
     def put(self, func_hash: str, computation: str, value: Any, *args):
-        """Store result in cache."""
+        """Store result in cache, evicting LRU if full."""
         key = self._make_key(func_hash, computation, *args)
 
-        # Evict if necessary
-        while len(self._cache) >= self.max_size and self._access_order:
-            oldest = self._access_order.pop(0)
-            self._cache.pop(oldest, None)
-
+        if key in self._cache:
+            self._cache.move_to_end(key)
+        else:
+            if len(self._cache) >= self.max_size:
+                self._cache.popitem(last=False)  # O(1) LRU eviction
         self._cache[key] = value
-        self._access_order.append(key)
 
     def clear(self):
         """Clear all cached entries."""
         self._cache.clear()
-        self._access_order.clear()
 
     def stats(self) -> Dict[str, Any]:
         """Get cache statistics."""
