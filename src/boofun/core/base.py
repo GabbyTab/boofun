@@ -1143,6 +1143,29 @@ class BooleanFunction(Evaluable, Representable):
         tester = PropertyTester(self)
         return tester.junta_test(k)
 
+    def is_global(self, alpha: float, max_set_size: int = 3) -> bool:
+        """
+        Check if f has alpha-small generalized influences (is alpha-global).
+
+        A function is alpha-global if I_S(f) <= alpha * E[f^2] for all small
+        sets S. Global functions satisfy hypercontractivity under p-biased
+        measures (Keevash-Lifshitz-Long-Minzer).
+
+        Args:
+            alpha: Threshold for generalized influences
+            max_set_size: Maximum |S| to check (default 3)
+
+        Returns:
+            True if all generalized influences are <= alpha * E[f^2]
+
+        References:
+            - Keevash, Lifshitz, Long & Minzer (arXiv:1906.05039)
+        """
+        from ..analysis.global_hypercontractivity import is_alpha_global
+
+        result, _ = is_alpha_global(self, alpha, max_set_size)
+        return result
+
     def is_symmetric(self, num_tests: int = 100) -> bool:
         """
         Test if function is symmetric (invariant under variable permutations).
