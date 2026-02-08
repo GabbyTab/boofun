@@ -228,6 +228,25 @@ def OR(n: int) -> BooleanFunction:
     return create(truth_table)
 
 
+def f2_polynomial(n: int, monomials) -> BooleanFunction:
+    """
+    Create f(x) = (-1)^{p(x)} where p is a polynomial over GF(2).
+
+    Each monomial is a set of variable indices. The function outputs 1
+    when the sum of monomials is 1 (mod 2), 0 otherwise.
+
+    Args:
+        n: Number of variables
+        monomials: Iterable of sets/lists of variable indices.
+                  E.g., [{0,1}, {2,3}] means p(x) = x0*x1 + x2*x3 (mod 2).
+
+    Examples:
+        >>> f = bf.f2_polynomial(4, [{0,1}, {2,3}])  # x0*x1 + x2*x3 mod 2
+        >>> f = bf.f2_polynomial(5, [{0,1,2}])         # x0*x1*x2 mod 2
+    """
+    return BooleanFunctionBuiltins.f2_polynomial(n, monomials)
+
+
 def random(n: int, balanced: bool = False, seed: Optional[int] = None) -> BooleanFunction:
     """
     Create a random Boolean function on n variables.

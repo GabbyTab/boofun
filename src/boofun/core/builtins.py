@@ -198,3 +198,52 @@ class BooleanFunctionBuiltins:
         truth_table = np.full(size, value, dtype=bool)
 
         return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
+
+    @classmethod
+    def f2_polynomial(cls, n: int, monomials) -> "BooleanFunction":
+        """
+        Create f(x) = (-1)^{p(x)} where p is a polynomial over GF(2).
+
+        The polynomial p(x) = sum of monomials (mod 2), where each monomial
+        is a product of variables. The Boolean function outputs 0 when p(x)=0
+        and 1 when p(x)=1.
+
+        Central to pseudorandomness: F2-polynomials are the functions
+        computed by AC0[parity] circuits.
+
+        Args:
+            n: Number of variables
+            monomials: Iterable of monomials, each a set/list of variable indices.
+                      E.g., [{0,1}, {2}] means x0*x1 + x2 (mod 2).
+
+        Returns:
+            BooleanFunction implementing (-1)^{p(x)}
+
+        Examples:
+            >>> bf.f2_polynomial(3, [{0}])           # (-1)^{x0}
+            >>> bf.f2_polynomial(4, [{0,1}, {2,3}])  # (-1)^{x0*x1 + x2*x3}
+
+        References:
+            - O'Donnell Chapter 6 (pseudorandomness and F2-polynomials)
+            - Chattopadhyay-Hatami-Lovett-Tal (ITCS 2019)
+        """
+        if n <= 0:
+            raise ValueError("Number of variables must be positive")
+
+        from .base import BooleanFunction
+        from .factory import BooleanFunctionFactory
+
+        size = 1 << n
+        truth_table = np.zeros(size, dtype=bool)
+
+        for idx in range(size):
+            bits = [(idx >> j) & 1 for j in range(n)]
+            p_val = 0
+            for mon in monomials:
+                prod = 1
+                for i in mon:
+                    prod *= bits[i]
+                p_val ^= prod
+            truth_table[idx] = bool(p_val)
+
+        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
