@@ -1,7 +1,7 @@
 # Tutorials
 
 ```bash
-pip install -e ".[full]"
+pip install -e ".[all]"
 python examples/01_getting_started.py
 ```
 

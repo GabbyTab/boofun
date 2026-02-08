@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <strong>Boolean Function Analysis in Python</strong>
+  <strong>The Computational Companion to O'Donnell's <em>Analysis of Boolean Functions</em></strong>
 </p>
 
 <p align="center">
@@ -13,13 +13,30 @@
   <a href="https://github.com/GabbyTab/boofun/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
   <a href="https://gabbytab.github.io/boofun/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="Documentation"></a>
   <a href="https://codecov.io/gh/GabbyTab/boofun"><img src="https://codecov.io/gh/GabbyTab/boofun/branch/main/graph/badge.svg" alt="codecov"></a>
-  <a href="https://github.com/GabbyTab/boofun"><img src="https://img.shields.io/badge/typed-mypy-blue.svg" alt="Typed"></a>
-  <a href="https://securityscorecards.dev/viewer/?uri=github.com/GabbyTab/boofun"><img src="https://api.securityscorecards.dev/projects/github.com/GabbyTab/boofun/badge" alt="OpenSSF Scorecard"></a>
 </p>
+
+## Every Theorem Becomes a Computation
+
+BooFun lets you **run** the theorems from O'Donnell's textbook and Berkeley's [CS 294-92](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html). Create a Boolean function, compute its Fourier coefficients, verify KKL, visualize threshold phenomena -- all in a few lines of Python.
+
+```python
+import boofun as bf
+
+# The KKL theorem in action: every non-trivial function has an influential variable
+maj = bf.majority(51)  # 51-senator vote
+print(f"Each senator's influence: {maj.influences()[0]:.4f}")  # ~0.11
+
+# Theory predicts: max influence >= c * log(n)/n * total_influence
+from boofun import kkl_lower_bound
+print(f"KKL bound: {kkl_lower_bound(maj.total_influence(), 51):.4f}")
+print(f"Actual:    {max(maj.influences()):.4f}")  # Bound holds.
+```
+
+**[Try it in Colab](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture3_social_choice_influences.ipynb)** -- no install needed.
 
 ## What This Is
 
-A toolkit for Boolean function analysis: Fourier analysis, property testing, query complexity, and more. Covers the probabilistic perspective (p-biased measures, threshold phenomena, Monte Carlo estimation), cryptographic analysis (nonlinearity, bent functions), the invariance principle, and connections to pseudorandomness. Built while studying O'Donnell's *Analysis of Boolean Functions*.
+A Python toolkit for Boolean function analysis built while studying O'Donnell's *Analysis of Boolean Functions* at UC Berkeley. It covers Fourier analysis, property testing, query complexity, p-biased measures, threshold phenomena, the invariance principle, and connections to pseudorandomness.
 
 **[Full Documentation](https://gabbytab.github.io/boofun/)** · **[Quick Start](https://gabbytab.github.io/boofun/quickstart.html)**
 
