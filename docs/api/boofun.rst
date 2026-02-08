@@ -1,4 +1,4 @@
-﻿boofun
+boofun
 ======
 
 .. automodule:: boofun
@@ -31,7 +31,7 @@
    benchmarks
    core
    families
-   quantum
+   quantum_complexity
    testing
    utils
    visualization

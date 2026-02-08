@@ -327,66 +327,53 @@ def demo_error_models():
     print(f"  Expected ~9/10 due to 5% noise rate")
 
 
-def demo_quantum_features():
-    """Demonstrate quantum Boolean function analysis."""
-    print("\n[QUANTUM]  Quantum Features Demo")
+def demo_quantum_complexity():
+    """Demonstrate quantum complexity bound computation."""
+    print("\n[COMPLEXITY] Quantum Complexity Bounds Demo")
     print("=" * 50)
+    print("Note: All computations are classical (closed-form formulas).\n")
 
-    # Create quantum Boolean function
-    xor = bf.create([False, True, True, False])
-    quantum_xor = bf.create_quantum_boolean_function(xor)
+    from boofun.quantum_complexity import (
+        QuantumComplexityAnalyzer,
+        element_distinctness_analysis,
+        grover_speedup,
+        quantum_walk_bounds,
+    )
 
-    print(f"Quantum Boolean Function: {quantum_xor.n_vars} variables")
+    # Grover's algorithm bounds
+    print("1. Grover's Algorithm Complexity Bounds:")
+    for name, f in [("AND_4", bf.AND(4)), ("OR_4", bf.OR(4))]:
+        result = grover_speedup(f)
+        print(f"  {name}: {result['speedup']:.2f}x speedup "
+              f"({result['num_solutions']} solutions, "
+              f"{result['grover_queries']:.1f} Grover queries vs "
+              f"{result['classical_queries']:.0f} classical)")
 
-    # Quantum Fourier analysis
-    print("\n1. Quantum Fourier Analysis:")
-    fourier_results = quantum_xor.quantum_fourier_analysis()
-    print(f"  Method: {fourier_results['method']}")
-    print(f"  Quantum Advantage: {fourier_results['quantum_advantage']}")
+    # Quantum walk bounds
+    print("\n2. Quantum Walk Complexity Bounds (Szegedy 2004):")
+    f = bf.AND(4)
+    walk = quantum_walk_bounds(f)
+    print(f"  AND_4 on hypercube:")
+    print(f"    Classical hitting time: {walk['classical_hitting_time']:.1f}")
+    print(f"    Quantum hitting time:  {walk['quantum_hitting_time']:.1f}")
+    print(f"    Speedup: {walk['speedup_over_classical']:.2f}x")
 
-    # Quantum property testing
-    print("\n2. Quantum Property Testing:")
+    # Element distinctness
+    print("\n3. Element Distinctness Analysis (Ambainis 2007):")
+    result = element_distinctness_analysis(bf.parity(4))
+    print(f"  Collisions found: {result['has_collision']}")
+    print(f"  Classical complexity: O({result['classical_complexity']})")
+    print(f"  Quantum complexity: O({result['quantum_complexity']:.1f})")
+    print(f"  Speedup: {result['speedup']:.2f}x")
 
-    properties = ["linearity", "monotonicity"]
-    for prop in properties:
-        try:
-            result = quantum_xor.quantum_property_testing(prop)
-            # Handle different possible key formats
-            key_options = [f"is_{prop}", f'is_{prop.split("icity")[0]}', f"{prop}_result"]
-            value = None
-            for key in key_options:
-                if key in result:
-                    value = result[key]
-                    break
-
-            if value is not None:
-                print(f"  {prop.capitalize()}: {value}")
-            else:
-                print(f"  {prop.capitalize()}: {result}")
-        except Exception as e:
-            print(f"  {prop.capitalize()}: [WARN] Error - {type(e).__name__}")
-
-    # Quantum resource estimation
-    print("\n3. Quantum Resource Requirements:")
-    resources = quantum_xor.get_quantum_resources()
-    print(f"  Qubits needed: {resources['qubits_required']}")
-    print(f"  Circuit depth: {resources['circuit_depth']}")
-    print(f"  Gate count: {resources['gate_count']}")
-
-    # Quantum vs Classical comparison
-    print("\n4. Quantum vs Classical Analysis:")
-    comparison = quantum_xor.quantum_algorithm_comparison()
-    print(f"  Function size: 2^{comparison['n_variables']} = {comparison['function_size']}")
-
-    if comparison["quantum_advantages"]:
-        print("  Quantum advantages:")
-        for advantage in comparison["quantum_advantages"]:
-            print(f"    - {advantage}")
-
-    if comparison["recommendations"]:
-        print("  Recommendations:")
-        for rec in comparison["recommendations"]:
-            print(f"    - {rec}")
+    # Grover amplitude evolution
+    print("\n4. Grover Amplitude Evolution (closed-form):")
+    analyzer = QuantumComplexityAnalyzer(bf.AND(4))
+    amp = analyzer.grover_amplitude_analysis()
+    print(f"  Optimal iterations: {amp['optimal_iterations']}")
+    for step in amp["evolution"][:5]:
+        print(f"    k={step['iteration']}: "
+              f"P(success) = {step['success_probability']:.4f}")
 
 
 def demo_comprehensive_analysis():
@@ -547,7 +534,7 @@ def main():
     demo_testing_framework()
     demo_adapter_system()
     demo_error_models()
-    demo_quantum_features()
+    demo_quantum_complexity()
     demo_comprehensive_analysis()
     create_visualization_examples()
 

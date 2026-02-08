@@ -291,15 +291,15 @@ class TestNewFamilies:
             assert comp.n_vars == 8
 
 
-class TestQuantumWalks:
-    """Tests for quantum walk algorithms."""
+class TestQuantumComplexityBounds:
+    """Tests for quantum complexity bound computations."""
 
-    def test_quantum_walk_analysis(self):
-        """Quantum walk analysis works."""
-        from boofun.quantum import quantum_walk_analysis
+    def test_quantum_walk_bounds(self):
+        """Quantum walk bounds computation works."""
+        from boofun.quantum_complexity import quantum_walk_bounds
 
         f = bf.AND(4)
-        result = quantum_walk_analysis(f)
+        result = quantum_walk_bounds(f)
 
         assert "spectral_gap" in result
         assert "mixing_time" in result
@@ -308,7 +308,7 @@ class TestQuantumWalks:
 
     def test_element_distinctness(self):
         """Element distinctness analysis works."""
-        from boofun.quantum import element_distinctness_analysis
+        from boofun.quantum_complexity import element_distinctness_analysis
 
         f = bf.parity(4)
         result = element_distinctness_analysis(f)
@@ -317,12 +317,12 @@ class TestQuantumWalks:
         assert "quantum_complexity" in result
         assert result["speedup"] > 1
 
-    def test_quantum_walk_search(self):
-        """Quantum walk search simulation works."""
-        from boofun.quantum import quantum_walk_search
+    def test_quantum_walk_search_bounds(self):
+        """Quantum walk search bounds computation works."""
+        from boofun.quantum_complexity import quantum_walk_search_bounds
 
         f = bf.OR(4)  # Has 15 marked vertices
-        result = quantum_walk_search(f)
+        result = quantum_walk_search_bounds(f)
 
         assert "marked_vertices" in result
         assert "max_success_probability" in result

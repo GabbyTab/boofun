@@ -27,7 +27,7 @@ def pre_mutation(context):
         context.skip = True
     if "visualization" in context.filename:
         context.skip = True
-    if "quantum" in context.filename:
+    if "quantum_complexity" in context.filename or "quantum" in context.filename:
         context.skip = True
     if context.filename.endswith("__init__.py"):
         context.skip = True

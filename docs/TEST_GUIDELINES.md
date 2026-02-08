@@ -184,7 +184,7 @@ class TestFunctionName:
 | test_pac_learning.py | 24 weak assertions | Added error rate verification |
 | test_builtins.py | 14 weak assertions | Added truth table verification |
 | test_module_exploration.py | 20 weak assertions | Added correctness checks |
-| test_quantum.py | 13 weak assertions | Added mathematical property tests |
+| test_quantum_complexity.py | 13 weak assertions | Added mathematical property tests |
 | test_circuit.py | 10 weak assertions | Added circuit evaluation tests |
 | test_property_tester.py | (new) | Comprehensive PropertyTester tests |
 
@@ -223,6 +223,6 @@ tests/
 └── test_*.py       # Top-level test files
 ```
 
-**Coverage**: 72% with 3200+ tests. Core analysis modules are 70-85%; visualization and quantum are lower priority.
+**Coverage**: 72% with 3200+ tests. Core analysis modules are 70-85%; visualization and quantum_complexity are lower priority.
 
 **CI**: All tests run on every push via GitHub Actions. Pre-commit hooks enforce formatting (black, isort, flake8, codespell).

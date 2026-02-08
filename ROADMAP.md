@@ -38,7 +38,7 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 | Item | Why |
 |------|-----|
 | Consolidate GPU modules | Merge `gpu_acceleration.py` and `gpu.py` into one. Remove unused stubs, keep CuPy WHT. |
-| Label quantum module as WIP | Keep in public API with prominent classical-fallback disclaimers (done). Full overhaul deferred to v2.0.0. |
+| Rename `quantum/` → `quantum_complexity/` | Renamed module to honestly reflect what it does: classical computation of quantum complexity bounds. Deleted classical algorithm duplicates (Fourier, influences, property testing) that were dressed up with `quantum_` prefixes — use `SpectralAnalyzer` and `PropertyTester` instead. Backwards-compat aliases provided. Full quantum simulation deferred to v2.0.0. |
 | Delete `setup.cfg` | Consolidate into `pyproject.toml`. |
 | Simplify conversion graph | Replace Dijkstra with two-level dispatch (source -> truth_table -> target). |
 | Lazy imports in `__init__.py` | Only if import time exceeds 5 seconds. |
@@ -73,18 +73,17 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 
 ## v2.0.0 Goals
 
-### Quantum Module Overhaul
+### Quantum Simulation (extending `quantum_complexity`)
 
-The current `boofun.quantum` module annotates results with quantum complexity metadata but falls back to classical algorithms for all actual computation. v2.0.0 will close this gap.
+The `boofun.quantum_complexity` module (renamed from `quantum` in v1.3.0) currently provides honest classical computation of quantum complexity bounds — Grover iteration formulas, quantum walk hitting times, element distinctness bounds. v2.0.0 will add actual quantum simulation alongside these analytical results.
 
 | Item | Why |
 |------|-----|
-| Honest labeling audit | Every method that returns `"method": "quantum_*"` must either run a real quantum/simulated computation or clearly label itself as a classical estimate. Remove misleading `quantum_speedup: True` flags from classical code paths. |
-| Statevector simulation backend | Implement a lightweight statevector simulator (no Qiskit dependency) for small-n quantum circuits so that `quantum_fourier_analysis()` and `quantum_property_testing()` can produce genuinely quantum results up to ~12 qubits. |
+| Statevector simulation backend | Implement a lightweight statevector simulator (no Qiskit dependency) for small-n quantum circuits, so users can see simulated Grover and quantum walk results up to ~12 qubits. |
 | Qiskit / Cirq integration (optional extra) | `pip install boofun[quantum]` pulls in Qiskit. Oracle construction, Grover circuit execution, and quantum walk simulation run on Qiskit's `AerSimulator`. Cirq backend as alternative. |
-| Quantum property testing | Replace classical randomized tests (BLR, monotonicity, junta) with real quantum testers that demonstrate quadratic query savings in simulation. |
-| Grover & amplitude amplification | Execute Grover iterations on the simulator and return measured success probabilities, not just closed-form estimates. |
-| Quantum walk simulation | Simulate Szegedy walks on the hypercube and report empirical hitting times alongside the analytical estimates already provided. |
+| Quantum property testing | Implement genuine quantum testers (BLR, monotonicity, junta) that demonstrate quadratic query savings in simulation, separate from the classical testers in `PropertyTester`. |
+| Grover & amplitude amplification | Execute Grover iterations on the simulator and return measured success probabilities alongside the closed-form estimates already provided. |
+| Quantum walk simulation | Simulate Szegedy walks on the hypercube and report empirical hitting times alongside the analytical bounds. |
 | Documentation & notebooks | Add a dedicated "Quantum Boolean Function Analysis" notebook showing the difference between classical estimates and simulated quantum results. Clearly mark which features require `[quantum]` extra. |
 
 ### Other v2.0.0 Candidates

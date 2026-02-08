@@ -51,7 +51,7 @@ boofun/
 │   │   └── ...
 │   ├── testing/          # Property testing (BLR, monotonicity, etc.)
 │   ├── families/         # Function families with growth analysis
-│   ├── quantum/          # Quantum computing extensions
+│   ├── quantum_complexity/  # Quantum complexity bounds (classical computation)
 │   └── visualization/    # Plotting and visualization
 ├── tests/                # Test suite
 │   ├── core/             # Core functionality tests

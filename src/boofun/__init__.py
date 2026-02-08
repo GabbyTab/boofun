@@ -371,7 +371,13 @@ except ImportError:
     HAS_VISUALIZATION = False
 
 try:
-    from .quantum import QuantumBooleanFunction, create_quantum_boolean_function  # noqa: F401
+    from .quantum_complexity import (  # noqa: F401
+        QuantumComplexityAnalyzer,
+        create_complexity_analyzer,
+        # Deprecated aliases for backwards compatibility
+        QuantumBooleanFunction,
+        create_quantum_boolean_function,
+    )
 
     HAS_QUANTUM = True
 except ImportError:
@@ -524,4 +530,10 @@ if HAS_VISUALIZATION:
     __all__.append("BooleanFunctionVisualizer")
 
 if HAS_QUANTUM:
-    __all__.extend(["QuantumBooleanFunction", "create_quantum_boolean_function"])
+    __all__.extend([
+        "QuantumComplexityAnalyzer",
+        "create_complexity_analyzer",
+        # Deprecated aliases
+        "QuantumBooleanFunction",
+        "create_quantum_boolean_function",
+    ])

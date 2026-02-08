@@ -121,58 +121,41 @@ class TestGPUAccelerationModule:
         assert isinstance(info, dict)
 
 
-class TestQuantumModuleMore:
-    """More quantum module tests."""
+class TestQuantumComplexityModuleMore:
+    """Quantum complexity bounds module tests."""
 
-    def test_quantum_imports(self):
-        """Quantum module should import."""
-        from boofun import quantum
+    def test_quantum_complexity_imports(self):
+        """Quantum complexity module should import."""
+        from boofun import quantum_complexity
 
-        assert quantum is not None
+        assert quantum_complexity is not None
 
-    def test_quantum_functions(self):
-        """Test quantum functions."""
-        from boofun.quantum import create_quantum_boolean_function, estimate_quantum_advantage
+    def test_complexity_analyzer(self):
+        """Test complexity analyzer creation."""
+        from boofun.quantum_complexity import create_complexity_analyzer
 
         f = bf.majority(3)
+        qca = create_complexity_analyzer(f)
+        assert qca is not None
+        assert qca.n_vars == 3
 
-        # Create quantum version
-        try:
-            qf = create_quantum_boolean_function(f)
-            assert qf is not None
-        except (TypeError, ValueError):
-            pass
-
-        # Estimate advantage
-        try:
-            adv = estimate_quantum_advantage(f)
-            assert adv is not None
-        except (TypeError, ValueError):
-            pass
-
-    def test_quantum_walk_analysis(self):
-        """Test quantum walk analysis."""
-        from boofun.quantum import quantum_walk_analysis
+    def test_quantum_walk_bounds(self):
+        """Test quantum walk bounds."""
+        from boofun.quantum_complexity import quantum_walk_bounds
 
         f = bf.AND(3)
-
-        try:
-            result = quantum_walk_analysis(f)
-            assert result is not None
-        except (TypeError, ValueError):
-            pass
+        result = quantum_walk_bounds(f)
+        assert result is not None
+        assert "spectral_gap" in result
 
     def test_grover_speedup(self):
         """Test Grover speedup analysis."""
-        from boofun.quantum import grover_speedup
+        from boofun.quantum_complexity import grover_speedup
 
         f = bf.OR(3)
-
-        try:
-            result = grover_speedup(f)
-            assert result is not None
-        except (TypeError, ValueError):
-            pass
+        result = grover_speedup(f)
+        assert result is not None
+        assert "speedup" in result
 
 
 class TestANFRepresentation:

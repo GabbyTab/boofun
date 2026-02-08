@@ -52,15 +52,15 @@ Intentional design choices in BooFun, documented to prevent re-litigating them.
 
 ---
 
-## ADR-005: GPU and Quantum Modules Are Stubs
+## ADR-005: GPU Module Is a Stub; Quantum Module Renamed
 
-**Decision**: `gpu_acceleration.py`, `gpu.py`, and `quantum/` exist but contain minimal working code.
+**Decision**: `gpu_acceleration.py` and `gpu.py` exist but contain minimal working code. The former `quantum/` module was renamed to `quantum_complexity/` in v1.3.0.
 
-**Why**: They were created aspirationally during initial development. They serve as extension points and are excluded from `__all__` in practice.
+**Why (GPU)**: Created aspirationally. Serves as an extension point.
 
-**Known issue**: The audit correctly identifies these as dead code. They inflate the surface area.
+**Why (quantum rename)**: The old `quantum/` module contained classical algorithms with misleading `quantum_*` prefixes (Fourier analysis, influence estimation, property testing) that duplicated functionality in `SpectralAnalyzer` and `PropertyTester`. Those duplicates were deleted. The remaining code — Grover bounds, quantum walk bounds, element distinctness analysis — honestly computes complexity-theoretic quantities and is now in `quantum_complexity/` with clear docstrings stating everything runs classically.
 
-**Future**: Phase 2 cleanup. Delete the GPU stubs (keep only the CuPy WHT call in `optimizations.py`). Keep `quantum/` as a stub but remove from public API.
+**Future**: Delete GPU stubs (keep only CuPy WHT in `optimizations.py`). Full quantum simulation in `quantum_complexity/` deferred to v2.0.0.
 
 ---
 

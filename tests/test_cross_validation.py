@@ -477,17 +477,17 @@ class TestUniqueFeatures:
         assert hasattr(tester, "junta_test")
         assert hasattr(tester, "monotonicity_test")
 
-    def test_quantum_module_exists(self):
-        """Verify quantum module works."""
-        from boofun.quantum import QuantumBooleanFunction
+    def test_quantum_complexity_module_exists(self):
+        """Verify quantum complexity module works."""
+        from boofun.quantum_complexity import QuantumComplexityAnalyzer
 
         f = bf.AND(3)
-        qf = QuantumBooleanFunction(f)
+        qca = QuantumComplexityAnalyzer(f)
 
-        # Should have key methods
-        assert hasattr(qf, "create_quantum_oracle")
-        assert hasattr(qf, "quantum_property_testing")
-        assert hasattr(qf, "quantum_algorithm_comparison")
+        # Should have complexity analysis methods
+        assert hasattr(qca, "create_quantum_oracle")
+        assert hasattr(qca, "grover_analysis")
+        assert hasattr(qca, "grover_amplitude_analysis")
 
     def test_noise_stability_exists(self):
         """Verify noise stability (unique to our Fourier focus)."""

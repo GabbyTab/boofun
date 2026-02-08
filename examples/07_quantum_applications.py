@@ -1,26 +1,35 @@
 #!/usr/bin/env python3
 """
-Tutorial 7: Quantum Applications with BooFun
-===============================================
+Tutorial 7: Quantum Complexity Bounds with BooFun
+====================================================
 
 Boolean function analysis has deep connections to quantum computing.
-This tutorial explores quantum query complexity, Grover's algorithm,
-and quantum property testing.
+This tutorial explores quantum query complexity bounds — what we can
+compute *classically* about how quantum algorithms would perform.
+
+**Important:** Everything in this tutorial runs on a classical CPU.
+We are computing closed-form complexity bounds from quantum query
+complexity theory, not simulating quantum circuits.
 
 Topics covered:
-- Quantum query complexity
-- Grover's search algorithm analysis
-- Quantum walk algorithms
-- Quantum advantage estimation
+- Quantum query complexity (theoretical bounds)
+- Grover's algorithm complexity analysis
+- Quantum walk complexity bounds
+- When quantum algorithms help (and when they don't)
 """
 
 import numpy as np
 
 import boofun as bf
-from boofun.quantum import element_distinctness_analysis, grover_speedup, quantum_walk_analysis
+from boofun.quantum_complexity import (
+    element_distinctness_analysis,
+    grover_speedup,
+    quantum_walk_bounds,
+)
 
 print("=" * 60)
-print("Tutorial 7: Quantum Applications")
+print("Tutorial 7: Quantum Complexity Bounds")
+print("  (classical computation of quantum query estimates)")
 print("=" * 60)
 
 # =============================================================================
@@ -40,13 +49,17 @@ Key relationships:
 - Q₂(f) ≥ Ω(√(bs(f)))   [polynomial method]
 - Q₂(f) ≥ Ω(√(D(f)))    [in many cases]
 - Q₂(f) ≤ O(√(n·D(f)))  [Grover-type speedup]
+
+The boofun.analysis.query_complexity module computes lower bounds
+(Ambainis adversary, spectral adversary, polynomial method).
+This module computes complexity estimates for specific algorithms.
 """
 )
 
 # =============================================================================
-# 2. Grover's Algorithm Speedup
+# 2. Grover's Algorithm Complexity Bounds
 # =============================================================================
-print("\n--- 2. Grover's Algorithm Analysis ---\n")
+print("\n--- 2. Grover's Algorithm Complexity Bounds ---\n")
 
 print(
     """
@@ -55,7 +68,10 @@ Grover's algorithm finds marked items in unstructured search.
 For f: {0,1}ⁿ → {0,1}, Grover finds x where f(x) = 1.
 
 Classical: O(N) queries where N = 2ⁿ
-Quantum:   O(√N) queries - quadratic speedup!
+Quantum:   O(√N) queries — quadratic speedup!
+
+Below we compute the *theoretical* Grover speedup using closed-form
+formulas (pi/4 * sqrt(N/M)), not by running a quantum simulation.
 """
 )
 
@@ -89,26 +105,19 @@ print(
 Observations:
 - AND has 1 solution → maximum Grover speedup
 - OR has many solutions → less speedup needed
-- Majority has 50% solutions → modest speedup
+- Majority has ~50% solutions → modest speedup
 """
 )
 
 # =============================================================================
-# 3. Quantum Advantage Estimation
+# 3. Grover Complexity Details
 # =============================================================================
-print("\n--- 3. Quantum Advantage Estimation ---\n")
-
-print(
-    """
-The estimate_quantum_advantage function provides a comprehensive
-analysis of potential quantum speedups for a given function.
-"""
-)
+print("\n--- 3. Grover Complexity Details ---\n")
 
 f = bf.AND(4)
 grover_result = grover_speedup(f)
 
-print(f"AND_4 Quantum Advantage Analysis:")
+print(f"AND_4 Grover Complexity Bounds:")
 print(f"  Function: AND with {f.n_vars} variables")
 print(f"  Solutions: {grover_result['num_solutions']}")
 print(f"  Classical queries: {grover_result['classical_queries']:.1f}")
@@ -117,14 +126,17 @@ print(f"  Speedup: {grover_result['speedup']:.2f}x")
 print(f"  Optimal iterations: {grover_result['optimal_iterations']}")
 
 # =============================================================================
-# 4. Quantum Walk Algorithms
+# 4. Quantum Walk Complexity Bounds
 # =============================================================================
-print("\n--- 4. Quantum Walk Algorithms ---\n")
+print("\n--- 4. Quantum Walk Complexity Bounds ---\n")
 
 print(
     """
 Quantum walks generalize classical random walks.
 They can achieve polynomial speedups for various problems.
+
+Below we compute analytical complexity bounds using formulas from
+Szegedy (2004) and Magniez et al. (2011). No walk is simulated.
 
 Key applications:
 - Element distinctness: O(n^(2/3)) vs classical O(n)
@@ -133,15 +145,14 @@ Key applications:
 """
 )
 
-# Analyze quantum walks
-print("Quantum walk analysis:\n")
+print("Quantum walk bounds:\n")
 
 for name, f in [("AND_4", bf.AND(4)), ("OR_4", bf.OR(4))]:
-    walk = quantum_walk_analysis(f)
+    walk = quantum_walk_bounds(f)
 
     print(f"{name}:")
     print(f"  Classical hitting time: {walk['classical_hitting_time']:.2f}")
-    print(f"  Quantum hitting time: {walk['quantum_hitting_time']:.2f}")
+    print(f"  Quantum hitting time:  {walk['quantum_hitting_time']:.2f}")
     print(f"  Speedup: {walk['speedup_over_classical']:.2f}x")
     print()
 
@@ -157,12 +168,13 @@ Element Distinctness: Given a list, determine if all elements are distinct.
 Classical: O(n) or O(n log n) depending on model
 Quantum: O(n^(2/3)) using Ambainis' quantum walk algorithm!
 
-This is optimal - matches the quantum lower bound.
+This is optimal — it matches the quantum lower bound.
+The quantum complexity shown below is the theoretical bound,
+not a simulated result.
 """
 )
 
-# Analyze element distinctness for different sizes
-print("Element distinctness complexity:\n")
+print("Element distinctness complexity bounds:\n")
 print(f"{'n':<8} {'Classical':<12} {'Quantum':<12} {'Speedup'}")
 print("-" * 40)
 
@@ -192,10 +204,12 @@ Key lower bounds for quantum query complexity:
    Q₂(OR_n) = Θ(√n)
    Q₂(Majority_n) = Θ(n)  (no quantum speedup!)
    Q₂(Parity_n) = Θ(n)    (no quantum speedup!)
+
+Use boofun.analysis.query_complexity for these lower bounds.
 """
 )
 
-print("Quantum vs Classical complexity:\n")
+print("Quantum vs Classical complexity (known results):\n")
 
 complexity_data = [
     ("OR", "√n", "n", "Quadratic"),
@@ -229,14 +243,14 @@ print("-" * 55)
 
 for n in [4, 6, 8, 10, 12]:
     N = 2**n
-    classical = N  # Expected queries to find 1 element
+    classical = N
     quantum = np.sqrt(N)
     speedup = classical / quantum
 
     print(f"{n:<6} {N:<12} {classical:<12} {quantum:<12.1f} {speedup:.1f}x")
 
 # =============================================================================
-# 8. Practical Quantum Advantage
+# 8. When Does Quantum Help?
 # =============================================================================
 print("\n--- 8. When Does Quantum Help? ---\n")
 
@@ -267,7 +281,7 @@ Key insight: Quantum helps most when the problem has
 # =============================================================================
 # 9. Comparing Functions
 # =============================================================================
-print("\n--- 9. Quantum Analysis Summary ---\n")
+print("\n--- 9. Quantum Complexity Summary ---\n")
 
 functions = [
     ("AND_4", bf.AND(4)),
@@ -282,7 +296,7 @@ print("-" * 45)
 for name, f in functions:
     grover_result = grover_speedup(f)
     grover_sp = grover_result["speedup"]
-    walk = quantum_walk_analysis(f)
+    walk = quantum_walk_bounds(f)
     walk_sp = walk["speedup_over_classical"]
     best = max(grover_sp, walk_sp)
 
@@ -293,10 +307,10 @@ for name, f in functions:
 # =============================================================================
 print("\n" + "=" * 60)
 print("Key Takeaways:")
-print("- grover_speedup(f): Estimates Grover's algorithm advantage")
-print("- quantum_walk_analysis(f): Analyzes quantum walk speedups")
-print("- element_distinctness_analysis(): O(n^(2/3)) algorithm")
-print("- Grover's algorithm: quadratic speedup for search")
-print("- Not all functions benefit: Parity, Majority have no speedup")
-print("- Best speedups for 'unstructured' components")
+print("- grover_speedup(f): Computes Grover's algorithm complexity bounds")
+print("- quantum_walk_bounds(f): Computes quantum walk complexity bounds")
+print("- element_distinctness_analysis(): Analyzes collision structure + O(n^(2/3)) bound")
+print("- All computations are classical — no quantum simulation")
+print("- Use boofun.analysis.query_complexity for lower bounds (Ambainis, etc.)")
+print("- Full quantum simulation planned for v2.0.0")
 print("=" * 60)

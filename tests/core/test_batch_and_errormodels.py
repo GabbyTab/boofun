@@ -582,32 +582,34 @@ class TestDNFFormRepresentation:
 
 
 # =============================================================================
-# Quantum Module Tests
+# Quantum Complexity Module Tests
 # =============================================================================
-class TestQuantumModule:
-    """Test quantum analysis module."""
+class TestQuantumComplexityModule:
+    """Test quantum complexity bounds module."""
 
     def test_grover_speedup_majority(self):
         """Test Grover speedup estimation for majority."""
         f = bf.majority(5)
         try:
-            from boofun.quantum import estimate_grover_speedup
+            from boofun.quantum_complexity import grover_speedup
 
-            speedup = estimate_grover_speedup(f)
-            assert speedup is not None
+            result = grover_speedup(f)
+            assert result is not None
+            assert "speedup" in result
         except (ImportError, AttributeError):
-            pytest.skip("Quantum module not available")
+            pytest.skip("Quantum complexity module not available")
 
-    def test_quantum_walk_analysis(self):
-        """Test quantum walk analysis."""
+    def test_quantum_walk_bounds(self):
+        """Test quantum walk bounds."""
         f = bf.OR(4)
         try:
-            from boofun.quantum import analyze_quantum_walk
+            from boofun.quantum_complexity import quantum_walk_bounds
 
-            result = analyze_quantum_walk(f)
+            result = quantum_walk_bounds(f)
             assert result is not None
+            assert "spectral_gap" in result
         except (ImportError, AttributeError):
-            pytest.skip("Quantum walk analysis not available")
+            pytest.skip("Quantum complexity module not available")
 
 
 # =============================================================================

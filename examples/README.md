@@ -15,7 +15,7 @@ python examples/01_getting_started.py
 | 4 | `04_property_testing.py` | BLR, junta, monotonicity |
 | 5 | `05_query_complexity.py` | Sensitivity, certificates |
 | 6 | `06_noise_stability.py` | Influences, voting |
-| 7 | `07_quantum_applications.py` | Grover, quantum walks (theoretical) |
+| 7 | `07_quantum_applications.py` | Quantum complexity bounds (Grover, walks — classical computation) |
 | 8 | `08_cryptographic_analysis.py` | S-box analysis, LAT/DDT, bent functions |
 | 9 | `09_partial_functions.py` | Streaming, hex I/O, storage hints |
 | 10 | `10_sensitivity_decision_trees.py` | Sensitivity moments, decision trees |

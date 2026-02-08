@@ -397,43 +397,41 @@ class TestAdapters:
         assert adapted.evaluate([1, 1]) == True
 
 
-class TestQuantumIntegration:
-    """Test quantum module integration."""
+class TestQuantumComplexityIntegration:
+    """Test quantum complexity module integration."""
 
-    def test_quantum_function_creation(self):
-        """Test creating quantum Boolean functions."""
-        # Create classical function
+    def test_complexity_analyzer_creation(self):
+        """Test creating quantum complexity analyzer."""
         xor = bf.create([False, True, True, False])
 
-        # Create quantum version
-        quantum_xor = bf.create_quantum_boolean_function(xor)
+        analyzer = bf.create_complexity_analyzer(xor)
 
-        assert quantum_xor.function == xor
-        assert quantum_xor.n_vars == 2
+        assert analyzer.function == xor
+        assert analyzer.n_vars == 2
 
-    def test_quantum_analysis(self):
-        """Test quantum analysis methods."""
+    def test_grover_analysis(self):
+        """Test Grover complexity bound computation."""
         xor = bf.create([False, True, True, False])
-        quantum_xor = bf.create_quantum_boolean_function(xor)
+        analyzer = bf.create_complexity_analyzer(xor)
 
-        # Test quantum Fourier analysis
-        fourier_results = quantum_xor.quantum_fourier_analysis()
+        grover_results = analyzer.grover_analysis()
 
-        assert isinstance(fourier_results, dict)
-        assert "method" in fourier_results
-        assert "fourier_coefficients" in fourier_results
+        assert isinstance(grover_results, dict)
+        assert "num_solutions" in grover_results
+        assert "speedup" in grover_results
+        # XOR has 2 out of 4 satisfying assignments
+        assert grover_results["num_solutions"] == 2
 
-    def test_quantum_property_testing(self):
-        """Test quantum property testing."""
+    def test_grover_amplitude_analysis(self):
+        """Test Grover amplitude evolution (closed-form)."""
         xor = bf.create([False, True, True, False])
-        quantum_xor = bf.create_quantum_boolean_function(xor)
+        analyzer = bf.create_complexity_analyzer(xor)
 
-        # Test quantum linearity test
-        linearity_result = quantum_xor.quantum_property_testing("linearity")
+        amplitude_results = analyzer.grover_amplitude_analysis()
 
-        assert isinstance(linearity_result, dict)
-        assert "property" in linearity_result
-        assert "is_linear" in linearity_result
+        assert isinstance(amplitude_results, dict)
+        assert "evolution" in amplitude_results
+        assert "num_solutions" in amplitude_results
 
 
 # Integration tests
