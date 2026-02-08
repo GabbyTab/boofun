@@ -226,11 +226,86 @@ Or use the built-in profiling script:
 python scripts/profile_performance.py
 ```
 
+## Working with Large n (> 20 variables)
+
+Most BooFun methods (`.fourier()`, `.influences()`, `.noise_stability()`) materialise the full truth table (2^n entries). This is fine for n <= 20 but becomes a problem beyond that. Here's what to do.
+
+### What works at any n (no truth table needed)
+
+These operations use **oracle access** -- they call `f.evaluate(x)` on individual or sampled inputs and never build a 2^n array:
+
+```python
+import boofun as bf
+from boofun.analysis.sampling import (
+    estimate_fourier_coefficient,
+    estimate_fourier_adaptive,
+    estimate_influence,
+    estimate_total_influence,
+    estimate_expectation,
+    RandomVariableView,
+)
+from boofun.core.adapters import adapt_callable
+
+# Create a function from a callable (no truth table)
+f = adapt_callable(lambda x: x[0] & (x[1] | x[2]), n_vars=30)
+
+# Estimate Fourier coefficients by sampling
+f_hat_S = estimate_fourier_coefficient(f, S=0b101, n_samples=10000)
+
+# Adaptive estimation with target error
+est, std_err, n_used = estimate_fourier_adaptive(f, S=0b101, target_error=0.01)
+
+# Estimate influences
+inf_0 = estimate_influence(f, i=0, n_samples=5000)
+
+# Property testing works at any n (query complexity, not n)
+from boofun.analysis import PropertyTester
+tester = PropertyTester(f)
+tester.blr_linearity_test()    # O(1/epsilon) queries
+tester.monotonicity_test()     # O(n/epsilon) queries
+```
+
+### What triggers truth table materialisation
+
+These operations need the full truth table and will emit a **warning** for n > 25:
+
+- `f.fourier()` (exact Fourier coefficients)
+- `f.influences()` (exact influences)
+- `f.noise_stability(rho)` (exact noise stability)
+- Any representation conversion that routes through `truth_table`
+
+### Controlling the large-n safety check
+
+```python
+from boofun.core.conversion_graph import set_large_n_policy
+
+# Default: warn but proceed
+set_large_n_policy("warn", threshold=25)
+
+# Hard error (good for automated pipelines)
+set_large_n_policy("raise", threshold=22)
+
+# I know what I'm doing -- go up to n=28
+set_large_n_policy("warn", threshold=28)
+
+# Disable entirely
+set_large_n_policy("off")
+```
+
+### Future plans (v2.0.0)
+
+- Symbolic/oracle representations (BDD, ZDD) for n > 25
+- Lazy evaluation that avoids materialisation entirely
+- Large-scale research mode for conjecture-checking at n = 30+
+
+See the [ROADMAP](../ROADMAP.md) for details.
+
 ## Quick Reference
 
-| n range | Recommended setup |
-|---------|-------------------|
-| 1-14 | Default (NumPy) |
-| 15-20 | `pip install boofun[performance]` (Numba) |
-| 20-25 | Add CuPy for GPU, or use Colab |
-| 25+ | GPU required; consider sparse representations (v2.0.0) |
+| n range | Recommended approach |
+|---------|---------------------|
+| 1-14 | Default (NumPy), exact methods |
+| 15-20 | `pip install boofun[performance]` (Numba), exact methods |
+| 20-25 | Add CuPy for GPU, or use Colab. Exact methods still feasible. |
+| 25-30 | Use sampling/estimation (`estimate_fourier_coefficient`, `PropertyTester`). Avoid `.fourier()`. |
+| 30+ | Oracle access only. Wait for v2.0.0 symbolic representations. |

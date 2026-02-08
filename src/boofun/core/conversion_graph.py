@@ -11,11 +11,54 @@ pathfinding (removed in v1.3.0), with no loss of functionality since
 truth_table is the one representation every other type can convert to/from.
 """
 
+import warnings
 from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
 from .representations.registry import get_strategy
 from .spaces import Space
+
+# ---------------------------------------------------------------------------
+# Large-n safety: controls what happens when a conversion would materialise
+# a 2^n truth table for large n.
+#
+# Options:
+#   "warn"  -- emit a warning but proceed (default)
+#   "raise" -- raise ValueError
+#   "off"   -- no check at all
+#   int     -- override the threshold (default 25)
+# ---------------------------------------------------------------------------
+_LARGE_N_POLICY: str = "warn"
+_LARGE_N_THRESHOLD: int = 25
+
+
+def set_large_n_policy(policy: str = "warn", threshold: int = 25) -> None:
+    """Configure what happens when a conversion would create a huge truth table.
+
+    Args:
+        policy: One of ``"warn"`` (default), ``"raise"``, or ``"off"``.
+        threshold: Number of variables above which the policy applies
+                   (default 25, meaning 2^25 = 33 million entries).
+
+    Example::
+
+        import boofun
+        from boofun.core.conversion_graph import set_large_n_policy
+
+        # I know what I'm doing -- let me materialise up to n=28
+        set_large_n_policy("warn", threshold=28)
+
+        # Hard error for safety in automated pipelines
+        set_large_n_policy("raise", threshold=22)
+
+        # Disable the check entirely
+        set_large_n_policy("off")
+    """
+    global _LARGE_N_POLICY, _LARGE_N_THRESHOLD
+    if policy not in ("warn", "raise", "off"):
+        raise ValueError(f"policy must be 'warn', 'raise', or 'off', got {policy!r}")
+    _LARGE_N_POLICY = policy
+    _LARGE_N_THRESHOLD = threshold
 
 
 class ConversionCost:
@@ -87,29 +130,29 @@ class ConversionPath:
         for edge in edges:
             self.total_cost += edge.cost
 
-    # Conversions through truth_table materialise 2^n entries.
-    # Above this threshold, raise instead of silently allocating gigabytes.
-    MAX_SAFE_N_VARS = 25
-
     def execute(self, data: Any, space: Space, n_vars: int) -> Any:
         """Execute the conversion path step by step.
 
-        Raises:
-            ValueError: if the path goes through truth_table and n_vars
-                exceeds MAX_SAFE_N_VARS (to prevent accidental multi-GB
-                allocations).
+        If the path goes through truth_table and n_vars exceeds the
+        configured threshold, behaviour depends on the policy set via
+        :func:`set_large_n_policy` (default: warn).
         """
-        if n_vars > self.MAX_SAFE_N_VARS:
+        if _LARGE_N_POLICY != "off" and n_vars > _LARGE_N_THRESHOLD:
             hub_involved = any(
                 e.source == "truth_table" or e.target == "truth_table" for e in self.edges
             )
             if hub_involved:
-                raise ValueError(
-                    f"Conversion for n_vars={n_vars} would materialise a 2^{n_vars} "
-                    f"truth table ({2**n_vars:,} entries). This exceeds the safety "
-                    f"limit of n={self.MAX_SAFE_N_VARS}. Use oracle-based or "
-                    f"sampling methods instead."
+                msg = (
+                    f"Conversion for n_vars={n_vars} will materialise a 2^{n_vars} "
+                    f"truth table ({2**n_vars:,} entries). Consider using "
+                    f"sampling (estimate_fourier_coefficient) or oracle-based "
+                    f"methods for large n. To adjust this threshold: "
+                    f"from boofun.core.conversion_graph import set_large_n_policy"
                 )
+                if _LARGE_N_POLICY == "raise":
+                    raise ValueError(msg)
+                else:
+                    warnings.warn(msg, stacklevel=2)
         current_data = data
         for edge in self.edges:
             if edge.converter:
