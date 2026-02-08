@@ -67,6 +67,7 @@ def is_unanimous(f: "BooleanFunction") -> bool:
         True if function satisfies unanimity
     """
     n = f.n_vars
+    assert n is not None
 
     # All ones input
     all_ones = (1 << n) - 1  # 111...1
@@ -121,6 +122,7 @@ def find_dictator(f: "BooleanFunction") -> Optional[Tuple[int, bool]]:
         is_negated=True means f(x) = 1 - x_i
     """
     n = f.n_vars
+    assert n is not None
 
     for i in range(n):
         # Check if f equals x_i
@@ -158,6 +160,7 @@ def arrow_analysis(f: "BooleanFunction") -> Dict[str, Any]:
         Dict with Arrow analysis results
     """
     n = f.n_vars
+    assert n is not None
 
     # Check properties
     unanimous = is_unanimous(f)
@@ -178,7 +181,7 @@ def arrow_analysis(f: "BooleanFunction") -> Dict[str, Any]:
     closest_idx, closest_dist, closest_neg = closest_dictator(f)
 
     # Arrow's characterization
-    if is_dictator:
+    if dictator_info is not None:
         arrow_type = "dictator"
         arrow_explanation = f"This is dictator on variable {dictator_info[0]}"
         if dictator_info[1]:
@@ -257,6 +260,7 @@ def voting_power_analysis(f: "BooleanFunction") -> Dict[str, Any]:
     from math import factorial
 
     n = f.n_vars
+    assert n is not None
 
     # Banzhaf power = influence
     banzhaf = f.influences()
@@ -334,7 +338,7 @@ class ArrowAnalyzer:
         """
         self.f = f
         self.n = f.n_vars
-        self._cache = {}
+        self._cache: Dict[str, Any] = {}
 
     def arrow_properties(self) -> Dict[str, Any]:
         """Get Arrow's theorem analysis."""

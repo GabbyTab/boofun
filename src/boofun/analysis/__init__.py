@@ -168,7 +168,27 @@ class SpectralAnalyzer:
             except Exception as e:
                 warnings.warn(f"Numba optimization failed, using fallback: {e}")
 
-        # Fallback to standard computation
+        # Vectorized truth-table path (fast even without Numba)
+        if self.function.has_rep("truth_table"):
+            try:
+                tt = np.asarray(
+                    list(self.function.get_representation("truth_table")),
+                    dtype=np.int8,
+                )
+                size = 1 << self.n_vars
+                influences = np.zeros(self.n_vars)
+                indices = np.arange(size)
+                for i in range(self.n_vars):
+                    flipped = indices ^ (1 << i)
+                    influences[i] = np.mean(tt != tt[flipped])
+                self._influences = influences
+                return influences
+            except Exception as e:
+                warnings.warn(
+                    f"Vectorized influence computation failed, using fallback: {e}"
+                )
+
+        # Brute-force fallback (no truth table available)
         influences = np.zeros(self.n_vars)
         size = 1 << self.n_vars  # 2^n
 

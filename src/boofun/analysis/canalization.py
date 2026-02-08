@@ -18,7 +18,7 @@ References:
   Advances in Applied Mathematics.
 """
 
-from typing import TYPE_CHECKING, Dict, List, Set
+from typing import TYPE_CHECKING, Any, Dict, List, Set
 
 import numpy as np
 
@@ -48,7 +48,7 @@ def is_canalizing(f: "BooleanFunction") -> bool:
         False
     """
     n = f.n_vars
-    if n == 0:
+    if n is None or n == 0:
         return True  # Constant functions are trivially canalizing
 
     tt = list(f.get_representation("truth_table"))
@@ -89,7 +89,7 @@ def get_canalizing_variables(f: "BooleanFunction") -> List[Dict]:
         [{'variable': 0, 'canalizing_input': 0, 'canalized_output': 0}, ...]
     """
     n = f.n_vars
-    if n == 0:
+    if n is None or n == 0:
         return []
 
     tt = list(f.get_representation("truth_table"))
@@ -151,6 +151,7 @@ def _compute_canalizing_depth_recursive(f: "BooleanFunction", fixed_vars: Dict[i
         fixed_vars: Dict mapping variable index to its fixed value (the NON-canalizing value)
     """
     n = f.n_vars
+    assert n is not None
     tt = list(f.get_representation("truth_table"))
 
     # Find available variables (not yet fixed)
@@ -190,7 +191,7 @@ def _compute_canalizing_depth_recursive(f: "BooleanFunction", fixed_vars: Dict[i
 def _compute_canalizing_depth_simple(f: "BooleanFunction") -> int:
     """Simpler canalizing depth computation."""
     n = f.n_vars
-    if n == 0:
+    if n is None or n == 0:
         return 0
 
     # Check if constant
@@ -312,6 +313,7 @@ def get_essential_variables(f: "BooleanFunction") -> List[int]:
         3
     """
     n = f.n_vars
+    assert n is not None
     tt = list(f.get_representation("truth_table"))
     essential = []
 
@@ -354,6 +356,7 @@ def get_input_types(f: "BooleanFunction") -> Dict[int, str]:
         {0: 'positive', 1: 'positive', 2: 'positive'}
     """
     n = f.n_vars
+    assert n is not None
     tt = list(f.get_representation("truth_table"))
     types = {}
 
@@ -404,6 +407,7 @@ def get_symmetry_groups(f: "BooleanFunction") -> List[Set[int]]:
         [{1, 2}, {0}]  # Only non-dictator vars symmetric
     """
     n = f.n_vars
+    assert n is not None
     tt = list(f.get_representation("truth_table"))
 
     # Build adjacency: which pairs of variables are symmetric
@@ -455,7 +459,7 @@ def get_symmetry_groups(f: "BooleanFunction") -> List[Set[int]]:
         union(i, j)
 
     # Collect groups
-    groups_dict = {}
+    groups_dict: Dict[int, Set[int]] = {}
     for i in range(n):
         root = find(i)
         if root not in groups_dict:
@@ -487,7 +491,7 @@ def input_redundancy(f: "BooleanFunction") -> float:
         install the CANA package.
     """
     n = f.n_vars
-    if n == 0:
+    if n is None or n == 0:
         return 1.0
 
     # Count non-essential variables
@@ -551,7 +555,7 @@ class CanalizationAnalyzer:
             f: Boolean function to analyze
         """
         self.f = f
-        self._cache = {}
+        self._cache: Dict[str, Any] = {}
 
     def is_canalizing(self) -> bool:
         """Check if function is canalizing."""
