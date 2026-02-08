@@ -26,7 +26,7 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 |------|--------|-----|
 | Make Numba optional dependency | ADR-004 | Biggest install friction. Move to `[performance]` extra. |
 | Fix `__new__`/`_init` pattern | ADR-009 | Prevents normal subclassing. Replace with standard `__init__`. |
-| Delete GPU stubs (`gpu_acceleration.py`, `gpu.py`) | ADR-005 | 565+ lines of dead code. Keep only CuPy WHT in `optimizations.py`. |
+| Consolidate GPU modules | ADR-005 | Merge `gpu_acceleration.py` and `gpu.py` into one. Remove unused stubs, keep CuPy WHT. |
 | Remove quantum from public API | ADR-005 | Stub-only. Keep as internal placeholder. |
 | Delete `setup.cfg` | Cleanup | Consolidate into `pyproject.toml`. |
 | conda-forge merge | PR #31964 | Fix python_min pin and pypi.org URL, request review. |
@@ -59,11 +59,16 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 - Epsilon-biased distribution construction
 - Fooling verification
 
+**Performance** (for research at larger n):
+- GPU-accelerated WHT via CuPy for n > 20
+- Parallel batch processing for exhaustive search
+- Lazy evaluation for oracle-access functions
+- Rust FFI for performance-critical paths (thomasarmel integration)
+
 **Infrastructure**:
 - ~~conda-forge~~ (PR #31964 submitted)
 - Interactive Jupyter widgets
 - Manim animations for educational content
-- Rust FFI for performance-critical paths (thomasarmel integration)
 
 **Function families**:
 - N-value generators (`n_values.odd()`, `n_values.powers()`)
