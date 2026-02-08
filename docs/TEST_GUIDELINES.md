@@ -195,3 +195,34 @@ class TestFunctionName:
 | test_visualization_*.py | 70+ | Visual output, hard to verify |
 | test_gpu_*.py | 21 | Infrastructure tests |
 | test_benchmarks.py | 9 | Performance tests |
+
+---
+
+## Running Tests
+
+```bash
+pytest tests/                    # All tests
+pytest tests/ -x -q              # Stop on first failure, quiet
+pytest tests/unit/               # Unit tests only
+pytest tests/analysis/           # Analysis module tests
+pytest tests/ --cov=boofun       # With coverage report
+pytest tests/ -k "sensitivity"   # Tests matching keyword
+```
+
+## Test Structure
+
+```
+tests/
+├── unit/           # Individual function tests
+├── integration/    # Cross-module tests
+├── analysis/       # Analysis module tests (Fourier, sensitivity, etc.)
+├── families/       # Built-in function family tests
+├── correctness/    # Bit-ordering, numerical precision
+├── fuzz/           # Edge case fuzzing (Hypothesis)
+├── benchmarks/     # Performance tests
+└── test_*.py       # Top-level test files
+```
+
+**Coverage**: 72% with 3200+ tests. Core analysis modules are 70-85%; visualization and quantum are lower priority.
+
+**CI**: All tests run on every push via GitHub Actions. Pre-commit hooks enforce formatting (black, isort, flake8, codespell).

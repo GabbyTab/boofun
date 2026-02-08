@@ -5,7 +5,7 @@
 
 ## Current State
 
-Core functionality is production-ready. Test coverage at **72%** with 3056+ tests. API is stable with structured exception hierarchy and comprehensive error handling. The library supports the full O'Donnell textbook curriculum with unique features like global hypercontractivity analysis.
+Core functionality is production-ready. Test coverage at **72%** with 3200+ tests. API is stable with structured exception hierarchy and comprehensive error handling. The library supports the full O'Donnell textbook curriculum with unique features like global hypercontractivity analysis.
 
 ## What Exists
 
@@ -152,7 +152,7 @@ New module `analysis/sampling.py` provides probabilistic treatment of Boolean fu
 | families/*.py | 55-70% | 65-75% | +28 new tests |
 | visualization/*.py | 60-70% | 60-70% | ✅ 176 tests |
 | quantum/*.py | ~40% | 40-50% | ✅ 21 tests |
-| **Overall** | **72%** | **70-75%** | **3056+ tests** ✅ |
+| **Overall** | **72%** | **70-75%** | **3200+ tests** ✅ |
 
 #### Recent Progress (Jan 2026)
 - ✅ Added `PropertyTester.local_correct()` - BLR self-correction (7 tests)

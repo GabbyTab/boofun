@@ -125,7 +125,7 @@ Features not found in other Boolean function libraries:
 Test Coverage
 -------------
 
-Test coverage is 71% with 3056 tests. If something breaks, please report it.
+Test coverage is 72% with 3200+ tests. If something breaks, please report it.
 
 API Reference
 =============
