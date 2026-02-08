@@ -329,7 +329,7 @@ class TestBlockSensitivityConsistency:
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_block_sensitivity_vs_huang(self, name):
-        """block_sensitivity.max_block_sensitivity >= huang.block_sensitivity."""
+        """block_sensitivity.max_block_sensitivity == huang.block_sensitivity."""
         from boofun.analysis.block_sensitivity import max_block_sensitivity
         from boofun.analysis.huang import block_sensitivity
 
@@ -337,10 +337,8 @@ class TestBlockSensitivityConsistency:
         bs_exact = max_block_sensitivity(f)
         bs_huang = block_sensitivity(f)
 
-        # Huang uses a greedy algorithm that may undercount
-        # The exact algorithm should be >= the greedy one
-        assert bs_exact >= bs_huang, (
-            f"{name}: exact bs={bs_exact} < huang bs={bs_huang}"
+        assert bs_exact == bs_huang, (
+            f"{name}: exact bs={bs_exact} != huang bs={bs_huang}"
         )
 
 

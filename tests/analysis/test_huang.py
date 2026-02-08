@@ -136,8 +136,8 @@ class TestBlockSensitivity:
         """Parity has block sensitivity n."""
         f = bf.parity(3)
         bs = block_sensitivity(f)
-        # Parity bs = n (can flip all bits as one block, or each individually)
-        assert bs >= 1, f"Parity block sensitivity should be >= 1"
+        # Parity bs = n: each single-bit flip is sensitive and disjoint
+        assert bs == 3, f"Parity(3) block sensitivity should be 3, got {bs}"
 
     def test_constant_block_sensitivity(self):
         """Constant has block sensitivity 0."""
@@ -238,12 +238,12 @@ class TestHuangAnalysis:
         assert "sensitivity" in analyzer._cache
 
     def test_block_sensitivity(self):
-        """block_sensitivity method works."""
+        """block_sensitivity method returns correct value."""
         f = bf.parity(3)
         analyzer = HuangAnalysis(f)
 
         bs = analyzer.block_sensitivity()
-        assert bs >= 1
+        assert bs == 3, f"Parity(3) block sensitivity should be 3, got {bs}"
 
     def test_degree(self):
         """degree method works."""

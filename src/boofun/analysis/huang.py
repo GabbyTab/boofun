@@ -119,53 +119,19 @@ def block_sensitivity(f: "BooleanFunction") -> int:
 
     Huang showed: bs(f) ≤ s(f)²
 
+    This delegates to the exact algorithm in block_sensitivity module,
+    which uses minimal sensitive blocks + backtracking to find the
+    optimal disjoint packing.
+
     Args:
         f: Boolean function
 
     Returns:
         Block sensitivity
     """
-    n = f.n_vars
-    assert n is not None
-    max_bs = 0
+    from .block_sensitivity import max_block_sensitivity
 
-    for x in range(2**n):
-        bs_x = _block_sensitivity_at(f, x)
-        max_bs = max(max_bs, bs_x)
-
-    return max_bs
-
-
-def _block_sensitivity_at(f: "BooleanFunction", x: int) -> int:
-    """Compute block sensitivity at a specific input."""
-    n = f.n_vars
-    assert n is not None
-    f_x = f.evaluate(x)
-
-    # Find all sensitive blocks using greedy approach
-    # A block is sensitive if flipping all its bits changes f(x)
-    sensitive_blocks = []
-    used: set = set()
-
-    # Check all possible non-empty subsets (exponential, but exact)
-    # For efficiency, use greedy: find largest blocks first
-    for size in range(n, 0, -1):
-        for mask in range(1, 2**n):
-            if bin(mask).count("1") != size:
-                continue
-
-            # Check if block uses only unused variables
-            block_vars = {i for i in range(n) if (mask >> i) & 1}
-            if block_vars & used:
-                continue
-
-            # Check if flipping this block changes output
-            flipped = x ^ mask
-            if f.evaluate(flipped) != f_x:
-                sensitive_blocks.append(mask)
-                used |= block_vars
-
-    return len(sensitive_blocks)
+    return max_block_sensitivity(f)
 
 
 def verify_huang_theorem(f: "BooleanFunction") -> Dict[str, Any]:
