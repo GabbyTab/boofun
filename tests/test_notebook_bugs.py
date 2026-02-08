@@ -295,3 +295,40 @@ class TestMajorityTotalInfluenceFormula:
                 f"Majority({n}): I[f]/sqrt(n/pi) = {ratio:.4f} "
                 f"(should be ≈sqrt(2)=1.414, not ≈1.0)"
             )
+
+
+class TestBatchProcessingListData:
+    """
+    Bug: OptimizedTruthTableProcessor fails when function_data is a Python
+    list (not numpy array). Triggered by evaluate() on large numpy arrays.
+
+    Found in: advanced_features_demo.py
+    """
+
+    def test_batch_evaluate_numpy_int_array(self):
+        """evaluate() with a large numpy int array should not warn."""
+        import warnings
+
+        f = bf.create([False, True, True, False])
+        inputs = np.random.randint(0, 4, 1000)
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = f.evaluate(inputs)
+            batch_warnings = [x for x in w if "Batch processing failed" in str(x.message)]
+            assert (
+                len(batch_warnings) == 0
+            ), f"Batch processing warning: {batch_warnings[0].message}"
+
+    def test_batch_evaluate_correctness(self):
+        """Batch evaluate should match sequential evaluate."""
+        f = bf.majority(3)
+        inputs = np.array(list(range(8)) * 20)  # 160 inputs, above threshold
+
+        # Batch
+        batch_result = f.evaluate(inputs)
+
+        # Sequential
+        sequential = [f.evaluate(int(x)) for x in range(8)] * 20
+
+        assert list(batch_result) == sequential
