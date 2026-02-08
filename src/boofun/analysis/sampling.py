@@ -287,6 +287,60 @@ def estimate_fourier_coefficient(
     return float(estimate)
 
 
+def estimate_fourier_adaptive(
+    f: "BooleanFunction",
+    S: int,
+    target_error: float = 0.01,
+    confidence: float = 0.95,
+    max_samples: int = 100000,
+    batch_size: int = 1000,
+    rng: Optional[np.random.Generator] = None,
+) -> Tuple[float, float, int]:
+    """
+    Adaptively estimate f_hat(S) until standard error is below target.
+
+    Starts with batch_size samples and adds more until target_error
+    is achieved or max_samples is reached.
+
+    Args:
+        f: BooleanFunction to analyze
+        S: Subset mask (integer)
+        target_error: Stop when std_error < target_error
+        confidence: Confidence level (reserved for future CI support)
+        max_samples: Maximum number of samples (budget)
+        batch_size: Samples per iteration
+        rng: Random number generator
+
+    Returns:
+        Tuple of (estimate, std_error, total_samples_used)
+
+    Example:
+        >>> est, se, n = estimate_fourier_adaptive(f, S=1, target_error=0.01)
+    """
+    if rng is None:
+        rng = np.random.default_rng()
+
+    all_products: list = []
+    total = 0
+
+    while total < max_samples:
+        inputs, outputs = sample_input_output_pairs(f, batch_size, 0.5, rng)
+        f_vals = 1.0 - 2.0 * outputs.astype(float)
+        inner_products = np.array([bin(int(x) & S).count("1") for x in inputs])
+        chi_vals = 1.0 - 2.0 * (inner_products % 2)
+        all_products.extend(f_vals * chi_vals)
+        total += batch_size
+
+        arr = np.array(all_products)
+        std_error = float(np.std(arr) / np.sqrt(len(arr)))
+        if std_error <= target_error:
+            break
+
+    estimate = float(np.mean(all_products))
+    std_error = float(np.std(all_products) / np.sqrt(len(all_products)))
+    return (estimate, std_error, total)
+
+
 def estimate_influence(
     f: "BooleanFunction",
     i: int,
@@ -297,7 +351,7 @@ def estimate_influence(
     """
     Estimate influence of variable i via Monte Carlo sampling.
 
-    Uses the identity Inf_i[f] = Pr_x[f(x) ≠ f(x^{(i)})].
+    Uses the identity Inf_i[f] = Pr_x[f(x) != f(x^{(i)})].
 
     Args:
         f: BooleanFunction to analyze
