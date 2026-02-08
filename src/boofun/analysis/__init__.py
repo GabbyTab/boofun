@@ -69,10 +69,16 @@ class SpectralAnalyzer:
         #   f(x) = 0  →  +1  (in ±1 domain)
         #   f(x) = 1  →  -1  (in ±1 domain)
         # This ensures the fundamental identity f̂(∅) = E[f] holds.
-        f_vals = np.zeros(size, dtype=float)
-        for i in range(size):
-            val = self.function.evaluate(np.array(i))
-            f_vals[i] = -1.0 if val else 1.0
+        try:
+            # Fast path: read truth table directly (avoids 2^n evaluate() calls)
+            tt = np.asarray(self.function.get_representation("truth_table"), dtype=float)
+            f_vals = 1.0 - 2.0 * tt
+        except Exception:
+            # Fallback: evaluate entry-by-entry (for oracle/callable functions)
+            f_vals = np.zeros(size, dtype=float)
+            for i in range(size):
+                val = self.function.evaluate(np.array(i))
+                f_vals[i] = -1.0 if val else 1.0
 
         # Compute Fourier coefficients using Walsh-Hadamard transform
         self._fourier_coeffs = self._walsh_hadamard_transform(f_vals)
