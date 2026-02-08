@@ -165,3 +165,111 @@ class Space(Enum):
             return 0.0  # Standard normal median
         else:
             return 0.5
+
+
+class Measure:
+    """
+    A probability measure on the Boolean hypercube.
+
+    Supports uniform (p=0.5) and p-biased measures where each bit is 1
+    independently with probability p.
+
+    This unifies p-biased analysis: instead of calling separate functions
+    from analysis/p_biased.py, pass a Measure to standard methods.
+
+    Examples:
+        >>> uniform = Measure.uniform()
+        >>> biased = Measure.p_biased(0.3)
+        >>> biased.p       # 0.3
+        >>> biased.sigma    # sqrt(0.3 * 0.7)
+    """
+
+    def __init__(self, p: float = 0.5):
+        if not 0 < p < 1:
+            raise ValueError(f"Bias p must be in (0, 1), got {p}")
+        self._p = p
+
+    @classmethod
+    def uniform(cls) -> "Measure":
+        """The uniform measure (p = 1/2)."""
+        return cls(0.5)
+
+    @classmethod
+    def p_biased(cls, p: float) -> "Measure":
+        """P-biased measure: each bit is 1 with probability p."""
+        return cls(p)
+
+    @property
+    def p(self) -> float:
+        """Bias parameter."""
+        return self._p
+
+    @property
+    def sigma(self) -> float:
+        """Standard deviation of a single bit: sqrt(p(1-p))."""
+        return np.sqrt(self._p * (1 - self._p))
+
+    @property
+    def is_uniform(self) -> bool:
+        """True if this is the uniform measure (p = 0.5)."""
+        return self._p == 0.5
+
+    def sample(self, n: int, rng=None) -> np.ndarray:
+        """Sample a random input from this measure.
+
+        Args:
+            n: Number of variables
+            rng: NumPy random generator (optional)
+
+        Returns:
+            Binary array of length n
+        """
+        if rng is None:
+            rng = np.random.default_rng()
+        return (rng.random(n) < self._p).astype(int)
+
+    def sample_batch(self, n: int, n_samples: int, rng=None) -> np.ndarray:
+        """Sample multiple inputs from this measure.
+
+        Args:
+            n: Number of variables
+            n_samples: Number of samples
+            rng: NumPy random generator (optional)
+
+        Returns:
+            Array of shape (n_samples, n) with binary entries
+        """
+        if rng is None:
+            rng = np.random.default_rng()
+        return (rng.random((n_samples, n)) < self._p).astype(int)
+
+    def weight(self, x) -> float:
+        """Probability of a specific input under this measure.
+
+        Args:
+            x: Input as integer index or binary array
+
+        Returns:
+            mu_p(x) = p^|x| * (1-p)^(n-|x|)
+        """
+        if isinstance(x, (int, np.integer)):
+            k = bin(int(x)).count("1")
+            # Need n to compute, but can infer from context
+            return self._p**k * (1 - self._p) ** (0)  # Partial, needs n
+        x = np.asarray(x)
+        k = int(np.sum(x))
+        n = len(x)
+        return self._p**k * (1 - self._p) ** (n - k)
+
+    def __repr__(self) -> str:
+        if self.is_uniform:
+            return "Measure.uniform()"
+        return f"Measure.p_biased({self._p})"
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Measure):
+            return NotImplemented
+        return self._p == other._p
+
+    def __hash__(self) -> int:
+        return hash(self._p)
