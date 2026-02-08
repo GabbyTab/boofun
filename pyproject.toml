@@ -58,7 +58,7 @@ dev = [
     "pytest-benchmark>=4.0.0",
     "black>=22.0.0",
     "flake8>=5.0.0",
-    "mypy>=1.0.0",
+    "mypy~=1.13.0",  # Pin minor version; bump in v1.3 and fix new var-annotated errors
     "pre-commit>=3.0.0",
     "isort>=5.12.0",
     "mutmut>=2.4.0",  # Mutation testing
@@ -143,113 +143,21 @@ strict_equality = true
 ignore_missing_imports = true
 show_error_codes = true
 
-# Per-module configuration
+# Per-module overrides (only non-default settings)
 [[tool.mypy.overrides]]
 module = "boofun.core.optimizations"
-disallow_untyped_decorators = false
+disallow_untyped_decorators = false  # Numba decorators
 warn_return_any = false
 
 [[tool.mypy.overrides]]
 module = "boofun.core.numba_optimizations"
-disallow_untyped_decorators = false
+disallow_untyped_decorators = false  # Numba decorators
 warn_return_any = false
 
 [[tool.mypy.overrides]]
 module = "boofun.core.gpu_acceleration"
-disallow_untyped_decorators = false
+disallow_untyped_decorators = false  # CuPy decorators
 warn_return_any = false
-
-[[tool.mypy.overrides]]
-module = "boofun.quantum.*"
-ignore_errors = false  # Qiskit/Cirq have complex typing
-
-[[tool.mypy.overrides]]
-module = "boofun.visualization.*"
-ignore_errors = false  # Matplotlib/Plotly typing is complex
-
-[[tool.mypy.overrides]]
-module = "boofun.analysis.huang"
-ignore_errors = false  # Heavy numpy/scipy usage
-
-[[tool.mypy.overrides]]
-module = "boofun.analysis.pac_learning"
-ignore_errors = false  # Complex ML-style code
-
-[[tool.mypy.overrides]]
-module = "boofun.analysis.arrow"
-ignore_errors = false  # Complex Arrow's theorem implementation
-
-[[tool.mypy.overrides]]
-module = "boofun.analysis.canalization"
-ignore_errors = false  # Complex biology-inspired analysis
-
-[[tool.mypy.overrides]]
-module = "boofun.analysis.communication_complexity"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.analysis.global_hypercontractivity"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.analysis.fkn"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.core.representations.*"
-ignore_errors = false  # Complex representation conversions
-
-[[tool.mypy.overrides]]
-module = "boofun.testing.*"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.benchmarks.*"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.families.*"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.analysis"
-ignore_errors = false  # Complex classes with many optional attrs
-
-[[tool.mypy.overrides]]
-module = "boofun.analysis.*"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.core.auto_representation"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.core.base"
-ignore_errors = false  # Passes mypy (Feb 2026)
-
-[[tool.mypy.overrides]]
-module = "boofun.core.gpu"
-ignore_errors = false  # GPU/CUDA typing
-
-[[tool.mypy.overrides]]
-module = "boofun.core.gpu_acceleration"
-ignore_errors = false  # GPU/CUDA typing
-
-[[tool.mypy.overrides]]
-module = "boofun.core.adapters"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.core.conversion_graph"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.core.errormodels"
-ignore_errors = false
-
-[[tool.mypy.overrides]]
-module = "boofun.core.factory"
-ignore_errors = false  # Passes mypy (Feb 2026)
 
 [tool.flake8]
 max-line-length = 100
