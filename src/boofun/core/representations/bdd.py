@@ -127,11 +127,15 @@ class BDD:
 
         current = self.root
         while not current.is_terminal:
+            assert current.var is not None
             if inputs[current.var]:
+                assert current.high is not None
                 current = current.high
             else:
+                assert current.low is not None
                 current = current.low
 
+        assert current.value is not None
         return current.value
 
     def get_node_count(self) -> int:
@@ -148,8 +152,10 @@ class BDD:
                 continue
 
             visited.add(node)
-            stack.append(node.low)
-            stack.append(node.high)
+            if node.low is not None:
+                stack.append(node.low)
+            if node.high is not None:
+                stack.append(node.high)
 
         return len(visited) + 2  # +2 for terminal nodes
 
@@ -174,7 +180,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
             Boolean result(s)
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         if inputs.ndim == 0:
             # Single integer index
@@ -183,7 +189,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         elif inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
-                binary_input = inputs.astype(bool)
+                binary_input = inputs.astype(bool)  # type: ignore[assignment]
                 return data.evaluate(binary_input)
             else:
                 # Array of integer indices
@@ -229,7 +235,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         truth_table = []
 
         for i in range(size):
-            val = source_repr.evaluate(i, source_data, space, n_vars)
+            val = source_repr.evaluate(i, source_data, space, n_vars)  # type: ignore[arg-type]
             truth_table.append(bool(val))
 
         # Build BDD from truth table
@@ -319,7 +325,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
             "space_complexity": 0,  # O(nodes) - often much smaller than 2^n
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return storage requirements for BDD representation."""
         return {
             "max_nodes": 2**n_vars,  # Worst case

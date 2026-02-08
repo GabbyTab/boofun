@@ -160,7 +160,7 @@ def nonlinearity(f: "BooleanFunction") -> int:
         return 0
 
     W = walsh_transform(f)
-    max_walsh = np.max(np.abs(W))
+    max_walsh: int = int(np.max(np.abs(W)))
 
     return int((1 << (n - 1)) - max_walsh // 2)
 
@@ -455,7 +455,7 @@ class CryptographicAnalyzer:
 
     def nonlinearity(self) -> int:
         """Compute nonlinearity."""
-        max_walsh = np.max(np.abs(self.walsh))
+        max_walsh: int = int(np.max(np.abs(self.walsh)))
         return int((1 << (self.n_vars - 1)) - max_walsh // 2)
 
     def is_bent(self) -> bool:

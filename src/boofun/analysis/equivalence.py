@@ -20,7 +20,7 @@ under these transformations, enabling fast equivalence checking.
 from __future__ import annotations
 
 from itertools import permutations
-from typing import TYPE_CHECKING, Iterator, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Tuple
 
 import numpy as np
 
@@ -201,7 +201,7 @@ def are_equivalent(
 
 def automorphisms(
     f: "BooleanFunction", include_shifts: bool = False, include_negation: bool = False
-) -> List[Tuple[int, ...]]:
+) -> List[Any]:
     """
     Find all automorphisms (self-symmetries) of a Boolean function.
 
@@ -229,7 +229,7 @@ def automorphisms(
     truth_table = list(f.get_representation("truth_table"))
     size = 1 << n
 
-    autos = []
+    autos: List[Any] = []
 
     for perm in _generate_permutations(n):
         # Apply permutation
@@ -295,7 +295,7 @@ class PermutationEquivalence:
     """
 
     def __init__(self):
-        self._cache = {}
+        self._cache: Dict[Any, Any] = {}
 
     def canonical(self, f: "BooleanFunction") -> Tuple[int, ...]:
         """Get cached canonical form."""
@@ -322,7 +322,7 @@ class AffineEquivalence:
     """
 
     def __init__(self, include_negation: bool = True):
-        self._cache = {}
+        self._cache: Dict[Any, Any] = {}
         self.include_negation = include_negation
 
     def canonical(self, f: "BooleanFunction") -> Tuple[int, ...]:
@@ -363,7 +363,7 @@ def is_symmetric(f: "BooleanFunction") -> bool:
     # Check that all inputs of the same Hamming weight give the same output
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=int)
 
-    weight_outputs = {}
+    weight_outputs: Dict[int, int] = {}
     for x in range(1 << n):
         weight = bin(x).count("1")
         output = int(truth_table[x])

@@ -20,7 +20,7 @@ Key applications:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict, List, Optional, Set
+from typing import TYPE_CHECKING, Dict, List, Optional, Set, Union
 
 import numpy as np
 
@@ -208,13 +208,13 @@ def restriction_shrinkage(
     return {
         "original_dt_depth": original_dt_depth,
         "original_gf2_degree": original_gf2_deg,
-        "avg_restricted_dt_depth": np.mean(dt_depths) if dt_depths else 0,
-        "avg_restricted_gf2_degree": np.mean(gf2_degrees) if gf2_degrees else 0,
-        "avg_free_vars": np.mean(num_free_vars) if num_free_vars else 0,
+        "avg_restricted_dt_depth": float(np.mean(dt_depths)) if dt_depths else 0.0,
+        "avg_restricted_gf2_degree": float(np.mean(gf2_degrees)) if gf2_degrees else 0.0,
+        "avg_free_vars": float(np.mean(num_free_vars)) if num_free_vars else 0.0,
         "expected_free_vars": n * p,
         "constant_fraction": constant_count / num_samples,
         "depth_shrinkage_factor": (
-            np.mean(dt_depths) / original_dt_depth if original_dt_depth > 0 else 0
+            float(np.mean(dt_depths)) / original_dt_depth if original_dt_depth > 0 else 0.0
         ),
     }
 
@@ -253,14 +253,14 @@ def average_restricted_decision_tree_depth(
 
         try:
             f_rho = apply_restriction(f, rho)
-            if f_rho.n_vars > 0:
+            if f_rho.n_vars is not None and f_rho.n_vars > 0:
                 depths.append(decision_tree_depth(f_rho))
             else:
                 depths.append(0)
         except Exception:
             continue
 
-    return np.mean(depths) if depths else 0.0
+    return float(np.mean(depths)) if depths else 0.0
 
 
 def switching_lemma_probability(width: int, p: float, depth_threshold: int) -> float:
@@ -306,7 +306,7 @@ def batch_random_restrictions(
     return [random_restriction(n, p, rng) for _ in range(num_restrictions)]
 
 
-def restriction_to_inputs(rho: Restriction, num_inputs: int = None) -> List[int]:
+def restriction_to_inputs(rho: Restriction, num_inputs: Optional[int] = None) -> List[int]:
     """
     Generate all inputs consistent with a restriction.
 
@@ -380,13 +380,13 @@ def min_fixing_to_constant(
 
     # Greedy approach: try to fix variables one at a time
     # This doesn't guarantee minimum but is efficient
-    fixed = {}
+    fixed: Dict[int, int] = {}
     remaining = set(range(n))
 
     while remaining:
         # Check if already constant
         is_constant = True
-        first_val = None
+        first_val: Optional[bool] = None
 
         for x in range(1 << n):
             # Check if x is consistent with current fixing
@@ -398,10 +398,10 @@ def min_fixing_to_constant(
                     break
 
             if consistent:
-                val = bool(f.evaluate(x))
+                fval = bool(f.evaluate(x))
                 if first_val is None:
-                    first_val = val
-                elif val != first_val:
+                    first_val = fval
+                elif fval != first_val:
                     is_constant = False
                     break
 
@@ -444,7 +444,7 @@ def min_fixing_to_constant(
                     best_var = var
                     best_val = val
 
-        if best_var is not None:
+        if best_var is not None and best_val is not None:
             fixed[best_var] = best_val
             remaining.remove(best_var)
         else:

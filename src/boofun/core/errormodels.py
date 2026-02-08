@@ -7,7 +7,7 @@ noise, and approximation in Boolean function computations.
 
 import warnings
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional, Union
+from typing import Any, Callable, Dict, Optional, Union
 
 import numpy as np
 
@@ -220,7 +220,7 @@ class NoiseErrorModel(ErrorModel):
             return noisy_result
         else:
             # For other types, add noise metadata
-            return {
+            return {  # type: ignore[unreachable]
                 "value": result,
                 "noise_applied": True,
                 "noise_rate": self.noise_rate,
@@ -269,7 +269,7 @@ class LinearErrorModel(ErrorModel):
         else:
             return result
 
-    def propagate_binary_op(self, left_error: Any, right_error: Any, operation: callable) -> Any:
+    def propagate_binary_op(self, left_error: Any, right_error: Any, operation: Callable) -> Any:
         """
         Automatic error propagation for binary operations.
 

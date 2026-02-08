@@ -58,7 +58,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
             Boolean result(s)
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         # Get the underlying data
         if HAS_BITARRAY and isinstance(data, dict) and "bitarray" in data:
@@ -159,7 +159,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
             ba.setall(False)
 
             for idx in range(size):
-                val = source_repr.evaluate(idx, source_data, space, n_vars)
+                val = source_repr.evaluate(idx, source_data, space, n_vars)  # type: ignore[arg-type]
                 ba[idx] = bool(val)
 
             return {"bitarray": ba, "n_vars": n_vars, "size": size}
@@ -168,7 +168,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
             arr = np.zeros(size, dtype=bool)
 
             for idx in range(size):
-                val = source_repr.evaluate(idx, source_data, space, n_vars)
+                val = source_repr.evaluate(idx, source_data, space, n_vars)  # type: ignore[arg-type]
                 arr[idx] = bool(val)
 
             return {
@@ -267,7 +267,7 @@ def create_packed_truth_table(truth_table: np.ndarray) -> Dict[str, Any]:
         return {"array": np.packbits(truth_table.astype(bool)), "n_vars": n_vars, "size": size}
 
 
-def memory_comparison(n_vars: int) -> Dict[str, str]:
+def memory_comparison(n_vars: int) -> Dict[str, Any]:
     """
     Compare memory usage for different truth table representations.
 

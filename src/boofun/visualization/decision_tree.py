@@ -61,12 +61,16 @@ class DecisionTreeNode:
     def evaluate(self, x: int) -> int:
         """Evaluate the decision tree on input x."""
         if self.is_leaf:
+            assert self.value is not None
             return self.value
 
+        assert self.variable is not None
         bit = (x >> self.variable) & 1
         if bit == 0:
+            assert self.left is not None
             return self.left.evaluate(x)
         else:
+            assert self.right is not None
             return self.right.evaluate(x)
 
     def __repr__(self) -> str:
@@ -98,6 +102,7 @@ def build_optimal_decision_tree(
         Root of the decision tree
     """
     n = f.n_vars
+    assert n is not None
 
     if available_vars is None:
         available_vars = list(range(n))
@@ -178,6 +183,8 @@ def decision_tree_to_dict(node: DecisionTreeNode) -> Dict[str, Any]:
     if node.is_leaf:
         return {"type": "leaf", "value": node.value}
 
+    assert node.left is not None
+    assert node.right is not None
     return {
         "type": "internal",
         "variable": node.variable,
@@ -190,6 +197,8 @@ def _count_nodes(node: DecisionTreeNode) -> int:
     """Count total nodes in tree."""
     if node.is_leaf:
         return 1
+    assert node.left is not None
+    assert node.right is not None
     return 1 + _count_nodes(node.left) + _count_nodes(node.right)
 
 
@@ -197,6 +206,8 @@ def _tree_depth(node: DecisionTreeNode) -> int:
     """Get maximum depth of tree."""
     if node.is_leaf:
         return 0
+    assert node.left is not None
+    assert node.right is not None
     return 1 + max(_tree_depth(node.left), _tree_depth(node.right))
 
 

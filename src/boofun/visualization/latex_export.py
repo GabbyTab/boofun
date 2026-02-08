@@ -10,7 +10,7 @@ This module provides comprehensive LaTeX export for:
 """
 
 import logging
-from typing import TYPE_CHECKING, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 
 # Module logger
 _logger = logging.getLogger("boofun.visualization.latex_export")
@@ -51,6 +51,7 @@ def export_fourier_tikz(
         TikZ code string
     """
     n = f.n_vars
+    assert n is not None
     fourier = f.fourier()
 
     if var_names is None:
@@ -72,7 +73,7 @@ def export_fourier_tikz(
         f"    xtick=data,",
     ]
 
-    if show_labels and n <= 4:
+    if show_labels and n is not None and n <= 4:
         # Create subset labels
         labels = []
         for i in range(max_show):
@@ -127,6 +128,7 @@ def export_influences_tikz(
         TikZ code string
     """
     n = f.n_vars
+    assert n is not None
     influences = f.influences()
 
     if var_names is None:
@@ -202,6 +204,9 @@ def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
         "]",
     ]
 
+    positions: Dict[str, Tuple[float, float]] = {}
+    edges: List[Tuple[str, str]] = []
+
     if n == 2:
         # Square
         positions = {
@@ -210,7 +215,7 @@ def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
             "10": (0, 1),
             "11": (1, 1),
         }
-        edges = [("00", "01"), ("00", "10"), ("01", "11"), ("10", "11")]
+        edges = [("00", "01"), ("00", "10"), ("01", "11"), ("10", "11")]  # noqa: E501
     elif n == 3:
         # Cube
         positions = {
@@ -240,14 +245,12 @@ def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
     else:  # n == 4
         # Tesseract projection
         inner_offset = 0.3
-        positions = {}
         for i in range(16):
             bits = format(i, "04b")
-            x = int(bits[3]) + inner_offset * int(bits[1])
-            y = int(bits[2]) + inner_offset * int(bits[0])
+            x: float = int(bits[3]) + inner_offset * int(bits[1])
+            y: float = int(bits[2]) + inner_offset * int(bits[0])
             positions[bits] = (x, y)
 
-        edges = []
         for i in range(16):
             for b in range(4):
                 j = i ^ (1 << b)
@@ -285,6 +288,7 @@ def export_spectrum_table(
         LaTeX table string
     """
     n = f.n_vars
+    assert n is not None
     fourier = f.fourier()
 
     if var_names is None:
@@ -321,7 +325,7 @@ def export_spectrum_table(
 
 
 def export_comparison_table(
-    functions: Dict[str, "BooleanFunction"], properties: List[str] = None
+    functions: Dict[str, "BooleanFunction"], properties: Optional[List[str]] = None
 ) -> str:
     """
     Export comparison table of multiple functions.
@@ -364,6 +368,7 @@ def export_comparison_table(
 
         for name, f in functions.items():
             try:
+                val: Any
                 if prop == "n_vars":
                     val = f.n_vars
                 elif prop == "total_influence":
@@ -412,7 +417,9 @@ class LaTeXExporter:
             var_names: Variable names
         """
         self.function = f
-        self.var_names = var_names or [str(i) for i in range(f.n_vars)]
+        n = f.n_vars
+        assert n is not None
+        self.var_names = var_names or [str(i) for i in range(n)]
 
     def fourier_spectrum(self, **kwargs) -> str:
         """Export Fourier spectrum as TikZ."""

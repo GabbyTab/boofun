@@ -61,6 +61,7 @@ def sample_function(
         rng = np.random.default_rng()
 
     n = f.n_vars
+    assert n is not None
     samples = []
 
     for _ in range(num_samples):
@@ -102,6 +103,7 @@ def pac_learn_low_degree(
         rng = np.random.default_rng()
 
     n = f.n_vars
+    assert n is not None
 
     # Number of samples needed
     from math import comb
@@ -166,6 +168,7 @@ def pac_learn_junta(
         rng = np.random.default_rng()
 
     n = f.n_vars
+    assert n is not None
 
     # Step 1: Find influential variables using sampling
     # Estimate influence of each variable
@@ -191,13 +194,13 @@ def pac_learn_junta(
 
     # Step 3: Learn the function restricted to these variables
     # Build truth table on the k variables
-    learned_function = {}
+    learned_function: Dict[int, float] = {}
 
     num_verify_samples = int(2**k * np.log(2**k / delta) / epsilon**2)
     num_verify_samples = max(num_verify_samples, 2 ** (k + 2))
 
     # Sample and majority vote for each setting of relevant variables
-    vote_counts = defaultdict(lambda: [0, 0])
+    vote_counts: Dict[int, list] = defaultdict(lambda: [0, 0])
 
     for _ in range(num_verify_samples):
         x = int(rng.integers(0, 2**n))
@@ -214,7 +217,7 @@ def pac_learn_junta(
     # Majority vote
     for rel_val in range(2**k):
         counts = vote_counts[rel_val]
-        learned_function[rel_val] = 1 if counts[1] > counts[0] else 0
+        learned_function[rel_val] = 1.0 if counts[1] > counts[0] else 0.0
 
     return relevant_vars, learned_function
 
@@ -249,6 +252,7 @@ def lmn_algorithm(
         rng = np.random.default_rng()
 
     n = f.n_vars
+    assert n is not None
 
     # LMN degree: O(log(1/ε)/log(log(1/ε)))
     # Simplified: use log(1/ε)
@@ -359,6 +363,7 @@ def pac_learn_monotone(
         rng = np.random.default_rng()
 
     n = f.n_vars
+    assert n is not None
 
     # Monotone functions are O(√n)-concentrated
     # Use degree about √n
@@ -399,13 +404,15 @@ class PACLearner:
             rng: Random number generator
         """
         self.f = f
-        self.n = f.n_vars
+        n_vars = f.n_vars
+        assert n_vars is not None
+        self.n: int = n_vars
         self.epsilon = epsilon
         self.delta = delta
         self.rng = rng or np.random.default_rng()
 
         self.sample_count = 0
-        self._samples_cache = []
+        self._samples_cache: List[Tuple[int, int]] = []
 
     def sample(self, num_samples: int) -> List[Tuple[int, int]]:
         """Draw samples and track count."""

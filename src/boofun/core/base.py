@@ -268,7 +268,7 @@ class BooleanFunction(Evaluable, Representable):
 
         for source_rep_type, source_data in self.representations.items():
             path = find_conversion_path(source_rep_type, rep_type, self.n_vars)
-            if path and (best_path is None or path.total_cost < best_path.total_cost):
+            if path and (best_path is None or path.total_cost < best_path.total_cost):  # type: ignore[unreachable]
                 best_path = path
                 best_source_data = source_data
 
@@ -567,7 +567,7 @@ class BooleanFunction(Evaluable, Representable):
         best_cost = None
         for source_rep in self.representations.keys():
             cost = estimate_conversion_cost(source_rep, target_rep, self.n_vars)
-            if cost and (best_cost is None or cost < best_cost):
+            if cost and (best_cost is None or cost < best_cost):  # type: ignore[unreachable]
                 best_cost = cost
 
         return best_cost
@@ -777,7 +777,7 @@ class BooleanFunction(Evaluable, Representable):
             Bias value in [-1, 1]
         """
         tt = np.asarray(self.get_representation("truth_table"), dtype=bool)
-        ones_count = np.sum(tt)
+        ones_count: int = int(np.sum(tt))
         total = len(tt)
         return 1.0 - 2.0 * (ones_count / total)
 
@@ -789,7 +789,7 @@ class BooleanFunction(Evaluable, Representable):
             True if the function outputs 0 and 1 equally often
         """
         tt = np.asarray(self.get_representation("truth_table"), dtype=bool)
-        ones_count = np.sum(tt)
+        ones_count: int = int(np.sum(tt))
         return ones_count == len(tt) // 2
 
     # =========================================================================
@@ -923,7 +923,7 @@ class BooleanFunction(Evaluable, Representable):
         Returns:
             Influence value in [0, 1]
         """
-        return self.influences()[var]
+        return float(self.influences()[var])
 
     def total_influence(self) -> float:
         """

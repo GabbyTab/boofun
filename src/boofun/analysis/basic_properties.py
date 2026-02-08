@@ -157,6 +157,8 @@ def make_unate(f: "BooleanFunction") -> Optional["BooleanFunction"]:
     if n is None:
         return f
 
+    assert polarities is not None
+
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
 
     # Apply polarities
@@ -328,7 +330,7 @@ def is_balanced(f: "BooleanFunction") -> bool:
 
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
 
-    ones = np.sum(truth_table)
+    ones: int = int(np.sum(truth_table))
     total = len(truth_table)
 
     return ones == total // 2
@@ -457,8 +459,8 @@ def is_prime(f: "BooleanFunction") -> bool:
     analyzer = SpectralAnalyzer(f)
     influences = analyzer.influences()
 
-    max_inf = np.max(influences)
-    min_inf = np.min(influences)
+    max_inf: float = float(np.max(influences))
+    min_inf: float = float(np.min(influences))
 
     # If one variable dominates, might be decomposable
     if max_inf > 2 * min_inf and min_inf < 0.1:

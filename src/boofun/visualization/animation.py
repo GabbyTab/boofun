@@ -11,7 +11,7 @@ Supports:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Callable, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -68,9 +68,9 @@ class GrowthAnimator:
         """
         _check_matplotlib()
         self.family = family
-        self.fig = None
-        self.anim = None
-        self._frames_data = []
+        self.fig: Any = None
+        self.anim: Any = None
+        self._frames_data: List[Dict[str, Any]] = []
 
     def animate(
         self,
@@ -404,7 +404,7 @@ def animate_fourier_spectrum(
 
 def create_growth_animation(
     family: "FunctionFamily",
-    properties: List[str] = None,
+    properties: Optional[List[str]] = None,
     n_range: Tuple[int, int, int] = (3, 15, 2),
     figsize: Tuple[int, int] = (14, 8),
     interval: int = 600,
@@ -431,10 +431,10 @@ def create_growth_animation(
     num_props = len(properties)
 
     # Compute all data
-    frames_data = []
+    frames_data: List[Dict[str, Any]] = []
     for n in n_values:
         f = family.generate(n)
-        frame = {"n": n}
+        frame: Dict[str, Any] = {"n": n}
 
         for prop in properties:
             if prop == "total_influence":

@@ -45,7 +45,7 @@ class PerformanceBenchmark:
         """
         self.warmup_runs = warmup_runs
         self.benchmark_runs = benchmark_runs
-        self.results = {}
+        self.results: Dict[str, Any] = {}
 
     @contextmanager
     def timer(self):
@@ -65,7 +65,7 @@ class PerformanceBenchmark:
             "peak_memory": max(start_memory, end_memory),
         }
 
-    def benchmark_function(self, func: Callable, *args, **kwargs) -> Dict[str, float]:
+    def benchmark_function(self, func: Callable, *args, **kwargs) -> Dict[str, Any]:
         """
         Benchmark a single function with multiple runs.
 
@@ -95,13 +95,13 @@ class PerformanceBenchmark:
             memory_deltas.append(self.last_timing["memory_delta"])
 
         return {
-            "mean_time": np.mean(durations),
-            "std_time": np.std(durations),
-            "min_time": np.min(durations),
-            "max_time": np.max(durations),
-            "mean_memory": np.mean(memory_deltas),
-            "std_memory": np.std(memory_deltas),
-            "result": result if "result" in locals() else None,
+            "mean_time": float(np.mean(durations)),
+            "std_time": float(np.std(durations)),
+            "min_time": float(np.min(durations)),
+            "max_time": float(np.max(durations)),
+            "mean_memory": float(np.mean(memory_deltas)),
+            "std_memory": float(np.std(memory_deltas)),
+            "result": result if "result" in locals() else None,  # type: ignore[possibly-undefined]
         }
 
     def benchmark_creation(self, n_vars_range: List[int]) -> Dict[str, Any]:
@@ -114,7 +114,7 @@ class PerformanceBenchmark:
         Returns:
             Benchmark results for each method
         """
-        results = {
+        results: Dict[str, Any] = {
             "truth_table": {"n_vars": [], "times": [], "memory": []},
             "majority": {"n_vars": [], "times": [], "memory": []},
             "parity": {"n_vars": [], "times": [], "memory": []},
@@ -154,7 +154,7 @@ class PerformanceBenchmark:
         Returns:
             Evaluation benchmark results
         """
-        results = {
+        results: Dict[str, Any] = {
             "single_eval": {"n_vars": [], "times": []},
             "batch_eval": {"n_vars": [], "times": []},
             "binary_eval": {"n_vars": [], "times": []},
@@ -200,7 +200,7 @@ class PerformanceBenchmark:
         Returns:
             Spectral analysis benchmark results
         """
-        results = {
+        results: Dict[str, Any] = {
             "influences": {"n_vars": [], "times": []},
             "fourier": {"n_vars": [], "times": []},
             "noise_stability": {"n_vars": [], "times": []},
@@ -248,7 +248,7 @@ class PerformanceBenchmark:
         # Create test function
         base_func = BooleanFunctionBuiltins.majority(n_vars)
 
-        results = {"creation": {}, "evaluation": {}, "memory": {}}
+        results: Dict[str, Any] = {"creation": {}, "evaluation": {}, "memory": {}}
 
         # Test different representations
         representations = ["truth_table"]  # Add more as they become available
@@ -454,7 +454,7 @@ class PerformanceBenchmark:
             plt.show()
 
 
-def run_quick_benchmark() -> None:
+def run_quick_benchmark() -> Dict[str, Any]:
     """Run a quick benchmark for development testing."""
     benchmark = PerformanceBenchmark(warmup_runs=1, benchmark_runs=3)
     results = benchmark.run_comprehensive_benchmark(max_vars=6)

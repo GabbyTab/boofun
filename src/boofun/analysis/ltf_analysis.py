@@ -99,6 +99,7 @@ def chow_parameters(f: "BooleanFunction") -> np.ndarray:
     # But the signed version is just f̂({i})
 
     n = f.n_vars
+    assert n is not None
     chow = np.zeros(n + 1)
     chow[0] = fourier[0]  # E[f] = f̂(∅)
 
@@ -128,6 +129,7 @@ def is_ltf(f: "BooleanFunction") -> bool:
     # Get truth table
     tt = list(f.get_representation("truth_table"))
     n = f.n_vars
+    assert n is not None
 
     try:
         repr_obj = LTFRepresentation()
@@ -154,6 +156,7 @@ def find_ltf_weights(f: "BooleanFunction") -> Tuple[np.ndarray, float]:
 
     tt = list(f.get_representation("truth_table"))
     n = f.n_vars
+    assert n is not None
 
     repr_obj = LTFRepresentation()
     params = repr_obj._find_ltf_parameters(tt, n)
@@ -198,7 +201,7 @@ def critical_index(weights: np.ndarray) -> int:
     """
     # Sort by absolute value (descending)
     sorted_sq = np.sort(weights**2)[::-1]
-    total = np.sum(sorted_sq)
+    total: float = float(np.sum(sorted_sq))
 
     if total < 1e-10:
         return len(weights)
@@ -228,7 +231,7 @@ def regularity(weights: np.ndarray) -> float:
     if norm < 1e-10:
         return 0.0
 
-    return np.max(np.abs(weights)) / norm
+    return float(np.max(np.abs(weights)) / norm)
 
 
 def ltf_influence_from_weights(weights: np.ndarray) -> np.ndarray:
@@ -248,7 +251,7 @@ def ltf_influence_from_weights(weights: np.ndarray) -> np.ndarray:
     Returns:
         Array of influences
     """
-    norm_sq = np.sum(weights**2)
+    norm_sq: float = float(np.sum(weights**2))
     if norm_sq < 1e-10:
         return np.zeros_like(weights)
 
@@ -523,7 +526,7 @@ def chow_distance(f: "BooleanFunction", g: "BooleanFunction") -> float:
     chow_f = chow_parameters(f)
     chow_g = chow_parameters(g)
 
-    return np.linalg.norm(chow_f - chow_g)
+    return float(np.linalg.norm(chow_f - chow_g))
 
 
 def find_closest_ltf(f: "BooleanFunction") -> Tuple["BooleanFunction", float]:

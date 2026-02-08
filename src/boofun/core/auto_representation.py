@@ -41,7 +41,7 @@ def estimate_sparsity(truth_table: np.ndarray) -> float:
     Returns:
         Sparsity ratio (0 = completely sparse, 0.5 = balanced)
     """
-    ones = np.sum(truth_table)
+    ones: int = int(np.sum(truth_table))
     total = len(truth_table)
     ones_ratio = ones / total
     return min(ones_ratio, 1 - ones_ratio)
@@ -166,7 +166,7 @@ def auto_select_representation(
 
     elif repr_type == "sparse_truth_table":
         # Determine default value
-        ones = np.sum(truth_table)
+        ones: int = int(np.sum(truth_table))
         default_value = ones > len(truth_table) // 2
 
         # Build exceptions
@@ -233,7 +233,7 @@ class AdaptiveFunction:
             self._data = create_packed_truth_table(truth_table)
             self._format = "packed"
         elif repr_type == "sparse":
-            ones = np.sum(truth_table)
+            ones: int = int(np.sum(truth_table))
             default_value = ones > len(truth_table) // 2
             exceptions = {i: bool(v) for i, v in enumerate(truth_table) if bool(v) != default_value}
             self._data = {
@@ -349,13 +349,14 @@ def optimize_representation(f: "BooleanFunction") -> Dict[str, Any]:
         Recommendation dictionary
     """
     n = f.n_vars
+    assert n is not None
     tt = f.get_representation("truth_table")
 
     sparsity = estimate_sparsity(tt)
     rec = recommend_representation(n, sparsity)
 
     return {
-        "current_representation": f._current_repr,
+        "current_representation": getattr(f, "_current_repr", None),
         "recommended_representation": rec["representation"],
         "reason": rec["reason"],
         "sparsity": sparsity,

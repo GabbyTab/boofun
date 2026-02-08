@@ -61,11 +61,13 @@ def build_decision_tree(f: "BooleanFunction", max_depth: Optional[int] = None) -
         Root node of decision tree
     """
     n = f.n_vars
+    assert n is not None
     if max_depth is None:
         max_depth = n
 
     def build_subtree(assignment: Dict[int, int], depth: int) -> DecisionTreeNode:
         # Check if we can determine the value
+        assert max_depth is not None
         if depth >= max_depth or len(assignment) == n:
             # Evaluate with current assignment
             x = sum(v << i for i, v in assignment.items())
@@ -117,18 +119,18 @@ def export_decision_tree_text(
         ASCII representation
     """
     n = f.n_vars
+    assert n is not None
     if var_names is None:
         var_names = [f"x_{i}" for i in range(n)]
 
     tree = build_decision_tree(f, max_depth)
 
-    lines = []
+    lines: List[str] = []
 
     def print_tree(
         node: DecisionTreeNode, prefix: str = "", is_left: bool = True, edge_label: str = ""
     ):
-        if node is None:
-            return
+        pass  # node is always DecisionTreeNode
 
         connector = "├── " if is_left else "└── "
 
@@ -136,6 +138,9 @@ def export_decision_tree_text(
             if node.is_leaf:
                 lines.append(f"[{1 if node.value else 0}]")
             else:
+                assert node.variable is not None
+                assert node.low is not None
+                assert node.high is not None
                 lines.append(f"{var_names[node.variable]}?")
                 print_tree(node.low, "", True, "=0")
                 print_tree(node.high, "", False, "=1")
@@ -143,6 +148,9 @@ def export_decision_tree_text(
             if node.is_leaf:
                 lines.append(f"{prefix}{connector}{edge_label} → [{1 if node.value else 0}]")
             else:
+                assert node.variable is not None
+                assert node.low is not None
+                assert node.high is not None
                 lines.append(f"{prefix}{connector}{edge_label} → {var_names[node.variable]}?")
                 new_prefix = prefix + ("│   " if is_left else "    ")
                 print_tree(node.low, new_prefix, True, "=0")
@@ -171,6 +179,7 @@ def export_decision_tree_dot(
         DOT format string
     """
     n = f.n_vars
+    assert n is not None
     if var_names is None:
         var_names = [f"x_{i}" for i in range(n)]
 
@@ -194,6 +203,7 @@ def export_decision_tree_dot(
                 f'    node{current_id} [label="{label}", shape={shape}, style=filled, fillcolor="{color}"];'
             )
         else:
+            assert node.variable is not None
             label = var_names[node.variable]
             lines.append(f'    node{current_id} [label="{label}"];')
 
@@ -201,6 +211,8 @@ def export_decision_tree_dot(
             lines.append(f'    node{parent_id} -> node{current_id} [label="{edge_label}"];')
 
         if not node.is_leaf:
+            assert node.low is not None
+            assert node.high is not None
             add_node(node.low, current_id, "0")
             add_node(node.high, current_id, "1")
 
@@ -227,6 +239,7 @@ def export_decision_tree_json(
         JSON-serializable dictionary
     """
     n = f.n_vars
+    assert n is not None
     if var_names is None:
         var_names = [f"x_{i}" for i in range(n)]
 
@@ -236,6 +249,9 @@ def export_decision_tree_json(
         if node.is_leaf:
             return {"type": "leaf", "value": node.value, "depth": node.depth}
         else:
+            assert node.variable is not None
+            assert node.low is not None
+            assert node.high is not None
             return {
                 "type": "internal",
                 "variable": node.variable,
@@ -263,6 +279,7 @@ def export_decision_tree_tikz(
         TikZ code string
     """
     n = f.n_vars
+    assert n is not None
     if var_names is None:
         var_names = [f"$x_{{{i}}}$" for i in range(n)]
 
@@ -284,6 +301,9 @@ def export_decision_tree_tikz(
             val = "1" if node.value else "0"
             return f"node[leaf] {{{val}}}"
         else:
+            assert node.variable is not None
+            assert node.low is not None
+            assert node.high is not None
             label = var_names[node.variable]
             low_tikz = node_to_tikz(node.low, indent + "    ")
             high_tikz = node_to_tikz(node.high, indent + "    ")
@@ -323,9 +343,11 @@ class DecisionTreeExporter:
             max_depth: Maximum depth for tree
         """
         self.function = f
-        self.var_names = var_names or [f"x_{i}" for i in range(f.n_vars)]
+        n = f.n_vars
+        assert n is not None
+        self.var_names = var_names or [f"x_{i}" for i in range(n)]
         self.max_depth = max_depth
-        self._tree = None
+        self._tree: Optional[DecisionTreeNode] = None
 
     @property
     def tree(self) -> DecisionTreeNode:
@@ -361,6 +383,8 @@ class DecisionTreeExporter:
         def get_depth(node: DecisionTreeNode) -> int:
             if node.is_leaf:
                 return 0
+            assert node.low is not None
+            assert node.high is not None
             return 1 + max(get_depth(node.low), get_depth(node.high))
 
         return get_depth(self.tree)
@@ -371,6 +395,8 @@ class DecisionTreeExporter:
         def count_nodes(node: DecisionTreeNode) -> int:
             if node.is_leaf:
                 return 1
+            assert node.low is not None
+            assert node.high is not None
             return 1 + count_nodes(node.low) + count_nodes(node.high)
 
         return count_nodes(self.tree)

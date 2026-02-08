@@ -108,7 +108,7 @@ def parseval_verify(f: "BooleanFunction", tolerance: float = 1e-10) -> Tuple[boo
 
     # Compute RHS: Σ_S f̂(S)²
     fourier_coeffs = _get_fourier_coefficients(f)
-    rhs = np.sum(fourier_coeffs**2)
+    rhs: float = float(np.sum(fourier_coeffs**2))
 
     passes = abs(lhs - rhs) < tolerance
     return (passes, float(lhs), float(rhs))
@@ -704,7 +704,7 @@ def fourier_weight_distribution(f: "BooleanFunction") -> Dict[int, float]:
 
     for s in range(size):
         degree = bin(s).count("1")
-        weight = coeffs[s] ** 2
+        weight: float = float(coeffs[s] ** 2)
         weights[degree] = weights.get(degree, 0.0) + weight
 
     return weights

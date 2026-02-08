@@ -41,7 +41,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
             Boolean result(s)
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         if inputs.ndim == 0:
             # Single input
@@ -120,7 +120,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         truth_table = np.zeros(size, dtype=int)
 
         for i in range(size):
-            val = source_repr.evaluate(i, source_data, space, n_vars)
+            val = source_repr.evaluate(i, source_data, space, n_vars)  # type: ignore[arg-type]
             truth_table[i] = int(bool(val))
 
         # Apply Möbius transform to get ANF coefficients
@@ -181,7 +181,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
             "space_complexity": n_vars,  # O(2^n) worst case
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return storage requirements for polynomial representation."""
         max_monomials = 2**n_vars
         return {
@@ -221,7 +221,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         self, poly1: Dict[frozenset, int], poly2: Dict[frozenset, int]
     ) -> Dict[frozenset, int]:
         """Multiply two polynomials in GF(2)."""
-        result = {}
+        result: Dict[frozenset, int] = {}
 
         for subset1, coeff1 in poly1.items():
             for subset2, coeff2 in poly2.items():

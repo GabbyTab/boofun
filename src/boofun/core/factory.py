@@ -249,7 +249,7 @@ class BooleanFunctionFactory:
         tt_bool = np.asarray(tt_array, dtype=bool)
 
         # Determine the most common value (default)
-        true_count = np.sum(tt_bool)
+        true_count: int = int(np.sum(tt_bool))
         default_value = true_count > (size // 2)
 
         # Build exceptions dictionary (indices where value != default)

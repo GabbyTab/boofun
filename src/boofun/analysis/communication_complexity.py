@@ -14,7 +14,7 @@ References:
 - O'Donnell, "Analysis of Boolean Functions", Chapter 6
 """
 
-from typing import TYPE_CHECKING, Any, Dict, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 import numpy as np
 from scipy.linalg import svdvals
@@ -49,6 +49,7 @@ def get_communication_matrix(f: "BooleanFunction") -> np.ndarray:
         2^{n/2} × 2^{n/2} matrix
     """
     n = f.n_vars
+    assert n is not None
     n_alice = n // 2
     n_bob = n - n_alice
 
@@ -122,7 +123,7 @@ def fooling_set_bound(f: "BooleanFunction") -> Tuple[int, float]:
             continue
 
         # Greedy construction of fooling set
-        fooling_set = []
+        fooling_set: List[Tuple[int, int]] = []
 
         for x, y in positions:
             # Check if (x, y) can be added to fooling set
@@ -246,13 +247,13 @@ def discrepancy(f: "BooleanFunction") -> float:
     rows, cols = M.shape
 
     # Convert to ±1 matrix
-    M_pm = 2 * M - 1
+    M_pm: np.ndarray = 2 * M - 1
 
     # Discrepancy is related to spectral norm of M_pm divided by sqrt(N)
     # disc(f) ≥ ||M_pm||_2 / N
 
     N = rows * cols
-    spectral_norm = np.max(svdvals(M_pm.astype(float)))
+    spectral_norm: float = float(np.max(svdvals(M_pm.astype(float))))
 
     # Approximate discrepancy from spectral norm
     disc = spectral_norm / N
@@ -276,6 +277,7 @@ def deterministic_cc(f: "BooleanFunction") -> Dict[str, Any]:
         Dictionary with bounds and analysis
     """
     n = f.n_vars
+    assert n is not None
 
     # Compute bounds
     rank, log_rank = log_rank_bound(f)
@@ -311,12 +313,14 @@ class CommunicationMatrix:
             f: Boolean function
         """
         self.function = f
-        self.n = f.n_vars
+        n_vars = f.n_vars
+        assert n_vars is not None
+        self.n: int = n_vars
         self.n_alice = self.n // 2
         self.n_bob = self.n - self.n_alice
-        self._matrix = None
-        self._rank = None
-        self._svd = None
+        self._matrix: Optional[np.ndarray] = None
+        self._rank: Optional[int] = None
+        self._svd: Optional[np.ndarray] = None
 
     @property
     def matrix(self) -> np.ndarray:
@@ -341,7 +345,7 @@ class CommunicationMatrix:
 
     def density(self) -> float:
         """Fraction of 1s in matrix."""
-        return np.mean(self.matrix)
+        return float(np.mean(self.matrix))
 
     def spectral_norm(self) -> float:
         """Get largest singular value."""
@@ -392,7 +396,7 @@ class CommunicationComplexityProfile:
         """
         self.function = f
         self.matrix = CommunicationMatrix(f)
-        self._analysis = None
+        self._analysis: Optional[Dict[str, Any]] = None
 
     def compute(self) -> Dict[str, Any]:
         """Compute full analysis."""

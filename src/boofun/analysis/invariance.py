@@ -159,7 +159,7 @@ def invariance_distance(f: "BooleanFunction", test_fn: Optional[Callable] = None
 
     analyzer = SpectralAnalyzer(f)
     influences = analyzer.influences()
-    max_inf = max(influences) if len(influences) > 0 else 0.0
+    max_inf: float = float(max(influences)) if len(influences) > 0 else 0.0
 
     # Bound from invariance principle
     # Distance is O(max_i Inf_i[f]^{1/4}) for C^3 test functions
@@ -298,7 +298,7 @@ def is_stablest_candidate(f: "BooleanFunction", epsilon: float = 0.01) -> bool:
 
     analyzer = SpectralAnalyzer(f)
     influences = analyzer.influences()
-    max_inf = max(influences) if len(influences) > 0 else 0.0
+    max_inf: float = float(max(influences)) if len(influences) > 0 else 0.0
 
     # Check low influence
     if max_inf >= epsilon:
@@ -306,7 +306,7 @@ def is_stablest_candidate(f: "BooleanFunction", epsilon: float = 0.01) -> bool:
 
     # Check balance
     fourier = analyzer.fourier_expansion()
-    mean = fourier[0] if len(fourier) > 0 else 0.0
+    mean: float = float(fourier[0]) if len(fourier) > 0 else 0.0
 
     return abs(mean) < epsilon
 

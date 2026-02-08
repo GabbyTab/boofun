@@ -53,7 +53,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
             Boolean result(s)
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         default_value = data["default_value"]
         exceptions = data["exceptions"]
@@ -136,7 +136,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
         # Build exceptions dictionary
         exceptions = {}
         for i in range(size):
-            val = bool(source_repr.evaluate(i, source_data, space, n_vars))
+            val = bool(source_repr.evaluate(i, source_data, space, n_vars))  # type: ignore[arg-type]
             if val != default_value:
                 exceptions[i] = val
 
@@ -183,7 +183,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
             "space_complexity": 0,  # O(k) where k is number of exceptions
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return storage requirements for sparse representation."""
         size = 1 << n_vars
         # Best case: only a few exceptions
@@ -309,7 +309,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, A
             "space_complexity": 0,  # O(min(2^n, k)) adaptive
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return adaptive storage requirements."""
         size = 1 << n_vars
         return {

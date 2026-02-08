@@ -8,7 +8,7 @@ and interactive analysis tools.
 
 import logging
 import warnings
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -62,9 +62,10 @@ class BooleanFunctionVisualizer:
             backend: Plotting backend ("matplotlib", "plotly")
         """
         self.function = function
-        self.n_vars = function.n_vars
-        if self.n_vars is None:
+        n_vars = function.n_vars
+        if n_vars is None:
             raise ValueError("Function must have defined number of variables")
+        self.n_vars: int = n_vars
 
         self.backend = backend.lower()
         self.analyzer = SpectralAnalyzer(function)
@@ -129,7 +130,7 @@ class BooleanFunctionVisualizer:
             )
 
         # Add total influence annotation (bottom-right to avoid title overlap)
-        total_influence = np.sum(influences)
+        total_influence: float = float(np.sum(influences))
         ax.text(
             0.98,
             0.02,
@@ -174,7 +175,7 @@ class BooleanFunctionVisualizer:
         )
 
         # Add total influence annotation (bottom-right to avoid title overlap)
-        total_influence = np.sum(influences)
+        total_influence: float = float(np.sum(influences))
         fig.add_annotation(
             text=f"Total Influence: {total_influence:.3f}",
             xref="paper",
@@ -230,7 +231,7 @@ class BooleanFunctionVisualizer:
             raise ImportError("Matplotlib not available")
 
         # Group coefficients by degree
-        degrees = {}
+        degrees: Dict[int, List[float]] = {}
         for i, coeff in enumerate(fourier_coeffs):
             degree = bin(i).count("1")
             if max_degree is None or degree <= max_degree:
@@ -250,7 +251,7 @@ class BooleanFunctionVisualizer:
             )
 
             # Color boxes
-            colors = plt.cm.viridis(np.linspace(0, 1, len(bp["boxes"])))
+            colors = plt.get_cmap("viridis")(np.linspace(0, 1, len(bp["boxes"])))
             for patch, color in zip(bp["boxes"], colors):
                 patch.set_facecolor(color)
                 patch.set_alpha(0.7)
@@ -264,11 +265,11 @@ class BooleanFunctionVisualizer:
         if degrees:
             degree_list = sorted(degrees.keys())
             concentrations = []
-            total_weight = np.sum(fourier_coeffs**2)
+            total_weight: float = float(np.sum(fourier_coeffs**2))
 
-            cumulative_weight = 0
+            cumulative_weight = 0.0
             for d in degree_list:
-                degree_weight = np.sum([c**2 for c in degrees[d]])
+                degree_weight: float = float(np.sum([c**2 for c in degrees[d]]))
                 cumulative_weight += degree_weight
                 concentrations.append(cumulative_weight / total_weight)
 
@@ -298,7 +299,7 @@ class BooleanFunctionVisualizer:
             raise ImportError("Plotly not available")
 
         # Group coefficients by degree
-        degrees = {}
+        degrees: Dict[int, List[float]] = {}
         for i, coeff in enumerate(fourier_coeffs):
             degree = bin(i).count("1")
             if max_degree is None or degree <= max_degree:
@@ -322,11 +323,11 @@ class BooleanFunctionVisualizer:
         if degrees:
             degree_list = sorted(degrees.keys())
             concentrations = []
-            total_weight = np.sum(fourier_coeffs**2)
+            total_weight: float = float(np.sum(fourier_coeffs**2))
 
-            cumulative_weight = 0
+            cumulative_weight = 0.0
             for d in degree_list:
-                degree_weight = np.sum([c**2 for c in degrees[d]])
+                degree_weight: float = float(np.sum([c**2 for c in degrees[d]]))
                 cumulative_weight += degree_weight
                 concentrations.append(cumulative_weight / total_weight)
 
@@ -879,7 +880,8 @@ def _compare_influences_matplotlib(functions, figsize=(12, 6), **kwargs):
     fig, ax = plt.subplots(figsize=figsize)
 
     width = 0.8 / len(functions)
-    x = np.arange(max(f.n_vars for f in functions.values()))
+    max_vars = max(f.n_vars for f in functions.values() if f.n_vars is not None)
+    x = np.arange(max_vars)
 
     for i, (name, func) in enumerate(functions.items()):
         analyzer = SpectralAnalyzer(func)
@@ -912,8 +914,7 @@ def _compare_fourier_matplotlib(functions, figsize=(12, 6), **kwargs):
     for name, func in functions.items():
         coeffs = func.fourier()
         # Plot Fourier weight by degree
-        func.n_vars
-        weights_by_degree = {}
+        weights_by_degree: Dict[int, float] = {}
         for s in range(len(coeffs)):
             deg = bin(s).count("1")
             weights_by_degree[deg] = weights_by_degree.get(deg, 0) + coeffs[s] ** 2
@@ -961,6 +962,7 @@ def plot_hypercube(
     from mpl_toolkits.mplot3d import Axes3D
 
     n = f.n_vars
+    assert n is not None
     if n > 5:
         raise ValueError(f"Hypercube visualization only supports n ≤ 5, got {n}")
 
@@ -1068,6 +1070,7 @@ def plot_sensitivity_heatmap(
         raise ImportError("Matplotlib required")
 
     n = f.n_vars
+    assert n is not None
     num_inputs = 2**n
 
     # Compute sensitivity at each input
@@ -1082,7 +1085,7 @@ def plot_sensitivity_heatmap(
         bars = ax.bar(range(num_inputs), sensitivities, alpha=0.7)
 
         # Color by sensitivity
-        cmap = plt.cm.YlOrRd
+        cmap = plt.get_cmap("YlOrRd")
         max_sens = max(sensitivities)
         for bar, sens in zip(bars, sensitivities):
             bar.set_color(cmap(sens / max_sens if max_sens > 0 else 0))

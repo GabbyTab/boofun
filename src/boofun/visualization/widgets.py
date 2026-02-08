@@ -74,7 +74,9 @@ class InteractiveFunctionExplorer:
         """
         _check_widgets()
         self.f = f
-        self.n = f.n_vars
+        n = f.n_vars
+        assert n is not None
+        self.n: int = n
         self._create_widgets()
 
     def _create_widgets(self):

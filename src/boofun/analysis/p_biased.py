@@ -59,7 +59,7 @@ __all__ = [
 ]
 
 
-def _p_biased_basis(p: float, n: int) -> Tuple[np.ndarray, np.ndarray]:
+def _p_biased_basis(p: float, n: int) -> Tuple[float, float]:
     """
     Compute p-biased basis transformation parameters.
 

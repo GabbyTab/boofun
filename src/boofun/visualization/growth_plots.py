@@ -9,7 +9,7 @@ This module provides specialized plotting tools for:
 """
 
 import logging
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -64,8 +64,8 @@ class GrowthVisualizer:
             raise ImportError("Plotly not available")
 
         # Default styling
-        self.colors = (
-            plt.cm.tab10.colors
+        self.colors: Any = (
+            plt.get_cmap("tab10").colors  # type: ignore[attr-defined]
             if HAS_MATPLOTLIB
             else [
                 "#1f77b4",
@@ -437,7 +437,7 @@ class GrowthVisualizer:
 
             # Fit a horizontal line (constant) if converging
             if len(ratio) > 2:
-                mean_ratio = np.mean(ratio[-3:])  # Last 3 points
+                mean_ratio = float(np.mean(ratio[-3:]))  # Last 3 points
                 ax.axhline(
                     y=mean_ratio,
                     color="red",
@@ -456,25 +456,27 @@ class GrowthVisualizer:
             return fig
 
         else:
-            fig = go.Figure()
+            pfig: Any = go.Figure()
 
-            fig.add_trace(
+            pfig.add_trace(
                 go.Scatter(
                     x=n_arr, y=ratio, mode="lines+markers", name=f"{marker_name} / {ref_label}"
                 )
             )
 
             if len(ratio) > 2:
-                mean_ratio = np.mean(ratio[-3:])
-                fig.add_hline(y=mean_ratio, line_dash="dash", annotation_text=f"≈ {mean_ratio:.4f}")
+                mean_ratio = float(np.mean(ratio[-3:]))
+                pfig.add_hline(
+                    y=mean_ratio, line_dash="dash", annotation_text=f"≈ {mean_ratio:.4f}"
+                )
 
-            fig.update_layout(
+            pfig.update_layout(
                 title=f"Convergence: {marker_name} / {ref_label}",
                 xaxis_title="n",
                 yaxis_title=f"{marker_name} / {ref_label}",
             )
 
-            return fig
+            return pfig
 
     def plot_multi_property_growth(
         self,
@@ -511,24 +513,24 @@ class GrowthVisualizer:
             return fig
 
         else:
-            fig = make_subplots(rows=1, cols=n_markers, subplot_titles=marker_names)
+            pfig: Any = make_subplots(rows=1, cols=n_markers, subplot_titles=marker_names)
 
             for i, marker_name in enumerate(marker_names, 1):
                 if marker_name in tracker.results:
                     result = tracker.results[marker_name]
                     n_arr, computed_arr, theory_arr = result.to_arrays()
 
-                    fig.add_trace(
+                    pfig.add_trace(
                         go.Scatter(x=n_arr, y=computed_arr, mode="lines+markers", name=marker_name),
                         row=1,
                         col=i,
                     )
 
-            fig.update_layout(
+            pfig.update_layout(
                 title=f"{tracker.family.metadata.name} Family Properties", showlegend=False
             )
 
-            return fig
+            return pfig
 
 
 class LTFVisualizer:
@@ -667,19 +669,18 @@ class ComplexityVisualizer:
         if not HAS_MATPLOTLIB:
             raise ImportError("Matplotlib required")
 
-        from ..analysis.block_sensitivity import block_sensitivity
-        from ..analysis.certificates import certificate_complexity
+        from ..analysis.block_sensitivity import max_block_sensitivity
+        from ..analysis.certificates import max_certificate_size
         from ..analysis.fourier import fourier_degree
-        from ..analysis.sensitivity import sensitivity
+        from ..analysis.sensitivity import max_sensitivity
 
         # Compute measures
-        s = sensitivity(f)
-        bs = block_sensitivity(f)
+        s = max_sensitivity(f)
+        bs = max_block_sensitivity(f)
         deg = fourier_degree(f)
 
         try:
-            c0, c1 = certificate_complexity(f)
-            C = max(c0, c1)
+            C = max_certificate_size(f)
         except Exception as e:
             _logger.debug(f"Certificate complexity computation failed: {e}")
             C = None

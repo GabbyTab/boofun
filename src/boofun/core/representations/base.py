@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Generic, Optional, TypeVar
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 import numpy as np
 
@@ -12,7 +12,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
     """Abstract base class for all Boolean function representations"""
 
     @abstractmethod
-    def evaluate(self, inputs: np.ndarray, data: Any, space: Space, n_vars: int) -> np.ndarray:
+    def evaluate(self, inputs: np.ndarray, data: Any, space: Space, n_vars: int) -> Any:
         """
         Evaluate the function on given inputs using the provided data.
 
@@ -25,7 +25,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         """
 
     @abstractmethod
-    def dump(self, data: DataType, space: Space = None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: DataType, space: Optional[Space] = None, **kwargs) -> Dict[str, Any]:
         """
         Export the representation data in a serializable format.
 
@@ -46,7 +46,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         space: Space,
         n_vars: int,
         **kwargs,
-    ) -> np.ndarray:
+    ) -> Any:
         """
         Convert from another representation to this representation.
 
@@ -67,7 +67,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         space: Space,
         n_vars: int,
         **kwargs,
-    ) -> np.ndarray:
+    ) -> Any:
         """
         Convert from this representation to target representation.
 
@@ -89,11 +89,11 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         """Check if the representation contains complete information."""
 
     @abstractmethod
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> Dict[str, Any]:
         """Return time_complexity for computing/evaluating n variables."""
 
     @abstractmethod
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return memory/storage requirements for n variables."""
 
     def __str__(self) -> str:
@@ -148,7 +148,7 @@ class PartialRepresentation(Generic[DataType]):
         self.strategy = strategy
         self.data = data
         self.n_vars = n_vars
-        self._confidence_cache: Dict[int, float] = {}
+        self._confidence_cache: Dict[int, "tuple[bool, float]"] = {}
 
         # Initialize or validate known_mask
         if known_mask is None:
@@ -203,14 +203,14 @@ class PartialRepresentation(Generic[DataType]):
         """Fraction of values that are known (0.0 to 1.0)."""
         if self.known_mask is None:
             return 1.0
-        return np.mean(self.known_mask)
+        return float(np.mean(self.known_mask))
 
     @property
     def is_complete(self) -> bool:
         """Check if all values are known."""
         if self.known_mask is None:
             return True
-        return np.all(self.known_mask)
+        return bool(np.all(self.known_mask))
 
     @property
     def num_known(self) -> int:
@@ -237,6 +237,7 @@ class PartialRepresentation(Generic[DataType]):
     def get_known_indices(self) -> np.ndarray:
         """Get indices of all known values."""
         if self.known_mask is None:
+            assert isinstance(self.data, np.ndarray)
             return np.arange(len(self.data))
         return np.where(self.known_mask)[0]
 
@@ -257,10 +258,12 @@ class PartialRepresentation(Generic[DataType]):
         Returns:
             Boolean result or None if unknown
         """
+        assert self.n_vars is not None
         if self.known_mask is None or self.is_complete:
             return self.strategy.evaluate(inputs, self.data, space, self.n_vars)
 
         inputs = np.asarray(inputs)
+        assert isinstance(self.data, np.ndarray)
         if inputs.ndim == 0:
             idx = int(inputs)
             if self.is_known(idx):
@@ -268,7 +271,7 @@ class PartialRepresentation(Generic[DataType]):
             return None
 
         # Handle array of indices
-        results = []
+        results: List[Optional[bool]] = []
         for idx in inputs.flat:
             if self.is_known(int(idx)):
                 results.append(bool(self.data[int(idx)]))
@@ -294,6 +297,7 @@ class PartialRepresentation(Generic[DataType]):
         Returns:
             Tuple of (estimated_value, confidence)
         """
+        assert self.n_vars is not None
         if self.is_complete:
             result = self.strategy.evaluate(inputs, self.data, space, self.n_vars)
             return result, 1.0
@@ -301,6 +305,7 @@ class PartialRepresentation(Generic[DataType]):
         inputs = np.asarray(inputs)
         idx = int(inputs) if inputs.ndim == 0 else int(inputs.flat[0])
 
+        assert isinstance(self.data, np.ndarray)
         if self.is_known(idx):
             return bool(self.data[idx]), 1.0
 
@@ -321,6 +326,7 @@ class PartialRepresentation(Generic[DataType]):
             return False, 0.0
 
         # Find Hamming-distance-1 neighbors
+        assert isinstance(self.data, np.ndarray)
         neighbors = []
         for i in range(self.n_vars):
             neighbor_idx = idx ^ (1 << i)
@@ -333,8 +339,9 @@ class PartialRepresentation(Generic[DataType]):
             if len(known_indices) == 0:
                 return False, 0.0
 
+            assert isinstance(self.data, np.ndarray)
             bias = np.mean([self.data[i] for i in known_indices])
-            estimate = bias > 0.5
+            estimate: bool = bool(bias > 0.5)
             confidence = 0.1  # Very low confidence
         else:
             # Majority vote from neighbors
@@ -348,9 +355,9 @@ class PartialRepresentation(Generic[DataType]):
             confidence = agreement * coverage * 0.8  # Cap at 0.8 for estimates
 
         # Cache result
-        result = (estimate, confidence)
-        self._confidence_cache[idx] = result
-        return result
+        result_pair = (bool(estimate), confidence)
+        self._confidence_cache[idx] = result_pair
+        return result_pair
 
     def add_value(self, idx: int, value: bool) -> None:
         """
@@ -396,9 +403,10 @@ class PartialRepresentation(Generic[DataType]):
             Tuple of (values, confidence) arrays
         """
         if self.is_complete or self.known_mask is None:
+            assert isinstance(self.data, np.ndarray)
             return (
                 np.asarray(self.data, dtype=bool),
-                np.ones(len(self.data), dtype=float),
+                np.ones(len(self.data), dtype=np.float64),
             )
 
         values = np.asarray(self.data, dtype=bool).copy()

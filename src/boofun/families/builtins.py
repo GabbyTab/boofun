@@ -930,7 +930,7 @@ class SboxFamily(FunctionFamily):
             n_constraint_description=f"n must equal S-box input bits ({self._n_bits})",
         )
 
-    def generate(self, n: int = None, **kwargs) -> "BooleanFunction":
+    def generate(self, n: Optional[int] = None, **kwargs) -> "BooleanFunction":
         import boofun as bf
 
         bit = kwargs.get("bit", self._bit)

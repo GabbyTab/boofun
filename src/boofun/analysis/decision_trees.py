@@ -530,11 +530,11 @@ def decision_tree_size_dp(
     results: List[Tuple[int, int, Any]] = [(INF, INF, None)] * len(new_layer)
 
     for j in range(len(new_layer)):
-        val = new_layer[j]
+        layer_val: float = new_layer[j]
 
-        if val < 1e-7:  # All 0s
+        if layer_val < 1e-7:  # All 0s
             results[j] = (1, 0, DecisionTree(value=0))
-        elif val > 1 - 1e-7:  # All 1s
+        elif layer_val > 1 - 1e-7:  # All 1s
             results[j] = (1, 0, DecisionTree(value=1))
         else:
             trits = [(j // (3**i)) % 3 for i in range(n)]
@@ -654,14 +654,14 @@ def enumerate_decision_trees(
     def enumerate_recursive(fixed: Dict[int, int]) -> List[DecisionTree]:
         """Recursively enumerate trees for subcube defined by fixed."""
         # Check if subcube is constant
-        first_val = None
+        first_val: Optional[int] = None
         is_constant = True
 
         for x in range(1 << n):
             # Check if x is in this subcube
             in_subcube = True
-            for var, val in fixed.items():
-                if ((x >> var) & 1) != val:
+            for fvar, fval in fixed.items():
+                if ((x >> fvar) & 1) != fval:
                     in_subcube = False
                     break
 
@@ -749,9 +749,10 @@ def count_decision_trees(f: "BooleanFunction") -> int:
     Returns:
         Number of distinct decision trees
     """
-    n = f.n_vars
-    if n is None or n == 0:
+    n_opt = f.n_vars
+    if n_opt is None or n_opt == 0:
         return 1
+    n: int = n_opt
 
     truth_table = f.get_representation("truth_table")
 
@@ -775,10 +776,10 @@ def count_decision_trees(f: "BooleanFunction") -> int:
         fixed = dict(fixed_tuple)
 
         # Check if constant
-        first_val = None
+        first_val: Optional[int] = None
         is_constant = True
         for x in range(1 << n):
-            in_subcube = all(((x >> v) & 1) == val for v, val in fixed.items())
+            in_subcube = all(((x >> v) & 1) == fv for v, fv in fixed.items())
             if in_subcube:
                 if first_val is None:
                     first_val = truth_table[x]

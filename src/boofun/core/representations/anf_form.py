@@ -73,7 +73,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
             Boolean result(s)
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         # Handle different input formats
         if inputs.ndim == 0:
@@ -111,7 +111,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
         """Evaluate ANF at single binary vector."""
         # Convert space if needed
         if space == Space.PLUS_MINUS_CUBE:
-            x = Space.translate(x, Space.PLUS_MINUS_CUBE, Space.BOOLEAN_CUBE)
+            x = Space.translate(x, Space.PLUS_MINUS_CUBE, Space.BOOLEAN_CUBE)  # type: ignore[assignment]
 
         result = 0
         for monomial, coeff in data.items():
@@ -122,7 +122,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
             monomial_value = 1
             for var_idx in monomial:
                 if var_idx < len(x):
-                    monomial_value *= x[var_idx]
+                    monomial_value *= x[var_idx]  # type: ignore[assignment]
                 else:
                     monomial_value = 0  # Variable not present
                     break
@@ -132,7 +132,9 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
 
         return bool(result)
 
-    def dump(self, data: Dict[FrozenSet[int], int], space: Space, **kwargs) -> Dict[str, Any]:
+    def dump(
+        self, data: Dict[FrozenSet[int], int], space: Optional[Space] = None, **kwargs
+    ) -> Dict[str, Any]:
         """Export ANF in serializable format."""
         # Convert frozensets to lists for JSON serialization
         serializable_data = {}
@@ -143,7 +145,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
         return {
             "type": "anf",
             "coefficients": serializable_data,
-            "space": space.name,
+            "space": space.name if space is not None else None,
             "degree": self._get_degree(data),
             "num_terms": len([c for c in data.values() if c != 0]),
         }
@@ -197,7 +199,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
             "conversion": 2**n_vars,
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return memory requirements for ANF representation."""
         max_monomials = 2**n_vars
         # Each monomial: frozenset overhead + coefficient
@@ -289,7 +291,7 @@ def create_anf_from_monomials(monomials: List[List[int]], n_vars: int) -> Dict[F
     Returns:
         ANF dictionary representation
     """
-    anf_dict = {}
+    anf_dict: Dict[FrozenSet[int], int] = {}
     for monomial_list in monomials:
         monomial = frozenset(monomial_list)
         anf_dict[monomial] = anf_dict.get(monomial, 0) ^ 1  # XOR for GF(2)

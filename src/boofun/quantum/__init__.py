@@ -93,6 +93,7 @@ class QuantumBooleanFunction:
         Returns:
             Quantum circuit implementing the Boolean function oracle
         """
+        assert self.n_vars is not None
         if not HAS_QISKIT:
             warnings.warn("Qiskit not available - cannot create quantum oracle")
             return None
@@ -139,6 +140,7 @@ class QuantumBooleanFunction:
         Returns:
             Dictionary with quantum Fourier analysis results
         """
+        assert self.n_vars is not None
         if not HAS_QISKIT:
             # Fallback to classical analysis
             warnings.warn("Qiskit not available - using classical Fourier analysis")
@@ -182,6 +184,7 @@ class QuantumBooleanFunction:
         Returns:
             Influence estimation results
         """
+        assert self.n_vars is not None
         if variable_index >= self.n_vars:
             raise ValueError(f"Variable index {variable_index} out of range")
 
@@ -220,6 +223,7 @@ class QuantumBooleanFunction:
 
     def _quantum_linearity_test(self, num_queries: int = 50) -> Dict[str, Any]:
         """Quantum BLR linearity test."""
+        assert self.n_vars is not None
         # Quantum linearity testing can achieve quadratic speedup
         # For now, simulate with classical algorithm
 
@@ -250,6 +254,7 @@ class QuantumBooleanFunction:
 
     def _quantum_monotonicity_test(self, num_queries: int = 100) -> Dict[str, Any]:
         """Quantum monotonicity testing."""
+        assert self.n_vars is not None
         # Simplified quantum monotonicity test
         violations = 0
         rng = np.random.RandomState(42)
@@ -275,13 +280,14 @@ class QuantumBooleanFunction:
 
     def _quantum_junta_test(self, k: int, num_queries: int = 200) -> Dict[str, Any]:
         """Quantum k-junta testing."""
+        assert self.n_vars is not None
         # Use influence-based approach with quantum estimation
         classical_analyzer = SpectralAnalyzer(self.function)
         influences = classical_analyzer.influences()
 
         # Count significant influences
         threshold = 1.0 / (2**self.n_vars)
-        significant_vars = np.sum(influences > threshold)
+        significant_vars: int = int(np.sum(influences > threshold))
 
         return {
             "property": f"{k}-junta",
@@ -293,6 +299,7 @@ class QuantumBooleanFunction:
 
     def _estimate_oracle_depth(self) -> int:
         """Estimate quantum oracle circuit depth."""
+        assert self.n_vars is not None
         # Rough estimate based on function complexity
         # Real implementation would analyze the actual circuit
         return self.n_vars * 2 + 10  # Simplified estimate
@@ -304,6 +311,7 @@ class QuantumBooleanFunction:
         Returns:
             Comparison of quantum and classical approaches
         """
+        assert self.n_vars is not None
         results = {
             "function_size": 2**self.n_vars,
             "n_variables": self.n_vars,
@@ -340,6 +348,7 @@ class QuantumBooleanFunction:
         Returns:
             Resource requirements for quantum algorithms
         """
+        assert self.n_vars is not None
         return {
             "qubits_required": self.n_vars + 1,  # Input + ancilla
             "circuit_depth": self._estimate_oracle_depth(),
@@ -365,6 +374,7 @@ class QuantumBooleanFunction:
             - optimal_iterations: Number of Grover iterations needed
         """
         n = self.n_vars
+        assert n is not None
         N = 2**n  # Total inputs
 
         # Count solutions (satisfying assignments)
@@ -415,6 +425,7 @@ class QuantumBooleanFunction:
             Dict with amplitude evolution data
         """
         n = self.n_vars
+        assert n is not None
         N = 2**n
 
         # Find solution states
@@ -541,6 +552,7 @@ def quantum_walk_analysis(f: BooleanFunction) -> Dict[str, Any]:
         Dict with quantum walk analysis
     """
     n = f.n_vars
+    assert n is not None
     N = 2**n  # State space size
 
     # Analyze the function structure
@@ -612,10 +624,11 @@ def element_distinctness_analysis(f: BooleanFunction) -> Dict[str, Any]:
         Analysis of element distinctness structure
     """
     n = f.n_vars
+    assert n is not None
     N = 2**n
 
     # Build collision structure
-    value_to_inputs = {}
+    value_to_inputs: Dict[int, list[int]] = {}
     for x in range(N):
         val = int(f.evaluate(x))
         if val not in value_to_inputs:
@@ -623,7 +636,7 @@ def element_distinctness_analysis(f: BooleanFunction) -> Dict[str, Any]:
         value_to_inputs[val].append(x)
 
     # Count collisions
-    collisions = []
+    collisions: list[Dict[str, Any]] = []
     for val, inputs in value_to_inputs.items():
         if len(inputs) > 1:
             # Number of collision pairs
@@ -671,6 +684,7 @@ def quantum_walk_search(f: BooleanFunction, num_iterations: Optional[int] = None
         Dict with walk simulation results
     """
     n = f.n_vars
+    assert n is not None
     N = 2**n
 
     # Find marked vertices

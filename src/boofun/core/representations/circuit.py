@@ -282,7 +282,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
             Boolean result(s)
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         if inputs.ndim == 0:
             # Single integer index
@@ -291,7 +291,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         elif inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
-                binary_input = inputs.astype(bool)
+                binary_input = inputs.astype(bool)  # type: ignore[assignment]
                 return data.evaluate(binary_input)
             else:
                 # Array of integer indices
@@ -339,7 +339,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         truth_table = []
 
         for i in range(size):
-            val = source_repr.evaluate(i, source_data, space, n_vars)
+            val = source_repr.evaluate(i, source_data, space, n_vars)  # type: ignore[arg-type]
             truth_table.append(bool(val))
 
         # Build circuit from truth table using DNF
@@ -450,7 +450,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
             "space_complexity": n_vars,  # O(2^n) worst case for DNF
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return storage requirements for circuit representation."""
         # DNF can have exponential size in worst case
         max_gates = 2**n_vars * n_vars  # Worst case: all minterms with n literals each

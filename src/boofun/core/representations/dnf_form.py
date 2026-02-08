@@ -231,7 +231,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
             Boolean result(s)
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         if inputs.ndim == 0:
             # Single integer index
@@ -240,7 +240,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         elif inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
-                binary_input = inputs.astype(int)
+                binary_input = inputs.astype(int)  # type: ignore[assignment]
                 return data.evaluate(binary_input)
             else:
                 # Array of integer indices
@@ -288,7 +288,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         truth_table = []
 
         for i in range(size):
-            val = source_repr.evaluate(i, source_data, space, n_vars)
+            val = source_repr.evaluate(i, source_data, space, n_vars)  # type: ignore[arg-type]
             truth_table.append(bool(val))
 
         # Generate DNF from truth table
@@ -355,7 +355,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
             "space_complexity": n_vars,  # O(2^n) worst case for number of terms
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return storage requirements for DNF representation."""
         # Worst case: all 2^n minterms
         max_terms = 2**n_vars

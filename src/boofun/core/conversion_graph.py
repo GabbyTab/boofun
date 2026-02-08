@@ -137,7 +137,9 @@ class ConversionPath:
         return len(self.edges)
 
     def __repr__(self) -> str:
-        path_str = " -> ".join([self.source] + [edge.target for edge in self.edges])
+        path_str = " -> ".join(
+            [s for s in [self.source] + [edge.target for edge in self.edges] if s is not None]
+        )
         return f"ConversionPath({path_str}, cost={self.total_cost})"
 
 
@@ -249,8 +251,8 @@ class ConversionGraph:
         }
         distances[source] = ConversionCost(0, 0, 0, True)
 
-        previous = {}
-        edge_map = {}  # Track which edge was used to reach each node
+        previous: Dict[str, str] = {}
+        edge_map: Dict[str, ConversionEdge] = {}  # Track which edge was used to reach each node
         visited = set()
 
         # Priority queue: (cost, node)
@@ -359,7 +361,7 @@ class ConversionGraph:
 
     def _get_all_nodes(self) -> Set[str]:
         """Get all nodes in the graph."""
-        nodes = set()
+        nodes: Set[str] = set()
         nodes.update(self.edges.keys())
         for edge_list in self.edges.values():
             nodes.update(edge.target for edge in edge_list)

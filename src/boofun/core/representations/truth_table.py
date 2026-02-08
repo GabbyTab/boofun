@@ -1,5 +1,5 @@
 import warnings
-from typing import Any, Dict
+from typing import Any, Dict, Union
 
 import numpy as np
 
@@ -15,7 +15,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
 
     def evaluate(
         self, inputs: np.ndarray, data: np.ndarray, space: Space, n_vars: int
-    ) -> np.ndarray:
+    ) -> Union[bool, np.ndarray]:
         """
         Evaluate the Boolean function using its truth table.
 
@@ -32,7 +32,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             Boolean result(s) - scalar for single input, array for batch
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         # Handle different input formats
         if inputs.ndim == 0:
@@ -52,7 +52,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                 return bool(data[index])
             else:
                 # Array of integer indices
-                indices = inputs.astype(int)
+                indices: np.ndarray = inputs.astype(int)
                 if np.any((indices < 0) | (indices >= len(data))):
                     raise IndexError(
                         f"Some indices out of range for truth table of size {len(data)}"
@@ -138,7 +138,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         # Generate all possible input indices
         for idx in range(size):
             try:
-                value = source_repr.evaluate(idx, source_data, space, n_vars)
+                value = source_repr.evaluate(idx, source_data, space, n_vars)  # type: ignore[arg-type]
 
                 # Handle different return types and spaces
                 if isinstance(value, (bool, np.bool_)):
@@ -201,7 +201,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         size = 1 << n_vars
         return np.zeros(size, dtype=bool)
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Storage grows exponentially: 1 byte per entry (packed to bits)."""
         entries = 1 << n_vars
         return {

@@ -325,7 +325,7 @@ def junta_approximation_error(f: "BooleanFunction", junta_vars: List[int]) -> fl
     projected_bool = (projection <= 0).astype(int)
     original_bool = truth_table.astype(int)
 
-    disagreements = np.sum(projected_bool != original_bool)
+    disagreements: int = int(np.sum(projected_bool != original_bool))
     return disagreements / size
 
 

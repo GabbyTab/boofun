@@ -21,7 +21,7 @@ Usage:
 """
 
 import warnings
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -57,7 +57,7 @@ def enable_gpu(enable: bool = True) -> None:
     _GPU_ENABLED = enable
 
 
-def get_array_module(arr: Union[np.ndarray, "cp.ndarray"]) -> type:
+def get_array_module(arr: Union[np.ndarray, "cp.ndarray"]) -> Any:
     """Get the array module (numpy or cupy) for the given array."""
     if CUPY_AVAILABLE and isinstance(arr, cp.ndarray):
         return cp
@@ -100,7 +100,7 @@ def gpu_walsh_hadamard(values: np.ndarray, in_place: bool = False) -> np.ndarray
     return fast_walsh_hadamard(values.copy())
 
 
-def gpu_influences(fourier_coeffs: np.ndarray, n_vars: int = None) -> np.ndarray:
+def gpu_influences(fourier_coeffs: np.ndarray, n_vars: Optional[int] = None) -> np.ndarray:
     """
     GPU-accelerated influence computation from Fourier coefficients.
 

@@ -23,7 +23,7 @@ References:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, Tuple
+from typing import TYPE_CHECKING, Any, Dict, Optional, Tuple
 
 import numpy as np
 
@@ -58,6 +58,7 @@ def sensitivity_at(f: "BooleanFunction", x: int) -> int:
         Number of sensitive coordinates at x
     """
     n = f.n_vars
+    assert n is not None
     f_x = f.evaluate(x)
     count = 0
 
@@ -82,6 +83,7 @@ def max_sensitivity(f: "BooleanFunction") -> int:
         Maximum sensitivity over all inputs
     """
     n = f.n_vars
+    assert n is not None
     return max(sensitivity_at(f, x) for x in range(2**n))
 
 
@@ -103,6 +105,7 @@ def average_sensitivity(f: "BooleanFunction") -> float:
         Average sensitivity
     """
     n = f.n_vars
+    assert n is not None
     total = sum(sensitivity_at(f, x) for x in range(2**n))
     return total / (2**n)
 
@@ -123,6 +126,7 @@ def block_sensitivity(f: "BooleanFunction") -> int:
         Block sensitivity
     """
     n = f.n_vars
+    assert n is not None
     max_bs = 0
 
     for x in range(2**n):
@@ -135,12 +139,13 @@ def block_sensitivity(f: "BooleanFunction") -> int:
 def _block_sensitivity_at(f: "BooleanFunction", x: int) -> int:
     """Compute block sensitivity at a specific input."""
     n = f.n_vars
+    assert n is not None
     f_x = f.evaluate(x)
 
     # Find all sensitive blocks using greedy approach
     # A block is sensitive if flipping all its bits changes f(x)
     sensitive_blocks = []
-    used = set()
+    used: set = set()
 
     # Check all possible non-empty subsets (exponential, but exact)
     # For efficiency, use greedy: find largest blocks first
@@ -219,8 +224,10 @@ class HuangAnalysis:
     def __init__(self, f: "BooleanFunction"):
         """Initialize analyzer with a Boolean function."""
         self.f = f
-        self.n = f.n_vars
-        self._cache = {}
+        n_vars = f.n_vars
+        assert n_vars is not None
+        self.n: int = n_vars
+        self._cache: Dict[str, Any] = {}
 
     def sensitivity(self) -> int:
         """Get maximum sensitivity."""
@@ -261,14 +268,14 @@ class HuangAnalysis:
         # Certificate complexity (max over all inputs)
         from .complexity import certificate_complexity
 
-        cert = max(certificate_complexity(self.f, x)[0] for x in range(2**self.f.n_vars))
+        cert = max(certificate_complexity(self.f, x)[0] for x in range(2**self.n))
 
         # Decision tree depth (deterministic query complexity)
         from .complexity import decision_tree_depth
 
         D = decision_tree_depth(self.f)
 
-        results = {
+        results: Dict[str, Any] = {
             "sensitivity": s,
             "block_sensitivity": bs,
             "certificate_complexity": cert,

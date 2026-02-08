@@ -1,5 +1,5 @@
 # representations/registry.py
-from typing import Callable, Dict, Type
+from typing import Callable, Dict, Optional, Type
 
 from .base import BooleanFunctionRepresentation
 
@@ -39,13 +39,13 @@ def register_partial_strategy(
     key: str,
     *,
     evaluate: Callable,
-    dump: Callable = None,
-    convert_from: Callable = None,
-    convert_to: Callable = None,
-    create_empty: Callable = None,
-    is_complete: Callable = None,
-    get_storage_requirements: Callable = None,
-    time_complexity_rank: Callable = None,
+    dump: Optional[Callable] = None,
+    convert_from: Optional[Callable] = None,
+    convert_to: Optional[Callable] = None,
+    create_empty: Optional[Callable] = None,
+    is_complete: Optional[Callable] = None,
+    get_storage_requirements: Optional[Callable] = None,
+    time_complexity_rank: Optional[Callable] = None,
 ):
     """
     Register a strategy by supplying only the key methods.

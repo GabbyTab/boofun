@@ -375,7 +375,7 @@ class GPUManager:
             self.accelerators["cupy"] = CuPyAccelerator()
 
         if HAS_NUMBA_CUDA:
-            self.accelerators["numba"] = NumbaAccelerator()
+            self.accelerators["numba"] = NumbaAccelerator()  # type: ignore[assignment]
 
         # Select best available accelerator
         self._select_best_accelerator()
@@ -456,6 +456,7 @@ class GPUManager:
         if not self.is_gpu_available():
             raise RuntimeError("No GPU acceleration available")
 
+        assert self.active_accelerator is not None
         if operation == "truth_table_batch":
             return self.active_accelerator.accelerate_truth_table_batch(*args)
         elif operation == "fourier_batch":
@@ -499,15 +500,15 @@ class GPUManager:
         # For now, return placeholder times
         cpu_times = [t * 2 for t in gpu_times]  # Assume GPU is 2x faster
 
-        avg_gpu_time = np.mean(gpu_times) if gpu_times else float("inf")
-        avg_cpu_time = np.mean(cpu_times) if cpu_times else float("inf")
+        avg_gpu_time = float(np.mean(gpu_times)) if gpu_times else float("inf")
+        avg_cpu_time = float(np.mean(cpu_times)) if cpu_times else float("inf")
 
         return {
             "gpu_available": True,
             "gpu_time": avg_gpu_time,
             "cpu_time": avg_cpu_time,
             "speedup": avg_cpu_time / avg_gpu_time if avg_gpu_time > 0 else 0,
-            "gpu_faster": avg_gpu_time < avg_cpu_time,
+            "gpu_faster": bool(avg_gpu_time < avg_cpu_time),
         }
 
     def clear_cache(self):

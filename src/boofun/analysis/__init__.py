@@ -33,13 +33,14 @@ class SpectralAnalyzer:
             function: BooleanFunction instance to analyze
         """
         self.function = function
-        self.n_vars = function.n_vars
-        if self.n_vars is None:
+        n_vars = function.n_vars
+        if n_vars is None:
             raise ValueError("Function must have defined number of variables")
+        self.n_vars: int = n_vars
 
         # Cache for expensive computations
-        self._fourier_coeffs = None
-        self._influences = None
+        self._fourier_coeffs: Optional[np.ndarray] = None
+        self._influences: Optional[np.ndarray] = None
 
         # Track error model for uncertainty propagation
         self.error_model = function.error_model
@@ -184,9 +185,7 @@ class SpectralAnalyzer:
                 self._influences = influences
                 return influences
             except Exception as e:
-                warnings.warn(
-                    f"Vectorized influence computation failed, using fallback: {e}"
-                )
+                warnings.warn(f"Vectorized influence computation failed, using fallback: {e}")
 
         # Brute-force fallback (no truth table available)
         influences = np.zeros(self.n_vars)
@@ -220,7 +219,7 @@ class SpectralAnalyzer:
         Returns:
             Total influence = Σ_i Inf_i(f)
         """
-        return np.sum(self.influences())
+        return float(np.sum(self.influences()))
 
     def noise_stability(self, rho: float) -> float:
         """
@@ -275,7 +274,7 @@ class SpectralAnalyzer:
         """
         fourier_coeffs = self.fourier_expansion()
 
-        total_weight = np.sum(fourier_coeffs**2)
+        total_weight: float = float(np.sum(fourier_coeffs**2))
         low_degree_weight = 0.0
 
         for s in range(len(fourier_coeffs)):
@@ -309,7 +308,7 @@ class SpectralAnalyzer:
             index = subset
 
         if 0 <= index < len(fourier_coeffs):
-            return fourier_coeffs[index]
+            return float(fourier_coeffs[index])
         else:
             raise ValueError(f"Subset index {index} out of range")
 
@@ -323,7 +322,7 @@ class SpectralAnalyzer:
         influences = self.influences()
 
         # Organize statistics by category
-        summary = {
+        summary: Dict[str, Any] = {
             # Fundamental probabilistic measures
             "expectation": self.function.bias(),  # E[f] = f̂(∅)
             "variance": self.function.variance(),  # Var[f] = 1 - E[f]²
@@ -461,7 +460,7 @@ class PropertyTester:
 
         # Count variables with significant influence
         threshold = 1.0 / (2**self.n_vars)  # Minimum detectable influence
-        influential_vars = np.sum(influences > threshold)
+        influential_vars: int = int(np.sum(influences > threshold))
 
         return influential_vars <= k
 
@@ -657,7 +656,7 @@ class PropertyTester:
         max_inf = influences[max_inf_idx]
 
         # For a dictator, one variable has influence 1, others have 0
-        total_inf = np.sum(influences)
+        total_inf: float = float(np.sum(influences))
 
         # Check if it's close to a dictator
         if max_inf > 1 - epsilon and total_inf < 1 + epsilon:

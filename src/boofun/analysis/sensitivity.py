@@ -318,7 +318,7 @@ def arg_max_sensitivity(f: BooleanFunction, output_value: Optional[int] = None) 
         truth_table = np.asarray(f.get_representation("truth_table"), dtype=int)
 
     for x in range(size):
-        if output_value is not None and truth_table[x] != output_value:
+        if output_value is not None and truth_table is not None and truth_table[x] != output_value:
             continue
         sens = sensitivity_at(f, x)
         if sens > best_sens:
@@ -353,7 +353,7 @@ def arg_min_sensitivity(f: BooleanFunction, output_value: Optional[int] = None) 
         truth_table = np.asarray(f.get_representation("truth_table"), dtype=int)
 
     for x in range(size):
-        if output_value is not None and truth_table[x] != output_value:
+        if output_value is not None and truth_table is not None and truth_table[x] != output_value:
             continue
         sens = sensitivity_at(f, x)
         if sens < best_sens:

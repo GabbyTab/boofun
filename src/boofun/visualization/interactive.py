@@ -6,7 +6,7 @@ including Fourier spectrum exploration, influence heatmaps, and comparison tools
 """
 
 import logging
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 # Module logger
 _logger = logging.getLogger("boofun.visualization.interactive")
@@ -73,6 +73,7 @@ def interactive_fourier_spectrum(
     _check_plotly()
 
     n = f.n_vars
+    assert n is not None
     fourier = f.fourier()
 
     # Prepare data
@@ -102,7 +103,7 @@ def interactive_fourier_spectrum(
 
     # Colors
     if color_by_degree:
-        colors = degrees
+        colors: List[Any] = degrees
         colorscale = "Viridis"
         colorbar_title = "Degree"
     else:
@@ -209,6 +210,7 @@ def interactive_influence_heatmap(
     _check_plotly()
 
     n = f.n_vars
+    assert n is not None
     influences = f.influences()
 
     # Create single-row heatmap
@@ -277,10 +279,11 @@ def interactive_complexity_comparison(
 
     # Normalize to [0, n] for visualization
     n = f.n_vars
+    assert n is not None
     max_val = max(max(radar_measures.values()), n)
 
     categories = list(radar_measures.keys())
-    values = [v / max_val for v in radar_measures.values()]
+    values = [float(v) / max_val for v in radar_measures.values()]
     values.append(values[0])  # Close the polygon
     categories.append(categories[0])
 
@@ -322,7 +325,7 @@ def interactive_complexity_comparison(
 def interactive_growth_explorer(
     family: "FunctionFamily",
     n_range: Tuple[int, int, int] = (3, 15, 2),
-    properties: List[str] = None,
+    properties: Optional[List[str]] = None,
     height: int = 600,
     width: int = 1000,
 ) -> "go.Figure":
@@ -354,7 +357,7 @@ def interactive_growth_explorer(
         n_values = [n for n in n_values if family.validate_n(n)]
 
     # Compute data for each n
-    data = {prop: [] for prop in properties}
+    data: Dict[str, Any] = {prop: [] for prop in properties}
     data["n"] = n_values
 
     for n in n_values:
@@ -425,8 +428,9 @@ class FourierExplorer:
         _check_plotly()
         self.function = f
         self.n_vars = f.n_vars
+        assert self.n_vars is not None
         self.fourier = f.fourier()
-        self._cache = {}
+        self._cache: Dict[str, Any] = {}
 
     def spectrum_plot(self, **kwargs) -> "go.Figure":
         """Get interactive spectrum plot."""
@@ -490,6 +494,7 @@ class FourierExplorer:
             Plotly figure
         """
         n = self.n_vars
+        assert n is not None
 
         # Get top k by magnitude
         indexed = [(i, self.fourier[i]) for i in range(len(self.fourier))]

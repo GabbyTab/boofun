@@ -222,10 +222,10 @@ def effective_sparsity(f: "BooleanFunction", weight_threshold: float = 0.01) -> 
     coeffs = _get_fourier_coefficients(f)
 
     # Sort by squared magnitude (descending)
-    weights = coeffs**2
+    weights: np.ndarray = coeffs**2
     sorted_indices = np.argsort(weights)[::-1]
 
-    total_weight = np.sum(weights)
+    total_weight: float = float(np.sum(weights))
     if total_weight < 1e-15:
         return (0, 0.0)
 

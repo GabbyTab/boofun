@@ -21,7 +21,7 @@ Reference:
 """
 
 from itertools import combinations
-from typing import TYPE_CHECKING, Dict, Set, Tuple
+from typing import TYPE_CHECKING, Any, Dict, Optional, Set, Tuple
 
 import numpy as np
 
@@ -41,7 +41,7 @@ def sigma(p: float) -> float:
     """
     if p <= 0 or p >= 1:
         return 0.0
-    return np.sqrt(p * (1 - p))
+    return float(np.sqrt(p * (1 - p)))
 
 
 def lambda_p(p: float) -> float:
@@ -110,6 +110,7 @@ def generalized_influence(f: "BooleanFunction", S: Set[int], p: float = 0.5) -> 
     from . import SpectralAnalyzer
 
     n = f.n_vars
+    assert n is not None
     s = sigma(p)
 
     # Get Fourier coefficients (under uniform for simplicity)
@@ -152,6 +153,7 @@ def is_alpha_global(
         - all_influences: Dictionary of all computed I_S values
     """
     n = f.n_vars
+    assert n is not None
     ef2 = 1.0  # E[f^2] = 1 for Boolean functions in ±1 representation
 
     max_influence = 0.0
@@ -194,6 +196,7 @@ def p_biased_expectation(f: "BooleanFunction", p: float, samples: int = 10000) -
         Estimated expectation under μ_p
     """
     n = f.n_vars
+    assert n is not None
     total = 0.0
 
     for _ in range(samples):
@@ -221,6 +224,7 @@ def p_biased_influence(f: "BooleanFunction", i: int, p: float, samples: int = 50
         Estimated p-biased influence of variable i
     """
     n = f.n_vars
+    assert n is not None
     count = 0
 
     for _ in range(samples):
@@ -252,7 +256,9 @@ def p_biased_total_influence(f: "BooleanFunction", p: float, samples: int = 3000
     Returns:
         Estimated total influence under μ_p
     """
-    return sum(p_biased_influence(f, i, p, samples) for i in range(f.n_vars))
+    n = f.n_vars
+    assert n is not None
+    return sum(p_biased_influence(f, i, p, samples) for i in range(n))
 
 
 def noise_stability_p_biased(
@@ -276,6 +282,7 @@ def noise_stability_p_biased(
         Estimated noise stability
     """
     n = f.n_vars
+    assert n is not None
     total = 0.0
 
     for _ in range(samples):
@@ -393,11 +400,13 @@ class GlobalHypercontractivityAnalyzer:
         """
         self.f = f
         self.p = p
-        self.n_vars = f.n_vars
+        n_vars = f.n_vars
+        assert n_vars is not None
+        self.n_vars: int = n_vars
 
         # Cache for expensive computations
-        self._globality_cache = {}
-        self._influence_cache = {}
+        self._globality_cache: Dict[Any, Any] = {}
+        self._influence_cache: Dict[Any, float] = {}
 
     def sigma(self) -> float:
         """Return σ(p) for the current bias."""
@@ -454,7 +463,9 @@ class GlobalHypercontractivityAnalyzer:
         """Compute the hypercontractivity bound."""
         return hypercontractivity_bound(self.f, self.p)
 
-    def threshold_curve(self, p_range: np.ndarray = None, samples: int = 1000) -> np.ndarray:
+    def threshold_curve(
+        self, p_range: Optional[np.ndarray] = None, samples: int = 1000
+    ) -> np.ndarray:
         """
         Compute the threshold curve μ_p(f) over a range of p.
 

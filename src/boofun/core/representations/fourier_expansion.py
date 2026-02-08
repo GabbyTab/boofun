@@ -28,7 +28,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         # Convert to ±1 domain
 
         if not isinstance(inputs, np.ndarray):
-            return self._evaluate_single(inputs, data)
+            return self._evaluate_single(inputs, data)  # type: ignore[unreachable]
         return self._evaluate_batch(inputs, data)
 
     def _evaluate_single(self, x: int, coeffs: np.ndarray) -> float:
@@ -116,7 +116,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
 
     def is_complete(self, data: np.ndarray) -> bool:
         """Check if representation contains non-zero coefficients"""
-        return np.any(data != 0)
+        return bool(np.any(data != 0))
 
     def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
         """Return time complexity estimates for Fourier operations."""
@@ -130,7 +130,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             "storage": size,  # O(2^n) storage
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return memory requirements for n variables"""
         num_coeffs = 2**n_vars
         return {

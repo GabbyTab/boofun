@@ -162,7 +162,7 @@ class CNFFormula:
         Returns:
             Simplified CNF formula
         """
-        simplified_clauses = []
+        simplified_clauses: List[CNFClause] = []
 
         for clause in self.clauses:
             # Remove tautologies
@@ -243,7 +243,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
             Boolean result(s)
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         if inputs.ndim == 0:
             # Single integer index
@@ -252,7 +252,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
         elif inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
-                binary_input = inputs.astype(int)
+                binary_input = inputs.astype(int)  # type: ignore[assignment]
                 return data.evaluate(binary_input)
             else:
                 # Array of integer indices
@@ -300,7 +300,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
         truth_table = []
 
         for i in range(size):
-            val = source_repr.evaluate(i, source_data, space, n_vars)
+            val = source_repr.evaluate(i, source_data, space, n_vars)  # type: ignore[arg-type]
             truth_table.append(bool(val))
 
         # Generate CNF from truth table
@@ -367,7 +367,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
             "space_complexity": n_vars,  # O(2^n) worst case for number of clauses
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return storage requirements for CNF representation."""
         # Worst case: all 2^n maxterms
         max_clauses = 2**n_vars

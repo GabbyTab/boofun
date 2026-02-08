@@ -174,19 +174,19 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
 
         # Create a single BooleanFunction instance representing the whole function
 
-        return ()
+        return ("", [])  # type: ignore[return-value]
 
     def convert_to(
         self,
         target_repr: BooleanFunctionRepresentation,
-        souce_data: Any,
+        source_data: Any,
         space: Space,
         n_vars: int,
         **kwargs,
     ) -> np.ndarray:
         """Convert to another representation from Fourier expansion"""
         # Placeholder: Actual conversion requires inverse transform
-        return target_repr.convert_from(self, souce_data, space, n_vars, **kwargs)
+        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
     def create_empty(self, n_vars: int, **kwargs) -> Tuple[str, List[str]]:
         """
@@ -213,5 +213,6 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
             "variables": n_vars,  # one pointer per variable symbol
         }
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> Dict[str, Any]:
         """Return time_complexity for computing/evaluating n variables."""
+        return {}

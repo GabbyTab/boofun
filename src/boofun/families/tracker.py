@@ -233,9 +233,9 @@ class PropertyMarker:
         """Track sensitivity s(f)."""
 
         def compute(f):
-            from ..analysis.sensitivity import sensitivity
+            from ..analysis.sensitivity import max_sensitivity
 
-            return sensitivity(f)
+            return max_sensitivity(f)
 
         return Marker(
             name="sensitivity",
@@ -249,9 +249,9 @@ class PropertyMarker:
         """Track block sensitivity bs(f)."""
 
         def compute(f):
-            from ..analysis.block_sensitivity import block_sensitivity
+            from ..analysis.block_sensitivity import max_block_sensitivity
 
-            return block_sensitivity(f)
+            return max_block_sensitivity(f)
 
         return Marker(
             name="block_sensitivity",
@@ -475,6 +475,7 @@ class GrowthTracker:
 
                 result.n_values.append(n)
                 result.computed_values.append(value)
+                assert result.computation_times is not None
                 result.computation_times.append(elapsed)
 
                 # Get theoretical value
@@ -489,6 +490,7 @@ class GrowthTracker:
                                 f"Theoretical value computation failed for {marker.name} at n={n}: {e}"
                             )
                             theory = None
+                assert result.theoretical_values is not None
                 result.theoretical_values.append(theory)
 
             if verbose:

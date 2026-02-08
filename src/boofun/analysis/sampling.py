@@ -212,8 +212,8 @@ def sample_spectral(
     coeffs = analyzer.fourier_expansion()
 
     # Compute weights (squared coefficients)
-    weights = coeffs**2
-    total_weight = np.sum(weights)
+    weights: np.ndarray = coeffs**2
+    total_weight: float = float(np.sum(weights))
 
     if total_weight < 1e-15:
         # Constant function - all weight on empty set
@@ -509,8 +509,8 @@ class SpectralDistribution:
         analyzer = SpectralAnalyzer(f)
         coeffs = analyzer.fourier_expansion()
 
-        weights = coeffs**2
-        total = np.sum(weights)
+        weights: np.ndarray = coeffs**2
+        total: float = float(np.sum(weights))
         probs = weights / total if total > 1e-15 else weights
 
         return cls(weights=weights, probabilities=probs, n_vars=n)
@@ -532,8 +532,11 @@ class SpectralDistribution:
     def entropy(self) -> float:
         """Shannon entropy of the spectral distribution."""
         # H = -Σ p(S) log p(S)
-        nonzero = self.probabilities > 1e-15
-        return float(-np.sum(self.probabilities[nonzero] * np.log2(self.probabilities[nonzero])))
+        total = 0.0
+        for p_val in self.probabilities:
+            if p_val > 1e-15:
+                total -= float(p_val * np.log2(p_val))
+        return total
 
     def effective_support_size(self, threshold: float = 0.01) -> int:
         """Count subsets with probability > threshold."""
@@ -723,7 +726,9 @@ class RandomVariableView:
         results["total_influence"] = abs(exact_I - est_I) < tolerance * max(exact_I, 0.1)
 
         # f̂(∅) = expectation
-        est_f_empty = self.estimate_fourier_coefficient(0, n_samples)
+        est_f_empty_raw = self.estimate_fourier_coefficient(0, n_samples)
+        assert isinstance(est_f_empty_raw, float)
+        est_f_empty: float = est_f_empty_raw
         results["fourier_empty"] = abs(exact_E - est_f_empty) < tolerance * max(abs(exact_E), 0.1)
 
         return results

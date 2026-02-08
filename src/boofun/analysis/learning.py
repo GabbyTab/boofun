@@ -42,7 +42,7 @@ def _random_subset(n: int, rng: np.random.Generator) -> int:
     """
     if n >= 64:
         raise ValueError(f"_random_subset requires n < 64, got {n}")
-    return rng.integers(0, 1 << n)
+    return int(rng.integers(0, 1 << n))
 
 
 def _inner_product_mod2(x: int, s: int) -> int:

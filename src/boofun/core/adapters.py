@@ -156,7 +156,7 @@ class LegacyAdapter(BooleanFunctionAdapter):
             elif isinstance(result, (int, np.integer)):
                 return bool(result)
             elif isinstance(result, (float, np.floating)):
-                return result > 0.5
+                return bool(result > 0.5)
             else:
                 return bool(result)
 
@@ -313,7 +313,7 @@ class NumPyAdapter(BooleanFunctionAdapter):
         """
         self.vectorized = vectorized
 
-    def adapt(self, numpy_function: Callable, n_vars: int) -> BooleanFunction:
+    def adapt(self, numpy_function: Callable, n_vars: int) -> BooleanFunction:  # type: ignore[override]
         """
         Adapt NumPy function to BooleanFunction.
 

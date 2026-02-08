@@ -31,6 +31,7 @@ def distance_to_dictator(f: "BooleanFunction", i: int) -> float:
     """
     fourier = f.fourier()
     n = f.n_vars
+    assert n is not None
 
     # Dictator has f̂({i}) = ±1, all others 0
     # Distance = (1 - |f̂({i})|) / 2 + sum of other coefficients
@@ -60,6 +61,7 @@ def distance_to_negated_dictator(f: "BooleanFunction", i: int) -> float:
         Fraction of inputs where f differs from NOT(x_i)
     """
     n = f.n_vars
+    assert n is not None
     count = 0
     for x in range(2**n):
         dictator_val = 1 - ((x >> i) & 1)  # Negated
@@ -83,6 +85,7 @@ def closest_dictator(f: "BooleanFunction") -> Tuple[int, float, bool]:
         >>> print(f"Closest to {'NOT ' if neg else ''}x_{idx}, distance={dist}")
     """
     n = f.n_vars
+    assert n is not None
     best_idx = 0
     best_dist = float("inf")
     best_negated = False
@@ -126,11 +129,12 @@ def fkn_theorem_bound(f: "BooleanFunction") -> Dict[str, Any]:
         - 'is_close_to_dictator': Boolean
     """
     n = f.n_vars
+    assert n is not None
     fourier = f.fourier()
 
     # Compute spectral weights
-    w0 = fourier[0] ** 2  # Constant term
-    w1 = sum(fourier[1 << i] ** 2 for i in range(n))  # Degree 1
+    w0: float = float(fourier[0] ** 2)  # Constant term
+    w1: float = float(sum(fourier[1 << i] ** 2 for i in range(n)))  # Degree 1
     total_weight = sum(c**2 for c in fourier)  # Should be 1 for ±1 valued
 
     # Total influence
@@ -138,11 +142,11 @@ def fkn_theorem_bound(f: "BooleanFunction") -> Dict[str, Any]:
 
     # FKN bound: distance ≤ C * (1 - W^{≤1}[f])
     # More refined: distance ≤ C * I[f] for low-influence functions
-    low_degree_weight = w0 + w1
-    high_degree_weight = 1 - low_degree_weight
+    low_degree_weight: float = w0 + w1
+    high_degree_weight: float = 1 - low_degree_weight
 
     # FKN constant (approximate)
-    fkn_bound = min(total_inf, 2 * high_degree_weight)
+    fkn_bound: float = min(total_inf, 2 * high_degree_weight)
 
     # Find actual closest dictator
     idx, dist, neg = closest_dictator(f)
@@ -187,8 +191,9 @@ def spectral_gap(f: "BooleanFunction") -> float:
     """
     fourier = f.fourier()
     n = f.n_vars
+    assert n is not None
 
-    max_degree1 = max(abs(fourier[1 << i]) for i in range(n))
+    max_degree1: float = float(max(abs(fourier[1 << i]) for i in range(n)))
     return 1 - max_degree1
 
 

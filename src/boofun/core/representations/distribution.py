@@ -142,7 +142,7 @@ class BooleanDistribution:
         """
         # Find inputs satisfying condition
         condition_mask = np.array([input_condition(i) for i in range(self.domain_size)])
-        condition_prob = np.sum(self.input_distribution[condition_mask])
+        condition_prob: float = float(np.sum(self.input_distribution[condition_mask]))
 
         if condition_prob == 0:
             return 0.0  # Undefined, return 0
@@ -150,7 +150,7 @@ class BooleanDistribution:
         # Find inputs satisfying both condition and output
         output_mask = self.truth_table == output
         joint_mask = condition_mask & output_mask
-        joint_prob = np.sum(self.input_distribution[joint_mask])
+        joint_prob: float = float(np.sum(self.input_distribution[joint_mask]))
 
         return joint_prob / condition_prob
 
@@ -222,7 +222,7 @@ class BooleanDistribution:
         marginal_f = [self.output_probability(False), self.output_probability(True)]
         marginal_var = [p_var_0, p_var_1]
 
-        for i, (f_val, var_val) in enumerate([(0, 0), (0, 1), (1, 0), (1, 1)]):
+        for i, (f_val, var_val) in enumerate([(0, 0), (0, 1), (1, 0), (1, 1)]):  # type: ignore[assignment]
             joint_prob = joint_probs[i]
             if joint_prob > 0:
                 marginal_prod = marginal_f[f_val] * marginal_var[var_val]
@@ -245,7 +245,7 @@ class BooleanDistribution:
             raise ValueError(f"Variable index {variable_idx} out of range")
 
         # Convert to ±1 representation
-        f_vals = 2 * self.truth_table.astype(int) - 1  # {0,1} -> {-1,1}
+        f_vals: np.ndarray = 2 * self.truth_table.astype(int) - 1  # {0,1} -> {-1,1}
 
         # Extract variable values
         var_vals = np.zeros(self.domain_size)
@@ -254,13 +254,13 @@ class BooleanDistribution:
             var_vals[i] = 2 * bit - 1  # {0,1} -> {-1,1}
 
         # Compute weighted correlation
-        mean_f = np.sum(f_vals * self.input_distribution)
-        mean_var = np.sum(var_vals * self.input_distribution)
+        mean_f: Any = np.sum(f_vals * self.input_distribution)
+        mean_var: Any = np.sum(var_vals * self.input_distribution)
 
-        cov = np.sum((f_vals - mean_f) * (var_vals - mean_var) * self.input_distribution)
+        cov: Any = np.sum((f_vals - mean_f) * (var_vals - mean_var) * self.input_distribution)
 
-        var_f = np.sum((f_vals - mean_f) ** 2 * self.input_distribution)
-        var_var = np.sum((var_vals - mean_var) ** 2 * self.input_distribution)
+        var_f: Any = np.sum((f_vals - mean_f) ** 2 * self.input_distribution)
+        var_var: Any = np.sum((var_vals - mean_var) ** 2 * self.input_distribution)
 
         if var_f == 0 or var_var == 0:
             return 0.0
@@ -278,17 +278,17 @@ class BooleanDistribution:
             List of moments [mean, variance, skewness, kurtosis, ...]
         """
         # Convert outputs to numeric values
-        outputs = self.truth_table.astype(float)
+        outputs: np.ndarray = self.truth_table.astype(float)
 
         moments = []
 
         # Mean (1st moment)
-        mean = np.sum(outputs * self.input_distribution)
+        mean: Any = np.sum(outputs * self.input_distribution)
         moments.append(mean)
 
         if order >= 2:
             # Variance (2nd central moment)
-            variance = np.sum((outputs - mean) ** 2 * self.input_distribution)
+            variance: Any = np.sum((outputs - mean) ** 2 * self.input_distribution)
             moments.append(variance)
 
         if order >= 3:
@@ -395,7 +395,7 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
             Boolean result(s)
         """
         if not isinstance(inputs, np.ndarray):
-            inputs = np.asarray(inputs)
+            inputs = np.asarray(inputs)  # type: ignore[unreachable]
 
         if inputs.ndim == 0:
             # Single integer index
@@ -451,7 +451,7 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
         truth_table = np.zeros(size, dtype=bool)
 
         for i in range(size):
-            val = source_repr.evaluate(i, source_data, space, n_vars)
+            val = source_repr.evaluate(i, source_data, space, n_vars)  # type: ignore[arg-type]
             truth_table[i] = bool(val)
 
         # Create distribution based on type
@@ -499,7 +499,7 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
             "space_complexity": n_vars,  # O(2^n) - stores full truth table and distribution
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
         """Return storage requirements for distribution representation."""
         domain_size = 2**n_vars
 
