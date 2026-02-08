@@ -190,6 +190,8 @@ class OptimizedTruthTableProcessor(VectorizedBatchProcessor):
         self, inputs: np.ndarray, function_data: np.ndarray, space: Space, n_vars: int
     ) -> np.ndarray:
         """Optimized truth table batch processing with GPU acceleration."""
+        # Ensure function_data is a numpy array (may be a Python list)
+        function_data = np.asarray(function_data)
 
         # Try GPU acceleration if beneficial
         if should_use_gpu("truth_table", inputs.size, n_vars):
