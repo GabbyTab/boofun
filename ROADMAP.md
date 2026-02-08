@@ -772,6 +772,14 @@ fig = plot_estimation_convergence(
 
 ## Nice to Have (No Timeline)
 
+**Pseudorandomness & F2-Polynomials (inspired by CHLT ITCS 2019):**
+- `bf.f2_polynomial(n, monomials)` — create f(x) = (-1)^{p(x)} for p over GF(2)
+- `fourier_level_lp_norm(f, k, p)` — ✅ Done (v1.1): L_{p,k} Fourier tails
+- `fourier_tail_profile(f, p)` — ✅ Done (v1.1): full Fourier tail profile
+- Fractional PRG utilities: truncated Gaussian sampler, polarizing walk
+- Epsilon-biased distribution construction (Ta-Shma's code)
+- Fooling verification: check if a distribution epsilon-fools a function class
+
 **Infrastructure:**
 - Manim animations for educational content
 - Dask distributed computation for large n
