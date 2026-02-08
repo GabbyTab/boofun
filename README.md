@@ -13,6 +13,7 @@
   <a href="https://github.com/GabbyTab/boofun/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
   <a href="https://gabbytab.github.io/boofun/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="Documentation"></a>
   <a href="https://codecov.io/gh/GabbyTab/boofun"><img src="https://codecov.io/gh/GabbyTab/boofun/branch/main/graph/badge.svg" alt="codecov"></a>
+  <a href="https://github.com/GabbyTab/boofun"><img src="https://img.shields.io/badge/typed-mypy-blue.svg" alt="Typed"></a>
 </p>
 
 ## What This Is
