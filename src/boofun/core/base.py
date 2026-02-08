@@ -57,21 +57,13 @@ class Representable(Protocol):
 
 
 class BooleanFunction(Evaluable, Representable):
-    def __new__(cls, *args, **kwargs):
-        # Allocate without calling __init__
-        self = super().__new__(cls)
-        # Delegate actual setup to a private initializer
-        self._init(*args, **kwargs)
-        return self
-
-    def _init(
+    def __init__(
         self,
         space: str = "plus_minus_cube",
         error_model: Optional[Any] = None,
         storage_manager=None,
         **kwargs,
     ):
-        # Original __init__ logic moved here
         self.space = self._create_space(space)
         self.representations: Dict[str, Any] = {}
         self.properties = PropertyStore()
@@ -83,6 +75,9 @@ class BooleanFunction(Evaluable, Representable):
         self.n_vars = n if n is not None else kwargs.get("n_vars")
         self._metadata = kwargs.get("metadata", {})
         self.nickname = kwargs.get("nickname") or "x_0"
+
+    # Keep _init as alias for backward compatibility with factory code
+    _init = __init__
 
     def __array__(self, dtype=None, copy=None) -> np.ndarray:
         """Return the truth table as a NumPy array for NumPy compatibility.
