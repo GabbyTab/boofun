@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Performance Guide &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Error Handling in BooFun" href="error_handling.html" />
+    <link rel="prev" title="Library Comparison" href="comparison_guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Performance Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-summary">Quick Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optimization-tiers">Optimization Tiers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tier-1-numpy-vectorization-default">Tier 1: NumPy Vectorization (Default)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tier-2-numba-jit-compilation-recommended">Tier 2: Numba JIT Compilation (Recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tier-3-gpu-acceleration-optional">Tier 3: GPU Acceleration (Optional)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-optimization">Memory Optimization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#truth-table-representations">Truth Table Representations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#auto-selection">Auto-Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-packed-truth-tables">Using Packed Truth Tables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#parallelization">Parallelization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#batch-operations">Batch Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numba-parallel-loops">Numba Parallel Loops</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#caching-and-memoization">Caching and Memoization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#global-compute-cache">Global Compute Cache</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#instance-level-caching">Instance-Level Caching</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#benchmarks">Benchmarks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#walsh-hadamard-transform">Walsh-Hadamard Transform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#influence-computation">Influence Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#property-testing-1000-queries">Property Testing (1000 queries)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#best-practices">Best Practices</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-numba">1. Install Numba</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-appropriate-representations">2. Use Appropriate Representations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">3. Batch Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reuse-functions">4. Reuse Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#profile-your-code">5. Profile Your Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-benchmarks">Running Benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docker-performance">Docker Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scaling-guidelines">Scaling Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#future-optimizations">Future Optimizations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Performance Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/performance.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="performance-guide">
+<h1>Performance Guide<a class="headerlink" href="#performance-guide" title="Link to this heading"></a></h1>
+<p>This document describes BooFun’s performance characteristics, optimization strategies, and benchmarks.</p>
+<section id="quick-summary">
+<h2>Quick Summary<a class="headerlink" href="#quick-summary" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head"><p>Complexity</p></th>
+<th class="head"><p>n=10</p></th>
+<th class="head"><p>n=14</p></th>
+<th class="head"><p>n=18</p></th>
+<th class="head"><p>n=20</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Truth table creation</p></td>
+<td><p>O(2^n)</p></td>
+<td><p>&lt;1ms</p></td>
+<td><p>~10ms</p></td>
+<td><p>~200ms</p></td>
+<td><p>~1s</p></td>
+</tr>
+<tr class="row-odd"><td><p>Walsh-Hadamard Transform</p></td>
+<td><p>O(n·2^n)</p></td>
+<td><p>&lt;1ms</p></td>
+<td><p>~5ms</p></td>
+<td><p>~100ms</p></td>
+<td><p>~500ms</p></td>
+</tr>
+<tr class="row-even"><td><p>Influence computation</p></td>
+<td><p>O(2^n)</p></td>
+<td><p>&lt;1ms</p></td>
+<td><p>~5ms</p></td>
+<td><p>~80ms</p></td>
+<td><p>~350ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>Property testing</p></td>
+<td><p>O(queries)</p></td>
+<td><p>&lt;1ms</p></td>
+<td><p>&lt;1ms</p></td>
+<td><p>&lt;5ms</p></td>
+<td><p>&lt;10ms</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="optimization-tiers">
+<h2>Optimization Tiers<a class="headerlink" href="#optimization-tiers" title="Link to this heading"></a></h2>
+<p>BooFun uses multiple optimization strategies, automatically selecting the best available:</p>
+<section id="tier-1-numpy-vectorization-default">
+<h3>Tier 1: NumPy Vectorization (Default)<a class="headerlink" href="#tier-1-numpy-vectorization-default" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Always available</p></li>
+<li><p>10-100x faster than pure Python</p></li>
+<li><p>Used for all array operations</p></li>
+</ul>
+</section>
+<section id="tier-2-numba-jit-compilation-recommended">
+<h3>Tier 2: Numba JIT Compilation (Recommended)<a class="headerlink" href="#tier-2-numba-jit-compilation-recommended" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Requires: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">numba</span></code></p></li>
+<li><p>2-10x faster than NumPy for iterative operations</p></li>
+<li><p>JIT compilation of hot paths</p></li>
+<li><p>Used for: WHT, influences, sensitivity</p></li>
+</ul>
+</section>
+<section id="tier-3-gpu-acceleration-optional">
+<h3>Tier 3: GPU Acceleration (Optional)<a class="headerlink" href="#tier-3-gpu-acceleration-optional" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Requires: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cupy-cuda11x</span></code> (match your CUDA version)</p></li>
+<li><p>10-100x faster for large n (n &gt; 16)</p></li>
+<li><p>Used for: WHT, batch operations</p></li>
+</ul>
+</section>
+</section>
+<section id="memory-optimization">
+<h2>Memory Optimization<a class="headerlink" href="#memory-optimization" title="Link to this heading"></a></h2>
+<section id="truth-table-representations">
+<h3>Truth Table Representations<a class="headerlink" href="#truth-table-representations" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Format</p></th>
+<th class="head"><p>Memory (n=20)</p></th>
+<th class="head"><p>Access Time</p></th>
+<th class="head"><p>Best For</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>numpy bool</p></td>
+<td><p>1 MB</p></td>
+<td><p>O(1)</p></td>
+<td><p>n ≤ 14</p></td>
+</tr>
+<tr class="row-odd"><td><p>packed bitarray</p></td>
+<td><p>128 KB</p></td>
+<td><p>O(1)</p></td>
+<td><p>14 &lt; n ≤ 20</p></td>
+</tr>
+<tr class="row-even"><td><p>sparse</p></td>
+<td><p>~k·12 bytes</p></td>
+<td><p>O(1)</p></td>
+<td><p>High sparsity</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="auto-selection">
+<h3>Auto-Selection<a class="headerlink" href="#auto-selection" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.auto_representation</span><span class="w"> </span><span class="kn">import</span> <span class="n">recommend_representation</span>
+
+<span class="c1"># Get recommendation for your use case</span>
+<span class="n">rec</span> <span class="o">=</span> <span class="n">recommend_representation</span><span class="p">(</span><span class="n">n_vars</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
+<span class="c1"># {&#39;representation&#39;: &#39;sparse_truth_table&#39;,</span>
+<span class="c1">#  &#39;reason&#39;: &#39;Sparsity 10.0% &lt; 30%&#39;}</span>
+</pre></div>
+</div>
+</section>
+<section id="using-packed-truth-tables">
+<h3>Using Packed Truth Tables<a class="headerlink" href="#using-packed-truth-tables" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.representations.packed_truth_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_packed_truth_table</span>
+
+<span class="c1"># Convert existing truth table</span>
+<span class="n">packed</span> <span class="o">=</span> <span class="n">create_packed_truth_table</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span>
+
+<span class="c1"># Memory savings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.representations.packed_truth_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">memory_comparison</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">memory_comparison</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="c1"># packed_bitarray: 131,072 bytes (128.0 KB)</span>
+<span class="c1"># numpy_bool: 1,048,576 bytes (1024.0 KB)</span>
+<span class="c1"># savings: 8x</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="parallelization">
+<h2>Parallelization<a class="headerlink" href="#parallelization" title="Link to this heading"></a></h2>
+<section id="batch-operations">
+<h3>Batch Operations<a class="headerlink" href="#batch-operations" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">parallel_batch_influences</span><span class="p">,</span> <span class="n">parallel_batch_fourier</span>
+
+<span class="c1"># Compute influences for many functions at once</span>
+<span class="n">functions</span> <span class="o">=</span> <span class="p">[</span><span class="n">bf</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+<span class="n">all_influences</span> <span class="o">=</span> <span class="n">parallel_batch_influences</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span>
+
+<span class="c1"># Fourier coefficients in parallel</span>
+<span class="n">all_fourier</span> <span class="o">=</span> <span class="n">parallel_batch_fourier</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="numba-parallel-loops">
+<h3>Numba Parallel Loops<a class="headerlink" href="#numba-parallel-loops" title="Link to this heading"></a></h3>
+<p>Numba functions automatically use all CPU cores:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># These are JIT-compiled with Numba:</span>
+<span class="c1"># - _vectorized_influences_numba</span>
+<span class="c1"># - _total_influence_numba</span>
+<span class="c1"># - _fast_wht_numba</span>
+
+<span class="c1"># Check if Numba is being used:</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">HAS_NUMBA</span><span class="p">,</span> <span class="n">INFLUENCES_BACKEND</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Numba available: </span><span class="si">{</span><span class="n">HAS_NUMBA</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Influences backend: </span><span class="si">{</span><span class="n">INFLUENCES_BACKEND</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="caching-and-memoization">
+<h2>Caching and Memoization<a class="headerlink" href="#caching-and-memoization" title="Link to this heading"></a></h2>
+<section id="global-compute-cache">
+<h3>Global Compute Cache<a class="headerlink" href="#global-compute-cache" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_global_cache</span>
+
+<span class="n">cache</span> <span class="o">=</span> <span class="n">get_global_cache</span><span class="p">()</span>
+
+<span class="c1"># Check cache statistics</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cache</span><span class="o">.</span><span class="n">stats</span><span class="p">())</span>
+<span class="c1"># {&#39;size&#39;: 42, &#39;max_size&#39;: 500, &#39;hits&#39;: 156, &#39;misses&#39;: 42, &#39;hit_rate&#39;: 0.79}</span>
+
+<span class="c1"># Clear cache if needed</span>
+<span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="instance-level-caching">
+<h3>Instance-Level Caching<a class="headerlink" href="#instance-level-caching" title="Link to this heading"></a></h3>
+<p>BooleanFunction instances cache:</p>
+<ul class="simple">
+<li><p>Fourier coefficients (<code class="docutils literal notranslate"><span class="pre">_fourier_cache</span></code>)</p></li>
+<li><p>Influences (<code class="docutils literal notranslate"><span class="pre">_influences_cache</span></code>)</p></li>
+<li><p>Decision tree depth (<code class="docutils literal notranslate"><span class="pre">_dt_cache</span></code>)</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># First call computes</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>  <span class="c1"># ~1ms</span>
+
+<span class="c1"># Second call returns cached</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>  <span class="c1"># ~0.001ms</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="benchmarks">
+<h2>Benchmarks<a class="headerlink" href="#benchmarks" title="Link to this heading"></a></h2>
+<section id="walsh-hadamard-transform">
+<h3>Walsh-Hadamard Transform<a class="headerlink" href="#walsh-hadamard-transform" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">:</span>  <span class="n">NumPy</span><span class="p">:</span> <span class="mf">0.5</span><span class="n">ms</span><span class="p">,</span> <span class="n">Numba</span><span class="p">:</span> <span class="mf">0.2</span><span class="n">ms</span><span class="p">,</span> <span class="n">GPU</span><span class="p">:</span> <span class="mf">0.1</span><span class="n">ms</span>
+<span class="n">n</span><span class="o">=</span><span class="mi">14</span><span class="p">:</span>  <span class="n">NumPy</span><span class="p">:</span> <span class="mi">8</span><span class="n">ms</span><span class="p">,</span>   <span class="n">Numba</span><span class="p">:</span> <span class="mi">3</span><span class="n">ms</span><span class="p">,</span>   <span class="n">GPU</span><span class="p">:</span> <span class="mf">0.5</span><span class="n">ms</span>
+<span class="n">n</span><span class="o">=</span><span class="mi">18</span><span class="p">:</span>  <span class="n">NumPy</span><span class="p">:</span> <span class="mi">150</span><span class="n">ms</span><span class="p">,</span> <span class="n">Numba</span><span class="p">:</span> <span class="mi">50</span><span class="n">ms</span><span class="p">,</span>  <span class="n">GPU</span><span class="p">:</span> <span class="mi">5</span><span class="n">ms</span>
+<span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">:</span>  <span class="n">NumPy</span><span class="p">:</span> <span class="mi">700</span><span class="n">ms</span><span class="p">,</span> <span class="n">Numba</span><span class="p">:</span> <span class="mi">200</span><span class="n">ms</span><span class="p">,</span> <span class="n">GPU</span><span class="p">:</span> <span class="mi">15</span><span class="n">ms</span>
+</pre></div>
+</div>
+</section>
+<section id="influence-computation">
+<h3>Influence Computation<a class="headerlink" href="#influence-computation" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">:</span>  <span class="n">NumPy</span><span class="p">:</span> <span class="mf">0.3</span><span class="n">ms</span><span class="p">,</span> <span class="n">Numba</span><span class="p">:</span> <span class="mf">0.1</span><span class="n">ms</span>
+<span class="n">n</span><span class="o">=</span><span class="mi">14</span><span class="p">:</span>  <span class="n">NumPy</span><span class="p">:</span> <span class="mi">5</span><span class="n">ms</span><span class="p">,</span>   <span class="n">Numba</span><span class="p">:</span> <span class="mi">1</span><span class="n">ms</span>
+<span class="n">n</span><span class="o">=</span><span class="mi">18</span><span class="p">:</span>  <span class="n">NumPy</span><span class="p">:</span> <span class="mi">90</span><span class="n">ms</span><span class="p">,</span>  <span class="n">Numba</span><span class="p">:</span> <span class="mi">20</span><span class="n">ms</span>
+<span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">:</span>  <span class="n">NumPy</span><span class="p">:</span> <span class="mi">400</span><span class="n">ms</span><span class="p">,</span> <span class="n">Numba</span><span class="p">:</span> <span class="mi">80</span><span class="n">ms</span>
+</pre></div>
+</div>
+</section>
+<section id="property-testing-1000-queries">
+<h3>Property Testing (1000 queries)<a class="headerlink" href="#property-testing-1000-queries" title="Link to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BLR</span> <span class="n">linearity</span><span class="p">:</span>  <span class="o">~</span><span class="mi">2</span><span class="n">ms</span> <span class="p">(</span><span class="n">independent</span> <span class="n">of</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">Junta</span> <span class="n">test</span><span class="p">:</span>     <span class="o">~</span><span class="mi">5</span><span class="n">ms</span> <span class="p">(</span><span class="k">for</span> <span class="n">k</span><span class="o">-</span><span class="n">junta</span><span class="p">)</span>
+<span class="n">Monotonicity</span><span class="p">:</span>   <span class="o">~</span><span class="mi">3</span><span class="n">ms</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading"></a></h2>
+<section id="install-numba">
+<h3>1. Install Numba<a class="headerlink" href="#install-numba" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>numba
+</pre></div>
+</div>
+<p>This alone provides 2-10x speedup for most operations.</p>
+</section>
+<section id="use-appropriate-representations">
+<h3>2. Use Appropriate Representations<a class="headerlink" href="#use-appropriate-representations" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For n &gt; 14, consider sparse or packed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.auto_representation</span><span class="w"> </span><span class="kn">import</span> <span class="n">AdaptiveFunction</span>
+
+<span class="c1"># Automatically chooses best format</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">AdaptiveFunction</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">n_vars</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>  <span class="c1"># &#39;packed&#39; or &#39;sparse&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h3>3. Batch Operations<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bad: sequential</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">functions</span><span class="p">]</span>
+
+<span class="c1"># Good: parallel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">parallel_batch_influences</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">parallel_batch_influences</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="reuse-functions">
+<h3>4. Reuse Functions<a class="headerlink" href="#reuse-functions" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bad: recreate function each time</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">total_influence</span><span class="p">())</span>
+
+<span class="c1"># Good: reuse function</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">total_influence</span><span class="p">())</span>  <span class="c1"># Uses cached values</span>
+</pre></div>
+</div>
+</section>
+<section id="profile-your-code">
+<h3>5. Profile Your Code<a class="headerlink" href="#profile-your-code" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">WHT_BACKEND</span><span class="p">,</span> <span class="n">INFLUENCES_BACKEND</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WHT backend: </span><span class="si">{</span><span class="n">WHT_BACKEND</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Influences backend: </span><span class="si">{</span><span class="n">INFLUENCES_BACKEND</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Time specific operations</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WHT: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Influences: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="running-benchmarks">
+<h2>Running Benchmarks<a class="headerlink" href="#running-benchmarks" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run all benchmarks</span>
+pytest<span class="w"> </span>tests/benchmarks/<span class="w"> </span>-v<span class="w"> </span>--benchmark-only
+
+<span class="c1"># Specific benchmark</span>
+pytest<span class="w"> </span>tests/benchmarks/test_external_benchmarks.py<span class="w"> </span>-v
+
+<span class="c1"># With comparison</span>
+pytest<span class="w"> </span>tests/benchmarks/<span class="w"> </span>--benchmark-compare
+</pre></div>
+</div>
+</section>
+<section id="docker-performance">
+<h2>Docker Performance<a class="headerlink" href="#docker-performance" title="Link to this heading"></a></h2>
+<p>The Docker images include Numba by default:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run benchmarks in Docker</span>
+docker-compose<span class="w"> </span>run<span class="w"> </span>benchmark
+</pre></div>
+</div>
+</section>
+<section id="scaling-guidelines">
+<h2>Scaling Guidelines<a class="headerlink" href="#scaling-guidelines" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>n</p></th>
+<th class="head"><p>Recommended Approach</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>≤ 14</p></td>
+<td><p>Dense truth table, Numba</p></td>
+</tr>
+<tr class="row-odd"><td><p>15-18</p></td>
+<td><p>Packed/sparse, Numba, consider GPU</p></td>
+</tr>
+<tr class="row-even"><td><p>19-22</p></td>
+<td><p>GPU required, sparse representation</p></td>
+</tr>
+<tr class="row-odd"><td><p>&gt; 22</p></td>
+<td><p>Consider sampling/approximation algorithms</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="future-optimizations">
+<h2>Future Optimizations<a class="headerlink" href="#future-optimizations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Distributed computation with Dask</p></li>
+<li><p>Further GPU kernel optimization</p></li>
+<li><p>Memory-mapped truth tables for very large n</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="comparison_guide.html" class="btn btn-neutral float-left" title="Library Comparison" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="error_handling.html" class="btn btn-neutral float-right" title="Error Handling in BooFun" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

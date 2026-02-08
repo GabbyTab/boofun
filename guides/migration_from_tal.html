@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migration from Tal’s BooleanFunc.py &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Architecture" href="../architecture.html" />
+    <link rel="prev" title="Advanced Topics Guide" href="advanced.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Migration from Tal’s BooleanFunc.py</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fourier-analysis">Fourier Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#complexity-measures">Complexity Measures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#restrictions-and-composition">Restrictions and Composition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#p-biased-analysis">P-Biased Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#special-functions">Special Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#construction">Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-boofun-adds">What boofun Adds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#not-in-boofun-use-standard-python">Not in boofun (use standard Python)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Migration from Tal’s BooleanFunc.py</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/migration_from_tal.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="migration-from-tal-s-booleanfunc-py">
+<h1>Migration from Tal’s BooleanFunc.py<a class="headerlink" href="#migration-from-tal-s-booleanfunc-py" title="Link to this heading"></a></h1>
+<p>If you’ve used Avishay Tal’s <code class="docutils literal notranslate"><span class="pre">BooleanFunc.py</span></code> toolkit (from CS 294-92 at UC Berkeley), this guide maps his functions to boofun equivalents. The coverage is ~90%; a few generic utilities (tqdm, binary_search) are available from standard Python.</p>
+<hr class="docutils" />
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tal&#39;s BooleanFunc</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">BooleanFunc</span><span class="p">(</span><span class="s2">&quot;x0&amp;x1 ^ x2&quot;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">real_fourier</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">sensitivity</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">decision_tree</span><span class="p">()</span>
+
+<span class="c1"># boofun equivalent</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;x0 and x1 ^ x2&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># symbolic (like Tal&#39;s from_str)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># or truth table</span>
+<span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>                                 <span class="c1"># WHT coefficients</span>
+<span class="n">f</span><span class="o">.</span><span class="n">sensitivity_at</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>                         <span class="c1"># sensitivity at input 5</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">D</span>
+<span class="n">D</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>                                        <span class="c1"># decision tree depth</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="fourier-analysis">
+<h2>Fourier Analysis<a class="headerlink" href="#fourier-analysis" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tal</p></th>
+<th class="head"><p>boofun</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.real_fourier()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.fourier()</span></code></p></td>
+<td><p>Returns array of WHT coefficients</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.xor_fourier()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">boofun.analysis.gf2</span> <span class="pre">import</span> <span class="pre">gf2_fourier_transform</span></code></p></td>
+<td><p>GF(2) / ANF coefficients</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">FourierCoef(f,</span> <span class="pre">S)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer(f).get_fourier_coefficient(S)</span></code></p></td>
+<td><p>Single coefficient</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.degree()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.degree()</span></code></p></td>
+<td><p>Fourier degree</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.deg_F2()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.degree(gf2=True)</span></code> or <code class="docutils literal notranslate"><span class="pre">gf2_degree(f)</span></code></p></td>
+<td><p>Algebraic degree over GF(2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.bias()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.bias()</span></code></p></td>
+<td><p>E[f] in ±1 convention</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.l1()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">spectral_norm(f,</span> <span class="pre">p=1)</span></code></p></td>
+<td><p>L1 spectral norm</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.fourier_weights()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.spectral_weight_by_degree()</span></code> or <code class="docutils literal notranslate"><span class="pre">fourier_weight_distribution(f)</span></code></p></td>
+<td><p>W^k = sum f_hat(S)^2 by degree</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.truncated_degree_d(d)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">truncate_to_degree(f,</span> <span class="pre">d)</span></code></p></td>
+<td><p>Zero out degree &gt; d</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.ann_influence(i,</span> <span class="pre">rho)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">annealed_influence(f,</span> <span class="pre">i,</span> <span class="pre">rho)</span></code></p></td>
+<td><p>Noisy influence</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.norm_influence(i)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">normalized_influence(f,</span> <span class="pre">i)</span></code></p></td>
+<td><p>sum f_hat(S)^2/</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.fourier</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">spectral_norm</span><span class="p">,</span> <span class="n">fourier_weight_distribution</span><span class="p">,</span> <span class="n">fourier_level_lp_norm</span><span class="p">,</span>
+    <span class="n">fourier_tail_profile</span><span class="p">,</span> <span class="n">truncate_to_degree</span><span class="p">,</span> <span class="n">annealed_influence</span><span class="p">,</span>
+    <span class="n">normalized_influence</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.gf2</span><span class="w"> </span><span class="kn">import</span> <span class="n">gf2_fourier_transform</span><span class="p">,</span> <span class="n">gf2_degree</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="complexity-measures">
+<h2>Complexity Measures<a class="headerlink" href="#complexity-measures" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tal</p></th>
+<th class="head"><p>boofun</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.sensitivity(x)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensitivity.sensitivity_at(f,</span> <span class="pre">x)</span></code></p></td>
+<td><p>Sensitivity at input x</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.max_sensitivity(val)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensitivity.max_sensitivity(f,</span> <span class="pre">output_value=val)</span></code></p></td>
+<td><p>Max sensitivity</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.min_sensitivity(val)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensitivity.min_sensitivity(f,</span> <span class="pre">output_value=val)</span></code></p></td>
+<td><p>Min sensitivity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.average_sensitivity()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensitivity.average_sensitivity(f)</span></code></p></td>
+<td><p>= total influence</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.average_sensitivity_moment(t)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sensitivity.average_sensitivity_moment(f,</span> <span class="pre">t)</span></code></p></td>
+<td><p>t-th moment</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.max_block_sensitivity(val)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">complexity.bs(f)</span></code></p></td>
+<td><p>Block sensitivity</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.certificate(x)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">certificates.certificate(f,</span> <span class="pre">x)</span></code></p></td>
+<td><p>Returns (size, vars)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.max_certificate(val)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">complexity.C(f)</span></code></p></td>
+<td><p>Certificate complexity</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.min_certificate(val)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">certificates.min_certificate_size(f,</span> <span class="pre">value=val)</span></code></p></td>
+<td><p>Min certificate</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.decision_tree()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">complexity.D(f)</span></code></p></td>
+<td><p>Decision tree depth</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.influence(i)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.influence(i)</span></code> or <code class="docutils literal notranslate"><span class="pre">f.influences()[i]</span></code></p></td>
+<td><p>Variable influence</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.total_influence()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.total_influence()</span></code></p></td>
+<td><p>Total influence</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">D</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">C</span>
+<span class="n">D</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>     <span class="c1"># Decision tree depth</span>
+<span class="n">s</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>     <span class="c1"># Max sensitivity</span>
+<span class="n">bs</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>    <span class="c1"># Block sensitivity</span>
+<span class="n">C</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>     <span class="c1"># Certificate complexity</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="restrictions-and-composition">
+<h2>Restrictions and Composition<a class="headerlink" href="#restrictions-and-composition" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tal</p></th>
+<th class="head"><p>boofun</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.fix(var,</span> <span class="pre">val)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.fix(var,</span> <span class="pre">val)</span></code></p></td>
+<td><p>Fix single variable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.fix(vars,</span> <span class="pre">vals)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.fix(vars,</span> <span class="pre">vals)</span></code></p></td>
+<td><p>Fix multiple variables</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.shift(s)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.shift(s)</span></code></p></td>
+<td><p>XOR shift: f(x XOR s)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">f.compose(g)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f.compose(g)</span></code></p></td>
+<td><p>Compose on disjoint blocks</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="p-biased-analysis">
+<h2>P-Biased Analysis<a class="headerlink" href="#p-biased-analysis" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tal</p></th>
+<th class="head"><p>boofun</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">f.probability_sat(p)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p_biased_expectation(f,</span> <span class="pre">p)</span></code></p></td>
+<td><p>E_{mu_p}[f] (exact, ±1 convention)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FourierCoefMuP(f,</span> <span class="pre">p,</span> <span class="pre">S)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p_biased_fourier_coefficient(f,</span> <span class="pre">p,</span> <span class="pre">S)</span></code></p></td>
+<td><p>Single p-biased Fourier coeff</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">asMuP(f,</span> <span class="pre">p)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p_biased_average_sensitivity(f,</span> <span class="pre">p)</span></code></p></td>
+<td><p>P-biased average sensitivity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">asFourierMuP(f,</span> <span class="pre">p)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p_biased_total_influence_fourier(f,</span> <span class="pre">p)</span></code></p></td>
+<td><p>Via Fourier with normalization</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parity_biased(n,</span> <span class="pre">k,</span> <span class="pre">i)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">parity_biased_coefficient(n,</span> <span class="pre">k,</span> <span class="pre">i)</span></code></p></td>
+<td><p>Parity coefficient under bias</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.p_biased</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">p_biased_expectation</span><span class="p">,</span> <span class="n">p_biased_fourier_coefficient</span><span class="p">,</span>
+    <span class="n">p_biased_average_sensitivity</span><span class="p">,</span> <span class="n">p_biased_total_influence_fourier</span><span class="p">,</span>
+    <span class="n">PBiasedAnalyzer</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="special-functions">
+<h2>Special Functions<a class="headerlink" href="#special-functions" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tal</p></th>
+<th class="head"><p>boofun</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Krawchouk(n,</span> <span class="pre">k,</span> <span class="pre">x)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">krawchouk(n,</span> <span class="pre">k,</span> <span class="pre">x)</span></code></p></td>
+<td><p>From <code class="docutils literal notranslate"><span class="pre">utils.math</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">over(n,</span> <span class="pre">k)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">over(n,</span> <span class="pre">k)</span></code></p></td>
+<td><p>Binomial coefficient</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">prime_sieve(n)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">prime_sieve(n)</span></code></p></td>
+<td><p>From <code class="docutils literal notranslate"><span class="pre">utils.number_theory</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">factor(n)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">factor(n)</span></code></p></td>
+<td><p>From <code class="docutils literal notranslate"><span class="pre">utils.number_theory</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">is_prime(n)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">is_prime(n)</span></code></p></td>
+<td><p>From <code class="docutils literal notranslate"><span class="pre">utils.number_theory</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tensor_product(A,</span> <span class="pre">B)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">tensor_product(f,</span> <span class="pre">g)</span></code></p></td>
+<td><p>From <code class="docutils literal notranslate"><span class="pre">analysis.fourier</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">popcnt(x)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">popcnt(x)</span></code></p></td>
+<td><p>From <code class="docutils literal notranslate"><span class="pre">utils.math</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">poppar(x)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">poppar(x)</span></code></p></td>
+<td><p>From <code class="docutils literal notranslate"><span class="pre">utils.math</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.utils.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">popcnt</span><span class="p">,</span> <span class="n">poppar</span><span class="p">,</span> <span class="n">over</span><span class="p">,</span> <span class="n">krawchouk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.utils.number_theory</span><span class="w"> </span><span class="kn">import</span> <span class="n">prime_sieve</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">is_prime</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="construction">
+<h2>Construction<a class="headerlink" href="#construction" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tal</p></th>
+<th class="head"><p>boofun</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BooleanFunc(truth_table)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bf.create(truth_table)</span></code></p></td>
+<td><p>From list</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BooleanFunc(&quot;x0&amp;x1</span> <span class="pre">^</span> <span class="pre">x2&quot;)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bf.create(&quot;x0</span> <span class="pre">and</span> <span class="pre">x1</span> <span class="pre">^</span> <span class="pre">x2&quot;,</span> <span class="pre">n=3)</span></code></p></td>
+<td><p>Symbolic expression</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BooleanFunc.sym(vals)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bf.threshold(n,</span> <span class="pre">k)</span></code></p></td>
+<td><p>Symmetric functions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">BooleanFunc.random_func(n,</span> <span class="pre">d)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bf.random(n)</span></code></p></td>
+<td><p>Random function</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BooleanFunc.from_str(expr)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bf.create(expr,</span> <span class="pre">n=...)</span></code></p></td>
+<td><p>Expression parsing</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>(no equivalent)</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bf.f2_polynomial(n,</span> <span class="pre">monomials)</span></code></p></td>
+<td><p>GF(2) polynomials</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="what-boofun-adds">
+<h2>What boofun Adds<a class="headerlink" href="#what-boofun-adds" title="Link to this heading"></a></h2>
+<p>Features in boofun not in Tal’s BooleanFunc.py:</p>
+<ul class="simple">
+<li><p><strong>Multiple representations</strong>: truth table, Fourier, ANF, BDD, DNF/CNF, circuits, LTF</p></li>
+<li><p><strong>Automatic conversion</strong> between representations via conversion graph</p></li>
+<li><p><strong>Query complexity</strong>: R(f), Q(f), Ambainis bound, spectral adversary</p></li>
+<li><p><strong>Property testing</strong>: BLR, junta, monotonicity with probability bounds</p></li>
+<li><p><strong>Hypercontractivity</strong>: KKL, Bonami, Friedgut, global hypercontractivity</p></li>
+<li><p><strong>Cryptographic analysis</strong>: nonlinearity, bent functions, Walsh spectrum, LAT/DDT</p></li>
+<li><p><strong>Invariance principle</strong>: Gaussian analysis, Berry-Esseen, Majority is Stablest</p></li>
+<li><p><strong>Visualization</strong>: influence plots, Fourier spectrum, hypercube, dashboards</p></li>
+<li><p><strong>Family tracking</strong>: asymptotic growth analysis across function families</p></li>
+<li><p><strong>Monte Carlo estimation</strong>: sampling-based analysis for large n</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="not-in-boofun-use-standard-python">
+<h2>Not in boofun (use standard Python)<a class="headerlink" href="#not-in-boofun-use-standard-python" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tal</p></th>
+<th class="head"><p>Alternative</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tqdm</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">tqdm</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">binary_search</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bisect.bisect_left</span></code> from stdlib</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lagrange_interpolation</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">numpy.polynomial.polynomial.polyfit</span></code> or <code class="docutils literal notranslate"><span class="pre">scipy.interpolate</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">FourierTransform_2d</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">numpy.fft.fft2</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="advanced.html" class="btn btn-neutral float-left" title="Advanced Topics Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../architecture.html" class="btn btn-neutral float-right" title="Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

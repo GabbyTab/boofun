@@ -1,0 +1,576 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.hypercontractivity &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.hypercontractivity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.hypercontractivity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Hypercontractivity tools for Boolean function analysis.</span>
+
+<span class="sd">Hypercontractivity is a key technique from Chapter 9 of O&#39;Donnell&#39;s book,</span>
+<span class="sd">providing powerful bounds on the behavior of low-degree polynomials.</span>
+
+<span class="sd">Key results:</span>
+<span class="sd">- Bonami&#39;s Lemma: Bounds on Lq norms of low-degree polynomials</span>
+<span class="sd">- KKL Theorem: At least one variable has influence Ω(log n / n)</span>
+<span class="sd">- Friedgut&#39;s Junta Theorem: Low total influence implies close to junta</span>
+
+<span class="sd">Mathematical Background:</span>
+<span class="sd">    The noise operator T_ρ acts on functions by:</span>
+<span class="sd">        T_ρ f(x) = E_y[f(y)] where y is ρ-correlated with x</span>
+
+<span class="sd">    In Fourier: (T_ρ f)^(S) = ρ^|S| f̂(S)</span>
+
+<span class="sd">    Bonami&#39;s Lemma: For q &gt; 2, ‖T_ρ f‖_q ≤ ‖f‖_2 when ρ ≤ 1/√(q-1)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">log</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Core hypercontractivity</span>
+    <span class="s2">&quot;noise_operator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lq_norm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bonami_lemma_bound&quot;</span><span class="p">,</span>
+    <span class="c1"># KKL-type theorems</span>
+    <span class="s2">&quot;kkl_lower_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;max_influence_bound&quot;</span><span class="p">,</span>
+    <span class="c1"># Junta theorems</span>
+    <span class="s2">&quot;friedgut_junta_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;junta_approximation_error&quot;</span><span class="p">,</span>
+    <span class="c1"># Utilities</span>
+    <span class="s2">&quot;level_d_inequality&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hypercontractive_inequality&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="noise_operator">
+<a class="viewcode-back" href="../../../api/boofun.analysis.hypercontractivity.html#boofun.noise_operator">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">noise_operator</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply the noise operator T_ρ to a Boolean function.</span>
+
+<span class="sd">    The noise operator is defined as:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        (T_\rho f)(x) = \mathbb{E}_y[f(y)]</span>
+
+<span class="sd">    where y is obtained by independently keeping each bit of x with</span>
+<span class="sd">    probability (1+ρ)/2 and flipping it with probability (1-ρ)/2.</span>
+
+<span class="sd">    In Fourier domain: :math:`\widehat{T_\rho f}(S) = \rho^{|S|} \cdot \hat{f}(S)`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to apply noise to</span>
+<span class="sd">        rho: Correlation parameter in [-1, 1]</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of (T_ρ f)(x) values for all x</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Returns real values in [-1, 1], not Boolean values.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :func:`bonami_lemma_bound`: Bounds using noise operator</span>
+<span class="sd">        - :func:`~boofun.analysis.SpectralAnalyzer.noise_stability`: Noise stability Stab_ρ[f]</span>
+<span class="sd">        - O&#39;Donnell Chapter 9 for theoretical background</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Get Fourier coefficients</span>
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+    <span class="c1"># Apply noise in Fourier domain: multiply by ρ^|S|</span>
+    <span class="n">noisy_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">degree</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">noisy_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">rho</span><span class="o">**</span><span class="n">degree</span><span class="p">)</span>
+
+    <span class="c1"># Inverse transform: compute T_ρ f(x) for all x</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="c1"># χ_S(x) = (-1)^{|x ∩ S|}</span>
+            <span class="n">chi_val</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">noisy_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi_val</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="lq_norm">
+<a class="viewcode-back" href="../../../api/boofun.analysis.hypercontractivity.html#boofun.lq_norm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">lq_norm</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the L_q norm of f: ‖f‖_q = (E[|f(x)|^q])^{1/q}.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        q: Norm parameter (q ≥ 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        L_q norm of f</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;q must be at least 1&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Get ±1 values</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">pm_values</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">tt</span>
+
+    <span class="k">if</span> <span class="n">q</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pm_values</span><span class="p">)))</span>
+
+    <span class="c1"># E[|f|^q]^{1/q}</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pm_values</span><span class="p">)</span> <span class="o">**</span> <span class="n">q</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">q</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="bonami_lemma_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.hypercontractivity.html#boofun.bonami_lemma_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bonami_lemma_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verify Bonami&#39;s Lemma: ‖T_ρ f‖_q ≤ ‖f‖_2.</span>
+
+<span class="sd">    Bonami&#39;s Lemma (O&#39;Donnell Theorem 9.22):</span>
+<span class="sd">    For any f: {±1}^n → ℝ, if 1 ≤ q ≤ 2 or q &gt; 2 with ρ ≤ 1/√(q-1), then:</span>
+<span class="sd">        ‖T_ρ f‖_q ≤ ‖f‖_2</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        q: Norm parameter</span>
+<span class="sd">        rho: Noise parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (‖T_ρ f‖_q, ‖f‖_2) for verification</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        For Boolean functions, ‖f‖_2 = 1 always.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Compute T_ρ f values</span>
+    <span class="n">noisy_values</span> <span class="o">=</span> <span class="n">noise_operator</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+
+    <span class="c1"># Compute L_q norm of T_ρ f</span>
+    <span class="k">if</span> <span class="n">q</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+        <span class="n">lq_noisy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">noisy_values</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lq_noisy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">noisy_values</span><span class="p">)</span> <span class="o">**</span> <span class="n">q</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">q</span><span class="p">))</span>
+
+    <span class="c1"># L_2 norm of f (= 1 for Boolean functions)</span>
+    <span class="n">l2_f</span> <span class="o">=</span> <span class="n">lq_norm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">lq_noisy</span><span class="p">,</span> <span class="n">l2_f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="kkl_lower_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.hypercontractivity.html#boofun.kkl_lower_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">kkl_lower_bound</span><span class="p">(</span><span class="n">total_influence</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    KKL theorem lower bound on maximum influence.</span>
+
+<span class="sd">    KKL Theorem (O&#39;Donnell Theorem 9.24):</span>
+<span class="sd">    For any Boolean f: {±1}^n → {±1} that is not constant:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \max_i \text{Inf}_i[f] \geq \Omega\left(\frac{\log n}{n}\right) \cdot \text{Var}[f]</span>
+
+<span class="sd">    For balanced functions (Var[f] = 1):</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \max_i \text{Inf}_i[f] \geq c \cdot \frac{\log n}{n}</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        total_influence: Total influence I[f]</span>
+<span class="sd">        n: Number of variables</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Lower bound on maximum influence</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        The constant c ≈ 0.57 in the precise statement.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :func:`max_influence_bound`: Computes bound for a specific function</span>
+<span class="sd">        - :func:`friedgut_junta_bound`: Related junta approximation theorem</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># KKL bound: max_i Inf_i ≥ c * log(n) / n where c ≈ 0.57</span>
+    <span class="c1"># Using the relation with total influence</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># Conservative constant</span>
+    <span class="k">return</span> <span class="n">c</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span></div>
+
+
+
+<div class="viewcode-block" id="max_influence_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.hypercontractivity.html#boofun.max_influence_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">max_influence_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute max influence and compare with KKL lower bound.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (max_influence, kkl_bound, total_influence)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+
+    <span class="n">max_inf</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">influences</span><span class="p">))</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">1</span>
+
+    <span class="n">kkl_bound</span> <span class="o">=</span> <span class="n">kkl_lower_bound</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">max_inf</span><span class="p">,</span> <span class="n">kkl_bound</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="friedgut_junta_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.hypercontractivity.html#boofun.friedgut_junta_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">friedgut_junta_bound</span><span class="p">(</span><span class="n">total_influence</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Friedgut&#39;s Junta Theorem bound.</span>
+
+<span class="sd">    Friedgut&#39;s Theorem (O&#39;Donnell Theorem 9.40):</span>
+<span class="sd">    If f: {±1}^n → {±1} has total influence I[f], then f is</span>
+<span class="sd">    ε-close to a k-junta where k ≤ 2^{O(I[f]/ε)}.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        total_influence: Total influence I[f]</span>
+<span class="sd">        epsilon: Distance threshold</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Upper bound on junta size k</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">epsilon</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">total_influence</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e9</span><span class="p">)</span>  <span class="c1"># Return large number for edge cases</span>
+
+    <span class="c1"># k ≤ 2^{O(I[f]/ε)}</span>
+    <span class="c1"># Using a reasonable constant factor</span>
+    <span class="n">exponent</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">total_influence</span> <span class="o">/</span> <span class="n">epsilon</span>
+
+    <span class="c1"># Cap to prevent overflow</span>
+    <span class="n">max_exp</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="k">if</span> <span class="n">exponent</span> <span class="o">&gt;</span> <span class="n">max_exp</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="n">max_exp</span>
+
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">exponent</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="junta_approximation_error">
+<a class="viewcode-back" href="../../../api/boofun.analysis.hypercontractivity.html#boofun.junta_approximation_error">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">junta_approximation_error</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">junta_vars</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the error of approximating f by its projection onto junta variables.</span>
+
+<span class="sd">    The projection of f onto variables J is:</span>
+<span class="sd">        f_J(x) = E[f | x_J] = averaging f over non-J coordinates</span>
+
+<span class="sd">    The error is dist(f, f_J) = Pr[f(x) ≠ f_J(x)].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        junta_vars: List of variable indices to keep</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Approximation error (probability of disagreement)</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This is related to the sum of influences of non-junta variables:</span>
+<span class="sd">        dist(f, f_J) ≤ Σ_{i ∉ J} Inf_i[f]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Compute projection: average over non-junta variables</span>
+    <span class="n">non_junta</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">junta_vars</span><span class="p">]</span>
+    <span class="n">num_non_junta</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">non_junta</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">num_non_junta</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># f is already a junta on these variables</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">pm_values</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>
+
+    <span class="c1"># Compute projection values</span>
+    <span class="n">projection</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Average over all assignments to non-junta variables</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Generate all assignments that agree with x on junta_vars</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">num_non_junta</span><span class="p">):</span>
+            <span class="c1"># Build input that matches x on junta_vars</span>
+            <span class="n">x_prime</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">non_junta</span><span class="p">):</span>
+                <span class="c1"># Set bit var in x_prime to bit j of y (LSB=x₀ convention)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">x_prime</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">var</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">x_prime</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">var</span><span class="p">)</span>
+
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">pm_values</span><span class="p">[</span><span class="n">x_prime</span><span class="p">]</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">projection</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span> <span class="o">/</span> <span class="n">count</span>
+
+    <span class="c1"># Compute disagreement probability</span>
+    <span class="c1"># Using threshold: projection gives real values, threshold to ±1</span>
+    <span class="n">projected_bool</span> <span class="o">=</span> <span class="p">(</span><span class="n">projection</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">original_bool</span> <span class="o">=</span> <span class="n">truth_table</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">disagreements</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">projected_bool</span> <span class="o">!=</span> <span class="n">original_bool</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">disagreements</span> <span class="o">/</span> <span class="n">size</span></div>
+
+
+
+<div class="viewcode-block" id="level_d_inequality">
+<a class="viewcode-back" href="../../../api/boofun.analysis.hypercontractivity.html#boofun.level_d_inequality">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">level_d_inequality</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Level-d inequality (O&#39;Donnell Lemma 9.23).</span>
+
+<span class="sd">    For the degree-d part of f, denoted f^{=d}:</span>
+<span class="sd">        ‖f^{=d}‖_q ≤ (q-1)^{d/2} · ‖f^{=d}‖_2</span>
+
+<span class="sd">    This is a consequence of Bonami&#39;s lemma.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        d: Degree level</span>
+<span class="sd">        q: Norm parameter (q &gt; 2)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (‖f^{=d}‖_q, (q-1)^{d/2} · ‖f^{=d}‖_2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+    <span class="c1"># Extract degree-d coefficients</span>
+    <span class="n">degree_d_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">d</span><span class="p">:</span>
+            <span class="n">degree_d_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+
+    <span class="c1"># Compute L_2 norm of degree-d part: √(Σ f̂(S)^2 for |S|=d)</span>
+    <span class="n">l2_degree_d</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">degree_d_coeffs</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="c1"># Compute L_q norm by reconstructing degree-d function</span>
+    <span class="n">degree_d_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">d</span><span class="p">:</span>
+                <span class="n">chi_val</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="n">degree_d_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi_val</span>
+        <span class="n">degree_d_values</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
+
+    <span class="n">lq_degree_d</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">degree_d_values</span><span class="p">)</span> <span class="o">**</span> <span class="n">q</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">q</span><span class="p">))</span>
+
+    <span class="c1"># Bonami bound: (q-1)^{d/2} · L_2</span>
+    <span class="n">bonami_bound</span> <span class="o">=</span> <span class="p">((</span><span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">d</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">l2_degree_d</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">lq_degree_d</span><span class="p">,</span> <span class="n">bonami_bound</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="hypercontractive_inequality">
+<a class="viewcode-back" href="../../../api/boofun.analysis.hypercontractivity.html#boofun.hypercontractive_inequality">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hypercontractive_inequality</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verify the hypercontractive inequality.</span>
+
+<span class="sd">    Hypercontractive Inequality (O&#39;Donnell Theorem 9.21):</span>
+<span class="sd">    For 1 &lt; p ≤ q &lt; ∞ and ρ = √((p-1)/(q-1)):</span>
+<span class="sd">        ‖T_ρ f‖_q ≤ ‖f‖_p</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        rho: Noise parameter</span>
+<span class="sd">        p: Input norm parameter</span>
+<span class="sd">        q: Output norm parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (‖T_ρ f‖_q, ‖f‖_p, inequality_satisfied)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Compute T_ρ f</span>
+    <span class="n">noisy_values</span> <span class="o">=</span> <span class="n">noise_operator</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+
+    <span class="c1"># L_q norm of T_ρ f</span>
+    <span class="n">lq_noisy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">noisy_values</span><span class="p">)</span> <span class="o">**</span> <span class="n">q</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">q</span><span class="p">))</span>
+
+    <span class="c1"># L_p norm of f</span>
+    <span class="n">lp_f</span> <span class="o">=</span> <span class="n">lq_norm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+    <span class="c1"># Check inequality</span>
+    <span class="n">satisfied</span> <span class="o">=</span> <span class="n">lq_noisy</span> <span class="o">&lt;=</span> <span class="n">lp_f</span> <span class="o">+</span> <span class="mf">1e-10</span>  <span class="c1"># Small tolerance for numerical errors</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">lq_noisy</span><span class="p">,</span> <span class="n">lp_f</span><span class="p">,</span> <span class="n">satisfied</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

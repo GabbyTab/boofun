@@ -1,0 +1,684 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.gaussian &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.gaussian</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.gaussian</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Gaussian analysis of Boolean functions (O&#39;Donnell Chapter 10).</span>
+
+<span class="sd">This module implements the connection between Boolean functions and Gaussian</span>
+<span class="sd">space, which is fundamental for understanding the behavior of Boolean functions</span>
+<span class="sd">under noise and for proving central limit-type theorems.</span>
+
+<span class="sd">Key concepts:</span>
+<span class="sd">- Hermite polynomials: The Gaussian analog of Fourier characters</span>
+<span class="sd">- Gaussian noise stability: Stability under correlated Gaussian noise</span>
+<span class="sd">- Ornstein-Uhlenbeck operator: The Gaussian analog of the noise operator</span>
+<span class="sd">- Central Limit Theorem for Boolean functions</span>
+
+<span class="sd">The connection to Gaussians allows us to:</span>
+<span class="sd">1. Understand the &quot;typical&quot; behavior of low-degree Boolean functions</span>
+<span class="sd">2. Prove hypercontractivity results</span>
+<span class="sd">3. Apply invariance principles (connecting discrete and continuous)</span>
+
+<span class="sd">Mathematical background:</span>
+<span class="sd">- Standard Gaussian space: (ℝ^n, γ_n) where γ_n is the n-dimensional Gaussian</span>
+<span class="sd">- Hermite polynomials H_k(x) form an orthonormal basis for L^2(ℝ, γ)</span>
+<span class="sd">- The Hermite expansion generalizes Fourier expansion to Gaussians</span>
+
+<span class="sd">References:</span>
+<span class="sd">- O&#39;Donnell, &quot;Analysis of Boolean Functions&quot;, Chapter 10</span>
+<span class="sd">- Mossel, O&#39;Donnell, Oleszkiewicz, &quot;Noise stability of functions with low influences&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Hermite polynomials</span>
+    <span class="s2">&quot;hermite_polynomial&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hermite_coefficients&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;probabilists_hermite&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;physicists_hermite&quot;</span><span class="p">,</span>
+    <span class="c1"># Gaussian noise</span>
+    <span class="s2">&quot;gaussian_noise_stability&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ornstein_uhlenbeck_operator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gaussian_noise_sensitivity&quot;</span><span class="p">,</span>
+    <span class="c1"># Central Limit Theorems</span>
+    <span class="s2">&quot;berry_esseen_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;clt_approximation&quot;</span><span class="p">,</span>
+    <span class="c1"># Gaussian correlations</span>
+    <span class="s2">&quot;gaussian_inner_product&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;multilinear_extension&quot;</span><span class="p">,</span>
+    <span class="c1"># Utility</span>
+    <span class="s2">&quot;GaussianAnalyzer&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="hermite_polynomial">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.hermite_polynomial">[docs]</a>
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hermite_polynomial</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">variant</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;probabilist&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the nth Hermite polynomial.</span>
+
+<span class="sd">    There are two common normalizations:</span>
+<span class="sd">    - Probabilist&#39;s: He_n(x) where E[He_n(X) He_m(X)] = δ_{nm} for X ~ N(0,1)</span>
+<span class="sd">    - Physicist&#39;s: H_n(x) with different normalization</span>
+
+<span class="sd">    The probabilist&#39;s Hermite polynomials satisfy:</span>
+<span class="sd">        He_0(x) = 1</span>
+<span class="sd">        He_1(x) = x</span>
+<span class="sd">        He_n(x) = x * He_{n-1}(x) - (n-1) * He_{n-2}(x)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Degree of the polynomial</span>
+<span class="sd">        variant: &quot;probabilist&quot; or &quot;physicist&quot;</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Function computing He_n(x) or H_n(x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">variant</span> <span class="o">==</span> <span class="s2">&quot;probabilist&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">probabilists_hermite</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">physicists_hermite</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="probabilists_hermite">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.probabilists_hermite">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">probabilists_hermite</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the nth probabilist&#39;s Hermite polynomial at x.</span>
+
+<span class="sd">    The probabilist&#39;s Hermite polynomials are orthonormal under the</span>
+<span class="sd">    standard Gaussian measure: E[He_n(X) He_m(X)] = δ_{nm} for X ~ N(0,1).</span>
+
+<span class="sd">    Uses the recurrence: He_n(x) = x * He_{n-1}(x) - (n-1) * He_{n-2}(x)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Degree</span>
+<span class="sd">        x: Point to evaluate</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        He_n(x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="n">he_prev2</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># He_0</span>
+    <span class="n">he_prev1</span> <span class="o">=</span> <span class="n">x</span>  <span class="c1"># He_1</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">he_curr</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">he_prev1</span> <span class="o">-</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">he_prev2</span>
+        <span class="n">he_prev2</span> <span class="o">=</span> <span class="n">he_prev1</span>
+        <span class="n">he_prev1</span> <span class="o">=</span> <span class="n">he_curr</span>
+
+    <span class="k">return</span> <span class="n">he_prev1</span></div>
+
+
+
+<div class="viewcode-block" id="physicists_hermite">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.physicists_hermite">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">physicists_hermite</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the nth physicist&#39;s Hermite polynomial at x.</span>
+
+<span class="sd">    The physicist&#39;s normalization satisfies:</span>
+<span class="sd">        H_n(x) = (-1)^n e^{x^2} d^n/dx^n e^{-x^2}</span>
+
+<span class="sd">    Recurrence: H_n(x) = 2x * H_{n-1}(x) - 2(n-1) * H_{n-2}(x)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Degree</span>
+<span class="sd">        x: Point to evaluate</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        H_n(x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span>
+
+    <span class="n">h_prev2</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># H_0</span>
+    <span class="n">h_prev1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span>  <span class="c1"># H_1</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">h_curr</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">h_prev1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">h_prev2</span>
+        <span class="n">h_prev2</span> <span class="o">=</span> <span class="n">h_prev1</span>
+        <span class="n">h_prev1</span> <span class="o">=</span> <span class="n">h_curr</span>
+
+    <span class="k">return</span> <span class="n">h_prev1</span></div>
+
+
+
+<div class="viewcode-block" id="hermite_coefficients">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.hermite_coefficients">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hermite_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Hermite expansion of the multilinear extension of f.</span>
+
+<span class="sd">    For a Boolean function f: {-1,1}^n → ℝ, the multilinear extension</span>
+<span class="sd">    p(x) has a Hermite expansion:</span>
+<span class="sd">        p(x) = Σ_α ĥ_α H_α(x)</span>
+
+<span class="sd">    where H_α(x) = ∏_i H_{α_i}(x_i).</span>
+
+<span class="sd">    For multilinear polynomials (degree 1 in each variable):</span>
+<span class="sd">        ĥ_S = f̂(S) for |S| = k (Fourier = Hermite for multilinear)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping multi-indices to Hermite coefficients</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># For multilinear functions, Hermite = Fourier coefficients</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fourier</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">fourier</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+            <span class="c1"># Convert bitmask to multi-index</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="n">coeffs</span><span class="p">[</span><span class="n">alpha</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fourier</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">coeffs</span></div>
+
+
+
+<div class="viewcode-block" id="gaussian_noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.gaussian_noise_stability">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gaussian_noise_stability</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Gaussian noise stability of f at correlation rho.</span>
+
+<span class="sd">    The Gaussian noise stability is:</span>
+<span class="sd">        Stab_ρ[f] = E_{(x,y) ρ-correlated Gaussians}[f̃(x) f̃(y)]</span>
+
+<span class="sd">    where f̃ is the multilinear extension of f.</span>
+
+<span class="sd">    For the discrete case, this equals the standard noise stability:</span>
+<span class="sd">        Stab_ρ[f] = Σ_S ρ^|S| f̂(S)²</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        rho: Correlation parameter in [-1, 1]</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Gaussian noise stability</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+    <span class="n">stability</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fourier</span><span class="p">):</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">stability</span> <span class="o">+=</span> <span class="p">(</span><span class="n">rho</span><span class="o">**</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">coeff</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">stability</span></div>
+
+
+
+<div class="viewcode-block" id="gaussian_noise_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.gaussian_noise_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gaussian_noise_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Gaussian noise sensitivity: 1 - Stab_ρ[f].</span>
+
+<span class="sd">    This measures how much the function changes under Gaussian noise.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        rho: Correlation parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Gaussian noise sensitivity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">gaussian_noise_stability</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ornstein_uhlenbeck_operator">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.ornstein_uhlenbeck_operator">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ornstein_uhlenbeck_operator</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply the Ornstein-Uhlenbeck (noise) operator T_ρ to f.</span>
+
+<span class="sd">    The O-U operator is defined as:</span>
+<span class="sd">        (T_ρ f)(x) = E_y[f(y)] where y_i = ρ x_i + sqrt(1-ρ²) z_i</span>
+
+<span class="sd">    and z_i are independent standard Gaussians.</span>
+
+<span class="sd">    In Fourier domain: (T_ρ f)^(S) = ρ^|S| f̂(S)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to apply operator to</span>
+<span class="sd">        rho: Noise parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Truth table of T_ρ f (as real values, not Boolean)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))])</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+    <span class="c1"># Apply damping in Fourier domain</span>
+    <span class="n">damped_fourier</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">fourier</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fourier</span><span class="p">)):</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">damped_fourier</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">rho</span><span class="o">**</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">fourier</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+
+    <span class="c1"># Inverse transform (WHT is self-inverse up to normalization)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">chi_val</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">+=</span> <span class="n">damped_fourier</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi_val</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="berry_esseen_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.berry_esseen_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">berry_esseen_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Berry-Esseen bound for the CLT approximation of f.</span>
+
+<span class="sd">    For a Boolean function f with low influences, the distribution of</span>
+<span class="sd">    f(x) for random x approaches Gaussian. The Berry-Esseen theorem</span>
+<span class="sd">    quantifies this:</span>
+
+<span class="sd">        sup_t |Pr[f(x) &lt;= t] - Φ(t)| &lt;= C * Σ_i Inf_i[f]^3 / Var[f]^{3/2}</span>
+
+<span class="sd">    where Φ is the standard normal CDF.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Berry-Esseen bound (smaller = better Gaussian approximation)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+    <span class="n">total_inf</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">total_inf</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Variance = total influence for ±1 valued functions</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">total_inf</span>
+
+    <span class="c1"># Sum of cubed influences</span>
+    <span class="n">sum_inf_cubed</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">inf</span><span class="o">**</span><span class="mi">3</span> <span class="k">for</span> <span class="n">inf</span> <span class="ow">in</span> <span class="n">influences</span><span class="p">)</span>
+
+    <span class="c1"># Berry-Esseen constant (sharp constant is about 0.4748)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+    <span class="n">bound</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">sum_inf_cubed</span> <span class="o">/</span> <span class="p">(</span><span class="n">var</span><span class="o">**</span><span class="mf">1.5</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bound</span></div>
+
+
+
+<div class="viewcode-block" id="clt_approximation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.clt_approximation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">clt_approximation</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate how well f&#39;s distribution is approximated by a Gaussian.</span>
+
+<span class="sd">    Uses Monte Carlo sampling to estimate the mean and variance of f,</span>
+<span class="sd">    then computes the Kolmogorov-Smirnov distance to a Gaussian.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        num_samples: Number of random samples</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (mean, variance) of f&#39;s distribution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">pm_values</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>  <span class="c1"># Convert to ±1</span>
+
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pm_values</span><span class="p">)</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">pm_values</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">mean</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">var</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="gaussian_inner_product">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.gaussian_inner_product">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gaussian_inner_product</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Gaussian inner product ⟨f, g⟩_γ.</span>
+
+<span class="sd">    For the discrete case with ±1 values, this equals:</span>
+<span class="sd">        ⟨f, g⟩_γ = E[f(x)g(x)] = Σ_S f̂(S) ĝ(S)</span>
+
+<span class="sd">    (Plancherel&#39;s theorem)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f, g: BooleanFunctions to compute inner product of</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Gaussian inner product</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.fourier</span><span class="w"> </span><span class="kn">import</span> <span class="n">plancherel_inner_product</span>
+
+    <span class="k">return</span> <span class="n">plancherel_inner_product</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="multilinear_extension">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.multilinear_extension">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">multilinear_extension</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the multilinear extension of f.</span>
+
+<span class="sd">    The multilinear extension p: ℝ^n → ℝ is the unique multilinear polynomial</span>
+<span class="sd">    that agrees with f on {-1, 1}^n:</span>
+
+<span class="sd">        p(x) = Σ_S f̂(S) ∏_{i∈S} x_i</span>
+
+<span class="sd">    This extends f from the Boolean hypercube to all of ℝ^n.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to extend</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Function computing p(x) for any x ∈ ℝ^n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">p</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fourier</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">fourier</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Compute ∏_{i∈S} x_i</span>
+            <span class="n">product</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">product</span> <span class="o">*=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">fourier</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">*</span> <span class="n">product</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">p</span></div>
+
+
+
+<div class="viewcode-block" id="GaussianAnalyzer">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.GaussianAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GaussianAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive Gaussian analysis for Boolean functions.</span>
+
+<span class="sd">    Provides methods for analyzing Boolean functions in the context of</span>
+<span class="sd">    Gaussian space and central limit theorems.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GaussianAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.GaussianAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize Gaussian analyzer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: BooleanFunction to analyze</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hermite_coeffs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hermite_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get cached Hermite coefficients.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hermite_coeffs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_hermite_coeffs</span> <span class="o">=</span> <span class="n">hermite_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hermite_coeffs</span>
+
+<div class="viewcode-block" id="GaussianAnalyzer.noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.GaussianAnalyzer.noise_stability">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">noise_stability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Gaussian noise stability at correlation rho.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">gaussian_noise_stability</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GaussianAnalyzer.noise_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.GaussianAnalyzer.noise_sensitivity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">noise_sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Gaussian noise sensitivity at correlation rho.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">gaussian_noise_sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GaussianAnalyzer.berry_esseen">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.GaussianAnalyzer.berry_esseen">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">berry_esseen</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Berry-Esseen bound for Gaussian approximation.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">berry_esseen_bound</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GaussianAnalyzer.multilinear_extension">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.GaussianAnalyzer.multilinear_extension">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">multilinear_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the multilinear extension of f.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">multilinear_extension</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GaussianAnalyzer.apply_noise_operator">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.GaussianAnalyzer.apply_noise_operator">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_noise_operator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply Ornstein-Uhlenbeck operator T_ρ to f.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ornstein_uhlenbeck_operator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GaussianAnalyzer.is_approximately_gaussian">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.GaussianAnalyzer.is_approximately_gaussian">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_approximately_gaussian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if f&#39;s distribution is approximately Gaussian.</span>
+
+<span class="sd">        Uses the Berry-Esseen bound to check if the function has</span>
+<span class="sd">        low enough influences to be well-approximated by a Gaussian.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            threshold: Maximum Berry-Esseen bound for &quot;Gaussian&quot;</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if distribution is approximately Gaussian</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">berry_esseen</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">threshold</span></div>
+
+
+<div class="viewcode-block" id="GaussianAnalyzer.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gaussian.html#boofun.analysis.gaussian.GaussianAnalyzer.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a summary of Gaussian properties.&quot;&quot;&quot;</span>
+        <span class="n">be</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">berry_esseen</span><span class="p">()</span>
+        <span class="n">mean</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="n">clt_approximation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+        <span class="n">stab_09</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+        <span class="n">stab_05</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Gaussian Analysis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Berry-Esseen bound: </span><span class="si">{</span><span class="n">be</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Approximately Gaussian: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_approximately_gaussian</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Mean (E[f]): </span><span class="si">{</span><span class="n">mean</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Variance (Var[f]): </span><span class="si">{</span><span class="n">var</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Noise stability (ρ=0.9): </span><span class="si">{</span><span class="n">stab_09</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Noise stability (ρ=0.5): </span><span class="si">{</span><span class="n">stab_05</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Non-zero Hermite coefficients: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hermite_coefficients</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

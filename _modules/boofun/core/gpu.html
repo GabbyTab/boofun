@@ -1,0 +1,497 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.gpu &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.core.gpu</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.core.gpu</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">GPU Acceleration for Boolean Function Operations.</span>
+
+<span class="sd">This module provides GPU-accelerated implementations of computationally</span>
+<span class="sd">intensive operations using CuPy. Falls back to NumPy when CuPy is unavailable.</span>
+
+<span class="sd">Key accelerated operations:</span>
+<span class="sd">- Walsh-Hadamard Transform (WHT)</span>
+<span class="sd">- Influence computation</span>
+<span class="sd">- Noise stability computation</span>
+<span class="sd">- Large truth table operations</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">    from boofun.core.gpu import gpu_wht, is_gpu_available</span>
+
+<span class="sd">    if is_gpu_available():</span>
+<span class="sd">        fourier = gpu_wht(truth_table_pm)</span>
+<span class="sd">    else:</span>
+<span class="sd">        # Fallback to CPU</span>
+<span class="sd">        fourier = cpu_wht(truth_table_pm)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Try to import CuPy</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">cupy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cp</span>
+
+    <span class="n">CUPY_AVAILABLE</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">cp</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">CUPY_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># Module-level flag to enable/disable GPU</span>
+<span class="n">_GPU_ENABLED</span> <span class="o">=</span> <span class="n">CUPY_AVAILABLE</span>
+
+
+<div class="viewcode-block" id="is_gpu_available">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.is_gpu_available">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_gpu_available</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if GPU acceleration is available.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">CUPY_AVAILABLE</span></div>
+
+
+
+<div class="viewcode-block" id="is_gpu_enabled">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.is_gpu_enabled">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_gpu_enabled</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if GPU acceleration is currently enabled.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_GPU_ENABLED</span> <span class="ow">and</span> <span class="n">CUPY_AVAILABLE</span></div>
+
+
+
+<div class="viewcode-block" id="enable_gpu">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.enable_gpu">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">enable_gpu</span><span class="p">(</span><span class="n">enable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable or disable GPU acceleration.&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_GPU_ENABLED</span>
+    <span class="k">if</span> <span class="n">enable</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">CUPY_AVAILABLE</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;CuPy not available - GPU acceleration cannot be enabled&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">_GPU_ENABLED</span> <span class="o">=</span> <span class="n">enable</span></div>
+
+
+
+<div class="viewcode-block" id="get_array_module">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.get_array_module">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_array_module</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="s2">&quot;cp.ndarray&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the array module (numpy or cupy) for the given array.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">CUPY_AVAILABLE</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cp</span>
+    <span class="k">return</span> <span class="n">np</span></div>
+
+
+
+<div class="viewcode-block" id="to_gpu">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.to_gpu">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_gpu</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="s2">&quot;cp.ndarray&quot;</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Move array to GPU if available and enabled.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_gpu_enabled</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">arr</span></div>
+
+
+
+<div class="viewcode-block" id="to_cpu">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.to_cpu">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_cpu</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="s2">&quot;cp.ndarray&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Move array to CPU.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">CUPY_AVAILABLE</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">asnumpy</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">arr</span></div>
+
+
+
+<div class="viewcode-block" id="gpu_walsh_hadamard">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.gpu_walsh_hadamard">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gpu_walsh_hadamard</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">in_place</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GPU-accelerated Walsh-Hadamard Transform.</span>
+
+<span class="sd">    Computes the WHT in O(n * 2^n) time using GPU parallelism.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        values: Array of 2^n values in ±1 representation</span>
+<span class="sd">        in_place: If True, modify input array (saves memory)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        WHT result (unnormalized, on CPU)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Always use the CPU implementation for now</span>
+    <span class="c1"># GPU implementation requires careful CUDA kernel design for efficiency</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">fast_walsh_hadamard</span>
+
+    <span class="k">if</span> <span class="n">in_place</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fast_walsh_hadamard</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fast_walsh_hadamard</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="gpu_influences">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.gpu_influences">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gpu_influences</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GPU-accelerated influence computation from Fourier coefficients.</span>
+
+<span class="sd">    Inf_i[f] = Σ_{S∋i} f̂(S)²</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fourier_coeffs: Fourier coefficients array</span>
+<span class="sd">        n_vars: Number of variables (inferred from array size if not provided)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of influences (one per variable)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_gpu_enabled</span><span class="p">():</span>
+        <span class="c1"># Fallback to CPU</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">vectorized_influences_from_fourier</span>
+
+        <span class="k">return</span> <span class="n">vectorized_influences_from_fourier</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+
+    <span class="c1"># Move to GPU</span>
+    <span class="n">d_coeffs</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">d_squared</span> <span class="o">=</span> <span class="n">d_coeffs</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Compute influences using GPU parallelism</span>
+    <span class="n">d_influences</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_vars</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_vars</span><span class="p">):</span>
+        <span class="c1"># Create mask for subsets containing variable i</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+        <span class="n">d_influences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">d_squared</span> <span class="o">*</span> <span class="n">mask</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">asnumpy</span><span class="p">(</span><span class="n">d_influences</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="gpu_noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.gpu_noise_stability">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gpu_noise_stability</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GPU-accelerated noise stability computation.</span>
+
+<span class="sd">    Stab_ρ[f] = Σ_S ρ^|S| · f̂(S)²</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fourier_coeffs: Fourier coefficients array</span>
+<span class="sd">        rho: Correlation parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Noise stability value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_gpu_enabled</span><span class="p">():</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">noise_stability_from_fourier</span>
+
+        <span class="k">return</span> <span class="n">noise_stability_from_fourier</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)</span>
+
+    <span class="c1"># Move to GPU</span>
+    <span class="n">d_coeffs</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">d_squared</span> <span class="o">=</span> <span class="n">d_coeffs</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Compute subset sizes using popcount</span>
+    <span class="n">d_indices</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="c1"># CuPy doesn&#39;t have built-in popcount, use a workaround</span>
+    <span class="n">d_sizes</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cp</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">d_indices</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">cp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">temp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">d_sizes</span> <span class="o">+=</span> <span class="p">(</span><span class="n">temp</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="n">temp</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span>
+
+    <span class="c1"># Compute ρ^|S| for each subset</span>
+    <span class="n">d_rho_powers</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">d_sizes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+
+    <span class="c1"># Dot product</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d_rho_powers</span><span class="p">,</span> <span class="n">d_squared</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="gpu_spectral_weight_by_degree">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.gpu_spectral_weight_by_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gpu_spectral_weight_by_degree</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GPU-accelerated spectral weight computation by degree.</span>
+
+<span class="sd">    W^{=k}[f] = Σ_{|S|=k} f̂(S)²</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fourier_coeffs: Fourier coefficients array</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of weights W^{=0}, W^{=1}, ..., W^{=n}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_gpu_enabled</span><span class="p">():</span>
+        <span class="c1"># CPU fallback</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">weights</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">fourier_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">weights</span>
+
+    <span class="c1"># Move to GPU</span>
+    <span class="n">d_coeffs</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">d_squared</span> <span class="o">=</span> <span class="n">d_coeffs</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Compute subset sizes</span>
+    <span class="n">d_indices</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">d_sizes</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cp</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">d_indices</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">cp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">temp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">d_sizes</span> <span class="o">+=</span> <span class="p">(</span><span class="n">temp</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="n">temp</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span>
+
+    <span class="c1"># Sum by degree</span>
+    <span class="n">d_weights</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cp</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">d_sizes</span> <span class="o">==</span> <span class="n">k</span>
+        <span class="n">d_weights</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">d_squared</span> <span class="o">*</span> <span class="n">mask</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cp</span><span class="o">.</span><span class="n">asnumpy</span><span class="p">(</span><span class="n">d_weights</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GPUBooleanFunctionOps">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.GPUBooleanFunctionOps">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GPUBooleanFunctionOps</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GPU-accelerated operations for Boolean functions.</span>
+
+<span class="sd">    Provides a high-level interface for GPU acceleration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GPUBooleanFunctionOps.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.GPUBooleanFunctionOps.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">truth_table</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize with a truth table.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            truth_table: Boolean truth table (0/1 values)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">truth_table</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_cache</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pm_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to ±1 representation.</span>
+
+<span class="sd">        O&#39;Donnell convention (Analysis of Boolean Functions, Chapter 1):</span>
+<span class="sd">        Boolean 0 → +1, Boolean 1 → -1</span>
+<span class="sd">        This matches the library&#39;s SpectralAnalyzer convention.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">truth_table</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GPUBooleanFunctionOps.fourier">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.GPUBooleanFunctionOps.fourier">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fourier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Fourier coefficients using GPU if available.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_cache</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pm_values</span>
+            <span class="c1"># fast_walsh_hadamard already normalizes by default</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_cache</span> <span class="o">=</span> <span class="n">gpu_walsh_hadamard</span><span class="p">(</span><span class="n">pm</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_cache</span></div>
+
+
+<div class="viewcode-block" id="GPUBooleanFunctionOps.influences">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.GPUBooleanFunctionOps.influences">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">influences</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute influences using GPU if available.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">gpu_influences</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fourier</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="GPUBooleanFunctionOps.total_influence">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.GPUBooleanFunctionOps.total_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_influence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute total influence.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">influences</span><span class="p">()))</span></div>
+
+
+<div class="viewcode-block" id="GPUBooleanFunctionOps.noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.GPUBooleanFunctionOps.noise_stability">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">noise_stability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute noise stability using GPU if available.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">gpu_noise_stability</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fourier</span><span class="p">(),</span> <span class="n">rho</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GPUBooleanFunctionOps.spectral_weights">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.GPUBooleanFunctionOps.spectral_weights">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectral_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute spectral weights by degree using GPU if available.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">gpu_spectral_weight_by_degree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fourier</span><span class="p">())</span></div>
+</div>
+
+
+
+<span class="c1"># Convenience function for automatic GPU usage</span>
+<div class="viewcode-block" id="auto_accelerate">
+<a class="viewcode-back" href="../../../api/boofun.core.gpu.html#boofun.core.gpu.auto_accelerate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">auto_accelerate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator to automatically use GPU when beneficial.</span>
+
+<span class="sd">    Uses GPU for arrays larger than a threshold (2^14 = 16384 elements).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">14</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_gpu_enabled</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="c1"># Use GPU</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">to_gpu</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">to_cpu</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s2">&quot;__len__&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">result</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Use CPU</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+
+<span class="c1"># Export GPU status at module load</span>
+<span class="k">if</span> <span class="n">CUPY_AVAILABLE</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Test GPU access</span>
+        <span class="n">_test</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">_test</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">CUPY_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">_GPU_ENABLED</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CuPy installed but GPU not accessible: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

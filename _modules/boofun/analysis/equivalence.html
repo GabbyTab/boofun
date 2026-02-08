@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.equivalence &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.equivalence</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.equivalence</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Equivalence testing and canonical forms for Boolean functions.</span>
+
+<span class="sd">This module provides tools for:</span>
+<span class="sd">- Computing canonical representatives under various symmetry groups</span>
+<span class="sd">- Testing equivalence of Boolean functions</span>
+<span class="sd">- Finding automorphisms (self-symmetries)</span>
+<span class="sd">- Applying variable permutations and input/output transformations</span>
+
+<span class="sd">Two functions are considered equivalent if one can be transformed into</span>
+<span class="sd">the other via some combination of:</span>
+<span class="sd">- Variable permutation: f(x_π(1), x_π(2), ..., x_π(n))</span>
+<span class="sd">- Input negation: f(x ⊕ s) for some shift s</span>
+<span class="sd">- Output negation: ¬f(x)</span>
+
+<span class="sd">The canonical form is the lexicographically smallest representative</span>
+<span class="sd">under these transformations, enabling fast equivalence checking.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">permutations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;canonical_form&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;are_equivalent&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;apply_permutation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;automorphisms&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;equivalence_class_size&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PermutationEquivalence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AffineEquivalence&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_permutations</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate all permutations of [0, 1, ..., n-1].&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">permutations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_apply_perm_to_index</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">perm</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply permutation to input index x.</span>
+
+<span class="sd">    If perm[i] = j, then bit i of x goes to position j in the result.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<div class="viewcode-block" id="apply_permutation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.apply_permutation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_permutation</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">perm</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply a variable permutation to a Boolean function.</span>
+
+<span class="sd">    If perm[i] = j, variable x_i in the original function becomes x_j</span>
+<span class="sd">    in the result.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to permute</span>
+<span class="sd">        perm: Permutation as a tuple where perm[i] is the new position of var i</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        New BooleanFunction with permuted variables</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.create([0, 0, 0, 1])  # AND(x0, x1)</span>
+<span class="sd">        &gt;&gt;&gt; g = apply_permutation(f, (1, 0))  # Swap x0 and x1</span>
+<span class="sd">        &gt;&gt;&gt; # g is still AND(x0, x1) since AND is symmetric</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionFactory</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span> <span class="o">!=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Permutation length </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span><span class="si">}</span><span class="s2"> doesn&#39;t match n_vars </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Verify it&#39;s a valid permutation</span>
+    <span class="k">if</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid permutation: </span><span class="si">{</span><span class="n">perm</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Build new truth table: new_f(y) = f(π^{-1}(y))</span>
+    <span class="c1"># where y = (x_{perm[0]}, x_{perm[1]}, ..., x_{perm[n-1]})</span>
+    <span class="n">new_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Apply permutation to index</span>
+        <span class="n">new_x</span> <span class="o">=</span> <span class="n">_apply_perm_to_index</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">perm</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">new_tt</span><span class="p">[</span><span class="n">new_x</span><span class="p">]</span> <span class="o">=</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">BooleanFunctionFactory</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">new_tt</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="canonical_form">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.canonical_form">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">canonical_form</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">include_shifts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">include_negation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the canonical form of a Boolean function.</span>
+
+<span class="sd">    The canonical form is the lexicographically smallest truth table achievable</span>
+<span class="sd">    by applying allowed transformations:</span>
+<span class="sd">    1. Variable permutations (always applied)</span>
+<span class="sd">    2. Input shifts: f(x ⊕ s) (if include_shifts=True)</span>
+<span class="sd">    3. Output negation: ¬f (if include_negation=True)</span>
+
+<span class="sd">    Two functions have the same canonical form if and only if they are</span>
+<span class="sd">    equivalent under the specified group of transformations.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to canonicalize</span>
+<span class="sd">        include_shifts: Whether to consider input shifts (affine equivalence)</span>
+<span class="sd">        include_negation: Whether to consider output negation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (canonical_truth_table, transformation) where transformation</span>
+<span class="sd">        describes how to get from original to canonical form.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.create([0, 1, 1, 0])  # XOR</span>
+<span class="sd">        &gt;&gt;&gt; g = bf.create([1, 0, 0, 1])  # XNOR</span>
+<span class="sd">        &gt;&gt;&gt; canonical_form(f)[0] == canonical_form(g)[0]</span>
+<span class="sd">        True  # Same under negation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">tt</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">best</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span>
+    <span class="n">best_transform</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">perm</span> <span class="ow">in</span> <span class="n">_generate_permutations</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="c1"># Apply permutation</span>
+        <span class="n">perm_f</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">new_x</span> <span class="o">=</span> <span class="n">_apply_perm_to_index</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">perm</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">perm_f</span><span class="p">[</span><span class="n">new_x</span><span class="p">]</span> <span class="o">=</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+        <span class="c1"># Try shifts</span>
+        <span class="n">shifts_to_try</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="n">include_shifts</span> <span class="k">else</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">shift</span> <span class="ow">in</span> <span class="n">shifts_to_try</span><span class="p">:</span>
+            <span class="n">shifted_f</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm_f</span><span class="p">[</span><span class="n">x</span> <span class="o">^</span> <span class="n">shift</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)]</span>
+
+            <span class="c1"># Try negation</span>
+            <span class="n">negations_to_try</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span> <span class="k">if</span> <span class="n">include_negation</span> <span class="k">else</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">negate</span> <span class="ow">in</span> <span class="n">negations_to_try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">negate</span><span class="p">:</span>
+                    <span class="n">final_f</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">shifted_f</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">final_f</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">shifted_f</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">final_f</span> <span class="o">&lt;</span> <span class="n">best</span><span class="p">:</span>
+                    <span class="n">best</span> <span class="o">=</span> <span class="n">final_f</span>
+                    <span class="n">best_transform</span> <span class="o">=</span> <span class="p">(</span><span class="n">perm</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">negate</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">best</span><span class="p">,</span> <span class="n">best_transform</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="are_equivalent">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.are_equivalent">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">are_equivalent</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">include_shifts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">include_negation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test if two Boolean functions are equivalent.</span>
+
+<span class="sd">    Two functions are equivalent if one can be transformed into the other</span>
+<span class="sd">    via variable permutation, input shift, and/or output negation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f, g: Functions to compare</span>
+<span class="sd">        include_shifts: Consider input shifts (affine equivalence)</span>
+<span class="sd">        include_negation: Consider output negation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f and g are equivalent</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">!=</span> <span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">cf</span> <span class="o">=</span> <span class="n">canonical_form</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">include_shifts</span><span class="p">,</span> <span class="n">include_negation</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">cg</span> <span class="o">=</span> <span class="n">canonical_form</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">include_shifts</span><span class="p">,</span> <span class="n">include_negation</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">cf</span> <span class="o">==</span> <span class="n">cg</span></div>
+
+
+
+<div class="viewcode-block" id="automorphisms">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.automorphisms">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">automorphisms</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">include_shifts</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">include_negation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find all automorphisms (self-symmetries) of a Boolean function.</span>
+
+<span class="sd">    An automorphism is a transformation that maps f to itself.</span>
+<span class="sd">    By default, only variable permutations are considered.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        include_shifts: Consider input shifts</span>
+<span class="sd">        include_negation: Consider output negation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of transformations (permutations) that are automorphisms</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; xor = bf.create([0, 1, 1, 0])</span>
+<span class="sd">        &gt;&gt;&gt; autos = automorphisms(xor)</span>
+<span class="sd">        &gt;&gt;&gt; len(autos)</span>
+<span class="sd">        2  # Identity and swap</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[()]</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">autos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">perm</span> <span class="ow">in</span> <span class="n">_generate_permutations</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="c1"># Apply permutation</span>
+        <span class="n">perm_f</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">new_x</span> <span class="o">=</span> <span class="n">_apply_perm_to_index</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">perm</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">perm_f</span><span class="p">[</span><span class="n">new_x</span><span class="p">]</span> <span class="o">=</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+        <span class="c1"># Check if it&#39;s an automorphism</span>
+        <span class="k">if</span> <span class="n">perm_f</span> <span class="o">==</span> <span class="n">truth_table</span><span class="p">:</span>
+            <span class="n">autos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+
+        <span class="c1"># Check with shifts</span>
+        <span class="k">if</span> <span class="n">include_shifts</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">shift</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>  <span class="c1"># Skip 0, already checked</span>
+                <span class="n">shifted_f</span> <span class="o">=</span> <span class="p">[</span><span class="n">perm_f</span><span class="p">[</span><span class="n">x</span> <span class="o">^</span> <span class="n">shift</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="n">shifted_f</span> <span class="o">==</span> <span class="n">truth_table</span><span class="p">:</span>
+                    <span class="n">autos</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">perm</span><span class="p">,</span> <span class="n">shift</span><span class="p">))</span>
+
+        <span class="c1"># Check with negation</span>
+        <span class="k">if</span> <span class="n">include_negation</span><span class="p">:</span>
+            <span class="n">neg_f</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">perm_f</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">neg_f</span> <span class="o">==</span> <span class="n">truth_table</span><span class="p">:</span>
+                <span class="n">autos</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">perm</span><span class="p">,</span> <span class="s2">&quot;neg&quot;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">autos</span></div>
+
+
+
+<div class="viewcode-block" id="equivalence_class_size">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.equivalence_class_size">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">equivalence_class_size</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the size of the equivalence class of f.</span>
+
+<span class="sd">    This is the number of distinct functions equivalent to f under</span>
+<span class="sd">    variable permutation (excluding shifts and negation).</span>
+
+<span class="sd">    By the orbit-stabilizer theorem:</span>
+<span class="sd">        |orbit| = n! / |automorphisms|</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Size of the equivalence class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="c1"># Count automorphisms (only permutations)</span>
+    <span class="n">num_autos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">automorphisms</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+
+    <span class="c1"># n! / |Aut(f)|</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">factorial</span>
+
+    <span class="k">return</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_autos</span></div>
+
+
+
+<div class="viewcode-block" id="PermutationEquivalence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.PermutationEquivalence">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PermutationEquivalence</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Utility class for permutation equivalence testing.</span>
+
+<span class="sd">    Provides caching and optimizations for repeated equivalence checks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PermutationEquivalence.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.PermutationEquivalence.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="PermutationEquivalence.canonical">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.PermutationEquivalence.canonical">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">canonical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get cached canonical form.&quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">canonical_form</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">include_shifts</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">include_negation</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="PermutationEquivalence.equivalent">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.PermutationEquivalence.equivalent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">equivalent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test permutation equivalence using cached canonical forms.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">canonical</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">canonical</span><span class="p">(</span><span class="n">g</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PermutationEquivalence.clear_cache">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.PermutationEquivalence.clear_cache">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear the canonical form cache.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AffineEquivalence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.AffineEquivalence">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AffineEquivalence</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Utility class for affine equivalence testing.</span>
+
+<span class="sd">    Affine equivalence considers variable permutation, input shifts,</span>
+<span class="sd">    and output negation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AffineEquivalence.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.AffineEquivalence.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_negation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include_negation</span> <span class="o">=</span> <span class="n">include_negation</span></div>
+
+
+<div class="viewcode-block" id="AffineEquivalence.canonical">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.AffineEquivalence.canonical">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">canonical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get cached affine canonical form.&quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">canonical_form</span><span class="p">(</span>
+                <span class="n">f</span><span class="p">,</span> <span class="n">include_shifts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_negation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">include_negation</span>
+            <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="AffineEquivalence.equivalent">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.AffineEquivalence.equivalent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">equivalent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test affine equivalence using cached canonical forms.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">canonical</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">canonical</span><span class="p">(</span><span class="n">g</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AffineEquivalence.clear_cache">
+<a class="viewcode-back" href="../../../api/boofun.analysis.equivalence.html#boofun.analysis.equivalence.AffineEquivalence.clear_cache">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear the canonical form cache.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_symmetric</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a function is symmetric (invariant under all variable permutations).</span>
+
+<span class="sd">    A symmetric function&#39;s output depends only on the Hamming weight of the input,</span>
+<span class="sd">    not on which specific variables are set.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is symmetric</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># Check that all inputs of the same Hamming weight give the same output</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">weight_outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">weight_outputs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">weight_outputs</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span> <span class="o">!=</span> <span class="n">output</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">weight_outputs</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

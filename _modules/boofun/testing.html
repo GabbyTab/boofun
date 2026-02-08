@@ -1,0 +1,727 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.testing &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.testing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.testing</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Testing utilities and validation tools for BooFun library.</span>
+
+<span class="sd">This module provides comprehensive testing tools for Boolean function analysis,</span>
+<span class="sd">including property validation, representation consistency checks, and performance testing.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">PropertyTester</span><span class="p">,</span> <span class="n">SpectralAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..core.representations.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionRepresentation</span>
+
+
+<div class="viewcode-block" id="BooleanFunctionValidator">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.BooleanFunctionValidator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BooleanFunctionValidator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive validator for Boolean function implementations.</span>
+
+<span class="sd">    Validates correctness, consistency, and performance of Boolean functions</span>
+<span class="sd">    across different representations and operations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BooleanFunctionValidator.__init__">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.BooleanFunctionValidator.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize validator.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            function: Boolean function to validate</span>
+<span class="sd">            verbose: Whether to print detailed validation messages</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validation_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionValidator.validate_all">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.BooleanFunctionValidator.validate_all">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run comprehensive validation suite.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with validation results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;basic_properties&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_basic_properties</span><span class="p">(),</span>
+            <span class="s2">&quot;representation_consistency&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_representation_consistency</span><span class="p">(),</span>
+            <span class="s2">&quot;evaluation_correctness&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_evaluation_correctness</span><span class="p">(),</span>
+            <span class="s2">&quot;space_handling&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_space_handling</span><span class="p">(),</span>
+            <span class="s2">&quot;edge_cases&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_edge_cases</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Overall validation status</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;overall_status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;passed&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">validation_results</span> <span class="o">=</span> <span class="n">results</span>
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionValidator.validate_basic_properties">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.BooleanFunctionValidator.validate_basic_properties">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_basic_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate basic Boolean function properties.&quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;issues&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Check n_vars is properly set</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;n_vars not set&quot;</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid n_vars: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># Check space is valid</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">space</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Space not set&quot;</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># Check representations exist</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">representations</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No representations available&quot;</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># Check error model exists</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">error_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Error model not set&quot;</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception during basic validation: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionValidator.validate_representation_consistency">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.BooleanFunctionValidator.validate_representation_consistency">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_representation_consistency</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate consistency across different representations.&quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;issues&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;comparisons&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">representations</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Need at least 2 representations for consistency check&quot;</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">results</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Test evaluation consistency across representations</span>
+            <span class="n">test_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_test_inputs</span><span class="p">()</span>
+
+            <span class="n">rep_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">representations</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rep1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">rep_names</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">rep2</span> <span class="ow">in</span> <span class="n">rep_names</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]:</span>
+                    <span class="n">consistency_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compare_representations</span><span class="p">(</span><span class="n">rep1</span><span class="p">,</span> <span class="n">rep2</span><span class="p">,</span> <span class="n">test_inputs</span><span class="p">)</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;comparisons&quot;</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rep1</span><span class="si">}</span><span class="s2">_vs_</span><span class="si">{</span><span class="n">rep2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">consistency_result</span>
+
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">consistency_result</span><span class="p">[</span><span class="s2">&quot;consistent&quot;</span><span class="p">]:</span>
+                        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inconsistency between </span><span class="si">{</span><span class="n">rep1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">rep2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception during consistency validation: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionValidator.validate_evaluation_correctness">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.BooleanFunctionValidator.validate_evaluation_correctness">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_evaluation_correctness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate evaluation correctness.&quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;issues&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;tests&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Test different input formats</span>
+            <span class="n">test_cases</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">(</span><span class="s2">&quot;integer_index&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;binary_vector&quot;</span><span class="p">,</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;batch_integers&quot;</span><span class="p">,</span>
+                    <span class="p">(</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+                        <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="p">),</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">test_name</span><span class="p">,</span> <span class="n">test_input</span> <span class="ow">in</span> <span class="n">test_cases</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;tests&quot;</span><span class="p">][</span><span class="n">test_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">),</span>
+                        <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">test_input</span><span class="p">),</span>
+                    <span class="p">}</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;tests&quot;</span><span class="p">][</span><span class="n">test_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                        <span class="s2">&quot;input&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">test_input</span><span class="p">),</span>
+                    <span class="p">}</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Evaluation failed for </span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception during evaluation validation: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionValidator.validate_space_handling">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.BooleanFunctionValidator.validate_space_handling">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_space_handling</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate space conversion and handling.&quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;issues&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;space_tests&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="c1"># This is a placeholder - full space validation would require more representations</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">current_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">space</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;space_tests&quot;</span><span class="p">][</span><span class="s2">&quot;current_space&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;space&quot;</span><span class="p">:</span> <span class="n">current_space</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">current_space</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;valid&quot;</span><span class="p">:</span> <span class="n">current_space</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="n">current_space</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No space defined&quot;</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception during space validation: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionValidator.validate_edge_cases">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.BooleanFunctionValidator.validate_edge_cases">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_edge_cases</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate handling of edge cases.&quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;issues&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;edge_tests&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="n">edge_cases</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;empty_input&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])),</span>
+            <span class="p">(</span><span class="s2">&quot;out_of_range_index&quot;</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">4</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s2">&quot;negative_index&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">case_name</span><span class="p">,</span> <span class="n">test_input</span> <span class="ow">in</span> <span class="n">edge_cases</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;edge_tests&quot;</span><span class="p">][</span><span class="n">case_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># Should have raised exception</span>
+                    <span class="s2">&quot;unexpected_result&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">),</span>
+                <span class="p">}</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edge case </span><span class="si">{</span><span class="n">case_name</span><span class="si">}</span><span class="s2"> should have failed but didn&#39;t&quot;</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;edge_tests&quot;</span><span class="p">][</span><span class="n">case_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Expected exception</span>
+                    <span class="s2">&quot;expected_error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+                <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_test_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate test inputs for validation.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># Limit for performance</span>
+        <span class="n">max_inputs</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n_vars</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>  <span class="c1"># Limit number of test inputs</span>
+
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">max_inputs</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compare_representations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">rep1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rep2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">test_inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare two representations for consistency.&quot;&quot;&quot;</span>
+        <span class="n">mismatches</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total_tests</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_inputs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">test_input</span> <span class="ow">in</span> <span class="n">test_inputs</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="n">rep1</span><span class="p">)</span>
+                <span class="n">result2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_input</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="n">rep2</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">result1</span> <span class="o">!=</span> <span class="n">result2</span><span class="p">:</span>
+                    <span class="n">mismatches</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">mismatches</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error comparing </span><span class="si">{</span><span class="n">rep1</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">rep2</span><span class="si">}</span><span class="s2"> on input </span><span class="si">{</span><span class="n">test_input</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;consistent&quot;</span><span class="p">:</span> <span class="n">mismatches</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;mismatches&quot;</span><span class="p">:</span> <span class="n">mismatches</span><span class="p">,</span>
+            <span class="s2">&quot;total_tests&quot;</span><span class="p">:</span> <span class="n">total_tests</span><span class="p">,</span>
+            <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">total_tests</span> <span class="o">-</span> <span class="n">mismatches</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_tests</span> <span class="k">if</span> <span class="n">total_tests</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="BooleanFunctionValidator.print_validation_report">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.BooleanFunctionValidator.print_validation_report">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_validation_report</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print detailed validation report.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">validation_results</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No validation results available. Run validate_all() first.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;🔍 Boolean Function Validation Report&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+        <span class="n">overall_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validation_results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;overall_status&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">status_icon</span> <span class="o">=</span> <span class="s2">&quot;✅&quot;</span> <span class="k">if</span> <span class="n">overall_status</span> <span class="k">else</span> <span class="s2">&quot;❌&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">status_icon</span><span class="si">}</span><span class="s2"> Overall Status: </span><span class="si">{</span><span class="s1">&#39;PASSED&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">overall_status</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;FAILED&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">results</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">validation_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;overall_status&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📋 </span><span class="si">{</span><span class="n">category</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">passed</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;passed&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                <span class="n">icon</span> <span class="o">=</span> <span class="s2">&quot;✅&quot;</span> <span class="k">if</span> <span class="n">passed</span> <span class="k">else</span> <span class="s2">&quot;❌&quot;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">icon</span><span class="si">}</span><span class="s2"> Status: </span><span class="si">{</span><span class="s1">&#39;PASSED&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">passed</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;FAILED&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="s2">&quot;issues&quot;</span> <span class="ow">in</span> <span class="n">results</span> <span class="ow">and</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Issues:&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">issue</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;issues&quot;</span><span class="p">]:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    - </span><span class="si">{</span><span class="n">issue</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RepresentationTester">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.RepresentationTester">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RepresentationTester</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specialized tester for Boolean function representations.</span>
+
+<span class="sd">    Tests individual representations for correctness, performance, and compliance</span>
+<span class="sd">    with the representation interface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RepresentationTester.__init__">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.RepresentationTester.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">representation</span><span class="p">:</span> <span class="n">BooleanFunctionRepresentation</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize representation tester.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            representation: Representation to test</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">representation</span> <span class="o">=</span> <span class="n">representation</span></div>
+
+
+<div class="viewcode-block" id="RepresentationTester.test_interface_compliance">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.RepresentationTester.test_interface_compliance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_interface_compliance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test that representation implements required interface methods.&quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;method_tests&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+
+        <span class="n">required_methods</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;evaluate&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dump&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;convert_from&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;convert_to&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;create_empty&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;is_complete&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;time_complexity_rank&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;get_storage_requirements&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">method_name</span> <span class="ow">in</span> <span class="n">required_methods</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">representation</span><span class="p">,</span> <span class="n">method_name</span><span class="p">):</span>
+                <span class="n">method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">representation</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;method_tests&quot;</span><span class="p">][</span><span class="n">method_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;exists&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="s2">&quot;callable&quot;</span><span class="p">:</span> <span class="nb">callable</span><span class="p">(</span><span class="n">method</span><span class="p">),</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;method_tests&quot;</span><span class="p">][</span><span class="n">method_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;exists&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;callable&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="RepresentationTester.test_create_empty">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.RepresentationTester.test_create_empty">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_create_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test create_empty method.&quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">empty_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">representation</span><span class="o">.</span><span class="n">create_empty</span><span class="p">(</span><span class="n">n_vars</span><span class="p">)</span>
+
+            <span class="c1"># Test that empty data is valid</span>
+            <span class="n">is_complete</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">representation</span><span class="o">.</span><span class="n">is_complete</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;empty_is_complete&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_complete</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;empty_data_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">empty_data</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="RepresentationTester.test_storage_requirements">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.RepresentationTester.test_storage_requirements">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_storage_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_vars_range</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test storage requirements computation.&quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;requirements&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">n_vars</span> <span class="ow">in</span> <span class="n">n_vars_range</span><span class="p">:</span>
+                <span class="n">reqs</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">representation</span><span class="o">.</span><span class="n">get_storage_requirements</span><span class="p">(</span><span class="n">n_vars</span><span class="p">)</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;requirements&quot;</span><span class="p">][</span><span class="n">n_vars</span><span class="p">]</span> <span class="o">=</span> <span class="n">reqs</span>
+
+                <span class="c1"># Basic validation of requirements format</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reqs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Storage requirements should be dict, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">reqs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="k">break</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PropertyTestSuite">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.PropertyTestSuite">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PropertyTestSuite</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive test suite for Boolean function properties.</span>
+
+<span class="sd">    Tests various mathematical properties and their detection algorithms.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PropertyTestSuite.__init__">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.PropertyTestSuite.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize property test suite.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="PropertyTestSuite.test_known_functions">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.PropertyTestSuite.test_known_functions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_known_functions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test property detection on functions with known properties.&quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tests&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;overall_passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+        <span class="c1"># Test cases: (function_name, truth_table, expected_properties)</span>
+        <span class="n">test_cases</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;constant_zero&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;constant&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;balanced&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}),</span>
+            <span class="p">(</span><span class="s2">&quot;constant_one&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;constant&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;balanced&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}),</span>
+            <span class="p">(</span><span class="s2">&quot;xor&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="p">{</span><span class="s2">&quot;balanced&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;linear&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}),</span>
+            <span class="p">(</span><span class="s2">&quot;and&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">{</span><span class="s2">&quot;monotone&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}),</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">func_name</span><span class="p">,</span> <span class="n">truth_table</span><span class="p">,</span> <span class="n">expected_props</span> <span class="ow">in</span> <span class="n">test_cases</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Create function and test properties</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">..api</span><span class="w"> </span><span class="kn">import</span> <span class="n">create</span>
+
+                <span class="n">func</span> <span class="o">=</span> <span class="n">create</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span>
+                <span class="n">tester</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+                <span class="n">detected_props</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">run_all_tests</span><span class="p">()</span>
+
+                <span class="c1"># Compare with expected properties</span>
+                <span class="n">test_result</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;mismatches&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+                <span class="k">for</span> <span class="n">prop</span><span class="p">,</span> <span class="n">expected_value</span> <span class="ow">in</span> <span class="n">expected_props</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">detected_props</span><span class="p">:</span>
+                        <span class="n">detected_value</span> <span class="o">=</span> <span class="n">detected_props</span><span class="p">[</span><span class="n">prop</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">detected_value</span> <span class="o">!=</span> <span class="n">expected_value</span><span class="p">:</span>
+                            <span class="n">test_result</span><span class="p">[</span><span class="s2">&quot;mismatches&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                <span class="p">{</span>
+                                    <span class="s2">&quot;property&quot;</span><span class="p">:</span> <span class="n">prop</span><span class="p">,</span>
+                                    <span class="s2">&quot;expected&quot;</span><span class="p">:</span> <span class="n">expected_value</span><span class="p">,</span>
+                                    <span class="s2">&quot;detected&quot;</span><span class="p">:</span> <span class="n">detected_value</span><span class="p">,</span>
+                                <span class="p">}</span>
+                            <span class="p">)</span>
+                            <span class="n">test_result</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;tests&quot;</span><span class="p">][</span><span class="n">func_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_result</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">test_result</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]:</span>
+                    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;overall_passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;tests&quot;</span><span class="p">][</span><span class="n">func_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;overall_passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PerformanceProfiler">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.PerformanceProfiler">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PerformanceProfiler</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performance profiler for Boolean function operations.</span>
+
+<span class="sd">    Measures timing and memory usage of various operations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PerformanceProfiler.__init__">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.PerformanceProfiler.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize performance profiler.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="PerformanceProfiler.profile_evaluation">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.PerformanceProfiler.profile_evaluation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">profile_evaluation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">n_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Profile evaluation performance.&quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;timings&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;average_time&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Generate test inputs</span>
+            <span class="k">if</span> <span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">and</span> <span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="n">test_inputs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span> <span class="mi">100</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">test_inputs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+
+            <span class="c1"># Time evaluations</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_trials</span><span class="p">):</span>
+                <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">test_input</span> <span class="ow">in</span> <span class="n">test_inputs</span><span class="p">:</span>
+                    <span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_input</span><span class="p">)</span>
+                <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+                <span class="n">results</span><span class="p">[</span><span class="s2">&quot;timings&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
+
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;average_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;timings&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;timings&quot;</span><span class="p">])</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;min_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;timings&quot;</span><span class="p">])</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;max_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;timings&quot;</span><span class="p">])</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+</div>
+
+
+
+<span class="c1"># Convenience functions for quick testing</span>
+<div class="viewcode-block" id="quick_validate">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.quick_validate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">quick_validate</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Quick validation of a Boolean function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        function: Function to validate</span>
+<span class="sd">        verbose: Whether to print detailed results</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if validation passed, False otherwise</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">validator</span> <span class="o">=</span> <span class="n">BooleanFunctionValidator</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">validator</span><span class="o">.</span><span class="n">validate_all</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="n">validator</span><span class="o">.</span><span class="n">print_validation_report</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;overall_status&quot;</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="validate_representation">
+<a class="viewcode-back" href="../../api/boofun.testing.html#boofun.validate_representation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">validate_representation</span><span class="p">(</span>
+    <span class="n">representation</span><span class="p">:</span> <span class="n">BooleanFunctionRepresentation</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Quick validation of a representation implementation.</span>
+
+<span class="sd">    This is a utility function for validating representation implementations,</span>
+<span class="sd">    not a pytest test.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        representation: Representation to validate</span>
+<span class="sd">        n_vars: Number of variables for testing</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Validation results dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">RepresentationTester</span><span class="p">(</span><span class="n">representation</span><span class="p">)</span>
+
+    <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;interface_compliance&quot;</span><span class="p">:</span> <span class="n">tester</span><span class="o">.</span><span class="n">test_interface_compliance</span><span class="p">(</span><span class="n">n_vars</span><span class="p">),</span>
+        <span class="s2">&quot;create_empty&quot;</span><span class="p">:</span> <span class="n">tester</span><span class="o">.</span><span class="n">test_create_empty</span><span class="p">(</span><span class="n">n_vars</span><span class="p">),</span>
+        <span class="s2">&quot;storage_requirements&quot;</span><span class="p">:</span> <span class="n">tester</span><span class="o">.</span><span class="n">test_storage_requirements</span><span class="p">(),</span>
+    <span class="p">}</span>
+
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;overall_passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;passed&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<span class="c1"># Export main classes and functions</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;BooleanFunctionValidator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RepresentationTester&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PropertyTestSuite&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PerformanceProfiler&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quick_validate&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;validate_representation&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

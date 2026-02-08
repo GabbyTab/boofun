@@ -1,0 +1,775 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.optimizations &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.core.optimizations</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.core.optimizations</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Performance Optimizations for BooFun</span>
+
+<span class="sd">This module provides optimized implementations of critical operations:</span>
+<span class="sd">1. Fast Walsh-Hadamard Transform (in-place, vectorized)</span>
+<span class="sd">2. Vectorized influence computation</span>
+<span class="sd">3. Lazy evaluation helpers</span>
+
+<span class="sd">These optimizations are automatically used when available.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Try to import Numba for JIT compilation</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">njit</span><span class="p">,</span> <span class="n">prange</span>
+
+    <span class="n">HAS_NUMBA</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_NUMBA</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="fast_walsh_hadamard">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.fast_walsh_hadamard">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fast_walsh_hadamard</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fast in-place Walsh-Hadamard Transform.</span>
+
+<span class="sd">    This is the optimized O(n * 2^n) algorithm using butterfly operations.</span>
+<span class="sd">    Works in-place to minimize memory allocations.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        values: Input array of length 2^n (will be modified in-place)</span>
+<span class="sd">        normalize: If True, divide by 2^n at the end</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Transformed array (same object as input if in-place)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)))</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="c1"># Validate input</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input length must be power of 2, got </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Make a copy to avoid modifying input</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># Butterfly operations</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">step</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">):</span>
+                <span class="n">u</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="n">step</span><span class="p">]</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span> <span class="o">+</span> <span class="n">v</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span> <span class="o">-</span> <span class="n">v</span>
+        <span class="n">step</span> <span class="o">*=</span> <span class="mi">2</span>
+
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">/=</span> <span class="n">size</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+
+    <span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fast_wht_numba</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Numba-accelerated Walsh-Hadamard Transform.</span>
+
+<span class="sd">        Uses iterative in-place algorithm (no parallelism in outer loop</span>
+<span class="sd">        due to Numba&#39;s requirement for constant prange step sizes).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">half_step</span> <span class="o">=</span> <span class="n">step</span>
+            <span class="n">step</span> <span class="o">*=</span> <span class="mi">2</span>
+            <span class="c1"># Use regular range since step varies per iteration</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">half_step</span><span class="p">):</span>
+                    <span class="n">u</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="n">half_step</span><span class="p">]</span>
+                    <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span> <span class="o">+</span> <span class="n">v</span>
+                    <span class="n">result</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="n">half_step</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span> <span class="o">-</span> <span class="n">v</span>
+
+        <span class="k">return</span> <span class="n">result</span> <span class="o">/</span> <span class="n">n</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fast_walsh_hadamard_numba</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Use Numba-accelerated WHT if available.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_fast_wht_numba</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="vectorized_truth_table_to_pm">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.vectorized_truth_table_to_pm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">vectorized_truth_table_to_pm</span><span class="p">(</span><span class="n">truth_table</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert {0,1} truth table to {-1,+1} representation.</span>
+
+<span class="sd">    This is vectorized for speed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="vectorized_influences_from_fourier">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.vectorized_influences_from_fourier">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">vectorized_influences_from_fourier</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute influences from Fourier coefficients using vectorization.</span>
+
+<span class="sd">    Influence of variable i: Inf_i(f) = Σ_{S∋i} f̂(S)²</span>
+
+<span class="sd">    This is faster than iterating over all subsets for each variable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_vars</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)</span>
+
+    <span class="c1"># Precompute squared coefficients</span>
+    <span class="n">squared</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">fourier_coeffs</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># For each variable i, sum squared coefficients of subsets containing i</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_vars</span><span class="p">):</span>
+        <span class="n">bit_mask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+        <span class="c1"># Find all subset indices where bit i is set</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">bit_mask</span>
+        <span class="n">influences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">squared</span><span class="p">[</span><span class="n">mask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">influences</span></div>
+
+
+
+<span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+
+    <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_vectorized_influences_numba</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Numba-accelerated influence computation.&quot;&quot;&quot;</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)</span>
+        <span class="n">influences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_vars</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">squared</span> <span class="o">=</span> <span class="n">fourier_coeffs</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># type: ignore[var-annotated]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">n_vars</span><span class="p">):</span>
+            <span class="n">bit_mask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="o">&amp;</span> <span class="n">bit_mask</span><span class="p">:</span>
+                    <span class="n">total</span> <span class="o">+=</span> <span class="n">squared</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+            <span class="n">influences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
+
+        <span class="k">return</span> <span class="n">influences</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">vectorized_influences_numba</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Use Numba-accelerated influence computation if available.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_vectorized_influences_numba</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span> <span class="n">n_vars</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="vectorized_total_influence_from_fourier">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.vectorized_total_influence_from_fourier">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">vectorized_total_influence_from_fourier</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute total influence from Fourier coefficients.</span>
+
+<span class="sd">    Total influence = Σ_S |S| · f̂(S)² = Σ_i Inf_i(f)</span>
+
+<span class="sd">    Uses the formula: I[f] = Σ_S |S| · f̂(S)²</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)</span>
+    <span class="n">squared</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">fourier_coeffs</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Compute |S| for each subset S (popcount)</span>
+    <span class="n">subset_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">subset_sizes</span><span class="p">,</span> <span class="n">squared</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+
+    <span class="nd">@njit</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_popcount</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Count set bits in integer.&quot;&quot;&quot;</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">x</span> <span class="o">&amp;=</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">count</span>
+
+    <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_total_influence_numba</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Numba-accelerated total influence.&quot;&quot;&quot;</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">_popcount</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="n">fourier_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">total</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">vectorized_total_influence_numba</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Use Numba-accelerated total influence if available.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_total_influence_numba</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="noise_stability_from_fourier">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.noise_stability_from_fourier">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">noise_stability_from_fourier</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute noise stability from Fourier coefficients.</span>
+
+<span class="sd">    Stab_ρ[f] = Σ_S ρ^|S| · f̂(S)²</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)</span>
+    <span class="n">squared</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">fourier_coeffs</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="c1"># Compute ρ^|S| for each subset</span>
+    <span class="n">subset_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)])</span>
+    <span class="n">rho_powers</span> <span class="o">=</span> <span class="n">rho</span><span class="o">**</span><span class="n">subset_sizes</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rho_powers</span><span class="p">,</span> <span class="n">squared</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="LazyFourierCoefficients">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.LazyFourierCoefficients">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LazyFourierCoefficients</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lazy wrapper for Fourier coefficients.</span>
+
+<span class="sd">    Delays computation until coefficients are actually needed,</span>
+<span class="sd">    and caches the result.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LazyFourierCoefficients.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.LazyFourierCoefficients.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compute_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            compute_func: Function that computes the Fourier coefficients</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_compute_func</span> <span class="o">=</span> <span class="n">compute_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coeffs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="LazyFourierCoefficients.get">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.LazyFourierCoefficients.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get coefficients, computing if necessary.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coeffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_func</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coeffs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>  <span class="c1"># Guaranteed by _computed flag</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coeffs</span></div>
+
+
+<div class="viewcode-block" id="LazyFourierCoefficients.is_computed">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.LazyFourierCoefficients.is_computed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_computed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if coefficients have been computed.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span></div>
+
+
+<div class="viewcode-block" id="LazyFourierCoefficients.clear">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.LazyFourierCoefficients.clear">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear cached coefficients.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coeffs</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span> <span class="o">=</span> <span class="kc">False</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="get_best_wht_implementation">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.get_best_wht_implementation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_best_wht_implementation</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the best available Walsh-Hadamard Transform implementation.</span>
+
+<span class="sd">    Returns tuple of (function, name) where function is the WHT implementation</span>
+<span class="sd">    and name is a description.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Try GPU-accelerated pyfwht first</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyfwht</span><span class="w"> </span><span class="kn">import</span> <span class="n">fwht</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">pyfwht_wrapper</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">fwht</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">pyfwht_wrapper</span><span class="p">,</span> <span class="s2">&quot;pyfwht (GPU-accelerated)&quot;</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Try Numba-accelerated version</span>
+    <span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fast_walsh_hadamard_numba</span><span class="p">,</span> <span class="s2">&quot;Numba JIT-compiled&quot;</span>
+
+    <span class="c1"># Fall back to pure NumPy</span>
+    <span class="k">return</span> <span class="n">fast_walsh_hadamard</span><span class="p">,</span> <span class="s2">&quot;NumPy (pure Python)&quot;</span></div>
+
+
+
+<span class="c1"># Export best implementations</span>
+<span class="n">BEST_WHT</span><span class="p">,</span> <span class="n">WHT_BACKEND</span> <span class="o">=</span> <span class="n">get_best_wht_implementation</span><span class="p">()</span>
+
+<span class="c1"># Choose best influence computation</span>
+<span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+    <span class="n">BEST_INFLUENCES</span> <span class="o">=</span> <span class="n">vectorized_influences_numba</span>
+    <span class="n">INFLUENCES_BACKEND</span> <span class="o">=</span> <span class="s2">&quot;Numba&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">BEST_INFLUENCES</span> <span class="o">=</span> <span class="n">vectorized_influences_from_fourier</span>
+    <span class="n">INFLUENCES_BACKEND</span> <span class="o">=</span> <span class="s2">&quot;NumPy&quot;</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Parallel Computation Support</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">ThreadPoolExecutor</span>
+
+    <span class="n">HAS_PARALLEL</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">MAX_WORKERS</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_PARALLEL</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">MAX_WORKERS</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<div class="viewcode-block" id="parallel_batch_influences">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.parallel_batch_influences">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parallel_batch_influences</span><span class="p">(</span>
+    <span class="n">functions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">max_workers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">use_threads</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute influences for multiple Boolean functions in parallel.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        functions: List of BooleanFunction objects</span>
+<span class="sd">        max_workers: Number of parallel workers (default: CPU count)</span>
+<span class="sd">        use_threads: Use threads instead of processes (faster for small tasks)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of influence arrays</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">max_workers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_workers</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">MAX_WORKERS</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">functions</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PARALLEL</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">functions</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_influences</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+    <span class="n">ExecutorClass</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span> <span class="k">if</span> <span class="n">use_threads</span> <span class="k">else</span> <span class="n">ProcessPoolExecutor</span>
+
+    <span class="k">with</span> <span class="n">ExecutorClass</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">compute_influences</span><span class="p">,</span> <span class="n">functions</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<div class="viewcode-block" id="parallel_batch_fourier">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.parallel_batch_fourier">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parallel_batch_fourier</span><span class="p">(</span><span class="n">functions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">max_workers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Fourier coefficients for multiple Boolean functions in parallel.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        functions: List of BooleanFunction objects</span>
+<span class="sd">        max_workers: Number of parallel workers</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of Fourier coefficient arrays</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">max_workers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">max_workers</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">MAX_WORKERS</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">functions</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_PARALLEL</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">functions</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_fourier</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">compute_fourier</span><span class="p">,</span> <span class="n">functions</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+
+    <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parallel_sensitivity_batch</span><span class="p">(</span><span class="n">truth_tables</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute sensitivity for multiple functions in parallel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            truth_tables: 2D array where each row is a truth table</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Array of sensitivity values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">num_funcs</span> <span class="o">=</span> <span class="n">truth_tables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">truth_tables</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="k">while</span> <span class="n">temp</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">//=</span> <span class="mi">2</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">sensitivities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_funcs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">f_idx</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="n">num_funcs</span><span class="p">):</span>
+            <span class="n">max_sens</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+                <span class="n">sens</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="n">neighbor</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">truth_tables</span><span class="p">[</span><span class="n">f_idx</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">truth_tables</span><span class="p">[</span><span class="n">f_idx</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">]:</span>
+                        <span class="n">sens</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">sens</span> <span class="o">&gt;</span> <span class="n">max_sens</span><span class="p">:</span>
+                    <span class="n">max_sens</span> <span class="o">=</span> <span class="n">sens</span>
+            <span class="n">sensitivities</span><span class="p">[</span><span class="n">f_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_sens</span>
+
+        <span class="k">return</span> <span class="n">sensitivities</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Aggressive Memoization System</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span>
+
+
+<div class="viewcode-block" id="ComputeCache">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.ComputeCache">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComputeCache</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    LRU cache for expensive Boolean function computations.</span>
+
+<span class="sd">    Uses OrderedDict for O(1) get/put/evict instead of the previous</span>
+<span class="sd">    hand-rolled list with O(n) remove.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ComputeCache.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.ComputeCache.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_size</span> <span class="o">=</span> <span class="n">max_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">OrderedDict</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hits</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_misses</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_hash</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">computation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create cache key from function hash and computation.&quot;&quot;&quot;</span>
+        <span class="n">args_str</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func_hash</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">computation</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">args_str</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<div class="viewcode-block" id="ComputeCache.get">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.ComputeCache.get">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_hash</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">computation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Try to get cached result. Returns (found, value).&quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_key</span><span class="p">(</span><span class="n">func_hash</span><span class="p">,</span> <span class="n">computation</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_hits</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>  <span class="c1"># O(1) LRU update</span>
+            <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_misses</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ComputeCache.put">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.ComputeCache.put">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_hash</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">computation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Store result in cache, evicting LRU if full.&quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_key</span><span class="p">(</span><span class="n">func_hash</span><span class="p">,</span> <span class="n">computation</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_size</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">popitem</span><span class="p">(</span><span class="n">last</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># O(1) LRU eviction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="ComputeCache.clear">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.ComputeCache.clear">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear all cached entries.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ComputeCache.stats">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.ComputeCache.stats">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get cache statistics.&quot;&quot;&quot;</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hits</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_misses</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">),</span>
+            <span class="s2">&quot;max_size&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_size</span><span class="p">,</span>
+            <span class="s2">&quot;hits&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hits</span><span class="p">,</span>
+            <span class="s2">&quot;misses&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_misses</span><span class="p">,</span>
+            <span class="s2">&quot;hit_rate&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hits</span> <span class="o">/</span> <span class="n">total</span> <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<span class="c1"># Global compute cache</span>
+<span class="n">_GLOBAL_CACHE</span> <span class="o">=</span> <span class="n">ComputeCache</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_global_cache">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.get_global_cache">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_global_cache</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ComputeCache</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the global computation cache.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_GLOBAL_CACHE</span></div>
+
+
+
+<div class="viewcode-block" id="cached_computation">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.cached_computation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cached_computation</span><span class="p">(</span><span class="n">computation_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for caching expensive computations on BooleanFunction.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        @cached_computation(&quot;influences&quot;)</span>
+<span class="sd">        def compute_influences(self):</span>
+<span class="sd">            ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="c1"># Get function hash</span>
+            <span class="n">func_hash</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_cache_hash&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">func_hash</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Compute hash from truth table</span>
+                <span class="n">tt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+                <span class="n">func_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[:</span><span class="mi">16</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cache_hash</span> <span class="o">=</span> <span class="n">func_hash</span>
+
+            <span class="c1"># Check cache</span>
+            <span class="n">found</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">_GLOBAL_CACHE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">func_hash</span><span class="p">,</span> <span class="n">computation_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">found</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">value</span>
+
+            <span class="c1"># Compute and cache</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">_GLOBAL_CACHE</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">func_hash</span><span class="p">,</span> <span class="n">computation_name</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+
+<div class="viewcode-block" id="memoize_method">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.memoize_method">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">memoize_method</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simple memoization for instance methods.</span>
+
+<span class="sd">    Caches results in the instance&#39;s __dict__.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cache_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;_memo_</span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Create cache if needed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="n">cache</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache_name</span><span class="p">)</span>
+
+        <span class="c1"># Make key from args</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span>
+
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cache</span><span class="p">:</span>
+            <span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Batch Operations</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="batch_evaluate">
+<a class="viewcode-back" href="../../../api/boofun.core.optimizations.html#boofun.core.optimizations.batch_evaluate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">batch_evaluate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Efficiently evaluate a Boolean function on a batch of inputs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction</span>
+<span class="sd">        inputs: 2D array of shape (batch_size, n_vars) or 1D array of indices</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Boolean array of results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Array of indices</span>
+        <span class="n">tt</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tt</span><span class="p">[</span><span class="n">inputs</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Array of bit vectors</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="c1"># Convert each row to index</span>
+        <span class="n">powers</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">powers</span><span class="p">)</span>
+        <span class="n">tt</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tt</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+
+    <span class="nd">@njit</span><span class="p">(</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_batch_evaluate_numba</span><span class="p">(</span><span class="n">truth_table</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Numba-accelerated batch evaluation.&quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)):</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

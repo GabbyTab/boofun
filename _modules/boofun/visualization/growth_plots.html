@@ -1,0 +1,963 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.visualization.growth_plots &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../visualization.html">boofun.visualization</a></li>
+      <li class="breadcrumb-item active">boofun.visualization.growth_plots</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.visualization.growth_plots</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Growth and asymptotic visualization for Boolean function families.</span>
+
+<span class="sd">This module provides specialized plotting tools for:</span>
+<span class="sd">- Asymptotic behavior as n grows</span>
+<span class="sd">- Family comparison plots</span>
+<span class="sd">- Theoretical vs computed overlays</span>
+<span class="sd">- Phase transition visualization</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Module logger</span>
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;boofun.visualization.growth_plots&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+    <span class="n">HAS_MATPLOTLIB</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_MATPLOTLIB</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">plotly.subplots</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_subplots</span>
+
+    <span class="n">HAS_PLOTLY</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_PLOTLY</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..families.tracker</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthTracker</span>
+
+
+<div class="viewcode-block" id="GrowthVisualizer">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.GrowthVisualizer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GrowthVisualizer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specialized visualizer for asymptotic behavior of Boolean function families.</span>
+
+<span class="sd">    Features:</span>
+<span class="sd">    - Plot properties vs n with theoretical overlays</span>
+<span class="sd">    - Compare multiple families</span>
+<span class="sd">    - Visualize convergence rates</span>
+<span class="sd">    - Show phase transitions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GrowthVisualizer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.GrowthVisualizer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize growth visualizer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            backend: &quot;matplotlib&quot; or &quot;plotly&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">HAS_MATPLOTLIB</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Matplotlib not available&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">HAS_PLOTLY</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Plotly not available&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Default styling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;tab10&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">colors</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="k">if</span> <span class="n">HAS_MATPLOTLIB</span>
+            <span class="k">else</span> <span class="p">[</span>
+                <span class="s2">&quot;#1f77b4&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#ff7f0e&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#2ca02c&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#d62728&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#9467bd&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#8c564b&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#e377c2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#7f7f7f&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#bcbd22&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#17becf&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GrowthVisualizer.plot_growth">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.GrowthVisualizer.plot_growth">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_growth</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tracker</span><span class="p">:</span> <span class="s2">&quot;GrowthTracker&quot;</span><span class="p">,</span>
+        <span class="n">marker_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">show_theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">show_error</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">log_x</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">log_y</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot a single tracked property vs n.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tracker: GrowthTracker with computed results</span>
+<span class="sd">            marker_name: Which marker to plot</span>
+<span class="sd">            show_theory: Show theoretical prediction</span>
+<span class="sd">            show_error: Show error bars/ribbon (if available)</span>
+<span class="sd">            log_x, log_y: Use log scale</span>
+<span class="sd">            figsize: Figure size</span>
+<span class="sd">            title: Custom title</span>
+<span class="sd">            ax: Matplotlib axes (optional)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Figure/axes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">marker_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No results for marker: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">marker_name</span><span class="p">]</span>
+        <span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="n">theory_arr</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_arrays</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_growth_matplotlib</span><span class="p">(</span>
+                <span class="n">n_arr</span><span class="p">,</span>
+                <span class="n">computed_arr</span><span class="p">,</span>
+                <span class="n">theory_arr</span><span class="p">,</span>
+                <span class="n">marker_name</span><span class="p">,</span>
+                <span class="n">tracker</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">show_theory</span><span class="p">,</span>
+                <span class="n">log_x</span><span class="p">,</span>
+                <span class="n">log_y</span><span class="p">,</span>
+                <span class="n">figsize</span><span class="p">,</span>
+                <span class="n">title</span><span class="p">,</span>
+                <span class="n">ax</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_growth_plotly</span><span class="p">(</span>
+                <span class="n">n_arr</span><span class="p">,</span>
+                <span class="n">computed_arr</span><span class="p">,</span>
+                <span class="n">theory_arr</span><span class="p">,</span>
+                <span class="n">marker_name</span><span class="p">,</span>
+                <span class="n">tracker</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">show_theory</span><span class="p">,</span>
+                <span class="n">log_x</span><span class="p">,</span>
+                <span class="n">log_y</span><span class="p">,</span>
+                <span class="n">title</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_plot_growth_matplotlib</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_arr</span><span class="p">,</span>
+        <span class="n">computed_arr</span><span class="p">,</span>
+        <span class="n">theory_arr</span><span class="p">,</span>
+        <span class="n">marker_name</span><span class="p">,</span>
+        <span class="n">family_name</span><span class="p">,</span>
+        <span class="n">show_theory</span><span class="p">,</span>
+        <span class="n">log_x</span><span class="p">,</span>
+        <span class="n">log_y</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot growth using matplotlib.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span>
+
+        <span class="n">color</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Plot computed values</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">n_arr</span><span class="p">,</span>
+            <span class="n">computed_arr</span><span class="p">,</span>
+            <span class="s2">&quot;o-&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> (computed)&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Plot theoretical values</span>
+        <span class="k">if</span> <span class="n">show_theory</span> <span class="ow">and</span> <span class="n">theory_arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">valid_theory</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">theory_arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">valid_theory</span><span class="p">):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                    <span class="n">n_arr</span><span class="p">[</span><span class="n">valid_theory</span><span class="p">],</span>
+                    <span class="n">theory_arr</span><span class="p">[</span><span class="n">valid_theory</span><span class="p">],</span>
+                    <span class="s2">&quot;--&quot;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> (theory)&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Log scales</span>
+        <span class="k">if</span> <span class="n">log_x</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">log_y</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Labels</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;n (number of variables)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">marker_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">family_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> vs n&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_plot_growth_plotly</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_arr</span><span class="p">,</span>
+        <span class="n">computed_arr</span><span class="p">,</span>
+        <span class="n">theory_arr</span><span class="p">,</span>
+        <span class="n">marker_name</span><span class="p">,</span>
+        <span class="n">family_name</span><span class="p">,</span>
+        <span class="n">show_theory</span><span class="p">,</span>
+        <span class="n">log_x</span><span class="p">,</span>
+        <span class="n">log_y</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot growth using plotly.&quot;&quot;&quot;</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+        <span class="c1"># Computed values</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+            <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">n_arr</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="n">computed_arr</span><span class="p">,</span>
+                <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines+markers&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> (computed)&quot;</span><span class="p">,</span>
+                <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Theoretical values</span>
+        <span class="k">if</span> <span class="n">show_theory</span> <span class="ow">and</span> <span class="n">theory_arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">valid_theory</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">theory_arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">valid_theory</span><span class="p">):</span>
+                <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                    <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                        <span class="n">x</span><span class="o">=</span><span class="n">n_arr</span><span class="p">[</span><span class="n">valid_theory</span><span class="p">],</span>
+                        <span class="n">y</span><span class="o">=</span><span class="n">theory_arr</span><span class="p">[</span><span class="n">valid_theory</span><span class="p">],</span>
+                        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> (theory)&quot;</span><span class="p">,</span>
+                        <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">dash</span><span class="o">=</span><span class="s2">&quot;dash&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">family_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> vs n&quot;</span><span class="p">,</span>
+            <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;n (number of variables)&quot;</span><span class="p">,</span>
+            <span class="n">yaxis_title</span><span class="o">=</span><span class="n">marker_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+            <span class="n">xaxis_type</span><span class="o">=</span><span class="s2">&quot;log&quot;</span> <span class="k">if</span> <span class="n">log_x</span> <span class="k">else</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+            <span class="n">yaxis_type</span><span class="o">=</span><span class="s2">&quot;log&quot;</span> <span class="k">if</span> <span class="n">log_y</span> <span class="k">else</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span>
+
+<div class="viewcode-block" id="GrowthVisualizer.plot_family_comparison">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.GrowthVisualizer.plot_family_comparison">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_family_comparison</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">trackers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;GrowthTracker&quot;</span><span class="p">],</span>
+        <span class="n">marker_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">show_theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">log_x</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">log_y</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compare a property across multiple function families.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            trackers: Dict mapping family names to GrowthTrackers</span>
+<span class="sd">            marker_name: Property to compare</span>
+<span class="sd">            show_theory: Show theoretical predictions</span>
+<span class="sd">            log_x, log_y: Use log scale</span>
+<span class="sd">            figsize: Figure size</span>
+<span class="sd">            title: Custom title</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compare_families_matplotlib</span><span class="p">(</span>
+                <span class="n">trackers</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">,</span> <span class="n">show_theory</span><span class="p">,</span> <span class="n">log_x</span><span class="p">,</span> <span class="n">log_y</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">title</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compare_families_plotly</span><span class="p">(</span>
+                <span class="n">trackers</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">,</span> <span class="n">show_theory</span><span class="p">,</span> <span class="n">log_x</span><span class="p">,</span> <span class="n">log_y</span><span class="p">,</span> <span class="n">title</span>
+            <span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compare_families_matplotlib</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">trackers</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">,</span> <span class="n">show_theory</span><span class="p">,</span> <span class="n">log_x</span><span class="p">,</span> <span class="n">log_y</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">title</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare families using matplotlib.&quot;&quot;&quot;</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">tracker</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trackers</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">marker_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">marker_name</span><span class="p">]</span>
+            <span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="n">theory_arr</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_arrays</span><span class="p">()</span>
+
+            <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">)]</span>
+
+            <span class="c1"># Plot computed</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+            <span class="c1"># Plot theory (dashed, same color)</span>
+            <span class="k">if</span> <span class="n">show_theory</span> <span class="ow">and</span> <span class="n">theory_arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">theory_arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">valid</span><span class="p">):</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                        <span class="n">n_arr</span><span class="p">[</span><span class="n">valid</span><span class="p">],</span> <span class="n">theory_arr</span><span class="p">[</span><span class="n">valid</span><span class="p">],</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span>
+                    <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">log_x</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">log_y</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;n (number of variables)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">marker_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;Family Comparison: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">fig</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compare_families_plotly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trackers</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">,</span> <span class="n">show_theory</span><span class="p">,</span> <span class="n">log_x</span><span class="p">,</span> <span class="n">log_y</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare families using plotly.&quot;&quot;&quot;</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+        <span class="n">colors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">colors</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">tracker</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trackers</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">marker_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">marker_name</span><span class="p">]</span>
+            <span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="n">theory_arr</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_arrays</span><span class="p">()</span>
+
+            <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span>
+
+            <span class="c1"># Computed</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">n_arr</span><span class="p">,</span>
+                    <span class="n">y</span><span class="o">=</span><span class="n">computed_arr</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines+markers&quot;</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                    <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Theory</span>
+            <span class="k">if</span> <span class="n">show_theory</span> <span class="ow">and</span> <span class="n">theory_arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">theory_arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">valid</span><span class="p">):</span>
+                    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                        <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                            <span class="n">x</span><span class="o">=</span><span class="n">n_arr</span><span class="p">[</span><span class="n">valid</span><span class="p">],</span>
+                            <span class="n">y</span><span class="o">=</span><span class="n">theory_arr</span><span class="p">[</span><span class="n">valid</span><span class="p">],</span>
+                            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
+                            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> (theory)&quot;</span><span class="p">,</span>
+                            <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">dash</span><span class="o">=</span><span class="s2">&quot;dash&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                            <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;Family Comparison: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;n (number of variables)&quot;</span><span class="p">,</span>
+            <span class="n">yaxis_title</span><span class="o">=</span><span class="n">marker_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+            <span class="n">xaxis_type</span><span class="o">=</span><span class="s2">&quot;log&quot;</span> <span class="k">if</span> <span class="n">log_x</span> <span class="k">else</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+            <span class="n">yaxis_type</span><span class="o">=</span><span class="s2">&quot;log&quot;</span> <span class="k">if</span> <span class="n">log_y</span> <span class="k">else</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span>
+
+<div class="viewcode-block" id="GrowthVisualizer.plot_convergence_rate">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.GrowthVisualizer.plot_convergence_rate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_convergence_rate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tracker</span><span class="p">:</span> <span class="s2">&quot;GrowthTracker&quot;</span><span class="p">,</span>
+        <span class="n">marker_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">reference</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sqrt_n&quot;</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot ratio of computed value to theoretical reference.</span>
+
+<span class="sd">        Useful for seeing convergence rates and constant factors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tracker: GrowthTracker with results</span>
+<span class="sd">            marker_name: Property to analyze</span>
+<span class="sd">            reference: Reference function (&quot;sqrt_n&quot;, &quot;n&quot;, &quot;log_n&quot;, &quot;constant&quot;)</span>
+<span class="sd">            figsize: Figure size</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">marker_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No results for marker: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">marker_name</span><span class="p">]</span>
+        <span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_arrays</span><span class="p">()</span>
+
+        <span class="c1"># Compute reference</span>
+        <span class="k">if</span> <span class="n">reference</span> <span class="o">==</span> <span class="s2">&quot;sqrt_n&quot;</span><span class="p">:</span>
+            <span class="n">ref_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_arr</span><span class="p">)</span>
+            <span class="n">ref_label</span> <span class="o">=</span> <span class="s2">&quot;√n&quot;</span>
+        <span class="k">elif</span> <span class="n">reference</span> <span class="o">==</span> <span class="s2">&quot;n&quot;</span><span class="p">:</span>
+            <span class="n">ref_arr</span> <span class="o">=</span> <span class="n">n_arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">ref_label</span> <span class="o">=</span> <span class="s2">&quot;n&quot;</span>
+        <span class="k">elif</span> <span class="n">reference</span> <span class="o">==</span> <span class="s2">&quot;log_n&quot;</span><span class="p">:</span>
+            <span class="n">ref_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n_arr</span><span class="p">)</span>
+            <span class="n">ref_label</span> <span class="o">=</span> <span class="s2">&quot;log(n)&quot;</span>
+        <span class="k">elif</span> <span class="n">reference</span> <span class="o">==</span> <span class="s2">&quot;constant&quot;</span><span class="p">:</span>
+            <span class="n">ref_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">n_arr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">ref_label</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown reference: </span><span class="si">{</span><span class="n">reference</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">ratio</span> <span class="o">=</span> <span class="n">computed_arr</span> <span class="o">/</span> <span class="n">ref_arr</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_arr</span><span class="p">,</span> <span class="n">ratio</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="c1"># Fit a horizontal line (constant) if converging</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">mean_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ratio</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]))</span>  <span class="c1"># Last 3 points</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span>
+                    <span class="n">y</span><span class="o">=</span><span class="n">mean_ratio</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+                    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Limiting value ≈ </span><span class="si">{</span><span class="n">mean_ratio</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">ref_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Convergence: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">ref_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">fig</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pfig</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+            <span class="n">pfig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">n_arr</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">ratio</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines+markers&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">ref_label</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">mean_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ratio</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]))</span>
+                <span class="n">pfig</span><span class="o">.</span><span class="n">add_hline</span><span class="p">(</span>
+                    <span class="n">y</span><span class="o">=</span><span class="n">mean_ratio</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s2">&quot;dash&quot;</span><span class="p">,</span> <span class="n">annotation_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;≈ </span><span class="si">{</span><span class="n">mean_ratio</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">pfig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Convergence: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">ref_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;n&quot;</span><span class="p">,</span>
+                <span class="n">yaxis_title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">ref_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">pfig</span></div>
+
+
+<div class="viewcode-block" id="GrowthVisualizer.plot_multi_property_growth">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.GrowthVisualizer.plot_multi_property_growth">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_multi_property_growth</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tracker</span><span class="p">:</span> <span class="s2">&quot;GrowthTracker&quot;</span><span class="p">,</span>
+        <span class="n">marker_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot multiple properties side by side.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tracker: GrowthTracker with results</span>
+<span class="sd">            marker_names: Which markers to plot (None = all)</span>
+<span class="sd">            figsize: Figure size (per subplot)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">marker_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">marker_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">n_markers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">marker_names</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_markers</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="n">n_markers</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">axes</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">marker_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">marker_names</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plot_growth</span><span class="p">(</span><span class="n">tracker</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">show_theory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">marker_name</span><span class="p">)</span>
+
+            <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tracker</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> Family Properties&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">fig</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pfig</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">n_markers</span><span class="p">,</span> <span class="n">subplot_titles</span><span class="o">=</span><span class="n">marker_names</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">marker_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">marker_names</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">marker_name</span> <span class="ow">in</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">tracker</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">marker_name</span><span class="p">]</span>
+                    <span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="n">theory_arr</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_arrays</span><span class="p">()</span>
+
+                    <span class="n">pfig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span>
+                        <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">n_arr</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">computed_arr</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines+markers&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">marker_name</span><span class="p">),</span>
+                        <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">col</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+            <span class="n">pfig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+                <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tracker</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> Family Properties&quot;</span><span class="p">,</span> <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">pfig</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LTFVisualizer">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.LTFVisualizer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LTFVisualizer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specialized visualizations for Linear Threshold Functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LTFVisualizer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.LTFVisualizer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span></div>
+
+
+<div class="viewcode-block" id="LTFVisualizer.plot_weight_distribution">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.LTFVisualizer.plot_weight_distribution">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_weight_distribution</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+        <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot weight distribution of an LTF.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            weights: LTF weight vector</span>
+<span class="sd">            figsize: Figure size</span>
+<span class="sd">            title: Custom title</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_MATPLOTLIB</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Matplotlib required&quot;</span><span class="p">)</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+        <span class="c1"># Bar plot of weights</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)),</span> <span class="n">weights</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;steelblue&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Variable Index&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Weight&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Weight Values&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="c1"># Sorted cumulative weight squared</span>
+        <span class="n">sorted_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">weights</span><span class="o">**</span><span class="mi">2</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">cumsum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">sorted_sq</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sorted_sq</span><span class="p">)</span>
+
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cumsum</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">cumsum</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Critical index threshold&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Top Variables&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Cumulative Weight Fraction&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Weight Concentration&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="s2">&quot;LTF Weight Analysis&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="LTFVisualizer.plot_influence_vs_weight">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.LTFVisualizer.plot_influence_vs_weight">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_influence_vs_weight</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Scatter plot comparing |weight| vs influence.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: Boolean function (should be LTF)</span>
+<span class="sd">            figsize: Figure size</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_MATPLOTLIB</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Matplotlib required&quot;</span><span class="p">)</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.ltf_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_ltf_weights</span><span class="p">,</span> <span class="n">is_ltf</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Function is not an LTF&quot;</span><span class="p">)</span>
+
+        <span class="n">weights</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">find_ltf_weights</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">influences</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+        <span class="c1"># Scatter plot</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">),</span> <span class="n">influences</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+
+        <span class="c1"># Add variable labels</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">inf</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">),</span> <span class="n">influences</span><span class="p">)):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">inf</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset points&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Fit line (influence should scale with |weight|)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">),</span> <span class="n">influences</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+            <span class="n">x_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">)),</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_line</span><span class="p">,</span> <span class="n">p</span><span class="p">(</span><span class="n">x_line</span><span class="p">),</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Linear fit&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;|Weight|&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Influence&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Influence vs |Weight| for LTF&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ComplexityVisualizer">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.ComplexityVisualizer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComplexityVisualizer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Visualize query complexity measures and their relationships.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ComplexityVisualizer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.ComplexityVisualizer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span></div>
+
+
+<div class="viewcode-block" id="ComplexityVisualizer.plot_complexity_relations">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.ComplexityVisualizer.plot_complexity_relations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_complexity_relations</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot relationships between different complexity measures.</span>
+
+<span class="sd">        Shows s(f), bs(f), deg(f), C(f) and their bounds.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: Boolean function</span>
+<span class="sd">            figsize: Figure size</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_MATPLOTLIB</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;Matplotlib required&quot;</span><span class="p">)</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.block_sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_block_sensitivity</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.certificates</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_certificate_size</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.fourier</span><span class="w"> </span><span class="kn">import</span> <span class="n">fourier_degree</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_sensitivity</span>
+
+        <span class="c1"># Compute measures</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">bs</span> <span class="o">=</span> <span class="n">max_block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">deg</span> <span class="o">=</span> <span class="n">fourier_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">max_certificate_size</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Certificate complexity computation failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+        <span class="c1"># Bar chart of measures</span>
+        <span class="n">measures</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;s(f)&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;bs(f)&quot;</span><span class="p">:</span> <span class="n">bs</span><span class="p">,</span> <span class="s2">&quot;deg(f)&quot;</span><span class="p">:</span> <span class="n">deg</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">measures</span><span class="p">[</span><span class="s2">&quot;C(f)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span>
+
+        <span class="n">ax1</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">measures</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">measures</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;steelblue&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Complexity Measures&quot;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="c1"># Known bounds visualization</span>
+        <span class="n">bounds_data</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;s ≤ bs&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">bs</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;s² ≥ deg&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">deg</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;bs ≤ s⁴&quot;</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">s</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">measures</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">)),</span>
+        <span class="p">]</span>
+
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">measures</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">*</span> <span class="mf">1.3</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bounds_data</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.3</span> <span class="o">+</span> <span class="mf">0.1</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Known Inequalities (Sensitivity Theorem)&quot;</span><span class="p">)</span>
+
+        <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query Complexity Analysis (n=</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+</div>
+
+
+
+<span class="c1"># Convenience function to quickly visualize growth</span>
+<div class="viewcode-block" id="quick_growth_plot">
+<a class="viewcode-back" href="../../../api/boofun.visualization.growth_plots.html#boofun.visualization.quick_growth_plot">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">quick_growth_plot</span><span class="p">(</span>
+    <span class="n">family_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">properties</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;total_influence&quot;</span><span class="p">],</span>
+    <span class="n">n_values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Quick way to visualize asymptotic behavior of a built-in family.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        family_name: &quot;majority&quot;, &quot;parity&quot;, &quot;tribes&quot;, &quot;and&quot;, &quot;or&quot;, &quot;dictator&quot;</span>
+<span class="sd">        properties: Which properties to track</span>
+<span class="sd">        n_values: List of n values (default: odd 3-15)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Figure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..families</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+        <span class="n">ANDFamily</span><span class="p">,</span>
+        <span class="n">DictatorFamily</span><span class="p">,</span>
+        <span class="n">GrowthTracker</span><span class="p">,</span>
+        <span class="n">MajorityFamily</span><span class="p">,</span>
+        <span class="n">ORFamily</span><span class="p">,</span>
+        <span class="n">ParityFamily</span><span class="p">,</span>
+        <span class="n">TribesFamily</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">families</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;majority&quot;</span><span class="p">:</span> <span class="n">MajorityFamily</span><span class="p">,</span>
+        <span class="s2">&quot;parity&quot;</span><span class="p">:</span> <span class="n">ParityFamily</span><span class="p">,</span>
+        <span class="s2">&quot;tribes&quot;</span><span class="p">:</span> <span class="n">TribesFamily</span><span class="p">,</span>
+        <span class="s2">&quot;and&quot;</span><span class="p">:</span> <span class="n">ANDFamily</span><span class="p">,</span>
+        <span class="s2">&quot;or&quot;</span><span class="p">:</span> <span class="n">ORFamily</span><span class="p">,</span>
+        <span class="s2">&quot;dictator&quot;</span><span class="p">:</span> <span class="n">DictatorFamily</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">family_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">families</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown family: </span><span class="si">{</span><span class="n">family_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">family</span> <span class="o">=</span> <span class="n">families</span><span class="p">[</span><span class="n">family_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]()</span>
+    <span class="n">tracker</span> <span class="o">=</span> <span class="n">GrowthTracker</span><span class="p">(</span><span class="n">family</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
+        <span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n_values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">n_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">family</span><span class="o">.</span><span class="n">validate_n</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+    <span class="n">tracker</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">n_values</span><span class="o">=</span><span class="n">n_values</span><span class="p">)</span>
+
+    <span class="n">viz</span> <span class="o">=</span> <span class="n">GrowthVisualizer</span><span class="p">()</span>
+    <span class="c1"># Use actual marker names (e.g., &quot;noise_stability_0.5&quot; not &quot;noise_stability&quot;)</span>
+    <span class="n">marker_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tracker</span><span class="o">.</span><span class="n">markers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_multi_property_growth</span><span class="p">(</span><span class="n">tracker</span><span class="p">,</span> <span class="n">marker_names</span><span class="p">)</span></div>
+
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;GrowthVisualizer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LTFVisualizer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ComplexityVisualizer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quick_growth_plot&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
