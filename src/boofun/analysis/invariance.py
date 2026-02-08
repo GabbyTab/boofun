@@ -198,8 +198,8 @@ def multilinear_extension_gaussian_expectation(
     mle = multilinear_extension(f)
 
     # Sample Gaussians
-    np.random.seed(42)  # For reproducibility
-    G = np.random.randn(num_samples, n)
+    rng = np.random.default_rng(42)
+    G = rng.standard_normal((num_samples, n))
 
     values = []
     for i in range(num_samples):
@@ -242,9 +242,9 @@ def compute_test_function_expectation(
         mle = multilinear_extension(f)
 
         # Monte Carlo
-        np.random.seed(42)
+        rng = np.random.default_rng(42)
         num_samples = 10000
-        G = np.random.randn(num_samples, n)
+        G = rng.standard_normal((num_samples, n))
 
         values = [test_fn(mle(G[i])) for i in range(num_samples)]
         return float(np.mean(values))

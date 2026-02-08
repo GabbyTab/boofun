@@ -247,17 +247,16 @@ def random(n: int, balanced: bool = False, seed: Optional[int] = None) -> Boolea
     """
     import numpy as np
 
-    if seed is not None:
-        np.random.seed(seed)
+    rng = np.random.default_rng(seed)
 
     size = 2**n
     if balanced:
         # Balanced: exactly half 0s and half 1s
         truth_table = np.zeros(size, dtype=int)
-        ones_positions = np.random.choice(size, size // 2, replace=False)
+        ones_positions = rng.choice(size, size // 2, replace=False)
         truth_table[ones_positions] = 1
     else:
-        truth_table = np.random.randint(0, 2, size)
+        truth_table = rng.integers(0, 2, size)
 
     return create(truth_table.tolist())
 
