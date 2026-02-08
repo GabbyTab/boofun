@@ -1,0 +1,56 @@
+name: Bug Report
+description: Something is wrong or produces incorrect results
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. The more detail you provide, the faster we can fix it.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug. If it's a mathematical error, include the expected value and what you got.
+      placeholder: "nonlinearity(f) returns 4 but the function is linear, so it should be 0."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Shortest code that triggers the bug.
+      render: python
+      placeholder: |
+        import boofun as bf
+        f = bf.parity(4)
+        print(f.is_linear())   # True
+        print(nonlinearity(f))  # Expected 0, got 4
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen instead? Include a reference (O'Donnell theorem/page, paper, etc.) if applicable.
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: BooFun version
+      description: "Output of `bf.__version__`"
+      placeholder: "1.1.1"
+    validations:
+      required: true
+
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: "3.9.6"
+    validations:
+      required: false

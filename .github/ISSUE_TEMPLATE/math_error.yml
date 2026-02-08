@@ -1,0 +1,34 @@
+name: Mathematical Error
+description: A formula, theorem reference, or numerical result is wrong
+labels: ["bug", "math"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Mathematical correctness is critical. If a Fourier coefficient, complexity measure, or theorem bound is wrong, we want to know immediately.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What is incorrect?
+      description: Describe the error. Include the correct value/formula and where the mistake is.
+      placeholder: "The LTF notebook says I[Maj_n] ~ sqrt(n/pi) but O'Donnell Corollary 5.24 gives sqrt(2n/pi)."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reference
+    attributes:
+      label: Reference
+      description: Where is the correct result stated? (O'Donnell page/theorem, paper, etc.)
+      placeholder: "O'Donnell, Analysis of Boolean Functions, Corollary 5.24, page 130."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Code showing the error (optional)
+      render: python
+    validations:
+      required: false

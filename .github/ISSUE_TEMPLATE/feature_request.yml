@@ -1,0 +1,47 @@
+name: Feature Request
+description: Suggest a new function, analysis method, or improvement
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check the [ROADMAP](https://github.com/GabbyTab/boofun/blob/main/ROADMAP.md) first — your idea might already be planned.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What would you like?
+      description: Describe the feature. Reference a theorem, paper, or textbook section if applicable.
+      placeholder: "Add support for the Gotsman-Linial conjecture bound (O'Donnell Exercise 2.42)."
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: Proposed API (optional)
+      description: How would you call this feature?
+      render: python
+      placeholder: |
+        result = bf.analysis.fourier.gotsman_linial_bound(f)
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Fourier analysis
+        - Sensitivity / complexity
+        - Property testing
+        - Hypercontractivity
+        - Cryptographic analysis
+        - Learning theory
+        - Pseudorandomness
+        - Representations
+        - Visualization
+        - Families / builtins
+        - Other
+    validations:
+      required: true
