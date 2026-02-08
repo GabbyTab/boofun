@@ -15,17 +15,8 @@ import pytest
 sys.path.insert(0, "src")
 
 import boofun as bf
+from boofun.analysis.fourier import fourier_level_lp_norm, fourier_tail_profile
 from boofun.analysis.gaussian import multilinear_extension
-
-
-def fourier_tail_L1k(f, k):
-    """Compute L_{1,k}(f) = sum_{|S|=k} |f_hat(S)|."""
-    fourier = f.fourier()
-    total = 0.0
-    for s in range(len(fourier)):
-        if bin(s).count("1") == k:
-            total += abs(fourier[s])
-    return total
 
 
 class TestMultilinearExtension:
@@ -95,7 +86,7 @@ class TestFourierTails:
         n = f.n_vars
 
         for k in range(n + 1):
-            l1k = fourier_tail_L1k(f, k)
+            l1k = fourier_level_lp_norm(f, k, p=1)
             wk = sum(fourier[s] ** 2 for s in range(len(fourier)) if bin(s).count("1") == k)
             nk = comb(n, k)  # Number of subsets of size k
             # Cauchy-Schwarz: L_{1,k}^2 <= C(n,k) * W^k
@@ -108,18 +99,18 @@ class TestFourierTails:
         for n in [3, 5]:
             f = bf.parity(n)
             for k in range(n):
-                assert fourier_tail_L1k(f, k) < 1e-10, f"Parity({n}): L_{{1,{k}}} should be 0"
+                assert fourier_level_lp_norm(f, k) < 1e-10, f"Parity({n}): L_{{1,{k}}} should be 0"
             assert (
-                abs(fourier_tail_L1k(f, n) - 1.0) < 1e-10
+                abs(fourier_level_lp_norm(f, n) - 1.0) < 1e-10
             ), f"Parity({n}): L_{{1,{n}}} should be 1"
 
     def test_dictator_L1_profile(self):
         """Dictator: f_hat({i})=1, all others 0. So L_{1,1}=1, L_{1,k}=0 for k!=1."""
         f = bf.dictator(5, 0)
-        assert abs(fourier_tail_L1k(f, 0)) < 1e-10
-        assert abs(fourier_tail_L1k(f, 1) - 1.0) < 1e-10
+        assert abs(fourier_level_lp_norm(f, 0)) < 1e-10
+        assert abs(fourier_level_lp_norm(f, 1) - 1.0) < 1e-10
         for k in range(2, 6):
-            assert fourier_tail_L1k(f, k) < 1e-10
+            assert fourier_level_lp_norm(f, k) < 1e-10
 
 
 class TestTheoremFive:
@@ -159,7 +150,7 @@ class TestTheoremFive:
     def test_theorem_5_bound(self, name, n, monomials, degree):
         """L_{1,1}(f) <= 4^d for degree-d F2-polynomial f."""
         f = self.create_f2_polynomial(n, monomials)
-        l11 = fourier_tail_L1k(f, 1)
+        l11 = fourier_level_lp_norm(f, 1)
         bound = 4**degree
         assert l11 <= bound + 1e-10, f"{name}: L_{{1,1}}={l11} > 4^{degree}={bound}"
 
