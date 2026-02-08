@@ -215,8 +215,6 @@ exclude = [
     ".venv",
     ".tox",
     "notebooks",
-    "BooleanFunc.py",
-    "library.py",
 ]
 
 [tool.coverage.run]

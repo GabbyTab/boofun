@@ -28,10 +28,11 @@ class TestConversionCost:
     """Test ConversionCost class."""
 
     def test_cost_creation(self):
-        """ConversionCost should be creatable."""
+        """ConversionCost should be creatable with correct attributes."""
         cost = ConversionCost(time_complexity=1.0, space_complexity=2.0)
 
-        assert cost is not None
+        assert cost.time_complexity == 1.0
+        assert cost.space_complexity == 2.0
 
     def test_cost_attributes(self):
         """ConversionCost should have time and space complexity."""
@@ -62,13 +63,14 @@ class TestConversionEdge:
     """Test ConversionEdge class."""
 
     def test_edge_creation(self):
-        """ConversionEdge should be creatable."""
+        """ConversionEdge should store source, target, and cost."""
         cost = ConversionCost(time_complexity=1.0, space_complexity=1.0)
         edge = ConversionEdge(
             source="truth_table", target="fourier", cost=cost, converter=lambda x: x
         )
 
-        assert edge is not None
+        assert edge.source == "truth_table"
+        assert edge.target == "fourier"
 
     def test_edge_attributes(self):
         """ConversionEdge should have expected attributes."""
@@ -79,7 +81,7 @@ class TestConversionEdge:
 
         assert edge.source == "truth_table"
         assert edge.target == "fourier"
-        assert edge.cost is not None
+        assert edge.cost is cost
 
 
 class TestConversionPath:
@@ -94,7 +96,8 @@ class TestConversionPath:
 
         path = ConversionPath(edges=[edge])
 
-        assert path is not None
+        assert path.source == "truth_table"
+        assert path.target == "fourier"
 
     def test_path_edges(self):
         """ConversionPath should have edges."""
@@ -111,10 +114,11 @@ class TestConversionGraph:
     """Test ConversionGraph class."""
 
     def test_graph_creation(self):
-        """ConversionGraph should be creatable."""
+        """ConversionGraph should initialise with default edges."""
         graph = ConversionGraph()
 
-        assert graph is not None
+        assert isinstance(graph, ConversionGraph)
+        assert len(graph.edges) > 0
 
     def test_graph_add_conversion(self):
         """Should be able to add conversions to graph."""
@@ -153,7 +157,6 @@ class TestGetConversionGraph:
         """get_conversion_graph should return a graph."""
         graph = get_conversion_graph()
 
-        assert graph is not None
         assert isinstance(graph, ConversionGraph)
 
     def test_global_graph_singleton(self):
@@ -251,7 +254,7 @@ class TestConversionGraphIntegration:
 
         # Getting different representations should work
         tt = f.get_representation("truth_table")
-        assert tt is not None
+        assert list(tt) == [0, 0, 0, 1, 0, 1, 1, 1]
 
         fourier = f.fourier()
         assert len(fourier) == 8

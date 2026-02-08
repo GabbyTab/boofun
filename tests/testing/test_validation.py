@@ -236,14 +236,15 @@ class TestTestRepresentation:
         """validate_representation function should exist and be callable."""
         assert callable(validate_representation)
 
-    def validate_representation_basic(self):
+    def test_validate_representation_basic(self):
         """validate_representation should work with a representation."""
         f = bf.majority(3)
 
         try:
             rep = f.get_representation("truth_table")
             result = validate_representation(rep, n_vars=3)
-            assert result is not None or result is None  # Just check it runs
+            # Result should be a meaningful validation outcome (bool, dict, etc.)
+            assert result is not None
         except (ImportError, AttributeError, TypeError):
             pytest.skip("Representation testing has different API")
 

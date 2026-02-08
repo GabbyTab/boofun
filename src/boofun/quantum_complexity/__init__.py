@@ -1,16 +1,21 @@
 """
-Classical simulation of quantum query models for Boolean functions.
+Classical estimation of quantum query complexity bounds for Boolean functions.
 
-.. warning:: **Experimental playground — API will change**
+.. warning:: **Experimental — NOT part of the stable public API**
 
-   This module is an **exploratory sandbox** for thinking about quantum
-   query complexity in the context of Boolean function analysis. It is
-   *not* a finished feature. The API is unstable, the scope is still
-   being figured out, and everything here may be reorganized, expanded,
-   or removed in a future release.
+   This module is **not exported** from the top-level ``boofun`` package.
+   Import it explicitly if you want to use it::
+
+       from boofun.quantum_complexity import QuantumComplexityAnalyzer
+
+   It is an **exploratory sandbox** for thinking about quantum query
+   complexity in the context of Boolean function analysis.  It is *not*
+   a finished feature.  The API is unstable, the scope is still being
+   figured out, and everything here may be reorganized, expanded, or
+   removed in a future release.
 
    **Everything runs on a classical CPU.** There is no quantum hardware
-   or quantum simulator involved. The functions compute closed-form
+   or quantum simulator involved.  The functions compute closed-form
    formulas from textbooks (Grover iteration counts, quantum walk hitting
    times, etc.) — useful for building intuition, but not a substitute
    for actual quantum simulation.

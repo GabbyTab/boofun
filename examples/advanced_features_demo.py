@@ -145,13 +145,12 @@ def demo_gpu_acceleration():
     print("\n[PERF] GPU Acceleration Demo")
     print("=" * 50)
 
-    from boofun.core.gpu_acceleration import get_gpu_info, is_gpu_available
+    from boofun.core.gpu import get_gpu_info, is_gpu_available
 
     # Check GPU availability
     gpu_info = get_gpu_info()
     print(f"GPU Available: {gpu_info['gpu_available']}")
-    print(f"Active Backend: {gpu_info['active_backend']}")
-    print(f"Available Backends: {gpu_info['available_backends']}")
+    print(f"Backend: {gpu_info['backend']}")
 
     if gpu_info["devices"]:
         print(f"GPU Devices:")
@@ -345,10 +344,12 @@ def demo_quantum_complexity():
     print("1. Grover's Algorithm Complexity Bounds:")
     for name, f in [("AND_4", bf.AND(4)), ("OR_4", bf.OR(4))]:
         result = grover_speedup(f)
-        print(f"  {name}: {result['speedup']:.2f}x speedup "
-              f"({result['num_solutions']} solutions, "
-              f"{result['grover_queries']:.1f} Grover queries vs "
-              f"{result['classical_queries']:.0f} classical)")
+        print(
+            f"  {name}: {result['speedup']:.2f}x speedup "
+            f"({result['num_solutions']} solutions, "
+            f"{result['grover_queries']:.1f} Grover queries vs "
+            f"{result['classical_queries']:.0f} classical)"
+        )
 
     # Quantum walk bounds
     print("\n2. Quantum Walk Complexity Bounds (Szegedy 2004):")
@@ -373,8 +374,7 @@ def demo_quantum_complexity():
     amp = analyzer.grover_amplitude_analysis()
     print(f"  Optimal iterations: {amp['optimal_iterations']}")
     for step in amp["evolution"][:5]:
-        print(f"    k={step['iteration']}: "
-              f"P(success) = {step['success_probability']:.4f}")
+        print(f"    k={step['iteration']}: " f"P(success) = {step['success_probability']:.4f}")
 
 
 def demo_comprehensive_analysis():

@@ -45,6 +45,7 @@ from .core.adapters import (
 from .core.builtins import BooleanFunctionBuiltins
 from .core.io import load, save
 from .core.partial import PartialBooleanFunction
+from .core.spaces import Measure
 
 # Exception hierarchy for structured error handling
 from .utils.exceptions import (
@@ -370,18 +371,10 @@ try:
 except ImportError:
     HAS_VISUALIZATION = False
 
-try:
-    from .quantum_complexity import (  # noqa: F401
-        QuantumComplexityAnalyzer,
-        create_complexity_analyzer,
-        # Deprecated aliases for backwards compatibility
-        QuantumBooleanFunction,
-        create_quantum_boolean_function,
-    )
-
-    HAS_QUANTUM = True
-except ImportError:
-    HAS_QUANTUM = False
+# quantum_complexity is NOT re-exported here.  It is an experimental module
+# that computes classical estimates of quantum complexity bounds.  Users who
+# want it should import directly:
+#     from boofun.quantum_complexity import QuantumComplexityAnalyzer
 
 # Version information
 __version__ = "1.2.0"
@@ -498,6 +491,7 @@ __all__ = [
     "adapt_numpy_function",
     # Core utilities
     "Space",
+    "Measure",
     "Property",
     "ExactErrorModel",
     "PACErrorModel",
@@ -528,12 +522,3 @@ if HAS_FAMILIES:
 
 if HAS_VISUALIZATION:
     __all__.append("BooleanFunctionVisualizer")
-
-if HAS_QUANTUM:
-    __all__.extend([
-        "QuantumComplexityAnalyzer",
-        "create_complexity_analyzer",
-        # Deprecated aliases
-        "QuantumBooleanFunction",
-        "create_quantum_boolean_function",
-    ])

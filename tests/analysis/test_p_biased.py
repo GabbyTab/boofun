@@ -192,15 +192,16 @@ class TestPBiasedInfluence:
         assert abs(influences[1] - influences[2]) < 1e-6
 
     def test_dictator_influence(self):
-        """Dictator has non-uniform influence distribution."""
+        """Dictator has influence 1 on its variable, 0 on others."""
         f = bf.dictator(3, i=0)
 
         influences = [p_biased_influence(f, i, p=0.5) for i in range(3)]
 
-        # At least one variable should have positive influence
-        # (the dictator variable)
-        total = sum(influences)
-        assert total >= 0
+        # At p=0.5 (uniform), dictator on variable 0: Inf_0 = 1, Inf_1 = Inf_2 = 0
+        assert abs(influences[0] - 1.0) < 1e-10
+        assert abs(influences[1]) < 1e-10
+        assert abs(influences[2]) < 1e-10
+        assert abs(sum(influences) - 1.0) < 1e-10
 
 
 class TestPBiasedTotalInfluence:
@@ -285,20 +286,22 @@ class TestPBiasedAnalyzer:
         assert isinstance(exp, float)
 
     def test_variance(self):
-        """variance method works."""
+        """AND(3) at p=0.5 has computable variance."""
         f = bf.AND(3)
         analyzer = PBiasedAnalyzer(f, p=0.5)
 
         var = analyzer.variance()
-        assert var >= 0
+        # Variance must be non-negative, and for AND(3) it's non-trivial
+        assert var > 0
 
     def test_influence(self):
-        """influence method works."""
+        """OR(3) influence at p=0.5: each variable has influence 1/4 by symmetry."""
         f = bf.OR(3)
         analyzer = PBiasedAnalyzer(f, p=0.5)
 
         inf = analyzer.influence(0)
-        assert inf >= 0
+        # OR(3) at uniform: Inf_i = Pr[x_i is pivotal] = (1/2)^(n-1) = 1/4
+        assert abs(inf - 0.25) < 1e-10
 
     def test_influences(self):
         """influences method returns list."""
@@ -309,12 +312,13 @@ class TestPBiasedAnalyzer:
         assert len(infs) == 3
 
     def test_total_influence(self):
-        """total_influence method works."""
+        """total_influence of parity(n) at p=0.5 equals n."""
         f = bf.parity(4)
         analyzer = PBiasedAnalyzer(f, p=0.5)
 
         total = analyzer.total_influence()
-        assert total >= 0
+        # Parity(n) at uniform measure: every variable has influence 1, total = n
+        assert abs(total - 4.0) < 1e-10
 
     def test_noise_stability(self):
         """noise_stability method works."""
@@ -325,21 +329,22 @@ class TestPBiasedAnalyzer:
         assert isinstance(stab, float)
 
     def test_spectral_norm(self):
-        """spectral_norm method works."""
+        """Parity(3) has all weight at degree 3, zero at degree 1."""
         f = bf.parity(3)
         analyzer = PBiasedAnalyzer(f, p=0.5)
 
         norm = analyzer.spectral_norm(level=1)
-        assert norm >= 0
+        # Parity has all Fourier weight on the top coefficient; level 1 weight is 0
+        assert abs(norm) < 1e-10
 
     def test_max_influence(self):
-        """max_influence method returns (index, value)."""
+        """Dictator(3, i=1) max influence is variable 1 with value 1."""
         f = bf.dictator(3, i=1)
         analyzer = PBiasedAnalyzer(f, p=0.5)
 
         idx, val = analyzer.max_influence()
-        assert 0 <= idx < 3
-        assert val >= 0
+        assert idx == 1
+        assert abs(val - 1.0) < 1e-10
 
     def test_summary(self):
         """summary method returns string."""
@@ -362,7 +367,8 @@ class TestOnBuiltinFunctions:
         assert isinstance(exp, float)
 
         total_inf = p_biased_total_influence(f, p=0.5)
-        assert total_inf >= 0
+        # Tribes is non-trivial; total influence must be strictly positive
+        assert total_inf > 0
 
     def test_threshold(self):
         """p-biased analysis on threshold function."""
@@ -390,11 +396,12 @@ class TestEdgeCases:
         assert exp_low != exp_high
 
     def test_single_variable(self):
-        """Works with single variable."""
+        """Parity(1) = identity: influence 1, balanced expectation."""
         f = bf.parity(1)
 
         exp = p_biased_expectation(f, p=0.5)
         assert isinstance(exp, float)
 
         inf = p_biased_influence(f, 0, p=0.5)
-        assert inf >= 0
+        # Parity(1) is the identity function; its single variable has influence 1
+        assert abs(inf - 1.0) < 1e-10

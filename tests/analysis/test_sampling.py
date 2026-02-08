@@ -392,9 +392,9 @@ class TestRandomVariableView:
 
         Var = rv.variance()
 
-        # XOR is ±1-valued and balanced, so Var = 1 - E[f]² = 1 - 0 = 1
-        # But in our convention... let's just check it's positive
-        assert Var >= 0
+        # XOR is balanced: E[f]=0 in ±1 convention.
+        # For a balanced ±1 function, Var = E[f²] - E[f]² = 1 - 0 = 1
+        assert abs(Var - 1.0) < 1e-10
 
     def test_exact_total_influence(self):
         """Exact total influence matches."""

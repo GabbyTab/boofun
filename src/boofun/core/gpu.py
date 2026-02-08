@@ -1,45 +1,60 @@
 """
-GPU Acceleration for Boolean Function Operations.
+GPU acceleration for Boolean function operations.
 
-This module provides GPU-accelerated implementations of computationally
-intensive operations using CuPy. Falls back to NumPy when CuPy is unavailable.
+Provides CuPy-accelerated implementations of computationally intensive
+operations with automatic fallback to NumPy on CPU.
 
-Key accelerated operations:
+Accelerated operations:
 - Walsh-Hadamard Transform (WHT)
-- Influence computation
+- Influence computation from Fourier coefficients
 - Noise stability computation
-- Large truth table operations
+- Spectral weight by degree
+- Batch truth table / Fourier evaluation
 
-Usage:
-    from boofun.core.gpu import gpu_wht, is_gpu_available
+Usage::
+
+    from boofun.core.gpu import is_gpu_available, gpu_walsh_hadamard
 
     if is_gpu_available():
-        fourier = gpu_wht(truth_table_pm)
-    else:
-        # Fallback to CPU
-        fourier = cpu_wht(truth_table_pm)
+        fourier = gpu_walsh_hadamard(truth_table_pm)
+
+Install CuPy for GPU support::
+
+    pip install cupy-cuda12x   # adjust for your CUDA version
+
+.. note::
+    This module was consolidated from ``gpu.py`` and ``gpu_acceleration.py``
+    in v1.3.0.  The old ``gpu_acceleration`` module is removed; all public
+    names are available here.
 """
 
 import warnings
-from typing import Any, Optional, Union
+from typing import Any, Dict, Optional, Tuple, Union
 
 import numpy as np
 
-# Try to import CuPy
+# ---------------------------------------------------------------------------
+# CuPy import with graceful fallback
+# ---------------------------------------------------------------------------
 try:
     import cupy as cp
 
     CUPY_AVAILABLE = cp.cuda.is_available()
 except ImportError:
-    cp = None
+    cp = None  # type: ignore[assignment]
     CUPY_AVAILABLE = False
 
-# Module-level flag to enable/disable GPU
+# Runtime toggle
 _GPU_ENABLED = CUPY_AVAILABLE
 
 
+# ---------------------------------------------------------------------------
+# Availability helpers
+# ---------------------------------------------------------------------------
+
+
 def is_gpu_available() -> bool:
-    """Check if GPU acceleration is available."""
+    """Check if GPU acceleration is available (CuPy + working CUDA)."""
     return CUPY_AVAILABLE
 
 
@@ -49,50 +64,114 @@ def is_gpu_enabled() -> bool:
 
 
 def enable_gpu(enable: bool = True) -> None:
-    """Enable or disable GPU acceleration."""
+    """Enable or disable GPU acceleration at runtime."""
     global _GPU_ENABLED
     if enable and not CUPY_AVAILABLE:
-        warnings.warn("CuPy not available - GPU acceleration cannot be enabled")
+        warnings.warn("CuPy not available -- GPU acceleration cannot be enabled")
         return
     _GPU_ENABLED = enable
 
 
-def get_array_module(arr: Union[np.ndarray, "cp.ndarray"]) -> Any:
+def get_gpu_info() -> Dict[str, Any]:
+    """Return information about available GPU resources."""
+    info: Dict[str, Any] = {
+        "gpu_available": CUPY_AVAILABLE,
+        "gpu_enabled": is_gpu_enabled(),
+        "backend": "cupy" if CUPY_AVAILABLE else None,
+        "devices": [],
+    }
+    if CUPY_AVAILABLE:
+        try:
+            count = cp.cuda.runtime.getDeviceCount()
+            for i in range(count):
+                props = cp.cuda.runtime.getDeviceProperties(i)
+                info["devices"].append(
+                    {
+                        "id": i,
+                        "name": props["name"].decode("utf-8"),
+                        "memory_gb": props["totalGlobalMem"] / (1024**3),
+                        "compute_capability": f"{props['major']}.{props['minor']}",
+                    }
+                )
+        except Exception:
+            pass
+    return info
+
+
+def should_use_gpu(operation: str, data_size: int, n_vars: int) -> bool:
+    """
+    Heuristic: should we use GPU for this operation?
+
+    Args:
+        operation: One of 'truth_table', 'fourier', 'walsh_hadamard', 'wht',
+                   'influences', etc.
+        data_size: Number of elements in the input.
+        n_vars: Number of Boolean variables.
+
+    Returns:
+        True if GPU acceleration is recommended.
+    """
+    if not is_gpu_enabled():
+        return False
+
+    if operation in ("truth_table", "truth_table_batch"):
+        return data_size > 10_000
+    if operation == "fourier":
+        return data_size > 5_000 or (2**n_vars) > 1_000
+    if operation in ("walsh_hadamard", "wht"):
+        return n_vars > 10 or data_size > 2_000
+    # Default: GPU for large data
+    return data_size > 10_000
+
+
+# ---------------------------------------------------------------------------
+# Array transfer helpers
+# ---------------------------------------------------------------------------
+
+
+def get_array_module(arr: Union[np.ndarray, Any]) -> Any:
     """Get the array module (numpy or cupy) for the given array."""
     if CUPY_AVAILABLE and isinstance(arr, cp.ndarray):
         return cp
     return np
 
 
-def to_gpu(arr: np.ndarray) -> Union[np.ndarray, "cp.ndarray"]:
-    """Move array to GPU if available and enabled."""
+def to_gpu(arr: np.ndarray) -> Union[np.ndarray, Any]:
+    """Move *arr* to GPU memory if available and enabled."""
     if is_gpu_enabled():
         return cp.asarray(arr)
     return arr
 
 
-def to_cpu(arr: Union[np.ndarray, "cp.ndarray"]) -> np.ndarray:
-    """Move array to CPU."""
+def to_cpu(arr: Union[np.ndarray, Any]) -> np.ndarray:
+    """Move *arr* to CPU memory."""
     if CUPY_AVAILABLE and isinstance(arr, cp.ndarray):
         return cp.asnumpy(arr)
-    return arr
+    return np.asarray(arr)
+
+
+# ---------------------------------------------------------------------------
+# Core accelerated operations
+# ---------------------------------------------------------------------------
 
 
 def gpu_walsh_hadamard(values: np.ndarray, in_place: bool = False) -> np.ndarray:
     """
-    GPU-accelerated Walsh-Hadamard Transform.
+    Walsh-Hadamard Transform with optional GPU acceleration.
 
-    Computes the WHT in O(n * 2^n) time using GPU parallelism.
+    When CuPy is available and enabled the iterative butterfly is run on GPU;
+    otherwise delegates to the CPU ``fast_walsh_hadamard`` in *optimizations*.
 
     Args:
-        values: Array of 2^n values in ±1 representation
-        in_place: If True, modify input array (saves memory)
+        values: Array of 2^n values in +/-1 representation.
+        in_place: Modify *values* in place (saves memory on CPU path).
 
     Returns:
-        WHT result (unnormalized, on CPU)
+        WHT result (normalised, on CPU).
     """
-    # Always use the CPU implementation for now
-    # GPU implementation requires careful CUDA kernel design for efficiency
+    if is_gpu_enabled():
+        return _gpu_wht_cupy(values)
+
     from .optimizations import fast_walsh_hadamard
 
     if in_place:
@@ -100,56 +179,54 @@ def gpu_walsh_hadamard(values: np.ndarray, in_place: bool = False) -> np.ndarray
     return fast_walsh_hadamard(values.copy())
 
 
+def _gpu_wht_cupy(values: np.ndarray) -> np.ndarray:
+    """Iterative Walsh-Hadamard butterfly on GPU via CuPy."""
+    n_vars = int(np.log2(len(values)))
+    d = cp.asarray(values, dtype=cp.float64)
+
+    for i in range(n_vars):
+        step = 1 << i
+        for j in range(0, len(d), step * 2):
+            u = d[j : j + step].copy()
+            v = d[j + step : j + 2 * step].copy()
+            d[j : j + step] = u + v
+            d[j + step : j + 2 * step] = u - v
+
+    d /= len(values)
+    return cp.asnumpy(d)
+
+
 def gpu_influences(fourier_coeffs: np.ndarray, n_vars: Optional[int] = None) -> np.ndarray:
     """
-    GPU-accelerated influence computation from Fourier coefficients.
+    Influence computation: Inf_i[f] = sum_{S containing i} f_hat(S)^2.
 
-    Inf_i[f] = Σ_{S∋i} f̂(S)²
-
-    Args:
-        fourier_coeffs: Fourier coefficients array
-        n_vars: Number of variables (inferred from array size if not provided)
-
-    Returns:
-        Array of influences (one per variable)
+    Uses GPU when enabled, otherwise falls back to CPU vectorised code.
     """
     size = len(fourier_coeffs)
     if n_vars is None:
         n_vars = int(np.log2(size))
 
     if not is_gpu_enabled():
-        # Fallback to CPU
         from .optimizations import vectorized_influences_from_fourier
 
         return vectorized_influences_from_fourier(fourier_coeffs, n_vars)
 
-    # Move to GPU
-    d_coeffs = cp.asarray(fourier_coeffs, dtype=cp.float64)
-    d_squared = d_coeffs**2
-
-    # Compute influences using GPU parallelism
-    d_influences = cp.zeros(n_vars, dtype=cp.float64)
+    d_squared = cp.asarray(fourier_coeffs, dtype=cp.float64) ** 2
+    influences = cp.zeros(n_vars, dtype=cp.float64)
+    indices = cp.arange(size)
 
     for i in range(n_vars):
-        # Create mask for subsets containing variable i
-        mask = (cp.arange(size) >> i) & 1
-        d_influences[i] = cp.sum(d_squared * mask)
+        mask = (indices >> i) & 1
+        influences[i] = cp.sum(d_squared * mask)
 
-    return cp.asnumpy(d_influences)
+    return cp.asnumpy(influences)
 
 
 def gpu_noise_stability(fourier_coeffs: np.ndarray, rho: float) -> float:
     """
-    GPU-accelerated noise stability computation.
+    Noise stability: Stab_rho[f] = sum_S rho^|S| f_hat(S)^2.
 
-    Stab_ρ[f] = Σ_S ρ^|S| · f̂(S)²
-
-    Args:
-        fourier_coeffs: Fourier coefficients array
-        rho: Correlation parameter
-
-    Returns:
-        Noise stability value
+    Uses GPU when enabled, otherwise falls back to CPU.
     """
     if not is_gpu_enabled():
         from .optimizations import noise_stability_from_fourier
@@ -157,151 +234,153 @@ def gpu_noise_stability(fourier_coeffs: np.ndarray, rho: float) -> float:
         return noise_stability_from_fourier(fourier_coeffs, rho)
 
     size = len(fourier_coeffs)
+    d_squared = cp.asarray(fourier_coeffs, dtype=cp.float64) ** 2
 
-    # Move to GPU
-    d_coeffs = cp.asarray(fourier_coeffs, dtype=cp.float64)
-    d_squared = d_coeffs**2
-
-    # Compute subset sizes using popcount
-    d_indices = cp.arange(size)
-    # CuPy doesn't have built-in popcount, use a workaround
-    d_sizes = cp.zeros(size, dtype=cp.int32)
-    temp = d_indices.copy()
+    # Popcount via bit-stripping
+    indices = cp.arange(size, dtype=cp.int64)
+    sizes = cp.zeros(size, dtype=cp.int32)
+    temp = indices.copy()
     while cp.any(temp > 0):
-        d_sizes += (temp & 1).astype(cp.int32)
+        sizes += (temp & 1).astype(cp.int32)
         temp >>= 1
 
-    # Compute ρ^|S| for each subset
-    d_rho_powers = cp.power(rho, d_sizes.astype(cp.float64))
-
-    # Dot product
-    result = float(cp.dot(d_rho_powers, d_squared))
-
-    return result
+    rho_powers = cp.power(float(rho), sizes.astype(cp.float64))
+    return float(cp.dot(rho_powers, d_squared))
 
 
 def gpu_spectral_weight_by_degree(fourier_coeffs: np.ndarray) -> np.ndarray:
     """
-    GPU-accelerated spectral weight computation by degree.
+    Spectral weight by degree: W^{=k}[f] = sum_{|S|=k} f_hat(S)^2.
 
-    W^{=k}[f] = Σ_{|S|=k} f̂(S)²
-
-    Args:
-        fourier_coeffs: Fourier coefficients array
-
-    Returns:
-        Array of weights W^{=0}, W^{=1}, ..., W^{=n}
+    Uses GPU when enabled, otherwise falls back to CPU.
     """
     size = len(fourier_coeffs)
     n = int(np.log2(size))
 
     if not is_gpu_enabled():
-        # CPU fallback
         weights = np.zeros(n + 1)
         for s in range(size):
             k = bin(s).count("1")
             weights[k] += fourier_coeffs[s] ** 2
         return weights
 
-    # Move to GPU
-    d_coeffs = cp.asarray(fourier_coeffs, dtype=cp.float64)
-    d_squared = d_coeffs**2
-
-    # Compute subset sizes
-    d_indices = cp.arange(size)
-    d_sizes = cp.zeros(size, dtype=cp.int32)
-    temp = d_indices.copy()
+    d_squared = cp.asarray(fourier_coeffs, dtype=cp.float64) ** 2
+    indices = cp.arange(size, dtype=cp.int64)
+    sizes = cp.zeros(size, dtype=cp.int32)
+    temp = indices.copy()
     while cp.any(temp > 0):
-        d_sizes += (temp & 1).astype(cp.int32)
+        sizes += (temp & 1).astype(cp.int32)
         temp >>= 1
 
-    # Sum by degree
-    d_weights = cp.zeros(n + 1, dtype=cp.float64)
+    weights = cp.zeros(n + 1, dtype=cp.float64)
     for k in range(n + 1):
-        mask = d_sizes == k
-        d_weights[k] = cp.sum(d_squared * mask)
+        weights[k] = cp.sum(d_squared[sizes == k])
 
-    return cp.asnumpy(d_weights)
+    return cp.asnumpy(weights)
+
+
+# ---------------------------------------------------------------------------
+# Batch evaluation (migrated from gpu_acceleration.py)
+# ---------------------------------------------------------------------------
+
+
+def gpu_accelerate(operation: str, *args: Any, **kwargs: Any) -> np.ndarray:
+    """
+    Run a named operation on GPU if available, otherwise raise.
+
+    Supported operations:
+    - ``truth_table_batch``: args = (inputs, truth_table)
+    - ``fourier_batch``: args = (inputs, coefficients)
+    - ``walsh_hadamard``: args = (function_values,)
+    """
+    if not is_gpu_enabled():
+        raise RuntimeError("GPU acceleration is not available")
+
+    if operation == "truth_table_batch":
+        inputs, truth_table = args[:2]
+        d_inputs = cp.asarray(inputs)
+        d_tt = cp.asarray(truth_table)
+        return cp.asnumpy(d_tt[d_inputs])
+
+    if operation == "fourier_batch":
+        inputs, coefficients = args[:2]
+        # Delegate to CPU -- the custom CUDA kernel is fragile and the
+        # element-wise Python fallback is slower than NumPy.  GPU Fourier
+        # batch evaluation can be added back when a proper kernel is tested.
+        from .representations.fourier_expansion import FourierExpansionRepresentation
+
+        rep = FourierExpansionRepresentation()
+        return rep._evaluate_batch(inputs, coefficients)
+
+    if operation == "walsh_hadamard":
+        return gpu_walsh_hadamard(args[0])
+
+    raise ValueError(f"Unknown GPU operation: {operation}")
+
+
+# ---------------------------------------------------------------------------
+# High-level wrapper
+# ---------------------------------------------------------------------------
 
 
 class GPUBooleanFunctionOps:
     """
-    GPU-accelerated operations for Boolean functions.
+    GPU-accelerated operations for a single Boolean function.
 
-    Provides a high-level interface for GPU acceleration.
+    Wraps a truth table and caches the Fourier transform.
     """
 
-    def __init__(self, truth_table: np.ndarray):
-        """
-        Initialize with a truth table.
-
-        Args:
-            truth_table: Boolean truth table (0/1 values)
-        """
+    def __init__(self, truth_table: np.ndarray) -> None:
         self.truth_table = np.asarray(truth_table)
         self.n = int(np.log2(len(self.truth_table)))
         self._fourier_cache: Optional[np.ndarray] = None
 
     @property
     def pm_values(self) -> np.ndarray:
-        """Convert to ±1 representation.
-
-        O'Donnell convention (Analysis of Boolean Functions, Chapter 1):
-        Boolean 0 → +1, Boolean 1 → -1
-        This matches the library's SpectralAnalyzer convention.
-        """
+        """±1 representation (O'Donnell convention: 0->+1, 1->-1)."""
         return 1.0 - 2.0 * self.truth_table.astype(float)
 
     def fourier(self) -> np.ndarray:
-        """Compute Fourier coefficients using GPU if available."""
         if self._fourier_cache is None:
-            pm = self.pm_values
-            # fast_walsh_hadamard already normalizes by default
-            self._fourier_cache = gpu_walsh_hadamard(pm)
+            self._fourier_cache = gpu_walsh_hadamard(self.pm_values)
         return self._fourier_cache
 
     def influences(self) -> np.ndarray:
-        """Compute influences using GPU if available."""
         return gpu_influences(self.fourier())
 
     def total_influence(self) -> float:
-        """Compute total influence."""
         return float(np.sum(self.influences()))
 
     def noise_stability(self, rho: float) -> float:
-        """Compute noise stability using GPU if available."""
         return gpu_noise_stability(self.fourier(), rho)
 
     def spectral_weights(self) -> np.ndarray:
-        """Compute spectral weights by degree using GPU if available."""
         return gpu_spectral_weight_by_degree(self.fourier())
 
 
-# Convenience function for automatic GPU usage
-def auto_accelerate(func):
-    """
-    Decorator to automatically use GPU when beneficial.
+# ---------------------------------------------------------------------------
+# Convenience decorator
+# ---------------------------------------------------------------------------
 
-    Uses GPU for arrays larger than a threshold (2^14 = 16384 elements).
-    """
+
+def auto_accelerate(func):  # type: ignore[no-untyped-def]
+    """Decorator: route to GPU for arrays >= 2^14 elements."""
     threshold = 2**14
 
-    def wrapper(arr, *args, **kwargs):
+    def wrapper(arr, *args, **kwargs):  # type: ignore[no-untyped-def]
         if is_gpu_enabled() and len(arr) >= threshold:
-            # Use GPU
             result = func(to_gpu(arr), *args, **kwargs)
             return to_cpu(result) if hasattr(result, "__len__") else result
-        else:
-            # Use CPU
-            return func(arr, *args, **kwargs)
+        return func(arr, *args, **kwargs)
 
     return wrapper
 
 
-# Export GPU status at module load
+# ---------------------------------------------------------------------------
+# Validate GPU access at import time
+# ---------------------------------------------------------------------------
 if CUPY_AVAILABLE:
     try:
-        # Test GPU access
         _test = cp.zeros(1)
         del _test
     except Exception as e:

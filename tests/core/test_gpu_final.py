@@ -72,42 +72,25 @@ class TestGPUModule:
         assert len(result) == 2**n
 
 
-class TestGPUAccelerationModule:
-    """Test gpu_acceleration.py module."""
+class TestGPUModuleConsolidated:
+    """Test consolidated gpu.py module (formerly gpu_acceleration)."""
 
     def test_module_imports(self):
         """Module should import."""
-        from boofun.core import gpu_acceleration
+        from boofun.core import gpu
 
-        assert gpu_acceleration is not None
+        assert gpu is not None
 
-    def test_gpu_manager(self):
-        """Test GPUManager class."""
-        from boofun.core.gpu_acceleration import GPUManager
-        from boofun.utils.exceptions import ResourceUnavailableError
+    def test_gpu_availability(self):
+        """Test GPU availability check."""
+        from boofun.core.gpu import is_gpu_available
 
-        try:
-            manager = GPUManager()
-            assert manager is not None
-            # Check for actual GPUManager methods
-            assert hasattr(manager, "is_gpu_available")
-            assert hasattr(manager, "should_use_gpu")
-        except ResourceUnavailableError:
-            pass  # Expected when GPU not available
-        except ImportError:
-            pass  # CuPy not installed
-
-    def test_accelerator_classes(self):
-        """Test accelerator classes exist."""
-        from boofun.core.gpu_acceleration import CuPyAccelerator, GPUAccelerator, NumbaAccelerator
-
-        assert GPUAccelerator is not None
-        assert CuPyAccelerator is not None
-        assert NumbaAccelerator is not None
+        result = is_gpu_available()
+        assert isinstance(result, bool)
 
     def test_should_use_gpu(self):
         """Test GPU decision function."""
-        from boofun.core.gpu_acceleration import should_use_gpu
+        from boofun.core.gpu import should_use_gpu
 
         for size in [8, 64, 256, 1024]:
             result = should_use_gpu("wht", size, 3)
@@ -115,10 +98,12 @@ class TestGPUAccelerationModule:
 
     def test_get_gpu_info(self):
         """Test GPU info function."""
-        from boofun.core.gpu_acceleration import get_gpu_info
+        from boofun.core.gpu import get_gpu_info
 
         info = get_gpu_info()
         assert isinstance(info, dict)
+        assert "gpu_available" in info
+        assert "backend" in info
 
 
 class TestQuantumComplexityModuleMore:

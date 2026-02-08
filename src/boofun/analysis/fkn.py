@@ -12,15 +12,30 @@ References:
 
 from typing import TYPE_CHECKING, Any, Dict, Tuple
 
+from ..utils.exceptions import InvalidInputError
+
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
+
+
+def _require_n_vars(f: "BooleanFunction") -> int:
+    """Return n_vars or raise if unknown."""
+    n = f.n_vars
+    if n is None:
+        raise InvalidInputError("BooleanFunction must have a known n_vars")
+    return n
 
 
 def distance_to_dictator(f: "BooleanFunction", i: int) -> float:
     """
     Compute distance of f to the i-th dictator function.
 
-    Distance = Pr[f(x) ≠ x_i] = (1 - f̂({i})) / 2
+    In the ±1 domain, the i-th dictator is chi_i(x) = (-1)^{x_i}.
+    The distance (fraction of disagreeing inputs) is:
+
+        Pr[f(x) ≠ x_i] = (1 - f̂({i})) / 2
+
+    where f̂({i}) is the Fourier coefficient on the singleton {i}.
 
     Args:
         f: Boolean function
@@ -29,29 +44,25 @@ def distance_to_dictator(f: "BooleanFunction", i: int) -> float:
     Returns:
         Fraction of inputs where f differs from dictator on x_i
     """
+    n = _require_n_vars(f)
     fourier = f.fourier()
-    n = f.n_vars
-    assert n is not None
 
-    # Dictator has f̂({i}) = ±1, all others 0
-    # Distance = (1 - |f̂({i})|) / 2 + sum of other coefficients
     subset_i = 1 << i
-    fourier[subset_i]
+    coeff_i = float(fourier[subset_i])
 
-    # Count disagreements directly for exact distance
-    count = 0
-    for x in range(2**n):
-        dictator_val = (x >> i) & 1
-        f_val = f.evaluate(x)
-        if f_val != dictator_val:
-            count += 1
-
-    return count / (2**n)
+    # Analytical formula: Pr[f(x) ≠ x_i] = (1 - f̂({i})) / 2
+    return (1.0 - coeff_i) / 2.0
 
 
 def distance_to_negated_dictator(f: "BooleanFunction", i: int) -> float:
     """
     Compute distance of f to the negated i-th dictator: 1 - x_i.
+
+    In the ±1 domain, the negated dictator is -chi_i(x) = -(-1)^{x_i},
+    with Fourier coefficient f̂({i}) = -1 on the singleton {i}.
+    The distance is:
+
+        Pr[f(x) ≠ NOT(x_i)] = (1 + f̂({i})) / 2
 
     Args:
         f: Boolean function
@@ -60,16 +71,14 @@ def distance_to_negated_dictator(f: "BooleanFunction", i: int) -> float:
     Returns:
         Fraction of inputs where f differs from NOT(x_i)
     """
-    n = f.n_vars
-    assert n is not None
-    count = 0
-    for x in range(2**n):
-        dictator_val = 1 - ((x >> i) & 1)  # Negated
-        f_val = f.evaluate(x)
-        if f_val != dictator_val:
-            count += 1
+    n = _require_n_vars(f)
+    fourier = f.fourier()
 
-    return count / (2**n)
+    subset_i = 1 << i
+    coeff_i = float(fourier[subset_i])
+
+    # Analytical formula: Pr[f(x) ≠ NOT(x_i)] = (1 + f̂({i})) / 2
+    return (1.0 + coeff_i) / 2.0
 
 
 def closest_dictator(f: "BooleanFunction") -> Tuple[int, float, bool]:
@@ -84,8 +93,7 @@ def closest_dictator(f: "BooleanFunction") -> Tuple[int, float, bool]:
         >>> idx, dist, neg = closest_dictator(f)
         >>> print(f"Closest to {'NOT ' if neg else ''}x_{idx}, distance={dist}")
     """
-    n = f.n_vars
-    assert n is not None
+    n = _require_n_vars(f)
     best_idx = 0
     best_dist = float("inf")
     best_negated = False
@@ -128,8 +136,7 @@ def fkn_theorem_bound(f: "BooleanFunction") -> Dict[str, Any]:
         - 'closest_dictator': (var, distance, is_negated)
         - 'is_close_to_dictator': Boolean
     """
-    n = f.n_vars
-    assert n is not None
+    n = _require_n_vars(f)
     fourier = f.fourier()
 
     # Compute spectral weights
@@ -189,9 +196,8 @@ def spectral_gap(f: "BooleanFunction") -> float:
     Returns:
         Spectral gap value in [0, 1]
     """
+    n = _require_n_vars(f)
     fourier = f.fourier()
-    n = f.n_vars
-    assert n is not None
 
     max_degree1: float = float(max(abs(fourier[1 << i]) for i in range(n)))
     return 1 - max_degree1

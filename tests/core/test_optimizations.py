@@ -315,10 +315,12 @@ class TestBatchEvaluate:
         """batch_evaluate should accept function and inputs."""
         f = bf.AND(2)
 
-        # Check it can be called (even if it errors due to implementation details)
         try:
             result = batch_evaluate(f, np.array([0]))
-            assert result is not None or result is None  # Just check it runs
+            # Result should be array-like with the expected evaluation
+            assert result is not None
+            result_arr = np.asarray(result)
+            assert len(result_arr) == 1
         except (TypeError, ValueError):
             # Acceptable if the implementation has specific requirements
             pass

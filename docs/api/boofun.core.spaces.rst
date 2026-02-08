@@ -9,3 +9,4 @@ boofun.core.spaces
    .. autosummary::
 
       Space
+      Measure

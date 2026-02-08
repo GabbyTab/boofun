@@ -21,7 +21,7 @@ from boofun.core.conversion_graph import (
     find_conversion_path,
     get_conversion_options,
 )
-from boofun.core.gpu_acceleration import get_gpu_info, is_gpu_available, should_use_gpu
+from boofun.core.gpu import get_gpu_info, is_gpu_available, should_use_gpu
 from boofun.core.numba_optimizations import get_numba_stats, is_numba_available
 
 
@@ -200,7 +200,7 @@ class TestGPUAcceleration:
         info = get_gpu_info()
         assert isinstance(info, dict)
         assert "gpu_available" in info
-        assert "active_backend" in info
+        assert "backend" in info
 
     def test_gpu_usage_heuristics(self):
         """Test GPU usage decision heuristics."""
@@ -402,17 +402,21 @@ class TestQuantumComplexityIntegration:
 
     def test_complexity_analyzer_creation(self):
         """Test creating quantum complexity analyzer."""
+        from boofun.quantum_complexity import create_complexity_analyzer
+
         xor = bf.create([False, True, True, False])
 
-        analyzer = bf.create_complexity_analyzer(xor)
+        analyzer = create_complexity_analyzer(xor)
 
         assert analyzer.function == xor
         assert analyzer.n_vars == 2
 
     def test_grover_analysis(self):
         """Test Grover complexity bound computation."""
+        from boofun.quantum_complexity import create_complexity_analyzer
+
         xor = bf.create([False, True, True, False])
-        analyzer = bf.create_complexity_analyzer(xor)
+        analyzer = create_complexity_analyzer(xor)
 
         grover_results = analyzer.grover_analysis()
 
@@ -424,8 +428,10 @@ class TestQuantumComplexityIntegration:
 
     def test_grover_amplitude_analysis(self):
         """Test Grover amplitude evolution (closed-form)."""
+        from boofun.quantum_complexity import create_complexity_analyzer
+
         xor = bf.create([False, True, True, False])
-        analyzer = bf.create_complexity_analyzer(xor)
+        analyzer = create_complexity_analyzer(xor)
 
         amplitude_results = analyzer.grover_amplitude_analysis()
 

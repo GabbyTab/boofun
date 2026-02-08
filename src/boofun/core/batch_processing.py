@@ -21,7 +21,7 @@ except ImportError:
     HAS_NUMBA = False
     warnings.warn("Numba not available - batch processing will use pure NumPy")
 
-from .gpu_acceleration import gpu_accelerate, should_use_gpu
+from .gpu import gpu_accelerate, should_use_gpu
 from .spaces import Space
 
 

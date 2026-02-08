@@ -246,6 +246,111 @@ def test_fourier_to_truth_table_conversion(tt_rep, fourier_rep):
     assert np.array_equal(truth_table, AND_TRUTH_TABLE)
 
 
+## Fourier convert_from regression tests (zero-coefficient bug) ##
+
+
+# Dictator on variable 0 for n=3: f(x) = x_0
+# In ±1 domain: f_hat({0}) = -1, all others 0
+# In {0,1} → {+1,-1} convention: truth table [0,1,0,1,0,1,0,1]
+DICTATOR_3_TRUTH_TABLE = np.array([0, 1, 0, 1, 0, 1, 0, 1])
+
+# Constant-zero function for n=2: f(x) = 0
+# In ±1 domain: all +1 → f_hat(∅) = 1, all others 0
+CONSTANT_0_TRUTH_TABLE = np.array([0, 0, 0, 0])
+
+# Constant-one function for n=2: f(x) = 1
+# In ±1 domain: all -1 → f_hat(∅) = -1, all others 0
+CONSTANT_1_TRUTH_TABLE = np.array([1, 1, 1, 1])
+
+
+def test_convert_from_length_always_2n(tt_rep, fourier_rep):
+    """convert_from must always return an array of length 2^n,
+    even when many Fourier coefficients are zero."""
+    for n_vars in [1, 2, 3]:
+        size = 2**n_vars
+        for _ in range(5):
+            tt = np.random.randint(0, 2, size=size)
+            coeffs = fourier_rep.convert_from(tt_rep, tt, space=Space.BOOLEAN_CUBE, n_vars=n_vars)
+            assert (
+                len(coeffs) == size
+            ), f"n={n_vars}: expected {size} coefficients, got {len(coeffs)}"
+
+
+def test_convert_from_dictator_has_zero_coefficients(tt_rep, fourier_rep):
+    """Dictator(3, i=0) has 7 zero Fourier coefficients.
+    The array must still have length 8."""
+    coeffs = fourier_rep.convert_from(
+        tt_rep, DICTATOR_3_TRUTH_TABLE, space=Space.BOOLEAN_CUBE, n_vars=3
+    )
+    assert len(coeffs) == 8
+    # Dictator has exactly one non-zero degree-1 coefficient
+    nonzero = [i for i in range(8) if abs(coeffs[i]) > 1e-10]
+    assert len(nonzero) == 1, f"expected 1 nonzero coeff, got {len(nonzero)}: {nonzero}"
+    # Its magnitude should be 1.0 (pure dictator)
+    assert abs(abs(coeffs[nonzero[0]]) - 1.0) < 1e-10
+
+
+def test_convert_from_constant_zero(tt_rep, fourier_rep):
+    """Constant-zero function: only f_hat(∅) is non-zero."""
+    coeffs = fourier_rep.convert_from(
+        tt_rep, CONSTANT_0_TRUTH_TABLE, space=Space.BOOLEAN_CUBE, n_vars=2
+    )
+    assert len(coeffs) == 4
+    # f_hat(∅) = E[f] in ±1 domain: all values are +1 → mean = 1.0
+    assert abs(coeffs[0] - 1.0) < 1e-10
+    assert abs(coeffs[1]) < 1e-10
+    assert abs(coeffs[2]) < 1e-10
+    assert abs(coeffs[3]) < 1e-10
+
+
+def test_convert_from_constant_one(tt_rep, fourier_rep):
+    """Constant-one function: only f_hat(∅) is non-zero."""
+    coeffs = fourier_rep.convert_from(
+        tt_rep, CONSTANT_1_TRUTH_TABLE, space=Space.BOOLEAN_CUBE, n_vars=2
+    )
+    assert len(coeffs) == 4
+    # f_hat(∅) = E[f] in ±1 domain: all values are -1 → mean = -1.0
+    assert abs(coeffs[0] - (-1.0)) < 1e-10
+    assert abs(coeffs[1]) < 1e-10
+    assert abs(coeffs[2]) < 1e-10
+    assert abs(coeffs[3]) < 1e-10
+
+
+def test_convert_from_xor_has_zero_coefficients(tt_rep, fourier_rep):
+    """XOR(2) has only one non-zero coefficient (the top one)."""
+    coeffs = fourier_rep.convert_from(tt_rep, XOR_TRUTH_TABLE, space=Space.BOOLEAN_CUBE, n_vars=2)
+    assert len(coeffs) == 4
+    # Only f_hat({0,1}) = coeff at index 3 should be non-zero
+    assert abs(coeffs[0]) < 1e-10
+    assert abs(coeffs[1]) < 1e-10
+    assert abs(coeffs[2]) < 1e-10
+    assert abs(coeffs[3]) > 0.5
+
+
+def test_convert_from_roundtrip_preserves_function(tt_rep, fourier_rep):
+    """truth_table -> fourier -> truth_table must recover original."""
+    test_cases = [
+        (2, AND_TRUTH_TABLE),
+        (2, XOR_TRUTH_TABLE),
+        (2, CONSTANT_0_TRUTH_TABLE),
+        (2, CONSTANT_1_TRUTH_TABLE),
+    ]
+    for n_vars, original_tt in test_cases:
+        fourier_coeffs = fourier_rep.convert_from(
+            tt_rep, original_tt, space=Space.BOOLEAN_CUBE, n_vars=n_vars
+        )
+        assert len(fourier_coeffs) == 2**n_vars
+
+        recovered_tt = tt_rep.convert_from(
+            fourier_rep, fourier_coeffs, space=Space.BOOLEAN_CUBE, n_vars=n_vars
+        )
+        # Compare as integers to handle bool/int dtype differences
+        assert np.array_equal(
+            np.asarray(recovered_tt, dtype=int),
+            np.asarray(original_tt, dtype=int),
+        ), f"n={n_vars}: roundtrip failed for {original_tt}"
+
+
 ## Edge Case Tests ##
 
 

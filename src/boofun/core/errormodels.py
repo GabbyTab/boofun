@@ -18,7 +18,6 @@ try:
     HAS_UNCERTAINTIES = True
 except ImportError:
     HAS_UNCERTAINTIES = False
-    warnings.warn("uncertainties library not available - some error models disabled")
 
 
 class ErrorModel(ABC):
@@ -191,7 +190,7 @@ class NoiseErrorModel(ErrorModel):
             raise ValueError("Noise rate must be in [0, 0.5]")
 
         self.noise_rate = noise_rate
-        self.rng = np.random.RandomState(random_seed)
+        self.rng = np.random.default_rng(random_seed)
         self.reliability = 1 - 2 * noise_rate  # Reliability decreases with noise
 
     def apply_error(self, result: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
@@ -241,31 +240,40 @@ class NoiseErrorModel(ErrorModel):
 
 class LinearErrorModel(ErrorModel):
     """
-    Linear error propagation model using uncertainties library.
+    Linear error propagation model using the ``uncertainties`` library.
 
-    Provides automatic differentiation-based error propagation.
+    Provides automatic-differentiation-based error propagation.
+
+    Args:
+        std_dev: Default standard deviation used by :meth:`apply_error`
+                 when no per-call value is given.
     """
 
-    def __init__(self):
+    def __init__(self, std_dev: float = 0.01):
         """Initialize linear error model."""
         if not HAS_UNCERTAINTIES:
-            raise ImportError("uncertainties library required for LinearErrorModel")
+            raise ImportError(
+                "uncertainties library required for LinearErrorModel. "
+                "Install it with: pip install uncertainties"
+            )
+        self.std_dev = std_dev
 
-    def apply_error(self, result: Any, std_dev: float = 0.01) -> Any:
+    def apply_error(self, result: Any, **kwargs: Any) -> Any:
         """
         Apply linear error propagation.
 
         Args:
-            result: Computation result
-            std_dev: Standard deviation of error
+            result: Computation result.
+            **kwargs: Optional ``std_dev`` override for this call.
 
         Returns:
-            Result with uncertainty information
+            Result with uncertainty information.
         """
+        sd = kwargs.get("std_dev", self.std_dev)
         if isinstance(result, (int, float)):
-            return ufloat(result, std_dev)
+            return ufloat(result, sd)
         elif isinstance(result, np.ndarray):
-            return unp.uarray(result, np.full_like(result, std_dev))
+            return unp.uarray(result, np.full_like(result, sd))
         else:
             return result
 

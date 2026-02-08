@@ -18,7 +18,7 @@
 
 ## What This Is
 
-A toolkit for teaching, learning, and doing research in Boolean function analysis. Fourier analysis, property testing, query complexity, hypercontractivity, pseudorandomness, and more -- with 23 interactive notebooks aligned to O'Donnell's *Analysis of Boolean Functions*.
+A toolkit for teaching, learning, and doing research in Boolean function analysis. Fourier analysis, property testing, query complexity, hypercontractivity, pseudorandomness, and more -- with 25 interactive notebooks aligned to O'Donnell's *Analysis of Boolean Functions*.
 
 Built at UC Berkeley alongside Avishay Tal's [CS 294-92](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html). Cross-validated against SageMath, Tal's toolkit, and known closed-form results.
 
@@ -170,7 +170,7 @@ Computational companion to O'Donnell's *Analysis of Boolean Functions*, followin
 </details>
 
 <details>
-<summary><strong>Supplementary Notebooks (8)</strong></summary>
+<summary><strong>Supplementary Notebooks (10)</strong></summary>
 
 | Topic | Description | Play |
 |-------|-------------|------|
@@ -182,6 +182,8 @@ Computational companion to O'Donnell's *Analysis of Boolean Functions*, followin
 | [Flexible Inputs & Oracles](https://gabbytab.github.io/boofun/notebooks/flexible_inputs_and_oracles.html) | Input formats, lazy evaluation | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/flexible_inputs_and_oracles.ipynb) |
 | [Real World Applications](https://gabbytab.github.io/boofun/notebooks/real_world_applications.html) | Cryptography, ML, voting | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/real_world_applications.ipynb) |
 | [Asymptotic Visualization](https://gabbytab.github.io/boofun/notebooks/asymptotic_visualization.html) | Growth rates and scaling | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/asymptotic_visualization.ipynb) |
+| [Error Models](https://gabbytab.github.io/boofun/notebooks/error_models.html) | PAC, noise, linear error models | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/error_models.ipynb) |
+| [GPU Performance](https://gabbytab.github.io/boofun/notebooks/gpu_performance.html) | GPU-accelerated WHT, influences (Colab GPU) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/gpu_performance.ipynb) |
 
 </details>
 

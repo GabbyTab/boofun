@@ -72,9 +72,9 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         """
 
         size = 1 << n_vars  # 2^n
-        coeffs = []
+        coeffs = np.zeros(size, dtype=float)
 
-        # Generate all input vectors x (as bits) and their integer indicesc
+        # Generate all input vectors x (as bits) and their integer indices
         x_bits = np.array([list(map(int, np.binary_repr(i, n_vars))) for i in range(size)])
         x_indices = np.arange(size, dtype=int)
 
@@ -82,7 +82,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         f_vals = source_repr.evaluate(x_indices, source_data, space, n_vars)
         f_vals = np.asarray(f_vals, dtype=float)
 
-        # Optionally map {0,1} to {1,-1} for Boolean-to-sign function conversion
+        # Map {0,1} to {1,-1} for Boolean-to-sign function conversion
         f_vals = 1 - 2 * f_vals  # Now f ∈ {1, -1}
 
         # For all subsets S ⊆ [n] (Fourier basis functions)
@@ -91,12 +91,9 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
 
             # Compute parity vector: (-1)^{x·S}
             signs = (-1) ** np.sum(x_bits[:, list(S)], axis=1)
-            coeff = np.dot(f_vals, signs) / size
+            coeffs[i] = np.dot(f_vals, signs) / size
 
-            if coeff != 0.0:
-                coeffs.append(coeff)
-
-        return np.array(coeffs)
+        return coeffs
 
     def convert_to(
         self,
@@ -143,14 +140,3 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                 else f"{num_coeffs * 8} bytes"
             ),
         }
-
-    def _compute_fourier_coeffs(
-        self,
-        source_repr: "BooleanFunctionRepresentation",
-        source_data: Any,
-        n_vars: int,
-    ) -> np.ndarray:
-        """Compute Fourier coefficients from source representation"""
-        # This should implement the Fast Fourier Transform (FFT) for Boolean functions
-        # Placeholder implementation - returns identity coefficients
-        return np.random.uniform(-1, 1, size=2**n_vars)

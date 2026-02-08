@@ -149,13 +149,18 @@ jobs:
           notebooks/lecture1_fourier_expansion.ipynb \
           notebooks/lecture2_linearity_testing.ipynb \
           notebooks/hw1_fourier_expansion.ipynb \
-          notebooks/real_world_applications.ipynb
+          notebooks/real_world_applications.ipynb \
+          notebooks/error_models.ipynb
         do
           echo "Testing: $notebook"
           jupyter nbconvert --to notebook --execute "$notebook" \
             --ExecutePreprocessor.timeout=120 \
             --output /tmp/test_output.ipynb
         done
+
+        # GPU notebook: validate syntax only (no GPU in CI)
+        echo "Syntax-checking: notebooks/gpu_performance.ipynb"
+        python -c "import json; json.load(open('notebooks/gpu_performance.ipynb'))"
 
   mutation:
     runs-on: ubuntu-latest

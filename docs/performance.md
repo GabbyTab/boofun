@@ -2,6 +2,10 @@
 
 This document describes BooFun's performance characteristics, optimization strategies, and benchmarks.
 
+## The Bottleneck: Exponential Truth Tables
+
+Most Boolean function analysis is O(2^n) or O(n * 2^n) because it touches every input. For n = 20 the truth table has ~1 million entries; for n = 25 it has ~33 million. The techniques below help push the practical limit higher.
+
 ## Quick Summary
 
 | Operation | Complexity | n=10 | n=14 | n=18 | n=20 |
@@ -13,23 +17,89 @@ This document describes BooFun's performance characteristics, optimization strat
 
 ## Optimization Tiers
 
-BooFun uses multiple optimization strategies, automatically selecting the best available:
+BooFun uses multiple optimization strategies, automatically selecting the best available.
 
 ### Tier 1: NumPy Vectorization (Default)
-- Always available
-- 10-100x faster than pure Python
-- Used for all array operations
+
+Always available. 10-100x faster than pure Python. Used for all array operations.
+
+Avoid Python-level loops over truth tables. Use `f.fourier()` (vectorised WHT) rather than iterating over inputs manually. Batch evaluation is faster than per-input calls:
+
+```python
+# Slow
+results = [f.evaluate(x) for x in range(2**n)]
+
+# Fast
+results = f.evaluate(np.arange(2**n))
+```
 
 ### Tier 2: Numba JIT Compilation (Recommended)
-- Requires: `pip install numba`
-- 2-10x faster than NumPy for iterative operations
-- JIT compilation of hot paths
-- Used for: WHT, influences, sensitivity
 
-### Tier 3: GPU Acceleration (Optional)
-- Requires: `pip install cupy-cuda11x` (match your CUDA version)
-- 10-100x faster for large n (n > 16)
-- Used for: WHT, batch operations
+Install the performance extras:
+
+```bash
+pip install boofun[performance]
+```
+
+2-10x faster than NumPy for iterative operations (WHT, influences, sensitivity). JIT compilation of hot paths, with a one-time compilation cost on first call.
+
+Check if Numba is active:
+
+```python
+from boofun.core.numba_optimizations import is_numba_available
+print(is_numba_available())
+
+# Or check which backends are in use:
+from boofun.core.optimizations import HAS_NUMBA, INFLUENCES_BACKEND
+print(f"Numba available: {HAS_NUMBA}")
+print(f"Influences backend: {INFLUENCES_BACKEND}")
+```
+
+### Tier 3: GPU Acceleration via CuPy (Optional)
+
+For n > 14, GPU parallelism can significantly accelerate spectral operations.
+
+```bash
+pip install cupy-cuda12x  # adjust for your CUDA version
+```
+
+Or on Google Colab, just select a GPU runtime.
+
+**What's accelerated:**
+
+| Operation | Module | GPU benefit threshold |
+|-----------|--------|----------------------|
+| Walsh-Hadamard Transform | `gpu.gpu_walsh_hadamard` | n > 14 |
+| Influence computation | `gpu.gpu_influences` | n > 12 |
+| Noise stability | `gpu.gpu_noise_stability` | n > 12 |
+| Spectral weight by degree | `gpu.gpu_spectral_weight_by_degree` | n > 12 |
+| Batch truth table lookup | `gpu.gpu_accelerate('truth_table_batch', ...)` | > 10K inputs |
+
+**Usage:**
+
+```python
+from boofun.core.gpu import (
+    is_gpu_available,
+    gpu_walsh_hadamard,
+    gpu_influences,
+    GPUBooleanFunctionOps,
+)
+
+# Low-level
+if is_gpu_available():
+    fourier = gpu_walsh_hadamard(pm_values)
+    influences = gpu_influences(fourier, n_vars=n)
+
+# High-level wrapper
+ops = GPUBooleanFunctionOps(truth_table)
+fourier = ops.fourier()
+influences = ops.influences()
+stability = ops.noise_stability(rho=0.5)
+```
+
+For small n (< 12), the overhead of transferring data to/from the GPU exceeds the computation time. The `should_use_gpu()` heuristic handles this automatically in batch processing.
+
+See `notebooks/gpu_performance.ipynb` for an interactive Colab benchmark comparing CPU vs GPU across different n.
 
 ## Memory Optimization
 
@@ -46,61 +116,39 @@ BooFun uses multiple optimization strategies, automatically selecting the best a
 ```python
 from boofun.core.auto_representation import recommend_representation
 
-# Get recommendation for your use case
 rec = recommend_representation(n_vars=18, sparsity=0.1)
 print(rec)
-# {'representation': 'sparse_truth_table',
-#  'reason': 'Sparsity 10.0% < 30%'}
+# {'representation': 'sparse_truth_table', 'reason': 'Sparsity 10.0% < 30%'}
 ```
 
-### Using Packed Truth Tables
+## Batch Processing
+
+The batch processing module handles large sets of inputs efficiently:
 
 ```python
-from boofun.core.representations.packed_truth_table import create_packed_truth_table
+from boofun.core.batch_processing import BatchProcessorManager
 
-# Convert existing truth table
-packed = create_packed_truth_table(truth_table)
-
-# Memory savings
-from boofun.core.representations.packed_truth_table import memory_comparison
-print(memory_comparison(20))
-# packed_bitarray: 131,072 bytes (128.0 KB)
-# numpy_bool: 1,048,576 bytes (1024.0 KB)
-# savings: 8x
+manager = BatchProcessorManager()
+results = manager.process_batch(function_data, inputs, n_vars, rep_type="truth_table")
 ```
 
-## Parallelization
+It automatically selects between CPU and GPU based on input size and available hardware.
 
-### Batch Operations
+## Caching and Lazy Conversion
+
+### Instance-Level Caching
+
+BooleanFunction instances cache Fourier coefficients, influences, and other computed values:
 
 ```python
-from boofun.core.optimizations import parallel_batch_influences, parallel_batch_fourier
+f = bf.majority(15)
 
-# Compute influences for many functions at once
-functions = [bf.random(n=10) for _ in range(100)]
-all_influences = parallel_batch_influences(functions)
+# First call: computes WHT (slow)
+fourier = f.fourier()
 
-# Fourier coefficients in parallel
-all_fourier = parallel_batch_fourier(functions)
+# Second call: returns cached (instant)
+fourier = f.fourier()
 ```
-
-### Numba Parallel Loops
-
-Numba functions automatically use all CPU cores:
-
-```python
-# These are JIT-compiled with Numba:
-# - _vectorized_influences_numba
-# - _total_influence_numba
-# - _fast_wht_numba
-
-# Check if Numba is being used:
-from boofun.core.optimizations import HAS_NUMBA, INFLUENCES_BACKEND
-print(f"Numba available: {HAS_NUMBA}")
-print(f"Influences backend: {INFLUENCES_BACKEND}")
-```
-
-## Caching and Memoization
 
 ### Global Compute Cache
 
@@ -108,31 +156,13 @@ print(f"Influences backend: {INFLUENCES_BACKEND}")
 from boofun.core.optimizations import get_global_cache
 
 cache = get_global_cache()
-
-# Check cache statistics
 print(cache.stats())
 # {'size': 42, 'max_size': 500, 'hits': 156, 'misses': 42, 'hit_rate': 0.79}
-
-# Clear cache if needed
-cache.clear()
 ```
 
-### Instance-Level Caching
+### Lazy Conversion
 
-BooleanFunction instances cache:
-- Fourier coefficients (`_fourier_cache`)
-- Influences (`_influences_cache`)
-- Decision tree depth (`_dt_cache`)
-
-```python
-f = bf.majority(5)
-
-# First call computes
-_ = f.fourier()  # ~1ms
-
-# Second call returns cached
-_ = f.fourier()  # ~0.001ms
-```
+Representations are computed lazily through the conversion graph. If you create a function from a truth table and request Fourier coefficients, only the truth_table -> fourier_expansion conversion runs.
 
 ## Benchmarks
 
@@ -162,106 +192,45 @@ Junta test:     ~5ms (for k-junta)
 Monotonicity:   ~3ms
 ```
 
-## Best Practices
-
-### 1. Install Numba
-
-```bash
-pip install numba
-```
-
-This alone provides 2-10x speedup for most operations.
-
-### 2. Use Appropriate Representations
-
-```python
-# For n > 14, consider sparse or packed
-from boofun.core.auto_representation import AdaptiveFunction
-
-# Automatically chooses best format
-f = AdaptiveFunction(truth_table, n_vars=18)
-print(f.format)  # 'packed' or 'sparse'
-```
-
-### 3. Batch Operations
-
-```python
-# Bad: sequential
-results = [f.influences() for f in functions]
-
-# Good: parallel
-from boofun.core.optimizations import parallel_batch_influences
-results = parallel_batch_influences(functions)
-```
-
-### 4. Reuse Functions
-
-```python
-# Bad: recreate function each time
-for _ in range(100):
-    f = bf.AND(10)
-    print(f.total_influence())
-
-# Good: reuse function
-f = bf.AND(10)
-for _ in range(100):
-    print(f.total_influence())  # Uses cached values
-```
-
-### 5. Profile Your Code
-
-```python
-from boofun.core.optimizations import WHT_BACKEND, INFLUENCES_BACKEND
-
-print(f"WHT backend: {WHT_BACKEND}")
-print(f"Influences backend: {INFLUENCES_BACKEND}")
-
-# Time specific operations
-import time
-f = bf.random(n=16)
-
-start = time.time()
-_ = f.fourier()
-print(f"WHT: {time.time() - start:.3f}s")
-
-start = time.time()
-_ = f.influences()
-print(f"Influences: {time.time() - start:.3f}s")
-```
-
 ## Running Benchmarks
 
 ```bash
 # Run all benchmarks
 pytest tests/benchmarks/ -v --benchmark-only
 
-# Specific benchmark
-pytest tests/benchmarks/test_external_benchmarks.py -v
-
 # With comparison
 pytest tests/benchmarks/ --benchmark-compare
-```
 
-## Docker Performance
-
-The Docker images include Numba by default:
-
-```bash
-# Run benchmarks in Docker
+# In Docker
 docker-compose run benchmark
 ```
 
-## Scaling Guidelines
+## Profiling
 
-| n | Recommended Approach |
-|---|---------------------|
-| ≤ 14 | Dense truth table, Numba |
-| 15-18 | Packed/sparse, Numba, consider GPU |
-| 19-22 | GPU required, sparse representation |
-| > 22 | Consider sampling/approximation algorithms |
+```python
+import time
+f = bf.majority(15)
 
-## Future Optimizations
+start = time.perf_counter()
+fourier = f.fourier()
+print(f"WHT: {time.perf_counter() - start:.3f}s")
 
-- Distributed computation with Dask
-- Further GPU kernel optimization
-- Memory-mapped truth tables for very large n
+start = time.perf_counter()
+inf = [f.influence(i) for i in range(15)]
+print(f"Influences: {time.perf_counter() - start:.3f}s")
+```
+
+Or use the built-in profiling script:
+
+```bash
+python scripts/profile_performance.py
+```
+
+## Quick Reference
+
+| n range | Recommended setup |
+|---------|-------------------|
+| 1-14 | Default (NumPy) |
+| 15-20 | `pip install boofun[performance]` (Numba) |
+| 20-25 | Add CuPy for GPU, or use Colab |
+| 25+ | GPU required; consider sparse representations (v2.0.0) |

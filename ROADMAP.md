@@ -5,7 +5,7 @@
 
 ## Vision
 
-BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functions*. The library makes every theorem runnable: create a function, compute its Fourier coefficients, verify KKL, visualize thresholds. 23 interactive notebooks cover Chapters 1-11.
+BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functions*. The library makes every theorem runnable: create a function, compute its Fourier coefficients, verify KKL, visualize thresholds. 25 interactive notebooks cover Chapters 1-11.
 
 **Primary audience**: TCS graduate students and researchers.
 **Secondary**: Cryptographers analyzing S-boxes. Complexity theorists exploring conjectures.
@@ -35,12 +35,22 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 
 ### Cleanup & Architecture
 
-| Item | Why |
-|------|-----|
-| Consolidate GPU modules | Merge `gpu_acceleration.py` and `gpu.py` into one. Remove unused stubs, keep CuPy WHT. |
-| Rename `quantum/` → `quantum_complexity/` | Renamed module to honestly reflect what it does: classical computation of quantum complexity bounds. Deleted classical algorithm duplicates (Fourier, influences, property testing) that were dressed up with `quantum_` prefixes — use `SpectralAnalyzer` and `PropertyTester` instead. Backwards-compat aliases provided. Full quantum simulation deferred to v2.0.0. |
-| Delete `setup.cfg` | Consolidate into `pyproject.toml`. |
-| Simplify conversion graph | Replace Dijkstra with two-level dispatch (source -> truth_table -> target). |
+| Item | Status |
+|------|--------|
+| ~~Consolidate GPU modules~~ | **Done.** Merged into single `core/gpu.py`. Deleted `gpu_acceleration.py`. Removed fake OpenCL, bogus benchmarks, orphaned code. |
+| ~~Quarantine quantum_complexity~~ | **Done.** Removed from top-level `__init__.py` exports. Strengthened disclaimers. Users import directly via `from boofun.quantum_complexity import ...`. |
+| ~~Delete `setup.cfg`~~ | **Done.** Mutmut config already in `pyproject.toml`. |
+| ~~Simplify conversion graph~~ | **Done.** Replaced Dijkstra with two-level dispatch through truth_table hub. ~300 lines removed. |
+| ~~Fix fourier_expansion.py zero-coeff bug~~ | **Done.** `convert_from()` no longer drops zero coefficients. Removed placeholder `_compute_fourier_coeffs()`. |
+| ~~Fix fkn.py dead expression~~ | **Done.** Uses analytical Fourier formula instead of O(2^n) brute force. |
+| ~~Fix errormodels.py API issues~~ | **Done.** Fixed `LinearErrorModel` signature, replaced deprecated `RandomState`, removed noisy import warning. |
+| ~~Remove `BooleanFunc.py` and `library.py`~~ | **Done.** Tal's legacy files removed (no license, diluted the library). Migration guide and legacy adapter preserved. |
+| ~~Remove professor letters~~ | **Done.** Moved out of repo. |
+| ~~Strengthen weak test assertions~~ | **Done.** Fixed tautological assertions, added exact value checks for dictator, parity, OR, majority. |
+| ~~Add error models notebook~~ | **Done.** `notebooks/error_models.ipynb`. |
+| ~~Add GPU performance notebook~~ | **Done.** `notebooks/gpu_performance.ipynb` with Colab GPU badge. |
+| ~~Add performance guide~~ | **Done.** Consolidated into `docs/performance.md`. |
+| Migrate `assert` to `raise` in library code | Style guide says use explicit `raise ValueError(...)` since `-O` strips asserts. Started in `fkn.py`; remaining in ~20 modules (search for `assert.*is not None`). Incremental — fix per-module as we touch files. |
 | Lazy imports in `__init__.py` | Only if import time exceeds 5 seconds. |
 | Upgrade mypy to latest | Bump `mypy~=1.13.0` pin, fix ~59 `var-annotated` errors from numpy 2.x stubs, remove `ignore_errors` overrides for 20 modules in `pyproject.toml`. |
 

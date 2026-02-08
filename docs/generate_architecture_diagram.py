@@ -131,7 +131,13 @@ def create_architecture_diagram():
 
     # Extensions
     create_box(
-        7.4, 4.2, 1.8, 1, "Extensions\n• Quantum Complexity\n• Visualization\n• Adapters", colors["ext"], 9
+        7.4,
+        4.2,
+        1.8,
+        1,
+        "Extensions\n• Quantum Complexity\n• Visualization\n• Adapters",
+        colors["ext"],
+        9,
     )
 
     # Layer 5: Detailed Components
