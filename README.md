@@ -38,7 +38,7 @@ complexity.D(maj)       # Decision tree depth
 complexity.s(maj)       # Max sensitivity
 ```
 
-**[Try it in Colab](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture3_social_choice_influences.ipynb)** | **[All 23 Notebooks](#course-notebooks)** | **[Full Docs](https://gabbytab.github.io/boofun/)**
+**[Full Docs](https://gabbytab.github.io/boofun/)** | **[All 25 Notebooks](#course-notebooks)** | **[Try it in Colab](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/fractional_prg.ipynb)**
 
 ## Installation
 
