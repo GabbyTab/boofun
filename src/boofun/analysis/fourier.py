@@ -630,6 +630,47 @@ def annealed_influence(f: "BooleanFunction", i: int, rho: float) -> float:
     return total
 
 
+def normalized_influence(f: "BooleanFunction", i: int) -> float:
+    """
+    Compute the normalized influence of variable i.
+
+    The normalized influence weights each Fourier coefficient by 1/|S|:
+
+        NormInf_i[f] = Σ_{S∋i} f̂(S)² / |S|
+
+    This measures how "spread out" the influence of variable i is
+    across different degrees.
+
+    Args:
+        f: BooleanFunction to analyze
+        i: Variable index (0-indexed)
+
+    Returns:
+        Normalized influence of variable i
+
+    References:
+        - Tal's BooleanFunc.py: norm_influence
+    """
+    n = f.n_vars or 0
+    if n == 0:
+        return 0.0
+
+    if i < 0 or i >= n:
+        raise ValueError(f"Variable index {i} out of range [0, {n})")
+
+    coeffs = _get_fourier_coefficients(f)
+    size = 1 << n
+
+    total = 0.0
+    for s in range(size):
+        if (s >> i) & 1:
+            subset_size = bin(s).count("1")
+            if subset_size > 0:
+                total += (coeffs[s] ** 2) / subset_size
+
+    return total
+
+
 def fourier_weight_distribution(f: "BooleanFunction") -> Dict[int, float]:
     """
     Compute the distribution of Fourier weight by degree.

@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import itertools as it
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 from ..core.base import BooleanFunction
 
-__all__ = ["certificate", "max_certificate_size"]
+__all__ = ["certificate", "max_certificate_size", "min_certificate_size"]
 
 
 def certificate(f: BooleanFunction, x: int) -> Tuple[int, List[int]]:
@@ -49,4 +49,33 @@ def max_certificate_size(f: BooleanFunction) -> int:
     best = 0
     for x in range(size):
         best = max(best, certificate(f, x)[0])
+    return best
+
+
+def min_certificate_size(f: BooleanFunction, value: Optional[int] = None) -> int:
+    """Minimum certificate size across inputs.
+
+    Args:
+        f: BooleanFunction to analyze
+        value: If specified (0 or 1), only consider inputs where f(x) = value
+
+    Returns:
+        Minimum certificate complexity
+
+    References:
+        - Tal's BooleanFunc.py: min_certificate
+    """
+    n = f.n_vars or 0
+    if n == 0:
+        return 0
+    size = 1 << n
+    tt = list(f.get_representation("truth_table"))
+    best = n  # certificate size is at most n
+    for x in range(size):
+        if value is not None and tt[x] != value:
+            continue
+        cert_size = certificate(f, x)[0]
+        best = min(best, cert_size)
+        if best == 0:
+            return 0
     return best
