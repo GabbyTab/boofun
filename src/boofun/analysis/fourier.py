@@ -669,6 +669,88 @@ def fourier_weight_distribution(f: "BooleanFunction") -> Dict[int, float]:
     return weights
 
 
+def fourier_level_lp_norm(f: "BooleanFunction", k: int, p: float = 1) -> float:
+    """
+    Compute the L_p norm of Fourier coefficients at degree k.
+
+    L_{p,k}(f) = (Σ_{|S|=k} |f̂(S)|^p)^{1/p}
+
+    Special cases:
+    - p=1: L_{1,k}(f) = Σ_{|S|=k} |f̂(S)| (used in CHLT ITCS 2019)
+    - p=2: sqrt(W^k[f]) = (Σ_{|S|=k} f̂(S)²)^{1/2}
+
+    Args:
+        f: BooleanFunction to analyze
+        k: Degree level
+        p: Norm parameter (default 1)
+
+    Returns:
+        L_{p,k} norm
+
+    References:
+        - Chattopadhyay-Hatami-Lovett-Tal (ITCS 2019), Definition of L_{1,k}
+        - O'Donnell Chapter 6 (pseudorandomness and Fourier tails)
+    """
+    n = f.n_vars or 0
+    if k < 0 or k > n:
+        return 0.0
+
+    coeffs = _get_fourier_coefficients(f)
+
+    total = 0.0
+    for s in range(len(coeffs)):
+        if bin(s).count("1") == k:
+            total += abs(coeffs[s]) ** p
+
+    if p == 1:
+        return float(total)
+    return float(total ** (1.0 / p))
+
+
+def fourier_tail_profile(f: "BooleanFunction", p: float = 1) -> Dict[int, float]:
+    """
+    Compute the Fourier tail profile: L_{p,k}(f) for all k.
+
+    Returns a dictionary mapping degree k to L_{p,k}(f).
+
+    With p=1, this gives the level-k Fourier tails used in the
+    PRG framework of Chattopadhyay et al. (CCC 2018, ITCS 2019):
+
+        L_{1,k}(f) = Σ_{|S|=k} |f̂(S)|
+
+    With p=2, this gives the square root of the Fourier weight
+    distribution: (W^k[f])^{1/2}.
+
+    Args:
+        f: BooleanFunction to analyze
+        p: Norm parameter (default 1 for L1 tails)
+
+    Returns:
+        Dictionary mapping degree k to L_{p,k}(f)
+
+    References:
+        - Chattopadhyay-Hatami-Lovett-Tal (ITCS 2019), Theorem 2
+        - O'Donnell Chapter 6
+    """
+    n = f.n_vars or 0
+    if n == 0:
+        return {0: abs(float(f.evaluate(0))) ** p if p != 1 else abs(float(f.evaluate(0)))}
+
+    coeffs = _get_fourier_coefficients(f)
+    size = 1 << n
+
+    profile: Dict[int, float] = {}
+    for s in range(size):
+        degree = bin(s).count("1")
+        val = abs(coeffs[s]) ** p
+        profile[degree] = profile.get(degree, 0.0) + val
+
+    if p != 1:
+        profile = {k: v ** (1.0 / p) for k, v in profile.items()}
+
+    return profile
+
+
 def min_fourier_coefficient_size(f: "BooleanFunction", threshold: float = 1e-10) -> int:
     """
     Find the minimum subset size |S| with non-zero f̂(S).
