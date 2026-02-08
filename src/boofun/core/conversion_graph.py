@@ -142,12 +142,23 @@ class ConversionPath:
                 e.source == "truth_table" or e.target == "truth_table" for e in self.edges
             )
             if hub_involved:
+                size_mb = 2**n_vars * 8 / (1024 * 1024)
                 msg = (
-                    f"Conversion for n_vars={n_vars} will materialise a 2^{n_vars} "
-                    f"truth table ({2**n_vars:,} entries). Consider using "
-                    f"sampling (estimate_fourier_coefficient) or oracle-based "
-                    f"methods for large n. To adjust this threshold: "
-                    f"from boofun.core.conversion_graph import set_large_n_policy"
+                    f"This will materialise a 2^{n_vars} truth table "
+                    f"({2**n_vars:,} entries, ~{size_mb:.0f} MB). "
+                    f"For large n, consider approximate methods that don't "
+                    f"need the full table:\n"
+                    f"\n"
+                    f"  from boofun.analysis.sampling import (\n"
+                    f"      estimate_fourier_coefficient,  # f_hat(S) via Monte Carlo\n"
+                    f"      estimate_influence,            # Inf_i via sampling\n"
+                    f"  )\n"
+                    f"  from boofun.analysis import PropertyTester  # query-based tests\n"
+                    f"\n"
+                    f"To silence this warning:\n"
+                    f"  from boofun.core.conversion_graph import set_large_n_policy\n"
+                    f'  set_large_n_policy("off")       # disable check\n'
+                    f'  set_large_n_policy("warn", 30)  # raise threshold to 30'
                 )
                 if _LARGE_N_POLICY == "raise":
                     raise ValueError(msg)
