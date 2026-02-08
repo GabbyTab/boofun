@@ -38,7 +38,7 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 | Item | Why |
 |------|-----|
 | Consolidate GPU modules | Merge `gpu_acceleration.py` and `gpu.py` into one. Remove unused stubs, keep CuPy WHT. |
-| Remove quantum from public API | Stub-only. Keep as internal placeholder. |
+| Label quantum module as WIP | Keep in public API with prominent classical-fallback disclaimers (done). Full overhaul deferred to v2.0.0. |
 | Delete `setup.cfg` | Consolidate into `pyproject.toml`. |
 | Simplify conversion graph | Replace Dijkstra with two-level dispatch (source -> truth_table -> target). |
 | Lazy imports in `__init__.py` | Only if import time exceeds 5 seconds. |
@@ -67,6 +67,32 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 - N-value generators (`n_values.odd()`, `n_values.powers()`)
 - Parameter sweep visualization
 - BoolForge-inspired constrained random generation
+
+---
+
+## v2.0.0 Goals
+
+### Quantum Module Overhaul
+
+The current `boofun.quantum` module annotates results with quantum complexity metadata but falls back to classical algorithms for all actual computation. v2.0.0 will close this gap.
+
+| Item | Why |
+|------|-----|
+| Honest labeling audit | Every method that returns `"method": "quantum_*"` must either run a real quantum/simulated computation or clearly label itself as a classical estimate. Remove misleading `quantum_speedup: True` flags from classical code paths. |
+| Statevector simulation backend | Implement a lightweight statevector simulator (no Qiskit dependency) for small-n quantum circuits so that `quantum_fourier_analysis()` and `quantum_property_testing()` can produce genuinely quantum results up to ~12 qubits. |
+| Qiskit / Cirq integration (optional extra) | `pip install boofun[quantum]` pulls in Qiskit. Oracle construction, Grover circuit execution, and quantum walk simulation run on Qiskit's `AerSimulator`. Cirq backend as alternative. |
+| Quantum property testing | Replace classical randomized tests (BLR, monotonicity, junta) with real quantum testers that demonstrate quadratic query savings in simulation. |
+| Grover & amplitude amplification | Execute Grover iterations on the simulator and return measured success probabilities, not just closed-form estimates. |
+| Quantum walk simulation | Simulate Szegedy walks on the hypercube and report empirical hitting times alongside the analytical estimates already provided. |
+| Documentation & notebooks | Add a dedicated "Quantum Boolean Function Analysis" notebook showing the difference between classical estimates and simulated quantum results. Clearly mark which features require `[quantum]` extra. |
+
+### Other v2.0.0 Candidates
+
+| Item | Why |
+|------|-----|
+| Symbolic / oracle representations | Move beyond explicit truth tables to support functions on n > 20 variables via BDD, ZDD, or oracle-access representations. |
+| Large-scale research mode | Combine symbolic representations with lazy evaluation to enable conjecture-checking workflows at n = 30+. |
+| Classroom feedback integration | Incorporate feedback from at least one round of student/instructor testing into notebooks and API. |
 
 ---
 

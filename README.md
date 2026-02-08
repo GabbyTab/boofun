@@ -20,7 +20,7 @@
 
 A toolkit for teaching, learning, and doing research in Boolean function analysis. Fourier analysis, property testing, query complexity, hypercontractivity, pseudorandomness, and more -- with 23 interactive notebooks aligned to O'Donnell's *Analysis of Boolean Functions*.
 
-Built at UC Berkeley alongside [CS 294-92](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html).
+Built at UC Berkeley alongside Avishay Tal's [CS 294-92](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html). Cross-validated against SageMath, Tal's toolkit, and known closed-form results.
 
 ```python
 import boofun as bf
@@ -136,7 +136,7 @@ bf.load("function.cnf")              # DIMACS CNF
 
 ## Course Notebooks
 
-Interactive notebooks following CS294-92 (Analysis of Boolean Functions). Click **Scribe** for lecture notes, **Topic** to view static notebook, or **Play** to run in Colab.
+Computational companion to O'Donnell's *Analysis of Boolean Functions*, following Avishay Tal's CS 294-92. Each notebook makes the theorems runnable so the focus stays on the math. Click **Scribe** for lecture notes, **Topic** to view the static notebook, or **Play** to run in Colab.
 
 <details>
 <summary><strong>Lecture Notebooks (11)</strong></summary>

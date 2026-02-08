@@ -1,6 +1,36 @@
 """
 Quantum Boolean function analysis module.
 
+.. note:: **Work in Progress — Classical Fallbacks**
+
+   This module is under active development. Most routines currently fall back
+   to **classical algorithms** and return results annotated with quantum
+   complexity metadata (e.g. expected Grover query counts, quantum walk
+   parameters). No computation in this module runs on actual quantum hardware
+   or a genuine quantum simulator unless Qiskit is installed *and* a method
+   explicitly constructs a quantum circuit.
+
+   In practice this means:
+
+   * ``quantum_fourier_analysis()`` delegates to the classical
+     ``SpectralAnalyzer`` and tags the result with ``method='classical_fallback'``
+     (or ``'quantum_simulation'`` when an oracle circuit is built but the
+     Fourier coefficients are still computed classically).
+   * ``quantum_influence_estimation()`` computes influences classically and
+     wraps them with quantum query-count metadata.
+   * ``quantum_property_testing()`` (linearity, monotonicity, junta) runs
+     standard classical randomized tests.
+   * ``grover_analysis()`` and ``grover_amplitude_analysis()`` perform
+     closed-form calculations of Grover iteration counts and amplitude
+     evolution — no circuit execution.
+   * ``quantum_walk_analysis()``, ``element_distinctness_analysis()``, and
+     ``quantum_walk_search()`` compute complexity estimates analytically.
+
+   The module is included so that users can reason about quantum query
+   complexity alongside classical measures, but it should **not** be treated
+   as a quantum computing toolkit. Full quantum simulation support is planned
+   for BooFun v2.0.0 (see ROADMAP.md).
+
 This module provides tools for analyzing Boolean functions in the quantum setting,
 including quantum Fourier analysis, quantum property testing, and quantum algorithms.
 """
