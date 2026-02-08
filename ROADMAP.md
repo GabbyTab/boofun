@@ -42,6 +42,7 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 | Delete `setup.cfg` | Consolidate into `pyproject.toml`. |
 | Simplify conversion graph | Replace Dijkstra with two-level dispatch (source -> truth_table -> target). |
 | Lazy imports in `__init__.py` | Only if import time exceeds 5 seconds. |
+| Upgrade mypy to latest | Bump `mypy~=1.13.0` pin, fix ~59 `var-annotated` errors from numpy 2.x stubs, remove `ignore_errors` overrides for 20 modules in `pyproject.toml`. |
 
 ---
 
