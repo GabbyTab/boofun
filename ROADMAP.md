@@ -1,6 +1,6 @@
 # Roadmap
 
-**Version:** 1.2.0 (planned)
+**Version:** 1.3.0 (planned)
 **Updated:** February 2026
 
 ## Vision
@@ -12,65 +12,58 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 
 ---
 
-## Current State (v1.1.1)
+## Current State (v1.2.0)
 
 72% test coverage, 3200+ tests, 13 examples, 23 notebooks. Published on PyPI. Cross-validated against SageMath, thomasarmel/boolean_function, and BoolForge. See [CHANGELOG.md](CHANGELOG.md) for what shipped.
 
+### What shipped in v1.2.0
+
+- Numba moved to optional `[performance]` extra (ADR-004)
+- Standard `__init__` pattern replaces `__new__`/`_init` (ADR-009)
+- `f.is_global(alpha)` method on BooleanFunction
+- `Measure` class in `core/spaces.py` for p-biased analysis
+- `bf.f2_polynomial(n, monomials)` for F2-polynomial creation
+- Adaptive sampling with `target_error` in `estimate_fourier_coefficient`
+- Representation round-trip tests (truth_table <-> fourier, truth_table <-> ANF)
+- Per-module mypy enforcement (20+ modules)
+- `ComputeCache` rewritten with `OrderedDict` for O(1) eviction
+- conda-forge recipe submitted (PR #31964)
+
 ---
 
-## v1.2.0 Goals
+## v1.3.0 Goals
 
-### Phase 1: Reduce Friction (1-2 weeks)
-
-| Item | Status | Why |
-|------|--------|-----|
-| Make Numba optional dependency | ADR-004 | Biggest install friction. Move to `[performance]` extra. |
-| Fix `__new__`/`_init` pattern | ADR-009 | Prevents normal subclassing. Replace with standard `__init__`. |
-| Consolidate GPU modules | ADR-005 | Merge `gpu_acceleration.py` and `gpu.py` into one. Remove unused stubs, keep CuPy WHT. |
-| Remove quantum from public API | ADR-005 | Stub-only. Keep as internal placeholder. |
-| Delete `setup.cfg` | Cleanup | Consolidate into `pyproject.toml`. |
-| conda-forge merge | PR #31964 | Fix python_min pin and pypi.org URL, request review. |
-
-### Phase 2: Strengthen Core (1-2 months)
+### Cleanup & Architecture
 
 | Item | Why |
 |------|-----|
-| `f.is_global(alpha)` method on BooleanFunction | Natural API for global hypercontractivity. Simple delegation. |
-| `Measure` class in `core/spaces.py` | Unify p-biased code: `f.expectation(measure=biased)` instead of scattered modules. |
-| `bf.f2_polynomial(n, monomials)` | Create F2-polynomials directly. Needed for pseudorandomness notebooks. |
-| Adaptive sampling in `estimate_fourier_coefficient` | `target_error=0.01` stops early. Low complexity. |
-| Representation round-trip tests | Convert A -> B -> A for every conversion graph edge. |
+| Consolidate GPU modules | Merge `gpu_acceleration.py` and `gpu.py` into one. Remove unused stubs, keep CuPy WHT. |
+| Remove quantum from public API | Stub-only. Keep as internal placeholder. |
+| Delete `setup.cfg` | Consolidate into `pyproject.toml`. |
+| Simplify conversion graph | Replace Dijkstra with two-level dispatch (source -> truth_table -> target). |
 | Lazy imports in `__init__.py` | Only if import time exceeds 5 seconds. |
 
-### Phase 3: Quality (3+ months)
-
-| Item | Why |
-|------|-----|
-| Enable mypy module-by-module | Start with `core/base.py`, `core/factory.py`. Remove `py.typed` until done. |
-| Simplify conversion graph | Replace Dijkstra with two-level dispatch (source -> truth_table -> target). |
-| Replace `ComputeCache` with `OrderedDict` | O(n) eviction -> O(1). |
-
 ---
 
-## Nice to Have (No Timeline)
+## v1.4.0 Goals
 
-**Pseudorandomness** (CHLT ITCS 2019):
+### Pseudorandomness (CHLT ITCS 2019)
 - Fractional PRG utilities: truncated Gaussian sampler, polarizing walk
 - Epsilon-biased distribution construction
 - Fooling verification
 
-**Performance** (for research at larger n):
+### Performance (for research at larger n)
 - GPU-accelerated WHT via CuPy for n > 20
 - Parallel batch processing for exhaustive search
 - Lazy evaluation for oracle-access functions
 - Rust FFI for performance-critical paths (thomasarmel integration)
 
-**Infrastructure**:
+### Infrastructure
 - ~~conda-forge~~ (PR #31964 submitted)
 - Interactive Jupyter widgets
 - Manim animations for educational content
 
-**Function families**:
+### Function Families
 - N-value generators (`n_values.odd()`, `n_values.powers()`)
 - Parameter sweep visualization
 - BoolForge-inspired constrained random generation

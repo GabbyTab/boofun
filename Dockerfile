@@ -33,7 +33,7 @@ FROM python:3.11-slim@sha256:89abad2fb0c3633705054018ae09caae4bd0e0febf57fb57a96
 
 LABEL maintainer="Gabriel Taboada <gabtab@berkeley.edu>"
 LABEL description="BooFun: Boolean Function Analysis Library"
-LABEL version="0.2.0"
+LABEL version="1.2.0"
 
 WORKDIR /app
 

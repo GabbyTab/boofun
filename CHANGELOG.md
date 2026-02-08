@@ -9,6 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2026-02-07
+
+### Added
+
+- `f.is_global(alpha)` method on BooleanFunction for global hypercontractivity analysis
+- `Measure` class in `core/spaces.py` for unified p-biased analysis
+- `bf.f2_polynomial(n, monomials)` for creating F2-polynomials directly
+- Adaptive sampling with `target_error` parameter in `estimate_fourier_coefficient`
+- Representation round-trip tests (truth_table <-> fourier, truth_table <-> ANF)
+
+### Changed
+
+- Numba moved to optional `[performance]` extra — no longer required for installation (ADR-004)
+- `BooleanFunction` uses standard `__init__` instead of `__new__`/`_init` pattern (ADR-009)
+- `ComputeCache` rewritten with `OrderedDict` for O(1) eviction (was O(n))
+- Per-module mypy enforcement enabled across 20+ modules
+- Test count increased to 3200+, coverage at 72%
+
+---
+
 ## [1.1.1] - 2026-02-01
 
 ### Added
