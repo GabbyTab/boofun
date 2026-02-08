@@ -87,9 +87,11 @@ class VectorizedBatchProcessor(BatchProcessor):
     def _evaluate_single(
         self, input_val: Any, function_data: Any, space: Space, n_vars: int
     ) -> bool:
-        """Fallback single evaluation method."""
-        # This should be overridden by specific implementations
-        return False
+        """Fallback single evaluation method — truth table lookup."""
+        try:
+            return bool(function_data[int(input_val)])
+        except (IndexError, TypeError):
+            return False
 
     def supports_representation(self, representation: str) -> bool:
         """Check if representation is supported."""
@@ -171,8 +173,11 @@ class ParallelBatchProcessor(BatchProcessor):
     def _evaluate_single(
         self, input_val: Any, function_data: Any, space: Space, n_vars: int
     ) -> bool:
-        """Single evaluation method."""
-        return False
+        """Single evaluation method — truth table lookup."""
+        try:
+            return bool(function_data[int(input_val)])
+        except (IndexError, TypeError):
+            return False
 
     def supports_representation(self, representation: str) -> bool:
         """Check if representation is supported."""

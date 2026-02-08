@@ -88,7 +88,7 @@ def interactive_fourier_spectrum(
         if i == 0:
             subset_labels.append("∅")
         else:
-            bits = [str(j) for j in range(n) if (i >> (n - 1 - j)) & 1]
+            bits = [str(j) for j in range(n) if (i >> j) & 1]
             subset_labels.append("{" + ",".join(bits) + "}")
 
     # Create hover text
@@ -508,7 +508,7 @@ class FourierExplorer:
             if i == 0:
                 labels.append("∅")
             else:
-                bits = [str(j) for j in range(n) if (i >> (n - 1 - j)) & 1]
+                bits = [str(j) for j in range(n) if (i >> j) & 1]
                 labels.append("{" + ",".join(bits) + "}")
 
         colors = ["green" if v >= 0 else "red" for v in values]

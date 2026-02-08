@@ -329,16 +329,16 @@ def restriction_to_inputs(rho: Restriction, num_inputs: Optional[int] = None) ->
     result = []
 
     for i in range(max_inputs):
-        # Start with fixed values
+        # Start with fixed values (LSB convention: variable var at bit var)
         x = 0
         for var, val in rho.fixed.items():
             if val:
-                x |= 1 << (rho.n_vars - 1 - var)
+                x |= 1 << var
 
         # Add free variable values
         for j, var in enumerate(free_vars):
             if (i >> j) & 1:
-                x |= 1 << (rho.n_vars - 1 - var)
+                x |= 1 << var
 
         result.append(x)
 
@@ -392,7 +392,7 @@ def min_fixing_to_constant(
             # Check if x is consistent with current fixing
             consistent = True
             for var, val in fixed.items():
-                bit = (x >> (n - 1 - var)) & 1
+                bit = (x >> var) & 1
                 if bit != val:
                     consistent = False
                     break
@@ -426,7 +426,7 @@ def min_fixing_to_constant(
                 for x in range(1 << n):
                     consistent = True
                     for v, vval in test_fixed.items():
-                        bit = (x >> (n - 1 - v)) & 1
+                        bit = (x >> v) & 1
                         if bit != vval:
                             consistent = False
                             break
@@ -454,7 +454,7 @@ def min_fixing_to_constant(
     for x in range(1 << n):
         consistent = True
         for var, val in fixed.items():
-            bit = (x >> (n - 1 - var)) & 1
+            bit = (x >> var) & 1
             if bit != val:
                 consistent = False
                 break

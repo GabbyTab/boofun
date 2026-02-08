@@ -33,16 +33,16 @@ if HAS_NUMBA:
 
     @njit
     def binary_to_index(binary_vec):
-        """Convert binary vector to integer index."""
+        """Convert binary vector to integer index (LSB convention: vec[i] = x_i)."""
         result = 0
         for i in range(len(binary_vec)):
             if binary_vec[i]:
-                result += 1 << (len(binary_vec) - 1 - i)
+                result += 1 << i
         return result
 
     @njit(parallel=True)
     def batch_binary_to_indices(binary_matrix):
-        """Convert batch of binary vectors to indices."""
+        """Convert batch of binary vectors to indices (LSB convention)."""
         n_inputs, n_vars = binary_matrix.shape
         indices = np.zeros(n_inputs, dtype=np.int32)
 
@@ -50,7 +50,7 @@ if HAS_NUMBA:
             result = 0
             for j in range(n_vars):
                 if binary_matrix[i, j]:
-                    result += 1 << (n_vars - 1 - j)
+                    result += 1 << j
             indices[i] = result
 
         return indices

@@ -392,7 +392,8 @@ class BooleanFunctionFactory:
         truth_table = np.zeros(size, dtype=bool)
 
         for i in range(size):
-            vec = tuple(int(b) for b in np.binary_repr(i, width=n_vars))
+            # LSB convention: vec[j] = x_j = (i >> j) & 1
+            vec = tuple((i >> j) & 1 for j in range(n_vars))
             truth_table[i] = vec in true_inputs
 
         kwargs["n_vars"] = n_vars
@@ -598,7 +599,7 @@ class BooleanFunctionFactory:
             for j in range(outer_n):
                 block = (idx >> (inner_n * j)) & mask
                 bit = int(inner_tt[block])
-                outer_index |= bit << (outer_n - 1 - j)
+                outer_index |= bit << j
             result[idx] = bool(outer_tt[outer_index])
 
         kwargs.setdefault("n_vars", total_n)

@@ -76,8 +76,8 @@ class BooleanDistribution:
         if isinstance(x, (list, np.ndarray)):
             if len(x) != self.n_vars:
                 raise ValueError(f"Input length {len(x)} doesn't match n_vars {self.n_vars}")
-            # Convert binary vector to index
-            index = sum(bit * (2 ** (self.n_vars - 1 - i)) for i, bit in enumerate(x))
+            # Convert binary vector to index (LSB convention: x[i] = x_i)
+            index = sum(bit * (1 << i) for i, bit in enumerate(x))
         else:
             index = int(x)
 
@@ -190,7 +190,7 @@ class BooleanDistribution:
         p_var_1 = 0.0  # P(X_i = 1)
 
         for i in range(self.domain_size):
-            bit = (i >> (self.n_vars - 1 - variable_idx)) & 1
+            bit = (i >> variable_idx) & 1
             if bit == 0:
                 p_var_0 += self.input_distribution[i]
             else:
@@ -203,7 +203,7 @@ class BooleanDistribution:
         p_f1_var1 = 0.0  # P(f(X) = 1, X_i = 1)
 
         for i in range(self.domain_size):
-            bit = (i >> (self.n_vars - 1 - variable_idx)) & 1
+            bit = (i >> variable_idx) & 1
             f_val = self.truth_table[i]
             prob = self.input_distribution[i]
 
@@ -250,7 +250,7 @@ class BooleanDistribution:
         # Extract variable values
         var_vals = np.zeros(self.domain_size)
         for i in range(self.domain_size):
-            bit = (i >> (self.n_vars - 1 - variable_idx)) & 1
+            bit = (i >> variable_idx) & 1
             var_vals[i] = 2 * bit - 1  # {0,1} -> {-1,1}
 
         # Compute weighted correlation
@@ -365,7 +365,7 @@ class BooleanDistribution:
         for i in range(domain_size):
             prob = 1.0
             for j in range(n_vars):
-                bit = (i >> (n_vars - 1 - j)) & 1
+                bit = (i >> j) & 1
                 if bit:
                     prob *= bias
                 else:

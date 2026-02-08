@@ -199,8 +199,8 @@ class TestBooleanDistributionStatistics:
 
     def test_mutual_information_dictator(self):
         """Dictator function has high MI with its variable."""
-        # f = x_0 (dictator on first variable)
-        dist = BooleanDistribution.uniform(np.array([False, False, True, True]), n_vars=2)  # x_0
+        # f = x_0 (LSB convention): f(x) = (x >> 0) & 1 = [0, 1, 0, 1]
+        dist = BooleanDistribution.uniform(np.array([False, True, False, True]), n_vars=2)
 
         mi_0 = dist.mutual_information(0)
         mi_1 = dist.mutual_information(1)

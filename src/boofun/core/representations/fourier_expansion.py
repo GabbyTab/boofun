@@ -72,26 +72,34 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         """
 
         size = 1 << n_vars  # 2^n
-        coeffs = np.zeros(size, dtype=float)
-
-        # Generate all input vectors x (as bits) and their integer indices
-        x_bits = np.array([list(map(int, np.binary_repr(i, n_vars))) for i in range(size)])
-        x_indices = np.arange(size, dtype=int)
 
         # Evaluate function f on all inputs
+        x_indices = np.arange(size, dtype=int)
         f_vals = source_repr.evaluate(x_indices, source_data, space, n_vars)
         f_vals = np.asarray(f_vals, dtype=float)
 
-        # Map {0,1} to {1,-1} for Boolean-to-sign function conversion
-        f_vals = 1 - 2 * f_vals  # Now f ∈ {1, -1}
+        # Map {0,1} to {+1,-1} (O'Donnell convention: 0->+1, 1->-1)
+        pm_vals = 1.0 - 2.0 * f_vals
 
-        # For all subsets S ⊆ [n] (Fourier basis functions)
-        for i in range(size):
-            S = tuple(j for j in range(n_vars) if (i >> j) & 1)
+        # Use the Walsh-Hadamard Transform in O(n * 2^n) instead of
+        # the naive O(4^n) double loop.
+        try:
+            from ..optimizations import fast_walsh_hadamard
 
-            # Compute parity vector: (-1)^{x·S}
-            signs = (-1) ** np.sum(x_bits[:, list(S)], axis=1)
-            coeffs[i] = np.dot(f_vals, signs) / size
+            coeffs = fast_walsh_hadamard(pm_vals.copy())
+        except ImportError:
+            # Fallback: in-place butterfly WHT
+            coeffs = pm_vals.copy()
+            h = 1
+            while h < size:
+                for i in range(0, size, h * 2):
+                    for j in range(i, i + h):
+                        x = coeffs[j]
+                        y = coeffs[j + h]
+                        coeffs[j] = x + y
+                        coeffs[j + h] = x - y
+                h *= 2
+            coeffs /= size
 
         return coeffs
 

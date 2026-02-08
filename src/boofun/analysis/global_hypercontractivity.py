@@ -113,7 +113,13 @@ def generalized_influence(f: "BooleanFunction", S: Set[int], p: float = 0.5) -> 
     assert n is not None
     s = sigma(p)
 
-    # Get Fourier coefficients (under uniform for simplicity)
+    # Get Fourier coefficients under the uniform measure.
+    #
+    # LIMITATION: For p != 0.5 the correct computation requires the
+    # p-biased Fourier expansion (using p-biased characters), not the
+    # standard uniform Fourier expansion.  The results are exact when
+    # p = 0.5 and approximate otherwise.  A full p-biased Fourier
+    # implementation is planned for a future release.
     analyzer = SpectralAnalyzer(f)
     fourier = analyzer.fourier_expansion()
 

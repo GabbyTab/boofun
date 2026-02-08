@@ -230,18 +230,25 @@ def rectangle_partition_bound(
 
 def discrepancy(f: "BooleanFunction") -> float:
     """
-    Compute the discrepancy of a Boolean function.
+    Compute a **lower bound** on the discrepancy of a Boolean function.
 
-    Discrepancy measures how "balanced" the function is over rectangles.
+    Discrepancy measures how "balanced" the function is over rectangles:
+
+        disc(f) = max over rectangles R of |Pr[f=1 on R] - 1/2|
+
     Low discrepancy implies high randomized communication complexity.
 
-    disc(f) = max over rectangles R of |Pr[f=1 on R] - 1/2|
+    .. warning::
+        This computes ``||M_pm||_2 / N``, which is a **lower bound** on
+        discrepancy derived from the spectral norm, not the exact value.
+        Computing exact discrepancy requires maximising over all
+        combinatorial rectangles, which is NP-hard in general.
 
     Args:
         f: Boolean function
 
     Returns:
-        Discrepancy value
+        Lower bound on discrepancy value
     """
     M = get_communication_matrix(f)
     rows, cols = M.shape
@@ -249,13 +256,10 @@ def discrepancy(f: "BooleanFunction") -> float:
     # Convert to ±1 matrix
     M_pm: np.ndarray = 2 * M - 1
 
-    # Discrepancy is related to spectral norm of M_pm divided by sqrt(N)
-    # disc(f) ≥ ||M_pm||_2 / N
-
+    # Lower bound: disc(f) ≥ ||M_pm||_2 / N (spectral norm bound)
     N = rows * cols
     spectral_norm: float = float(np.max(svdvals(M_pm.astype(float))))
 
-    # Approximate discrepancy from spectral norm
     disc = spectral_norm / N
 
     return disc

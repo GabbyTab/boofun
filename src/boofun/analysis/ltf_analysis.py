@@ -103,10 +103,9 @@ def chow_parameters(f: "BooleanFunction") -> np.ndarray:
     chow = np.zeros(n + 1)
     chow[0] = fourier[0]  # E[f] = f̂(∅)
 
-    # Extract degree-1 coefficients
+    # Extract degree-1 coefficients (LSB convention: singleton {i} has index 1 << i)
     for i in range(n):
-        # Index of singleton {i} in Walsh ordering
-        idx = 1 << (n - 1 - i)
+        idx = 1 << i
         chow[i + 1] = fourier[idx]
 
     return chow
@@ -429,8 +428,8 @@ def create_threshold_function(n: int, k: int) -> "BooleanFunction":
 
     truth_table = []
     for i in range(2**n):
-        x = [int(b) for b in format(i, f"0{n}b")]
-        val = 1 if sum(x) >= k else 0
+        # LSB convention: x_j = (i >> j) & 1; sum = popcount = Hamming weight
+        val = 1 if bin(i).count("1") >= k else 0
         truth_table.append(val)
 
     return bf.create(truth_table)

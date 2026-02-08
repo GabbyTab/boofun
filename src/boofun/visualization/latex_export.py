@@ -80,7 +80,7 @@ def export_fourier_tikz(
             if i == 0:
                 labels.append("$\\emptyset$")
             else:
-                bits = [var_names[j] for j in range(n) if (i >> (n - 1 - j)) & 1]
+                bits = [var_names[j] for j in range(n) if (i >> j) & 1]
                 labels.append("$\\{" + ",".join(bits) + "\\}$")
         lines.append(f"    xticklabels={{{', '.join(labels)}}},")
         lines.append(f"    x tick label style={{rotate=45, anchor=east}},")
@@ -310,7 +310,7 @@ def export_spectrum_table(
         if idx == 0:
             subset = "$\\emptyset$"
         else:
-            bits = [var_names[j] for j in range(n) if (idx >> (n - 1 - j)) & 1]
+            bits = [var_names[j] for j in range(n) if (idx >> j) & 1]
             subset = "$\\{" + ", ".join(bits) + "\\}$"
 
         binary = format(idx, f"0{n}b")

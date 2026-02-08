@@ -180,17 +180,22 @@ def gpu_walsh_hadamard(values: np.ndarray, in_place: bool = False) -> np.ndarray
 
 
 def _gpu_wht_cupy(values: np.ndarray) -> np.ndarray:
-    """Iterative Walsh-Hadamard butterfly on GPU via CuPy."""
+    """Vectorized Walsh-Hadamard butterfly on GPU via CuPy.
+
+    Uses CuPy array slicing (no Python inner loop) so the butterfly
+    stages run at GPU speed rather than Python dispatch speed.
+    """
     n_vars = int(np.log2(len(values)))
     d = cp.asarray(values, dtype=cp.float64)
 
     for i in range(n_vars):
         step = 1 << i
-        for j in range(0, len(d), step * 2):
-            u = d[j : j + step].copy()
-            v = d[j + step : j + 2 * step].copy()
-            d[j : j + step] = u + v
-            d[j + step : j + 2 * step] = u - v
+        # Reshape so pairs are adjacent, then vectorised butterfly
+        d_view = d.reshape(-1, 2 * step)
+        left = d_view[:, :step].copy()
+        right = d_view[:, step:].copy()
+        d_view[:, :step] = left + right
+        d_view[:, step:] = left - right
 
     d /= len(values)
     return cp.asnumpy(d)

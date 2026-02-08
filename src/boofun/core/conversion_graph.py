@@ -87,8 +87,29 @@ class ConversionPath:
         for edge in edges:
             self.total_cost += edge.cost
 
+    # Conversions through truth_table materialise 2^n entries.
+    # Above this threshold, raise instead of silently allocating gigabytes.
+    MAX_SAFE_N_VARS = 25
+
     def execute(self, data: Any, space: Space, n_vars: int) -> Any:
-        """Execute the conversion path step by step."""
+        """Execute the conversion path step by step.
+
+        Raises:
+            ValueError: if the path goes through truth_table and n_vars
+                exceeds MAX_SAFE_N_VARS (to prevent accidental multi-GB
+                allocations).
+        """
+        if n_vars > self.MAX_SAFE_N_VARS:
+            hub_involved = any(
+                e.source == "truth_table" or e.target == "truth_table" for e in self.edges
+            )
+            if hub_involved:
+                raise ValueError(
+                    f"Conversion for n_vars={n_vars} would materialise a 2^{n_vars} "
+                    f"truth table ({2**n_vars:,} entries). This exceeds the safety "
+                    f"limit of n={self.MAX_SAFE_N_VARS}. Use oracle-based or "
+                    f"sampling methods instead."
+                )
         current_data = data
         for edge in self.edges:
             if edge.converter:

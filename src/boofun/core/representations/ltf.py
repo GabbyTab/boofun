@@ -194,8 +194,8 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
         b_ub = []
 
         for i in range(size):
-            # Convert index to binary
-            x_i = [(i >> j) & 1 for j in range(n_vars - 1, -1, -1)]
+            # Convert index to binary (LSB convention: x_j = (i >> j) & 1)
+            x_i = [(i >> j) & 1 for j in range(n_vars)]
 
             constraint = np.zeros(num_vars)
 
@@ -250,8 +250,8 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
             errors = 0
 
             for i in range(size):
-                # Convert index to binary
-                x_i = np.array([(i >> j) & 1 for j in range(n_vars - 1, -1, -1)])
+                # Convert index to binary (LSB convention: x_j = (i >> j) & 1)
+                x_i = np.array([(i >> j) & 1 for j in range(n_vars)])
 
                 # Compute current output
                 output = np.dot(weights, x_i) >= threshold
