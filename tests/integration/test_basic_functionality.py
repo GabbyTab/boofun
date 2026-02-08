@@ -307,11 +307,11 @@ class TestStringRepresentations:
 
         str_repr = str(f)
         assert "BooleanFunction" in str_repr
-        assert "vars=2" in str_repr
+        assert "n=2" in str_repr
 
         repr_str = repr(f)
         assert "BooleanFunction" in repr_str
-        assert "n_vars=2" in repr_str
+        assert "n=2" in repr_str
 
 
 if __name__ == "__main__":

@@ -224,14 +224,12 @@ class TestStringRepresentations:
     def test_str_representation(self, boolean_function):
         rep = str(boolean_function)
         assert "BooleanFunction" in rep
-        assert "vars=2" in rep
-        assert "space=Space.PLUS_MINUS_CUBE" in rep
+        assert "n=2" in rep
 
     def test_repr_representation(self, boolean_function):
         rep = repr(boolean_function)
         assert "BooleanFunction" in rep
-        assert "space=Space.PLUS_MINUS_CUBE" in rep
-        assert "n_vars=2" in rep
+        assert "n=2" in rep
 
 
 # 8. Probabilistic Interface
@@ -331,14 +329,12 @@ def test_string_representations(xor_function):
     """Test __str__ and __repr__ methods"""
     # Test __str__
     assert "BooleanFunction" in str(xor_function)
-    assert "vars=2" in str(xor_function)
-    assert "space=Space.PLUS_MINUS_CUBE" in str(xor_function)
+    assert "n=2" in str(xor_function)
 
     # Test __repr__
     repr_str = repr(xor_function)
     assert "BooleanFunction" in repr_str
-    assert "space=Space.PLUS_MINUS_CUBE" in repr_str
-    assert "n_vars=2" in repr_str
+    assert "n=2" in repr_str
 
 
 ## 6. Edge cases

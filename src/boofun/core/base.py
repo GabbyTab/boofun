@@ -207,10 +207,25 @@ class BooleanFunction(Evaluable, Representable):
             return id(self)
 
     def __str__(self):
-        return f"BooleanFunction(vars={self.n_vars}, space={self.space})"
+        n = self.n_vars or 0
+        name = getattr(self, "nickname", None)
+        if name and name != "x_0":
+            return f"{name} (n={n})"
+        return f"BooleanFunction(n={n})"
 
     def __repr__(self):
-        return f"BooleanFunction(space={self.space}, n_vars={self.n_vars})"  # TODO figure out what should be outputted here
+        n = self.n_vars or 0
+        name = getattr(self, "nickname", None)
+        try:
+            tt = list(self.get_representation("truth_table"))
+            if len(tt) <= 16:
+                tt_str = str(tt)
+            else:
+                tt_str = f"[{tt[0]}, {tt[1]}, ..., {tt[-1]}] ({len(tt)} entries)"
+        except Exception:
+            tt_str = "oracle"
+        label = f'"{name}" ' if name and name != "x_0" else ""
+        return f"BooleanFunction({label}n={n}, tt={tt_str})"
 
     def _create_space(self, space_type):
         # Handle both string and Space enum inputs
