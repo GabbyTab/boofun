@@ -11,14 +11,13 @@ Tests the main user-facing API functions:
 - Storage hints: auto, dense, packed, sparse, lazy
 """
 
-import pytest
 import numpy as np
+import pytest
 
 import boofun as bf
 from boofun.api import STORAGE_HINTS, create, from_hex, partial, to_hex
 from boofun.core import BooleanFunction
 from boofun.core.partial import PartialBooleanFunction
-
 
 # ---------------------------------------------------------------------------
 # Tests: create

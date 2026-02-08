@@ -16,11 +16,10 @@ Tests lightweight math helpers:
 - int_to_binary_tuple, binary_tuple_to_int
 """
 
-import pytest
 import numpy as np
+import pytest
 
 from boofun.utils import math as math_utils
-
 
 # ---------------------------------------------------------------------------
 # Tests: popcnt and poppar

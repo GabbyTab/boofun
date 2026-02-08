@@ -12,8 +12,8 @@ Tests block sensitivity analysis for Boolean functions:
 - block_sensitivity_profile
 """
 
-import pytest
 import numpy as np
+import pytest
 
 import boofun as bf
 from boofun.analysis.block_sensitivity import (
@@ -23,7 +23,6 @@ from boofun.analysis.block_sensitivity import (
     minimal_sensitive_blocks,
     sensitive_coordinates,
 )
-
 
 # ---------------------------------------------------------------------------
 # Helpers

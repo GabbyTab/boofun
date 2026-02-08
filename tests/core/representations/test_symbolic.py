@@ -14,12 +14,11 @@ Tests SymbolicRepresentation:
 - get_storage_requirements
 """
 
-import pytest
 import numpy as np
+import pytest
 
 from boofun.core.representations.symbolic import SymbolicRepresentation
 from boofun.core.spaces import Space
-
 
 # ---------------------------------------------------------------------------
 # Tests: basic methods
@@ -203,9 +202,7 @@ class TestConversions:
         from boofun.core.representations.truth_table import TruthTableRepresentation
 
         source = TruthTableRepresentation()
-        result = rep.convert_from(
-            source, np.array([0, 1, 1, 0], dtype=bool), Space.BOOLEAN_CUBE, 2
-        )
+        result = rep.convert_from(source, np.array([0, 1, 1, 0], dtype=bool), Space.BOOLEAN_CUBE, 2)
         assert isinstance(result, tuple)
         assert len(result) == 2
 

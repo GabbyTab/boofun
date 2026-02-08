@@ -28,7 +28,6 @@ from boofun.core.auto_representation import (
     recommend_representation,
 )
 
-
 # ---------------------------------------------------------------------------
 # Tests: estimate_sparsity
 # ---------------------------------------------------------------------------

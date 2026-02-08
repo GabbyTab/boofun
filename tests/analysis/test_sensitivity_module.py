@@ -16,8 +16,8 @@ Tests sensitivity analysis functions:
 - arg_max_sensitivity, arg_min_sensitivity
 """
 
-import pytest
 import numpy as np
+import pytest
 
 import boofun as bf
 from boofun.analysis.sensitivity import (
@@ -33,7 +33,6 @@ from boofun.analysis.sensitivity import (
     sensitivity_profile,
     total_influence_via_sensitivity,
 )
-
 
 # ---------------------------------------------------------------------------
 # Tests: sensitivity_at

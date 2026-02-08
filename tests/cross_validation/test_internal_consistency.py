@@ -24,12 +24,11 @@ Categories:
 13. Sensitive coordinates consistency
 """
 
-import pytest
 import numpy as np
+import pytest
 
 import boofun as bf
 from boofun.analysis import SpectralAnalyzer
-
 
 # ---------------------------------------------------------------------------
 # Test fixtures: standard functions with known properties
@@ -81,12 +80,10 @@ class TestInfluenceConsistency:
 
         for i in range(n):
             # Fourier identity: Inf_i = sum_{S: i in S} f_hat(S)^2
-            inf_fourier = sum(
-                fourier[S] ** 2 for S in range(1 << n) if (S >> i) & 1
-            )
-            assert abs(influences[i] - inf_fourier) < TOL, (
-                f"{name}: Inf_{i} mismatch: SA={influences[i]}, Fourier={inf_fourier}"
-            )
+            inf_fourier = sum(fourier[S] ** 2 for S in range(1 << n) if (S >> i) & 1)
+            assert (
+                abs(influences[i] - inf_fourier) < TOL
+            ), f"{name}: Inf_{i} mismatch: SA={influences[i]}, Fourier={inf_fourier}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_bf_influences(self, name):
@@ -97,9 +94,9 @@ class TestInfluenceConsistency:
         bf_infs = f.influences()
 
         for i in range(f.n_vars):
-            assert abs(sa_infs[i] - bf_infs[i]) < TOL, (
-                f"{name}: Inf_{i} mismatch: SA={sa_infs[i]}, BF={bf_infs[i]}"
-            )
+            assert (
+                abs(sa_infs[i] - bf_infs[i]) < TOL
+            ), f"{name}: Inf_{i} mismatch: SA={sa_infs[i]}, BF={bf_infs[i]}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_p_biased_at_half(self, name):
@@ -112,9 +109,9 @@ class TestInfluenceConsistency:
 
         for i in range(f.n_vars):
             inf_pb = p_biased_influence(f, i, p=0.5)
-            assert abs(influences[i] - inf_pb) < TOL, (
-                f"{name}: Inf_{i} mismatch: SA={influences[i]}, p-biased={inf_pb}"
-            )
+            assert (
+                abs(influences[i] - inf_pb) < TOL
+            ), f"{name}: Inf_{i} mismatch: SA={influences[i]}, p-biased={inf_pb}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_annealed_influence_at_rho_one(self, name):
@@ -127,9 +124,9 @@ class TestInfluenceConsistency:
 
         for i in range(f.n_vars):
             inf_ann = annealed_influence(f, i, rho=1.0)
-            assert abs(influences[i] - inf_ann) < TOL, (
-                f"{name}: Inf_{i} mismatch: SA={influences[i]}, annealed={inf_ann}"
-            )
+            assert (
+                abs(influences[i] - inf_ann) < TOL
+            ), f"{name}: Inf_{i} mismatch: SA={influences[i]}, annealed={inf_ann}"
 
 
 # ===========================================================================
@@ -151,9 +148,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_sens = average_sensitivity(f)
-        assert abs(ti_spectral - ti_sens) < TOL, (
-            f"{name}: TI mismatch: spectral={ti_spectral}, sensitivity={ti_sens}"
-        )
+        assert (
+            abs(ti_spectral - ti_sens) < TOL
+        ), f"{name}: TI mismatch: spectral={ti_spectral}, sensitivity={ti_sens}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_complexity_average(self, name):
@@ -163,9 +160,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_comp = average_sensitivity(f)
-        assert abs(ti_spectral - ti_comp) < TOL, (
-            f"{name}: TI mismatch: spectral={ti_spectral}, complexity={ti_comp}"
-        )
+        assert (
+            abs(ti_spectral - ti_comp) < TOL
+        ), f"{name}: TI mismatch: spectral={ti_spectral}, complexity={ti_comp}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_huang_average(self, name):
@@ -175,9 +172,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_huang = average_sensitivity(f)
-        assert abs(ti_spectral - ti_huang) < TOL, (
-            f"{name}: TI mismatch: spectral={ti_spectral}, huang={ti_huang}"
-        )
+        assert (
+            abs(ti_spectral - ti_huang) < TOL
+        ), f"{name}: TI mismatch: spectral={ti_spectral}, huang={ti_huang}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_fourier_identity(self, name):
@@ -186,12 +183,10 @@ class TestTotalInfluenceConsistency:
         n = f.n_vars
         ti_spectral = SpectralAnalyzer(f).total_influence()
         fourier = np.asarray(f.fourier())
-        ti_fourier = sum(
-            bin(S).count("1") * fourier[S] ** 2 for S in range(1 << n)
-        )
-        assert abs(ti_spectral - ti_fourier) < TOL, (
-            f"{name}: TI mismatch: spectral={ti_spectral}, Fourier={ti_fourier}"
-        )
+        ti_fourier = sum(bin(S).count("1") * fourier[S] ** 2 for S in range(1 << n))
+        assert (
+            abs(ti_spectral - ti_fourier) < TOL
+        ), f"{name}: TI mismatch: spectral={ti_spectral}, Fourier={ti_fourier}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_sum_of_influences(self, name):
@@ -200,9 +195,7 @@ class TestTotalInfluenceConsistency:
         sa = SpectralAnalyzer(f)
         ti = sa.total_influence()
         inf_sum = sum(sa.influences())
-        assert abs(ti - inf_sum) < TOL, (
-            f"{name}: TI={ti} != sum(Inf_i)={inf_sum}"
-        )
+        assert abs(ti - inf_sum) < TOL, f"{name}: TI={ti} != sum(Inf_i)={inf_sum}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_p_biased_total_at_half(self, name):
@@ -212,9 +205,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_pb = p_biased_total_influence(f, p=0.5)
-        assert abs(ti_spectral - ti_pb) < TOL, (
-            f"{name}: TI mismatch: spectral={ti_spectral}, p-biased={ti_pb}"
-        )
+        assert (
+            abs(ti_spectral - ti_pb) < TOL
+        ), f"{name}: TI mismatch: spectral={ti_spectral}, p-biased={ti_pb}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_p_biased_fourier_total_at_half(self, name):
@@ -224,9 +217,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_pb_fourier = p_biased_total_influence_fourier(f, p=0.5)
-        assert abs(ti_spectral - ti_pb_fourier) < TOL, (
-            f"{name}: TI mismatch: spectral={ti_spectral}, p-biased-fourier={ti_pb_fourier}"
-        )
+        assert (
+            abs(ti_spectral - ti_pb_fourier) < TOL
+        ), f"{name}: TI mismatch: spectral={ti_spectral}, p-biased-fourier={ti_pb_fourier}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_bf_method_matches_spectral(self, name):
@@ -255,9 +248,9 @@ class TestSensitivityConsistency:
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_sensitivity_at_all_modules(self, name):
         """All sensitivity_at implementations agree for every input."""
-        from boofun.analysis.sensitivity import sensitivity_at as sens_sensitivity
         from boofun.analysis.complexity import sensitivity as sens_complexity
         from boofun.analysis.huang import sensitivity_at as sens_huang
+        from boofun.analysis.sensitivity import sensitivity_at as sens_sensitivity
 
         f = FUNCTIONS_3[name]
         for x in range(1 << f.n_vars):
@@ -265,42 +258,34 @@ class TestSensitivityConsistency:
             s_comp = sens_complexity(f, x)
             s_huang = sens_huang(f, x)
 
-            assert s_sens == s_comp, (
-                f"{name} at x={x}: sensitivity={s_sens}, complexity={s_comp}"
-            )
-            assert s_sens == s_huang, (
-                f"{name} at x={x}: sensitivity={s_sens}, huang={s_huang}"
-            )
+            assert s_sens == s_comp, f"{name} at x={x}: sensitivity={s_sens}, complexity={s_comp}"
+            assert s_sens == s_huang, f"{name} at x={x}: sensitivity={s_sens}, huang={s_huang}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_max_sensitivity_all_modules(self, name):
         """All max_sensitivity implementations agree."""
-        from boofun.analysis.sensitivity import max_sensitivity as ms_sensitivity
         from boofun.analysis.complexity import max_sensitivity as ms_complexity
         from boofun.analysis.huang import max_sensitivity as ms_huang
+        from boofun.analysis.sensitivity import max_sensitivity as ms_sensitivity
 
         f = FUNCTIONS_3[name]
         s1 = ms_sensitivity(f)
         s2 = ms_complexity(f)
         s3 = ms_huang(f)
 
-        assert s1 == s2 == s3, (
-            f"{name}: max_sensitivity disagrees: {s1}, {s2}, {s3}"
-        )
+        assert s1 == s2 == s3, f"{name}: max_sensitivity disagrees: {s1}, {s2}, {s3}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_sensitive_coordinates_consistency(self, name):
         """sensitivity.sensitive_coordinates matches block_sensitivity.sensitive_coordinates."""
-        from boofun.analysis.sensitivity import sensitive_coordinates as sc_sens
         from boofun.analysis.block_sensitivity import sensitive_coordinates as sc_bs
+        from boofun.analysis.sensitivity import sensitive_coordinates as sc_sens
 
         f = FUNCTIONS_3[name]
         for x in range(1 << f.n_vars):
             coords_sens = sorted(sc_sens(f, x))
             coords_bs = sorted(sc_bs(f, x))
-            assert coords_sens == coords_bs, (
-                f"{name} at x={x}: sens={coords_sens}, bs={coords_bs}"
-            )
+            assert coords_sens == coords_bs, f"{name} at x={x}: sens={coords_sens}, bs={coords_bs}"
 
 
 # ===========================================================================
@@ -337,9 +322,7 @@ class TestBlockSensitivityConsistency:
         bs_exact = max_block_sensitivity(f)
         bs_huang = block_sensitivity(f)
 
-        assert bs_exact == bs_huang, (
-            f"{name}: exact bs={bs_exact} != huang bs={bs_huang}"
-        )
+        assert bs_exact == bs_huang, f"{name}: exact bs={bs_exact} != huang bs={bs_huang}"
 
 
 # ===========================================================================
@@ -363,9 +346,7 @@ class TestFourierCoefficientConsistency:
         f = FUNCTIONS_3[name]
         fourier = np.asarray(f.fourier())
         spectrum = np.asarray(f.spectrum())
-        assert np.allclose(fourier, spectrum), (
-            f"{name}: fourier() != spectrum()"
-        )
+        assert np.allclose(fourier, spectrum), f"{name}: fourier() != spectrum()"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_fourier_vs_walsh(self, name):
@@ -381,9 +362,7 @@ class TestFourierCoefficientConsistency:
         # vs Fourier: f_hat(S) = (1/2^n) sum_x f(x)*chi_S(x)
         # Relationship depends on convention. Typically walsh / 2^n = f_hat
         walsh_normalized = walsh / (1 << n)
-        assert np.allclose(fourier, walsh_normalized, atol=1e-10), (
-            f"{name}: Fourier != Walsh/2^n"
-        )
+        assert np.allclose(fourier, walsh_normalized, atol=1e-10), f"{name}: Fourier != Walsh/2^n"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_parseval_identity(self, name):
@@ -391,9 +370,7 @@ class TestFourierCoefficientConsistency:
         f = FUNCTIONS_3[name]
         fourier = np.asarray(f.fourier())
         total = np.sum(fourier**2)
-        assert abs(total - 1.0) < TOL, (
-            f"{name}: Parseval violation: sum f_hat^2 = {total}"
-        )
+        assert abs(total - 1.0) < TOL, f"{name}: Parseval violation: sum f_hat^2 = {total}"
 
 
 # ===========================================================================
@@ -442,9 +419,7 @@ class TestDegreeConsistency:
         f = FUNCTIONS_3[name]
         d_gf2 = gf2_degree(f)
         d_fourier = fourier_degree(f)
-        assert d_gf2 <= d_fourier, (
-            f"{name}: GF2 degree={d_gf2} > Fourier degree={d_fourier}"
-        )
+        assert d_gf2 <= d_fourier, f"{name}: GF2 degree={d_gf2} > Fourier degree={d_fourier}"
 
     def test_fourier_vs_gf2_known_difference(self):
         """Parity(n) has Fourier degree n but GF(2) degree 1 (it's linear over GF(2))."""
@@ -478,13 +453,8 @@ class TestNoiseStabilityConsistency:
         ns_sa = SpectralAnalyzer(f).noise_stability(rho)
         fourier = np.asarray(f.fourier())
 
-        ns_fourier = sum(
-            fourier[S] ** 2 * rho ** bin(S).count("1")
-            for S in range(1 << n)
-        )
-        assert abs(ns_sa - ns_fourier) < TOL, (
-            f"rho={rho}: SA={ns_sa}, Fourier={ns_fourier}"
-        )
+        ns_fourier = sum(fourier[S] ** 2 * rho ** bin(S).count("1") for S in range(1 << n))
+        assert abs(ns_sa - ns_fourier) < TOL, f"rho={rho}: SA={ns_sa}, Fourier={ns_fourier}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_bf_method_vs_spectral(self, name):
@@ -504,9 +474,7 @@ class TestNoiseStabilityConsistency:
         rho = 0.5
         ns_sa = SpectralAnalyzer(f).noise_stability(rho)
         ns_pb = p_biased_noise_stability(f, rho=rho, p=0.5)
-        assert abs(ns_sa - ns_pb) < TOL, (
-            f"{name}: SA={ns_sa}, p-biased={ns_pb}"
-        )
+        assert abs(ns_sa - ns_pb) < TOL, f"{name}: SA={ns_sa}, p-biased={ns_pb}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_rho_one_is_one(self, name):
@@ -545,9 +513,7 @@ class TestExpectationBiasConsistency:
         f = FUNCTIONS_3[name]
         bias = f.bias()
         f_hat_0 = float(f.fourier()[0])
-        assert abs(bias - f_hat_0) < TOL, (
-            f"{name}: bias={bias}, f_hat(0)={f_hat_0}"
-        )
+        assert abs(bias - f_hat_0) < TOL, f"{name}: bias={bias}, f_hat(0)={f_hat_0}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_bias_vs_basic_properties(self, name):
@@ -560,14 +526,15 @@ class TestExpectationBiasConsistency:
         # BooleanFunction.bias() = E[f] in +-1 = 1 - 2*Pr[f=1]
         # basic_properties.bias(f) = Pr[f=1]
         expected = 1 - 2 * bp_val
-        assert abs(bf_bias - expected) < TOL, (
-            f"{name}: bf.bias={bf_bias}, expected 1-2*{bp_val}={expected}"
-        )
+        assert (
+            abs(bf_bias - expected) < TOL
+        ), f"{name}: bf.bias={bf_bias}, expected 1-2*{bp_val}={expected}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_weight_vs_bias(self, name):
         """basic_properties.weight(f) / 2^n = basic_properties.bias(f)."""
-        from boofun.analysis.basic_properties import bias as bp_bias, weight
+        from boofun.analysis.basic_properties import bias as bp_bias
+        from boofun.analysis.basic_properties import weight
 
         f = FUNCTIONS_3[name]
         n = f.n_vars
@@ -583,9 +550,7 @@ class TestExpectationBiasConsistency:
         f = FUNCTIONS_3[name]
         exp_pb = p_biased_expectation(f, p=0.5)
         exp_bias = f.bias()
-        assert abs(exp_pb - exp_bias) < TOL, (
-            f"{name}: p-biased={exp_pb}, bias={exp_bias}"
-        )
+        assert abs(exp_pb - exp_bias) < TOL, f"{name}: p-biased={exp_pb}, bias={exp_bias}"
 
 
 # ===========================================================================
@@ -610,9 +575,7 @@ class TestDecisionTreeDepthConsistency:
         f = FUNCTIONS_3[name]
         d1 = decision_tree_depth(f)
         d2 = decision_tree_depth_dp(f)
-        assert d1 == d2, (
-            f"{name}: complexity.D={d1}, decision_trees.dp={d2}"
-        )
+        assert d1 == d2, f"{name}: complexity.D={d1}, decision_trees.dp={d2}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_d_alias(self, name):
@@ -638,16 +601,16 @@ class TestCertificateComplexityConsistency:
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_complexity_vs_certificates(self, name):
         """Both modules agree on certificate size for every input."""
-        from boofun.analysis.complexity import certificate_complexity
         from boofun.analysis.certificates import certificate
+        from boofun.analysis.complexity import certificate_complexity
 
         f = FUNCTIONS_3[name]
         for x in range(1 << f.n_vars):
             size_comp, _ = certificate_complexity(f, x)
             size_cert, _ = certificate(f, x)
-            assert size_comp == size_cert, (
-                f"{name} at x={x}: complexity={size_comp}, certificates={size_cert}"
-            )
+            assert (
+                size_comp == size_cert
+            ), f"{name} at x={x}: complexity={size_comp}, certificates={size_cert}"
 
 
 # ===========================================================================
@@ -672,9 +635,7 @@ class TestFourierSparsityConsistency:
         f = FUNCTIONS_3[name]
         s1 = fs_fourier(f)
         s2 = fs_sparsity(f)
-        assert s1 == s2, (
-            f"{name}: fourier.sparsity={s1}, sparsity.sparsity={s2}"
-        )
+        assert s1 == s2, f"{name}: fourier.sparsity={s1}, sparsity.sparsity={s2}"
 
 
 # ===========================================================================
@@ -706,9 +667,7 @@ class TestVarianceConsistency:
         f = FUNCTIONS_3[name]
         var = f.variance()
         mean_sq = float(f.fourier()[0]) ** 2
-        assert abs(var + mean_sq - 1.0) < TOL, (
-            f"{name}: Var + E^2 = {var + mean_sq}, expected 1"
-        )
+        assert abs(var + mean_sq - 1.0) < TOL, f"{name}: Var + E^2 = {var + mean_sq}, expected 1"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_p_biased_variance_at_half(self, name):
@@ -718,9 +677,7 @@ class TestVarianceConsistency:
         f = FUNCTIONS_3[name]
         var_bf = f.variance()
         var_pb = p_biased_variance(f, p=0.5)
-        assert abs(var_bf - var_pb) < TOL, (
-            f"{name}: BF.variance={var_bf}, p-biased={var_pb}"
-        )
+        assert abs(var_bf - var_pb) < TOL, f"{name}: BF.variance={var_bf}, p-biased={var_pb}"
 
 
 # ===========================================================================
@@ -742,9 +699,9 @@ class TestIsBalancedConsistency:
         from boofun.analysis.basic_properties import is_balanced
 
         f = FUNCTIONS_3[name]
-        assert f.is_balanced() == is_balanced(f), (
-            f"{name}: BF={f.is_balanced()}, basic_props={is_balanced(f)}"
-        )
+        assert f.is_balanced() == is_balanced(
+            f
+        ), f"{name}: BF={f.is_balanced()}, basic_props={is_balanced(f)}"
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_balanced_iff_zero_bias(self, name):
@@ -752,9 +709,7 @@ class TestIsBalancedConsistency:
         f = FUNCTIONS_3[name]
         fourier_0 = abs(float(f.fourier()[0]))
         is_bal = f.is_balanced()
-        assert is_bal == (fourier_0 < TOL), (
-            f"{name}: is_balanced={is_bal}, f_hat(0)={fourier_0}"
-        )
+        assert is_bal == (fourier_0 < TOL), f"{name}: is_balanced={is_bal}, f_hat(0)={fourier_0}"
 
 
 # ===========================================================================
@@ -839,16 +794,16 @@ class TestANFConsistency:
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_gf2_vs_crypto_anf(self, name):
         """GF(2) transform matches cryptographic ANF."""
-        from boofun.analysis.gf2 import gf2_fourier_transform
         from boofun.analysis.cryptographic import algebraic_normal_form
+        from boofun.analysis.gf2 import gf2_fourier_transform
 
         f = FUNCTIONS_3[name]
         gf2_coeffs = gf2_fourier_transform(f)
         anf_coeffs = algebraic_normal_form(f)
 
-        assert np.array_equal(np.asarray(gf2_coeffs), np.asarray(anf_coeffs)), (
-            f"{name}: GF2 transform != cryptographic ANF"
-        )
+        assert np.array_equal(
+            np.asarray(gf2_coeffs), np.asarray(anf_coeffs)
+        ), f"{name}: GF2 transform != cryptographic ANF"
 
 
 if __name__ == "__main__":
