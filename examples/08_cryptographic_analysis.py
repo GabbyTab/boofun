@@ -42,8 +42,7 @@ def demo_basic_cryptographic_properties():
     # Create some test functions
     xor = bf.parity(4)  # XOR is linear
     majority = bf.majority(5)  # Majority is nonlinear
-    bent_tt = [0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0]  # A bent function
-    bent_f = bf.create(bent_tt)
+    bent_f = bf.from_hex("ac90", n=4)  # Known 4-variable bent function
 
     print("\n1. Nonlinearity (distance to nearest affine function)")
     print("-" * 50)

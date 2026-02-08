@@ -28,7 +28,7 @@ python examples/01_getting_started.py
 
 ## Notebooks
 
-`notebooks/` contains 20 Jupyter notebooks aligned with O'Donnell's course:
+`notebooks/` contains 23 Jupyter notebooks aligned with O'Donnell's course:
 
 ### Core Lectures
 - `lecture1_fourier_expansion.ipynb` - Fourier basics
@@ -41,7 +41,7 @@ python examples/01_getting_started.py
 - `lecture8_learning_juntas.ipynb` - Junta learning
 - `lecture9_dnf_restrictions.ipynb` - DNF analysis
 - `lecture10_fourier_concentration.ipynb` - Advanced concentration
-- `lecture11_invariance_principle.ipynb` - CLT for Boolean functions
+- `lecture11_invariance_principle.ipynb` - Invariance principle and Gaussian analysis
 
 ### Homework Solutions
 - `hw1_fourier_expansion.ipynb` - Fourier exercises
@@ -51,7 +51,10 @@ python examples/01_getting_started.py
 
 ### Special Topics (v1.1)
 - `global_hypercontractivity.ipynb` - Global hypercontractivity (Keevash et al.)
-- `boolean_functions_as_random_variables.ipynb` - Sampling and Monte Carlo
+- `boolean_functions_as_random_variables.ipynb` - P-biased measures, threshold phenomena, estimation
 - `flexible_inputs_and_oracles.ipynb` - Input formats and oracles
 - `asymptotic_visualization.ipynb` - Growth plots
-- `real_world_applications.ipynb` - Practical applications
+- `real_world_applications.ipynb` - Voting, cryptography, feature selection
+- `ltf_visualization.ipynb` - LTF geometry and analysis
+- `cryptographic_analysis.ipynb` - Walsh spectrum, nonlinearity, SAC
+- `fractional_prg.ipynb` - Fractional PRGs and Fourier tails (CHLT ITCS 2019)
