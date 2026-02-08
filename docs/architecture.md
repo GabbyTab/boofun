@@ -13,14 +13,14 @@ BooFun is a modular Boolean function analysis library designed around lazy evalu
 flowchart TB
     subgraph API["Public API"]
         create["bf.create()"]
-        builtins["bf.majority()<br/>bf.parity()<br/>bf.tribes()"]
+        builtins["bf.majority()<br/>bf.parity()<br/>bf.tribes()<br/>bf.f2_polynomial()"]
         io["bf.load()<br/>bf.save()"]
     end
 
     subgraph Core["Core Module"]
-        BF["BooleanFunction"]
+        BF["BooleanFunction<br/>• fourier(), influences()<br/>• is_global(α)<br/>• __eq__, __hash__"]
         Factory["BooleanFunctionFactory"]
-        Space["Space (enum)"]
+        Space["Space + Measure"]
         ErrorModel["ErrorModel"]
     end
 
@@ -45,13 +45,16 @@ flowchart TB
         PathFind["Dijkstra Pathfinding"]
     end
 
-    subgraph Analysis["Analysis Module"]
-        Spectral["SpectralAnalyzer<br/>• fourier()<br/>• influences()<br/>• noise_stability()"]
-        PropTest["PropertyTester<br/>• BLR linearity<br/>• monotonicity<br/>• junta"]
-        Complexity["Complexity<br/>• D(f), s(f)<br/>• certificates<br/>• block sensitivity"]
-        Learning["Learning<br/>• Goldreich-Levin<br/>• PAC learning<br/>• junta learning"]
-        Hyper["Hypercontractivity<br/>• KKL theorem<br/>• Bonami's lemma"]
-        Crypto["Cryptographic<br/>• nonlinearity<br/>• LAT/DDT"]
+    subgraph Analysis["Analysis Module (28 modules)"]
+        Spectral["SpectralAnalyzer<br/>• fourier(), influences()<br/>• noise_stability()"]
+        PropTest["PropertyTester<br/>• BLR linearity<br/>• monotonicity, junta"]
+        Complexity["Complexity<br/>• D(f), s(f), bs(f)<br/>• certificates, Ambainis"]
+        PBiased["P-Biased Analysis<br/>• p_biased_expectation<br/>• threshold_curve<br/>• Fourier tails L_{1,k}"]
+        Hyper["Hypercontractivity<br/>• KKL, Bonami, Friedgut<br/>• Global (Keevash et al.)"]
+        Invariance["Invariance Principle<br/>• Gaussian analysis<br/>• Berry-Esseen<br/>• Majority is Stablest"]
+        Crypto["Cryptographic<br/>• nonlinearity, bent<br/>• LAT/DDT, SAC"]
+        Learning["Learning<br/>• Goldreich-Levin<br/>• PAC, junta learning"]
+        Sampling["Sampling<br/>• Monte Carlo estimation<br/>• Adaptive sampling<br/>• RandomVariableView"]
     end
 
     subgraph Families["Built-in Families"]
@@ -60,18 +63,18 @@ flowchart TB
         Tribes["tribes(k,n)"]
         Dictator["dictator(n,i)"]
         Threshold["threshold(n,k)"]
+        F2Poly["f2_polynomial(n,monomials)"]
     end
 
     subgraph Viz["Visualization"]
         Plotter["BooleanFunctionVisualizer"]
         DecTree["Decision Tree Export"]
-        Interactive["Interactive Widgets"]
+        Growth["GrowthVisualizer"]
     end
 
     subgraph Utils["Utilities"]
         Exceptions["Exception Hierarchy"]
-        Math["Math Helpers"]
-        Sampling["Sampling"]
+        Math["Math / Number Theory"]
     end
 
     %% Connections
@@ -96,16 +99,18 @@ flowchart TB
     BF --> Spectral
     BF --> PropTest
     BF --> Complexity
-    BF --> Learning
+    BF --> PBiased
     BF --> Hyper
+    BF --> Invariance
     BF --> Crypto
+    BF --> Learning
+    BF --> Sampling
 
     Families --> Factory
 
     BF --> Plotter
-    Complexity --> DecTree
+    BF --> Growth
 
-    Analysis --> Sampling
     Analysis --> Math
     Core --> Exceptions
 ```
@@ -157,15 +162,20 @@ Handles creation from various input types:
 - Delegates to appropriate `from_*` methods
 - Validates inputs and sets `n_vars`
 
-#### Space (`spaces.py`)
+#### Space and Measure (`spaces.py`)
 
-Defines the mathematical domain/codomain:
+Defines the mathematical domain/codomain and probability measures:
 
 ```python
 class Space(Enum):
     BOOLEAN_CUBE = "boolean_cube"      # {0,1}^n → {0,1}
     PLUS_MINUS_CUBE = "plus_minus_cube" # {-1,+1}^n → {-1,+1}
     REAL = "real"                       # For Fourier coefficients
+
+class Measure:
+    """Probability measure on the hypercube."""
+    uniform = Measure.uniform()         # p = 0.5
+    biased = Measure.p_biased(p=0.3)    # μ_p with p = 0.3
 ```
 
 ### Representations (`core/representations/`)
@@ -216,14 +226,20 @@ class ConversionGraph:
 
 Implements algorithms from O'Donnell's "Analysis of Boolean Functions":
 
-| Submodule | Chapter | Key Functions |
+| Submodule | O'Donnell Ch. | Key Functions |
 |-----------|---------|--------------|
-| `fourier.py` | 1-2 | Walsh-Hadamard transform, coefficients |
-| `hypercontractivity.py` | 9-10 | KKL theorem, Bonami's lemma |
-| `learning.py` | 3 | Goldreich-Levin, junta learning |
-| `complexity.py` | 4 | D(f), s(f), certificates |
-| `sensitivity.py` | 4 | Sensitivity, block sensitivity |
-| `cryptographic.py` | - | Nonlinearity, bent functions |
+| `fourier.py` | 1-2 | WHT, influences, spectral weight, Fourier tails $L_{1,k}$ |
+| `sensitivity.py` | 4 | Sensitivity, block sensitivity, moments |
+| `complexity.py` | 4 | D(f), s(f), bs(f), C(f), certificates |
+| `hypercontractivity.py` | 9-10 | KKL, Bonami, Friedgut, noise operator |
+| `global_hypercontractivity.py` | Keevash+ | α-globality, threshold curves, critical p |
+| `p_biased.py` | 8 | P-biased Fourier, influences, expectation |
+| `invariance.py` | 11 | Invariance distance, Majority is Stablest |
+| `gaussian.py` | 10-11 | Multilinear extension, Berry-Esseen, Hermite |
+| `sampling.py` | 1-3 | Monte Carlo estimation, adaptive sampling, RandomVariableView |
+| `learning.py` | 3 | Goldreich-Levin, PAC learning, junta learning |
+| `cryptographic.py` | - | Nonlinearity, bent, Walsh spectrum, LAT/DDT, SAC |
+| `query_complexity.py` | - | D, R, Q, Ambainis, spectral adversary |
 
 **Design decision**: Analysis functions work on `BooleanFunction` objects and request representations as needed. Functions are stateless and composable.
 
