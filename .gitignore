@@ -165,3 +165,6 @@ examples/visualizations/
 
 # Course materials (copyrighted class content)
 course_materials/
+
+# Internal outreach (not for public repo)
+docs/outreach/
