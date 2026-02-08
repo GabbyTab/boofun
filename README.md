@@ -37,9 +37,7 @@ complexity.D(maj)       # Decision tree depth
 complexity.s(maj)       # Max sensitivity
 ```
 
-**[Try it in Colab](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture3_social_choice_influences.ipynb)** -- no install needed.
-
-**[Full Documentation](https://gabbytab.github.io/boofun/)** · **[Quick Start](https://gabbytab.github.io/boofun/quickstart.html)**
+**[Try it in Colab](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture3_social_choice_influences.ipynb)** | **[All 23 Notebooks](#course-notebooks)** | **[Full Docs](https://gabbytab.github.io/boofun/)**
 
 ## Installation
 
@@ -171,13 +169,15 @@ Interactive notebooks following CS294-92 (Analysis of Boolean Functions). Click 
 </details>
 
 <details>
-<summary><strong>Supplementary Notebooks (6)</strong></summary>
+<summary><strong>Supplementary Notebooks (8)</strong></summary>
 
 | Topic | Description | Play |
 |-------|-------------|------|
 | [LTF Visualization](https://gabbytab.github.io/boofun/notebooks/ltf_visualization.html) | 3D hyperplane geometry, influences | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/ltf_visualization.ipynb) |
 | [Global Hypercontractivity](https://gabbytab.github.io/boofun/notebooks/global_hypercontractivity.html) | Keevash et al. threshold phenomena | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/global_hypercontractivity.ipynb) |
-| [Boolean Functions as Random Variables](https://gabbytab.github.io/boofun/notebooks/boolean_functions_as_random_variables.html) | Probabilistic perspective | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/boolean_functions_as_random_variables.ipynb) |
+| [Boolean Functions as Random Variables](https://gabbytab.github.io/boofun/notebooks/boolean_functions_as_random_variables.html) | P-biased measures, threshold curves, Russo | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/boolean_functions_as_random_variables.ipynb) |
+| [Cryptographic Analysis](https://gabbytab.github.io/boofun/notebooks/cryptographic_analysis.html) | Walsh spectrum, nonlinearity, SAC | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/cryptographic_analysis.ipynb) |
+| [Fractional PRGs](https://gabbytab.github.io/boofun/notebooks/fractional_prg.html) | Fourier tails, pseudorandomness (CHLT 2019) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/fractional_prg.ipynb) |
 | [Flexible Inputs & Oracles](https://gabbytab.github.io/boofun/notebooks/flexible_inputs_and_oracles.html) | Input formats, lazy evaluation | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/flexible_inputs_and_oracles.ipynb) |
 | [Real World Applications](https://gabbytab.github.io/boofun/notebooks/real_world_applications.html) | Cryptography, ML, voting | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/real_world_applications.ipynb) |
 | [Asymptotic Visualization](https://gabbytab.github.io/boofun/notebooks/asymptotic_visualization.html) | Growth rates and scaling | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/asymptotic_visualization.ipynb) |
@@ -186,9 +186,10 @@ Interactive notebooks following CS294-92 (Analysis of Boolean Functions). Click 
 
 ## Performance
 
-- NumPy vectorization throughout
-- Optional Numba JIT, CuPy GPU acceleration
-- Sparse/packed representations for large n
+- NumPy vectorization throughout (always on)
+- Numba JIT for 2-10x speedups: `pip install boofun[performance]`
+- CuPy GPU acceleration for large n: `pip install boofun[gpu]`
+- Sparse/packed representations for memory efficiency
 - Most operations complete in milliseconds for n ≤ 14
 
 ## Testing

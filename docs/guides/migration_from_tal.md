@@ -15,10 +15,13 @@ f.decision_tree()
 
 # boofun equivalent
 import boofun as bf
-f = bf.create([0, 0, 0, 1, 1, 0, 1, 0])  # truth table
+f = bf.create("x0 and x1 ^ x2", n=3)  # symbolic (like Tal's from_str)
+f = bf.create([0, 0, 0, 1, 1, 0, 1, 0])  # or truth table
 f.fourier()                                 # WHT coefficients
-f.sensitivity(5)                            # sensitivity at input 5 (via analysis module)
-bf.analysis.complexity.D(f)                 # decision tree depth
+f.sensitivity_at(5)                         # sensitivity at input 5
+
+from boofun.analysis.complexity import D
+D(f)                                        # decision tree depth
 ```
 
 ---
@@ -68,11 +71,11 @@ from boofun.analysis.gf2 import gf2_fourier_transform, gf2_degree
 | `f.total_influence()` | `f.total_influence()` | Total influence |
 
 ```python
-from boofun.analysis import complexity, sensitivity, certificates
-complexity.D(f)      # Decision tree depth
-complexity.s(f)      # Max sensitivity
-complexity.bs(f)     # Block sensitivity
-complexity.C(f)      # Certificate complexity
+from boofun.analysis.complexity import D, s, bs, C
+D(f)     # Decision tree depth
+s(f)     # Max sensitivity
+bs(f)    # Block sensitivity
+C(f)     # Certificate complexity
 ```
 
 ---
@@ -133,10 +136,11 @@ from boofun.utils.number_theory import prime_sieve, factor, is_prime
 | Tal | boofun | Notes |
 |-----|--------|-------|
 | `BooleanFunc(truth_table)` | `bf.create(truth_table)` | From list |
-| `BooleanFunc("x0&x1 ^ x2")` | `bf.create("x0 and x1", n=3)` | Symbolic (Python syntax) |
+| `BooleanFunc("x0&x1 ^ x2")` | `bf.create("x0 and x1 ^ x2", n=3)` | Symbolic expression |
 | `BooleanFunc.sym(vals)` | `bf.threshold(n, k)` | Symmetric functions |
 | `BooleanFunc.random_func(n, d)` | `bf.random(n)` | Random function |
 | `BooleanFunc.from_str(expr)` | `bf.create(expr, n=...)` | Expression parsing |
+| *(no equivalent)* | `bf.f2_polynomial(n, monomials)` | GF(2) polynomials |
 
 ---
 
