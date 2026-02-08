@@ -92,3 +92,5 @@ See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Treat each other as capable adults
 
 - [GitHub Discussions](https://github.com/GabbyTab/boofun/discussions) for questions
 - [Issues](https://github.com/GabbyTab/boofun/issues) for bugs
+
+For the full development guide (setup, architecture, code style, test guidelines), see the [full contributing docs](https://gabbytab.github.io/boofun/CONTRIBUTING.html).
