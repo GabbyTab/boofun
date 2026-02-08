@@ -72,9 +72,14 @@ class BooleanFunction(Evaluable, Representable):
         self.restrictions = kwargs.get("restrictions")
         # Use explicit None check to handle n=0 (constant functions) correctly
         n = kwargs.get("n")
-        self.n_vars = n if n is not None else kwargs.get("n_vars")
-        self._metadata = kwargs.get("metadata", {})
-        self.nickname = kwargs.get("nickname") or "x_0"
+        self.n_vars: Optional[int] = n if n is not None else kwargs.get("n_vars")
+        self._metadata: Dict[str, Any] = kwargs.get("metadata", {})
+        self.nickname: str = kwargs.get("nickname") or "x_0"
+
+    @property
+    def _n(self) -> int:
+        """n_vars as int. Returns 0 if not set (for adapted/partial functions)."""
+        return self.n_vars if self.n_vars is not None else 0
 
     def __array__(self, dtype=None, copy=None) -> np.ndarray:
         """Return the truth table as a NumPy array for NumPy compatibility.
@@ -275,7 +280,7 @@ class BooleanFunction(Evaluable, Representable):
             target_strategy = get_strategy(rep_type)
 
             try:
-                result = source_strategy.convert_to(target_strategy, data, self.space, self.n_vars)
+                result = source_strategy.convert_to(target_strategy, data, self.space, self._n)
             except NotImplementedError:
                 raise ConversionError(
                     f"No conversion path available from '{source_rep_type}' to '{rep_type}'",
@@ -293,7 +298,7 @@ class BooleanFunction(Evaluable, Representable):
         else:
             # Use optimal path from conversion graph
             try:
-                result = best_path.execute(best_source_data, self.space, self.n_vars)
+                result = best_path.execute(best_source_data, self.space, self._n)
             except Exception as e:
                 raise ConversionError(
                     f"Conversion to '{rep_type}' failed during path execution: {e}",
@@ -423,7 +428,7 @@ class BooleanFunction(Evaluable, Representable):
             from .batch_processing import process_batch
 
             try:
-                return process_batch(inputs, data, rep_type, self.space, self.n_vars)
+                return process_batch(inputs, data, rep_type, self.space, self._n)
             except ImportError:
                 # Batch processing not available, use standard path
                 pass
@@ -438,7 +443,7 @@ class BooleanFunction(Evaluable, Representable):
 
         # Standard evaluation for small inputs or fallback
         strategy = get_strategy(rep_type)
-        result = strategy.evaluate(inputs, data, self.space, self.n_vars)
+        result = strategy.evaluate(inputs, data, self.space, self._n)
         return result
 
     def _setup_probabilistic_interface(self):
@@ -446,11 +451,11 @@ class BooleanFunction(Evaluable, Representable):
         # Add methods that make this behave like rv_discrete/rv_continuous
         # self._configure_sampling_methods()
 
-    def _evaluate_stochastic(self, rv_inputs, n_samples=1000):
-        """Handle random variable inputs using Monte Carlo"""
+    def _evaluate_stochastic(self, rv_inputs, n_samples=1000, **kwargs):
+        """Handle random variable inputs using Monte Carlo."""
         samples = rv_inputs.rvs(size=n_samples)
         results = [self._evaluate_deterministic(sample) for sample in samples]
-        return self._create_result_distribution(results)
+        return np.array(results)
 
     def evaluate_range(self, inputs):
         pass
@@ -468,7 +473,7 @@ class BooleanFunction(Evaluable, Representable):
             rng = np.random.default_rng()
 
         # Generate random inputs and evaluate
-        domain_size = 2**self.n_vars
+        domain_size = 2**self._n
         random_indices = rng.integers(0, domain_size, size=size)
 
         # Evaluate function at random points
@@ -502,12 +507,12 @@ class BooleanFunction(Evaluable, Representable):
     @property
     def num_variables(self) -> int:
         """Alias for n_vars for backwards compatibility."""
-        return self.n_vars
+        return self._n
 
     @property
     def num_vars(self) -> int:
         """Alias for n_vars for backwards compatibility."""
-        return self.n_vars
+        return self._n
 
     # get methods
     def has_rep(self, rep_type):
@@ -530,7 +535,7 @@ class BooleanFunction(Evaluable, Representable):
         if not self.representations:
             return {}
 
-        all_options = {}
+        all_options: Dict[str, Any] = {}
         for source_rep in self.representations.keys():
             options = get_conversion_options(source_rep, max_cost)
             for target, path in options.items():
@@ -605,7 +610,7 @@ class BooleanFunction(Evaluable, Representable):
             >>> g = f.fix(0, 1)  # Fix x_0 = 1, get function on x_1 only
         """
         if isinstance(var, (list, tuple)):
-            return self._fix_multi(var, val)
+            return self._fix_multi(list(var), val)
         else:
             return self._fix_single(var, val)
 
@@ -622,10 +627,10 @@ class BooleanFunction(Evaluable, Representable):
         """
         if val not in (0, 1):
             raise ValueError(f"Value must be 0 or 1, got {val}")
-        if var < 0 or var >= self.n_vars:
-            raise ValueError(f"Variable index {var} out of range [0, {self.n_vars-1}]")
+        if var < 0 or var >= self._n:
+            raise ValueError(f"Variable index {var} out of range [0, {self._n-1}]")
 
-        n = self.n_vars
+        n = self._n
         new_n = n - 1
 
         if new_n == 0:
@@ -706,10 +711,10 @@ class BooleanFunction(Evaluable, Representable):
         Note:
             The influence of variable i equals E[D_i f] = Pr[D_i f(x) = 1]
         """
-        if var < 0 or var >= self.n_vars:
-            raise ValueError(f"Variable index {var} out of range [0, {self.n_vars-1}]")
+        if var < 0 or var >= self._n:
+            raise ValueError(f"Variable index {var} out of range [0, {self._n-1}]")
 
-        n = self.n_vars
+        n = self._n
         size = 1 << n
         old_tt = self.get_representation("truth_table")
         new_tt = np.zeros(size, dtype=bool)
@@ -734,10 +739,10 @@ class BooleanFunction(Evaluable, Representable):
         Returns:
             New BooleanFunction with shifted inputs
         """
-        if s < 0 or s >= (1 << self.n_vars):
-            raise ValueError(f"Shift {s} out of range [0, {(1 << self.n_vars) - 1}]")
+        if s < 0 or s >= (1 << self._n):
+            raise ValueError(f"Shift {s} out of range [0, {(1 << self._n) - 1}]")
 
-        n = self.n_vars
+        n = self._n
         size = 1 << n
         old_tt = self.get_representation("truth_table")
         new_tt = np.zeros(size, dtype=bool)
@@ -1015,7 +1020,7 @@ class BooleanFunction(Evaluable, Representable):
             {0: 0.0, 1: 0.625, 3: 0.3125, 5: 0.0625}
         """
         coeffs = self.fourier()
-        weights = {}
+        weights: Dict[int, float] = {}
         for s, c in enumerate(coeffs):
             deg = bin(s).count("1")
             weights[deg] = weights.get(deg, 0) + c * c
@@ -1041,7 +1046,7 @@ class BooleanFunction(Evaluable, Representable):
         for s, c in enumerate(coeffs):
             if abs(c) >= tau:
                 # Convert bitmask to tuple of variable indices
-                subset = tuple(i for i in range(self.n_vars) if (s >> i) & 1)
+                subset = tuple(i for i in range(self._n) if (s >> i) & 1)
                 heavy.append((subset, float(c)))
         return sorted(heavy, key=lambda x: -abs(x[1]))
 
@@ -1196,7 +1201,7 @@ class BooleanFunction(Evaluable, Representable):
             tt = np.asarray(self.get_representation("truth_table"))
             return int(np.sum(tt))
         except Exception:
-            return int(sum(self.evaluate(x) for x in range(2**self.n_vars)))
+            return int(sum(self.evaluate(x) for x in range(2**self._n)))
 
     def support(self) -> list:
         """
@@ -1215,7 +1220,7 @@ class BooleanFunction(Evaluable, Representable):
             tt = np.asarray(self.get_representation("truth_table"))
             return [int(x) for x in np.nonzero(tt)[0]]
         except Exception:
-            return [x for x in range(2**self.n_vars) if self.evaluate(x) == 1]
+            return [x for x in range(2**self._n) if self.evaluate(x) == 1]
 
     def restriction(self, fixed_vars: dict) -> "BooleanFunction":
         """
@@ -1274,7 +1279,7 @@ class BooleanFunction(Evaluable, Representable):
         """
         f_x = self.evaluate(x)
         count = 0
-        for i in range(self.n_vars):
+        for i in range(self._n):
             neighbor = x ^ (1 << i)  # Flip bit i
             if self.evaluate(neighbor) != f_x:
                 count += 1
@@ -1290,7 +1295,7 @@ class BooleanFunction(Evaluable, Representable):
         Returns:
             Maximum sensitivity
         """
-        return max(self.sensitivity_at(x) for x in range(2**self.n_vars))
+        return max(self.sensitivity_at(x) for x in range(2**self._n))
 
     # =========================================================================
     # Fluent/Chainable API Methods
@@ -1358,7 +1363,7 @@ class BooleanFunction(Evaluable, Representable):
         if not -1 <= rho <= 1:
             raise ValueError("rho must be in [-1, 1]")
 
-        n = self.n_vars
+        n = self._n
         new_tt = []
 
         for x in range(2**n):
@@ -1436,7 +1441,7 @@ class BooleanFunction(Evaluable, Representable):
             >>> f = bf.dictator(3, 0)  # f(x) = x_0
             >>> g = f.permute([2, 0, 1])  # g(x) = x_2 (old position 0 → new position 2)
         """
-        n = self.n_vars
+        n = self._n
         if len(perm) != n:
             raise ValueError(f"Permutation must have {n} elements")
         if set(perm) != set(range(n)):
@@ -1490,7 +1495,7 @@ class BooleanFunction(Evaluable, Representable):
             >>> f = bf.AND(2)  # f(x0, x1) = x0 AND x1
             >>> g = f.extend(4)  # g(x0,x1,x2,x3) = x0 AND x1 (x2,x3 ignored)
         """
-        n = self.n_vars
+        n = self._n
         if new_n < n:
             raise ValueError(f"new_n ({new_n}) must be >= current n ({n})")
         if new_n == n:

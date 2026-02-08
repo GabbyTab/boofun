@@ -14,8 +14,8 @@ try:
     _DNF_CNF_AVAILABLE = True
 except ImportError:
     _DNF_CNF_AVAILABLE = False
-    DNFFormula = None
-    CNFFormula = None
+    DNFFormula = None  # type: ignore[misc,assignment]
+    CNFFormula = None  # type: ignore[misc,assignment]
 
 
 # Supported representation types for better error messages

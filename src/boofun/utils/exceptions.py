@@ -320,7 +320,7 @@ class InvalidTruthTableError(ValidationError):
         message: str,
         code: Optional[ErrorCode] = None,
         size: Optional[int] = None,
-        expected_size: Optional[int] = None,
+        expected_size: Optional[Any] = None,
         context: Optional[Dict[str, Any]] = None,
         suggestion: Optional[str] = None,
     ):
