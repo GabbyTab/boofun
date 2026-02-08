@@ -52,9 +52,7 @@ class TestRepresentationRoundTrips:
 
             # Convert ±1 back to {0,1}
             tt_back = [int(v < 0) for v in reconstructed]
-            assert tt_back == original_tt, (
-                f"{name}: round-trip failed"
-            )
+            assert tt_back == original_tt, f"{name}: round-trip failed"
 
     def test_truth_table_to_anf_roundtrip(self, test_functions):
         """truth_table -> ANF -> truth_table (evaluate ANF polynomial)."""
@@ -78,9 +76,7 @@ class TestRepresentationRoundTrips:
                             val ^= 1
                 reconstructed[x] = val
 
-            assert list(reconstructed) == original_tt, (
-                f"{name}: ANF round-trip failed"
-            )
+            assert list(reconstructed) == original_tt, f"{name}: ANF round-trip failed"
 
 
 class TestF2Polynomial:
@@ -149,12 +145,8 @@ class TestAdaptiveSampling:
         f = bf.majority(5)
         exact = f.fourier()[1]  # f_hat({0})
 
-        est, se, n_used = estimate_fourier_adaptive(
-            f, S=1, target_error=0.05, max_samples=50000
-        )
-        assert abs(est - exact) < 0.15, (
-            f"Adaptive estimate {est} too far from exact {exact}"
-        )
+        est, se, n_used = estimate_fourier_adaptive(f, S=1, target_error=0.05, max_samples=50000)
+        assert abs(est - exact) < 0.15, f"Adaptive estimate {est} too far from exact {exact}"
         assert se <= 0.05 + 0.01  # Allow small tolerance
 
     def test_respects_max_samples(self):
@@ -162,9 +154,7 @@ class TestAdaptiveSampling:
         from boofun.analysis.sampling import estimate_fourier_adaptive
 
         f = bf.parity(5)
-        _, _, n_used = estimate_fourier_adaptive(
-            f, S=31, target_error=0.0001, max_samples=5000
-        )
+        _, _, n_used = estimate_fourier_adaptive(f, S=31, target_error=0.0001, max_samples=5000)
         assert n_used <= 5000 + 1000  # batch_size overshoot
 
 

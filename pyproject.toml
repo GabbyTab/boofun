@@ -225,7 +225,7 @@ ignore_errors = true
 
 [[tool.mypy.overrides]]
 module = "boofun.core.base"
-ignore_errors = true  # Main class with complex typing
+ignore_errors = false  # Passes mypy (Feb 2026)
 
 [[tool.mypy.overrides]]
 module = "boofun.core.gpu"
@@ -249,7 +249,7 @@ ignore_errors = true
 
 [[tool.mypy.overrides]]
 module = "boofun.core.factory"
-ignore_errors = true
+ignore_errors = false  # Passes mypy (Feb 2026)
 
 [tool.flake8]
 max-line-length = 100
