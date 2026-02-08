@@ -32,6 +32,7 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
    guides/families
    guides/probabilistic
    guides/advanced
+   guides/migration_from_tal
 
 .. toctree::
    :maxdepth: 2
