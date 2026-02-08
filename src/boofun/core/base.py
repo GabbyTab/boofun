@@ -76,9 +76,6 @@ class BooleanFunction(Evaluable, Representable):
         self._metadata = kwargs.get("metadata", {})
         self.nickname = kwargs.get("nickname") or "x_0"
 
-    # Keep _init as alias for backward compatibility with factory code
-    _init = __init__
-
     def __array__(self, dtype=None, copy=None) -> np.ndarray:
         """Return the truth table as a NumPy array for NumPy compatibility.
 
