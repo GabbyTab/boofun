@@ -20,7 +20,7 @@
 
 A toolkit for teaching, learning, and doing research in Boolean function analysis. Fourier analysis, property testing, query complexity, hypercontractivity, pseudorandomness, and more -- with 25 interactive notebooks aligned to O'Donnell's *Analysis of Boolean Functions*.
 
-Built at UC Berkeley alongside Avishay Tal's [CS 294-92](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html). Cross-validated against SageMath, Tal's toolkit, and known closed-form results.
+Built at UC Berkeley alongside Avishay Tal's [CS 294-92](https://www.avishaytal.org/cs-294-92-analysis-of-boolean-functions-spring-2025). Cross-validated against SageMath, Tal's toolkit, and known closed-form results.
 
 ```python
 import boofun as bf
