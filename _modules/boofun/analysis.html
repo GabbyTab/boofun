@@ -1,0 +1,1132 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.analysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis</h1><div class="highlight"><pre>
+<span></span><span class="c1"># src/boofun/analysis/__init__.py</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Boolean function analysis module providing spectral analysis tools.</span>
+
+<span class="sd">This module implements fundamental algorithms for analyzing Boolean functions</span>
+<span class="sd">including Fourier analysis, influence computation, and noise stability.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..core.numba_optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_numba_available</span><span class="p">,</span> <span class="n">numba_optimize</span>
+
+
+<div class="viewcode-block" id="SpectralAnalyzer">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.SpectralAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SpectralAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Spectral analysis tools for Boolean functions.</span>
+
+<span class="sd">    Provides methods for computing Fourier coefficients, variable influences,</span>
+<span class="sd">    total influence, noise stability, and other spectral properties.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SpectralAnalyzer.__init__">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.SpectralAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize analyzer with a Boolean function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            function: BooleanFunction instance to analyze</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="k">if</span> <span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Function must have defined number of variables&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">n_vars</span>
+
+        <span class="c1"># Cache for expensive computations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_coeffs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_influences</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Track error model for uncertainty propagation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_model</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">error_model</span></div>
+
+
+<div class="viewcode-block" id="SpectralAnalyzer.fourier_expansion">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.SpectralAnalyzer.fourier_expansion">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fourier_expansion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_recompute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Fourier expansion coefficients.</span>
+
+<span class="sd">        The Fourier expansion represents f: {0,1}^n → {0,1} as:</span>
+<span class="sd">        f(x) = Σ_S f̂(S) * χ_S(x)</span>
+<span class="sd">        where χ_S(x) = (-1)^(Σ_{i∈S} x_i) are the Walsh functions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force_recompute: If True, recompute even if cached</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Array of Fourier coefficients indexed by subsets</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_coeffs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force_recompute</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_coeffs</span>
+
+        <span class="c1"># Get function values on all inputs</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>  <span class="c1"># 2^n</span>
+
+        <span class="c1"># Convert function to {-1, +1} representation for Fourier analysis</span>
+        <span class="c1"># O&#39;Donnell convention (Analysis of Boolean Functions, Chapter 1):</span>
+        <span class="c1">#   f(x) = 0  →  +1  (in ±1 domain)</span>
+        <span class="c1">#   f(x) = 1  →  -1  (in ±1 domain)</span>
+        <span class="c1"># This ensures the fundamental identity f̂(∅) = E[f] holds.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Fast path: read truth table directly (avoids 2^n evaluate() calls)</span>
+            <span class="n">tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">f_vals</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">tt</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="c1"># Fallback: evaluate entry-by-entry (for oracle/callable functions)</span>
+            <span class="n">f_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="n">f_vals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">val</span> <span class="k">else</span> <span class="mf">1.0</span>
+
+        <span class="c1"># Compute Fourier coefficients using Walsh-Hadamard transform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_coeffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_walsh_hadamard_transform</span><span class="p">(</span><span class="n">f_vals</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fourier_coeffs</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_walsh_hadamard_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_vals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Walsh-Hadamard transform (fast Fourier transform for Boolean functions).</span>
+
+<span class="sd">        Uses the fastest available backend:</span>
+<span class="sd">        1. pyfwht (GPU-accelerated, if installed)</span>
+<span class="sd">        2. scipy.linalg.hadamard (CPU-optimized)</span>
+<span class="sd">        3. Pure numpy iterative (fallback)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f_vals: Function values in {-1, 1} representation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Fourier coefficients</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">f_vals</span><span class="p">)</span>
+
+        <span class="c1"># Try pyfwht for GPU-accelerated transform (fastest for large n)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pyfwht</span><span class="w"> </span><span class="kn">import</span> <span class="n">fwht</span>
+
+            <span class="c1"># pyfwht expects natural order, returns Walsh-Hadamard coefficients</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">fwht</span><span class="p">(</span><span class="n">f_vals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">result</span> <span class="o">/</span> <span class="n">size</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># Fall back if pyfwht fails</span>
+
+        <span class="c1"># Try to use scipy.linalg.hadamard for better performance</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">hadamard</span>
+
+            <span class="c1"># Hadamard matrix multiply is more cache-friendly for medium n</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">14</span><span class="p">:</span>  <span class="c1"># scipy.linalg.hadamard has size limitations</span>
+                <span class="n">H</span> <span class="o">=</span> <span class="n">hadamard</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">H</span> <span class="o">@</span> <span class="n">f_vals</span><span class="p">)</span> <span class="o">/</span> <span class="n">size</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Fall back to iterative implementation (in-place, memory-efficient)</span>
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="n">f_vals</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Iterative Walsh-Hadamard transform</span>
+        <span class="c1"># This is equivalent to matrix multiplication with Hadamard matrix</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>  <span class="c1"># 2^i</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">step</span> <span class="o">*</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">step</span><span class="p">):</span>
+                    <span class="n">u</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">step</span><span class="p">]</span>
+                    <span class="n">coeffs</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span> <span class="o">+</span> <span class="n">v</span>
+                    <span class="n">coeffs</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">k</span> <span class="o">+</span> <span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span> <span class="o">-</span> <span class="n">v</span>
+
+        <span class="k">return</span> <span class="n">coeffs</span> <span class="o">/</span> <span class="n">size</span>  <span class="c1"># Normalize</span>
+
+<div class="viewcode-block" id="SpectralAnalyzer.influences">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.SpectralAnalyzer.influences">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">influences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_recompute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute variable influences (also called sensitivities).</span>
+
+<span class="sd">        The influence of variable i is:</span>
+<span class="sd">        Inf_i(f) = Pr[f(x) ≠ f(x ⊕ e_i)]</span>
+<span class="sd">        where e_i is the i-th unit vector.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force_recompute: If True, recompute even if cached</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Array of influences for each variable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_influences</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force_recompute</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_influences</span>
+
+        <span class="c1"># Try Numba optimization if available and function has truth table</span>
+        <span class="k">if</span> <span class="n">is_numba_available</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">has_rep</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">truth_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+                <span class="n">influences</span> <span class="o">=</span> <span class="n">numba_optimize</span><span class="p">(</span><span class="s2">&quot;influences&quot;</span><span class="p">,</span> <span class="n">truth_table</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_influences</span> <span class="o">=</span> <span class="n">influences</span>
+                <span class="k">return</span> <span class="n">influences</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Numba optimization failed, using fallback: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Vectorized truth-table path (fast even without Numba)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">has_rep</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)),</span>
+                    <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+                <span class="n">influences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">):</span>
+                    <span class="n">flipped</span> <span class="o">=</span> <span class="n">indices</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>
+                    <span class="n">influences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">tt</span> <span class="o">!=</span> <span class="n">tt</span><span class="p">[</span><span class="n">flipped</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_influences</span> <span class="o">=</span> <span class="n">influences</span>
+                <span class="k">return</span> <span class="n">influences</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vectorized influence computation failed, using fallback: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Brute-force fallback (no truth table available)</span>
+        <span class="n">influences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>  <span class="c1"># 2^n</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">):</span>
+            <span class="c1"># Count disagreements when flipping bit i</span>
+            <span class="n">disagreements</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+                <span class="c1"># Flip the i-th bit (LSB=x₀ convention)</span>
+                <span class="n">x_flipped</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>
+
+                <span class="c1"># Evaluate function at both points</span>
+                <span class="n">f_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+                <span class="n">f_x_flipped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_flipped</span><span class="p">))</span>
+
+                <span class="k">if</span> <span class="n">f_x</span> <span class="o">!=</span> <span class="n">f_x_flipped</span><span class="p">:</span>
+                    <span class="n">disagreements</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Influence is fraction of inputs where flipping bit i changes output</span>
+            <span class="n">influences</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">disagreements</span> <span class="o">/</span> <span class="n">size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_influences</span> <span class="o">=</span> <span class="n">influences</span>
+        <span class="k">return</span> <span class="n">influences</span></div>
+
+
+<div class="viewcode-block" id="SpectralAnalyzer.total_influence">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.SpectralAnalyzer.total_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_influence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute total influence (sum of all variable influences).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Total influence = Σ_i Inf_i(f)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">influences</span><span class="p">()))</span></div>
+
+
+<div class="viewcode-block" id="SpectralAnalyzer.noise_stability">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.SpectralAnalyzer.noise_stability">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">noise_stability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute noise stability at correlation ρ.</span>
+
+<span class="sd">        Noise stability is the probability that f(x) = f(y) where</span>
+<span class="sd">        y is obtained from x by flipping each bit independently with</span>
+<span class="sd">        probability (1-ρ)/2.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rho: Correlation parameter in [-1, 1]</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Noise stability value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">rho</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Correlation rho must be in [-1, 1]&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Use Fourier expansion to compute noise stability</span>
+        <span class="n">fourier_coeffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+        <span class="c1"># Try Numba optimization</span>
+        <span class="k">if</span> <span class="n">is_numba_available</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">numba_optimize</span><span class="p">(</span><span class="s2">&quot;noise_stability&quot;</span><span class="p">,</span> <span class="n">fourier_coeffs</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Numba noise stability optimization failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Fallback: Noise stability = Σ_S f̂(S)² * ρ^|S|</span>
+        <span class="n">stability</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="c1"># Count number of bits in subset s (|S|)</span>
+            <span class="n">subset_size</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">stability</span> <span class="o">+=</span> <span class="n">fourier_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">rho</span><span class="o">**</span><span class="n">subset_size</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">stability</span></div>
+
+
+<div class="viewcode-block" id="SpectralAnalyzer.spectral_concentration">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.SpectralAnalyzer.spectral_concentration">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectral_concentration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degree</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute spectral concentration at given degree.</span>
+
+<span class="sd">        This is the fraction of Fourier weight on coefficients</span>
+<span class="sd">        corresponding to sets of size at most &#39;degree&#39;.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            degree: Maximum subset size to include</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Fraction of spectral weight on low-degree coefficients</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fourier_coeffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+        <span class="n">total_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">low_degree_weight</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">)):</span>
+            <span class="n">subset_size</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">subset_size</span> <span class="o">&lt;=</span> <span class="n">degree</span><span class="p">:</span>
+                <span class="n">low_degree_weight</span> <span class="o">+=</span> <span class="n">fourier_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="k">return</span> <span class="n">low_degree_weight</span> <span class="o">/</span> <span class="n">total_weight</span> <span class="k">if</span> <span class="n">total_weight</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span></div>
+
+
+<div class="viewcode-block" id="SpectralAnalyzer.get_fourier_coefficient">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.SpectralAnalyzer.get_fourier_coefficient">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_fourier_coefficient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get Fourier coefficient for a specific subset.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            subset: Either integer index or list of variable indices</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Fourier coefficient for the subset</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fourier_coeffs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="c1"># Convert list of indices to integer representation (LSB=x₀ convention)</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">:</span>
+                <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span>
+                    <span class="n">index</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> out of range&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">subset</span>
+
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subset index </span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2"> out of range&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpectralAnalyzer.summary">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.SpectralAnalyzer.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute summary statistics for the Boolean function.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with various spectral properties and confidence information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">influences</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+        <span class="c1"># Organize statistics by category</span>
+        <span class="n">summary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># Fundamental probabilistic measures</span>
+            <span class="s2">&quot;expectation&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">bias</span><span class="p">(),</span>  <span class="c1"># E[f] = f̂(∅)</span>
+            <span class="s2">&quot;variance&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">variance</span><span class="p">(),</span>  <span class="c1"># Var[f] = 1 - E[f]²</span>
+            <span class="c1"># Complexity measures</span>
+            <span class="s2">&quot;degree&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">degree</span><span class="p">(),</span>  <span class="c1"># Fourier degree</span>
+            <span class="s2">&quot;sparsity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">sparsity</span><span class="p">(),</span>  <span class="c1"># Non-zero coefficients</span>
+            <span class="c1"># Influence measures</span>
+            <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_influence</span><span class="p">(),</span>
+            <span class="s2">&quot;max_influence&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">influences</span><span class="p">),</span>
+            <span class="c1"># Noise robustness</span>
+            <span class="s2">&quot;noise_stability_0.9&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.9</span><span class="p">),</span>
+            <span class="s2">&quot;noise_stability_0.5&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.5</span><span class="p">),</span>
+            <span class="c1"># Spectral concentration</span>
+            <span class="s2">&quot;spectral_concentration_1&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectral_concentration</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+            <span class="s2">&quot;spectral_concentration_2&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectral_concentration</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Add error model information</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_model</span><span class="p">,</span> <span class="s2">&quot;get_confidence&quot;</span><span class="p">):</span>
+            <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;analysis_confidence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_model</span><span class="o">.</span><span class="n">get_confidence</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span>
+            <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;error_model_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">error_model</span><span class="p">,</span> <span class="s2">&quot;is_reliable&quot;</span><span class="p">):</span>
+                <span class="n">summary</span><span class="p">[</span><span class="s2">&quot;analysis_reliable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_model</span><span class="o">.</span><span class="n">is_reliable</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">summary</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PropertyTester">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PropertyTester</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Property testing algorithms for Boolean functions.</span>
+
+<span class="sd">    Implements various randomized and deterministic tests to check</span>
+<span class="sd">    if Boolean functions satisfy specific properties.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PropertyTester.__init__">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">random_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="k">if</span> <span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Function must have defined number of variables&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">n_vars</span>
+
+        <span class="c1"># Set random seed for reproducible testing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">random_seed</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.constant_test">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.constant_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">constant_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if function is constant.</span>
+
+<span class="sd">        Deterministic test that checks if all outputs are identical.</span>
+<span class="sd">        Time complexity: O(2^n) for exhaustive check.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if function is constant, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">first_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">!=</span> <span class="n">first_val</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.blr_linearity_test">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.blr_linearity_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">blr_linearity_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        BLR (Blum-Luby-Rubinfeld) linearity test.</span>
+
+<span class="sd">        Tests if a function f: {0,1}^n → {0,1} is linear (i.e., f(x ⊕ y) = f(x) ⊕ f(y)).</span>
+<span class="sd">        Uses randomized queries to test the linearity property.</span>
+
+<span class="sd">        QUERY COMPLEXITY: O(3 * num_queries) - safe for arbitrarily large n.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_queries: Number of random queries to perform</span>
+<span class="sd">            epsilon: Error tolerance (function passes if error rate &lt; epsilon)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if function appears linear, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">violations</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+
+        <span class="c1"># Use Python&#39;s random for arbitrary precision integers (handles n &gt; 63)</span>
+        <span class="n">py_rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_queries</span><span class="p">):</span>
+            <span class="c1"># Generate random inputs x and y using arbitrary precision</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">py_rng</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">py_rng</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+            <span class="c1"># Compute x ⊕ y</span>
+            <span class="n">x_xor_y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="n">y</span>
+
+            <span class="c1"># Test linearity condition: f(x) ⊕ f(y) = f(x ⊕ y)</span>
+            <span class="n">f_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">f_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">f_x_xor_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_xor_y</span><span class="p">)</span>
+
+            <span class="n">expected</span> <span class="o">=</span> <span class="n">f_x</span> <span class="o">^</span> <span class="n">f_y</span>  <span class="c1"># XOR of outputs</span>
+            <span class="k">if</span> <span class="n">f_x_xor_y</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
+                <span class="n">violations</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">error_rate</span> <span class="o">=</span> <span class="n">violations</span> <span class="o">/</span> <span class="n">num_queries</span>
+        <span class="k">return</span> <span class="n">error_rate</span> <span class="o">&lt;</span> <span class="n">epsilon</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.junta_test">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.junta_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">junta_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if function is a k-junta (depends on at most k variables).</span>
+
+<span class="sd">        A function is a k-junta if there exists a set S ⊆ [n] with |S| ≤ k</span>
+<span class="sd">        such that f(x) depends only on coordinates in S.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            k: Maximum number of relevant variables</span>
+<span class="sd">            num_queries: Number of random queries</span>
+<span class="sd">            confidence: Confidence level for the test</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if function appears to be a k-junta, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Trivially true</span>
+
+        <span class="c1"># Use influence-based approach: if function is k-junta,</span>
+        <span class="c1"># at most k variables can have non-zero influence</span>
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+        <span class="n">influences</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+        <span class="c1"># Count variables with significant influence</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span>  <span class="c1"># Minimum detectable influence</span>
+        <span class="n">influential_vars</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">influences</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">influential_vars</span> <span class="o">&lt;=</span> <span class="n">k</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.monotonicity_test">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.monotonicity_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">monotonicity_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if function is monotone (f(x) ≤ f(y) whenever x ≤ y coordinate-wise).</span>
+
+<span class="sd">        QUERY COMPLEXITY: O(2 * num_queries) - safe for arbitrarily large n.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_queries: Number of random pairs to test</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if function appears monotone, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+        <span class="n">violations</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+
+        <span class="c1"># Use Python&#39;s random for arbitrary precision</span>
+        <span class="n">py_rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_queries</span><span class="p">):</span>
+            <span class="c1"># Generate random x using arbitrary precision</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">py_rng</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+            <span class="c1"># Generate y ≥ x by flipping some 0 bits to 1</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">py_rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.3</span><span class="p">:</span>
+                    <span class="n">y</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+
+            <span class="c1"># Check monotonicity: f(x) ≤ f(y)</span>
+            <span class="n">f_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">f_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">f_x</span> <span class="o">&gt;</span> <span class="n">f_y</span><span class="p">:</span>  <span class="c1"># Violation of monotonicity</span>
+                <span class="n">violations</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Function is monotone if no violations found</span>
+        <span class="k">return</span> <span class="n">violations</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.unateness_test">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.unateness_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">unateness_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if function is unate (monotone in each variable, possibly negated).</span>
+
+<span class="sd">        A function is unate if for each variable x_i, either:</span>
+<span class="sd">        - f is monotone increasing in x_i, OR</span>
+<span class="sd">        - f is monotone decreasing in x_i</span>
+
+<span class="sd">        Unate functions generalize monotone functions - they can be monotone</span>
+<span class="sd">        in different &quot;directions&quot; for different variables.</span>
+
+<span class="sd">        QUERY COMPLEXITY: O(2 * num_queries) - safe for arbitrarily large n.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_queries: Number of random pairs to test per variable</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if function appears unate, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="n">py_rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">))</span>
+
+        <span class="n">queries_per_var</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">num_queries</span> <span class="o">//</span> <span class="n">n</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="c1"># Track if we&#39;ve seen increasing or decreasing behavior</span>
+            <span class="n">saw_increase</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">saw_decrease</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">queries_per_var</span><span class="p">):</span>
+                <span class="c1"># Generate random x</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">py_rng</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+                <span class="c1"># Create x&#39; by flipping bit i</span>
+                <span class="n">x_prime</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>
+
+                <span class="n">f_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">f_x_prime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_prime</span><span class="p">)</span>
+
+                <span class="c1"># Check the direction of change when x_i goes 0→1</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># x has 0 in position i, x&#39; has 1</span>
+                    <span class="k">if</span> <span class="n">f_x_prime</span> <span class="o">&gt;</span> <span class="n">f_x</span><span class="p">:</span>
+                        <span class="n">saw_increase</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">elif</span> <span class="n">f_x_prime</span> <span class="o">&lt;</span> <span class="n">f_x</span><span class="p">:</span>
+                        <span class="n">saw_decrease</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># x has 1 in position i, x&#39; has 0</span>
+                    <span class="k">if</span> <span class="n">f_x</span> <span class="o">&gt;</span> <span class="n">f_x_prime</span><span class="p">:</span>
+                        <span class="n">saw_increase</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">elif</span> <span class="n">f_x</span> <span class="o">&lt;</span> <span class="n">f_x_prime</span><span class="p">:</span>
+                        <span class="n">saw_decrease</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="c1"># If both directions seen, not unate in this variable</span>
+                <span class="k">if</span> <span class="n">saw_increase</span> <span class="ow">and</span> <span class="n">saw_decrease</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.symmetry_test">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.symmetry_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">symmetry_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if function is symmetric (invariant under permutations of variables).</span>
+
+<span class="sd">        QUERY COMPLEXITY: O(2 * num_queries) - safe for arbitrarily large n.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_queries: Number of random permutations to test</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if function appears symmetric, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+
+        <span class="c1"># Use Python&#39;s random for arbitrary precision</span>
+        <span class="n">py_rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_queries</span><span class="p">):</span>
+            <span class="c1"># Generate random input using arbitrary precision</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">py_rng</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+            <span class="c1"># Generate random permutation</span>
+            <span class="n">perm</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="n">py_rng</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">perm</span><span class="p">)</span>
+
+            <span class="c1"># Apply permutation efficiently</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">y</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+
+            <span class="c1"># Check if f(x) = f(permuted(x))</span>
+            <span class="n">f_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">f_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">f_x</span> <span class="o">!=</span> <span class="n">f_y</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.balanced_test">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.balanced_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">balanced_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if function is balanced (outputs 0 and 1 equally often).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if function is balanced, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">ones_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span>
+                <span class="n">ones_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">ones_count</span> <span class="o">==</span> <span class="n">total</span> <span class="o">//</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.dictator_test">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.dictator_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dictator_test</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if function is a dictator or anti-dictator.</span>
+
+<span class="sd">        A dictator function is f(x) = x_i for some i.</span>
+<span class="sd">        An anti-dictator is f(x) = ¬x_i = 1 - x_i.</span>
+
+<span class="sd">        From O&#39;Donnell Chapter 7: The FKN theorem states that if f is</span>
+<span class="sd">        Boolean and has small total influence, it&#39;s close to a dictator.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_queries: Number of random queries</span>
+<span class="sd">            epsilon: Distance threshold</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple of (is_dictator_like, dictator_index) where:</span>
+<span class="sd">            - is_dictator_like: True if f is close to a dictator/anti-dictator</span>
+<span class="sd">            - dictator_index: The index of the dictator variable (or None)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute influences</span>
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+        <span class="n">influences</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+        <span class="c1"># Find the variable with maximum influence</span>
+        <span class="n">max_inf_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">influences</span><span class="p">))</span>
+        <span class="n">max_inf</span> <span class="o">=</span> <span class="n">influences</span><span class="p">[</span><span class="n">max_inf_idx</span><span class="p">]</span>
+
+        <span class="c1"># For a dictator, one variable has influence 1, others have 0</span>
+        <span class="n">total_inf</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">influences</span><span class="p">))</span>
+
+        <span class="c1"># Check if it&#39;s close to a dictator</span>
+        <span class="k">if</span> <span class="n">max_inf</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span> <span class="ow">and</span> <span class="n">total_inf</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">:</span>
+            <span class="c1"># Verify by checking function values</span>
+            <span class="n">is_dictator</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">is_anti_dictator</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">num_queries</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span>
+                <span class="n">f_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+
+                <span class="c1"># Extract the i-th bit (LSB=x₀ convention)</span>
+                <span class="n">x_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">max_inf_idx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+
+                <span class="k">if</span> <span class="n">f_x</span> <span class="o">!=</span> <span class="n">x_i</span><span class="p">:</span>
+                    <span class="n">is_dictator</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">f_x</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x_i</span><span class="p">):</span>
+                    <span class="n">is_anti_dictator</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">is_dictator</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_anti_dictator</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">is_dictator</span> <span class="ow">or</span> <span class="n">is_anti_dictator</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_inf_idx</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.affine_test">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.affine_test">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">affine_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        4-query test for affine functions over GF(2).</span>
+
+<span class="sd">        From HW1 Problem 4: A function f: F_2^n → F_2 is affine iff</span>
+<span class="sd">        f(x) + f(y) + f(z) = f(x + y + z) for all x, y, z.</span>
+
+<span class="sd">        This is a generalization of the BLR linearity test.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            num_queries: Number of random queries</span>
+<span class="sd">            epsilon: Error tolerance</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if function appears to be affine</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">violations</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_queries</span><span class="p">):</span>
+            <span class="c1"># Generate three random inputs</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span>
+
+            <span class="c1"># Compute x + y + z (XOR in GF(2))</span>
+            <span class="n">xyz</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="n">y</span> <span class="o">^</span> <span class="n">z</span>
+
+            <span class="c1"># Test: f(x) + f(y) + f(z) = f(x + y + z)</span>
+            <span class="n">f_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+            <span class="n">f_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+            <span class="n">f_z</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+            <span class="n">f_xyz</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xyz</span><span class="p">)))</span>
+
+            <span class="c1"># XOR of three values should equal fourth</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">f_x</span> <span class="o">^</span> <span class="n">f_y</span> <span class="o">^</span> <span class="n">f_z</span><span class="p">)</span> <span class="o">!=</span> <span class="n">f_xyz</span><span class="p">:</span>
+                <span class="n">violations</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">violations</span> <span class="o">/</span> <span class="n">num_queries</span> <span class="o">&lt;</span> <span class="n">epsilon</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.local_correct">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.local_correct">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">local_correct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Local correction for functions close to linear.</span>
+
+<span class="sd">        If f is ε-close to some linear function χ_S, then for random y:</span>
+<span class="sd">            f(y) ⊕ f(x⊕y) = χ_S(x) with probability ≥ 1-2ε</span>
+
+<span class="sd">        Uses majority voting over multiple random samples to improve accuracy.</span>
+
+<span class="sd">        From O&#39;Donnell Lecture 2 / BLR Theorem: This is the &quot;self-correction&quot;</span>
+<span class="sd">        property of linear functions. Even if f has some errors, we can</span>
+<span class="sd">        compute χ_S(x) correctly with high probability.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input to correct (integer index in {0, 1, ..., 2^n - 1})</span>
+<span class="sd">            repetitions: Number of random samples for majority vote</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Corrected value in {-1, +1} (±1 representation)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If x is out of range or repetitions &lt; 1</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; f = bf.parity(4)  # Linear function</span>
+<span class="sd">            &gt;&gt;&gt; tester = PropertyTester(f)</span>
+<span class="sd">            &gt;&gt;&gt; tester.local_correct(5)  # Should return χ_S(5)</span>
+<span class="sd">            1 or -1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+        <span class="k">if</span> <span class="n">repetitions</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;repetitions must be ≥ 1, got </span><span class="si">{</span><span class="n">repetitions</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="n">max_x</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">max_x</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x must be in [0, </span><span class="si">{</span><span class="n">max_x</span><span class="si">}</span><span class="s2">], got </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Use Python&#39;s random for arbitrary precision integers (handles n &gt; 63)</span>
+        <span class="n">py_rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">))</span>
+
+        <span class="n">votes_plus_one</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">votes_minus_one</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">repetitions</span><span class="p">):</span>
+            <span class="c1"># Generate random y</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">py_rng</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+            <span class="c1"># Compute f(y) and f(x ⊕ y)</span>
+            <span class="n">f_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+            <span class="n">f_x_xor_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span> <span class="o">^</span> <span class="n">y</span><span class="p">))</span>
+
+            <span class="c1"># Convert {0,1} outputs to {+1,-1}: 0 → +1, 1 → -1</span>
+            <span class="n">f_y_pm</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">f_y</span>
+            <span class="n">f_x_xor_y_pm</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">f_x_xor_y</span>
+
+            <span class="c1"># Self-correction: f(y) · f(x⊕y) should equal χ_S(x)</span>
+            <span class="n">vote</span> <span class="o">=</span> <span class="n">f_y_pm</span> <span class="o">*</span> <span class="n">f_x_xor_y_pm</span>
+
+            <span class="k">if</span> <span class="n">vote</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">votes_plus_one</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">votes_minus_one</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Majority vote</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">votes_plus_one</span> <span class="o">&gt;=</span> <span class="n">votes_minus_one</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.local_correct_all">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.local_correct_all">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">local_correct_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply local correction to all inputs.</span>
+
+<span class="sd">        Returns the corrected function values for all 2^n inputs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            repetitions: Number of random samples per input</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            numpy array of shape (2^n,) with values in {-1, +1}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+        <span class="n">corrected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">corrected</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_correct</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">repetitions</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">corrected</span></div>
+
+
+<div class="viewcode-block" id="PropertyTester.run_all_tests">
+<a class="viewcode-back" href="../../api/boofun.analysis.html#boofun.PropertyTester.run_all_tests">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_all_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run all available property tests.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary mapping test names to results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;constant&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constant_test</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;constant&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;linear&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blr_linearity_test</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;linear&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;balanced&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balanced_test</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;balanced&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;monotone&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">monotonicity_test</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;monotone&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;unate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unateness_test</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;unate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;symmetric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">symmetry_test</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;symmetric&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;affine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">affine_test</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;affine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="c1"># Test for small juntas</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">results</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">-junta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">junta_test</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">results</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">-junta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+</div>
+
+
+
+<span class="c1"># Export main classes and submodules</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: E402</span>
+    <span class="n">basic_properties</span><span class="p">,</span>
+    <span class="n">block_sensitivity</span><span class="p">,</span>
+    <span class="n">certificates</span><span class="p">,</span>
+    <span class="n">complexity</span><span class="p">,</span>
+    <span class="n">cryptographic</span><span class="p">,</span>
+    <span class="n">decision_trees</span><span class="p">,</span>
+    <span class="n">equivalence</span><span class="p">,</span>
+    <span class="n">fourier</span><span class="p">,</span>
+    <span class="n">gaussian</span><span class="p">,</span>
+    <span class="n">gf2</span><span class="p">,</span>
+    <span class="n">global_hypercontractivity</span><span class="p">,</span>
+    <span class="n">hypercontractivity</span><span class="p">,</span>
+    <span class="n">invariance</span><span class="p">,</span>
+    <span class="n">learning</span><span class="p">,</span>
+    <span class="n">ltf_analysis</span><span class="p">,</span>
+    <span class="n">p_biased</span><span class="p">,</span>
+    <span class="n">query_complexity</span><span class="p">,</span>
+    <span class="n">restrictions</span><span class="p">,</span>
+    <span class="n">sampling</span><span class="p">,</span>
+    <span class="n">sensitivity</span><span class="p">,</span>
+    <span class="n">sparsity</span><span class="p">,</span>
+    <span class="n">symmetry</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;SpectralAnalyzer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PropertyTester&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;block_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;certificates&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;symmetry&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gf2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;equivalence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;learning&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fourier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;restrictions&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hypercontractivity&quot;</span><span class="p">,</span>
+    <span class="c1"># BFW-style analysis (Scott Aaronson&#39;s Boolean Function Wizard)</span>
+    <span class="s2">&quot;query_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;basic_properties&quot;</span><span class="p">,</span>
+    <span class="c1"># Decision tree analysis (Tal&#39;s algorithms)</span>
+    <span class="s2">&quot;decision_trees&quot;</span><span class="p">,</span>
+    <span class="c1"># Fourier sparsity analysis (Tal&#39;s algorithms)</span>
+    <span class="s2">&quot;sparsity&quot;</span><span class="p">,</span>
+    <span class="c1"># Boolean functions as random variables (O&#39;Donnell Chapters 1-3)</span>
+    <span class="s2">&quot;sampling&quot;</span><span class="p">,</span>
+    <span class="c1"># Cryptographic analysis (nonlinearity, bent functions, SAC)</span>
+    <span class="s2">&quot;cryptographic&quot;</span><span class="p">,</span>
+    <span class="c1"># O&#39;Donnell Chapters 10-11: Gaussian analysis and Invariance Principle</span>
+    <span class="s2">&quot;gaussian&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;invariance&quot;</span><span class="p">,</span>
+    <span class="c1"># O&#39;Donnell Chapter 5: Linear Threshold Functions</span>
+    <span class="s2">&quot;ltf_analysis&quot;</span><span class="p">,</span>
+    <span class="c1"># Keevash et al.: Global Hypercontractivity</span>
+    <span class="s2">&quot;global_hypercontractivity&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

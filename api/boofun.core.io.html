@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.io &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="boofun.core.legacy_adapter" href="boofun.core.legacy_adapter.html" />
+    <link rel="prev" title="boofun.core.gpu" href="boofun.core.gpu.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="boofun.html">boofun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.create"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.partial"><code class="docutils literal notranslate"><span class="pre">partial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PartialBooleanFunction"><code class="docutils literal notranslate"><span class="pre">PartialBooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_hex"><code class="docutils literal notranslate"><span class="pre">from_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.to_hex"><code class="docutils literal notranslate"><span class="pre">to_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.majority"><code class="docutils literal notranslate"><span class="pre">majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parity"><code class="docutils literal notranslate"><span class="pre">parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tribes"><code class="docutils literal notranslate"><span class="pre">tribes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dictator"><code class="docutils literal notranslate"><span class="pre">dictator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.constant"><code class="docutils literal notranslate"><span class="pre">constant()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.AND"><code class="docutils literal notranslate"><span class="pre">AND()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.OR"><code class="docutils literal notranslate"><span class="pre">OR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold"><code class="docutils literal notranslate"><span class="pre">threshold()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.weighted_majority"><code class="docutils literal notranslate"><span class="pre">weighted_majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_weights"><code class="docutils literal notranslate"><span class="pre">from_weights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionError"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidInputError"><code class="docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidRepresentationError"><code class="docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidTruthTableError"><code class="docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.EvaluationError"><code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConversionError"><code class="docutils literal notranslate"><span class="pre">ConversionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ResourceUnavailableError"><code class="docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvariantViolationError"><code class="docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parseval_verify"><code class="docutils literal notranslate"><span class="pre">parseval_verify()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.plancherel_inner_product"><code class="docutils literal notranslate"><span class="pre">plancherel_inner_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.convolution"><code class="docutils literal notranslate"><span class="pre">convolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.negate_inputs"><code class="docutils literal notranslate"><span class="pre">negate_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.odd_part"><code class="docutils literal notranslate"><span class="pre">odd_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.even_part"><code class="docutils literal notranslate"><span class="pre">even_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.restriction"><code class="docutils literal notranslate"><span class="pre">restriction()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_degree"><code class="docutils literal notranslate"><span class="pre">fourier_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.spectral_norm"><code class="docutils literal notranslate"><span class="pre">spectral_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_sparsity"><code class="docutils literal notranslate"><span class="pre">fourier_sparsity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dominant_coefficients"><code class="docutils literal notranslate"><span class="pre">dominant_coefficients()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_fourier_transform"><code class="docutils literal notranslate"><span class="pre">gf2_fourier_transform()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_degree"><code class="docutils literal notranslate"><span class="pre">gf2_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_monomials"><code class="docutils literal notranslate"><span class="pre">gf2_monomials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_to_string"><code class="docutils literal notranslate"><span class="pre">gf2_to_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_linear_over_gf2"><code class="docutils literal notranslate"><span class="pre">is_linear_over_gf2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.correlation_with_parity"><code class="docutils literal notranslate"><span class="pre">correlation_with_parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_operator"><code class="docutils literal notranslate"><span class="pre">noise_operator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.lq_norm"><code class="docutils literal notranslate"><span class="pre">lq_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.bonami_lemma_bound"><code class="docutils literal notranslate"><span class="pre">bonami_lemma_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.kkl_lower_bound"><code class="docutils literal notranslate"><span class="pre">kkl_lower_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.max_influence_bound"><code class="docutils literal notranslate"><span class="pre">max_influence_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.friedgut_junta_bound"><code class="docutils literal notranslate"><span class="pre">friedgut_junta_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.junta_approximation_error"><code class="docutils literal notranslate"><span class="pre">junta_approximation_error()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.level_d_inequality"><code class="docutils literal notranslate"><span class="pre">level_d_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractive_inequality"><code class="docutils literal notranslate"><span class="pre">hypercontractive_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GlobalHypercontractivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">GlobalHypercontractivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.generalized_influence"><code class="docutils literal notranslate"><span class="pre">generalized_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_alpha_global"><code class="docutils literal notranslate"><span class="pre">is_alpha_global()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_expectation"><code class="docutils literal notranslate"><span class="pre">p_biased_expectation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_total_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_total_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_stability_p_biased"><code class="docutils literal notranslate"><span class="pre">noise_stability_p_biased()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold_curve"><code class="docutils literal notranslate"><span class="pre">threshold_curve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.find_critical_p"><code class="docutils literal notranslate"><span class="pre">find_critical_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractivity_bound"><code class="docutils literal notranslate"><span class="pre">hypercontractivity_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionValidator"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionValidator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.quick_validate"><code class="docutils literal notranslate"><span class="pre">quick_validate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.validate_representation"><code class="docutils literal notranslate"><span class="pre">validate_representation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.CallableAdapter"><code class="docutils literal notranslate"><span class="pre">CallableAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SymPyAdapter"><code class="docutils literal notranslate"><span class="pre">SymPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NumPyAdapter"><code class="docutils literal notranslate"><span class="pre">NumPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_callable"><code class="docutils literal notranslate"><span class="pre">adapt_callable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_sympy_expr"><code class="docutils literal notranslate"><span class="pre">adapt_sympy_expr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_numpy_function"><code class="docutils literal notranslate"><span class="pre">adapt_numpy_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Measure"><code class="docutils literal notranslate"><span class="pre">Measure</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.get_gf_field"><code class="docutils literal notranslate"><span class="pre">get_gf_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GFField"><code class="docutils literal notranslate"><span class="pre">GFField</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.MajorityFamily"><code class="docutils literal notranslate"><span class="pre">MajorityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ParityFamily"><code class="docutils literal notranslate"><span class="pre">ParityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.TribesFamily"><code class="docutils literal notranslate"><span class="pre">TribesFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ThresholdFamily"><code class="docutils literal notranslate"><span class="pre">ThresholdFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ANDFamily"><code class="docutils literal notranslate"><span class="pre">ANDFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ORFamily"><code class="docutils literal notranslate"><span class="pre">ORFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.DictatorFamily"><code class="docutils literal notranslate"><span class="pre">DictatorFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LTFFamily"><code class="docutils literal notranslate"><span class="pre">LTFFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GrowthTracker"><code class="docutils literal notranslate"><span class="pre">GrowthTracker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.FunctionFamily"><code class="docutils literal notranslate"><span class="pre">FunctionFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InductiveFamily"><code class="docutils literal notranslate"><span class="pre">InductiveFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionVisualizer"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionVisualizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.analysis.html">boofun.analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.api.html">boofun.api</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="boofun.core.html">boofun.core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Evaluable"><code class="docutils literal notranslate"><span class="pre">Evaluable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Representable"><code class="docutils literal notranslate"><span class="pre">Representable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionFactory"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionFactory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionRepresentation"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionRepresentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ErrorModel"><code class="docutils literal notranslate"><span class="pre">ErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LinearErrorModel"><code class="docutils literal notranslate"><span class="pre">LinearErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QueryModel"><code class="docutils literal notranslate"><span class="pre">QueryModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.AccessType"><code class="docutils literal notranslate"><span class="pre">AccessType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.get_access_type"><code class="docutils literal notranslate"><span class="pre">get_access_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.check_query_safety"><code class="docutils literal notranslate"><span class="pre">check_query_safety()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QuerySafetyWarning"><code class="docutils literal notranslate"><span class="pre">QuerySafetyWarning</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExplicitEnumerationError"><code class="docutils literal notranslate"><span class="pre">ExplicitEnumerationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_json"><code class="docutils literal notranslate"><span class="pre">load_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_json"><code class="docutils literal notranslate"><span class="pre">save_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_bf"><code class="docutils literal notranslate"><span class="pre">load_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_bf"><code class="docutils literal notranslate"><span class="pre">save_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">load_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">save_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.detect_format"><code class="docutils literal notranslate"><span class="pre">detect_format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.FileIOError"><code class="docutils literal notranslate"><span class="pre">FileIOError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.adapters.html">boofun.core.adapters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.auto_representation.html">boofun.core.auto_representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.base.html">boofun.core.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.batch_processing.html">boofun.core.batch_processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.builtins.html">boofun.core.builtins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.conversion_graph.html">boofun.core.conversion_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.errormodels.html">boofun.core.errormodels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.factory.html">boofun.core.factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.gpu.html">boofun.core.gpu</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">boofun.core.io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.io.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.io.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.io.load_json"><code class="docutils literal notranslate"><span class="pre">load_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.io.save_json"><code class="docutils literal notranslate"><span class="pre">save_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.io.load_bf"><code class="docutils literal notranslate"><span class="pre">load_bf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.io.save_bf"><code class="docutils literal notranslate"><span class="pre">save_bf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.io.load_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">load_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.io.save_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">save_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.io.detect_format"><code class="docutils literal notranslate"><span class="pre">detect_format()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.legacy_adapter.html">boofun.core.legacy_adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.numba_optimizations.html">boofun.core.numba_optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.optimizations.html">boofun.core.optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.partial.html">boofun.core.partial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.query_model.html">boofun.core.query_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.representations.html">boofun.core.representations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.spaces.html">boofun.core.spaces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.families.html">boofun.families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.quantum_complexity.html">boofun.quantum_complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.testing.html">boofun.testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.utils.html">boofun.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.visualization.html">boofun.visualization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="boofun.core.html">boofun.core</a></li>
+      <li class="breadcrumb-item active">boofun.core.io</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/boofun.core.io.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-boofun.core.io">
+<span id="boofun-core-io"></span><h1>boofun.core.io<a class="headerlink" href="#module-boofun.core.io" title="Link to this heading"></a></h1>
+<p>File I/O for Boolean functions.</p>
+<p>Supports multiple formats:
+- JSON: Full representation with metadata
+- .bf: Scott Aaronson’s Boolean Function Wizard format
+- DIMACS CNF: Standard SAT solver format</p>
+<dl>
+<dt>Usage:</dt><dd><p>from boofun.core.io import load, save</p>
+<p># Load from file (format auto-detected)
+f = load(“function.json”)
+f = load(“function.bf”)
+f = load(“function.cnf”)</p>
+<p># Save to file
+save(f, “output.json”)
+save(f, “output.bf”)
+save(f, “output.cnf”)</p>
+</dd>
+</dl>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.io.detect_format" title="boofun.core.io.detect_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">detect_format</span></code></a>(path)</p></td>
+<td><p>Detect file format from extension or content.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.io.load" title="boofun.core.io.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path[, format])</p></td>
+<td><p>Load a Boolean function from file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.io.load_bf" title="boofun.core.io.load_bf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_bf</span></code></a>(path, **kwargs)</p></td>
+<td><p>Load Boolean function from .bf file (Aaronson format).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.io.load_dimacs_cnf" title="boofun.core.io.load_dimacs_cnf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_dimacs_cnf</span></code></a>(path, **kwargs)</p></td>
+<td><p>Load Boolean function from DIMACS CNF file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.io.load_json" title="boofun.core.io.load_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_json</span></code></a>(path, **kwargs)</p></td>
+<td><p>Load Boolean function from JSON file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.io.save" title="boofun.core.io.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(func, path[, format])</p></td>
+<td><p>Save a Boolean function to file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.io.save_bf" title="boofun.core.io.save_bf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_bf</span></code></a>(func, path[, include_inputs])</p></td>
+<td><p>Save Boolean function to .bf file (Aaronson format).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.io.save_dimacs_cnf" title="boofun.core.io.save_dimacs_cnf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_dimacs_cnf</span></code></a>(func, path[, comment])</p></td>
+<td><p>Save Boolean function to DIMACS CNF file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.io.save_json" title="boofun.core.io.save_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_json</span></code></a>(func, path[, representation, pretty])</p></td>
+<td><p>Save Boolean function to JSON file.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Exceptions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="boofun.core.html#boofun.core.FileIOError" title="boofun.core.io.FileIOError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FileIOError</span></code></a>(message[, path])</p></td>
+<td><p>Error during file I/O operations.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.io.load">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.io.</span></span><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/io.html#load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.io.load" title="Link to this definition"></a></dt>
+<dd><p>Load a Boolean function from file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – Path to the file</p></li>
+<li><p><strong>format</strong> – Optional format override (“json”, “bf”, “dimacs_cnf”)</p></li>
+<li><p><strong>**kwargs</strong> – Format-specific options</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BooleanFunction instance</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="boofun.core.html#boofun.core.FileIOError" title="boofun.core.io.FileIOError"><strong>FileIOError</strong></a> – If file cannot be loaded</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.14)"><strong>FileNotFoundError</strong></a> – If file does not exist</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.io.save">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.io.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/io.html#save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.io.save" title="Link to this definition"></a></dt>
+<dd><p>Save a Boolean function to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – BooleanFunction to save</p></li>
+<li><p><strong>path</strong> – Destination path</p></li>
+<li><p><strong>format</strong> – Optional format override (“json”, “bf”, “dimacs_cnf”)</p></li>
+<li><p><strong>**kwargs</strong> – Format-specific options</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="boofun.core.html#boofun.core.FileIOError" title="boofun.core.io.FileIOError"><strong>FileIOError</strong></a> – If file cannot be saved</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.io.load_json">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.io.</span></span><span class="sig-name descname"><span class="pre">load_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/io.html#load_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.io.load_json" title="Link to this definition"></a></dt>
+<dd><p>Load Boolean function from JSON file.</p>
+<p>JSON format stores the full representation including metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – Path to JSON file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BooleanFunction instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.io.save_json">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.io.</span></span><span class="sig-name descname"><span class="pre">save_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'truth_table'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pretty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/io.html#save_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.io.save_json" title="Link to this definition"></a></dt>
+<dd><p>Save Boolean function to JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – BooleanFunction to save</p></li>
+<li><p><strong>path</strong> – Destination path</p></li>
+<li><p><strong>representation</strong> – Which representation to save</p></li>
+<li><p><strong>pretty</strong> – Whether to format with indentation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.io.load_bf">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.io.</span></span><span class="sig-name descname"><span class="pre">load_bf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/io.html#load_bf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.io.load_bf" title="Link to this definition"></a></dt>
+<dd><p>Load Boolean function from .bf file (Aaronson format).</p>
+<dl class="simple">
+<dt>Format:</dt><dd><p>n           (number of variables)
+00…0 v₀   (optional input string, then output value)
+00…1 v₁
+…
+11…1 v_{2^n-1}</p>
+</dd>
+</dl>
+<p>Values can be 0, 1, or -1 (partial function, undefined).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – Path to .bf file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BooleanFunction instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.io.save_bf">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.io.</span></span><span class="sig-name descname"><span class="pre">save_bf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/io.html#save_bf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.io.save_bf" title="Link to this definition"></a></dt>
+<dd><p>Save Boolean function to .bf file (Aaronson format).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – BooleanFunction to save</p></li>
+<li><p><strong>path</strong> – Destination path</p></li>
+<li><p><strong>include_inputs</strong> – Whether to include input bit strings</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.io.load_dimacs_cnf">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.io.</span></span><span class="sig-name descname"><span class="pre">load_dimacs_cnf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/io.html#load_dimacs_cnf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.io.load_dimacs_cnf" title="Link to this definition"></a></dt>
+<dd><p>Load Boolean function from DIMACS CNF file.</p>
+<dl class="simple">
+<dt>DIMACS CNF is the standard format for SAT solvers:</dt><dd><p>c comment line
+p cnf &lt;n_vars&gt; &lt;n_clauses&gt;
+1 -2 3 0     (clause: x1 OR NOT x2 OR x3)
+-1 2 0       (clause: NOT x1 OR x2)
+…</p>
+</dd>
+</dl>
+<p>Positive integers are positive literals, negative are negated.
+Each clause ends with 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – Path to .cnf file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BooleanFunction with CNF representation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.io.save_dimacs_cnf">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.io.</span></span><span class="sig-name descname"><span class="pre">save_dimacs_cnf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/io.html#save_dimacs_cnf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.io.save_dimacs_cnf" title="Link to this definition"></a></dt>
+<dd><p>Save Boolean function to DIMACS CNF file.</p>
+<p>Note: Converts function to CNF if not already in that representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – BooleanFunction to save</p></li>
+<li><p><strong>path</strong> – Destination path</p></li>
+<li><p><strong>comment</strong> – Optional comment to include</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.io.detect_format">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.io.</span></span><span class="sig-name descname"><span class="pre">detect_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/io.html#detect_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.io.detect_format" title="Link to this definition"></a></dt>
+<dd><p>Detect file format from extension or content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – Path to the file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>“json”, “bf”, or “dimacs_cnf”</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Format string</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="boofun.core.html#boofun.core.FileIOError" title="boofun.core.io.FileIOError"><strong>FileIOError</strong></a> – If format cannot be detected</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boofun.core.gpu.html" class="btn btn-neutral float-left" title="boofun.core.gpu" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boofun.core.legacy_adapter.html" class="btn btn-neutral float-right" title="boofun.core.legacy_adapter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

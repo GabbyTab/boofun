@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.partial &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.core.partial</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.core.partial</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Partial Boolean functions for streaming and incremental specification.</span>
+
+<span class="sd">This module provides user-friendly classes for working with Boolean functions</span>
+<span class="sd">where only some outputs are known. This is useful for:</span>
+<span class="sd">- Streaming data: adding function values incrementally</span>
+<span class="sd">- Sampling: knowing only a subset of outputs</span>
+<span class="sd">- Large functions: avoiding full materialization</span>
+<span class="sd">- Studying sections of very large objects</span>
+
+<span class="sd">Example:</span>
+<span class="sd">    &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Create partial function with some known values</span>
+<span class="sd">    &gt;&gt;&gt; partial = bf.partial(n=20, known_values={0: True, 1: False, 7: True})</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Add more values incrementally</span>
+<span class="sd">    &gt;&gt;&gt; partial.add(5, False)</span>
+<span class="sd">    &gt;&gt;&gt; partial.add_batch({10: True, 11: True})</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Query status</span>
+<span class="sd">    &gt;&gt;&gt; partial.completeness  # Very small fraction</span>
+<span class="sd">    &gt;&gt;&gt; partial.num_known  # 6</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Evaluate known and unknown points</span>
+<span class="sd">    &gt;&gt;&gt; partial.evaluate(0)  # True (known)</span>
+<span class="sd">    &gt;&gt;&gt; partial.evaluate(100)  # None (unknown)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Get estimate with confidence for unknown</span>
+<span class="sd">    &gt;&gt;&gt; val, conf = partial.evaluate_with_confidence(100)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Convert to full function when ready</span>
+<span class="sd">    &gt;&gt;&gt; f = partial.to_function(fill_unknown=False)</span>
+
+<span class="sd">Cross-validation:</span>
+<span class="sd">    This design is inspired by thomasarmel/boolean_function&#39;s partial representation</span>
+<span class="sd">    capabilities, adapted for Python&#39;s streaming/incremental use cases.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.representations.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">PartialRepresentation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.spaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;PartialBooleanFunction&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;partial&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PartialBooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Boolean function with partial/incomplete specification.</span>
+
+<span class="sd">    This class wraps PartialRepresentation to provide a user-friendly interface</span>
+<span class="sd">    for working with Boolean functions where only some outputs are known.</span>
+
+<span class="sd">    Key features:</span>
+<span class="sd">    - Incremental value addition (streaming)</span>
+<span class="sd">    - Completeness tracking</span>
+<span class="sd">    - Confidence-based estimation for unknown values</span>
+<span class="sd">    - Conversion to full BooleanFunction when complete</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        n_vars: Number of input variables</span>
+<span class="sd">        size: Total number of possible inputs (2^n_vars)</span>
+<span class="sd">        completeness: Fraction of known values (0.0 to 1.0)</span>
+<span class="sd">        num_known: Count of known values</span>
+<span class="sd">        num_unknown: Count of unknown values</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; partial = PartialBooleanFunction(n_vars=10)</span>
+<span class="sd">        &gt;&gt;&gt; partial.add(0, True)</span>
+<span class="sd">        &gt;&gt;&gt; partial.add(1, False)</span>
+<span class="sd">        &gt;&gt;&gt; partial.completeness</span>
+<span class="sd">        0.001953125  # 2/1024</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PartialBooleanFunction.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">known_values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a partial Boolean function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_vars: Number of input variables (determines domain size 2^n_vars)</span>
+<span class="sd">            known_values: Optional dictionary mapping input indices to output values</span>
+<span class="sd">            name: Optional name for the function</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If n_vars &lt; 0 or n_vars &gt; 30</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">n_vars</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n_vars must be non-negative, got </span><span class="si">{</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_vars</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n_vars too large (</span><span class="si">{</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">), maximum is 30&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_vars</span> <span class="o">=</span> <span class="n">n_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="c1"># Initialize the underlying PartialRepresentation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span> <span class="o">=</span> <span class="n">PartialRepresentation</span><span class="o">.</span><span class="n">from_sparse</span><span class="p">(</span>
+            <span class="n">n_vars</span><span class="o">=</span><span class="n">n_vars</span><span class="p">,</span>
+            <span class="n">known_values</span><span class="o">=</span><span class="n">known_values</span> <span class="ow">or</span> <span class="p">{},</span>
+            <span class="n">strategy_name</span><span class="o">=</span><span class="s2">&quot;truth_table&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create a default space for evaluation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_space</span> <span class="o">=</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">n_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of input variables.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_vars</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Total number of possible inputs (2^n_vars).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">completeness</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fraction of values that are known (0.0 to 1.0).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">completeness</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">num_known</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of known values.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">num_known</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">num_unknown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of unknown values.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">num_unknown</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if all values are known.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">is_complete</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Optional name for this function.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the function name.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="PartialBooleanFunction.add">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.add">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a known value at a specific input index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            idx: Input index (0 to size-1)</span>
+<span class="sd">            value: Output value at this input</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IndexError: If idx is out of range</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; partial.add(5, True)</span>
+<span class="sd">            &gt;&gt;&gt; partial.is_known(5)</span>
+<span class="sd">            True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2"> out of range [0, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">add_value</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.add_batch">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.add_batch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add multiple known values at once.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            values: Dictionary mapping input indices to output values</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IndexError: If any index is out of range</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; partial.add_batch({0: True, 1: False, 7: True})</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.add_from_samples">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.add_from_samples">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_from_samples</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">outputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add values from arrays of inputs and outputs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            inputs: Array of input indices or binary vectors</span>
+<span class="sd">            outputs: Array of corresponding output values</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; inputs = np.array([0, 1, 2, 3])</span>
+<span class="sd">            &gt;&gt;&gt; outputs = np.array([True, False, False, True])</span>
+<span class="sd">            &gt;&gt;&gt; partial.add_from_samples(inputs, outputs)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;inputs and outputs must have same length, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">inp</span><span class="p">,</span> <span class="n">out</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">inp</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Binary vector - convert to index</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="nb">bool</span><span class="p">(</span><span class="n">out</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.is_known">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.is_known">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_known</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if a specific input&#39;s output is known.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            idx: Input index</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if the output at this index is known</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">is_known</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.evaluate">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.evaluate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the function at a specific input.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            idx: Input index</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The output value if known, None if unknown</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; partial.add(5, True)</span>
+<span class="sd">            &gt;&gt;&gt; partial.evaluate(5)</span>
+<span class="sd">            True</span>
+<span class="sd">            &gt;&gt;&gt; partial.evaluate(6)</span>
+<span class="sd">            None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2"> out of range [0, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_space</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.evaluate_with_confidence">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.evaluate_with_confidence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_with_confidence</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate with confidence estimate for unknown values.</span>
+
+<span class="sd">        For known values, returns (value, 1.0).</span>
+<span class="sd">        For unknown values, estimates based on Hamming neighbors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            idx: Input index</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple of (estimated_value, confidence)</span>
+<span class="sd">            - confidence is 1.0 for known values</span>
+<span class="sd">            - confidence &lt; 1.0 for estimated values</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; partial.add(0, True)</span>
+<span class="sd">            &gt;&gt;&gt; partial.add(2, True)</span>
+<span class="sd">            &gt;&gt;&gt; val, conf = partial.evaluate_with_confidence(1)</span>
+<span class="sd">            &gt;&gt;&gt; # val might be True (neighbors are True), conf &lt; 1.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">idx</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Index </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2"> out of range [0, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">evaluate_with_confidence</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_space</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.get_known_indices">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.get_known_indices">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_known_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get indices of all known values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Array of input indices where output is known</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">get_known_indices</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.get_unknown_indices">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.get_unknown_indices">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_unknown_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get indices of all unknown values.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Array of input indices where output is unknown</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">get_unknown_indices</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.get_known_values">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.get_known_values">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_known_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get dictionary of all known (index, value) pairs.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary mapping known indices to their values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_known_indices</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">}</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get value at index using bracket notation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            idx: Input index</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Output value if known, None if unknown</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; partial[5]  # Same as partial.evaluate(5)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set value at index using bracket notation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            idx: Input index</span>
+<span class="sd">            value: Output value</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; partial[5] = True  # Same as partial.add(5, True)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return number of known values.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_known</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over known (index, value) pairs.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_known_indices</span><span class="p">():</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if index has a known value.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_known</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PartialBooleanFunction.to_function">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.to_function">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_function</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fill_unknown</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">estimate_unknown</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert to a full BooleanFunction.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fill_unknown: Value to use for unknown entries (default False)</span>
+<span class="sd">            estimate_unknown: If True, estimate unknown values using neighbors</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Complete BooleanFunction</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If not complete and neither fill_unknown nor estimate_unknown</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; partial = bf.partial(n=2, known_values={0: True, 1: False, 2: False, 3: True})</span>
+<span class="sd">            &gt;&gt;&gt; f = partial.to_function()  # Complete, so this works</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionFactory</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_complete</span><span class="p">:</span>
+            <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">estimate_unknown</span><span class="p">:</span>
+            <span class="n">truth_table</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">to_complete_estimated</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">truth_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">to_complete</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">fill_unknown</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">BooleanFunctionFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">BooleanFunction</span><span class="p">,</span>
+            <span class="n">truth_table</span><span class="p">,</span>
+            <span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_vars</span><span class="p">,</span>
+            <span class="n">nickname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;partial_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.to_dense_array">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.to_dense_array">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dense_array</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert to dense numpy array, filling unknown with specified value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fill_value: Value to use for unknown entries</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Boolean numpy array of shape (2^n_vars,)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial</span><span class="o">.</span><span class="n">to_complete</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">fill_value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.sample_unknown">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.sample_unknown">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_unknown</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Randomly sample from unknown indices.</span>
+
+<span class="sd">        Useful for active learning or guided sampling.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_samples: Number of indices to sample</span>
+<span class="sd">            seed: Random seed for reproducibility</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Array of sampled unknown indices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">unknown</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_unknown_indices</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">unknown</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">unknown</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PartialBooleanFunction.summary">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.PartialBooleanFunction.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return human-readable summary of the partial function.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Multi-line summary string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;PartialBooleanFunction (n=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_vars</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> entries&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Known: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_known</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">completeness</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Unknown: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_unknown</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Complete: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_complete</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;  Name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">name_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;, name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">!r}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;PartialBooleanFunction(n_vars=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_vars</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;known=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_known</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="si">}{</span><span class="n">name_str</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="partial">
+<a class="viewcode-back" href="../../../api/boofun.core.partial.html#boofun.partial">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">partial</span><span class="p">(</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">known_values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartialBooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a partial Boolean function.</span>
+
+<span class="sd">    This is the main factory function for creating partial functions</span>
+<span class="sd">    where only some outputs are known.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of input variables</span>
+<span class="sd">        known_values: Optional dictionary mapping input indices to output values</span>
+<span class="sd">        name: Optional name for the function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        PartialBooleanFunction instance</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Empty partial function</span>
+<span class="sd">        &gt;&gt;&gt; p = bf.partial(n=10)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # With initial values</span>
+<span class="sd">        &gt;&gt;&gt; p = bf.partial(n=10, known_values={0: True, 1: False})</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Add more values</span>
+<span class="sd">        &gt;&gt;&gt; p.add(5, True)</span>
+<span class="sd">        &gt;&gt;&gt; p.completeness</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">PartialBooleanFunction</span><span class="p">(</span><span class="n">n_vars</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">known_values</span><span class="o">=</span><span class="n">known_values</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

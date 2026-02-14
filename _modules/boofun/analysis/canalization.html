@@ -1,0 +1,823 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.canalization &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.canalization</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.canalization</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Canalization Analysis for Boolean Functions.</span>
+
+<span class="sd">Canalization is a concept from systems biology where certain input values</span>
+<span class="sd">&quot;dominate&quot; and determine the output regardless of other inputs.</span>
+
+<span class="sd">A Boolean function f is canalizing if there exists:</span>
+<span class="sd">- A variable x_i</span>
+<span class="sd">- A canalizing input a ∈ {0, 1}</span>
+<span class="sd">- A canalized output b ∈ {0, 1}</span>
+
+<span class="sd">Such that: f(x_1, ..., x_i=a, ..., x_n) = b for all other inputs.</span>
+
+<span class="sd">References:</span>
+<span class="sd">- Kauffman, S.A. (1969). Metabolic stability and epigenesis in randomly</span>
+<span class="sd">  constructed genetic nets. Journal of Theoretical Biology.</span>
+<span class="sd">- Kadelka, C. et al. (2023). Collectively canalizing Boolean functions.</span>
+<span class="sd">  Advances in Applied Mathematics.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+
+<div class="viewcode-block" id="is_canalizing">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.is_canalizing">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_canalizing</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine if a Boolean function is canalizing.</span>
+
+<span class="sd">    A function is canalizing if there exists at least one variable x_i</span>
+<span class="sd">    and a value a ∈ {0,1} such that fixing x_i = a forces the output</span>
+<span class="sd">    to a constant value, regardless of other inputs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to test</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if function is canalizing, False otherwise</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt; bf.AND(3).is_canalizing()  # AND canalizes on 0</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; bf.parity(3).is_canalizing()  # Parity is not canalizing</span>
+<span class="sd">        False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Constant functions are trivially canalizing</span>
+
+    <span class="n">tt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+            <span class="c1"># Check if fixing x_i = a gives constant output</span>
+            <span class="n">outputs_when_fixed</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">bit_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">bit_i</span> <span class="o">==</span> <span class="n">a</span><span class="p">:</span>
+                    <span class="n">outputs_when_fixed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
+            <span class="c1"># If all outputs are the same when x_i = a, it&#39;s canalizing</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">outputs_when_fixed</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="get_canalizing_variables">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.get_canalizing_variables">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_canalizing_variables</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find all canalizing variables and their canalizing inputs/outputs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of dicts, each containing:</span>
+<span class="sd">        - &#39;variable&#39;: index of canalizing variable</span>
+<span class="sd">        - &#39;canalizing_input&#39;: the input value (0 or 1) that canalizes</span>
+<span class="sd">        - &#39;canalized_output&#39;: the forced output value (0 or 1)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt; bf.AND(3).get_canalizing_variables()</span>
+<span class="sd">        [{&#39;variable&#39;: 0, &#39;canalizing_input&#39;: 0, &#39;canalized_output&#39;: 0}, ...]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">tt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+            <span class="n">outputs_when_fixed</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">bit_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">bit_i</span> <span class="o">==</span> <span class="n">a</span><span class="p">:</span>
+                    <span class="n">outputs_when_fixed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">outputs_when_fixed</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span>
+                        <span class="s2">&quot;canalizing_input&quot;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span>
+                        <span class="s2">&quot;canalized_output&quot;</span><span class="p">:</span> <span class="n">outputs_when_fixed</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<div class="viewcode-block" id="get_canalizing_depth">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.get_canalizing_depth">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_canalizing_depth</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the canalizing depth of a Boolean function.</span>
+
+<span class="sd">    The canalizing depth is the maximum k such that the function</span>
+<span class="sd">    is k-canalizing (has k layers of nested canalization).</span>
+
+<span class="sd">    A function is k-canalizing if:</span>
+<span class="sd">    1. It has a canalizing variable x_i1 with input a1 → output b1</span>
+<span class="sd">    2. The subfunction f|_{x_i1 ≠ a1} is (k-1)-canalizing</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Canalizing depth (0 for non-canalizing functions)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt; bf.AND(3).get_canalizing_depth()  # AND is fully nested canalizing</span>
+<span class="sd">        3</span>
+<span class="sd">        &gt;&gt;&gt; bf.parity(3).get_canalizing_depth()  # Parity has depth 0</span>
+<span class="sd">        0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_compute_canalizing_depth_simple</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_canalizing_depth_recursive</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">fixed_vars</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursive helper to compute canalizing depth.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+<span class="sd">        fixed_vars: Dict mapping variable index to its fixed value (the NON-canalizing value)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Find available variables (not yet fixed)</span>
+    <span class="n">available</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fixed_vars</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">available</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1"># Check if any available variable is canalizing</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">available</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+            <span class="n">outputs_when_fixed</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+                <span class="c1"># Check if this input respects all fixed variables</span>
+                <span class="c1"># (i.e., has the NON-canalizing value for each fixed var)</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(((</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">fixed_vars</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">fixed_vars</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="n">bit_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">bit_i</span> <span class="o">==</span> <span class="n">a</span><span class="p">:</span>
+                    <span class="n">outputs_when_fixed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+
+            <span class="c1"># If fixing x_i = a gives constant output</span>
+            <span class="k">if</span> <span class="n">outputs_when_fixed</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">outputs_when_fixed</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Recurse on subfunction with x_i ≠ a (store the non-canalizing value)</span>
+                <span class="n">new_fixed</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">fixed_vars</span><span class="p">)</span>
+                <span class="n">new_fixed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">a</span>  <span class="c1"># Store the NON-canalizing value</span>
+                <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">_compute_canalizing_depth_recursive</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">new_fixed</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="mi">0</span>
+
+
+<span class="c1"># Simplified version that doesn&#39;t track fixed values</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_canalizing_depth_simple</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simpler canalizing depth computation.&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1"># Check if constant</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">tt</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># Constant functions have depth 0</span>
+
+    <span class="c1"># Try each variable as canalizing</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+            <span class="c1"># Collect outputs when x_i = a</span>
+            <span class="n">outputs_a</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">outputs_not_a</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">bit_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">bit_i</span> <span class="o">==</span> <span class="n">a</span><span class="p">:</span>
+                    <span class="n">outputs_a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">outputs_not_a</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">])))</span>
+
+            <span class="c1"># If x_i = a gives constant output</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">outputs_a</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Create subfunction on remaining variables</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">outputs_not_a</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="mi">1</span>
+
+                <span class="c1"># Build truth table for subfunction (n-1 variables)</span>
+                <span class="n">sub_tt</span> <span class="o">=</span> <span class="n">_build_subfunction_tt</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span>
+
+                <span class="c1"># Import here to avoid circular imports</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">..core.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionFactory</span>
+
+                <span class="n">sub_f</span> <span class="o">=</span> <span class="n">BooleanFunctionFactory</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">sub_tt</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">_compute_canalizing_depth_simple</span><span class="p">(</span><span class="n">sub_f</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="mi">0</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_subfunction_tt</span><span class="p">(</span><span class="n">tt</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">keep_val</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build truth table for subfunction after fixing one variable.&quot;&quot;&quot;</span>
+    <span class="n">sub_tt</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">bit_var</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">var</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">bit_var</span> <span class="o">==</span> <span class="n">keep_val</span><span class="p">:</span>
+            <span class="n">sub_tt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">sub_tt</span>
+
+
+<div class="viewcode-block" id="is_k_canalizing">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.is_k_canalizing">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_k_canalizing</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine if a Boolean function is k-canalizing.</span>
+
+<span class="sd">    A function is k-canalizing if it has at least k layers of</span>
+<span class="sd">    nested canalization.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to test</span>
+<span class="sd">        k: Required canalizing depth (0 ≤ k ≤ n)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if function is at least k-canalizing</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt; bf.AND(3).is_k_canalizing(3)  # AND is fully nested</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; bf.parity(3).is_k_canalizing(1)  # Parity is not even 1-canalizing</span>
+<span class="sd">        False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_compute_canalizing_depth_simple</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">k</span></div>
+
+
+
+<div class="viewcode-block" id="is_nested_canalizing">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.is_nested_canalizing">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_nested_canalizing</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine if a Boolean function is nested canalizing (NCF).</span>
+
+<span class="sd">    A function on n variables is nested canalizing if it has</span>
+<span class="sd">    canalizing depth n (every variable is canalizing in some layer).</span>
+
+<span class="sd">    NCFs are important in biological modeling.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to test</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if function is nested canalizing</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt; bf.AND(3).is_nested_canalizing()  # AND is NCF</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; bf.majority(3).is_nested_canalizing()  # Majority is not NCF</span>
+<span class="sd">        False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_compute_canalizing_depth_simple</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span></div>
+
+
+
+<div class="viewcode-block" id="get_essential_variables">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.get_essential_variables">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_essential_variables</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find all essential (non-degenerate) variables.</span>
+
+<span class="sd">    A variable is essential if there exists some input where</span>
+<span class="sd">    flipping that variable changes the output.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of indices of essential variables</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt; len(bf.AND(3).get_essential_variables())</span>
+<span class="sd">        3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+    <span class="n">essential</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">is_essential</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+            <span class="c1"># Flip bit i</span>
+            <span class="n">x_flipped</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">tt</span><span class="p">[</span><span class="n">x_flipped</span><span class="p">]:</span>
+                <span class="n">is_essential</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">is_essential</span><span class="p">:</span>
+            <span class="n">essential</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">essential</span></div>
+
+
+
+<div class="viewcode-block" id="get_input_types">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.get_input_types">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_input_types</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Classify each input variable by its type.</span>
+
+<span class="sd">    Types:</span>
+<span class="sd">    - &quot;positive&quot;: f is monotone increasing in this variable</span>
+<span class="sd">    - &quot;negative&quot;: f is monotone decreasing in this variable</span>
+<span class="sd">    - &quot;conditional&quot;: f depends on this variable non-monotonically</span>
+<span class="sd">    - &quot;non-essential&quot;: f does not depend on this variable</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict mapping variable index to type string</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt; bf.AND(3).get_input_types()</span>
+<span class="sd">        {0: &#39;positive&#39;, 1: &#39;positive&#39;, 2: &#39;positive&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">increases</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">decreases</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">bit_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">bit_i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">x_with_1</span> <span class="o">=</span> <span class="n">x</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">tt</span><span class="p">[</span><span class="n">x_with_1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+                    <span class="n">increases</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">tt</span><span class="p">[</span><span class="n">x_with_1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">]:</span>
+                    <span class="n">decreases</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">increases</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">decreases</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">types</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;non-essential&quot;</span>
+        <span class="k">elif</span> <span class="n">increases</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">decreases</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">types</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;positive&quot;</span>
+        <span class="k">elif</span> <span class="n">decreases</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">increases</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">types</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;negative&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">types</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;conditional&quot;</span>
+
+    <span class="k">return</span> <span class="n">types</span></div>
+
+
+
+<div class="viewcode-block" id="get_symmetry_groups">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.get_symmetry_groups">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_symmetry_groups</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find groups of symmetric (interchangeable) variables.</span>
+
+<span class="sd">    Two variables are symmetric if swapping their values in any input</span>
+<span class="sd">    does not change the function&#39;s output.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of sets, where each set contains indices of</span>
+<span class="sd">        variables that are mutually symmetric.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt; bf.AND(3).get_symmetry_groups()  # All variables symmetric</span>
+<span class="sd">        [{0, 1, 2}]</span>
+<span class="sd">        &gt;&gt;&gt; bf.dictator(3, 0).get_symmetry_groups()</span>
+<span class="sd">        [{1, 2}, {0}]  # Only non-dictator vars symmetric</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Build adjacency: which pairs of variables are symmetric</span>
+    <span class="n">symmetric_pairs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="c1"># Check if swapping i and j always preserves output</span>
+            <span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+                <span class="c1"># Swap bits i and j</span>
+                <span class="n">bit_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+                <span class="n">bit_j</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+
+                <span class="k">if</span> <span class="n">bit_i</span> <span class="o">!=</span> <span class="n">bit_j</span><span class="p">:</span>
+                    <span class="c1"># Build swapped input</span>
+                    <span class="n">x_swapped</span> <span class="o">=</span> <span class="n">x</span>
+                    <span class="k">if</span> <span class="n">bit_i</span><span class="p">:</span>
+                        <span class="n">x_swapped</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>  <span class="c1"># Clear bit i</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">x_swapped</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>  <span class="c1"># Set bit i</span>
+                    <span class="k">if</span> <span class="n">bit_j</span><span class="p">:</span>
+                        <span class="n">x_swapped</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">j</span><span class="p">)</span>  <span class="c1"># Clear bit j</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">x_swapped</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">j</span>  <span class="c1"># Set bit j</span>
+
+                    <span class="k">if</span> <span class="n">tt</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">tt</span><span class="p">[</span><span class="n">x_swapped</span><span class="p">]:</span>
+                        <span class="n">is_symmetric</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">is_symmetric</span><span class="p">:</span>
+                <span class="n">symmetric_pairs</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+
+    <span class="c1"># Build groups via union-find</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">x</span><span class="p">:</span>
+            <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">parent</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">union</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">px</span><span class="p">,</span> <span class="n">py</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">find</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">px</span> <span class="o">!=</span> <span class="n">py</span><span class="p">:</span>
+            <span class="n">parent</span><span class="p">[</span><span class="n">px</span><span class="p">]</span> <span class="o">=</span> <span class="n">py</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">symmetric_pairs</span><span class="p">:</span>
+        <span class="n">union</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+
+    <span class="c1"># Collect groups</span>
+    <span class="n">groups_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">root</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">groups_dict</span><span class="p">:</span>
+            <span class="n">groups_dict</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">groups_dict</span><span class="p">[</span><span class="n">root</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">groups_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="input_redundancy">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.input_redundancy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">input_redundancy</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute input redundancy: fraction of inputs that are redundant.</span>
+
+<span class="sd">    Input redundancy quantifies how many inputs are not needed to</span>
+<span class="sd">    determine the output on average. Constant functions have</span>
+<span class="sd">    redundancy 1, parity has redundancy 0.</span>
+
+<span class="sd">    This is computed as: k_r / n where k_r is the average number</span>
+<span class="sd">    of redundant inputs across all input combinations.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Input redundancy in [0, 1]</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This is a simplified version. For full CANA-style redundancy,</span>
+<span class="sd">        install the CANA package.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+
+    <span class="c1"># Count non-essential variables</span>
+    <span class="n">essential</span> <span class="o">=</span> <span class="n">get_essential_variables</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">n_essential</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">essential</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="n">n_essential</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="edge_effectiveness">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.edge_effectiveness">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">edge_effectiveness</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute edge effectiveness for each variable.</span>
+
+<span class="sd">    Edge effectiveness measures how much flipping a variable</span>
+<span class="sd">    influences the output. This is related to the influence</span>
+<span class="sd">    but normalized differently.</span>
+
+<span class="sd">    e_i = Pr[f(x) ≠ f(x ⊕ e_i)]</span>
+
+<span class="sd">    This is equivalent to the influence Inf_i[f].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of effectiveness values in [0, 1]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="effective_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.effective_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">effective_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute effective degree: sum of edge effectiveness.</span>
+
+<span class="sd">    This is equivalent to the total influence I[f].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Effective degree (= total influence)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CanalizationAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    High-level analyzer for canalization properties.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt; analyzer = CanalizationAnalyzer(bf.AND(4))</span>
+<span class="sd">        &gt;&gt;&gt; analyzer.summary()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CanalizationAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize analyzer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: Boolean function to analyze</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer.is_canalizing">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.is_canalizing">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_canalizing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if function is canalizing.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;is_canalizing&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;is_canalizing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_canalizing</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;is_canalizing&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer.canalizing_depth">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.canalizing_depth">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">canalizing_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get canalizing depth.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;depth&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_compute_canalizing_depth_simple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;depth&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer.canalizing_variables">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.canalizing_variables">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">canalizing_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all canalizing variables.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;can_vars&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;can_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_canalizing_variables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;can_vars&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer.is_nested_canalizing">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.is_nested_canalizing">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_nested_canalizing</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if function is nested canalizing.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">canalizing_depth</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span></div>
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer.essential_variables">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.essential_variables">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">essential_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get essential variables.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;essential&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;essential&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_essential_variables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;essential&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer.input_types">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.input_types">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">input_types</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get input type classification.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;types&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;types&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_input_types</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;types&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer.symmetry_groups">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.symmetry_groups">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">symmetry_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get symmetry groups.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;symmetry&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_symmetry_groups</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;symmetry&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer.input_redundancy">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.input_redundancy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">input_redundancy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get input redundancy.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">input_redundancy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CanalizationAnalyzer.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.canalization.html#boofun.analysis.canalization.CanalizationAnalyzer.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get comprehensive canalization summary.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with all canalization metrics</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span>
+            <span class="s2">&quot;is_canalizing&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_canalizing</span><span class="p">(),</span>
+            <span class="s2">&quot;canalizing_depth&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">canalizing_depth</span><span class="p">(),</span>
+            <span class="s2">&quot;is_nested_canalizing&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_nested_canalizing</span><span class="p">(),</span>
+            <span class="s2">&quot;canalizing_variables&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">canalizing_variables</span><span class="p">(),</span>
+            <span class="s2">&quot;essential_variables&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">essential_variables</span><span class="p">(),</span>
+            <span class="s2">&quot;n_essential&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">essential_variables</span><span class="p">()),</span>
+            <span class="s2">&quot;input_types&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_types</span><span class="p">(),</span>
+            <span class="s2">&quot;symmetry_groups&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">symmetry_groups</span><span class="p">(),</span>
+            <span class="s2">&quot;input_redundancy&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_redundancy</span><span class="p">(),</span>
+            <span class="s2">&quot;effective_degree&quot;</span><span class="p">:</span> <span class="n">effective_degree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">),</span>
+        <span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

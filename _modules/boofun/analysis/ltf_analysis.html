@@ -1,0 +1,795 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.ltf_analysis &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.ltf_analysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.ltf_analysis</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Linear Threshold Function (LTF) Analysis Module.</span>
+
+<span class="sd">Based on O&#39;Donnell Chapter 5: Threshold Functions and their Analysis.</span>
+
+<span class="sd">Key Concepts:</span>
+<span class="sd">- LTF: f(x) = sign(w₁x₁ + ... + wₙxₙ - θ)</span>
+<span class="sd">- Geometrically: a hyperplane cutting the Boolean hypercube</span>
+<span class="sd">- Chow parameters: (E[f], Inf₁[f], ..., Infₙ[f]) uniquely identify LTFs</span>
+<span class="sd">- CLT applies: weighted sum approaches Gaussian for large n</span>
+
+<span class="sd">Theory:</span>
+<span class="sd">- NOT all Boolean functions are LTFs (e.g., XOR/PARITY is NOT an LTF)</span>
+<span class="sd">- AND, OR, Majority, Threshold-k are all LTFs</span>
+<span class="sd">- LTFs are exactly the &quot;halfspace&quot; functions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+
+    <span class="n">SCIPY_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">SCIPY_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="LTFAnalysis">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.LTFAnalysis">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LTFAnalysis</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Complete analysis of a Linear Threshold Function.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        is_ltf: Whether the function is an LTF</span>
+<span class="sd">        weights: Weight vector (normalized)</span>
+<span class="sd">        threshold: Threshold value</span>
+<span class="sd">        chow_parameters: (E[f], Inf₁[f], ..., Infₙ[f])</span>
+<span class="sd">        critical_index: Index where cumulative influence reaches 1/2</span>
+<span class="sd">        regularity: Measure of weight concentration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">is_ltf</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">chow_parameters</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">critical_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">regularity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">gaussian_noise_stability</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="LTFAnalysis.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.LTFAnalysis.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate human-readable summary.&quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;LTF Analysis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Is LTF: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_ltf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_ltf</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weights: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Threshold: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chow params: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chow_parameters</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Critical index: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">critical_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Regularity τ: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">regularity</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussian_noise_stability</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gaussian noise stability: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gaussian_noise_stability</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="chow_parameters">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.chow_parameters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">chow_parameters</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Chow parameters of a Boolean function.</span>
+
+<span class="sd">    The Chow parameters are: (E[f], Inf₁[f], ..., Infₙ[f])</span>
+
+<span class="sd">    Key theorem (Chow, 1961): Two LTFs are identical if and only if</span>
+<span class="sd">    they have the same Chow parameters.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of length n+1 containing Chow parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+    <span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+    <span class="c1"># Chow parameters: (f̂(∅), f̂({1}), ..., f̂({n}))</span>
+    <span class="c1"># Note: influences in ±1 convention equal 2*f̂({i})²</span>
+    <span class="c1"># But the signed version is just f̂({i})</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">chow</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">chow</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">fourier</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># E[f] = f̂(∅)</span>
+
+    <span class="c1"># Extract degree-1 coefficients (LSB convention: singleton {i} has index 1 &lt;&lt; i)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+        <span class="n">chow</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">fourier</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">chow</span></div>
+
+
+
+<div class="viewcode-block" id="is_ltf">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.is_ltf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test if a Boolean function is a Linear Threshold Function.</span>
+
+<span class="sd">    Uses linear programming to check if the function is linearly separable.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to test</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is an LTF</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.representations.ltf</span><span class="w"> </span><span class="kn">import</span> <span class="n">LTFRepresentation</span>
+
+    <span class="c1"># Get truth table</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">repr_obj</span> <span class="o">=</span> <span class="n">LTFRepresentation</span><span class="p">()</span>
+        <span class="n">repr_obj</span><span class="o">.</span><span class="n">_find_ltf_parameters</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="find_ltf_weights">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.find_ltf_weights">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_ltf_weights</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find LTF weights and threshold for a Boolean function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function (must be an LTF)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (weights array, threshold)</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If f is not an LTF</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.representations.ltf</span><span class="w"> </span><span class="kn">import</span> <span class="n">LTFRepresentation</span>
+
+    <span class="n">tt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">))</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="n">repr_obj</span> <span class="o">=</span> <span class="n">LTFRepresentation</span><span class="p">()</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">repr_obj</span><span class="o">.</span><span class="n">_find_ltf_parameters</span><span class="p">(</span><span class="n">tt</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">params</span><span class="o">.</span><span class="n">weights</span><span class="p">,</span> <span class="n">params</span><span class="o">.</span><span class="n">threshold</span></div>
+
+
+
+<div class="viewcode-block" id="normalize_ltf_weights">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.normalize_ltf_weights">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_ltf_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalize LTF weights to have unit L2 norm.</span>
+
+<span class="sd">    Standard form: Σ wᵢ² = 1</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        weights: Original weight vector</span>
+<span class="sd">        threshold: Original threshold</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (normalized weights, normalized threshold)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">norm</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span>
+
+    <span class="k">return</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">norm</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">/</span> <span class="n">norm</span></div>
+
+
+
+<div class="viewcode-block" id="critical_index">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.critical_index">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">critical_index</span><span class="p">(</span><span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the critical index of an LTF.</span>
+
+<span class="sd">    The critical index k* is the smallest k such that:</span>
+<span class="sd">    Σᵢ₌₁ᵏ wᵢ² ≥ 1/2 · Σᵢ₌₁ⁿ wᵢ²</span>
+
+<span class="sd">    This measures where &quot;half the influence&quot; is concentrated.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        weights: LTF weight vector (not necessarily normalized)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Critical index (1-indexed)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Sort by absolute value (descending)</span>
+    <span class="n">sorted_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">weights</span><span class="o">**</span><span class="mi">2</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">total</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sorted_sq</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">total</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="n">cumsum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">sorted_sq</span><span class="p">)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">cumsum</span><span class="p">,</span> <span class="n">total</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="regularity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.regularity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">regularity</span><span class="p">(</span><span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the regularity parameter τ of an LTF.</span>
+
+<span class="sd">    τ = max|wᵢ| / ||w||₂</span>
+
+<span class="sd">    Small τ means &quot;regular&quot; LTF (no single coordinate dominates).</span>
+<span class="sd">    Large τ means closer to a dictator.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        weights: LTF weight vector</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Regularity parameter τ ∈ [0, 1]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">norm</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span> <span class="o">/</span> <span class="n">norm</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ltf_influence_from_weights">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.ltf_influence_from_weights">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ltf_influence_from_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute influences of an LTF from its weights.</span>
+
+<span class="sd">    For a normalized LTF with Σwᵢ² = 1:</span>
+<span class="sd">    Inf_i[f] ≈ (2/π) · wᵢ² · (1 / σ)</span>
+
+<span class="sd">    where σ = √(Σwⱼ²) = 1 for normalized weights.</span>
+
+<span class="sd">    This is the CLT/Berry-Esseen approximation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        weights: LTF weight vector</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of influences</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">norm_sq</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">norm_sq</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># Approximate influence using Gaussian formula</span>
+    <span class="c1"># Inf_i ≈ (2/π) * w_i² / Σw_j²</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">weights</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">norm_sq</span>
+
+    <span class="k">return</span> <span class="n">influences</span></div>
+
+
+
+<div class="viewcode-block" id="ltf_noise_stability_gaussian">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.ltf_noise_stability_gaussian">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ltf_noise_stability_gaussian</span><span class="p">(</span><span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gaussian noise stability for regular LTFs (Sheppard&#39;s formula).</span>
+
+<span class="sd">    For the majority function and regular LTFs:</span>
+<span class="sd">    Stab_ρ[f] ≈ (1/2) + (1/π) · arcsin(ρ)</span>
+
+<span class="sd">    This is exact in the limit as n → ∞ for regular LTFs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rho: Noise parameter ρ ∈ [0, 1]</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Noise stability estimate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ltf_total_influence_estimate">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.ltf_total_influence_estimate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ltf_total_influence_estimate</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">regularity_tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate total influence of an LTF.</span>
+
+<span class="sd">    For regular LTFs (small τ):</span>
+<span class="sd">    I[f] ≈ √(2/π) · √n ≈ 0.798 · √n</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        regularity_tau: Regularity parameter (0 for perfectly regular)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated total influence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Regular case</span>
+    <span class="n">regular_estimate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># Adjust for non-regularity (more concentrated → lower total influence)</span>
+    <span class="k">if</span> <span class="n">regularity_tau</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Interpolate toward dictator (I[f] = 1) as τ → 1</span>
+        <span class="k">return</span> <span class="n">regular_estimate</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">regularity_tau</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">regularity_tau</span>
+
+    <span class="k">return</span> <span class="n">regular_estimate</span></div>
+
+
+
+<div class="viewcode-block" id="analyze_ltf">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.analyze_ltf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">analyze_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LTFAnalysis</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform complete LTF analysis of a Boolean function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        LTFAnalysis object with all computed properties</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># First check if it&#39;s an LTF</span>
+    <span class="n">is_ltf_flag</span> <span class="o">=</span> <span class="n">is_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_ltf_flag</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">LTFAnalysis</span><span class="p">(</span><span class="n">is_ltf</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Get weights and threshold</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="n">find_ltf_weights</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">LTFAnalysis</span><span class="p">(</span><span class="n">is_ltf</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Normalize weights</span>
+    <span class="n">weights_norm</span><span class="p">,</span> <span class="n">threshold_norm</span> <span class="o">=</span> <span class="n">normalize_ltf_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+
+    <span class="c1"># Compute Chow parameters</span>
+    <span class="n">chow</span> <span class="o">=</span> <span class="n">chow_parameters</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Compute critical index</span>
+    <span class="n">crit_idx</span> <span class="o">=</span> <span class="n">critical_index</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># Compute regularity</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="n">regularity</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># Estimate Gaussian noise stability</span>
+    <span class="k">if</span> <span class="n">reg</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>  <span class="c1"># Only meaningful for somewhat regular LTFs</span>
+        <span class="n">gaussian_stab</span> <span class="o">=</span> <span class="n">ltf_noise_stability_gaussian</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gaussian_stab</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">LTFAnalysis</span><span class="p">(</span>
+        <span class="n">is_ltf</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span>
+        <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">,</span>
+        <span class="n">chow_parameters</span><span class="o">=</span><span class="n">chow</span><span class="p">,</span>
+        <span class="n">critical_index</span><span class="o">=</span><span class="n">crit_idx</span><span class="p">,</span>
+        <span class="n">regularity</span><span class="o">=</span><span class="n">reg</span><span class="p">,</span>
+        <span class="n">gaussian_noise_stability</span><span class="o">=</span><span class="n">gaussian_stab</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># LTF Constructors</span>
+<span class="c1"># ============================================================</span>
+
+
+<div class="viewcode-block" id="create_weighted_majority">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.create_weighted_majority">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_weighted_majority</span><span class="p">(</span>
+    <span class="n">weights</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a weighted majority (LTF) function.</span>
+
+<span class="sd">    f(x) = sign(w₁x₁ + ... + wₙxₙ - θ)</span>
+
+<span class="sd">    If threshold is not specified, uses θ = 0 (symmetric around 0 in ±1 space).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        weights: Weight for each variable</span>
+<span class="sd">        threshold: Threshold value (default: 0)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BooleanFunction representing the weighted majority</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        # Nassau County voting system</span>
+<span class="sd">        nassau = create_weighted_majority([31, 31, 28, 21, 2, 2])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Build truth table (LSB = x_0 convention)</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+        <span class="c1"># Extract bits with LSB = x_0</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span>
+        <span class="c1"># Convert to ±1: 0 → +1, 1 → -1</span>
+        <span class="n">x_pm</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">x_pm</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">truth_table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="create_threshold_function">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.create_threshold_function">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_threshold_function</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a k-threshold function.</span>
+
+<span class="sd">    f(x) = 1 if Σxᵢ ≥ k, else 0</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        k: Threshold (1 ≤ k ≤ n)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BooleanFunction for threshold-k</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        AND = threshold(n, n)</span>
+<span class="sd">        OR = threshold(n, 1)</span>
+<span class="sd">        MAJORITY = threshold(n, (n+1)/2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+    <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Threshold k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> must be in range [1, </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+        <span class="c1"># LSB convention: x_j = (i &gt;&gt; j) &amp; 1; sum = popcount = Hamming weight</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">k</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">truth_table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># Tests for LTF Properties</span>
+<span class="c1"># ============================================================</span>
+
+
+<div class="viewcode-block" id="is_symmetric_ltf">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.is_symmetric_ltf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_symmetric_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if function is a symmetric LTF (all weights equal).</span>
+
+<span class="sd">    Symmetric LTFs are exactly the threshold functions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is a symmetric LTF</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">weights</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">find_ltf_weights</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Check if all weights are equal (up to sign)</span>
+    <span class="n">abs_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">abs_weights</span><span class="p">,</span> <span class="n">abs_weights</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="is_regular_ltf">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.is_regular_ltf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_regular_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">tau_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if function is a regular LTF (low regularity τ).</span>
+
+<span class="sd">    Regular LTFs have no dominant variable.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        tau_threshold: Maximum regularity to be considered &quot;regular&quot;</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is a regular LTF</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">weights</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">find_ltf_weights</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">regularity</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tau</span> <span class="o">&lt;=</span> <span class="n">tau_threshold</span></div>
+
+
+
+<div class="viewcode-block" id="dummy_voters">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.dummy_voters">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dummy_voters</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find &quot;dummy voters&quot; in a weighted voting system.</span>
+
+<span class="sd">    A dummy voter has zero influence - their vote never matters.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function (should be an LTF)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of variable indices with zero influence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+    <span class="c1"># Find variables with negligible influence</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span> <span class="k">if</span> <span class="n">inf</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">]</span></div>
+
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># Chow Parameters Matching</span>
+<span class="c1"># ============================================================</span>
+
+
+<div class="viewcode-block" id="chow_distance">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.chow_distance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">chow_distance</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute distance between Chow parameters of two functions.</span>
+
+<span class="sd">    If both are LTFs, distance = 0 implies f ≡ g.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f, g: Boolean functions</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        L2 distance between Chow parameter vectors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">chow_f</span> <span class="o">=</span> <span class="n">chow_parameters</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">chow_g</span> <span class="o">=</span> <span class="n">chow_parameters</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">chow_f</span> <span class="o">-</span> <span class="n">chow_g</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="find_closest_ltf">
+<a class="viewcode-back" href="../../../api/boofun.analysis.ltf_analysis.html#boofun.analysis.ltf_analysis.find_closest_ltf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_closest_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the LTF closest to a given function (by Chow parameters).</span>
+
+<span class="sd">    Uses Chow parameters to find the best LTF approximation.</span>
+<span class="sd">    This is a fundamental result: the LTF with matching Chow parameters</span>
+<span class="sd">    is the closest LTF in many senses.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function (may or may not be an LTF)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (closest LTF, distance)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">chow</span> <span class="o">=</span> <span class="n">chow_parameters</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+
+    <span class="c1"># The degree-1 Chow parameters suggest weights</span>
+    <span class="c1"># Weight_i ∝ Chow_{i+1}</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">chow</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># Skip E[f]</span>
+
+    <span class="c1"># Normalize</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="c1"># Threshold from E[f]</span>
+    <span class="c1"># E[f] = 2*Φ(-θ/σ) - 1 for Gaussian</span>
+    <span class="c1"># Simplification: θ ≈ -Φ⁻¹((1 + E[f])/2) for normalized weights</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">chow</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">SCIPY_AVAILABLE</span><span class="p">:</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="o">-</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">expected</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Simple approximation</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="o">-</span><span class="n">expected</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Create the LTF</span>
+    <span class="n">approx_ltf</span> <span class="o">=</span> <span class="n">create_weighted_majority</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">threshold</span><span class="p">)</span>
+
+    <span class="c1"># Compute distance</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">chow_distance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">approx_ltf</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">approx_ltf</span><span class="p">,</span> <span class="n">dist</span></div>
+
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># Module Exports</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Analysis dataclass</span>
+    <span class="s2">&quot;LTFAnalysis&quot;</span><span class="p">,</span>
+    <span class="c1"># Core functions</span>
+    <span class="s2">&quot;chow_parameters&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_ltf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;find_ltf_weights&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;normalize_ltf_weights&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;analyze_ltf&quot;</span><span class="p">,</span>
+    <span class="c1"># LTF properties</span>
+    <span class="s2">&quot;critical_index&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;regularity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ltf_influence_from_weights&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ltf_noise_stability_gaussian&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ltf_total_influence_estimate&quot;</span><span class="p">,</span>
+    <span class="c1"># Constructors</span>
+    <span class="s2">&quot;create_weighted_majority&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;create_threshold_function&quot;</span><span class="p">,</span>
+    <span class="c1"># Tests</span>
+    <span class="s2">&quot;is_symmetric_ltf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_regular_ltf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dummy_voters&quot;</span><span class="p">,</span>
+    <span class="c1"># Chow parameters</span>
+    <span class="s2">&quot;chow_distance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;find_closest_ltf&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

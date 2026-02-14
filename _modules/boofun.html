@@ -1,0 +1,689 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">boofun</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">BooFun: A comprehensive Boolean function analysis library.</span>
+
+<span class="sd">This library provides tools for creating, analyzing, and visualizing Boolean functions</span>
+<span class="sd">using multiple representations and advanced mathematical techniques.</span>
+
+<span class="sd">Key Features:</span>
+<span class="sd">- Multiple Boolean function representations (truth tables, circuits, BDDs, etc.)</span>
+<span class="sd">- Spectral analysis and Fourier transforms</span>
+<span class="sd">- Property testing algorithms</span>
+<span class="sd">- Visualization tools</span>
+<span class="sd">- Built-in Boolean function generators</span>
+
+<span class="sd">Basic Usage:</span>
+<span class="sd">    &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Create functions from any input</span>
+<span class="sd">    &gt;&gt;&gt; xor = bf.create([0, 1, 1, 0])     # From truth table</span>
+<span class="sd">    &gt;&gt;&gt; maj = bf.majority(5)              # Built-in majority</span>
+<span class="sd">    &gt;&gt;&gt; parity = bf.parity(4)             # Built-in parity (XOR)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Natural operations</span>
+<span class="sd">    &gt;&gt;&gt; g = xor &amp; maj                     # AND</span>
+<span class="sd">    &gt;&gt;&gt; h = ~xor                          # NOT</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Spectral analysis</span>
+<span class="sd">    &gt;&gt;&gt; xor.fourier()                     # Fourier coefficients</span>
+<span class="sd">    &gt;&gt;&gt; xor.influences()                  # Variable influences</span>
+<span class="sd">    &gt;&gt;&gt; xor.degree()                      # Fourier degree</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">create</span><span class="p">,</span> <span class="n">from_hex</span><span class="p">,</span> <span class="n">partial</span><span class="p">,</span> <span class="n">to_hex</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">ExactErrorModel</span><span class="p">,</span> <span class="n">NoiseErrorModel</span><span class="p">,</span> <span class="n">PACErrorModel</span><span class="p">,</span> <span class="n">Property</span><span class="p">,</span> <span class="n">Space</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core.adapters</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CallableAdapter</span><span class="p">,</span>
+    <span class="n">LegacyAdapter</span><span class="p">,</span>
+    <span class="n">NumPyAdapter</span><span class="p">,</span>
+    <span class="n">SymPyAdapter</span><span class="p">,</span>
+    <span class="n">adapt_callable</span><span class="p">,</span>
+    <span class="n">adapt_numpy_function</span><span class="p">,</span>
+    <span class="n">adapt_sympy_expr</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core.builtins</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionBuiltins</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">load</span><span class="p">,</span> <span class="n">save</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core.partial</span><span class="w"> </span><span class="kn">import</span> <span class="n">PartialBooleanFunction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core.spaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">Measure</span>
+
+<span class="c1"># Exception hierarchy for structured error handling</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BooleanFunctionError</span><span class="p">,</span>
+    <span class="n">ConfigurationError</span><span class="p">,</span>
+    <span class="n">ConversionError</span><span class="p">,</span>
+    <span class="n">ErrorCode</span><span class="p">,</span>
+    <span class="n">EvaluationError</span><span class="p">,</span>
+    <span class="n">InvalidInputError</span><span class="p">,</span>
+    <span class="n">InvalidRepresentationError</span><span class="p">,</span>
+    <span class="n">InvalidTruthTableError</span><span class="p">,</span>
+    <span class="n">InvariantViolationError</span><span class="p">,</span>
+    <span class="n">ResourceUnavailableError</span><span class="p">,</span>
+    <span class="n">ValidationError</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Legacy adapter for migrating from old BooleanFunc class (kept for backwards compatibility)</span>
+<span class="c1"># Import on demand: from boofun.core.legacy_adapter import from_legacy, to_legacy</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.core.legacy_adapter</span><span class="w"> </span><span class="kn">import</span> <span class="n">LegacyWrapper</span><span class="p">,</span> <span class="n">from_legacy</span><span class="p">,</span> <span class="n">to_legacy</span>  <span class="c1"># noqa: F401</span>
+
+    <span class="n">_HAS_LEGACY</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_HAS_LEGACY</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">PropertyTester</span><span class="p">,</span> <span class="n">SpectralAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">block_sensitivity</span> <span class="k">as</span> <span class="n">analysis_block_sensitivity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">certificates</span> <span class="k">as</span> <span class="n">analysis_certificates</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">sensitivity</span> <span class="k">as</span> <span class="n">analysis_sensitivity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">symmetry</span> <span class="k">as</span> <span class="n">analysis_symmetry</span>
+
+<span class="c1"># Fourier analysis utilities (Chapter 1 O&#39;Donnell)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis.fourier</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">convolution</span><span class="p">,</span>
+    <span class="n">dominant_coefficients</span><span class="p">,</span>
+    <span class="n">even_part</span><span class="p">,</span>
+    <span class="n">fourier_degree</span><span class="p">,</span>
+    <span class="n">fourier_sparsity</span><span class="p">,</span>
+    <span class="n">negate_inputs</span><span class="p">,</span>
+    <span class="n">odd_part</span><span class="p">,</span>
+    <span class="n">parseval_verify</span><span class="p">,</span>
+    <span class="n">plancherel_inner_product</span><span class="p">,</span>
+    <span class="n">restriction</span><span class="p">,</span>
+    <span class="n">spectral_norm</span><span class="p">,</span>
+    <span class="n">tensor_product</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># GF(2) analysis (Algebraic Normal Form)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis.gf2</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">correlation_with_parity</span><span class="p">,</span>
+    <span class="n">gf2_degree</span><span class="p">,</span>
+    <span class="n">gf2_fourier_transform</span><span class="p">,</span>
+    <span class="n">gf2_monomials</span><span class="p">,</span>
+    <span class="n">gf2_to_string</span><span class="p">,</span>
+    <span class="n">is_linear_over_gf2</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Global Hypercontractivity (Keevash, Lifshitz, Long &amp; Minzer)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis.global_hypercontractivity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">GlobalHypercontractivityAnalyzer</span><span class="p">,</span>
+    <span class="n">find_critical_p</span><span class="p">,</span>
+    <span class="n">generalized_influence</span><span class="p">,</span>
+    <span class="n">hypercontractivity_bound</span><span class="p">,</span>
+    <span class="n">is_alpha_global</span><span class="p">,</span>
+    <span class="n">noise_stability_p_biased</span><span class="p">,</span>
+    <span class="n">p_biased_expectation</span><span class="p">,</span>
+    <span class="n">p_biased_influence</span><span class="p">,</span>
+    <span class="n">p_biased_total_influence</span><span class="p">,</span>
+    <span class="n">threshold_curve</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Hypercontractivity (Chapter 9 O&#39;Donnell)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.analysis.hypercontractivity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">bonami_lemma_bound</span><span class="p">,</span>
+    <span class="n">friedgut_junta_bound</span><span class="p">,</span>
+    <span class="n">hypercontractive_inequality</span><span class="p">,</span>
+    <span class="n">junta_approximation_error</span><span class="p">,</span>
+    <span class="n">kkl_lower_bound</span><span class="p">,</span>
+    <span class="n">level_d_inequality</span><span class="p">,</span>
+    <span class="n">lq_norm</span><span class="p">,</span>
+    <span class="n">max_influence_bound</span><span class="p">,</span>
+    <span class="n">noise_operator</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.testing</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionValidator</span><span class="p">,</span> <span class="n">quick_validate</span><span class="p">,</span> <span class="n">validate_representation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils.finite_fields</span><span class="w"> </span><span class="kn">import</span> <span class="n">GFField</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils.finite_fields</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_field</span> <span class="k">as</span> <span class="n">get_gf_field</span>
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Top-level shortcuts for common functions (mathematician-friendly API)</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="majority">
+<a class="viewcode-back" href="../api/boofun.html#boofun.majority">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">majority</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create majority function on n variables: Maj_n(x) = 1 iff |{i: x_i=1}| &gt; n/2.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; maj5 = bf.majority(5)</span>
+<span class="sd">        &gt;&gt;&gt; maj5([1, 1, 1, 0, 0])  # True (3 &gt; 2.5)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">BooleanFunctionBuiltins</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="parity">
+<a class="viewcode-back" href="../api/boofun.html#boofun.parity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parity</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create parity (XOR) function on n variables: ⊕_n(x) = x_1 ⊕ x_2 ⊕ ... ⊕ x_n.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; xor3 = bf.parity(3)</span>
+<span class="sd">        &gt;&gt;&gt; xor3([1, 1, 0])  # False (even number of 1s)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">BooleanFunctionBuiltins</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="tribes">
+<a class="viewcode-back" href="../api/boofun.html#boofun.tribes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tribes</span><span class="p">(</span><span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create tribes function: AND of ORs on groups of k variables.</span>
+
+<span class="sd">    Tribes_{k,n}(x) = ⋀_{j=1}^{⌈n/k⌉} ⋁_{i∈T_j} x_i</span>
+
+<span class="sd">    This is the **dual tribes** convention (AND-of-ORs). The textbook tribes</span>
+<span class="sd">    (O&#39;Donnell Ch. 4) uses OR-of-ANDs; the two are related by negation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        k: Size of each tribe (number of variables per group)</span>
+<span class="sd">        n: Total number of variables (if not divisible by k, last group is smaller)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; t = bf.tribes(2, 4)  # (x₀ ∨ x₁) ∧ (x₂ ∨ x₃), 4 variables</span>
+<span class="sd">        &gt;&gt;&gt; t = bf.tribes(3, 9)  # (x₀∨x₁∨x₂) ∧ (x₃∨x₄∨x₅) ∧ (x₆∨x₇∨x₈), 9 variables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">BooleanFunctionBuiltins</span><span class="o">.</span><span class="n">tribes</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dictator">
+<a class="viewcode-back" href="../api/boofun.html#boofun.dictator">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dictator</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create dictator function on variable i: f(x) = x_i.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        i: Index of dictating variable (default 0)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; d = bf.dictator(5)     # 5-var dictator on x₀</span>
+<span class="sd">        &gt;&gt;&gt; d = bf.dictator(5, 2)  # 5-var dictator on x₂</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">BooleanFunctionBuiltins</span><span class="o">.</span><span class="n">dictator</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="constant">
+<a class="viewcode-back" href="../api/boofun.html#boofun.constant">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">constant</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create constant function: f(x) = value for all x.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; zero = bf.constant(False, 3)</span>
+<span class="sd">        &gt;&gt;&gt; one = bf.constant(True, 3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">BooleanFunctionBuiltins</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="AND">
+<a class="viewcode-back" href="../api/boofun.html#boofun.AND">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">AND</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create AND function on n variables: f(x) = x_1 ∧ x_2 ∧ ... ∧ x_n.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; and3 = bf.AND(3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">truth_table</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Only all-1s input gives 1</span>
+    <span class="k">return</span> <span class="n">create</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="OR">
+<a class="viewcode-back" href="../api/boofun.html#boofun.OR">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">OR</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create OR function on n variables: f(x) = x_1 ∨ x_2 ∨ ... ∨ x_n.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; or3 = bf.OR(3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">truth_table</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Only all-0s input gives 0</span>
+    <span class="k">return</span> <span class="n">create</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f2_polynomial</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">monomials</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create f(x) = (-1)^{p(x)} where p is a polynomial over GF(2).</span>
+
+<span class="sd">    Each monomial is a set of variable indices. The function outputs 1</span>
+<span class="sd">    when the sum of monomials is 1 (mod 2), 0 otherwise.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        monomials: Iterable of sets/lists of variable indices.</span>
+<span class="sd">                  E.g., [{0,1}, {2,3}] means p(x) = x0*x1 + x2*x3 (mod 2).</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.f2_polynomial(4, [{0,1}, {2,3}])  # x0*x1 + x2*x3 mod 2</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.f2_polynomial(5, [{0,1,2}])         # x0*x1*x2 mod 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">BooleanFunctionBuiltins</span><span class="o">.</span><span class="n">f2_polynomial</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">monomials</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="random">
+<a class="viewcode-back" href="../api/boofun.html#boofun.random">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">random</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">balanced</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a random Boolean function on n variables.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        balanced: If True, output has equal 0s and 1s (default False)</span>
+<span class="sd">        seed: Random seed for reproducibility</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Random Boolean function</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.random(4)                    # Random 4-variable function</span>
+<span class="sd">        &gt;&gt;&gt; g = bf.random(4, balanced=True)     # Random balanced function</span>
+<span class="sd">        &gt;&gt;&gt; h = bf.random(4, seed=42)           # Reproducible random function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span>
+    <span class="k">if</span> <span class="n">balanced</span><span class="p">:</span>
+        <span class="c1"># Balanced: exactly half 0s and half 1s</span>
+        <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">ones_positions</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">truth_table</span><span class="p">[</span><span class="n">ones_positions</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">truth_table</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">create</span><span class="p">(</span><span class="n">truth_table</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="from_weights">
+<a class="viewcode-back" href="../api/boofun.html#boofun.from_weights">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create LTF (Linear Threshold Function) from weight vector.</span>
+
+<span class="sd">    Alias for weighted_majority() with more intuitive name for LTF creation.</span>
+
+<span class="sd">    f(x) = 1 iff w₁x₁ + w₂x₂ + ... + wₙxₙ ≥ θ</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        weights: List of integer/float weights for each variable</span>
+<span class="sd">        threshold_value: Threshold (default: sum(weights)/2)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        LTF (Linear Threshold Function)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; # Electoral college with 3 states: CA(55), TX(38), NY(29)</span>
+<span class="sd">        &gt;&gt;&gt; electoral = bf.from_weights([55, 38, 29], threshold=61)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">weighted_majority</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold_value</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="threshold">
+<a class="viewcode-back" href="../api/boofun.html#boofun.threshold">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">threshold</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create k-threshold function on n variables.</span>
+
+<span class="sd">    f(x) = 1 if Σxᵢ ≥ k, else 0</span>
+
+<span class="sd">    Special cases:</span>
+<span class="sd">    - threshold(n, n) = AND</span>
+<span class="sd">    - threshold(n, 1) = OR</span>
+<span class="sd">    - threshold(n, (n+1)/2) = MAJORITY (for odd n)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; at_least_2 = bf.threshold(4, 2)  # True if ≥2 inputs are 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.analysis.ltf_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_threshold_function</span>
+
+    <span class="k">return</span> <span class="n">create_threshold_function</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="weighted_majority">
+<a class="viewcode-back" href="../api/boofun.html#boofun.weighted_majority">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">weighted_majority</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a weighted majority (LTF) function.</span>
+
+<span class="sd">    f(x) = sign(w₁x₁ + ... + wₙxₙ - θ)</span>
+
+<span class="sd">    LTFs are also called &quot;halfspaces&quot; - they represent hyperplanes</span>
+<span class="sd">    cutting through the Boolean hypercube.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        # Nassau County voting system</span>
+<span class="sd">        &gt;&gt;&gt; nassau = bf.weighted_majority([31, 31, 28, 21, 2, 2])</span>
+
+<span class="sd">        # Standard majority (all equal weights)</span>
+<span class="sd">        &gt;&gt;&gt; maj = bf.weighted_majority([1, 1, 1, 1, 1])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.analysis.ltf_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_weighted_majority</span>
+
+    <span class="k">return</span> <span class="n">create_weighted_majority</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold_value</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Function families for growth analysis</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.families</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: F401</span>
+        <span class="n">ANDFamily</span><span class="p">,</span>
+        <span class="n">DictatorFamily</span><span class="p">,</span>
+        <span class="n">FunctionFamily</span><span class="p">,</span>
+        <span class="n">GrowthTracker</span><span class="p">,</span>
+        <span class="n">InductiveFamily</span><span class="p">,</span>
+        <span class="n">LTFFamily</span><span class="p">,</span>
+        <span class="n">MajorityFamily</span><span class="p">,</span>
+        <span class="n">ORFamily</span><span class="p">,</span>
+        <span class="n">ParityFamily</span><span class="p">,</span>
+        <span class="n">ThresholdFamily</span><span class="p">,</span>
+        <span class="n">TribesFamily</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">HAS_FAMILIES</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_FAMILIES</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># Optional imports with graceful fallback</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionVisualizer</span>  <span class="c1"># noqa: F401</span>
+
+    <span class="n">HAS_VISUALIZATION</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_VISUALIZATION</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># quantum_complexity is NOT re-exported here.  It is an experimental module</span>
+<span class="c1"># that computes classical estimates of quantum complexity bounds.  Users who</span>
+<span class="c1"># want it should import directly:</span>
+<span class="c1">#     from boofun.quantum_complexity import QuantumComplexityAnalyzer</span>
+
+<span class="c1"># Version information</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;1.2.1&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Gabriel Taboada&quot;</span>
+
+<span class="c1"># Core exports for typical usage</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># =====================================================</span>
+    <span class="c1"># PRIMARY API (mathematician-friendly)</span>
+    <span class="c1"># =====================================================</span>
+    <span class="c1"># Creation</span>
+    <span class="s2">&quot;create&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="c1"># Partial functions (streaming/incremental)</span>
+    <span class="s2">&quot;partial&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PartialBooleanFunction&quot;</span><span class="p">,</span>
+    <span class="c1"># Hex string I/O (thomasarmel-compatible)</span>
+    <span class="s2">&quot;from_hex&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;to_hex&quot;</span><span class="p">,</span>
+    <span class="c1"># File I/O</span>
+    <span class="s2">&quot;load&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;save&quot;</span><span class="p">,</span>
+    <span class="c1"># Built-in functions (short names)</span>
+    <span class="s2">&quot;majority&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;parity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tribes&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dictator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;constant&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AND&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;OR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;threshold&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;weighted_majority&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;random&quot;</span><span class="p">,</span>  <span class="c1"># Random function generator</span>
+    <span class="s2">&quot;from_weights&quot;</span><span class="p">,</span>  <span class="c1"># Alias for weighted_majority</span>
+    <span class="c1"># Analysis (use directly or via function methods)</span>
+    <span class="s2">&quot;SpectralAnalyzer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PropertyTester&quot;</span><span class="p">,</span>
+    <span class="c1"># =====================================================</span>
+    <span class="c1"># EXCEPTIONS (structured error handling)</span>
+    <span class="c1"># =====================================================</span>
+    <span class="s2">&quot;ErrorCode&quot;</span><span class="p">,</span>  <span class="c1"># Machine-readable error codes</span>
+    <span class="s2">&quot;BooleanFunctionError&quot;</span><span class="p">,</span>  <span class="c1"># Base exception</span>
+    <span class="s2">&quot;ValidationError&quot;</span><span class="p">,</span>  <span class="c1"># User input validation failures</span>
+    <span class="s2">&quot;InvalidInputError&quot;</span><span class="p">,</span>  <span class="c1"># Invalid function arguments</span>
+    <span class="s2">&quot;InvalidRepresentationError&quot;</span><span class="p">,</span>  <span class="c1"># Unsupported representation</span>
+    <span class="s2">&quot;InvalidTruthTableError&quot;</span><span class="p">,</span>  <span class="c1"># Malformed truth table</span>
+    <span class="s2">&quot;EvaluationError&quot;</span><span class="p">,</span>  <span class="c1"># Function evaluation failures</span>
+    <span class="s2">&quot;ConversionError&quot;</span><span class="p">,</span>  <span class="c1"># Representation conversion failures</span>
+    <span class="s2">&quot;ConfigurationError&quot;</span><span class="p">,</span>  <span class="c1"># Setup/configuration errors</span>
+    <span class="s2">&quot;ResourceUnavailableError&quot;</span><span class="p">,</span>  <span class="c1"># Optional deps unavailable</span>
+    <span class="s2">&quot;InvariantViolationError&quot;</span><span class="p">,</span>  <span class="c1"># Internal library bugs</span>
+    <span class="c1"># =====================================================</span>
+    <span class="c1"># SECONDARY API (advanced users)</span>
+    <span class="c1"># =====================================================</span>
+    <span class="c1"># Full builtins class</span>
+    <span class="s2">&quot;BooleanFunctionBuiltins&quot;</span><span class="p">,</span>
+    <span class="c1"># Analysis submodules</span>
+    <span class="s2">&quot;analysis_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;analysis_block_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;analysis_certificates&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;analysis_symmetry&quot;</span><span class="p">,</span>
+    <span class="c1"># Fourier analysis (Chapter 1 O&#39;Donnell)</span>
+    <span class="s2">&quot;parseval_verify&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plancherel_inner_product&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;convolution&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;negate_inputs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;odd_part&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;even_part&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tensor_product&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;restriction&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fourier_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;spectral_norm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fourier_sparsity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dominant_coefficients&quot;</span><span class="p">,</span>
+    <span class="c1"># GF(2) analysis</span>
+    <span class="s2">&quot;gf2_fourier_transform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gf2_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gf2_monomials&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gf2_to_string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_linear_over_gf2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;correlation_with_parity&quot;</span><span class="p">,</span>
+    <span class="c1"># Hypercontractivity (Chapter 9 O&#39;Donnell)</span>
+    <span class="s2">&quot;noise_operator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lq_norm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bonami_lemma_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kkl_lower_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;max_influence_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;friedgut_junta_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;junta_approximation_error&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;level_d_inequality&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hypercontractive_inequality&quot;</span><span class="p">,</span>
+    <span class="c1"># Global Hypercontractivity (Keevash et al.)</span>
+    <span class="s2">&quot;GlobalHypercontractivityAnalyzer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;generalized_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_alpha_global&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_expectation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_total_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;noise_stability_p_biased&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;threshold_curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;find_critical_p&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hypercontractivity_bound&quot;</span><span class="p">,</span>
+    <span class="c1"># Testing and validation</span>
+    <span class="s2">&quot;BooleanFunctionValidator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quick_validate&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;validate_representation&quot;</span><span class="p">,</span>
+    <span class="c1"># Adapters for external integration</span>
+    <span class="s2">&quot;CallableAdapter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LegacyAdapter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SymPyAdapter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NumPyAdapter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;adapt_callable&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;adapt_sympy_expr&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;adapt_numpy_function&quot;</span><span class="p">,</span>
+    <span class="c1"># Core utilities</span>
+    <span class="s2">&quot;Space&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Measure&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Property&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ExactErrorModel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PACErrorModel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NoiseErrorModel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_gf_field&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GFField&quot;</span><span class="p">,</span>
+    <span class="c1"># Version info</span>
+    <span class="s2">&quot;__version__&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># Add optional exports if available</span>
+<span class="k">if</span> <span class="n">HAS_FAMILIES</span><span class="p">:</span>
+    <span class="n">__all__</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;MajorityFamily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ParityFamily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;TribesFamily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ThresholdFamily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ANDFamily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ORFamily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DictatorFamily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;LTFFamily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;GrowthTracker&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;FunctionFamily&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;InductiveFamily&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+<span class="k">if</span> <span class="n">HAS_VISUALIZATION</span><span class="p">:</span>
+    <span class="n">__all__</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;BooleanFunctionVisualizer&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

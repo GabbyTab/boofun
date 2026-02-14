@@ -1,0 +1,619 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.optimizations &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="boofun.core.partial" href="boofun.core.partial.html" />
+    <link rel="prev" title="boofun.core.numba_optimizations" href="boofun.core.numba_optimizations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="boofun.html">boofun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.create"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.partial"><code class="docutils literal notranslate"><span class="pre">partial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PartialBooleanFunction"><code class="docutils literal notranslate"><span class="pre">PartialBooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_hex"><code class="docutils literal notranslate"><span class="pre">from_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.to_hex"><code class="docutils literal notranslate"><span class="pre">to_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.majority"><code class="docutils literal notranslate"><span class="pre">majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parity"><code class="docutils literal notranslate"><span class="pre">parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tribes"><code class="docutils literal notranslate"><span class="pre">tribes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dictator"><code class="docutils literal notranslate"><span class="pre">dictator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.constant"><code class="docutils literal notranslate"><span class="pre">constant()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.AND"><code class="docutils literal notranslate"><span class="pre">AND()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.OR"><code class="docutils literal notranslate"><span class="pre">OR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold"><code class="docutils literal notranslate"><span class="pre">threshold()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.weighted_majority"><code class="docutils literal notranslate"><span class="pre">weighted_majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_weights"><code class="docutils literal notranslate"><span class="pre">from_weights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionError"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidInputError"><code class="docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidRepresentationError"><code class="docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidTruthTableError"><code class="docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.EvaluationError"><code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConversionError"><code class="docutils literal notranslate"><span class="pre">ConversionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ResourceUnavailableError"><code class="docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvariantViolationError"><code class="docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parseval_verify"><code class="docutils literal notranslate"><span class="pre">parseval_verify()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.plancherel_inner_product"><code class="docutils literal notranslate"><span class="pre">plancherel_inner_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.convolution"><code class="docutils literal notranslate"><span class="pre">convolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.negate_inputs"><code class="docutils literal notranslate"><span class="pre">negate_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.odd_part"><code class="docutils literal notranslate"><span class="pre">odd_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.even_part"><code class="docutils literal notranslate"><span class="pre">even_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.restriction"><code class="docutils literal notranslate"><span class="pre">restriction()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_degree"><code class="docutils literal notranslate"><span class="pre">fourier_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.spectral_norm"><code class="docutils literal notranslate"><span class="pre">spectral_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_sparsity"><code class="docutils literal notranslate"><span class="pre">fourier_sparsity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dominant_coefficients"><code class="docutils literal notranslate"><span class="pre">dominant_coefficients()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_fourier_transform"><code class="docutils literal notranslate"><span class="pre">gf2_fourier_transform()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_degree"><code class="docutils literal notranslate"><span class="pre">gf2_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_monomials"><code class="docutils literal notranslate"><span class="pre">gf2_monomials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_to_string"><code class="docutils literal notranslate"><span class="pre">gf2_to_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_linear_over_gf2"><code class="docutils literal notranslate"><span class="pre">is_linear_over_gf2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.correlation_with_parity"><code class="docutils literal notranslate"><span class="pre">correlation_with_parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_operator"><code class="docutils literal notranslate"><span class="pre">noise_operator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.lq_norm"><code class="docutils literal notranslate"><span class="pre">lq_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.bonami_lemma_bound"><code class="docutils literal notranslate"><span class="pre">bonami_lemma_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.kkl_lower_bound"><code class="docutils literal notranslate"><span class="pre">kkl_lower_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.max_influence_bound"><code class="docutils literal notranslate"><span class="pre">max_influence_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.friedgut_junta_bound"><code class="docutils literal notranslate"><span class="pre">friedgut_junta_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.junta_approximation_error"><code class="docutils literal notranslate"><span class="pre">junta_approximation_error()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.level_d_inequality"><code class="docutils literal notranslate"><span class="pre">level_d_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractive_inequality"><code class="docutils literal notranslate"><span class="pre">hypercontractive_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GlobalHypercontractivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">GlobalHypercontractivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.generalized_influence"><code class="docutils literal notranslate"><span class="pre">generalized_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_alpha_global"><code class="docutils literal notranslate"><span class="pre">is_alpha_global()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_expectation"><code class="docutils literal notranslate"><span class="pre">p_biased_expectation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_total_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_total_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_stability_p_biased"><code class="docutils literal notranslate"><span class="pre">noise_stability_p_biased()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold_curve"><code class="docutils literal notranslate"><span class="pre">threshold_curve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.find_critical_p"><code class="docutils literal notranslate"><span class="pre">find_critical_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractivity_bound"><code class="docutils literal notranslate"><span class="pre">hypercontractivity_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionValidator"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionValidator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.quick_validate"><code class="docutils literal notranslate"><span class="pre">quick_validate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.validate_representation"><code class="docutils literal notranslate"><span class="pre">validate_representation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.CallableAdapter"><code class="docutils literal notranslate"><span class="pre">CallableAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SymPyAdapter"><code class="docutils literal notranslate"><span class="pre">SymPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NumPyAdapter"><code class="docutils literal notranslate"><span class="pre">NumPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_callable"><code class="docutils literal notranslate"><span class="pre">adapt_callable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_sympy_expr"><code class="docutils literal notranslate"><span class="pre">adapt_sympy_expr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_numpy_function"><code class="docutils literal notranslate"><span class="pre">adapt_numpy_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Measure"><code class="docutils literal notranslate"><span class="pre">Measure</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.get_gf_field"><code class="docutils literal notranslate"><span class="pre">get_gf_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GFField"><code class="docutils literal notranslate"><span class="pre">GFField</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.MajorityFamily"><code class="docutils literal notranslate"><span class="pre">MajorityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ParityFamily"><code class="docutils literal notranslate"><span class="pre">ParityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.TribesFamily"><code class="docutils literal notranslate"><span class="pre">TribesFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ThresholdFamily"><code class="docutils literal notranslate"><span class="pre">ThresholdFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ANDFamily"><code class="docutils literal notranslate"><span class="pre">ANDFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ORFamily"><code class="docutils literal notranslate"><span class="pre">ORFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.DictatorFamily"><code class="docutils literal notranslate"><span class="pre">DictatorFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LTFFamily"><code class="docutils literal notranslate"><span class="pre">LTFFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GrowthTracker"><code class="docutils literal notranslate"><span class="pre">GrowthTracker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.FunctionFamily"><code class="docutils literal notranslate"><span class="pre">FunctionFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InductiveFamily"><code class="docutils literal notranslate"><span class="pre">InductiveFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionVisualizer"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionVisualizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.analysis.html">boofun.analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.api.html">boofun.api</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="boofun.core.html">boofun.core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Evaluable"><code class="docutils literal notranslate"><span class="pre">Evaluable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Representable"><code class="docutils literal notranslate"><span class="pre">Representable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionFactory"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionFactory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionRepresentation"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionRepresentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ErrorModel"><code class="docutils literal notranslate"><span class="pre">ErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LinearErrorModel"><code class="docutils literal notranslate"><span class="pre">LinearErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QueryModel"><code class="docutils literal notranslate"><span class="pre">QueryModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.AccessType"><code class="docutils literal notranslate"><span class="pre">AccessType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.get_access_type"><code class="docutils literal notranslate"><span class="pre">get_access_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.check_query_safety"><code class="docutils literal notranslate"><span class="pre">check_query_safety()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QuerySafetyWarning"><code class="docutils literal notranslate"><span class="pre">QuerySafetyWarning</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExplicitEnumerationError"><code class="docutils literal notranslate"><span class="pre">ExplicitEnumerationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_json"><code class="docutils literal notranslate"><span class="pre">load_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_json"><code class="docutils literal notranslate"><span class="pre">save_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_bf"><code class="docutils literal notranslate"><span class="pre">load_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_bf"><code class="docutils literal notranslate"><span class="pre">save_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">load_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">save_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.detect_format"><code class="docutils literal notranslate"><span class="pre">detect_format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.FileIOError"><code class="docutils literal notranslate"><span class="pre">FileIOError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.adapters.html">boofun.core.adapters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.auto_representation.html">boofun.core.auto_representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.base.html">boofun.core.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.batch_processing.html">boofun.core.batch_processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.builtins.html">boofun.core.builtins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.conversion_graph.html">boofun.core.conversion_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.errormodels.html">boofun.core.errormodels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.factory.html">boofun.core.factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.gpu.html">boofun.core.gpu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.io.html">boofun.core.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.legacy_adapter.html">boofun.core.legacy_adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.numba_optimizations.html">boofun.core.numba_optimizations</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">boofun.core.optimizations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.fast_walsh_hadamard"><code class="docutils literal notranslate"><span class="pre">fast_walsh_hadamard()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.vectorized_truth_table_to_pm"><code class="docutils literal notranslate"><span class="pre">vectorized_truth_table_to_pm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.vectorized_influences_from_fourier"><code class="docutils literal notranslate"><span class="pre">vectorized_influences_from_fourier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.vectorized_total_influence_from_fourier"><code class="docutils literal notranslate"><span class="pre">vectorized_total_influence_from_fourier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.noise_stability_from_fourier"><code class="docutils literal notranslate"><span class="pre">noise_stability_from_fourier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.LazyFourierCoefficients"><code class="docutils literal notranslate"><span class="pre">LazyFourierCoefficients</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.get_best_wht_implementation"><code class="docutils literal notranslate"><span class="pre">get_best_wht_implementation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.BEST_WHT"><code class="docutils literal notranslate"><span class="pre">BEST_WHT()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.BEST_INFLUENCES"><code class="docutils literal notranslate"><span class="pre">BEST_INFLUENCES()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.parallel_batch_influences"><code class="docutils literal notranslate"><span class="pre">parallel_batch_influences()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.parallel_batch_fourier"><code class="docutils literal notranslate"><span class="pre">parallel_batch_fourier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.ComputeCache"><code class="docutils literal notranslate"><span class="pre">ComputeCache</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.get_global_cache"><code class="docutils literal notranslate"><span class="pre">get_global_cache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.cached_computation"><code class="docutils literal notranslate"><span class="pre">cached_computation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.memoize_method"><code class="docutils literal notranslate"><span class="pre">memoize_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.optimizations.batch_evaluate"><code class="docutils literal notranslate"><span class="pre">batch_evaluate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.partial.html">boofun.core.partial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.query_model.html">boofun.core.query_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.representations.html">boofun.core.representations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.spaces.html">boofun.core.spaces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.families.html">boofun.families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.quantum_complexity.html">boofun.quantum_complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.testing.html">boofun.testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.utils.html">boofun.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.visualization.html">boofun.visualization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="boofun.core.html">boofun.core</a></li>
+      <li class="breadcrumb-item active">boofun.core.optimizations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/boofun.core.optimizations.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-boofun.core.optimizations">
+<span id="boofun-core-optimizations"></span><h1>boofun.core.optimizations<a class="headerlink" href="#module-boofun.core.optimizations" title="Link to this heading"></a></h1>
+<p>Performance Optimizations for BooFun</p>
+<p>This module provides optimized implementations of critical operations:
+1. Fast Walsh-Hadamard Transform (in-place, vectorized)
+2. Vectorized influence computation
+3. Lazy evaluation helpers</p>
+<p>These optimizations are automatically used when available.</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.optimizations.BEST_INFLUENCES" title="boofun.core.optimizations.BEST_INFLUENCES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BEST_INFLUENCES</span></code></a>(fourier_coeffs, n_vars)</p></td>
+<td><p>Compute influences from Fourier coefficients using vectorization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.optimizations.BEST_WHT" title="boofun.core.optimizations.BEST_WHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BEST_WHT</span></code></a>(values[, normalize])</p></td>
+<td><p>Fast in-place Walsh-Hadamard Transform.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.optimizations.batch_evaluate" title="boofun.core.optimizations.batch_evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_evaluate</span></code></a>(f, inputs)</p></td>
+<td><p>Efficiently evaluate a Boolean function on a batch of inputs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.optimizations.cached_computation" title="boofun.core.optimizations.cached_computation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cached_computation</span></code></a>(computation_name)</p></td>
+<td><p>Decorator for caching expensive computations on BooleanFunction.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.optimizations.fast_walsh_hadamard" title="boofun.core.optimizations.fast_walsh_hadamard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fast_walsh_hadamard</span></code></a>(values[, normalize])</p></td>
+<td><p>Fast in-place Walsh-Hadamard Transform.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.optimizations.get_best_wht_implementation" title="boofun.core.optimizations.get_best_wht_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_best_wht_implementation</span></code></a>()</p></td>
+<td><p>Get the best available Walsh-Hadamard Transform implementation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.optimizations.get_global_cache" title="boofun.core.optimizations.get_global_cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_global_cache</span></code></a>()</p></td>
+<td><p>Get the global computation cache.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.optimizations.memoize_method" title="boofun.core.optimizations.memoize_method"><code class="xref py py-obj docutils literal notranslate"><span class="pre">memoize_method</span></code></a>(func)</p></td>
+<td><p>Simple memoization for instance methods.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.optimizations.noise_stability_from_fourier" title="boofun.core.optimizations.noise_stability_from_fourier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">noise_stability_from_fourier</span></code></a>(fourier_coeffs, rho)</p></td>
+<td><p>Compute noise stability from Fourier coefficients.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.optimizations.parallel_batch_fourier" title="boofun.core.optimizations.parallel_batch_fourier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parallel_batch_fourier</span></code></a>(functions[, max_workers])</p></td>
+<td><p>Compute Fourier coefficients for multiple Boolean functions in parallel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.optimizations.parallel_batch_influences" title="boofun.core.optimizations.parallel_batch_influences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parallel_batch_influences</span></code></a>(functions[, ...])</p></td>
+<td><p>Compute influences for multiple Boolean functions in parallel.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.optimizations.vectorized_influences_from_fourier" title="boofun.core.optimizations.vectorized_influences_from_fourier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vectorized_influences_from_fourier</span></code></a>(...)</p></td>
+<td><p>Compute influences from Fourier coefficients using vectorization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.optimizations.vectorized_total_influence_from_fourier" title="boofun.core.optimizations.vectorized_total_influence_from_fourier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vectorized_total_influence_from_fourier</span></code></a>(...)</p></td>
+<td><p>Compute total influence from Fourier coefficients.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.optimizations.vectorized_truth_table_to_pm" title="boofun.core.optimizations.vectorized_truth_table_to_pm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vectorized_truth_table_to_pm</span></code></a>(truth_table)</p></td>
+<td><p>Convert {0,1} truth table to {-1,+1} representation.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.optimizations.ComputeCache" title="boofun.core.optimizations.ComputeCache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComputeCache</span></code></a>([max_size])</p></td>
+<td><p>LRU cache for expensive Boolean function computations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.optimizations.LazyFourierCoefficients" title="boofun.core.optimizations.LazyFourierCoefficients"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LazyFourierCoefficients</span></code></a>(compute_func)</p></td>
+<td><p>Lazy wrapper for Fourier coefficients.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.fast_walsh_hadamard">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">fast_walsh_hadamard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#fast_walsh_hadamard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.fast_walsh_hadamard" title="Link to this definition"></a></dt>
+<dd><p>Fast in-place Walsh-Hadamard Transform.</p>
+<p>This is the optimized O(n * 2^n) algorithm using butterfly operations.
+Works in-place to minimize memory allocations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – Input array of length 2^n (will be modified in-place)</p></li>
+<li><p><strong>normalize</strong> – If True, divide by 2^n at the end</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Transformed array (same object as input if in-place)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.vectorized_truth_table_to_pm">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">vectorized_truth_table_to_pm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#vectorized_truth_table_to_pm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.vectorized_truth_table_to_pm" title="Link to this definition"></a></dt>
+<dd><p>Convert {0,1} truth table to {-1,+1} representation.</p>
+<p>This is vectorized for speed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.vectorized_influences_from_fourier">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">vectorized_influences_from_fourier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fourier_coeffs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#vectorized_influences_from_fourier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.vectorized_influences_from_fourier" title="Link to this definition"></a></dt>
+<dd><p>Compute influences from Fourier coefficients using vectorization.</p>
+<p>Influence of variable i: Inf_i(f) = Σ_{S∋i} f̂(S)²</p>
+<p>This is faster than iterating over all subsets for each variable.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.vectorized_total_influence_from_fourier">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">vectorized_total_influence_from_fourier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fourier_coeffs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#vectorized_total_influence_from_fourier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.vectorized_total_influence_from_fourier" title="Link to this definition"></a></dt>
+<dd><p>Compute total influence from Fourier coefficients.</p>
+<p>Total influence = Σ_S <a href="#id1"><span class="problematic" id="id2">|S|</span></a> · f̂(S)² = Σ_i Inf_i(f)</p>
+<p>Uses the formula: I[f] = Σ_S <a href="#id3"><span class="problematic" id="id4">|S|</span></a> · f̂(S)²</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.noise_stability_from_fourier">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">noise_stability_from_fourier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fourier_coeffs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#noise_stability_from_fourier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.noise_stability_from_fourier" title="Link to this definition"></a></dt>
+<dd><p>Compute noise stability from Fourier coefficients.</p>
+<p>Stab_ρ[f] = Σ_S ρ^|S| · f̂(S)²</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.optimizations.LazyFourierCoefficients">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">LazyFourierCoefficients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#LazyFourierCoefficients"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.LazyFourierCoefficients" title="Link to this definition"></a></dt>
+<dd><p>Lazy wrapper for Fourier coefficients.</p>
+<p>Delays computation until coefficients are actually needed,
+and caches the result.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.optimizations.LazyFourierCoefficients.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compute_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#LazyFourierCoefficients.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.LazyFourierCoefficients.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>compute_func</strong> – Function that computes the Fourier coefficients</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.optimizations.LazyFourierCoefficients.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#LazyFourierCoefficients.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.LazyFourierCoefficients.get" title="Link to this definition"></a></dt>
+<dd><p>Get coefficients, computing if necessary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.optimizations.LazyFourierCoefficients.is_computed">
+<span class="sig-name descname"><span class="pre">is_computed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#LazyFourierCoefficients.is_computed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.LazyFourierCoefficients.is_computed" title="Link to this definition"></a></dt>
+<dd><p>Check if coefficients have been computed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.optimizations.LazyFourierCoefficients.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#LazyFourierCoefficients.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.LazyFourierCoefficients.clear" title="Link to this definition"></a></dt>
+<dd><p>Clear cached coefficients.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.get_best_wht_implementation">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">get_best_wht_implementation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#get_best_wht_implementation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.get_best_wht_implementation" title="Link to this definition"></a></dt>
+<dd><p>Get the best available Walsh-Hadamard Transform implementation.</p>
+<p>Returns tuple of (function, name) where function is the WHT implementation
+and name is a description.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.BEST_WHT">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">BEST_WHT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="headerlink" href="#boofun.core.optimizations.BEST_WHT" title="Link to this definition"></a></dt>
+<dd><p>Fast in-place Walsh-Hadamard Transform.</p>
+<p>This is the optimized O(n * 2^n) algorithm using butterfly operations.
+Works in-place to minimize memory allocations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – Input array of length 2^n (will be modified in-place)</p></li>
+<li><p><strong>normalize</strong> – If True, divide by 2^n at the end</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Transformed array (same object as input if in-place)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.BEST_INFLUENCES">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">BEST_INFLUENCES</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fourier_coeffs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="headerlink" href="#boofun.core.optimizations.BEST_INFLUENCES" title="Link to this definition"></a></dt>
+<dd><p>Compute influences from Fourier coefficients using vectorization.</p>
+<p>Influence of variable i: Inf_i(f) = Σ_{S∋i} f̂(S)²</p>
+<p>This is faster than iterating over all subsets for each variable.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.parallel_batch_influences">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">parallel_batch_influences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">functions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#parallel_batch_influences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.parallel_batch_influences" title="Link to this definition"></a></dt>
+<dd><p>Compute influences for multiple Boolean functions in parallel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>functions</strong> – List of BooleanFunction objects</p></li>
+<li><p><strong>max_workers</strong> – Number of parallel workers (default: CPU count)</p></li>
+<li><p><strong>use_threads</strong> – Use threads instead of processes (faster for small tasks)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of influence arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.parallel_batch_fourier">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">parallel_batch_fourier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">functions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#parallel_batch_fourier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.parallel_batch_fourier" title="Link to this definition"></a></dt>
+<dd><p>Compute Fourier coefficients for multiple Boolean functions in parallel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>functions</strong> – List of BooleanFunction objects</p></li>
+<li><p><strong>max_workers</strong> – Number of parallel workers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Fourier coefficient arrays</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.optimizations.ComputeCache">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">ComputeCache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#ComputeCache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.ComputeCache" title="Link to this definition"></a></dt>
+<dd><p>LRU cache for expensive Boolean function computations.</p>
+<p>Uses OrderedDict for O(1) get/put/evict instead of the previous
+hand-rolled list with O(n) remove.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.optimizations.ComputeCache.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#ComputeCache.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.ComputeCache.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.optimizations.ComputeCache.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_hash</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">computation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.14)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#ComputeCache.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.ComputeCache.get" title="Link to this definition"></a></dt>
+<dd><p>Try to get cached result. Returns (found, value).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.optimizations.ComputeCache.put">
+<span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_hash</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">computation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#ComputeCache.put"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.ComputeCache.put" title="Link to this definition"></a></dt>
+<dd><p>Store result in cache, evicting LRU if full.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.optimizations.ComputeCache.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#ComputeCache.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.ComputeCache.clear" title="Link to this definition"></a></dt>
+<dd><p>Clear all cached entries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.optimizations.ComputeCache.stats">
+<span class="sig-name descname"><span class="pre">stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#ComputeCache.stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.ComputeCache.stats" title="Link to this definition"></a></dt>
+<dd><p>Get cache statistics.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.get_global_cache">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">get_global_cache</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.optimizations.ComputeCache" title="boofun.core.optimizations.ComputeCache"><span class="pre">ComputeCache</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#get_global_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.get_global_cache" title="Link to this definition"></a></dt>
+<dd><p>Get the global computation cache.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.cached_computation">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">cached_computation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">computation_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#cached_computation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.cached_computation" title="Link to this definition"></a></dt>
+<dd><p>Decorator for caching expensive computations on BooleanFunction.</p>
+<dl>
+<dt>Usage:</dt><dd><p>&#64;cached_computation(“influences”)
+def compute_influences(self):</p>
+<blockquote>
+<div><p>…</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.memoize_method">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">memoize_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#memoize_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.memoize_method" title="Link to this definition"></a></dt>
+<dd><p>Simple memoization for instance methods.</p>
+<p>Caches results in the instance’s __dict__.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.optimizations.batch_evaluate">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.optimizations.</span></span><span class="sig-name descname"><span class="pre">batch_evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/optimizations.html#batch_evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.optimizations.batch_evaluate" title="Link to this definition"></a></dt>
+<dd><p>Efficiently evaluate a Boolean function on a batch of inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction</p></li>
+<li><p><strong>inputs</strong> – 2D array of shape (batch_size, n_vars) or 1D array of indices</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Boolean array of results</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boofun.core.numba_optimizations.html" class="btn btn-neutral float-left" title="boofun.core.numba_optimizations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boofun.core.partial.html" class="btn btn-neutral float-right" title="boofun.core.partial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

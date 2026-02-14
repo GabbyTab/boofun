@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BooFun Style Guide &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Test Guidelines" href="TEST_GUIDELINES.html" />
+    <link rel="prev" title="Contributing to BooFun" href="CONTRIBUTING.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BooFun Style Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#principles">Principles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#when-principles-conflict">When Principles Conflict</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#kiss-keep-it-simple">KISS - Keep It Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dry-don-t-repeat-yourself">DRY - Don’t Repeat Yourself</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fail-loud">Fail Loud</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#assert-vs-raise">assert vs raise</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exception-chaining">Exception chaining</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#functional">Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#domain-codomain">Domain/Codomain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#determinism">Determinism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bit-ordering-convention">Bit-Ordering Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-test">Quick Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation-notebooks">Documentation &amp; Notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BooFun Style Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/STYLE_GUIDE.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="boofun-style-guide">
+<h1>BooFun Style Guide<a class="headerlink" href="#boofun-style-guide" title="Link to this heading"></a></h1>
+<p>Formatting is handled by CI. This is about <em>how</em> we write code.</p>
+<section id="principles">
+<h2>Principles<a class="headerlink" href="#principles" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Principle</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>KISS</strong></p></td>
+<td><p>Keep It Simple. No cleverness.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>DRY</strong></p></td>
+<td><p>Don’t Repeat Yourself. One source of truth.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Fail Loud</strong></p></td>
+<td><p>Errors should scream, not whisper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Functional</strong></p></td>
+<td><p>Pure functions. No mutation.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Domain/Codomain</strong></p></td>
+<td><p>Always document what goes in and out.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Deterministic</strong></p></td>
+<td><p>Same inputs → same outputs. Always.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="when-principles-conflict">
+<h3>When Principles Conflict<a class="headerlink" href="#when-principles-conflict" title="Link to this heading"></a></h3>
+<p>Use this precedence:</p>
+<p><strong>Correctness → Determinism → Clarity (KISS) → DRY → Performance</strong></p>
+<p>Example: a cache improves performance and avoids recomputation (DRY), but if it makes behavior harder to reason about (KISS) or introduces nondeterminism, skip it.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="kiss-keep-it-simple">
+<h2>KISS - Keep It Simple<a class="headerlink" href="#kiss-keep-it-simple" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: Direct and obvious</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_balanced</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="c1"># Bad: Over-engineered</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BalanceCheckerFactory</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_checker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="p">):</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p><strong>Rule</strong>: If a junior dev can’t understand it in 30 seconds, simplify.</p>
+</section>
+<hr class="docutils" />
+<section id="dry-don-t-repeat-yourself">
+<h2>DRY - Don’t Repeat Yourself<a class="headerlink" href="#dry-don-t-repeat-yourself" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bad: Logic duplicated</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_majority_3</span><span class="p">():</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">sum</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">test_majority_5</span><span class="p">():</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">sum</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>  <span class="c1"># Same check!</span>
+
+<span class="c1"># Good: One function, parameterized</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_parseval</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rule</strong>: If you copy-paste, you’re doing it wrong.</p>
+</section>
+<hr class="docutils" />
+<section id="fail-loud">
+<h2>Fail Loud<a class="headerlink" href="#fail-loud" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: Immediate, clear error</span>
+<span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">!=</span> <span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mismatched vars: </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Bad: Silent &quot;fix&quot;</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)</span>  <span class="c1"># Hides bug!</span>
+
+<span class="c1"># Bad: Silent data loss</span>
+<span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">values</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>  <span class="c1"># Destroys magnitude!</span>
+</pre></div>
+</div>
+<p><strong>Rule</strong>: Never silently coerce, truncate, or threshold.</p>
+<section id="assert-vs-raise">
+<h3>assert vs raise<a class="headerlink" href="#assert-vs-raise" title="Link to this heading"></a></h3>
+<p>In <strong>library code</strong>, use explicit <code class="docutils literal notranslate"><span class="pre">raise</span> <span class="pre">ValueError(...)</span></code> for validation. Python’s <code class="docutils literal notranslate"><span class="pre">-O</span></code> flag strips <code class="docutils literal notranslate"><span class="pre">assert</span></code> statements, so <code class="docutils literal notranslate"><span class="pre">assert</span></code> is not a reliable guard in production.</p>
+<p>In <strong>test code</strong>, use plain <code class="docutils literal notranslate"><span class="pre">assert</span></code> freely — pytest rewrites assertions for helpful error output.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: library validation</span>
+<span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;n must be positive, got </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Good: test assertion</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">, expected </span><span class="si">{</span><span class="n">expected</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Bad: library validation via assert (stripped by -O)</span>
+<span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span>  <span class="c1"># Disappears in optimized mode!</span>
+</pre></div>
+</div>
+</section>
+<section id="exception-chaining">
+<h3>Exception chaining<a class="headerlink" href="#exception-chaining" title="Link to this heading"></a></h3>
+<p>When translating low-level exceptions into domain exceptions, always chain with <code class="docutils literal notranslate"><span class="pre">from</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: preserves causal context</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">ConversionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot get truth table for </span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+<span class="c1"># Bad: loses the original traceback</span>
+<span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">ConversionError</span><span class="p">(</span><span class="s2">&quot;Cannot get truth table&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="functional">
+<h2>Functional<a class="headerlink" href="#functional" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: Returns new object</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">negate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">1</span><span class="o">-</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">truth_table</span><span class="p">])</span>
+
+<span class="c1"># Bad: Mutates input</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">negate</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">truth_table</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">truth_table</span><span class="p">]</span>  <span class="c1"># Side effect!</span>
+</pre></div>
+</div>
+<p><strong>Rule</strong>: Same input → same output. No surprises.</p>
+</section>
+<hr class="docutils" />
+<section id="domain-codomain">
+<h2>Domain/Codomain<a class="headerlink" href="#domain-codomain" title="Link to this heading"></a></h2>
+<p>Every function documents its contract:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">convolution</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fourier coefficients of f*g.</span>
+
+<span class="sd">    Domain: f, g with same n_vars</span>
+<span class="sd">    Codomain: array of reals (NOT a BooleanFunction!)</span>
+
+<span class="sd">    Raises: ValueError if n_vars mismatch</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p><strong>Rule</strong>: Reader should know types without reading the code.</p>
+<p><strong>Rule</strong>: Public functions MUST have type hints on all parameters and return values.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: types are part of the interface</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">noise_stability</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span> <span class="o">...</span>
+
+<span class="c1"># Bad: reader has to guess</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">noise_stability</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span> <span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="determinism">
+<h2>Determinism<a class="headerlink" href="#determinism" title="Link to this heading"></a></h2>
+<p>Monte Carlo results must be reproducible. Randomness is a controlled input, not an accident.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Good: caller controls the seed</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_influence</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">rng</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+    <span class="o">...</span>
+
+<span class="c1"># Good: notebook sets seed once at the top</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Bad: hidden nondeterminism</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_influence</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># Which seed? Unknown!</span>
+</pre></div>
+</div>
+<p><strong>Rule</strong>: Any function that uses randomness SHOULD accept an <code class="docutils literal notranslate"><span class="pre">rng</span></code> parameter (or seed). Notebooks MUST set a seed at the top.</p>
+</section>
+<hr class="docutils" />
+<section id="bit-ordering-convention">
+<h2>Bit-Ordering Convention<a class="headerlink" href="#bit-ordering-convention" title="Link to this heading"></a></h2>
+<p>BooFun uses <strong>LSB = x₀</strong> everywhere. This must be consistent across all code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Index i maps to bits via: x_j = (i &gt;&gt; j) &amp; 1</span>
+<span class="c1"># Index 5 = 0b101 means x₀=1, x₁=0, x₂=1</span>
+
+<span class="c1"># Good: LSB-first</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+<span class="c1"># Bad: MSB-first (common bug!)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;0</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">b&quot;</span><span class="p">)]</span>  <span class="c1"># WRONG ORDER</span>
+</pre></div>
+</div>
+<p><strong>Rule</strong>: When building truth tables from index → bit vectors, always use <code class="docutils literal notranslate"><span class="pre">(i</span> <span class="pre">&gt;&gt;</span> <span class="pre">j)</span> <span class="pre">&amp;</span> <span class="pre">1</span></code>.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">CONTRIBUTING.md</span></code> for the full specification.</p>
+</section>
+<hr class="docutils" />
+<section id="quick-test">
+<h2>Quick Test<a class="headerlink" href="#quick-test" title="Link to this heading"></a></h2>
+<p>Before committing, ask:</p>
+<ol class="arabic simple">
+<li><p><strong>KISS</strong>: Can I explain this to a rubber duck?</p></li>
+<li><p><strong>DRY</strong>: Did I copy-paste anything?</p></li>
+<li><p><strong>Fail Loud</strong>: What happens with bad input?</p></li>
+<li><p><strong>Functional</strong>: Does this mutate anything?</p></li>
+<li><p><strong>Domain/Codomain</strong>: Are types obvious from the signature?</p></li>
+</ol>
+<p>If any answer is wrong, fix it.</p>
+</section>
+<hr class="docutils" />
+<section id="documentation-notebooks">
+<h2>Documentation &amp; Notebooks<a class="headerlink" href="#documentation-notebooks" title="Link to this heading"></a></h2>
+<p><strong>Tone</strong>: Clear, mathematical, concise. Let examples speak for themselves.</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh"># Bad: Self-promotion</span>
+&quot;The POWER of the library: test ANY function!&quot;
+&quot;This incredibly useful feature...&quot;
+
+<span class="gh"># Good: Just show it</span>
+<span class="gh"># Testing user-defined functions</span>
+def my_hash(x): ...
+f = bf.create(my_hash, n=5)
+tester.blr_linearity_test(f)  # Works on any function
+</pre></div>
+</div>
+<p><strong>Rules</strong>:</p>
+<ul class="simple">
+<li><p>No emojis in technical content</p></li>
+<li><p>No “power of” / “incredibly” / “amazing” language</p></li>
+<li><p>Quality is self-evident from examples, not claims</p></li>
+<li><p>Prefer equations and code over prose</p></li>
+<li><p>Keep notebooks short — one concept per section</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="CONTRIBUTING.html" class="btn btn-neutral float-left" title="Contributing to BooFun" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="TEST_GUIDELINES.html" class="btn btn-neutral float-right" title="Test Guidelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

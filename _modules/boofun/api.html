@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.api &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.api</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.api</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">API module providing user-friendly entry points for creating Boolean functions.</span>
+
+<span class="sd">This module provides the main `create` function that serves as the primary</span>
+<span class="sd">interface for users to create Boolean function objects from various data sources.</span>
+
+<span class="sd">Also provides:</span>
+<span class="sd">- `partial()`: Create partial Boolean functions for streaming/incremental specification</span>
+<span class="sd">- `from_hex()`: Create from hex string truth table (thomasarmel-compatible)</span>
+<span class="sd">- Storage hints: `storage=&#39;packed&#39;`, `storage=&#39;sparse&#39;`, `storage=&#39;lazy&#39;`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.partial</span><span class="w"> </span><span class="kn">import</span> <span class="n">PartialBooleanFunction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.partial</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span> <span class="k">as</span> <span class="n">_partial_func</span>
+
+<span class="c1"># Valid storage hint values</span>
+<span class="n">STORAGE_HINTS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="s2">&quot;dense&quot;</span><span class="p">,</span> <span class="s2">&quot;packed&quot;</span><span class="p">,</span> <span class="s2">&quot;sparse&quot;</span><span class="p">,</span> <span class="s2">&quot;lazy&quot;</span><span class="p">})</span>
+
+
+<div class="viewcode-block" id="create">
+<a class="viewcode-back" href="../../api/boofun.api.html#boofun.create">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">storage</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a Boolean function from various data sources.</span>
+
+<span class="sd">    This is the main entry point for creating Boolean functions. It accepts</span>
+<span class="sd">    truth tables, functions, distributions, and other representations.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data: Input data for the Boolean function. Can be:</span>
+<span class="sd">            - List/array of boolean values (truth table)</span>
+<span class="sd">            - Callable function</span>
+<span class="sd">            - Dict (polynomial coefficients)</span>
+<span class="sd">            - None (creates empty function)</span>
+<span class="sd">        storage: Storage strategy hint:</span>
+<span class="sd">            - &#39;auto&#39;: Automatically select best representation (default)</span>
+<span class="sd">            - &#39;dense&#39;: Use dense truth table (fast for n &lt;= 14)</span>
+<span class="sd">            - &#39;packed&#39;: Use 1-bit per entry (good for n &gt; 14)</span>
+<span class="sd">            - &#39;sparse&#39;: Store only exceptions (good for skewed functions)</span>
+<span class="sd">            - &#39;lazy&#39;: Never materialize, compute on demand (for oracles)</span>
+<span class="sd">        **kwargs: Additional arguments:</span>
+<span class="sd">            - n: Number of variables (auto-detected if not provided)</span>
+<span class="sd">            - space: Mathematical space (default: BOOLEAN_CUBE)</span>
+<span class="sd">            - rep_type: Representation type override</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BooleanFunction: A Boolean function object</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; # Create XOR function from truth table</span>
+<span class="sd">        &gt;&gt;&gt; xor = create([0, 1, 1, 0])</span>
+
+<span class="sd">        &gt;&gt;&gt; # Create majority function</span>
+<span class="sd">        &gt;&gt;&gt; maj = create(lambda x: sum(x) &gt; len(x)//2, n=3)</span>
+
+<span class="sd">        &gt;&gt;&gt; # Create with storage hint for large function</span>
+<span class="sd">        &gt;&gt;&gt; f = create(truth_table, storage=&#39;packed&#39;)</span>
+
+<span class="sd">        &gt;&gt;&gt; # Create lazy function that computes on demand</span>
+<span class="sd">        &gt;&gt;&gt; f = create(oracle_func, n=20, storage=&#39;lazy&#39;)</span>
+
+<span class="sd">        &gt;&gt;&gt; # Create from polynomial coefficients</span>
+<span class="sd">        &gt;&gt;&gt; poly = create({frozenset([0]): 1, frozenset([1]): 1}, rep_type=&#39;polynomial&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">storage</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">STORAGE_HINTS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid storage hint &#39;</span><span class="si">{</span><span class="n">storage</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Valid options: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">STORAGE_HINTS</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Handle lazy storage for callable functions</span>
+    <span class="k">if</span> <span class="n">storage</span> <span class="o">==</span> <span class="s2">&quot;lazy&quot;</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_create_lazy_function</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># Handle storage hints by setting representation type</span>
+    <span class="c1"># Only apply to array-like data, not callables (which use query access)</span>
+    <span class="n">is_array_like</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;__len__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">storage</span> <span class="o">==</span> <span class="s2">&quot;packed&quot;</span> <span class="ow">and</span> <span class="n">is_array_like</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;rep_type&quot;</span><span class="p">,</span> <span class="s2">&quot;packed_truth_table&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">storage</span> <span class="o">==</span> <span class="s2">&quot;sparse&quot;</span> <span class="ow">and</span> <span class="n">is_array_like</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;rep_type&quot;</span><span class="p">,</span> <span class="s2">&quot;sparse_truth_table&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">storage</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span> <span class="ow">and</span> <span class="n">is_array_like</span><span class="p">:</span>
+        <span class="c1"># Auto-select based on size for array-like data</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">data_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">data_len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">data_len</span><span class="p">))</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">14</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;rep_type&quot;</span><span class="p">,</span> <span class="s2">&quot;packed_truth_table&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">BooleanFunctionFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_create_lazy_function</span><span class="p">(</span><span class="n">oracle</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a lazy Boolean function that computes values on demand.</span>
+
+<span class="sd">    The truth table is never fully materialized; instead, the oracle</span>
+<span class="sd">    is called whenever a value is needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Must specify n (number of variables) for lazy functions&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create function using the callable adapter</span>
+    <span class="k">return</span> <span class="n">BooleanFunctionFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">BooleanFunction</span><span class="p">,</span>
+        <span class="n">oracle</span><span class="p">,</span>
+        <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+        <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;n&quot;</span><span class="p">},</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="partial">
+<a class="viewcode-back" href="../../api/boofun.api.html#boofun.partial">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">partial</span><span class="p">(</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">known_values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PartialBooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a partial Boolean function with incremental/streaming support.</span>
+
+<span class="sd">    A partial function allows you to specify only some outputs, useful for:</span>
+<span class="sd">    - Streaming data: adding function values incrementally</span>
+<span class="sd">    - Sampling: knowing only a subset of outputs</span>
+<span class="sd">    - Large functions: working with sections without full materialization</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of input variables (determines domain size 2^n)</span>
+<span class="sd">        known_values: Optional dictionary mapping input indices to output values</span>
+<span class="sd">        name: Optional name for the function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        PartialBooleanFunction instance</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Create empty partial function</span>
+<span class="sd">        &gt;&gt;&gt; p = bf.partial(n=20)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # With initial values</span>
+<span class="sd">        &gt;&gt;&gt; p = bf.partial(n=20, known_values={0: True, 1: False, 7: True})</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Add more values incrementally</span>
+<span class="sd">        &gt;&gt;&gt; p.add(5, False)</span>
+<span class="sd">        &gt;&gt;&gt; p.add_batch({10: True, 11: True, 12: False})</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Check status</span>
+<span class="sd">        &gt;&gt;&gt; p.completeness  # Fraction known</span>
+<span class="sd">        &gt;&gt;&gt; p.num_known  # Count of known values</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Evaluate</span>
+<span class="sd">        &gt;&gt;&gt; p.evaluate(0)  # True (known)</span>
+<span class="sd">        &gt;&gt;&gt; p.evaluate(100)  # None (unknown)</span>
+<span class="sd">        &gt;&gt;&gt; p[0]  # Indexing syntax also works</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Estimate unknown values</span>
+<span class="sd">        &gt;&gt;&gt; val, conf = p.evaluate_with_confidence(100)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Convert to full function when ready</span>
+<span class="sd">        &gt;&gt;&gt; f = p.to_function(fill_unknown=False)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_partial_func</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">known_values</span><span class="o">=</span><span class="n">known_values</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="from_hex">
+<a class="viewcode-back" href="../../api/boofun.api.html#boofun.from_hex">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_hex</span><span class="p">(</span>
+    <span class="n">hex_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">storage</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a Boolean function from a hexadecimal truth table string.</span>
+
+<span class="sd">    This is compatible with thomasarmel/boolean_function&#39;s format where</span>
+<span class="sd">    the truth table is represented as a hex string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        hex_str: Hexadecimal string (with or without &#39;0x&#39; prefix)</span>
+<span class="sd">        n: Number of input variables</span>
+<span class="sd">        storage: Storage strategy hint (&#39;auto&#39;, &#39;dense&#39;, &#39;packed&#39;, &#39;sparse&#39;)</span>
+<span class="sd">        **kwargs: Additional arguments passed to create()</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        BooleanFunction instance</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # From thomasarmel example - 4-bit bent function</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.from_hex(&quot;0xac90&quot;, n=4)</span>
+<span class="sd">        &gt;&gt;&gt; f.is_bent()  # True</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # 6-bit function</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.from_hex(&quot;0113077C165E76A8&quot;, n=6)</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # Export back to hex</span>
+<span class="sd">        &gt;&gt;&gt; f.to_hex()</span>
+
+<span class="sd">    Cross-validation:</span>
+<span class="sd">        This format is compatible with thomasarmel/boolean_function:</span>
+<span class="sd">        - `BooleanFunction::from_hex_string_truth_table(&quot;0113077C165E76A8&quot;)`</span>
+<span class="sd">        - `SmallBooleanFunction::from_truth_table(0xac90, 4)`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Remove &#39;0x&#39; prefix if present</span>
+    <span class="n">hex_str</span> <span class="o">=</span> <span class="n">hex_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;0x&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Convert hex to integer</span>
+    <span class="n">tt_int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hex_str</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+
+    <span class="c1"># Expected size</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Convert to binary truth table</span>
+    <span class="c1"># The hex string represents the truth table in big-endian bit order</span>
+    <span class="c1"># We need to extract bits from LSB to MSB for index 0, 1, 2, ...</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">tt_int</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">create</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="to_hex">
+<a class="viewcode-back" href="../../api/boofun.api.html#boofun.to_hex">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_hex</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Export a Boolean function to a hexadecimal truth table string.</span>
+
+<span class="sd">    This produces output compatible with thomasarmel/boolean_function format.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to export</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Hexadecimal string representation of the truth table</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; import boofun as bf</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.from_hex(&quot;ac90&quot;, n=4)</span>
+<span class="sd">        &gt;&gt;&gt; bf.to_hex(f)</span>
+<span class="sd">        &#39;ac90&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tt</span><span class="p">)))</span>
+
+    <span class="c1"># Convert truth table to integer (bit 0 is tt[0], bit 1 is tt[1], etc.)</span>
+    <span class="n">tt_int</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tt</span><span class="p">)))</span>
+
+    <span class="c1"># Convert to hex, padding to correct length</span>
+    <span class="n">hex_len</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">4</span>  <span class="c1"># Number of hex digits</span>
+    <span class="k">if</span> <span class="n">hex_len</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">hex_len</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">format</span><span class="p">(</span><span class="n">tt_int</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;0</span><span class="si">{</span><span class="n">hex_len</span><span class="si">}</span><span class="s2">x&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

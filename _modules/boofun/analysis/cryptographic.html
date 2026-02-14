@@ -1,0 +1,1183 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.cryptographic &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.cryptographic</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.cryptographic</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cryptographic analysis of Boolean functions.</span>
+
+<span class="sd">This module provides cryptographic measures commonly used in symmetric cryptography,</span>
+<span class="sd">block cipher design, and S-box analysis. These measures help assess the resistance</span>
+<span class="sd">of Boolean functions against linear and differential cryptanalysis.</span>
+
+<span class="sd">Key concepts:</span>
+<span class="sd">- **Nonlinearity**: Distance to the nearest affine function (resistance to linear attacks)</span>
+<span class="sd">- **Bent functions**: Functions achieving maximum nonlinearity (perfect nonlinearity)</span>
+<span class="sd">- **Walsh spectrum**: Fourier transform over F_2 (captures linear correlations)</span>
+<span class="sd">- **Algebraic degree**: Degree of the ANF (resistance to algebraic attacks)</span>
+<span class="sd">- **Balancedness**: Equal number of 0s and 1s (no bias in output)</span>
+
+<span class="sd">Cross-validation:</span>
+<span class="sd">This module is designed to produce results that can be validated against:</span>
+<span class="sd">- thomasarmel/boolean_function (Rust): nonlinearity, is_bent, algebraic_degree</span>
+<span class="sd">- SageMath: walsh_hadamard_transform, nonlinearity</span>
+<span class="sd">- BooLSPLG: S-box analysis tools</span>
+
+<span class="sd">References:</span>
+<span class="sd">- Carlet, &quot;Boolean Functions for Cryptography and Coding Theory&quot;</span>
+<span class="sd">- O&#39;Donnell, &quot;Analysis of Boolean Functions&quot; (Fourier/Walsh connection)</span>
+<span class="sd">- Crama &amp; Hammer, &quot;Boolean Functions: Theory, Algorithms, and Applications&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Core cryptographic measures</span>
+    <span class="s2">&quot;walsh_transform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;walsh_spectrum&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nonlinearity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_bent&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_balanced&quot;</span><span class="p">,</span>
+    <span class="c1"># Algebraic properties</span>
+    <span class="s2">&quot;algebraic_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;algebraic_normal_form&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;anf_monomials&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;algebraic_immunity&quot;</span><span class="p">,</span>
+    <span class="c1"># Additional measures</span>
+    <span class="s2">&quot;correlation_immunity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;resiliency&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;propagation_criterion&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;strict_avalanche_criterion&quot;</span><span class="p">,</span>
+    <span class="c1"># S-box analysis (LAT/DDT)</span>
+    <span class="s2">&quot;linear_approximation_table&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;difference_distribution_table&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;differential_uniformity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;linearity&quot;</span><span class="p">,</span>
+    <span class="c1"># Analysis class</span>
+    <span class="s2">&quot;CryptographicAnalyzer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SBoxAnalyzer&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="walsh_transform">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.walsh_transform">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">walsh_transform</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Walsh-Hadamard transform of a Boolean function.</span>
+
+<span class="sd">    The Walsh transform W_f(a) measures the correlation between f and the</span>
+<span class="sd">    linear function &lt;a, x&gt;:</span>
+
+<span class="sd">        W_f(a) = Σ_{x ∈ F_2^n} (-1)^{f(x) ⊕ &lt;a,x&gt;}</span>
+
+<span class="sd">    This is related to the Fourier transform by: W_f(a) = 2^n · f̂(a)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of Walsh coefficients W_f(a) for a = 0, 1, ..., 2^n - 1</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        - For balanced functions, W_f(0) = 0</span>
+<span class="sd">        - For bent functions, |W_f(a)| = 2^{n/2} for all a</span>
+
+<span class="sd">    Cross-validation:</span>
+<span class="sd">        thomasarmel/boolean_function uses the same definition.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">val</span><span class="p">])</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Get function values as ±1</span>
+    <span class="n">f_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)])</span>
+
+    <span class="c1"># Walsh-Hadamard transform (unnormalized)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">fast_walsh_hadamard</span>
+
+    <span class="c1"># fast_walsh_hadamard normalizes by 2^n, so we need to undo that</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">fast_walsh_hadamard</span><span class="p">(</span><span class="n">f_vals</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Convert from normalized Fourier to Walsh: W_f(a) = 2^n · f̂(a)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">coeffs</span> <span class="o">*</span> <span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="walsh_spectrum">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.walsh_spectrum">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">walsh_spectrum</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Walsh spectrum (distribution of Walsh coefficients).</span>
+
+<span class="sd">    The spectrum is a histogram showing how many times each Walsh value appears.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary {walsh_value: count}</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.parity(3)</span>
+<span class="sd">        &gt;&gt;&gt; walsh_spectrum(f)</span>
+<span class="sd">        {-8: 1, 0: 7}  # XOR is bent-like, one large coefficient</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">walsh_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">unique</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">counts</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span></div>
+
+
+
+<div class="viewcode-block" id="nonlinearity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.nonlinearity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nonlinearity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the nonlinearity of a Boolean function.</span>
+
+<span class="sd">    Nonlinearity is the minimum Hamming distance to any affine function:</span>
+
+<span class="sd">        NL(f) = 2^{n-1} - (1/2) · max_a |W_f(a)|</span>
+
+<span class="sd">    Higher nonlinearity means better resistance to linear cryptanalysis.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Nonlinearity (non-negative integer)</span>
+
+<span class="sd">    Bounds:</span>
+<span class="sd">        - NL(f) ≤ 2^{n-1} - 2^{n/2 - 1} (bent bound, achieved iff bent)</span>
+<span class="sd">        - NL(f) = 0 for affine functions</span>
+
+<span class="sd">    Cross-validation:</span>
+<span class="sd">        thomasarmel/boolean_function: f.nonlinearity() should match</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.AND(3)</span>
+<span class="sd">        &gt;&gt;&gt; nonlinearity(f)</span>
+<span class="sd">        2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">W</span> <span class="o">=</span> <span class="n">walsh_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">max_walsh</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">W</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">max_walsh</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="is_bent">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.is_bent">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_bent</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a Boolean function is bent.</span>
+
+<span class="sd">    A function is bent if it achieves maximum nonlinearity:</span>
+<span class="sd">        |W_f(a)| = 2^{n/2} for all a</span>
+
+<span class="sd">    Bent functions exist only for even n and are never balanced.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is bent</span>
+
+<span class="sd">    Cross-validation:</span>
+<span class="sd">        thomasarmel/boolean_function: f.is_bent() should match</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; # The function 0x0113077C165E76A8 (6 vars) is bent</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.from_hex(&quot;0113077C165E76A8&quot;, n_vars=6)</span>
+<span class="sd">        &gt;&gt;&gt; is_bent(f)</span>
+<span class="sd">        True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="c1"># Bent functions require even n</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">W</span> <span class="o">=</span> <span class="n">walsh_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">bent_value</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># All Walsh coefficients must have absolute value 2^{n/2}</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">W</span><span class="p">)</span> <span class="o">==</span> <span class="n">bent_value</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="is_balanced">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.is_balanced">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_balanced</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a Boolean function is balanced.</span>
+
+<span class="sd">    A function is balanced if it has equal number of 0s and 1s in its truth table,</span>
+<span class="sd">    equivalently W_f(0) = 0.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is balanced</span>
+
+<span class="sd">    Cross-validation:</span>
+<span class="sd">        thomasarmel/boolean_function: f.is_balanced() should match</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Single value can&#39;t be balanced</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+    <span class="n">ones_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">ones_count</span> <span class="o">==</span> <span class="n">size</span> <span class="o">//</span> <span class="mi">2</span></div>
+
+
+
+<div class="viewcode-block" id="algebraic_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.algebraic_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">algebraic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the algebraic degree (ANF degree) of a Boolean function.</span>
+
+<span class="sd">    The algebraic degree is the maximum number of variables in any monomial</span>
+<span class="sd">    of the Algebraic Normal Form (ANF).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Algebraic degree (0 for constant, n for full degree)</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This is computed via GF(2) analysis, not Fourier degree.</span>
+<span class="sd">        For ±1-valued functions, ANF degree equals Fourier degree.</span>
+
+<span class="sd">    Cross-validation:</span>
+<span class="sd">        thomasarmel/boolean_function: f.algebraic_normal_form().degree()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.gf2</span><span class="w"> </span><span class="kn">import</span> <span class="n">gf2_degree</span>
+
+    <span class="k">return</span> <span class="n">gf2_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="algebraic_normal_form">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.algebraic_normal_form">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">algebraic_normal_form</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Algebraic Normal Form (ANF) coefficients.</span>
+
+<span class="sd">    The ANF represents f as a XOR of AND monomials over GF(2):</span>
+<span class="sd">        f(x) = ⊕_{S ⊆ [n]} a_S · ∏_{i ∈ S} x_i</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of ANF coefficients a_S (0 or 1) indexed by subset mask</span>
+
+<span class="sd">    Cross-validation:</span>
+<span class="sd">        thomasarmel/boolean_function: f.algebraic_normal_form()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.gf2</span><span class="w"> </span><span class="kn">import</span> <span class="n">gf2_fourier_transform</span>
+
+    <span class="k">return</span> <span class="n">gf2_fourier_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="anf_monomials">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.anf_monomials">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">anf_monomials</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the monomials present in the ANF.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of tuples, each tuple contains variable indices in the monomial</span>
+<span class="sd">        Empty tuple () represents the constant term 1</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.AND(2)  # x0 AND x1</span>
+<span class="sd">        &gt;&gt;&gt; anf_monomials(f)</span>
+<span class="sd">        [(0, 1)]  # Just the monomial x0·x1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">anf</span> <span class="o">=</span> <span class="n">algebraic_normal_form</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">monomials</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">anf</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">anf</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+            <span class="c1"># Convert bitmask to tuple of variable indices</span>
+            <span class="n">vars_in_monomial</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">monomials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vars_in_monomial</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">monomials</span></div>
+
+
+
+<div class="viewcode-block" id="correlation_immunity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.correlation_immunity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correlation_immunity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the correlation immunity order of a Boolean function.</span>
+
+<span class="sd">    A function is t-th order correlation immune if it is statistically</span>
+<span class="sd">    independent of any t input variables.</span>
+
+<span class="sd">    Equivalently, W_f(a) = 0 for all a with 1 ≤ |a| ≤ t.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Maximum t such that f is t-th order correlation immune (0 if not CI)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">W</span> <span class="o">=</span> <span class="n">walsh_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Find the smallest weight where some Walsh coefficient is nonzero</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">t</span> <span class="ow">and</span> <span class="n">W</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">t</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">n</span>  <span class="c1"># All non-constant Walsh coefficients are zero</span></div>
+
+
+
+<div class="viewcode-block" id="resiliency">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.resiliency">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resiliency</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the resiliency order of a Boolean function.</span>
+
+<span class="sd">    A function is t-resilient if it is balanced and t-th order correlation immune.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Resiliency order (-1 if not balanced, 0+ otherwise)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_balanced</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">correlation_immunity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="propagation_criterion">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.propagation_criterion">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">propagation_criterion</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if f satisfies the Propagation Criterion of order k.</span>
+
+<span class="sd">    PC(k) means: for all a with 1 ≤ |a| ≤ k, the function f(x) ⊕ f(x ⊕ a)</span>
+<span class="sd">    is balanced.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to check</span>
+<span class="sd">        order: Order k to check (default 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f satisfies PC(k)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">k</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Compute f(x) ⊕ f(x ⊕ a) for all x</span>
+            <span class="n">derivative</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+                <span class="n">fx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+                <span class="n">fxa</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span> <span class="o">^</span> <span class="n">a</span><span class="p">))</span>
+                <span class="n">derivative</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fx</span> <span class="o">^</span> <span class="n">fxa</span><span class="p">)</span>
+
+            <span class="c1"># Check if balanced</span>
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">derivative</span><span class="p">)</span> <span class="o">!=</span> <span class="n">size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="strict_avalanche_criterion">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.strict_avalanche_criterion">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">strict_avalanche_criterion</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if f satisfies the Strict Avalanche Criterion (SAC).</span>
+
+<span class="sd">    SAC means: flipping any single input bit changes the output with</span>
+<span class="sd">    probability exactly 1/2. This is equivalent to PC(1).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f satisfies SAC</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">propagation_criterion</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CryptographicAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive cryptographic analysis of a Boolean function.</span>
+
+<span class="sd">    This class computes and caches various cryptographic measures.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.create([0, 1, 1, 0, 1, 0, 0, 1])  # 3-var bent-like</span>
+<span class="sd">        &gt;&gt;&gt; analyzer = CryptographicAnalyzer(f)</span>
+<span class="sd">        &gt;&gt;&gt; print(analyzer.summary())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CryptographicAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize analyzer with a Boolean function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: BooleanFunction to analyze</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_walsh</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_anf</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">n_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of variables.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">walsh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Walsh transform (cached).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_walsh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_walsh</span> <span class="o">=</span> <span class="n">walsh_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_walsh</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">anf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;ANF coefficients (cached).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_anf</span> <span class="o">=</span> <span class="n">algebraic_normal_form</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anf</span>
+
+<div class="viewcode-block" id="CryptographicAnalyzer.nonlinearity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.nonlinearity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nonlinearity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute nonlinearity.&quot;&quot;&quot;</span>
+        <span class="n">max_walsh</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">walsh</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">max_walsh</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer.is_bent">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.is_bent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_bent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if bent.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">bent_value</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">walsh</span><span class="p">)</span> <span class="o">==</span> <span class="n">bent_value</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer.is_balanced">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.is_balanced">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_balanced</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if balanced.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">walsh</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer.algebraic_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.algebraic_degree">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">algebraic_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute algebraic degree.&quot;&quot;&quot;</span>
+        <span class="n">max_deg</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anf</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">anf</span><span class="p">[</span><span class="n">s</span><span class="p">]:</span>
+                <span class="n">deg</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+                <span class="n">max_deg</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_deg</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">max_deg</span></div>
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer.correlation_immunity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.correlation_immunity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">correlation_immunity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute correlation immunity order.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">correlation_immunity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer.resiliency">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.resiliency">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resiliency</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute resiliency order.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_balanced</span><span class="p">():</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_immunity</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer.satisfies_sac">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.satisfies_sac">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">satisfies_sac</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if satisfies SAC.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">strict_avalanche_criterion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer.walsh_spectrum">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.walsh_spectrum">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">walsh_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Walsh spectrum.&quot;&quot;&quot;</span>
+        <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">walsh</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">unique</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">counts</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span></div>
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return human-readable summary.&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="n">nl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nonlinearity</span><span class="p">()</span>
+
+        <span class="c1"># Compute maximum possible nonlinearity</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">max_nl</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">max_nl</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;CryptographicAnalyzer (n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Nonlinearity: </span><span class="si">{</span><span class="n">nl</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">max_nl</span><span class="si">}</span><span class="s2"> (max possible)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Balanced: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_balanced</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Bent: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_bent</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Algebraic degree: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">algebraic_degree</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Correlation immunity: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">correlation_immunity</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Resiliency: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resiliency</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Satisfies SAC: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">satisfies_sac</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Walsh spectrum: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">walsh_spectrum</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CryptographicAnalyzer.to_dict">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.CryptographicAnalyzer.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export all measures as dictionary (for cross-validation).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span>
+            <span class="s2">&quot;nonlinearity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nonlinearity</span><span class="p">(),</span>
+            <span class="s2">&quot;is_balanced&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_balanced</span><span class="p">(),</span>
+            <span class="s2">&quot;is_bent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bent</span><span class="p">(),</span>
+            <span class="s2">&quot;algebraic_degree&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">algebraic_degree</span><span class="p">(),</span>
+            <span class="s2">&quot;correlation_immunity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">correlation_immunity</span><span class="p">(),</span>
+            <span class="s2">&quot;resiliency&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">resiliency</span><span class="p">(),</span>
+            <span class="s2">&quot;satisfies_sac&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">satisfies_sac</span><span class="p">(),</span>
+            <span class="s2">&quot;walsh_spectrum&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">walsh_spectrum</span><span class="p">(),</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Algebraic Immunity</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="algebraic_immunity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.algebraic_immunity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">algebraic_immunity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the algebraic immunity of a Boolean function.</span>
+
+<span class="sd">    Algebraic immunity AI(f) is the minimum degree d such that there exists</span>
+<span class="sd">    a nonzero function g with degree d where f·g = 0 or (1⊕f)·g = 0.</span>
+
+<span class="sd">    This measures resistance to algebraic attacks on stream ciphers.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Algebraic immunity (integer from 1 to ceil(n/2))</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        AI(f) ≤ ceil(n/2) always holds.</span>
+<span class="sd">        Computing exact AI is expensive for large n.</span>
+
+<span class="sd">    Reference:</span>
+<span class="sd">        Meier, Pasalic, Carlet: &quot;Algebraic Attacks and Decomposition of Boolean Functions&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">max_ai</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>  <span class="c1"># Upper bound</span>
+
+    <span class="c1"># Get truth table as array</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+    <span class="n">f_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)])</span>
+    <span class="n">f_complement</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">f_vals</span>
+
+    <span class="c1"># Check for annihilators of increasing degree</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_ai</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Check if there&#39;s an annihilator of degree d for f</span>
+        <span class="k">if</span> <span class="n">_has_annihilator</span><span class="p">(</span><span class="n">f_vals</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">d</span>
+        <span class="c1"># Check if there&#39;s an annihilator of degree d for 1⊕f</span>
+        <span class="k">if</span> <span class="n">_has_annihilator</span><span class="p">(</span><span class="n">f_complement</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">return</span> <span class="n">max_ai</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_has_annihilator</span><span class="p">(</span><span class="n">f_vals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if f has a nonzero annihilator of degree at most d.</span>
+
+<span class="sd">    An annihilator g satisfies f·g = 0 (pointwise AND then check all zeros).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># For small d, we can enumerate all monomials up to degree d</span>
+    <span class="c1"># and check if any nonzero combination annihilates f</span>
+
+    <span class="c1"># Get indices where f = 1 (these constrain the annihilator)</span>
+    <span class="n">support</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">f_vals</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">support</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># f is identically 0, any nonzero function is an annihilator</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># Build matrix of monomial evaluations on support</span>
+    <span class="c1"># A monomial m_S evaluates to 1 on x iff S ⊆ x (all bits of S are set in x)</span>
+    <span class="n">monomials</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">d</span><span class="p">:</span>
+            <span class="n">monomials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">monomials</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Matrix A where A[i,j] = 1 iff monomial j evaluates to 1 on support[i]</span>
+    <span class="n">num_rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">support</span><span class="p">)</span>
+    <span class="n">num_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">monomials</span><span class="p">)</span>
+
+    <span class="c1"># For each support point x, monomial s evaluates to 1 iff (x &amp; s) == s</span>
+    <span class="c1"># We need to find if there&#39;s a nonzero vector in the null space of A over GF(2)</span>
+
+    <span class="c1"># Build the matrix</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">support</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">monomials</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="p">:</span>
+                <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Check if rank(A) &lt; num_cols (means null space is nontrivial)</span>
+    <span class="c1"># Use Gaussian elimination over GF(2)</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="n">_gf2_rank</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rank</span> <span class="o">&lt;</span> <span class="n">num_cols</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_gf2_rank</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute rank of matrix A over GF(2) using Gaussian elimination.&quot;&quot;&quot;</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">rank</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="c1"># Find pivot</span>
+        <span class="n">pivot_row</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">pivot_row</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">pivot_row</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Swap rows</span>
+        <span class="n">A</span><span class="p">[[</span><span class="n">rank</span><span class="p">,</span> <span class="n">pivot_row</span><span class="p">]]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[[</span><span class="n">pivot_row</span><span class="p">,</span> <span class="n">rank</span><span class="p">]]</span>
+
+        <span class="c1"># Eliminate</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">row</span> <span class="o">!=</span> <span class="n">rank</span> <span class="ow">and</span> <span class="n">A</span><span class="p">[</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">A</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">^</span> <span class="n">A</span><span class="p">[</span><span class="n">rank</span><span class="p">]</span>
+
+        <span class="n">rank</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">rank</span>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># S-Box Analysis: LAT and DDT</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="linear_approximation_table">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.linear_approximation_table">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">linear_approximation_table</span><span class="p">(</span><span class="n">sbox</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Linear Approximation Table (LAT) of an S-box.</span>
+
+<span class="sd">    The LAT measures linear correlations between input and output masks:</span>
+<span class="sd">        LAT[a,b] = #{x : &lt;a,x&gt; = &lt;b,S(x)&gt;} - 2^{n-1}</span>
+
+<span class="sd">    This is used in linear cryptanalysis of block ciphers.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sbox: S-box as list of output values (sbox[x] = S(x))</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        2D numpy array of size 2^n × 2^m where n=input bits, m=output bits</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        For an n-bit to m-bit S-box, input masks range over 2^n,</span>
+<span class="sd">        output masks range over 2^m.</span>
+
+<span class="sd">    Reference:</span>
+<span class="sd">        Matsui, &quot;Linear Cryptanalysis Method for DES Cipher&quot;</span>
+
+<span class="sd">    Cross-validation:</span>
+<span class="sd">        BooLSPLG computes the same LAT for S-box analysis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[]])</span>
+
+    <span class="c1"># Determine input/output bit sizes</span>
+    <span class="n">n_bits</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span>  <span class="c1"># Input bits</span>
+    <span class="n">m_bits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>  <span class="c1"># Output bits</span>
+
+    <span class="n">input_size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n_bits</span>
+    <span class="n">output_size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">m_bits</span>
+
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">input_size</span><span class="p">):</span>  <span class="c1"># Input mask</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">output_size</span><span class="p">):</span>  <span class="c1"># Output mask</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">input_size</span><span class="p">):</span>
+                <span class="c1"># Compute &lt;a,x&gt; XOR &lt;b,S(x)&gt;</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+                <span class="n">bsx</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">b</span> <span class="o">&amp;</span> <span class="n">sbox</span><span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+                <span class="k">if</span> <span class="n">ax</span> <span class="o">==</span> <span class="n">bsx</span><span class="p">:</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">lat</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span> <span class="o">-</span> <span class="p">(</span><span class="n">input_size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">lat</span></div>
+
+
+
+<div class="viewcode-block" id="difference_distribution_table">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.difference_distribution_table">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">difference_distribution_table</span><span class="p">(</span><span class="n">sbox</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Difference Distribution Table (DDT) of an S-box.</span>
+
+<span class="sd">    The DDT measures differential propagation:</span>
+<span class="sd">        DDT[Δx, Δy] = #{x : S(x) ⊕ S(x ⊕ Δx) = Δy}</span>
+
+<span class="sd">    This is used in differential cryptanalysis of block ciphers.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sbox: S-box as list of output values (sbox[x] = S(x))</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        2D numpy array of size 2^n × 2^m</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        DDT[0,0] = 2^n always (trivial differential).</span>
+
+<span class="sd">    Reference:</span>
+<span class="sd">        Biham &amp; Shamir, &quot;Differential Cryptanalysis of DES-like Cryptosystems&quot;</span>
+
+<span class="sd">    Cross-validation:</span>
+<span class="sd">        BooLSPLG computes the same DDT.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[]])</span>
+
+    <span class="c1"># Determine bit sizes</span>
+    <span class="n">n_bits</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span>
+    <span class="n">m_bits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
+
+    <span class="n">input_size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n_bits</span>
+    <span class="n">output_size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">m_bits</span>
+
+    <span class="n">ddt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">dx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">input_size</span><span class="p">):</span>  <span class="c1"># Input difference</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">input_size</span><span class="p">):</span>
+            <span class="c1"># Output difference</span>
+            <span class="n">dy</span> <span class="o">=</span> <span class="n">sbox</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">^</span> <span class="n">sbox</span><span class="p">[</span><span class="n">x</span> <span class="o">^</span> <span class="n">dx</span><span class="p">]</span>
+            <span class="n">ddt</span><span class="p">[</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">ddt</span></div>
+
+
+
+<div class="viewcode-block" id="differential_uniformity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.differential_uniformity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">differential_uniformity</span><span class="p">(</span><span class="n">sbox</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the differential uniformity of an S-box.</span>
+
+<span class="sd">    Differential uniformity is the maximum non-trivial entry in the DDT:</span>
+<span class="sd">        δ = max{DDT[Δx, Δy] : Δx ≠ 0}</span>
+
+<span class="sd">    Lower values indicate better resistance to differential cryptanalysis.</span>
+<span class="sd">    The minimum possible value is 2 for bijective S-boxes (APN functions).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sbox: S-box as list of output values</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Differential uniformity (positive integer)</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        - δ = 2: Almost Perfect Nonlinear (APN)</span>
+<span class="sd">        - δ = 4: Used in AES S-box</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ddt</span> <span class="o">=</span> <span class="n">difference_distribution_table</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span>
+
+    <span class="c1"># Exclude trivial row (dx = 0)</span>
+    <span class="k">if</span> <span class="n">ddt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ddt</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]))</span>
+    <span class="k">return</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="linearity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.linearity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">linearity</span><span class="p">(</span><span class="n">sbox</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the linearity of an S-box.</span>
+
+<span class="sd">    Linearity is twice the maximum absolute value in the LAT:</span>
+<span class="sd">        L = 2 × max{|LAT[a,b]| : (a,b) ≠ (0,0)}</span>
+
+<span class="sd">    Lower values indicate better resistance to linear cryptanalysis.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sbox: S-box as list of output values</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Linearity (positive integer)</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        For n-bit S-boxes, L ≥ 2^{n/2} (bent bound).</span>
+<span class="sd">        AES S-box has L = 32.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">linear_approximation_table</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span>
+
+    <span class="c1"># Exclude trivial entry (0,0)</span>
+    <span class="n">lat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lat</span><span class="p">)))</span></div>
+
+
+
+<div class="viewcode-block" id="SBoxAnalyzer">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.SBoxAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SBoxAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive S-box analysis for cryptographic applications.</span>
+
+<span class="sd">    An S-box (Substitution box) is a basic component of symmetric key algorithms.</span>
+<span class="sd">    This analyzer computes various measures of cryptographic strength.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; # Analyze a 4-bit S-box</span>
+<span class="sd">        &gt;&gt;&gt; sbox = [0xE, 0x4, 0xD, 0x1, 0x2, 0xF, 0xB, 0x8,</span>
+<span class="sd">        ...         0x3, 0xA, 0x6, 0xC, 0x5, 0x9, 0x0, 0x7]</span>
+<span class="sd">        &gt;&gt;&gt; analyzer = SBoxAnalyzer(sbox)</span>
+<span class="sd">        &gt;&gt;&gt; print(analyzer.summary())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="SBoxAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.SBoxAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sbox</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize S-box analyzer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sbox: S-box as list where sbox[x] = S(x)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sbox</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ddt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">n_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of input bits.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbox</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">n_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of output bits.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">)</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lat</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Linear Approximation Table (cached).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lat</span> <span class="o">=</span> <span class="n">linear_approximation_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lat</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ddt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Difference Distribution Table (cached).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ddt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ddt</span> <span class="o">=</span> <span class="n">difference_distribution_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ddt</span>
+
+<div class="viewcode-block" id="SBoxAnalyzer.is_bijective">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.SBoxAnalyzer.is_bijective">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_bijective</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if S-box is a bijection (permutation).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SBoxAnalyzer.differential_uniformity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.SBoxAnalyzer.differential_uniformity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">differential_uniformity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute differential uniformity.&quot;&quot;&quot;</span>
+        <span class="n">ddt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ddt</span>
+        <span class="k">if</span> <span class="n">ddt</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ddt</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]))</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="SBoxAnalyzer.linearity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.SBoxAnalyzer.linearity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">linearity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute linearity.&quot;&quot;&quot;</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">lat</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lat</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="SBoxAnalyzer.nonlinearity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.SBoxAnalyzer.nonlinearity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nonlinearity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute nonlinearity of the S-box.</span>
+
+<span class="sd">        For an S-box, nonlinearity is:</span>
+<span class="sd">            NL = 2^{n-1} - L/2</span>
+<span class="sd">        where L is the linearity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linearity</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">L</span> <span class="o">//</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="SBoxAnalyzer.is_apn">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.SBoxAnalyzer.is_apn">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_apn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if S-box is Almost Perfect Nonlinear (differential uniformity = 2).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">differential_uniformity</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span></div>
+
+
+<div class="viewcode-block" id="SBoxAnalyzer.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.SBoxAnalyzer.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return human-readable summary.&quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;SBoxAnalyzer (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span><span class="si">}</span><span class="s2">-bit to </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="si">}</span><span class="s2">-bit)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Size: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">)</span><span class="si">}</span><span class="s2"> entries&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Bijective: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_bijective</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Differential uniformity: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">differential_uniformity</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Linearity: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">linearity</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Nonlinearity: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nonlinearity</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  APN: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">is_apn</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SBoxAnalyzer.to_dict">
+<a class="viewcode-back" href="../../../api/boofun.analysis.cryptographic.html#boofun.analysis.cryptographic.SBoxAnalyzer.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export measures as dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;n_inputs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span><span class="p">,</span>
+            <span class="s2">&quot;n_outputs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span><span class="p">,</span>
+            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">),</span>
+            <span class="s2">&quot;bijective&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bijective</span><span class="p">(),</span>
+            <span class="s2">&quot;differential_uniformity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">differential_uniformity</span><span class="p">(),</span>
+            <span class="s2">&quot;linearity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">linearity</span><span class="p">(),</span>
+            <span class="s2">&quot;nonlinearity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">nonlinearity</span><span class="p">(),</span>
+            <span class="s2">&quot;is_apn&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_apn</span><span class="p">(),</span>
+        <span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

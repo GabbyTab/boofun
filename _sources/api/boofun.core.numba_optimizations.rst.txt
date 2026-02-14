@@ -1,0 +1,23 @@
+boofun.core.numba\_optimizations
+================================
+
+.. automodule:: boofun.core.numba_optimizations
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      fallback_fourier_batch
+      fallback_influences
+      fallback_truth_table_batch
+      get_numba_stats
+      is_numba_available
+      numba_optimize
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      NumbaOptimizer
+   

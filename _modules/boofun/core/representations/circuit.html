@@ -1,0 +1,769 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.representations.circuit &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.core.representations.circuit</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.core.representations.circuit</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Circuit representation for Boolean functions.</span>
+
+<span class="sd">This module implements Boolean circuits using basic gates (AND, OR, NOT)</span>
+<span class="sd">for representing and evaluating Boolean functions efficiently.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..spaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionRepresentation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_strategy</span>
+
+
+<div class="viewcode-block" id="GateType">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.GateType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GateType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Types of Boolean gates.&quot;&quot;&quot;</span>
+
+    <span class="n">INPUT</span> <span class="o">=</span> <span class="s2">&quot;INPUT&quot;</span>
+    <span class="n">AND</span> <span class="o">=</span> <span class="s2">&quot;AND&quot;</span>
+    <span class="n">OR</span> <span class="o">=</span> <span class="s2">&quot;OR&quot;</span>
+    <span class="n">NOT</span> <span class="o">=</span> <span class="s2">&quot;NOT&quot;</span>
+    <span class="n">XOR</span> <span class="o">=</span> <span class="s2">&quot;XOR&quot;</span>
+    <span class="n">NAND</span> <span class="o">=</span> <span class="s2">&quot;NAND&quot;</span>
+    <span class="n">NOR</span> <span class="o">=</span> <span class="s2">&quot;NOR&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Gate">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.Gate">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Gate</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a single gate in a Boolean circuit.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        gate_id: Unique identifier for the gate</span>
+<span class="sd">        gate_type: Type of gate (AND, OR, NOT, etc.)</span>
+<span class="sd">        inputs: List of input gate IDs</span>
+<span class="sd">        output_wire: Wire ID for output (optional)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">gate_type</span><span class="p">:</span> <span class="n">GateType</span>
+    <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">output_wire</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Gate.evaluate">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.Gate.evaluate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate gate with given input values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_values: Mapping from gate/wire IDs to boolean values</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Gate output value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_type</span> <span class="o">==</span> <span class="n">GateType</span><span class="o">.</span><span class="n">INPUT</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">input_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gate_id</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Get input values</span>
+        <span class="n">in_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">inp_id</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">inp_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_type</span> <span class="o">==</span> <span class="n">GateType</span><span class="o">.</span><span class="n">AND</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">in_vals</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_type</span> <span class="o">==</span> <span class="n">GateType</span><span class="o">.</span><span class="n">OR</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">in_vals</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_type</span> <span class="o">==</span> <span class="n">GateType</span><span class="o">.</span><span class="n">NOT</span><span class="p">:</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="n">in_vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">in_vals</span> <span class="k">else</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_type</span> <span class="o">==</span> <span class="n">GateType</span><span class="o">.</span><span class="n">XOR</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">in_vals</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_type</span> <span class="o">==</span> <span class="n">GateType</span><span class="o">.</span><span class="n">NAND</span><span class="p">:</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">in_vals</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_type</span> <span class="o">==</span> <span class="n">GateType</span><span class="o">.</span><span class="n">NOR</span><span class="p">:</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">in_vals</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown gate type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gate_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BooleanCircuit">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.BooleanCircuit">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BooleanCircuit</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Boolean circuit representation using gates and wires.</span>
+
+<span class="sd">    Supports construction, evaluation, and optimization of Boolean circuits</span>
+<span class="sd">    with standard gates (AND, OR, NOT, XOR, NAND, NOR).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BooleanCircuit.__init__">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.BooleanCircuit.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize Boolean circuit.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_inputs: Number of input variables</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">=</span> <span class="n">n_inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Gate</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_gates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_gate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_gate_id</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Create input gates</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_inputs</span><span class="p">):</span>
+            <span class="n">gate_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_next_id</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">gate_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">Gate</span><span class="p">(</span><span class="n">gate_id</span><span class="p">,</span> <span class="n">GateType</span><span class="o">.</span><span class="n">INPUT</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_gates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gate_id</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_next_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get next available gate ID.&quot;&quot;&quot;</span>
+        <span class="n">gate_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_gate_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_gate_id</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">gate_id</span>
+
+<div class="viewcode-block" id="BooleanCircuit.add_gate">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.BooleanCircuit.add_gate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_gate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gate_type</span><span class="p">:</span> <span class="n">GateType</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add gate to circuit.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            gate_type: Type of gate to add</span>
+<span class="sd">            inputs: List of input gate IDs</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ID of newly created gate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gate_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_next_id</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">gate_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">Gate</span><span class="p">(</span><span class="n">gate_id</span><span class="p">,</span> <span class="n">gate_type</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gate_id</span></div>
+
+
+<div class="viewcode-block" id="BooleanCircuit.set_output">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.BooleanCircuit.set_output">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gate_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set output gate of the circuit.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">gate_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gate </span><span class="si">{</span><span class="n">gate_id</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_gate</span> <span class="o">=</span> <span class="n">gate_id</span></div>
+
+
+<div class="viewcode-block" id="BooleanCircuit.evaluate">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.BooleanCircuit.evaluate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate circuit with given inputs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            inputs: Boolean input values</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Circuit output value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span><span class="si">}</span><span class="s2"> inputs, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_gate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No output gate specified&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Initialize input values</span>
+        <span class="n">gate_values</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">inp_val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+            <span class="n">gate_values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">inp_val</span><span class="p">)</span>
+
+        <span class="c1"># Evaluate gates in topological order</span>
+        <span class="n">evaluated</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_gates</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_gate</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">evaluated</span><span class="p">:</span>
+            <span class="n">progress</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">gate_id</span><span class="p">,</span> <span class="n">gate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">gate_id</span> <span class="ow">in</span> <span class="n">evaluated</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># Check if all inputs are ready</span>
+                <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">inp_id</span> <span class="ow">in</span> <span class="n">evaluated</span> <span class="k">for</span> <span class="n">inp_id</span> <span class="ow">in</span> <span class="n">gate</span><span class="o">.</span><span class="n">inputs</span><span class="p">):</span>
+                    <span class="n">gate_values</span><span class="p">[</span><span class="n">gate_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">gate</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">gate_values</span><span class="p">)</span>
+                    <span class="n">evaluated</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gate_id</span><span class="p">)</span>
+                    <span class="n">progress</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Circuit contains cycles or missing dependencies&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">gate_values</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">output_gate</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="BooleanCircuit.get_depth">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.BooleanCircuit.get_depth">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate circuit depth (longest path from input to output).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Circuit depth</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_gate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="n">depths</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Input gates have depth 0</span>
+        <span class="k">for</span> <span class="n">gate_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_gates</span><span class="p">:</span>
+            <span class="n">depths</span><span class="p">[</span><span class="n">gate_id</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Calculate depths using topological sort</span>
+        <span class="n">calculated</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_gates</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_gate</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">calculated</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">gate_id</span><span class="p">,</span> <span class="n">gate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">gate_id</span> <span class="ow">in</span> <span class="n">calculated</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">inp_id</span> <span class="ow">in</span> <span class="n">calculated</span> <span class="k">for</span> <span class="n">inp_id</span> <span class="ow">in</span> <span class="n">gate</span><span class="o">.</span><span class="n">inputs</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">gate</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
+                        <span class="n">depths</span><span class="p">[</span><span class="n">gate_id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">depths</span><span class="p">[</span><span class="n">inp_id</span><span class="p">]</span> <span class="k">for</span> <span class="n">inp_id</span> <span class="ow">in</span> <span class="n">gate</span><span class="o">.</span><span class="n">inputs</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">depths</span><span class="p">[</span><span class="n">gate_id</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">calculated</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">gate_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">depths</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_gate</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BooleanCircuit.get_size">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.BooleanCircuit.get_size">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get total number of gates (excluding inputs).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">([</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">gate_type</span> <span class="o">!=</span> <span class="n">GateType</span><span class="o">.</span><span class="n">INPUT</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="BooleanCircuit.to_dict">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.BooleanCircuit.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export circuit to dictionary format.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary representation of circuit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gates_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">gates_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">gate</span><span class="o">.</span><span class="n">gate_id</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">gate</span><span class="o">.</span><span class="n">gate_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="n">gate</span><span class="o">.</span><span class="n">inputs</span><span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;n_inputs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span><span class="p">,</span>
+            <span class="s2">&quot;gates&quot;</span><span class="p">:</span> <span class="n">gates_data</span><span class="p">,</span>
+            <span class="s2">&quot;input_gates&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_gates</span><span class="p">,</span>
+            <span class="s2">&quot;output_gate&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_gate</span><span class="p">,</span>
+            <span class="s2">&quot;depth&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_depth</span><span class="p">(),</span>
+            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_size</span><span class="p">(),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="BooleanCircuit.from_dict">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.BooleanCircuit.from_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanCircuit&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create circuit from dictionary representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: Dictionary representation</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BooleanCircuit instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;n_inputs&quot;</span><span class="p">])</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">gates</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">next_gate_id</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Recreate gates</span>
+        <span class="k">for</span> <span class="n">gate_data</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;gates&quot;</span><span class="p">]:</span>
+            <span class="n">gate_id</span> <span class="o">=</span> <span class="n">gate_data</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span>
+            <span class="n">gate_type</span> <span class="o">=</span> <span class="n">GateType</span><span class="p">(</span><span class="n">gate_data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">])</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">gate_data</span><span class="p">[</span><span class="s2">&quot;inputs&quot;</span><span class="p">]</span>
+
+            <span class="n">circuit</span><span class="o">.</span><span class="n">gates</span><span class="p">[</span><span class="n">gate_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">Gate</span><span class="p">(</span><span class="n">gate_id</span><span class="p">,</span> <span class="n">gate_type</span><span class="p">,</span> <span class="n">inputs</span><span class="p">)</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">next_gate_id</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">next_gate_id</span><span class="p">,</span> <span class="n">gate_id</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;input_gates&quot;</span><span class="p">]</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">output_gate</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;output_gate&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">circuit</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CircuitRepresentation">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation">[docs]</a>
+<span class="nd">@register_strategy</span><span class="p">(</span><span class="s2">&quot;circuit&quot;</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CircuitRepresentation</span><span class="p">(</span><span class="n">BooleanFunctionRepresentation</span><span class="p">[</span><span class="n">BooleanCircuit</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Circuit representation for Boolean functions.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CircuitRepresentation.evaluate">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation.evaluate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">BooleanCircuit</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate circuit representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            inputs: Input values (integer indices or binary vectors)</span>
+<span class="sd">            data: Boolean circuit</span>
+<span class="sd">            space: Evaluation space</span>
+<span class="sd">            n_vars: Number of variables</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Boolean result(s)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>  <span class="c1"># type: ignore[unreachable]</span>
+
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Single integer index</span>
+            <span class="n">binary_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_binary</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="n">n_vars</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">binary_input</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">inputs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">==</span> <span class="n">n_vars</span><span class="p">:</span>
+                <span class="c1"># Single binary vector</span>
+                <span class="n">binary_input</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>  <span class="c1"># type: ignore[assignment]</span>
+                <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">binary_input</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Array of integer indices</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+                    <span class="n">binary_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_to_binary</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">n_vars</span><span class="p">)</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">binary_input</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">inputs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># Batch of binary vectors</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+                <span class="n">binary_input</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">binary_input</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported input shape: </span><span class="si">{</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_index_to_binary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert integer index to binary vector using LSB=x₀ convention.&quot;&quot;&quot;</span>
+        <span class="c1"># LSB-first: result[i] = x_i = (index &gt;&gt; i) &amp; 1</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="n">index</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_vars</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="CircuitRepresentation.dump">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation.dump">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">BooleanCircuit</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export circuit representation.&quot;&quot;&quot;</span>
+        <span class="n">circuit_dict</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="n">circuit_dict</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;circuit&quot;</span>
+        <span class="k">return</span> <span class="n">circuit_dict</span></div>
+
+
+<div class="viewcode-block" id="CircuitRepresentation.convert_from">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation.convert_from">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_from</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">source_repr</span><span class="p">:</span> <span class="n">BooleanFunctionRepresentation</span><span class="p">,</span>
+        <span class="n">source_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span>
+        <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanCircuit</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert from another representation to circuit.</span>
+
+<span class="sd">        Uses a simple DNF (Disjunctive Normal Form) construction approach.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get truth table first</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n_vars</span>
+        <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">source_repr</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">source_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+            <span class="n">truth_table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+        <span class="c1"># Build circuit from truth table using DNF</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_dnf_circuit</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_dnf_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">truth_table</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanCircuit</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build circuit from truth table using DNF (Disjunctive Normal Form).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            truth_table: Boolean truth table</span>
+<span class="sd">            n_vars: Number of variables</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BooleanCircuit implementing the function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">BooleanCircuit</span><span class="p">(</span><span class="n">n_vars</span><span class="p">)</span>
+
+        <span class="c1"># Find all minterms (rows where output is True)</span>
+        <span class="n">minterms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">truth_table</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">output</span><span class="p">:</span>
+                <span class="n">minterms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">minterms</span><span class="p">:</span>
+            <span class="c1"># Constant False function</span>
+            <span class="n">false_gate</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">not_gate</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">NOT</span><span class="p">,</span> <span class="p">[</span><span class="n">false_gate</span><span class="p">])</span>
+            <span class="n">and_gate</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span> <span class="p">[</span><span class="n">false_gate</span><span class="p">,</span> <span class="n">not_gate</span><span class="p">])</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">and_gate</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">circuit</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">minterms</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">truth_table</span><span class="p">):</span>
+            <span class="c1"># Constant True function</span>
+            <span class="n">true_gate</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">OR</span><span class="p">,</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">not_gate</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">NOT</span><span class="p">,</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">or_gate</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">OR</span><span class="p">,</span> <span class="p">[</span><span class="n">true_gate</span><span class="p">,</span> <span class="n">not_gate</span><span class="p">])</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">or_gate</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">circuit</span>
+
+        <span class="c1"># Build AND gates for each minterm</span>
+        <span class="n">minterm_gates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">minterm</span> <span class="ow">in</span> <span class="n">minterms</span><span class="p">:</span>
+            <span class="c1"># Convert minterm to binary</span>
+            <span class="n">binary</span> <span class="o">=</span> <span class="p">[(</span><span class="n">minterm</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_vars</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+
+            <span class="c1"># Create literals (variables or their negations)</span>
+            <span class="n">literals</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">binary</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">bit</span><span class="p">:</span>
+                    <span class="n">literals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">not_gate</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">NOT</span><span class="p">,</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+                    <span class="n">literals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">not_gate</span><span class="p">)</span>
+
+            <span class="c1"># Create AND gate for this minterm</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">literals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">minterm_gates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">literals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Build tree of AND gates</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">literals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">lit</span> <span class="ow">in</span> <span class="n">literals</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                    <span class="n">current</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span> <span class="p">[</span><span class="n">current</span><span class="p">,</span> <span class="n">lit</span><span class="p">])</span>
+                <span class="n">minterm_gates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+
+        <span class="c1"># Create final OR gate</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">minterm_gates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">minterm_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Build tree of OR gates</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">minterm_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">minterm_gates</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="n">current</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">OR</span><span class="p">,</span> <span class="p">[</span><span class="n">current</span><span class="p">,</span> <span class="n">gate</span><span class="p">])</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">circuit</span>
+
+<div class="viewcode-block" id="CircuitRepresentation.convert_to">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation.convert_to">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_to</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">target_repr</span><span class="p">:</span> <span class="n">BooleanFunctionRepresentation</span><span class="p">,</span>
+        <span class="n">source_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span>
+        <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert circuit to another representation.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">target_repr</span><span class="o">.</span><span class="n">convert_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CircuitRepresentation.create_empty">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation.create_empty">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanCircuit</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create empty circuit (constant False).&quot;&quot;&quot;</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">BooleanCircuit</span><span class="p">(</span><span class="n">n_vars</span><span class="p">)</span>
+        <span class="c1"># Create constant False: x AND NOT x</span>
+        <span class="n">not_gate</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">NOT</span><span class="p">,</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">false_gate</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span> <span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">not_gate</span><span class="p">])</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">false_gate</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">circuit</span></div>
+
+
+<div class="viewcode-block" id="CircuitRepresentation.is_complete">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation.is_complete">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">BooleanCircuit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if circuit is complete (has output gate).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">output_gate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="CircuitRepresentation.time_complexity_rank">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation.time_complexity_rank">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">time_complexity_rank</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return time complexity for circuit operations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;evaluation&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># O(circuit_size) - linear in gates</span>
+            <span class="s2">&quot;construction&quot;</span><span class="p">:</span> <span class="n">n_vars</span><span class="p">,</span>  <span class="c1"># O(2^n) - DNF construction</span>
+            <span class="s2">&quot;conversion_from&quot;</span><span class="p">:</span> <span class="n">n_vars</span><span class="p">,</span>  <span class="c1"># O(2^n) - via truth table</span>
+            <span class="s2">&quot;space_complexity&quot;</span><span class="p">:</span> <span class="n">n_vars</span><span class="p">,</span>  <span class="c1"># O(2^n) worst case for DNF</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="CircuitRepresentation.get_storage_requirements">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation.get_storage_requirements">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_storage_requirements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return storage requirements for circuit representation.&quot;&quot;&quot;</span>
+        <span class="c1"># DNF can have exponential size in worst case</span>
+        <span class="n">max_gates</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n_vars</span> <span class="o">*</span> <span class="n">n_vars</span>  <span class="c1"># Worst case: all minterms with n literals each</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;max_gates&quot;</span><span class="p">:</span> <span class="n">max_gates</span><span class="p">,</span>
+            <span class="s2">&quot;bytes_per_gate&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>  <span class="c1"># Rough estimate for Gate object</span>
+            <span class="s2">&quot;max_bytes&quot;</span><span class="p">:</span> <span class="n">max_gates</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="s2">&quot;space_complexity&quot;</span><span class="p">:</span> <span class="s2">&quot;O(2^n) worst case, often much better&quot;</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="CircuitRepresentation.optimize_circuit">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.CircuitRepresentation.optimize_circuit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">optimize_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circuit</span><span class="p">:</span> <span class="n">BooleanCircuit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanCircuit</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply basic circuit optimizations.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            circuit: Circuit to optimize</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Optimized circuit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># For now, return circuit unchanged</span>
+        <span class="c1"># TODO: Implement optimizations like:</span>
+        <span class="c1"># - Constant propagation</span>
+        <span class="c1"># - Dead gate elimination</span>
+        <span class="c1"># - Common subexpression elimination</span>
+        <span class="c1"># - Gate-level optimizations (e.g., NOT(NOT(x)) = x)</span>
+        <span class="k">return</span> <span class="n">circuit</span></div>
+</div>
+
+
+
+<span class="c1"># Utility functions for circuit construction</span>
+<div class="viewcode-block" id="build_majority_circuit">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.build_majority_circuit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_majority_circuit</span><span class="p">(</span><span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanCircuit</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build optimized majority circuit.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_vars: Number of variables</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Circuit implementing majority function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n_vars</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Majority requires odd number of variables&quot;</span><span class="p">)</span>
+
+    <span class="n">circuit</span> <span class="o">=</span> <span class="n">BooleanCircuit</span><span class="p">(</span><span class="n">n_vars</span><span class="p">)</span>
+
+    <span class="c1"># For small cases, use direct construction</span>
+    <span class="k">if</span> <span class="n">n_vars</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">n_vars</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># Majority of 3: (a AND b) OR (a AND c) OR (b AND c)</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span>
+
+        <span class="n">ab</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+        <span class="n">ac</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+        <span class="n">bc</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">AND</span><span class="p">,</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">])</span>
+
+        <span class="n">ab_or_ac</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">OR</span><span class="p">,</span> <span class="p">[</span><span class="n">ab</span><span class="p">,</span> <span class="n">ac</span><span class="p">])</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">OR</span><span class="p">,</span> <span class="p">[</span><span class="n">ab_or_ac</span><span class="p">,</span> <span class="n">bc</span><span class="p">])</span>
+
+        <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># For larger cases, use threshold implementation</span>
+        <span class="c1"># This is a simplified version - real implementation would be more sophisticated</span>
+        <span class="n">n_vars</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># Count number of True inputs (simplified approach)</span>
+        <span class="c1"># In practice, this would use a more efficient threshold circuit</span>
+        <span class="n">current_sum</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">):</span>
+            <span class="n">current_sum</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">XOR</span><span class="p">,</span> <span class="p">[</span><span class="n">current_sum</span><span class="p">,</span> <span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+
+        <span class="c1"># This is a placeholder - real threshold circuits are more complex</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">current_sum</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">circuit</span></div>
+
+
+
+<div class="viewcode-block" id="build_parity_circuit">
+<a class="viewcode-back" href="../../../../api/boofun.core.representations.circuit.html#boofun.core.representations.build_parity_circuit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_parity_circuit</span><span class="p">(</span><span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BooleanCircuit</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build parity circuit using XOR gates.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n_vars: Number of variables</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Circuit implementing parity function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">circuit</span> <span class="o">=</span> <span class="n">BooleanCircuit</span><span class="p">(</span><span class="n">n_vars</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n_vars</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Chain XOR gates</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">):</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">GateType</span><span class="o">.</span><span class="n">XOR</span><span class="p">,</span> <span class="p">[</span><span class="n">current</span><span class="p">,</span> <span class="n">circuit</span><span class="o">.</span><span class="n">input_gates</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">circuit</span></div>
+
+
+
+<span class="c1"># Export main classes and functions</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;GateType&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gate&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BooleanCircuit&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CircuitRepresentation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;build_majority_circuit&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;build_parity_circuit&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

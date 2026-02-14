@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.representations.circuit &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="boofun.core.representations.cnf_form" href="boofun.core.representations.cnf_form.html" />
+    <link rel="prev" title="boofun.core.representations.bdd" href="boofun.core.representations.bdd.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="boofun.html">boofun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.create"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.partial"><code class="docutils literal notranslate"><span class="pre">partial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PartialBooleanFunction"><code class="docutils literal notranslate"><span class="pre">PartialBooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_hex"><code class="docutils literal notranslate"><span class="pre">from_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.to_hex"><code class="docutils literal notranslate"><span class="pre">to_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.majority"><code class="docutils literal notranslate"><span class="pre">majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parity"><code class="docutils literal notranslate"><span class="pre">parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tribes"><code class="docutils literal notranslate"><span class="pre">tribes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dictator"><code class="docutils literal notranslate"><span class="pre">dictator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.constant"><code class="docutils literal notranslate"><span class="pre">constant()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.AND"><code class="docutils literal notranslate"><span class="pre">AND()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.OR"><code class="docutils literal notranslate"><span class="pre">OR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold"><code class="docutils literal notranslate"><span class="pre">threshold()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.weighted_majority"><code class="docutils literal notranslate"><span class="pre">weighted_majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_weights"><code class="docutils literal notranslate"><span class="pre">from_weights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionError"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidInputError"><code class="docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidRepresentationError"><code class="docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidTruthTableError"><code class="docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.EvaluationError"><code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConversionError"><code class="docutils literal notranslate"><span class="pre">ConversionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ResourceUnavailableError"><code class="docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvariantViolationError"><code class="docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parseval_verify"><code class="docutils literal notranslate"><span class="pre">parseval_verify()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.plancherel_inner_product"><code class="docutils literal notranslate"><span class="pre">plancherel_inner_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.convolution"><code class="docutils literal notranslate"><span class="pre">convolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.negate_inputs"><code class="docutils literal notranslate"><span class="pre">negate_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.odd_part"><code class="docutils literal notranslate"><span class="pre">odd_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.even_part"><code class="docutils literal notranslate"><span class="pre">even_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.restriction"><code class="docutils literal notranslate"><span class="pre">restriction()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_degree"><code class="docutils literal notranslate"><span class="pre">fourier_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.spectral_norm"><code class="docutils literal notranslate"><span class="pre">spectral_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_sparsity"><code class="docutils literal notranslate"><span class="pre">fourier_sparsity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dominant_coefficients"><code class="docutils literal notranslate"><span class="pre">dominant_coefficients()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_fourier_transform"><code class="docutils literal notranslate"><span class="pre">gf2_fourier_transform()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_degree"><code class="docutils literal notranslate"><span class="pre">gf2_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_monomials"><code class="docutils literal notranslate"><span class="pre">gf2_monomials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_to_string"><code class="docutils literal notranslate"><span class="pre">gf2_to_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_linear_over_gf2"><code class="docutils literal notranslate"><span class="pre">is_linear_over_gf2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.correlation_with_parity"><code class="docutils literal notranslate"><span class="pre">correlation_with_parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_operator"><code class="docutils literal notranslate"><span class="pre">noise_operator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.lq_norm"><code class="docutils literal notranslate"><span class="pre">lq_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.bonami_lemma_bound"><code class="docutils literal notranslate"><span class="pre">bonami_lemma_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.kkl_lower_bound"><code class="docutils literal notranslate"><span class="pre">kkl_lower_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.max_influence_bound"><code class="docutils literal notranslate"><span class="pre">max_influence_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.friedgut_junta_bound"><code class="docutils literal notranslate"><span class="pre">friedgut_junta_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.junta_approximation_error"><code class="docutils literal notranslate"><span class="pre">junta_approximation_error()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.level_d_inequality"><code class="docutils literal notranslate"><span class="pre">level_d_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractive_inequality"><code class="docutils literal notranslate"><span class="pre">hypercontractive_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GlobalHypercontractivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">GlobalHypercontractivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.generalized_influence"><code class="docutils literal notranslate"><span class="pre">generalized_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_alpha_global"><code class="docutils literal notranslate"><span class="pre">is_alpha_global()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_expectation"><code class="docutils literal notranslate"><span class="pre">p_biased_expectation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_total_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_total_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_stability_p_biased"><code class="docutils literal notranslate"><span class="pre">noise_stability_p_biased()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold_curve"><code class="docutils literal notranslate"><span class="pre">threshold_curve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.find_critical_p"><code class="docutils literal notranslate"><span class="pre">find_critical_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractivity_bound"><code class="docutils literal notranslate"><span class="pre">hypercontractivity_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionValidator"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionValidator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.quick_validate"><code class="docutils literal notranslate"><span class="pre">quick_validate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.validate_representation"><code class="docutils literal notranslate"><span class="pre">validate_representation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.CallableAdapter"><code class="docutils literal notranslate"><span class="pre">CallableAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SymPyAdapter"><code class="docutils literal notranslate"><span class="pre">SymPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NumPyAdapter"><code class="docutils literal notranslate"><span class="pre">NumPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_callable"><code class="docutils literal notranslate"><span class="pre">adapt_callable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_sympy_expr"><code class="docutils literal notranslate"><span class="pre">adapt_sympy_expr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_numpy_function"><code class="docutils literal notranslate"><span class="pre">adapt_numpy_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Measure"><code class="docutils literal notranslate"><span class="pre">Measure</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.get_gf_field"><code class="docutils literal notranslate"><span class="pre">get_gf_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GFField"><code class="docutils literal notranslate"><span class="pre">GFField</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.MajorityFamily"><code class="docutils literal notranslate"><span class="pre">MajorityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ParityFamily"><code class="docutils literal notranslate"><span class="pre">ParityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.TribesFamily"><code class="docutils literal notranslate"><span class="pre">TribesFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ThresholdFamily"><code class="docutils literal notranslate"><span class="pre">ThresholdFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ANDFamily"><code class="docutils literal notranslate"><span class="pre">ANDFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ORFamily"><code class="docutils literal notranslate"><span class="pre">ORFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.DictatorFamily"><code class="docutils literal notranslate"><span class="pre">DictatorFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LTFFamily"><code class="docutils literal notranslate"><span class="pre">LTFFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GrowthTracker"><code class="docutils literal notranslate"><span class="pre">GrowthTracker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.FunctionFamily"><code class="docutils literal notranslate"><span class="pre">FunctionFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InductiveFamily"><code class="docutils literal notranslate"><span class="pre">InductiveFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionVisualizer"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionVisualizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.analysis.html">boofun.analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.api.html">boofun.api</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="boofun.core.html">boofun.core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Evaluable"><code class="docutils literal notranslate"><span class="pre">Evaluable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Representable"><code class="docutils literal notranslate"><span class="pre">Representable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionFactory"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionFactory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionRepresentation"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionRepresentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ErrorModel"><code class="docutils literal notranslate"><span class="pre">ErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LinearErrorModel"><code class="docutils literal notranslate"><span class="pre">LinearErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QueryModel"><code class="docutils literal notranslate"><span class="pre">QueryModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.AccessType"><code class="docutils literal notranslate"><span class="pre">AccessType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.get_access_type"><code class="docutils literal notranslate"><span class="pre">get_access_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.check_query_safety"><code class="docutils literal notranslate"><span class="pre">check_query_safety()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QuerySafetyWarning"><code class="docutils literal notranslate"><span class="pre">QuerySafetyWarning</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExplicitEnumerationError"><code class="docutils literal notranslate"><span class="pre">ExplicitEnumerationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_json"><code class="docutils literal notranslate"><span class="pre">load_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_json"><code class="docutils literal notranslate"><span class="pre">save_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_bf"><code class="docutils literal notranslate"><span class="pre">load_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_bf"><code class="docutils literal notranslate"><span class="pre">save_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">load_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">save_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.detect_format"><code class="docutils literal notranslate"><span class="pre">detect_format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.FileIOError"><code class="docutils literal notranslate"><span class="pre">FileIOError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.adapters.html">boofun.core.adapters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.auto_representation.html">boofun.core.auto_representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.base.html">boofun.core.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.batch_processing.html">boofun.core.batch_processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.builtins.html">boofun.core.builtins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.conversion_graph.html">boofun.core.conversion_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.errormodels.html">boofun.core.errormodels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.factory.html">boofun.core.factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.gpu.html">boofun.core.gpu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.io.html">boofun.core.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.legacy_adapter.html">boofun.core.legacy_adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.numba_optimizations.html">boofun.core.numba_optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.optimizations.html">boofun.core.optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.partial.html">boofun.core.partial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.query_model.html">boofun.core.query_model</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="boofun.core.representations.html">boofun.core.representations</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.BooleanFunctionRepresentation"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.TruthTableRepresentation"><code class="docutils literal notranslate"><span class="pre">TruthTableRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.PackedTruthTableRepresentation"><code class="docutils literal notranslate"><span class="pre">PackedTruthTableRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.SparseTruthTableRepresentation"><code class="docutils literal notranslate"><span class="pre">SparseTruthTableRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.AdaptiveTruthTableRepresentation"><code class="docutils literal notranslate"><span class="pre">AdaptiveTruthTableRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.FourierExpansionRepresentation"><code class="docutils literal notranslate"><span class="pre">FourierExpansionRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.ANFRepresentation"><code class="docutils literal notranslate"><span class="pre">ANFRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.PolynomialRepresentation"><code class="docutils literal notranslate"><span class="pre">PolynomialRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.DNFRepresentation"><code class="docutils literal notranslate"><span class="pre">DNFRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.CNFRepresentation"><code class="docutils literal notranslate"><span class="pre">CNFRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.SymbolicRepresentation"><code class="docutils literal notranslate"><span class="pre">SymbolicRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.BDDRepresentation"><code class="docutils literal notranslate"><span class="pre">BDDRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.CircuitRepresentation"><code class="docutils literal notranslate"><span class="pre">CircuitRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.LTFRepresentation"><code class="docutils literal notranslate"><span class="pre">LTFRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.html#boofun.core.representations.DistributionRepresentation"><code class="docutils literal notranslate"><span class="pre">DistributionRepresentation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.anf_form.html">boofun.core.representations.anf_form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.base.html">boofun.core.representations.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.bdd.html">boofun.core.representations.bdd</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">boofun.core.representations.circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.cnf_form.html">boofun.core.representations.cnf_form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.distribution.html">boofun.core.representations.distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.dnf_form.html">boofun.core.representations.dnf_form</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.fourier_expansion.html">boofun.core.representations.fourier_expansion</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.ltf.html">boofun.core.representations.ltf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.packed_truth_table.html">boofun.core.representations.packed_truth_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.polynomial.html">boofun.core.representations.polynomial</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.registry.html">boofun.core.representations.registry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.sparse_truth_table.html">boofun.core.representations.sparse_truth_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.symbolic.html">boofun.core.representations.symbolic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="boofun.core.representations.truth_table.html">boofun.core.representations.truth_table</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.spaces.html">boofun.core.spaces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.families.html">boofun.families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.quantum_complexity.html">boofun.quantum_complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.testing.html">boofun.testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.utils.html">boofun.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.visualization.html">boofun.visualization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="boofun.core.html">boofun.core</a></li>
+          <li class="breadcrumb-item"><a href="boofun.core.representations.html">boofun.core.representations</a></li>
+      <li class="breadcrumb-item active">boofun.core.representations.circuit</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/boofun.core.representations.circuit.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-boofun.core.representations.circuit">
+<span id="boofun-core-representations-circuit"></span><h1>boofun.core.representations.circuit<a class="headerlink" href="#module-boofun.core.representations.circuit" title="Link to this heading"></a></h1>
+<p>Circuit representation for Boolean functions.</p>
+<p>This module implements Boolean circuits using basic gates (AND, OR, NOT)
+for representing and evaluating Boolean functions efficiently.</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.representations.circuit.build_majority_circuit" title="boofun.core.representations.circuit.build_majority_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_majority_circuit</span></code></a>(n_vars)</p></td>
+<td><p>Build optimized majority circuit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.representations.circuit.build_parity_circuit" title="boofun.core.representations.circuit.build_parity_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_parity_circuit</span></code></a>(n_vars)</p></td>
+<td><p>Build parity circuit using XOR gates.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BooleanCircuit</span></code></a>(n_inputs)</p></td>
+<td><p>Boolean circuit representation using gates and wires.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.representations.circuit.CircuitRepresentation" title="boofun.core.representations.circuit.CircuitRepresentation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitRepresentation</span></code></a>()</p></td>
+<td><p>Circuit representation for Boolean functions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.representations.circuit.Gate" title="boofun.core.representations.circuit.Gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gate</span></code></a>(gate_id, gate_type, inputs[, output_wire])</p></td>
+<td><p>Represents a single gate in a Boolean circuit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.representations.circuit.GateType" title="boofun.core.representations.circuit.GateType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GateType</span></code></a>(value)</p></td>
+<td><p>Types of Boolean gates.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.GateType">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.representations.circuit.</span></span><span class="sig-name descname"><span class="pre">GateType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#GateType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.GateType" title="Link to this definition"></a></dt>
+<dd><p>Types of Boolean gates.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.GateType.INPUT">
+<span class="sig-name descname"><span class="pre">INPUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'INPUT'</span></span><a class="headerlink" href="#boofun.core.representations.circuit.GateType.INPUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.GateType.AND">
+<span class="sig-name descname"><span class="pre">AND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AND'</span></span><a class="headerlink" href="#boofun.core.representations.circuit.GateType.AND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.GateType.OR">
+<span class="sig-name descname"><span class="pre">OR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'OR'</span></span><a class="headerlink" href="#boofun.core.representations.circuit.GateType.OR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.GateType.NOT">
+<span class="sig-name descname"><span class="pre">NOT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NOT'</span></span><a class="headerlink" href="#boofun.core.representations.circuit.GateType.NOT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.GateType.XOR">
+<span class="sig-name descname"><span class="pre">XOR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'XOR'</span></span><a class="headerlink" href="#boofun.core.representations.circuit.GateType.XOR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.GateType.NAND">
+<span class="sig-name descname"><span class="pre">NAND</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NAND'</span></span><a class="headerlink" href="#boofun.core.representations.circuit.GateType.NAND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.GateType.NOR">
+<span class="sig-name descname"><span class="pre">NOR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NOR'</span></span><a class="headerlink" href="#boofun.core.representations.circuit.GateType.NOR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.Gate">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.representations.circuit.</span></span><span class="sig-name descname"><span class="pre">Gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.representations.circuit.GateType" title="boofun.core.representations.circuit.GateType"><span class="pre">GateType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_wire</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#Gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.Gate" title="Link to this definition"></a></dt>
+<dd><p>Represents a single gate in a Boolean circuit.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.Gate.gate_id">
+<span class="sig-name descname"><span class="pre">gate_id</span></span><a class="headerlink" href="#boofun.core.representations.circuit.Gate.gate_id" title="Link to this definition"></a></dt>
+<dd><p>Unique identifier for the gate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.Gate.gate_type">
+<span class="sig-name descname"><span class="pre">gate_type</span></span><a class="headerlink" href="#boofun.core.representations.circuit.Gate.gate_type" title="Link to this definition"></a></dt>
+<dd><p>Type of gate (AND, OR, NOT, etc.)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#boofun.core.representations.circuit.GateType" title="boofun.core.representations.circuit.GateType">boofun.core.representations.circuit.GateType</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.Gate.inputs">
+<span class="sig-name descname"><span class="pre">inputs</span></span><a class="headerlink" href="#boofun.core.representations.circuit.Gate.inputs" title="Link to this definition"></a></dt>
+<dd><p>List of input gate IDs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.Gate.output_wire">
+<span class="sig-name descname"><span class="pre">output_wire</span></span><a class="headerlink" href="#boofun.core.representations.circuit.Gate.output_wire" title="Link to this definition"></a></dt>
+<dd><p>Wire ID for output (optional)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a> | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">gate_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">gate_type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#boofun.core.representations.circuit.GateType" title="boofun.core.representations.circuit.GateType"><span class="pre">GateType</span></a></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">inputs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">output_wire</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.Gate.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#Gate.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.Gate.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Evaluate gate with given input values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_values</strong> – Mapping from gate/wire IDs to boolean values</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Gate output value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.Gate.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.representations.circuit.GateType" title="boofun.core.representations.circuit.GateType"><span class="pre">GateType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_wire</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#boofun.core.representations.circuit.Gate.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.representations.circuit.</span></span><span class="sig-name descname"><span class="pre">BooleanCircuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#BooleanCircuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit" title="Link to this definition"></a></dt>
+<dd><p>Boolean circuit representation using gates and wires.</p>
+<p>Supports construction, evaluation, and optimization of Boolean circuits
+with standard gates (AND, OR, NOT, XOR, NAND, NOR).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#BooleanCircuit.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize Boolean circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_inputs</strong> – Number of input variables</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.gates">
+<span class="sig-name descname"><span class="pre">gates</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#boofun.core.representations.circuit.Gate" title="boofun.core.representations.circuit.Gate"><span class="pre">Gate</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.gates" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.input_gates">
+<span class="sig-name descname"><span class="pre">input_gates</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.input_gates" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.output_gate">
+<span class="sig-name descname"><span class="pre">output_gate</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.output_gate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.add_gate">
+<span class="sig-name descname"><span class="pre">add_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.representations.circuit.GateType" title="boofun.core.representations.circuit.GateType"><span class="pre">GateType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#BooleanCircuit.add_gate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.add_gate" title="Link to this definition"></a></dt>
+<dd><p>Add gate to circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate_type</strong> – Type of gate to add</p></li>
+<li><p><strong>inputs</strong> – List of input gate IDs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of newly created gate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.set_output">
+<span class="sig-name descname"><span class="pre">set_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#BooleanCircuit.set_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.set_output" title="Link to this definition"></a></dt>
+<dd><p>Set output gate of the circuit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#BooleanCircuit.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Evaluate circuit with given inputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inputs</strong> – Boolean input values</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Circuit output value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.get_depth">
+<span class="sig-name descname"><span class="pre">get_depth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#BooleanCircuit.get_depth"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.get_depth" title="Link to this definition"></a></dt>
+<dd><p>Calculate circuit depth (longest path from input to output).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Circuit depth</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.get_size">
+<span class="sig-name descname"><span class="pre">get_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#BooleanCircuit.get_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.get_size" title="Link to this definition"></a></dt>
+<dd><p>Get total number of gates (excluding inputs).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#BooleanCircuit.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Export circuit to dictionary format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary representation of circuit</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.BooleanCircuit.from_dict">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#BooleanCircuit.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.BooleanCircuit.from_dict" title="Link to this definition"></a></dt>
+<dd><p>Create circuit from dictionary representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – Dictionary representation</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BooleanCircuit instance</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.representations.circuit.</span></span><span class="sig-name descname"><span class="pre">CircuitRepresentation</span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation" title="Link to this definition"></a></dt>
+<dd><p>Circuit representation for Boolean functions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.core.spaces.html#boofun.core.spaces.Space" title="boofun.core.spaces.Space"><span class="pre">Space</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Evaluate circuit representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – Input values (integer indices or binary vectors)</p></li>
+<li><p><strong>data</strong> – Boolean circuit</p></li>
+<li><p><strong>space</strong> – Evaluation space</p></li>
+<li><p><strong>n_vars</strong> – Number of variables</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Boolean result(s)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation.dump">
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation.dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation.dump" title="Link to this definition"></a></dt>
+<dd><p>Export circuit representation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation.convert_from">
+<span class="sig-name descname"><span class="pre">convert_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_repr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.core.representations.base.html#boofun.core.representations.base.BooleanFunctionRepresentation" title="boofun.core.representations.base.BooleanFunctionRepresentation"><span class="pre">BooleanFunctionRepresentation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.core.spaces.html#boofun.core.spaces.Space" title="boofun.core.spaces.Space"><span class="pre">Space</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation.convert_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation.convert_from" title="Link to this definition"></a></dt>
+<dd><p>Convert from another representation to circuit.</p>
+<p>Uses a simple DNF (Disjunctive Normal Form) construction approach.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation.convert_to">
+<span class="sig-name descname"><span class="pre">convert_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_repr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.core.representations.base.html#boofun.core.representations.base.BooleanFunctionRepresentation" title="boofun.core.representations.base.BooleanFunctionRepresentation"><span class="pre">BooleanFunctionRepresentation</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.core.spaces.html#boofun.core.spaces.Space" title="boofun.core.spaces.Space"><span class="pre">Space</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation.convert_to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation.convert_to" title="Link to this definition"></a></dt>
+<dd><p>Convert circuit to another representation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation.create_empty">
+<span class="sig-name descname"><span class="pre">create_empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation.create_empty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation.create_empty" title="Link to this definition"></a></dt>
+<dd><p>Create empty circuit (constant False).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation.is_complete">
+<span class="sig-name descname"><span class="pre">is_complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation.is_complete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation.is_complete" title="Link to this definition"></a></dt>
+<dd><p>Check if circuit is complete (has output gate).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation.time_complexity_rank">
+<span class="sig-name descname"><span class="pre">time_complexity_rank</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation.time_complexity_rank"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation.time_complexity_rank" title="Link to this definition"></a></dt>
+<dd><p>Return time complexity for circuit operations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation.get_storage_requirements">
+<span class="sig-name descname"><span class="pre">get_storage_requirements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation.get_storage_requirements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation.get_storage_requirements" title="Link to this definition"></a></dt>
+<dd><p>Return storage requirements for circuit representation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.CircuitRepresentation.optimize_circuit">
+<span class="sig-name descname"><span class="pre">optimize_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#CircuitRepresentation.optimize_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.CircuitRepresentation.optimize_circuit" title="Link to this definition"></a></dt>
+<dd><p>Apply basic circuit optimizations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>circuit</strong> – Circuit to optimize</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optimized circuit</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.build_majority_circuit">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.representations.circuit.</span></span><span class="sig-name descname"><span class="pre">build_majority_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#build_majority_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.build_majority_circuit" title="Link to this definition"></a></dt>
+<dd><p>Build optimized majority circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_vars</strong> – Number of variables</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Circuit implementing majority function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.representations.circuit.build_parity_circuit">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.representations.circuit.</span></span><span class="sig-name descname"><span class="pre">build_parity_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.representations.circuit.BooleanCircuit" title="boofun.core.representations.circuit.BooleanCircuit"><span class="pre">BooleanCircuit</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/representations/circuit.html#build_parity_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.representations.circuit.build_parity_circuit" title="Link to this definition"></a></dt>
+<dd><p>Build parity circuit using XOR gates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_vars</strong> – Number of variables</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Circuit implementing parity function</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boofun.core.representations.bdd.html" class="btn btn-neutral float-left" title="boofun.core.representations.bdd" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boofun.core.representations.cnf_form.html" class="btn btn-neutral float-right" title="boofun.core.representations.cnf_form" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

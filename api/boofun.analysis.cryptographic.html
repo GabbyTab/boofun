@@ -1,0 +1,1001 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.cryptographic &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="boofun.analysis.decision_trees" href="boofun.analysis.decision_trees.html" />
+    <link rel="prev" title="boofun.analysis.complexity" href="boofun.analysis.complexity.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="boofun.html">boofun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.create"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.partial"><code class="docutils literal notranslate"><span class="pre">partial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PartialBooleanFunction"><code class="docutils literal notranslate"><span class="pre">PartialBooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_hex"><code class="docutils literal notranslate"><span class="pre">from_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.to_hex"><code class="docutils literal notranslate"><span class="pre">to_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.majority"><code class="docutils literal notranslate"><span class="pre">majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parity"><code class="docutils literal notranslate"><span class="pre">parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tribes"><code class="docutils literal notranslate"><span class="pre">tribes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dictator"><code class="docutils literal notranslate"><span class="pre">dictator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.constant"><code class="docutils literal notranslate"><span class="pre">constant()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.AND"><code class="docutils literal notranslate"><span class="pre">AND()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.OR"><code class="docutils literal notranslate"><span class="pre">OR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold"><code class="docutils literal notranslate"><span class="pre">threshold()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.weighted_majority"><code class="docutils literal notranslate"><span class="pre">weighted_majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_weights"><code class="docutils literal notranslate"><span class="pre">from_weights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionError"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidInputError"><code class="docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidRepresentationError"><code class="docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidTruthTableError"><code class="docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.EvaluationError"><code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConversionError"><code class="docutils literal notranslate"><span class="pre">ConversionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ResourceUnavailableError"><code class="docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvariantViolationError"><code class="docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parseval_verify"><code class="docutils literal notranslate"><span class="pre">parseval_verify()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.plancherel_inner_product"><code class="docutils literal notranslate"><span class="pre">plancherel_inner_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.convolution"><code class="docutils literal notranslate"><span class="pre">convolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.negate_inputs"><code class="docutils literal notranslate"><span class="pre">negate_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.odd_part"><code class="docutils literal notranslate"><span class="pre">odd_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.even_part"><code class="docutils literal notranslate"><span class="pre">even_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.restriction"><code class="docutils literal notranslate"><span class="pre">restriction()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_degree"><code class="docutils literal notranslate"><span class="pre">fourier_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.spectral_norm"><code class="docutils literal notranslate"><span class="pre">spectral_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_sparsity"><code class="docutils literal notranslate"><span class="pre">fourier_sparsity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dominant_coefficients"><code class="docutils literal notranslate"><span class="pre">dominant_coefficients()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_fourier_transform"><code class="docutils literal notranslate"><span class="pre">gf2_fourier_transform()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_degree"><code class="docutils literal notranslate"><span class="pre">gf2_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_monomials"><code class="docutils literal notranslate"><span class="pre">gf2_monomials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_to_string"><code class="docutils literal notranslate"><span class="pre">gf2_to_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_linear_over_gf2"><code class="docutils literal notranslate"><span class="pre">is_linear_over_gf2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.correlation_with_parity"><code class="docutils literal notranslate"><span class="pre">correlation_with_parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_operator"><code class="docutils literal notranslate"><span class="pre">noise_operator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.lq_norm"><code class="docutils literal notranslate"><span class="pre">lq_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.bonami_lemma_bound"><code class="docutils literal notranslate"><span class="pre">bonami_lemma_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.kkl_lower_bound"><code class="docutils literal notranslate"><span class="pre">kkl_lower_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.max_influence_bound"><code class="docutils literal notranslate"><span class="pre">max_influence_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.friedgut_junta_bound"><code class="docutils literal notranslate"><span class="pre">friedgut_junta_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.junta_approximation_error"><code class="docutils literal notranslate"><span class="pre">junta_approximation_error()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.level_d_inequality"><code class="docutils literal notranslate"><span class="pre">level_d_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractive_inequality"><code class="docutils literal notranslate"><span class="pre">hypercontractive_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GlobalHypercontractivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">GlobalHypercontractivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.generalized_influence"><code class="docutils literal notranslate"><span class="pre">generalized_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_alpha_global"><code class="docutils literal notranslate"><span class="pre">is_alpha_global()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_expectation"><code class="docutils literal notranslate"><span class="pre">p_biased_expectation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_total_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_total_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_stability_p_biased"><code class="docutils literal notranslate"><span class="pre">noise_stability_p_biased()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold_curve"><code class="docutils literal notranslate"><span class="pre">threshold_curve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.find_critical_p"><code class="docutils literal notranslate"><span class="pre">find_critical_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractivity_bound"><code class="docutils literal notranslate"><span class="pre">hypercontractivity_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionValidator"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionValidator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.quick_validate"><code class="docutils literal notranslate"><span class="pre">quick_validate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.validate_representation"><code class="docutils literal notranslate"><span class="pre">validate_representation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.CallableAdapter"><code class="docutils literal notranslate"><span class="pre">CallableAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SymPyAdapter"><code class="docutils literal notranslate"><span class="pre">SymPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NumPyAdapter"><code class="docutils literal notranslate"><span class="pre">NumPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_callable"><code class="docutils literal notranslate"><span class="pre">adapt_callable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_sympy_expr"><code class="docutils literal notranslate"><span class="pre">adapt_sympy_expr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_numpy_function"><code class="docutils literal notranslate"><span class="pre">adapt_numpy_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Measure"><code class="docutils literal notranslate"><span class="pre">Measure</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.get_gf_field"><code class="docutils literal notranslate"><span class="pre">get_gf_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GFField"><code class="docutils literal notranslate"><span class="pre">GFField</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.MajorityFamily"><code class="docutils literal notranslate"><span class="pre">MajorityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ParityFamily"><code class="docutils literal notranslate"><span class="pre">ParityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.TribesFamily"><code class="docutils literal notranslate"><span class="pre">TribesFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ThresholdFamily"><code class="docutils literal notranslate"><span class="pre">ThresholdFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ANDFamily"><code class="docutils literal notranslate"><span class="pre">ANDFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ORFamily"><code class="docutils literal notranslate"><span class="pre">ORFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.DictatorFamily"><code class="docutils literal notranslate"><span class="pre">DictatorFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LTFFamily"><code class="docutils literal notranslate"><span class="pre">LTFFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GrowthTracker"><code class="docutils literal notranslate"><span class="pre">GrowthTracker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.FunctionFamily"><code class="docutils literal notranslate"><span class="pre">FunctionFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InductiveFamily"><code class="docutils literal notranslate"><span class="pre">InductiveFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionVisualizer"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionVisualizer</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="boofun.analysis.html">boofun.analysis</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.html#boofun.analysis.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.html#boofun.analysis.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.arrow.html">boofun.analysis.arrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.basic_properties.html">boofun.analysis.basic_properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.block_sensitivity.html">boofun.analysis.block_sensitivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.canalization.html">boofun.analysis.canalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.certificates.html">boofun.analysis.certificates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.communication_complexity.html">boofun.analysis.communication_complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.complexity.html">boofun.analysis.complexity</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">boofun.analysis.cryptographic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.walsh_transform"><code class="docutils literal notranslate"><span class="pre">walsh_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.walsh_spectrum"><code class="docutils literal notranslate"><span class="pre">walsh_spectrum()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.nonlinearity"><code class="docutils literal notranslate"><span class="pre">nonlinearity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.is_bent"><code class="docutils literal notranslate"><span class="pre">is_bent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.is_balanced"><code class="docutils literal notranslate"><span class="pre">is_balanced()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.algebraic_degree"><code class="docutils literal notranslate"><span class="pre">algebraic_degree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.algebraic_normal_form"><code class="docutils literal notranslate"><span class="pre">algebraic_normal_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.anf_monomials"><code class="docutils literal notranslate"><span class="pre">anf_monomials()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.algebraic_immunity"><code class="docutils literal notranslate"><span class="pre">algebraic_immunity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.correlation_immunity"><code class="docutils literal notranslate"><span class="pre">correlation_immunity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.resiliency"><code class="docutils literal notranslate"><span class="pre">resiliency()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.propagation_criterion"><code class="docutils literal notranslate"><span class="pre">propagation_criterion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.strict_avalanche_criterion"><code class="docutils literal notranslate"><span class="pre">strict_avalanche_criterion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.linear_approximation_table"><code class="docutils literal notranslate"><span class="pre">linear_approximation_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.difference_distribution_table"><code class="docutils literal notranslate"><span class="pre">difference_distribution_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.differential_uniformity"><code class="docutils literal notranslate"><span class="pre">differential_uniformity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.linearity"><code class="docutils literal notranslate"><span class="pre">linearity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.CryptographicAnalyzer"><code class="docutils literal notranslate"><span class="pre">CryptographicAnalyzer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.cryptographic.SBoxAnalyzer"><code class="docutils literal notranslate"><span class="pre">SBoxAnalyzer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.decision_trees.html">boofun.analysis.decision_trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.equivalence.html">boofun.analysis.equivalence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.fkn.html">boofun.analysis.fkn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.fourier.html">boofun.analysis.fourier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.gaussian.html">boofun.analysis.gaussian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.gf2.html">boofun.analysis.gf2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.global_hypercontractivity.html">boofun.analysis.global_hypercontractivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.huang.html">boofun.analysis.huang</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.hypercontractivity.html">boofun.analysis.hypercontractivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.invariance.html">boofun.analysis.invariance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.learning.html">boofun.analysis.learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.ltf_analysis.html">boofun.analysis.ltf_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.p_biased.html">boofun.analysis.p_biased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.pac_learning.html">boofun.analysis.pac_learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.query_complexity.html">boofun.analysis.query_complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.restrictions.html">boofun.analysis.restrictions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.sampling.html">boofun.analysis.sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.sensitivity.html">boofun.analysis.sensitivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.sparsity.html">boofun.analysis.sparsity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.symmetry.html">boofun.analysis.symmetry</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.api.html">boofun.api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.core.html">boofun.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.families.html">boofun.families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.quantum_complexity.html">boofun.quantum_complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.testing.html">boofun.testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.utils.html">boofun.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.visualization.html">boofun.visualization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="boofun.analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.cryptographic</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/boofun.analysis.cryptographic.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-boofun.analysis.cryptographic">
+<span id="boofun-analysis-cryptographic"></span><h1>boofun.analysis.cryptographic<a class="headerlink" href="#module-boofun.analysis.cryptographic" title="Link to this heading"></a></h1>
+<p>Cryptographic analysis of Boolean functions.</p>
+<p>This module provides cryptographic measures commonly used in symmetric cryptography,
+block cipher design, and S-box analysis. These measures help assess the resistance
+of Boolean functions against linear and differential cryptanalysis.</p>
+<p>Key concepts:
+- <strong>Nonlinearity</strong>: Distance to the nearest affine function (resistance to linear attacks)
+- <strong>Bent functions</strong>: Functions achieving maximum nonlinearity (perfect nonlinearity)
+- <strong>Walsh spectrum</strong>: Fourier transform over F_2 (captures linear correlations)
+- <strong>Algebraic degree</strong>: Degree of the ANF (resistance to algebraic attacks)
+- <strong>Balancedness</strong>: Equal number of 0s and 1s (no bias in output)</p>
+<p>Cross-validation:
+This module is designed to produce results that can be validated against:
+- thomasarmel/boolean_function (Rust): nonlinearity, is_bent, algebraic_degree
+- SageMath: walsh_hadamard_transform, nonlinearity
+- BooLSPLG: S-box analysis tools</p>
+<p>References:
+- Carlet, “Boolean Functions for Cryptography and Coding Theory”
+- O’Donnell, “Analysis of Boolean Functions” (Fourier/Walsh connection)
+- Crama &amp; Hammer, “Boolean Functions: Theory, Algorithms, and Applications”</p>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.algebraic_degree" title="boofun.analysis.cryptographic.algebraic_degree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">algebraic_degree</span></code></a>(f)</p></td>
+<td><p>Compute the algebraic degree (ANF degree) of a Boolean function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.algebraic_immunity" title="boofun.analysis.cryptographic.algebraic_immunity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">algebraic_immunity</span></code></a>(f)</p></td>
+<td><p>Compute the algebraic immunity of a Boolean function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.algebraic_normal_form" title="boofun.analysis.cryptographic.algebraic_normal_form"><code class="xref py py-obj docutils literal notranslate"><span class="pre">algebraic_normal_form</span></code></a>(f)</p></td>
+<td><p>Compute the Algebraic Normal Form (ANF) coefficients.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.anf_monomials" title="boofun.analysis.cryptographic.anf_monomials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">anf_monomials</span></code></a>(f)</p></td>
+<td><p>Return the monomials present in the ANF.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.correlation_immunity" title="boofun.analysis.cryptographic.correlation_immunity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation_immunity</span></code></a>(f)</p></td>
+<td><p>Compute the correlation immunity order of a Boolean function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.difference_distribution_table" title="boofun.analysis.cryptographic.difference_distribution_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">difference_distribution_table</span></code></a>(sbox)</p></td>
+<td><p>Compute the Difference Distribution Table (DDT) of an S-box.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.differential_uniformity" title="boofun.analysis.cryptographic.differential_uniformity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">differential_uniformity</span></code></a>(sbox)</p></td>
+<td><p>Compute the differential uniformity of an S-box.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.is_balanced" title="boofun.analysis.cryptographic.is_balanced"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_balanced</span></code></a>(f)</p></td>
+<td><p>Check if a Boolean function is balanced.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.is_bent" title="boofun.analysis.cryptographic.is_bent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_bent</span></code></a>(f)</p></td>
+<td><p>Check if a Boolean function is bent.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.linear_approximation_table" title="boofun.analysis.cryptographic.linear_approximation_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_approximation_table</span></code></a>(sbox)</p></td>
+<td><p>Compute the Linear Approximation Table (LAT) of an S-box.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.linearity" title="boofun.analysis.cryptographic.linearity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linearity</span></code></a>(sbox)</p></td>
+<td><p>Compute the linearity of an S-box.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.nonlinearity" title="boofun.analysis.cryptographic.nonlinearity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nonlinearity</span></code></a>(f)</p></td>
+<td><p>Compute the nonlinearity of a Boolean function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.propagation_criterion" title="boofun.analysis.cryptographic.propagation_criterion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">propagation_criterion</span></code></a>(f[, order])</p></td>
+<td><p>Check if f satisfies the Propagation Criterion of order k.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.resiliency" title="boofun.analysis.cryptographic.resiliency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resiliency</span></code></a>(f)</p></td>
+<td><p>Compute the resiliency order of a Boolean function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.strict_avalanche_criterion" title="boofun.analysis.cryptographic.strict_avalanche_criterion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strict_avalanche_criterion</span></code></a>(f)</p></td>
+<td><p>Check if f satisfies the Strict Avalanche Criterion (SAC).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.walsh_spectrum" title="boofun.analysis.cryptographic.walsh_spectrum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">walsh_spectrum</span></code></a>(f)</p></td>
+<td><p>Compute the Walsh spectrum (distribution of Walsh coefficients).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.walsh_transform" title="boofun.analysis.cryptographic.walsh_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">walsh_transform</span></code></a>(f)</p></td>
+<td><p>Compute the Walsh-Hadamard transform of a Boolean function.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.CryptographicAnalyzer" title="boofun.analysis.cryptographic.CryptographicAnalyzer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CryptographicAnalyzer</span></code></a>(f)</p></td>
+<td><p>Comprehensive cryptographic analysis of a Boolean function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.cryptographic.SBoxAnalyzer" title="boofun.analysis.cryptographic.SBoxAnalyzer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SBoxAnalyzer</span></code></a>(sbox)</p></td>
+<td><p>Comprehensive S-box analysis for cryptographic applications.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.walsh_transform">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">walsh_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#walsh_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.walsh_transform" title="Link to this definition"></a></dt>
+<dd><p>Compute the Walsh-Hadamard transform of a Boolean function.</p>
+<p>The Walsh transform W_f(a) measures the correlation between f and the
+linear function &lt;a, x&gt;:</p>
+<blockquote>
+<div><p>W_f(a) = Σ_{x ∈ F_2^n} (-1)^{f(x) ⊕ &lt;a,x&gt;}</p>
+</div></blockquote>
+<p>This is related to the Fourier transform by: W_f(a) = 2^n · f̂(a)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of Walsh coefficients W_f(a) for a = 0, 1, …, 2^n - 1</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>For balanced functions, W_f(0) = 0</p></li>
+<li><p>For bent functions, <a href="#id1"><span class="problematic" id="id2">|W_f(a)|</span></a> = 2^{n/2} for all a</p></li>
+</ul>
+</div>
+<dl class="simple">
+<dt>Cross-validation:</dt><dd><p>thomasarmel/boolean_function uses the same definition.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.walsh_spectrum">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">walsh_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#walsh_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.walsh_spectrum" title="Link to this definition"></a></dt>
+<dd><p>Compute the Walsh spectrum (distribution of Walsh coefficients).</p>
+<p>The spectrum is a histogram showing how many times each Walsh value appears.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>count}</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary {walsh_value</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">walsh_spectrum</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">{-8: 1, 0: 7}  # XOR is bent-like, one large coefficient</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.nonlinearity">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">nonlinearity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#nonlinearity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.nonlinearity" title="Link to this definition"></a></dt>
+<dd><p>Compute the nonlinearity of a Boolean function.</p>
+<p>Nonlinearity is the minimum Hamming distance to any affine function:</p>
+<blockquote>
+<div><p>NL(f) = 2^{n-1} - (1/2) · max_a <a href="#id3"><span class="problematic" id="id4">|W_f(a)|</span></a></p>
+</div></blockquote>
+<p>Higher nonlinearity means better resistance to linear cryptanalysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nonlinearity (non-negative integer)</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Bounds:</dt><dd><ul class="simple">
+<li><p>NL(f) ≤ 2^{n-1} - 2^{n/2 - 1} (bent bound, achieved iff bent)</p></li>
+<li><p>NL(f) = 0 for affine functions</p></li>
+</ul>
+</dd>
+<dt>Cross-validation:</dt><dd><p>thomasarmel/boolean_function: f.nonlinearity() should match</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nonlinearity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.is_bent">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">is_bent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#is_bent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.is_bent" title="Link to this definition"></a></dt>
+<dd><p>Check if a Boolean function is bent.</p>
+<dl class="simple">
+<dt>A function is bent if it achieves maximum nonlinearity:</dt><dd><p><a href="#id5"><span class="problematic" id="id6">|W_f(a)|</span></a> = 2^{n/2} for all a</p>
+</dd>
+</dl>
+<p>Bent functions exist only for even n and are never balanced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if f is bent</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Cross-validation:</dt><dd><p>thomasarmel/boolean_function: f.is_bent() should match</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># The function 0x0113077C165E76A8 (6 vars) is bent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s2">&quot;0113077C165E76A8&quot;</span><span class="p">,</span> <span class="n">n_vars</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_bent</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.is_balanced">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">is_balanced</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#is_balanced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.is_balanced" title="Link to this definition"></a></dt>
+<dd><p>Check if a Boolean function is balanced.</p>
+<p>A function is balanced if it has equal number of 0s and 1s in its truth table,
+equivalently W_f(0) = 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if f is balanced</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Cross-validation:</dt><dd><p>thomasarmel/boolean_function: f.is_balanced() should match</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.algebraic_degree">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">algebraic_degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#algebraic_degree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.algebraic_degree" title="Link to this definition"></a></dt>
+<dd><p>Compute the algebraic degree (ANF degree) of a Boolean function.</p>
+<p>The algebraic degree is the maximum number of variables in any monomial
+of the Algebraic Normal Form (ANF).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Algebraic degree (0 for constant, n for full degree)</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is computed via GF(2) analysis, not Fourier degree.
+For ±1-valued functions, ANF degree equals Fourier degree.</p>
+</div>
+<dl class="simple">
+<dt>Cross-validation:</dt><dd><p>thomasarmel/boolean_function: f.algebraic_normal_form().degree()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.algebraic_normal_form">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">algebraic_normal_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#algebraic_normal_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.algebraic_normal_form" title="Link to this definition"></a></dt>
+<dd><p>Compute the Algebraic Normal Form (ANF) coefficients.</p>
+<dl class="simple">
+<dt>The ANF represents f as a XOR of AND monomials over GF(2):</dt><dd><p>f(x) = ⊕_{S ⊆ [n]} a_S · ∏_{i ∈ S} x_i</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of ANF coefficients a_S (0 or 1) indexed by subset mask</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Cross-validation:</dt><dd><p>thomasarmel/boolean_function: f.algebraic_normal_form()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.anf_monomials">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">anf_monomials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#anf_monomials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.anf_monomials" title="Link to this definition"></a></dt>
+<dd><p>Return the monomials present in the ANF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of tuples, each tuple contains variable indices in the monomial
+Empty tuple () represents the constant term 1</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># x0 AND x1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">anf_monomials</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="go">[(0, 1)]  # Just the monomial x0·x1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.algebraic_immunity">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">algebraic_immunity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#algebraic_immunity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.algebraic_immunity" title="Link to this definition"></a></dt>
+<dd><p>Compute the algebraic immunity of a Boolean function.</p>
+<p>Algebraic immunity AI(f) is the minimum degree d such that there exists
+a nonzero function g with degree d where f·g = 0 or (1⊕f)·g = 0.</p>
+<p>This measures resistance to algebraic attacks on stream ciphers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Algebraic immunity (integer from 1 to ceil(n/2))</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>AI(f) ≤ ceil(n/2) always holds.
+Computing exact AI is expensive for large n.</p>
+</div>
+<dl class="simple">
+<dt>Reference:</dt><dd><p>Meier, Pasalic, Carlet: “Algebraic Attacks and Decomposition of Boolean Functions”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.correlation_immunity">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">correlation_immunity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#correlation_immunity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.correlation_immunity" title="Link to this definition"></a></dt>
+<dd><p>Compute the correlation immunity order of a Boolean function.</p>
+<p>A function is t-th order correlation immune if it is statistically
+independent of any t input variables.</p>
+<p>Equivalently, W_f(a) = 0 for all a with 1 ≤ <a href="#id7"><span class="problematic" id="id8">|a|</span></a> ≤ t.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Maximum t such that f is t-th order correlation immune (0 if not CI)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.resiliency">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">resiliency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#resiliency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.resiliency" title="Link to this definition"></a></dt>
+<dd><p>Compute the resiliency order of a Boolean function.</p>
+<p>A function is t-resilient if it is balanced and t-th order correlation immune.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resiliency order (-1 if not balanced, 0+ otherwise)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.propagation_criterion">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">propagation_criterion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#propagation_criterion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.propagation_criterion" title="Link to this definition"></a></dt>
+<dd><p>Check if f satisfies the Propagation Criterion of order k.</p>
+<p>PC(k) means: for all a with 1 ≤ <a href="#id9"><span class="problematic" id="id10">|a|</span></a> ≤ k, the function f(x) ⊕ f(x ⊕ a)
+is balanced.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction to check</p></li>
+<li><p><strong>order</strong> – Order k to check (default 1)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if f satisfies PC(k)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.strict_avalanche_criterion">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">strict_avalanche_criterion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#strict_avalanche_criterion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.strict_avalanche_criterion" title="Link to this definition"></a></dt>
+<dd><p>Check if f satisfies the Strict Avalanche Criterion (SAC).</p>
+<p>SAC means: flipping any single input bit changes the output with
+probability exactly 1/2. This is equivalent to PC(1).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to check</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if f satisfies SAC</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.linear_approximation_table">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">linear_approximation_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sbox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#linear_approximation_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.linear_approximation_table" title="Link to this definition"></a></dt>
+<dd><p>Compute the Linear Approximation Table (LAT) of an S-box.</p>
+<dl class="simple">
+<dt>The LAT measures linear correlations between input and output masks:</dt><dd><p>LAT[a,b] = #{x : &lt;a,x&gt; = &lt;b,S(x)&gt;} - 2^{n-1}</p>
+</dd>
+</dl>
+<p>This is used in linear cryptanalysis of block ciphers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sbox</strong> – S-box as list of output values (sbox[x] = S(x))</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>2D numpy array of size 2^n × 2^m where n=input bits, m=output bits</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For an n-bit to m-bit S-box, input masks range over 2^n,
+output masks range over 2^m.</p>
+</div>
+<dl class="simple">
+<dt>Reference:</dt><dd><p>Matsui, “Linear Cryptanalysis Method for DES Cipher”</p>
+</dd>
+<dt>Cross-validation:</dt><dd><p>BooLSPLG computes the same LAT for S-box analysis.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.difference_distribution_table">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">difference_distribution_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sbox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#difference_distribution_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.difference_distribution_table" title="Link to this definition"></a></dt>
+<dd><p>Compute the Difference Distribution Table (DDT) of an S-box.</p>
+<dl class="simple">
+<dt>The DDT measures differential propagation:</dt><dd><p>DDT[Δx, Δy] = #{x : S(x) ⊕ S(x ⊕ Δx) = Δy}</p>
+</dd>
+</dl>
+<p>This is used in differential cryptanalysis of block ciphers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sbox</strong> – S-box as list of output values (sbox[x] = S(x))</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>2D numpy array of size 2^n × 2^m</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>DDT[0,0] = 2^n always (trivial differential).</p>
+</div>
+<dl class="simple">
+<dt>Reference:</dt><dd><p>Biham &amp; Shamir, “Differential Cryptanalysis of DES-like Cryptosystems”</p>
+</dd>
+<dt>Cross-validation:</dt><dd><p>BooLSPLG computes the same DDT.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.differential_uniformity">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">differential_uniformity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sbox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#differential_uniformity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.differential_uniformity" title="Link to this definition"></a></dt>
+<dd><p>Compute the differential uniformity of an S-box.</p>
+<dl class="simple">
+<dt>Differential uniformity is the maximum non-trivial entry in the DDT:</dt><dd><p>δ = max{DDT[Δx, Δy] : Δx ≠ 0}</p>
+</dd>
+</dl>
+<p>Lower values indicate better resistance to differential cryptanalysis.
+The minimum possible value is 2 for bijective S-boxes (APN functions).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sbox</strong> – S-box as list of output values</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Differential uniformity (positive integer)</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>δ = 2: Almost Perfect Nonlinear (APN)</p></li>
+<li><p>δ = 4: Used in AES S-box</p></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.linearity">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">linearity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sbox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#linearity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.linearity" title="Link to this definition"></a></dt>
+<dd><p>Compute the linearity of an S-box.</p>
+<dl class="simple">
+<dt>Linearity is twice the maximum absolute value in the LAT:</dt><dd><p>L = 2 × max{<a href="#id11"><span class="problematic" id="id12">|LAT[a,b]|</span></a> : (a,b) ≠ (0,0)}</p>
+</dd>
+</dl>
+<p>Lower values indicate better resistance to linear cryptanalysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sbox</strong> – S-box as list of output values</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Linearity (positive integer)</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For n-bit S-boxes, L ≥ 2^{n/2} (bent bound).
+AES S-box has L = 32.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">CryptographicAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer" title="Link to this definition"></a></dt>
+<dd><p>Comprehensive cryptographic analysis of a Boolean function.</p>
+<p>This class computes and caches various cryptographic measures.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># 3-var bent-like</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">CryptographicAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">analyzer</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize analyzer with a Boolean function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.n_vars">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n_vars</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.n_vars" title="Link to this definition"></a></dt>
+<dd><p>Number of variables.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.walsh">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">walsh</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.walsh" title="Link to this definition"></a></dt>
+<dd><p>Walsh transform (cached).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.anf">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">anf</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.anf" title="Link to this definition"></a></dt>
+<dd><p>ANF coefficients (cached).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.nonlinearity">
+<span class="sig-name descname"><span class="pre">nonlinearity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.nonlinearity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.nonlinearity" title="Link to this definition"></a></dt>
+<dd><p>Compute nonlinearity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.is_bent">
+<span class="sig-name descname"><span class="pre">is_bent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.is_bent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.is_bent" title="Link to this definition"></a></dt>
+<dd><p>Check if bent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.is_balanced">
+<span class="sig-name descname"><span class="pre">is_balanced</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.is_balanced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.is_balanced" title="Link to this definition"></a></dt>
+<dd><p>Check if balanced.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.algebraic_degree">
+<span class="sig-name descname"><span class="pre">algebraic_degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.algebraic_degree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.algebraic_degree" title="Link to this definition"></a></dt>
+<dd><p>Compute algebraic degree.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.correlation_immunity">
+<span class="sig-name descname"><span class="pre">correlation_immunity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.correlation_immunity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.correlation_immunity" title="Link to this definition"></a></dt>
+<dd><p>Compute correlation immunity order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.resiliency">
+<span class="sig-name descname"><span class="pre">resiliency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.resiliency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.resiliency" title="Link to this definition"></a></dt>
+<dd><p>Compute resiliency order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.satisfies_sac">
+<span class="sig-name descname"><span class="pre">satisfies_sac</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.satisfies_sac"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.satisfies_sac" title="Link to this definition"></a></dt>
+<dd><p>Check if satisfies SAC.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.walsh_spectrum">
+<span class="sig-name descname"><span class="pre">walsh_spectrum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.walsh_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.walsh_spectrum" title="Link to this definition"></a></dt>
+<dd><p>Get Walsh spectrum.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.summary" title="Link to this definition"></a></dt>
+<dd><p>Return human-readable summary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.CryptographicAnalyzer.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#CryptographicAnalyzer.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.CryptographicAnalyzer.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Export all measures as dictionary (for cross-validation).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.analysis.cryptographic.</span></span><span class="sig-name descname"><span class="pre">SBoxAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sbox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#SBoxAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer" title="Link to this definition"></a></dt>
+<dd><p>Comprehensive S-box analysis for cryptographic applications.</p>
+<p>An S-box (Substitution box) is a basic component of symmetric key algorithms.
+This analyzer computes various measures of cryptographic strength.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Analyze a 4-bit S-box</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sbox</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0xE</span><span class="p">,</span> <span class="mh">0x4</span><span class="p">,</span> <span class="mh">0xD</span><span class="p">,</span> <span class="mh">0x1</span><span class="p">,</span> <span class="mh">0x2</span><span class="p">,</span> <span class="mh">0xF</span><span class="p">,</span> <span class="mh">0xB</span><span class="p">,</span> <span class="mh">0x8</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="mh">0x3</span><span class="p">,</span> <span class="mh">0xA</span><span class="p">,</span> <span class="mh">0x6</span><span class="p">,</span> <span class="mh">0xC</span><span class="p">,</span> <span class="mh">0x5</span><span class="p">,</span> <span class="mh">0x9</span><span class="p">,</span> <span class="mh">0x0</span><span class="p">,</span> <span class="mh">0x7</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">SBoxAnalyzer</span><span class="p">(</span><span class="n">sbox</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">analyzer</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sbox</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#SBoxAnalyzer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize S-box analyzer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sbox</strong> – S-box as list where sbox[x] = S(x)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.n_inputs">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n_inputs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.n_inputs" title="Link to this definition"></a></dt>
+<dd><p>Number of input bits.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.n_outputs">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n_outputs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.n_outputs" title="Link to this definition"></a></dt>
+<dd><p>Number of output bits.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.lat">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">lat</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.lat" title="Link to this definition"></a></dt>
+<dd><p>Linear Approximation Table (cached).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.ddt">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ddt</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.ddt" title="Link to this definition"></a></dt>
+<dd><p>Difference Distribution Table (cached).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.is_bijective">
+<span class="sig-name descname"><span class="pre">is_bijective</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#SBoxAnalyzer.is_bijective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.is_bijective" title="Link to this definition"></a></dt>
+<dd><p>Check if S-box is a bijection (permutation).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.differential_uniformity">
+<span class="sig-name descname"><span class="pre">differential_uniformity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#SBoxAnalyzer.differential_uniformity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.differential_uniformity" title="Link to this definition"></a></dt>
+<dd><p>Compute differential uniformity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.linearity">
+<span class="sig-name descname"><span class="pre">linearity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#SBoxAnalyzer.linearity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.linearity" title="Link to this definition"></a></dt>
+<dd><p>Compute linearity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.nonlinearity">
+<span class="sig-name descname"><span class="pre">nonlinearity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#SBoxAnalyzer.nonlinearity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.nonlinearity" title="Link to this definition"></a></dt>
+<dd><p>Compute nonlinearity of the S-box.</p>
+<dl class="simple">
+<dt>For an S-box, nonlinearity is:</dt><dd><p>NL = 2^{n-1} - L/2</p>
+</dd>
+</dl>
+<p>where L is the linearity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.is_apn">
+<span class="sig-name descname"><span class="pre">is_apn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#SBoxAnalyzer.is_apn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.is_apn" title="Link to this definition"></a></dt>
+<dd><p>Check if S-box is Almost Perfect Nonlinear (differential uniformity = 2).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#SBoxAnalyzer.summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.summary" title="Link to this definition"></a></dt>
+<dd><p>Return human-readable summary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.analysis.cryptographic.SBoxAnalyzer.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/cryptographic.html#SBoxAnalyzer.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.cryptographic.SBoxAnalyzer.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Export measures as dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boofun.analysis.complexity.html" class="btn btn-neutral float-left" title="boofun.analysis.complexity" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boofun.analysis.decision_trees.html" class="btn btn-neutral float-right" title="boofun.analysis.decision_trees" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

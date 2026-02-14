@@ -1,0 +1,490 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BooFun &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quick Start" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BooFun</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="boofun">
+<h1>BooFun<a class="headerlink" href="#boofun" title="Link to this heading"></a></h1>
+<a class="reference internal image-reference" href="_images/boo_horizontal.png"><img alt="BooFun Logo" class="align-center" src="_images/boo_horizontal.png" width="600" />
+</a>
+<p>Boolean function analysis in Python.</p>
+<p>Tools for Fourier analysis, property testing, and complexity measures of Boolean functions. Built while studying O’Donnell’s <em>Analysis of Boolean Functions</em>.</p>
+<p><a class="reference external" href="https://github.com/GabbyTab/boofun">GitHub Repository</a> · <a class="reference external" href="https://pypi.org/project/boofun/">PyPI</a> · <a class="reference external" href="https://github.com/GabbyTab/boofun/issues">Issues</a></p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#creating-functions">Creating Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#flexible-input-types">Flexible Input Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#evaluation">Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#analysis">Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#properties">Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#representations">Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#visualization">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#next">Next</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#core-fourier-analysis">Core Fourier Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#inner-products-and-correlations">Inner Products and Correlations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#advanced-spectral-features">Advanced Spectral Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#p-biased-analysis">p-Biased Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#sensitivity-analysis">Sensitivity Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#probabilistic-view">Probabilistic View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#sampling-monte-carlo">Sampling &amp; Monte Carlo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/spectral_analysis.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#decision-tree-complexity">Decision Tree Complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#sensitivity-measures">Sensitivity Measures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#certificate-complexity">Certificate Complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#quantum-complexity">Quantum Complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#degree-measures">Degree Measures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#huang-s-theorem">Huang’s Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#complexity-relationships">Complexity Relationships</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#full-complexity-profile">Full Complexity Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#decision-tree-algorithms">Decision Tree Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/query_complexity.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/hypercontractivity.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/hypercontractivity.html#when-to-use-this">When to Use This</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/hypercontractivity.html#classical-hypercontractivity">Classical Hypercontractivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/hypercontractivity.html#kkl-theorem">KKL Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/hypercontractivity.html#friedgut-s-junta-theorem">Friedgut’s Junta Theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/hypercontractivity.html#global-hypercontractivity-keevash-et-al">Global Hypercontractivity (Keevash et al.)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/hypercontractivity.html#applications">Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/hypercontractivity.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/hypercontractivity.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/cryptographic.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cryptographic.html#basic-cryptographic-measures">Basic Cryptographic Measures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cryptographic.html#walsh-fourier-analysis">Walsh/Fourier Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cryptographic.html#correlation-properties">Correlation Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cryptographic.html#s-box-analysis">S-Box Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cryptographic.html#cryptographic-design-criteria">Cryptographic Design Criteria</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cryptographic.html#boolean-functions-from-integers">Boolean Functions from Integers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cryptographic.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/cryptographic.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/learning.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/learning.html#goldreich-levin-algorithm">Goldreich-Levin Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/learning.html#pac-learning">PAC Learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/learning.html#paclearner-class">PACLearner Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/learning.html#sample-complexity">Sample Complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/learning.html#connections-to-other-topics">Connections to Other Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/learning.html#mathematical-background">Mathematical Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/learning.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#bit-ordering-convention">Bit-Ordering Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#available-representations">Available Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#automatic-conversion">Automatic Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#storage-hints">Storage Hints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#conversion-graph">Conversion Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#choosing-representations">Choosing Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#creating-from-different-sources">Creating from Different Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#saving-functions">Saving Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/representations.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#boolean-operators">Boolean Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#input-negation">Input Negation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#chainable-methods">Chainable Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#variable-restriction">Variable Restriction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#variable-permutation">Variable Permutation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#dual-function">Dual Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#extending-functions">Extending Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#composing-with-noise">Composing with Noise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#building-custom-functions">Building Custom Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#numpy-integration">NumPy Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#performance-notes">Performance Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/operations.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/families.html#what-is-a-function-family">What is a Function Family?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/families.html#built-in-families">Built-in Families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/families.html#tracking-growth">Tracking Growth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/families.html#visualization">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/families.html#custom-families">Custom Families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/families.html#theoretical-bounds">Theoretical Bounds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/families.html#quick-growth-plot">Quick Growth Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/families.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/probabilistic.html#boolean-functions-as-random-variables">Boolean Functions as Random Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/probabilistic.html#p-biased-measures">P-Biased Measures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/probabilistic.html#estimation-vs-exact-computation">Estimation vs Exact Computation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/probabilistic.html#pseudorandomness">Pseudorandomness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/probabilistic.html#invariance-principle">Invariance Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/probabilistic.html#further-reading">Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#social-choice-theory">Social Choice Theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#gaussian-analysis">Gaussian Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#invariance-principle">Invariance Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#communication-complexity">Communication Complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#ltf-analysis">LTF Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#random-restrictions">Random Restrictions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#symmetry-analysis">Symmetry Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#fourier-sparsity">Fourier Sparsity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#canalization">Canalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#module-reference">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/advanced.html#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/migration_from_tal.html#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/migration_from_tal.html#fourier-analysis">Fourier Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/migration_from_tal.html#complexity-measures">Complexity Measures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/migration_from_tal.html#restrictions-and-composition">Restrictions and Composition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/migration_from_tal.html#p-biased-analysis">P-Biased Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/migration_from_tal.html#special-functions">Special Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/migration_from_tal.html#construction">Construction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/migration_from_tal.html#what-boofun-adds">What boofun Adds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/migration_from_tal.html#not-in-boofun-use-standard-python">Not in boofun (use standard Python)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#architecture-diagram">Architecture Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#component-overview">Component Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#key-design-decisions">Key Design Decisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#data-flow-example">Data Flow Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#module-dependencies">Module Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="architecture.html#performance-considerations">Performance Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#what-boofun-has">What BooFun Has</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#what-boofun-lacks">What BooFun Lacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#boolforge-comparison-systems-biology">BoolForge Comparison (Systems Biology)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#comparison-tables">Comparison Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#when-to-use-what">When to Use What</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#cross-validation">Cross-Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#prior-art">Prior Art</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comparison_guide.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#the-bottleneck-exponential-truth-tables">The Bottleneck: Exponential Truth Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#quick-summary">Quick Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#optimization-tiers">Optimization Tiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#memory-optimization">Memory Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#batch-processing">Batch Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#caching-and-lazy-conversion">Caching and Lazy Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#benchmarks">Benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#running-benchmarks">Running Benchmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#profiling">Profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#working-with-large-n-20-variables">Working with Large n (&gt; 20 variables)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="performance.html#quick-reference">Quick Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html#exception-hierarchy">Exception Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html#error-codes">Error Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html#usage-examples">Usage Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html#exception-reference">Exception Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html#lenient-mode">Lenient Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html#debug-logging">Debug Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error_handling.html#best-practices">Best Practices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cross_validation.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross_validation.html#boolforge-cross-validation">BoolForge Cross-Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross_validation.html#key-functions-to-validate">Key Functions to Validate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross_validation.html#automated-cross-validation">Automated Cross-Validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross_validation.html#known-theoretical-results">Known Theoretical Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross_validation.html#integration-with-ci">Integration with CI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross_validation.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing to BooFun</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#project-structure">Project Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#key-concepts">Key Concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#development-workflow">Development Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#testing-guidelines">Testing Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#common-tasks">Common Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#getting-help">Getting Help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html#mathematical-references">Mathematical References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="STYLE_GUIDE.html">BooFun Style Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#principles">Principles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#kiss-keep-it-simple">KISS - Keep It Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#dry-don-t-repeat-yourself">DRY - Don’t Repeat Yourself</a></li>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#fail-loud">Fail Loud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#functional">Functional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#domain-codomain">Domain/Codomain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#determinism">Determinism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#bit-ordering-convention">Bit-Ordering Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#quick-test">Quick Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="STYLE_GUIDE.html#documentation-notebooks">Documentation &amp; Notebooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="TEST_GUIDELINES.html">Test Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TEST_GUIDELINES.html#the-convolution-bug-a-case-study">The Convolution Bug: A Case Study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TEST_GUIDELINES.html#anti-patterns-to-avoid">Anti-Patterns to Avoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TEST_GUIDELINES.html#test-checklist">Test Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TEST_GUIDELINES.html#property-based-testing-with-hypothesis">Property-Based Testing with Hypothesis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TEST_GUIDELINES.html#cross-validation-testing">Cross-Validation Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TEST_GUIDELINES.html#test-template">Test Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TEST_GUIDELINES.html#files-status">Files Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TEST_GUIDELINES.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TEST_GUIDELINES.html#test-structure">Test Structure</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>boofun
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+<span class="c1"># Create</span>
+<span class="n">xor_2</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">maj_5</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Evaluate (callable syntax)</span>
+<span class="n">maj_5</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># True</span>
+<span class="n">maj_5</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>                <span class="c1"># True (7 = 00111)</span>
+
+<span class="c1"># Analyze</span>
+<span class="n">maj_5</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>           <span class="c1"># Fourier coefficients</span>
+<span class="n">maj_5</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>        <span class="c1"># Variable influences</span>
+<span class="n">maj_5</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">maj_5</span><span class="o">.</span><span class="n">is_monotone</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="convention">
+<h2>Convention<a class="headerlink" href="#convention" title="Link to this heading"></a></h2>
+<p>O’Donnell standard: Boolean 0 → +1, Boolean 1 → −1.</p>
+<p>This ensures <code class="docutils literal notranslate"><span class="pre">f̂(∅)</span> <span class="pre">=</span> <span class="pre">E[f]</span></code>.</p>
+</section>
+<section id="what-s-here">
+<h2>What’s Here<a class="headerlink" href="#what-s-here" title="Link to this heading"></a></h2>
+<p><strong>Core Analysis</strong></p>
+<ul class="simple">
+<li><p><strong>Fourier</strong>: Walsh-Hadamard transform, influences, noise stability, spectral concentration</p></li>
+<li><p><strong>Property Testing</strong>: BLR, junta, monotonicity, symmetry, balance</p></li>
+<li><p><strong>Query Complexity</strong>: D(f), R(f), Q(f), sensitivity, certificates, Ambainis bound</p></li>
+<li><p><strong>Representations</strong>: Truth tables, ANF, BDD, circuits, DNF/CNF, Fourier expansion</p></li>
+</ul>
+<p><strong>New in v1.1</strong></p>
+<ul class="simple">
+<li><p><strong>Hypercontractivity</strong>: Noise operator, Bonami’s Lemma, KKL theorem, Friedgut’s junta theorem</p></li>
+<li><p><strong>Global Hypercontractivity</strong>: p-biased analysis, threshold phenomena (Keevash et al.)</p></li>
+<li><p><strong>Invariance Principle</strong>: Gaussian analysis, Berry-Esseen bounds, Majority is Stablest</p></li>
+<li><p><strong>Cryptographic Analysis</strong>: Nonlinearity, bent functions, LAT/DDT, S-box analysis</p></li>
+<li><p><strong>Probabilistic View</strong>: Monte Carlo estimation, p-biased measures, spectral sampling</p></li>
+<li><p><strong>Partial Functions</strong>: Streaming specification, hex I/O, storage hints</p></li>
+<li><p><strong>Advanced Sensitivity</strong>: Moments, histograms, p-biased sensitivity</p></li>
+<li><p><strong>Decision Trees</strong>: DP algorithms, tree enumeration, randomized complexity</p></li>
+</ul>
+</section>
+<section id="what-s-unique">
+<h2>What’s Unique<a class="headerlink" href="#what-s-unique" title="Link to this heading"></a></h2>
+<p>Features not found in other Boolean function libraries:</p>
+<ul class="simple">
+<li><p><strong>Global hypercontractivity</strong> analysis (Keevash, Lifshitz, Long &amp; Minzer)</p></li>
+<li><p><strong>Full query complexity suite</strong> (D, R, Q, Ambainis, spectral adversary)</p></li>
+<li><p><strong>Invariance principle</strong> with Gaussian analysis and Berry-Esseen bounds</p></li>
+<li><p><strong>Property testing</strong> with probability bounds</p></li>
+<li><p><strong>Family tracking</strong> for asymptotic analysis</p></li>
+<li><p><strong>Monte Carlo Fourier estimation</strong> via sampling — scales beyond exact computation</p></li>
+<li><p><strong>Pseudorandomness connections</strong> — spectral concentration, threshold phenomena</p></li>
+<li><p><strong>O’Donnell textbook alignment</strong> with educational notebooks</p></li>
+</ul>
+</section>
+<section id="test-coverage">
+<h2>Test Coverage<a class="headerlink" href="#test-coverage" title="Link to this heading"></a></h2>
+<p>Test coverage is 72% with 3200+ tests. If something breaks, please report it.</p>
+</section>
+</section>
+<section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading"></a></h1>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/boofun.html#module-boofun" title="boofun"><code class="xref py py-obj docutils literal notranslate"><span class="pre">boofun</span></code></a></p></td>
+<td><p>BooFun: A comprehensive Boolean function analysis library.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="indices">
+<h1>Indices<a class="headerlink" href="#indices" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quick Start" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
