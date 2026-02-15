@@ -12,9 +12,9 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 
 ---
 
-## Current State (v1.2.0)
+## Current State (v1.2.1)
 
-72% test coverage, 3200+ tests, 13 examples, 23 notebooks. Published on PyPI. Cross-validated against SageMath, thomasarmel/boolean_function, and BoolForge. See [CHANGELOG.md](CHANGELOG.md) for what shipped.
+3770+ tests, 25 notebooks. Published on PyPI. Cross-validated against SageMath, thomasarmel/boolean_function, and BoolForge. Internal consistency verified across redundant computation paths (influence, sensitivity, Fourier, noise stability). See [CHANGELOG.md](CHANGELOG.md) for what shipped.
 
 ### What shipped in v1.2.0
 
@@ -62,6 +62,7 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 - Fractional PRG utilities: truncated Gaussian sampler, polarizing walk
 - Epsilon-biased distribution construction
 - Fooling verification
+- Batch multilinear extension evaluator: the monomial-building trick computes all $2^n$ products $\prod_{i \in S} x_i$ in $O(2^n)$ per point (vs $O(n \cdot 2^n)$ for the current `multilinear_extension` in `gaussian.py`), with vectorized batching for many points. Needed for fractional PRG verification at scale.
 
 ### Performance (for research at larger n)
 - GPU-accelerated WHT via CuPy for n > 20
