@@ -62,11 +62,11 @@ BooFun is the computational companion to O'Donnell's *Analysis of Boolean Functi
 - Fractional PRG utilities: truncated Gaussian sampler, polarizing walk
 - Epsilon-biased distribution construction
 - Fooling verification
-- Batch multilinear extension evaluator: the monomial-building trick computes all $2^n$ products $\prod_{i \in S} x_i$ in $O(2^n)$ per point (vs $O(n \cdot 2^n)$ for the current `multilinear_extension` in `gaussian.py`), with vectorized batching for many points. Needed for fractional PRG verification at scale.
+- Batch multilinear extension evaluator (monomial-building trick, $O(2^n)$ per point vs current $O(n \cdot 2^n)$)
 
 ### Performance (for research at larger n)
 - GPU-accelerated WHT via CuPy for n > 20
-- Parallel batch processing for exhaustive search
+- Batch API: many library functions currently process one point or one function at a time. Add vectorized batch variants for operations that benefit from NumPy/GPU parallelism: multilinear extension evaluation, influence computation across multiple functions, Fourier tail profiles over function families, and property testing on batches. The existing `batch_processing.py` handles truth table/Fourier/ANF evaluation; extend the pattern to analysis functions.
 - Lazy evaluation for oracle-access functions
 - Rust FFI for performance-critical paths (thomasarmel integration)
 
