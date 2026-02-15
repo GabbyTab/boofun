@@ -38,7 +38,7 @@ complexity.D(maj)       # Decision tree depth
 complexity.s(maj)       # Max sensitivity
 ```
 
-**[Full Docs](https://gabbytab.github.io/boofun/)** | **[All 25 Notebooks](#course-notebooks)** | **[Try it in Colab](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/fractional_prg.ipynb)**
+**[Full Docs](https://gabbytab.github.io/boofun/)** | **[All 25 Notebooks](#course-notebooks)** | **[Try it in Colab](https://colab.research.google.com/github/GabbyTab/boofun/blob/main/notebooks/lecture1_fourier_expansion.ipynb)**
 
 ## Installation
 
