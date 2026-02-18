@@ -202,7 +202,7 @@ pytest tests/
 pytest --cov=boofun tests/
 ```
 
-3200+ tests with 72% coverage. Cross-validation against known results in `tests/test_cross_validation.py`.
+3770+ tests with 72% coverage. Cross-validation against known results in `tests/test_cross_validation.py`.
 
 ## Convention
 
@@ -214,7 +214,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especiall
 
 ## Acknowledgments
 
-- **[Avishay Tal](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html)**: Course instructor, sensitivity analysis, p-biased measures, decision tree algorithms, Fourier analysis utilities. BooFun covers ~90% of Tal's `BooleanFunc.py` toolkit — see the [migration guide](https://gabbytab.github.io/boofun/guides/migration_from_tal.html) for a complete mapping
+- **[Avishay Tal](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html)**: Course instructor, sensitivity analysis, p-biased measures, decision tree algorithms, Fourier analysis utilities. BooFun covers ~90% of Tal's `BooleanFunc.py` toolkit - see the [migration guide](https://gabbytab.github.io/boofun/guides/migration_from_tal.html) for a complete mapping
 - **[Patrick Bales](https://www.linkedin.com/in/patrickbbales/)**: Course materials and notebook review
 - **O'Donnell's *Analysis of Boolean Functions*** (Cambridge, 2014): Theoretical foundation
 - **[Scott Aaronson](https://scottaaronson.blog/)'s Boolean Function Wizard** (2000): Query complexity foundations
