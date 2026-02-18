@@ -28,14 +28,16 @@ flowchart TB
         Registry["Registry<br/>(STRATEGY_REGISTRY)"]
 
         subgraph RepTypes["Representation Types"]
-            TT["TruthTable"]
+            TT["TruthTable<br/>(dense / packed / sparse / adaptive)"]
             Fourier["FourierExpansion"]
             ANF["AlgebraicNormalForm"]
+            Poly["Polynomial<br/>(real multilinear)"]
             BDD["BinaryDecisionDiagram"]
             DNF["DNF / CNF"]
             Circuit["Circuit"]
             Symbolic["Symbolic"]
             LTF["LinearThreshold"]
+            Dist["Distribution"]
         end
     end
 
