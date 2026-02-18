@@ -237,17 +237,33 @@ Implements algorithms from O'Donnell's "Analysis of Boolean Functions":
 | Submodule | O'Donnell Ch. | Key Functions |
 |-----------|---------|--------------|
 | `fourier.py` | 1-2 | WHT, influences, spectral weight, Fourier tails $L_{1,k}$ |
-| `sensitivity.py` | 4 | Sensitivity, block sensitivity, moments |
-| `complexity.py` | 4 | D(f), s(f), bs(f), C(f), certificates |
+| `sensitivity.py` | 2, 4 | Sensitivity, max/min, moments, histogram |
+| `block_sensitivity.py` | 4 | Block sensitivity bs(f), everywhere sensitivity |
+| `certificates.py` | 4 | Certificate complexity C(f), C_0, C_1 |
+| `complexity.py` | 4 | D(f), s(f), bs(f), C(f) combined |
+| `query_complexity.py` | - | D, R, Q, Ambainis, spectral adversary, polynomial method |
+| `decision_trees.py` | 4 | DP optimal depth, tree enumeration, randomized complexity |
+| `huang.py` | - | Huang's sensitivity theorem verification |
 | `hypercontractivity.py` | 9-10 | KKL, Bonami, Friedgut, noise operator |
 | `global_hypercontractivity.py` | Keevash+ | α-globality, threshold curves, critical p |
 | `p_biased.py` | 8 | P-biased Fourier, influences, expectation |
 | `invariance.py` | 11 | Invariance distance, Majority is Stablest |
 | `gaussian.py` | 10-11 | Multilinear extension, Berry-Esseen, Hermite |
 | `sampling.py` | 1-3 | Monte Carlo estimation, adaptive sampling, RandomVariableView |
-| `learning.py` | 3 | Goldreich-Levin, PAC learning, junta learning |
-| `cryptographic.py` | - | Nonlinearity, bent, Walsh spectrum, LAT/DDT, SAC |
-| `query_complexity.py` | - | D, R, Q, Ambainis, spectral adversary |
+| `learning.py` | 3 | Goldreich-Levin, junta learning |
+| `pac_learning.py` | 3 | PAC learning: low-degree, junta, sparse Fourier, monotone |
+| `cryptographic.py` | - | Nonlinearity, bent, Walsh spectrum, LAT/DDT, SAC, SBoxAnalyzer |
+| `arrow.py` | 2 | Arrow's theorem, social choice analysis |
+| `fkn.py` | 2 | FKN theorem, dictator proximity |
+| `communication_complexity.py` | - | Deterministic CC, log-rank, fooling sets, discrepancy |
+| `ltf_analysis.py` | 5 | Chow parameters, critical index, regularity, LTF fitting |
+| `restrictions.py` | 6-7 | Random restrictions, switching lemma, restriction shrinkage |
+| `symmetry.py` | 1 | Symmetry detection, symmetrization, symmetric profile |
+| `sparsity.py` | 3 | Fourier sparsity, granularity, sparse representation |
+| `canalization.py` | - | Canalizing variables, nested canalizing depth |
+| `equivalence.py` | - | Function equivalence testing |
+| `basic_properties.py` | 1 | Balance, monotonicity, linearity checks |
+| `gf2.py` | - | GF(2) Fourier transform |
 
 **Design decision**: Analysis functions work on `BooleanFunction` objects and request representations as needed. Functions are stateless and composable.
 
