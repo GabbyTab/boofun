@@ -202,11 +202,16 @@ class TruthTableRepresentation(BooleanFunctionRepresentation):
 | `truth_table` | Small n (≤14), fast lookup | O(2^n) |
 | `packed_truth_table` | Medium n (14-20) | O(2^n / 64) |
 | `sparse_truth_table` | Skewed functions | O(k) where k = #exceptions |
+| `adaptive_truth_table` | Auto-selecting dense/sparse | O(min(2^n, k)) |
 | `fourier_expansion` | Spectral analysis | O(2^n) |
-| `anf` | Algebraic analysis | O(2^n) |
+| `anf` | Algebraic analysis (GF(2)) | O(2^n) |
+| `polynomial` | Real multilinear polynomials | O(terms) |
 | `symbolic` | Human-readable, n=any | O(expression) |
 | `bdd` | Structure exploitation | O(varies) |
-| `dnf`/`cnf` | Logic optimization | O(clauses) |
+| `dnf` / `cnf` | Logic optimization | O(clauses) |
+| `circuit` | Gate-level evaluation | O(gates) |
+| `ltf` | Linear threshold functions | O(n) weights + threshold |
+| `distribution` | Probabilistic analysis | O(2^n) |
 | `function` | Oracles, lazy eval | O(1) |
 
 ### Conversion Graph (`conversion_graph.py`)
