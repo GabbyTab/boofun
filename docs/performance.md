@@ -55,6 +55,24 @@ print(f"Numba available: {HAS_NUMBA}")
 print(f"Influences backend: {INFLUENCES_BACKEND}")
 ```
 
+### Tier 2.5: pyfwht (Optional, WHT-specific)
+
+The `pyfwht` library provides optimized Fast Walsh-Hadamard Transform implementations. When installed, it is used as the **first-choice WHT backend** ahead of Numba.
+
+```bash
+pip install boofun[gpu]   # includes pyfwht>=0.2.0
+```
+
+Check if pyfwht is active:
+
+```python
+from boofun.core.optimizations import get_best_wht_implementation
+_, name = get_best_wht_implementation()
+print(name)  # "pyfwht (GPU-accelerated)" if available
+```
+
+pyfwht only accelerates the Walsh-Hadamard Transform; other operations (influences, sensitivity, etc.) still use NumPy or Numba.
+
 ### Tier 3: GPU Acceleration via CuPy (Optional)
 
 For n > 14, GPU parallelism can significantly accelerate spectral operations.
