@@ -42,7 +42,7 @@ flowchart TB
     subgraph Conversion["Conversion System"]
         ConvGraph["ConversionGraph"]
         ConvCost["ConversionCost"]
-        PathFind["Dijkstra Pathfinding"]
+        PathFind["Two-Level Hub Dispatch<br/>(via truth_table)"]
     end
 
     subgraph Analysis["Analysis Module (28 modules)"]
@@ -211,16 +211,17 @@ class TruthTableRepresentation(BooleanFunctionRepresentation):
 
 ### Conversion Graph (`conversion_graph.py`)
 
-Enables automatic conversion between representations using **Dijkstra's algorithm** to find optimal paths.
+Uses **two-level hub dispatch** through `truth_table` as the universal hub (replaced Dijkstra pathfinding in v1.3.0).
 
 ```python
 class ConversionGraph:
-    def convert(self, bf, source_rep, target_rep):
-        path = find_conversion_path(source_rep, target_rep)
-        # Execute conversions along path
+    def find_optimal_path(self, source, target, n_vars=None):
+        # 1. source == target → no conversion
+        # 2. Direct edge exists → use it
+        # 3. Otherwise → source → truth_table → target
 ```
 
-**Design decision**: Conversion costs consider time, space, and accuracy loss. The graph finds the cheapest path, enabling chains like `symbolic → truth_table → fourier`.
+**Design decision**: Every representation can convert to/from `truth_table`, so routing through the hub is simpler and more predictable than general shortest-path search, with no loss of functionality. Conversion costs still consider time, space, and accuracy loss.
 
 ### Analysis Module (`analysis/`)
 
