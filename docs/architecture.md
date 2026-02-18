@@ -363,8 +363,8 @@ User: f.fourier()
   ↓
 BooleanFunction.get_representation("fourier_expansion")
   → not in cache
-  → ConversionGraph.convert("function" → "fourier_expansion")
-  → finds path: function → truth_table → fourier_expansion
+  → ConversionGraph.find_optimal_path("function", "fourier_expansion")
+  → routes through hub: function → truth_table → fourier_expansion
   → executes conversions, caches results
   → returns Fourier coefficients
 ```
@@ -377,21 +377,46 @@ api.py
        ├── base.py (BooleanFunction)
        ├── factory.py
        ├── builtins.py
-       ├── conversion_graph.py
+       ├── conversion_graph.py (hub-and-spoke dispatch)
+       ├── spaces.py (Space, Measure)
+       ├── io.py (load/save)
+       ├── adapters.py (adapt_callable for large-n oracles)
+       ├── gpu.py (CuPy acceleration)
+       ├── optimizations.py (NumPy/Numba/pyfwht backend selection)
+       ├── numba_optimizations.py (JIT-compiled hot paths)
+       ├── batch_processing.py (BatchProcessorManager)
+       ├── auto_representation.py (recommend_representation)
+       ├── errormodels.py (PACErrorModel)
        └── representations/
-            ├── registry.py
-            ├── truth_table.py
-            ├── fourier_expansion.py
-            └── ... (other representations)
+            ├── registry.py (STRATEGY_REGISTRY)
+            ├── truth_table.py, packed_truth_table.py, sparse_truth_table.py
+            ├── fourier_expansion.py, anf_form.py, polynomial.py
+            ├── dnf_form.py, cnf_form.py, bdd.py, circuit.py
+            ├── symbolic.py, ltf.py, distribution.py
+            └── base.py (BooleanFunctionRepresentation)
 
 analysis/
   ├── __init__.py (SpectralAnalyzer, PropertyTester)
-  ├── fourier.py
-  ├── complexity.py
-  └── ... (imports from core/)
+  ├── fourier.py, sensitivity.py, block_sensitivity.py
+  ├── complexity.py, query_complexity.py, certificates.py
+  ├── decision_trees.py, huang.py
+  ├── hypercontractivity.py, global_hypercontractivity.py
+  ├── p_biased.py, sampling.py, learning.py, pac_learning.py
+  ├── cryptographic.py, gaussian.py, invariance.py
+  ├── arrow.py, fkn.py, communication_complexity.py
+  ├── ltf_analysis.py, restrictions.py, symmetry.py
+  └── sparsity.py, canalization.py, equivalence.py, gf2.py, basic_properties.py
+
+families/
+  ├── base.py (FunctionFamily, InductiveFamily)
+  ├── builtins.py (MajorityFamily, ParityFamily, ...)
+  ├── tracker.py (GrowthTracker)
+  └── theoretical.py
 
 visualization/
-  └── (imports from core/, analysis/)
+  ├── decision_tree.py, decision_tree_export.py
+  ├── growth_plots.py, interactive.py
+  └── animation.py, latex_export.py, widgets.py
 ```
 
 ## Performance Considerations
@@ -401,4 +426,4 @@ visualization/
 - **n > 20**: Sampling-based methods, oracle access
 - **n ≥ 64**: Integer overflow protection (use bit-array sampling)
 
-Numba JIT compilation is used for hot paths when available.
+Numba JIT compilation and pyfwht are used for hot paths when available. See [performance.md](performance.md) for benchmarks and optimization tiers.
