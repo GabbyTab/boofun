@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.symmetry &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.symmetry</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.symmetry</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Symmetry analysis for Boolean functions.</span>
+
+<span class="sd">This module provides tools for analyzing symmetric properties of Boolean functions,</span>
+<span class="sd">including symmetrization, symmetric degree, and transformations to monotone form.</span>
+
+<span class="sd">Key concepts:</span>
+<span class="sd">- A function is **symmetric** if f(x) depends only on |x| (Hamming weight)</span>
+<span class="sd">- **Symmetrization**: Transform any function to its symmetric version</span>
+<span class="sd">- **Symmetric degree**: Maximum Hamming weight with nonzero count</span>
+<span class="sd">- **Shift to monotone**: Find a shift that makes the function monotone (if possible)</span>
+
+<span class="sd">References:</span>
+<span class="sd">- O&#39;Donnell Chapter 4: Influences and random restrictions</span>
+<span class="sd">- Krawchouk polynomials for symmetric function analysis</span>
+<span class="sd">- Tal&#39;s PhD library: symmetric function utilities</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;symmetrize&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;symmetrize_profile&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_symmetric&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;degree_sym&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sens_sym&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sens_sym_by_weight&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;shift_function&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;find_monotone_shift&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;symmetric_representation&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="symmetrize">
+<a class="viewcode-back" href="../../../api/boofun.analysis.symmetry.html#boofun.analysis.symmetry.symmetrize">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">symmetrize</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return counts of true outputs grouped by Hamming weight.</span>
+
+<span class="sd">    For a function f: {0,1}^n → {0,1}, returns an array counts[k] where</span>
+<span class="sd">    counts[k] = |{x : |x|=k and f(x)=1}|.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to symmetrize</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of length n+1 with counts by Hamming weight</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.AND(3)  # Returns 1 only on 111</span>
+<span class="sd">        &gt;&gt;&gt; symmetrize(f)</span>
+<span class="sd">        array([0, 0, 0, 1])  # Only weight-3 has a 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
+            <span class="n">counts</span><span class="p">[</span><span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">counts</span></div>
+
+
+
+<div class="viewcode-block" id="symmetrize_profile">
+<a class="viewcode-back" href="../../../api/boofun.analysis.symmetry.html#boofun.analysis.symmetry.symmetrize_profile">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">symmetrize_profile</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return detailed profile of function values by Hamming weight.</span>
+
+<span class="sd">    For each weight k, returns (num_zeros, num_ones) among inputs of weight k.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary {k: (num_zeros, num_ones)} for k = 0..n</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.majority(3)</span>
+<span class="sd">        &gt;&gt;&gt; symmetrize_profile(f)</span>
+<span class="sd">        {0: (1, 0), 1: (3, 0), 2: (0, 3), 3: (0, 1)}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">num_zeros</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">num_ones</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
+                    <span class="n">num_ones</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">num_zeros</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">profile</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_zeros</span><span class="p">,</span> <span class="n">num_ones</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">profile</span></div>
+
+
+
+<div class="viewcode-block" id="is_symmetric">
+<a class="viewcode-back" href="../../../api/boofun.analysis.symmetry.html#boofun.analysis.symmetry.is_symmetric">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_symmetric</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a function is symmetric (value depends only on Hamming weight).</span>
+
+<span class="sd">    A function is symmetric if f(x) = f(y) whenever |x| = |y|.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is symmetric</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; is_symmetric(bf.AND(3))  # True: f(x)=1 iff |x|=3</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; is_symmetric(bf.create([0,1,0,0]))  # False: dictator is not symmetric</span>
+<span class="sd">        False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="c1"># For each weight, check that all inputs have the same output</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">values</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="degree_sym">
+<a class="viewcode-back" href="../../../api/boofun.analysis.symmetry.html#boofun.analysis.symmetry.degree_sym">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">degree_sym</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Symmetric degree: largest Hamming weight with nonzero output count.</span>
+
+<span class="sd">    For symmetric functions, this equals the degree of the representing polynomial.</span>
+<span class="sd">    For non-symmetric functions, this is an upper bound.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Maximum k such that there exists x with |x|=k and f(x)=1</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This is O(2^n) but fast in practice for small n.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">symmetrize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">nz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">counts</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">nz</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="k">if</span> <span class="n">nz</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="sens_sym">
+<a class="viewcode-back" href="../../../api/boofun.analysis.symmetry.html#boofun.analysis.symmetry.sens_sym">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sens_sym</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Symmetric sensitivity proxy: mean Hamming weight of true inputs.</span>
+
+<span class="sd">    For symmetric functions, this gives insight into where the function</span>
+<span class="sd">    transitions from 0 to 1.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Average |x| among inputs x with f(x)=1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">symmetrize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">total</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">counts</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span> <span class="o">/</span> <span class="n">total</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="sens_sym_by_weight">
+<a class="viewcode-back" href="../../../api/boofun.analysis.symmetry.html#boofun.analysis.symmetry.sens_sym_by_weight">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sens_sym_by_weight</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute sensitivity for each Hamming weight class.</span>
+
+<span class="sd">    For weight k, computes the average sensitivity among inputs of weight k.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array sens[k] = average sensitivity at Hamming weight k</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        From Tal&#39;s library: useful for understanding sensitivity structure</span>
+<span class="sd">        of symmetric and near-symmetric functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+
+    <span class="n">sensitivities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">f_x</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+        <span class="c1"># Count sensitive bits</span>
+        <span class="n">sens</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">f_flipped</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="n">f_x</span> <span class="o">!=</span> <span class="n">f_flipped</span><span class="p">:</span>
+                <span class="n">sens</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">sensitivities</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">sens</span>
+        <span class="n">counts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Average by count</span>
+    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">invalid</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">sensitivities</span> <span class="o">/</span> <span class="n">counts</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">counts</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="shift_function">
+<a class="viewcode-back" href="../../../api/boofun.analysis.symmetry.html#boofun.analysis.symmetry.shift_function">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">shift_function</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">shift</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shift a Boolean function by XORing all inputs with a constant.</span>
+
+<span class="sd">    Returns g where g(x) = f(x ⊕ shift).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to shift</span>
+<span class="sd">        shift: Integer mask to XOR with inputs</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Shifted BooleanFunction</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        From Tal&#39;s library: useful for finding monotone shifts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span>
+
+    <span class="c1"># Build new truth table</span>
+    <span class="n">new_tt</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">shifted_x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="n">shift</span>
+        <span class="n">new_tt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">shifted_x</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">new_tt</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_monotone_increasing</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if f is monotone increasing (x ≤ y implies f(x) ≤ f(y)).&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">f_x</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">f_x</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Check that no superset has f=1 (would violate monotonicity)</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">x</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">y</span><span class="p">:</span>  <span class="c1"># y contains all bits of x</span>
+                <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y</span><span class="p">)):</span>
+                    <span class="c1"># f(x)=0 but f(y)=1 where x ⊆ y: not monotone</span>
+                    <span class="k">pass</span>  <span class="c1"># This alone doesn&#39;t violate, need reverse check</span>
+
+    <span class="c1"># Better check: for each pair x ≤ y (bitwise), verify f(x) ≤ f(y)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">x</span><span class="p">:</span>  <span class="c1"># x ≤ y (bitwise)</span>
+                <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<div class="viewcode-block" id="find_monotone_shift">
+<a class="viewcode-back" href="../../../api/boofun.analysis.symmetry.html#boofun.analysis.symmetry.find_monotone_shift">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_monotone_shift</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find a shift that makes the function monotone, if one exists.</span>
+
+<span class="sd">    A function g is monotone if x ≤ y (bitwise) implies g(x) ≤ g(y).</span>
+<span class="sd">    This searches for a shift value s such that g(x) = f(x ⊕ s) is monotone.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Shift value that makes f monotone, or None if no such shift exists</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This is exponential in n (tries all 2^n shifts) but useful for small n.</span>
+<span class="sd">        From Tal&#39;s library: shift_to_mono concept.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">shift</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">shift_function</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">shift</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_is_monotone_increasing</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">shift</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="symmetric_representation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.symmetry.html#boofun.analysis.symmetry.symmetric_representation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">symmetric_representation</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the symmetric representation of a function.</span>
+
+<span class="sd">    Returns a list spec[k] ∈ {0, 1, -1} where:</span>
+<span class="sd">    - spec[k] = 1 if all weight-k inputs map to 1</span>
+<span class="sd">    - spec[k] = 0 if all weight-k inputs map to 0</span>
+<span class="sd">    - spec[k] = -1 if weight-k inputs have mixed outputs (not symmetric)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of length n+1 with symmetric specification</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; symmetric_representation(bf.majority(3))</span>
+<span class="sd">        [0, 0, 1, 1]  # weights 0,1 → 0, weights 2,3 → 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="n">symmetrize_profile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">zeros</span><span class="p">,</span> <span class="n">ones</span> <span class="o">=</span> <span class="n">profile</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">zeros</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">ones</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Mixed</span>
+        <span class="k">elif</span> <span class="n">ones</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">spec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">spec</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

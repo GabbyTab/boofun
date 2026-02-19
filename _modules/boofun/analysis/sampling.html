@@ -1,0 +1,988 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.sampling &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.sampling</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.sampling</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Boolean functions as random variables: sampling and estimation.</span>
+
+<span class="sd">This module provides a probabilistic view of Boolean functions, enabling:</span>
+<span class="sd">- Sampling from the hypercube under uniform and p-biased distributions</span>
+<span class="sd">- Spectral sampling (sampling subsets proportional to Fourier weight)</span>
+<span class="sd">- Monte Carlo estimation of Fourier coefficients and influences</span>
+<span class="sd">- Statistical analysis (expectation, variance, covariance)</span>
+
+<span class="sd">This aligns with O&#39;Donnell&#39;s &quot;Analysis of Boolean Functions&quot; Chapters 1-3,</span>
+<span class="sd">which treat Boolean functions as random variables on the discrete cube.</span>
+
+<span class="sd">Key concepts:</span>
+<span class="sd">- f: {-1,+1}^n → R as a random variable with E[f] = f̂(∅)</span>
+<span class="sd">- Fourier weight W^k[f] = Σ_{|S|=k} f̂(S)² forms a probability distribution</span>
+<span class="sd">- Spectral sampling: draw S with Pr[S] ∝ f̂(S)²</span>
+<span class="sd">- Monte Carlo: estimate f̂(S) = E[f(x)χ_S(x)] via sampling</span>
+
+<span class="sd">References:</span>
+<span class="sd">- O&#39;Donnell Chapter 1: Fourier expansion and basic identities</span>
+<span class="sd">- O&#39;Donnell Chapter 2: Influences and their estimation</span>
+<span class="sd">- O&#39;Donnell Chapter 3: Learning and sampling algorithms</span>
+<span class="sd">- Goldreich-Levin algorithm for finding heavy Fourier coefficients</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Sampling functions</span>
+    <span class="s2">&quot;sample_uniform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sample_biased&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sample_spectral&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sample_input_output_pairs&quot;</span><span class="p">,</span>
+    <span class="c1"># Estimation functions</span>
+    <span class="s2">&quot;estimate_fourier_coefficient&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;estimate_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;estimate_expectation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;estimate_variance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;estimate_total_influence&quot;</span><span class="p">,</span>
+    <span class="c1"># Random variable view</span>
+    <span class="s2">&quot;RandomVariableView&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SpectralDistribution&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="sample_uniform">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.sample_uniform">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_uniform</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample uniformly from {0,1}^n.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        n_samples: Number of samples to draw</span>
+<span class="sd">        rng: Random number generator (default: numpy default)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of shape (n_samples,) with integer inputs in [0, 2^n)</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If n &gt;= 64 (integer overflow limitation)</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        For n &gt;= 64, the range [0, 2^n) exceeds int64 capacity.</span>
+<span class="sd">        For such large functions, consider:</span>
+<span class="sd">        - Using sample_uniform_bits() which returns bit arrays</span>
+<span class="sd">        - Oracle-based evaluation patterns</span>
+<span class="sd">        - Streaming/lazy evaluation approaches</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">64</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;sample_uniform requires n &lt; 64 (got n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">). &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;For n &gt;= 64, use sample_uniform_bits() which returns bit arrays, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;or consider oracle-based approaches for such large domains.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_uniform_bits</span><span class="p">(</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample uniformly from {0,1}^n, returning bit arrays.</span>
+
+<span class="sd">    This function works for any n (no overflow limitation).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        n_samples: Number of samples to draw</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of shape (n_samples, n) with bit values in {0, 1}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="c1"># Generate random bits directly</span>
+    <span class="k">return</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="sample_biased">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.sample_biased">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_biased</span><span class="p">(</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample from the p-biased distribution μ_p on {0,1}^n.</span>
+
+<span class="sd">    Each coordinate is independently 1 with probability p, 0 with probability 1-p.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        p: Bias parameter (Pr[bit = 1])</span>
+<span class="sd">        n_samples: Number of samples</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of shape (n_samples,) with integer inputs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p must be in [0,1], got </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Generate each bit independently</span>
+    <span class="n">bits</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="o">&lt;</span> <span class="n">p</span>
+
+    <span class="c1"># Convert bit arrays to integers</span>
+    <span class="n">powers</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">bits</span> <span class="o">*</span> <span class="n">powers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="sample_input_output_pairs">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.sample_input_output_pairs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_input_output_pairs</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample (input, output) pairs from a Boolean function.</span>
+
+<span class="sd">    Draws inputs from the p-biased distribution and evaluates f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to sample from</span>
+<span class="sd">        n_samples: Number of samples</span>
+<span class="sd">        p: Bias parameter (0.5 = uniform)</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (inputs, outputs) where:</span>
+<span class="sd">        - inputs: array of shape (n_samples,) with integer inputs</span>
+<span class="sd">        - outputs: array of shape (n_samples,) with function values in {0,1}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">:</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">sample_uniform</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">sample_biased</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+
+    <span class="c1"># Evaluate function at each input</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span></div>
+
+
+
+<div class="viewcode-block" id="sample_spectral">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.sample_spectral">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_spectral</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample subsets S with probability proportional to f̂(S)².</span>
+
+<span class="sd">    This is &quot;spectral sampling&quot; - drawing from the Fourier weight distribution.</span>
+<span class="sd">    By Parseval&#39;s identity, this is a valid probability distribution for</span>
+<span class="sd">    non-constant functions (sum of weights = 1 for ±1-valued functions).</span>
+
+<span class="sd">    Useful for:</span>
+<span class="sd">    - Finding heavy Fourier coefficients</span>
+<span class="sd">    - Learning algorithms (Goldreich-Levin)</span>
+<span class="sd">    - Analyzing spectral structure</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to sample from</span>
+<span class="sd">        n_samples: Number of samples</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of shape (n_samples,) with subset masks (integers)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+    <span class="c1"># Compute Fourier coefficients</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+    <span class="c1"># Compute weights (squared coefficients)</span>
+    <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">coeffs</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">total_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">total_weight</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+        <span class="c1"># Constant function - all weight on empty set</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+    <span class="c1"># Normalize to probability distribution</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">total_weight</span>
+
+    <span class="c1"># Sample from the distribution</span>
+    <span class="n">subsets</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">probs</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">subsets</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="estimate_fourier_coefficient">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.estimate_fourier_coefficient">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_fourier_coefficient</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">S</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">return_confidence</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate Fourier coefficient f̂(S) via Monte Carlo sampling.</span>
+
+<span class="sd">    Uses the identity f̂(S) = E_x[f(x) χ_S(x)] where χ_S(x) = (-1)^{⟨x,S⟩}.</span>
+
+<span class="sd">    For p-biased sampling, uses the adjusted formula from O&#39;Donnell Chapter 8.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        S: Subset mask (integer)</span>
+<span class="sd">        n_samples: Number of samples</span>
+<span class="sd">        p: Bias parameter (0.5 = uniform)</span>
+<span class="sd">        rng: Random number generator</span>
+<span class="sd">        return_confidence: If True, return (estimate, std_error)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated f̂(S), or (estimate, std_error) if return_confidence=True</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Error scales as O(1/√n_samples). For 1% relative error, need ~10000 samples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># Convert to ±1</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">val</span> <span class="k">if</span> <span class="n">S</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">if</span> <span class="n">return_confidence</span> <span class="k">else</span> <span class="n">result</span>
+
+    <span class="c1"># Sample inputs</span>
+    <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">sample_input_output_pairs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+
+    <span class="c1"># Convert outputs to ±1 (O&#39;Donnell convention: 0→+1, 1→-1)</span>
+    <span class="n">f_vals</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">outputs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="c1"># Compute χ_S(x) = (-1)^{popcount(x &amp; S)}</span>
+    <span class="n">inner_products</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">bin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">])</span>
+    <span class="n">chi_vals</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">inner_products</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Estimate: E[f(x) χ_S(x)]</span>
+    <span class="n">products</span> <span class="o">=</span> <span class="n">f_vals</span> <span class="o">*</span> <span class="n">chi_vals</span>
+    <span class="n">estimate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">products</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">return_confidence</span><span class="p">:</span>
+        <span class="n">std_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">products</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">estimate</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">std_error</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">estimate</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_fourier_adaptive</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">S</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">target_error</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span>
+    <span class="n">max_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adaptively estimate f_hat(S) until standard error is below target.</span>
+
+<span class="sd">    Starts with batch_size samples and adds more until target_error</span>
+<span class="sd">    is achieved or max_samples is reached.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        S: Subset mask (integer)</span>
+<span class="sd">        target_error: Stop when std_error &lt; target_error</span>
+<span class="sd">        confidence: Confidence level (reserved for future CI support)</span>
+<span class="sd">        max_samples: Maximum number of samples (budget)</span>
+<span class="sd">        batch_size: Samples per iteration</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (estimate, std_error, total_samples_used)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; est, se, n = estimate_fourier_adaptive(f, S=1, target_error=0.01)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="n">all_products</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">while</span> <span class="n">total</span> <span class="o">&lt;</span> <span class="n">max_samples</span><span class="p">:</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">sample_input_output_pairs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+        <span class="n">f_vals</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">outputs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">inner_products</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">bin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">])</span>
+        <span class="n">chi_vals</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">inner_products</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">all_products</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">f_vals</span> <span class="o">*</span> <span class="n">chi_vals</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">batch_size</span>
+
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_products</span><span class="p">)</span>
+        <span class="n">std_error</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">std_error</span> <span class="o">&lt;=</span> <span class="n">target_error</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="n">estimate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">all_products</span><span class="p">))</span>
+    <span class="n">std_error</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">all_products</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_products</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">std_error</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="estimate_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.estimate_influence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_influence</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">return_confidence</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate influence of variable i via Monte Carlo sampling.</span>
+
+<span class="sd">    Uses the identity Inf_i[f] = Pr_x[f(x) != f(x^{(i)})].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        i: Variable index (0-indexed)</span>
+<span class="sd">        n_samples: Number of samples</span>
+<span class="sd">        rng: Random number generator</span>
+<span class="sd">        return_confidence: If True, return (estimate, std_error)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated Inf_i[f], or (estimate, std_error) if return_confidence=True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">if</span> <span class="n">return_confidence</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Sample inputs</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">sample_uniform</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+
+    <span class="c1"># Compute f(x) and f(x^{(i)})</span>
+    <span class="n">flipped</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>  <span class="c1"># Flip bit i</span>
+
+    <span class="n">f_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">])</span>
+    <span class="n">f_flipped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">flipped</span><span class="p">])</span>
+
+    <span class="c1"># Influence = fraction where f(x) ≠ f(x^{(i)})</span>
+    <span class="n">disagreements</span> <span class="o">=</span> <span class="p">(</span><span class="n">f_x</span> <span class="o">!=</span> <span class="n">f_flipped</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">estimate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">disagreements</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">return_confidence</span><span class="p">:</span>
+        <span class="n">std_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">disagreements</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">estimate</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">std_error</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">estimate</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="estimate_expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.estimate_expectation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_expectation</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate E[f] under the (p-biased) distribution.</span>
+
+<span class="sd">    For uniform distribution, E[f] = f̂(∅) = bias of f in ±1 representation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction (treated as ±1-valued)</span>
+<span class="sd">        n_samples: Number of samples</span>
+<span class="sd">        p: Bias parameter</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated E[f]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">sample_input_output_pairs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+
+    <span class="c1"># Convert to ±1</span>
+    <span class="n">pm_outputs</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">outputs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pm_outputs</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="estimate_variance">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.estimate_variance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_variance</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate Var[f] under the (p-biased) distribution.</span>
+
+<span class="sd">    For ±1-valued functions, Var[f] = 1 - E[f]² = Σ_{S≠∅} f̂(S)².</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction</span>
+<span class="sd">        n_samples: Number of samples</span>
+<span class="sd">        p: Bias parameter</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated Var[f]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">sample_input_output_pairs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+    <span class="n">pm_outputs</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">outputs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">pm_outputs</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="estimate_total_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.estimate_total_influence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_total_influence</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate total influence I[f] = Σ_i Inf_i[f] via sampling.</span>
+
+<span class="sd">    Uses the identity I[f] = E[s(f,x)] where s(f,x) is the sensitivity at x.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction</span>
+<span class="sd">        n_samples: Number of samples</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated total influence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Sample inputs</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">sample_uniform</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+
+    <span class="c1"># Compute sensitivity at each input</span>
+    <span class="n">sensitivities</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">f_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">sens</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">f_flipped</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="n">f_x</span> <span class="o">!=</span> <span class="n">f_flipped</span><span class="p">:</span>
+                <span class="n">sens</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">sensitivities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sens</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sensitivities</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="SpectralDistribution">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.SpectralDistribution">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SpectralDistribution</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents the spectral (Fourier weight) distribution of a Boolean function.</span>
+
+<span class="sd">    The spectral distribution has:</span>
+<span class="sd">    - Support: all subsets S ⊆ [n]</span>
+<span class="sd">    - Probabilities: Pr[S] = f̂(S)² / Σ_T f̂(T)²</span>
+
+<span class="sd">    For ±1-valued functions, Σ_S f̂(S)² = 1 by Parseval.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        weights: Array of f̂(S)² values indexed by subset</span>
+<span class="sd">        probabilities: Normalized probabilities</span>
+<span class="sd">        n_vars: Number of variables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">probabilities</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+
+<div class="viewcode-block" id="SpectralDistribution.from_function">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.SpectralDistribution.from_function">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_function</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SpectralDistribution&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create spectral distribution from a Boolean function.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+        <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+        <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">coeffs</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">total</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">total</span> <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mf">1e-15</span> <span class="k">else</span> <span class="n">weights</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">,</span> <span class="n">probabilities</span><span class="o">=</span><span class="n">probs</span><span class="p">,</span> <span class="n">n_vars</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpectralDistribution.sample">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.SpectralDistribution.sample">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample subsets from the spectral distribution.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpectralDistribution.weight_at_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.SpectralDistribution.weight_at_degree">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">weight_at_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Total weight at degree k: W^k[f] = Σ_{|S|=k} f̂(S)².&quot;&quot;&quot;</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">total</span></div>
+
+
+<div class="viewcode-block" id="SpectralDistribution.entropy">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.SpectralDistribution.entropy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shannon entropy of the spectral distribution.&quot;&quot;&quot;</span>
+        <span class="c1"># H = -Σ p(S) log p(S)</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">p_val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p_val</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+                <span class="n">total</span> <span class="o">-=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p_val</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_val</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">total</span></div>
+
+
+<div class="viewcode-block" id="SpectralDistribution.effective_support_size">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.SpectralDistribution.effective_support_size">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">effective_support_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Count subsets with probability &gt; threshold.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probabilities</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">))</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RandomVariableView">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RandomVariableView</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    View a Boolean function as a random variable on the hypercube.</span>
+
+<span class="sd">    This class provides a probabilistic interface to Boolean functions,</span>
+<span class="sd">    supporting operations like expectation, variance, and sampling.</span>
+
+<span class="sd">    In O&#39;Donnell&#39;s framework:</span>
+<span class="sd">    - f: {-1,+1}^n → R is a random variable</span>
+<span class="sd">    - E[f] = f̂(∅)</span>
+<span class="sd">    - Var[f] = Σ_{S≠∅} f̂(S)²</span>
+<span class="sd">    - f = Σ_S f̂(S) χ_S is an orthonormal decomposition</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        function: The underlying BooleanFunction</span>
+<span class="sd">        p: Bias parameter for sampling (default 0.5 = uniform)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RandomVariableView.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize random variable view.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: BooleanFunction to view as random variable</span>
+<span class="sd">            p: Bias parameter (default 0.5 = uniform distribution)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spectral</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SpectralDistribution</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.seed">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.seed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">seed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;RandomVariableView&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set random seed for reproducibility.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">n_vars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of variables.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectral_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpectralDistribution</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the spectral distribution (cached).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spectral</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spectral</span> <span class="o">=</span> <span class="n">SpectralDistribution</span><span class="o">.</span><span class="n">from_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spectral</span>
+
+    <span class="c1"># Exact computations (for small n)</span>
+
+<div class="viewcode-block" id="RandomVariableView.expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.expectation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expectation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute exact E[f] = f̂(∅).&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.p_biased</span><span class="w"> </span><span class="kn">import</span> <span class="n">p_biased_expectation</span>
+
+        <span class="k">return</span> <span class="n">p_biased_expectation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.variance">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.variance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute exact Var[f].&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.p_biased</span><span class="w"> </span><span class="kn">import</span> <span class="n">p_biased_variance</span>
+
+        <span class="k">return</span> <span class="n">p_biased_variance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.fourier_coefficient">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.fourier_coefficient">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fourier_coefficient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get exact Fourier coefficient f̂(S).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+            <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+            <span class="n">coeffs</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">S</span><span class="p">])</span> <span class="k">if</span> <span class="n">S</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.p_biased</span><span class="w"> </span><span class="kn">import</span> <span class="n">p_biased_fourier_coefficient</span>
+
+            <span class="k">return</span> <span class="n">p_biased_fourier_coefficient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">influence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get exact influence of variable i.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+            <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.p_biased</span><span class="w"> </span><span class="kn">import</span> <span class="n">p_biased_influence</span>
+
+            <span class="k">return</span> <span class="n">p_biased_influence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.total_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.total_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_influence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get exact total influence.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+            <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">analyzer</span><span class="o">.</span><span class="n">total_influence</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">.p_biased</span><span class="w"> </span><span class="kn">import</span> <span class="n">p_biased_total_influence</span>
+
+            <span class="k">return</span> <span class="n">p_biased_total_influence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+    <span class="c1"># Sampling methods</span>
+
+<div class="viewcode-block" id="RandomVariableView.sample">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.sample">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sample (input, output) pairs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_samples: Number of samples</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple of (inputs, outputs) arrays</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sample_input_output_pairs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.sample_inputs">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.sample_inputs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample inputs from the (p-biased) distribution.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sample_uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sample_biased</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.sample_spectral">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.sample_spectral">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_spectral</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample subsets from the Fourier weight distribution.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectral_distribution</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">)</span></div>
+
+
+    <span class="c1"># Estimation methods</span>
+
+<div class="viewcode-block" id="RandomVariableView.estimate_expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.estimate_expectation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_expectation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate E[f] via sampling.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">estimate_expectation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.estimate_variance">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.estimate_variance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_variance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate Var[f] via sampling.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">estimate_variance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.estimate_fourier_coefficient">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.estimate_fourier_coefficient">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_fourier_coefficient</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">return_confidence</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate f̂(S) via sampling.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">estimate_fourier_coefficient</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">,</span> <span class="n">return_confidence</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.estimate_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.estimate_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_influence</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">return_confidence</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate Inf_i[f] via sampling.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">estimate_influence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">,</span> <span class="n">return_confidence</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.estimate_total_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.estimate_total_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_total_influence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate I[f] via sampling.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">estimate_total_influence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">)</span></div>
+
+
+    <span class="c1"># Comparison with exact values</span>
+
+<div class="viewcode-block" id="RandomVariableView.validate_estimates">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.validate_estimates">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_estimates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate that estimates are close to exact values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_samples: Number of samples for estimation</span>
+<span class="sd">            tolerance: Maximum allowed relative error</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary of validation results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Expectation</span>
+        <span class="n">exact_E</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expectation</span><span class="p">()</span>
+        <span class="n">est_E</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_expectation</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;expectation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">exact_E</span> <span class="o">-</span> <span class="n">est_E</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tolerance</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">exact_E</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="c1"># Variance</span>
+        <span class="n">exact_Var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span>
+        <span class="n">est_Var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_variance</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;variance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">exact_Var</span> <span class="o">-</span> <span class="n">est_Var</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tolerance</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="n">exact_Var</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="c1"># Total influence</span>
+        <span class="n">exact_I</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+        <span class="n">est_I</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_total_influence</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;total_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">exact_I</span> <span class="o">-</span> <span class="n">est_I</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tolerance</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="n">exact_I</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="c1"># f̂(∅) = expectation</span>
+        <span class="n">est_f_empty_raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_fourier_coefficient</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">est_f_empty_raw</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+        <span class="n">est_f_empty</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">est_f_empty_raw</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;fourier_empty&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">exact_E</span> <span class="o">-</span> <span class="n">est_f_empty</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tolerance</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">exact_E</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="RandomVariableView.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sampling.html#boofun.analysis.sampling.RandomVariableView.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return human-readable summary.&quot;&quot;&quot;</span>
+        <span class="n">sd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectral_distribution</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;RandomVariableView (n=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  E[f] = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">expectation</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Var[f] = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  I[f] = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Spectral entropy = </span><span class="si">{</span><span class="n">sd</span><span class="o">.</span><span class="n">entropy</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> bits&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Effective support = </span><span class="si">{</span><span class="n">sd</span><span class="o">.</span><span class="n">effective_support_size</span><span class="p">()</span><span class="si">}</span><span class="s2"> subsets&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;  Weight by degree:&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)):</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">weight_at_degree</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    W^</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">[f] = </span><span class="si">{</span><span class="n">w</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    ...&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,648 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.invariance &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.invariance</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.invariance</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Invariance principles for Boolean functions (O&#39;Donnell Chapter 11).</span>
+
+<span class="sd">The Invariance Principle connects the behavior of Boolean functions on the</span>
+<span class="sd">discrete hypercube {-1,1}^n to their behavior on Gaussian space. This is</span>
+<span class="sd">one of the most powerful tools in analysis of Boolean functions.</span>
+
+<span class="sd">Key results:</span>
+<span class="sd">- Mossel&#39;s Invariance Principle: Low-influence functions have similar</span>
+<span class="sd">  distributions on Boolean and Gaussian inputs</span>
+<span class="sd">- &quot;Majority is Stablest&quot; theorem: Among low-influence functions, majority</span>
+<span class="sd">  has the highest noise stability</span>
+<span class="sd">- Applications to hardness of approximation (Unique Games Conjecture)</span>
+
+<span class="sd">The principle shows that:</span>
+<span class="sd">    E[Ψ(f(x))] ≈ E[Ψ(f̃(G))]</span>
+
+<span class="sd">where x is uniform on {-1,1}^n, G is standard Gaussian on ℝ^n,</span>
+<span class="sd">f̃ is the multilinear extension, and Ψ is a &quot;nice&quot; test function.</span>
+
+<span class="sd">References:</span>
+<span class="sd">- O&#39;Donnell, &quot;Analysis of Boolean Functions&quot;, Chapter 11</span>
+<span class="sd">- Mossel, O&#39;Donnell, Oleszkiewicz, &quot;Noise stability of functions with low influences&quot;</span>
+<span class="sd">- Khot et al., &quot;Optimal inapproximability results from the Unique Games Conjecture&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">erf</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Core invariance</span>
+    <span class="s2">&quot;invariance_distance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;multilinear_extension_gaussian_expectation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;compute_test_function_expectation&quot;</span><span class="p">,</span>
+    <span class="c1"># Majority is Stablest</span>
+    <span class="s2">&quot;majority_noise_stability&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;noise_stability_deficit&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_stablest_candidate&quot;</span><span class="p">,</span>
+    <span class="c1"># Bounds and approximations</span>
+    <span class="s2">&quot;max_cut_approximation_ratio&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;unique_games_hardness_bound&quot;</span><span class="p">,</span>
+    <span class="c1"># Utility</span>
+    <span class="s2">&quot;InvarianceAnalyzer&quot;</span><span class="p">,</span>
+    <span class="c1"># Gaussian utilities</span>
+    <span class="s2">&quot;gaussian_cdf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bivariate_gaussian_cdf&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="gaussian_cdf">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.gaussian_cdf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gaussian_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the standard Gaussian CDF Φ(x).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: Point to evaluate</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Φ(x) = Pr[N(0,1) &lt;= x]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">erf</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span></div>
+
+
+
+<div class="viewcode-block" id="bivariate_gaussian_cdf">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.bivariate_gaussian_cdf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bivariate_gaussian_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the bivariate Gaussian CDF with correlation rho.</span>
+
+<span class="sd">    This is Pr[(X, Y) in (-∞, x] × (-∞, y]] where (X, Y) are</span>
+<span class="sd">    joint Gaussian with correlation rho.</span>
+
+<span class="sd">    Uses a simple approximation for efficiency.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x, y: Upper bounds</span>
+<span class="sd">        rho: Correlation coefficient</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Bivariate Gaussian CDF value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Use numerical integration approximation</span>
+    <span class="c1"># For production, would use scipy.stats.multivariate_normal</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">multivariate_normal</span>
+
+        <span class="n">cov</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="n">rho</span><span class="p">],</span> <span class="p">[</span><span class="n">rho</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cov</span><span class="o">=</span><span class="n">cov</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span><span class="o">.</span><span class="n">cdf</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="c1"># Fallback: product of marginals (exact when rho=0)</span>
+        <span class="c1"># Use Owen&#39;s T function approximation for rho != 0</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gaussian_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">gaussian_cdf</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="c1"># Simple approximation using series</span>
+        <span class="k">return</span> <span class="n">gaussian_cdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">gaussian_cdf</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">_owens_t_approx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_owens_t_approx</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Approximate Owen&#39;s T function for bivariate Gaussian.&quot;&quot;&quot;</span>
+    <span class="c1"># Very rough approximation</span>
+    <span class="k">return</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+
+
+<div class="viewcode-block" id="majority_noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.majority_noise_stability">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">majority_noise_stability</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the noise stability of the n-variable majority function at correlation rho.</span>
+
+<span class="sd">    For large n, this converges to:</span>
+<span class="sd">        Stab_ρ[Maj_n] → (2/π) arcsin(ρ)</span>
+
+<span class="sd">    This is the &quot;Sheppard&#39;s formula&quot; result.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables (odd for majority)</span>
+<span class="sd">        rho: Noise correlation parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Noise stability of majority</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="c1"># For small n, compute exactly</span>
+        <span class="n">maj</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.gaussian</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_noise_stability</span>
+
+        <span class="k">return</span> <span class="n">gaussian_noise_stability</span><span class="p">(</span><span class="n">maj</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+
+    <span class="c1"># For large n, use Sheppard&#39;s formula</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="invariance_distance">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.invariance_distance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">invariance_distance</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">test_fn</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the invariance distance between Boolean and Gaussian expectations.</span>
+
+<span class="sd">    The invariance principle states that for functions with low influences:</span>
+<span class="sd">        |E[Ψ(f(x))] - E[Ψ(f̃(G))]| ≤ ε(τ)</span>
+
+<span class="sd">    where τ = max_i Inf_i[f] and ε(τ) → 0 as τ → 0.</span>
+
+<span class="sd">    This function estimates this distance using the default test function</span>
+<span class="sd">    Ψ(t) = sign(t).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        test_fn: Optional test function Ψ (default: sign)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated invariance distance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+    <span class="n">max_inf</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">influences</span><span class="p">))</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Bound from invariance principle</span>
+    <span class="c1"># Distance is O(max_i Inf_i[f]^{1/4}) for C^3 test functions</span>
+
+    <span class="k">if</span> <span class="n">max_inf</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">theoretical_bound</span> <span class="o">=</span> <span class="n">max_inf</span><span class="o">**</span><span class="mf">0.25</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">theoretical_bound</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">return</span> <span class="n">theoretical_bound</span></div>
+
+
+
+<div class="viewcode-block" id="multilinear_extension_gaussian_expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.multilinear_extension_gaussian_expectation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">multilinear_extension_gaussian_expectation</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate E[f̃(G)] and E[sign(f̃(G))] via Monte Carlo.</span>
+
+<span class="sd">    Samples standard Gaussian vectors and evaluates the multilinear</span>
+<span class="sd">    extension.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        num_samples: Number of Monte Carlo samples</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (E[f̃(G)], E[sign(f̃(G))])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.gaussian</span><span class="w"> </span><span class="kn">import</span> <span class="n">multilinear_extension</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+    <span class="n">mle</span> <span class="o">=</span> <span class="n">multilinear_extension</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Sample Gaussians</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+    <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+        <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mle</span><span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">)),</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">values</span><span class="p">))))</span></div>
+
+
+
+<div class="viewcode-block" id="compute_test_function_expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.compute_test_function_expectation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_test_function_expectation</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">test_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span> <span class="n">domain</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;boolean&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute E[Ψ(f(x))] on either Boolean or Gaussian domain.</span>
+
+<span class="sd">    Here &quot;test function&quot; refers to a mathematical test function Ψ (as in</span>
+<span class="sd">    the Invariance Principle), not a unit test.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        test_fn: Test function Ψ (mathematical, e.g., smooth bounded function)</span>
+<span class="sd">        domain: &quot;boolean&quot; for {-1,1}^n or &quot;gaussian&quot; for ℝ^n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Expectation E[Ψ(f(x))]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">domain</span> <span class="o">==</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
+        <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">pm_values</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>  <span class="c1"># Convert to ±1</span>
+
+        <span class="n">expectations</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_fn</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pm_values</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">expectations</span><span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># gaussian</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.gaussian</span><span class="w"> </span><span class="kn">import</span> <span class="n">multilinear_extension</span>
+
+        <span class="n">mle</span> <span class="o">=</span> <span class="n">multilinear_extension</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Monte Carlo</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">10000</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">num_samples</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_fn</span><span class="p">(</span><span class="n">mle</span><span class="p">(</span><span class="n">G</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="noise_stability_deficit">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.noise_stability_deficit">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">noise_stability_deficit</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute how much less stable f is compared to majority at correlation rho.</span>
+
+<span class="sd">    The &quot;Majority is Stablest&quot; theorem states that among all functions with</span>
+<span class="sd">    E[f] = 0 and low influences, majority has the highest noise stability.</span>
+
+<span class="sd">    This function computes:</span>
+<span class="sd">        Stab_ρ[Maj] - Stab_ρ[f]</span>
+
+<span class="sd">    Positive values indicate f is less stable than majority.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        rho: Noise correlation parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Noise stability deficit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.gaussian</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_noise_stability</span>
+
+    <span class="n">f_stability</span> <span class="o">=</span> <span class="n">gaussian_noise_stability</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">maj_stability</span> <span class="o">=</span> <span class="n">majority_noise_stability</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">3</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">maj_stability</span> <span class="o">-</span> <span class="n">f_stability</span></div>
+
+
+
+<div class="viewcode-block" id="is_stablest_candidate">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.is_stablest_candidate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_stablest_candidate</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if f is a candidate for being &quot;stablest&quot; among its influence class.</span>
+
+<span class="sd">    A function is a stablest candidate if:</span>
+<span class="sd">    1. It has low influences (max influence &lt; epsilon)</span>
+<span class="sd">    2. It is balanced (E[f] ≈ 0)</span>
+
+<span class="sd">    Such functions have noise stability close to (2/π) arcsin(ρ).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        epsilon: Influence threshold</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is a stablest candidate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+    <span class="n">max_inf</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">influences</span><span class="p">))</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Check low influence</span>
+    <span class="k">if</span> <span class="n">max_inf</span> <span class="o">&gt;=</span> <span class="n">epsilon</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Check balance</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+    <span class="n">mean</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fourier</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fourier</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">epsilon</span></div>
+
+
+
+<div class="viewcode-block" id="max_cut_approximation_ratio">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.max_cut_approximation_ratio">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">max_cut_approximation_ratio</span><span class="p">(</span><span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Goemans-Williamson MAX-CUT approximation ratio.</span>
+
+<span class="sd">    The GW algorithm achieves approximation ratio:</span>
+<span class="sd">        α_GW = (2/π) min_{θ ∈ [0, π]} θ / (1 - cos(θ))</span>
+<span class="sd">             ≈ 0.87856</span>
+
+<span class="sd">    The &quot;Majority is Stablest&quot; theorem implies this is optimal</span>
+<span class="sd">    assuming the Unique Games Conjecture.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rho: Correlation parameter (for generalized analysis)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Approximation ratio</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># GW ratio is approximately 0.87856</span>
+    <span class="n">gw_ratio</span> <span class="o">=</span> <span class="mf">0.87856</span>
+
+    <span class="c1"># For ρ-correlated rounding:</span>
+    <span class="c1"># Approximation depends on the stability function</span>
+    <span class="k">return</span> <span class="n">gw_ratio</span></div>
+
+
+
+<div class="viewcode-block" id="unique_games_hardness_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.unique_games_hardness_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">unique_games_hardness_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the UGC-hardness bound implied by f&#39;s noise stability.</span>
+
+<span class="sd">    The Unique Games Conjecture implies that no algorithm can do better</span>
+<span class="sd">    than the &quot;noise stability&quot; bound for certain CSPs.</span>
+
+<span class="sd">    For MAX-CUT-like problems, the hardness depends on the noise stability</span>
+<span class="sd">    curve of the dictator function vs. the majority function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated hardness bound</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.gaussian</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_noise_stability</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">1</span>
+
+    <span class="c1"># Stability at ρ = 1 - 2ε for small ε relates to hardness</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="mf">0.9</span>
+
+    <span class="n">stab</span> <span class="o">=</span> <span class="n">gaussian_noise_stability</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+    <span class="n">maj_stab</span> <span class="o">=</span> <span class="n">majority_noise_stability</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+
+    <span class="c1"># Hardness ratio: 1 - (1 - stab)/(1 - maj_stab)</span>
+    <span class="c1"># This is a simplified approximation</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">stab</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">maj_stab</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="InvarianceAnalyzer">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.InvarianceAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvarianceAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive invariance principle analysis for Boolean functions.</span>
+
+<span class="sd">    Provides methods for analyzing how well a Boolean function&#39;s behavior</span>
+<span class="sd">    on the discrete hypercube matches its behavior on Gaussian space.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="InvarianceAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.InvarianceAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize invariance analyzer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: BooleanFunction to analyze</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span></div>
+
+
+<div class="viewcode-block" id="InvarianceAnalyzer.invariance_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.InvarianceAnalyzer.invariance_bound">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">invariance_bound</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute theoretical bound on invariance distance.</span>
+
+<span class="sd">        Based on the max influence of f.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">invariance_distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InvarianceAnalyzer.noise_stability_deficit">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.InvarianceAnalyzer.noise_stability_deficit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">noise_stability_deficit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute how much less stable f is than majority.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">noise_stability_deficit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InvarianceAnalyzer.is_stablest_candidate">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.InvarianceAnalyzer.is_stablest_candidate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_stablest_candidate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if f satisfies conditions for Majority is Stablest.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">is_stablest_candidate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InvarianceAnalyzer.gaussian_expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.InvarianceAnalyzer.gaussian_expectation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">gaussian_expectation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate E[f̃(G)] via Monte Carlo.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">multilinear_extension_gaussian_expectation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InvarianceAnalyzer.compare_domains">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.InvarianceAnalyzer.compare_domains">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compare_domains</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compare function behavior on Boolean vs Gaussian domains.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary of comparison metrics</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Boolean domain statistics</span>
+        <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">pm_values</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>
+        <span class="n">bool_mean</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pm_values</span><span class="p">))</span>
+        <span class="n">bool_var</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">pm_values</span><span class="p">))</span>
+
+        <span class="c1"># Gaussian domain statistics</span>
+        <span class="n">gauss_mean</span><span class="p">,</span> <span class="n">gauss_sign_mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gaussian_expectation</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;boolean_mean&quot;</span><span class="p">:</span> <span class="n">bool_mean</span><span class="p">,</span>
+            <span class="s2">&quot;boolean_variance&quot;</span><span class="p">:</span> <span class="n">bool_var</span><span class="p">,</span>
+            <span class="s2">&quot;gaussian_mean&quot;</span><span class="p">:</span> <span class="n">gauss_mean</span><span class="p">,</span>
+            <span class="s2">&quot;gaussian_sign_mean&quot;</span><span class="p">:</span> <span class="n">gauss_sign_mean</span><span class="p">,</span>
+            <span class="s2">&quot;mean_difference&quot;</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">bool_mean</span> <span class="o">-</span> <span class="n">gauss_sign_mean</span><span class="p">),</span>
+            <span class="s2">&quot;invariance_bound&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariance_bound</span><span class="p">(),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="InvarianceAnalyzer.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.invariance.html#boofun.analysis.invariance.InvarianceAnalyzer.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a summary of invariance properties.&quot;&quot;&quot;</span>
+        <span class="n">inv_bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariance_bound</span><span class="p">()</span>
+        <span class="n">deficit_09</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_stability_deficit</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+        <span class="n">deficit_05</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_stability_deficit</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">is_stablest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_stablest_candidate</span><span class="p">()</span>
+
+        <span class="n">comparison</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compare_domains</span><span class="p">()</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Invariance Principle Analysis&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Invariance bound: </span><span class="si">{</span><span class="n">inv_bound</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Stablest candidate: </span><span class="si">{</span><span class="n">is_stablest</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;NOISE STABILITY DEFICIT (vs Majority):&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  At ρ=0.9: </span><span class="si">{</span><span class="n">deficit_09</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  At ρ=0.5: </span><span class="si">{</span><span class="n">deficit_05</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DOMAIN COMPARISON:&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Boolean mean:     </span><span class="si">{</span><span class="n">comparison</span><span class="p">[</span><span class="s1">&#39;boolean_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Gaussian mean:    </span><span class="si">{</span><span class="n">comparison</span><span class="p">[</span><span class="s1">&#39;gaussian_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Mean difference:  </span><span class="si">{</span><span class="n">comparison</span><span class="p">[</span><span class="s1">&#39;mean_difference&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

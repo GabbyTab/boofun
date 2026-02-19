@@ -1,0 +1,732 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Library Comparison" href="comparison_guide.html" />
+    <link rel="prev" title="Migration from Tal’s BooleanFunc.py" href="guides/migration_from_tal.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#architecture-diagram">Architecture Diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#component-overview">Component Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#public-api-api-py-init-py">Public API (<code class="docutils literal notranslate"><span class="pre">api.py</span></code>, <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#core-module-core">Core Module (<code class="docutils literal notranslate"><span class="pre">core/</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#booleanfunction-base-py">BooleanFunction (<code class="docutils literal notranslate"><span class="pre">base.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#factory-factory-py">Factory (<code class="docutils literal notranslate"><span class="pre">factory.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#space-and-measure-spaces-py">Space and Measure (<code class="docutils literal notranslate"><span class="pre">spaces.py</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#representations-core-representations">Representations (<code class="docutils literal notranslate"><span class="pre">core/representations/</span></code>)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#registry-registry-py">Registry (<code class="docutils literal notranslate"><span class="pre">registry.py</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#available-representations">Available Representations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#conversion-graph-conversion-graph-py">Conversion Graph (<code class="docutils literal notranslate"><span class="pre">conversion_graph.py</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis-module-analysis">Analysis Module (<code class="docutils literal notranslate"><span class="pre">analysis/</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#built-in-families-families-core-builtins-py">Built-in Families (<code class="docutils literal notranslate"><span class="pre">families/</span></code>, <code class="docutils literal notranslate"><span class="pre">core/builtins.py</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization-visualization">Visualization (<code class="docutils literal notranslate"><span class="pre">visualization/</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#utilities-utils">Utilities (<code class="docutils literal notranslate"><span class="pre">utils/</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#key-design-decisions">Key Design Decisions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lazy-evaluation">1. Lazy Evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lsb-bit-ordering">2. LSB Bit Ordering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plus-minus-vs-boolean-space">3. Plus-Minus vs Boolean Space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-models">4. Error Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extensibility-via-registry">5. Extensibility via Registry</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#data-flow-example">Data Flow Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-dependencies">Module Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#performance-considerations">Performance Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Architecture</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/architecture.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Link to this heading"></a></h1>
+<p>BooFun is a modular Boolean function analysis library designed around lazy evaluation, pluggable representations, and mathematical rigor. This document describes the high-level architecture and key design decisions.</p>
+<section id="architecture-diagram">
+<h2>Architecture Diagram<a class="headerlink" href="#architecture-diagram" title="Link to this heading"></a></h2>
+<p><img alt="BooFun Architecture" src="_images/architecture_diagram.png" /></p>
+<details>
+<summary>Mermaid source (for GitHub rendering)</summary>
+<div class="highlight-mermaid notranslate"><div class="highlight"><pre><span></span>flowchart TB
+    subgraph API[&quot;Public API&quot;]
+        create[&quot;bf.create()&quot;]
+        builtins[&quot;bf.majority()&lt;br/&gt;bf.parity()&lt;br/&gt;bf.tribes()&lt;br/&gt;bf.f2_polynomial()&quot;]
+        io[&quot;bf.load()&lt;br/&gt;bf.save()&quot;]
+    end
+
+    subgraph Core[&quot;Core Module&quot;]
+        BF[&quot;BooleanFunction&lt;br/&gt;• fourier(), influences()&lt;br/&gt;• is_global(α)&lt;br/&gt;• __eq__, __hash__&quot;]
+        Factory[&quot;BooleanFunctionFactory&quot;]
+        Space[&quot;Space + Measure&quot;]
+        ErrorModel[&quot;ErrorModel&quot;]
+    end
+
+    subgraph Representations[&quot;Representations (Strategy Pattern)&quot;]
+        Registry[&quot;Registry&lt;br/&gt;(STRATEGY_REGISTRY)&quot;]
+
+        subgraph RepTypes[&quot;Representation Types&quot;]
+            TT[&quot;TruthTable&lt;br/&gt;(dense / packed / sparse / adaptive)&quot;]
+            Fourier[&quot;FourierExpansion&quot;]
+            ANF[&quot;AlgebraicNormalForm&quot;]
+            Poly[&quot;Polynomial&lt;br/&gt;(real multilinear)&quot;]
+            BDD[&quot;BinaryDecisionDiagram&quot;]
+            DNF[&quot;DNF / CNF&quot;]
+            Circuit[&quot;Circuit&quot;]
+            Symbolic[&quot;Symbolic&quot;]
+            LTF[&quot;LinearThreshold&quot;]
+            Dist[&quot;Distribution&quot;]
+        end
+    end
+
+    subgraph Conversion[&quot;Conversion System&quot;]
+        ConvGraph[&quot;ConversionGraph&quot;]
+        ConvCost[&quot;ConversionCost&quot;]
+        PathFind[&quot;Two-Level Hub Dispatch&lt;br/&gt;(via truth_table)&quot;]
+    end
+
+    subgraph Analysis[&quot;Analysis Module (28 modules)&quot;]
+        Spectral[&quot;SpectralAnalyzer&lt;br/&gt;• fourier(), influences()&lt;br/&gt;• noise_stability()&quot;]
+        PropTest[&quot;PropertyTester&lt;br/&gt;• BLR linearity&lt;br/&gt;• monotonicity, junta&quot;]
+        Complexity[&quot;Complexity&lt;br/&gt;• D(f), s(f), bs(f)&lt;br/&gt;• certificates, Ambainis&quot;]
+        PBiased[&quot;P-Biased Analysis&lt;br/&gt;• p_biased_expectation&lt;br/&gt;• threshold_curve&lt;br/&gt;• Fourier tails L_{1,k}&quot;]
+        Hyper[&quot;Hypercontractivity&lt;br/&gt;• KKL, Bonami, Friedgut&lt;br/&gt;• Global (Keevash et al.)&quot;]
+        Invariance[&quot;Invariance Principle&lt;br/&gt;• Gaussian analysis&lt;br/&gt;• Berry-Esseen&lt;br/&gt;• Majority is Stablest&quot;]
+        Crypto[&quot;Cryptographic&lt;br/&gt;• nonlinearity, bent&lt;br/&gt;• LAT/DDT, SAC&quot;]
+        Learning[&quot;Learning&lt;br/&gt;• Goldreich-Levin&lt;br/&gt;• PAC, junta learning&quot;]
+        Sampling[&quot;Sampling&lt;br/&gt;• Monte Carlo estimation&lt;br/&gt;• Adaptive sampling&lt;br/&gt;• RandomVariableView&quot;]
+    end
+
+    subgraph Families[&quot;Built-in Families&quot;]
+        Majority[&quot;majority(n)&quot;]
+        Parity[&quot;parity(n)&quot;]
+        Tribes[&quot;tribes(k,n)&quot;]
+        Dictator[&quot;dictator(n,i)&quot;]
+        Threshold[&quot;threshold(n,k)&quot;]
+        F2Poly[&quot;f2_polynomial(n,monomials)&quot;]
+    end
+
+    subgraph Viz[&quot;Visualization&quot;]
+        Plotter[&quot;BooleanFunctionVisualizer&quot;]
+        DecTree[&quot;Decision Tree Export&quot;]
+        Growth[&quot;GrowthVisualizer&quot;]
+    end
+
+    subgraph Utils[&quot;Utilities&quot;]
+        Exceptions[&quot;Exception Hierarchy&quot;]
+        Math[&quot;Math / Number Theory&quot;]
+    end
+
+    %% Connections
+    create --&gt; Factory
+    builtins --&gt; Factory
+    io --&gt; BF
+
+    Factory --&gt; BF
+    Factory --&gt; Registry
+
+    BF --&gt; Registry
+    BF --&gt; ConvGraph
+    BF --&gt; Space
+    BF --&gt; ErrorModel
+
+    Registry --&gt; RepTypes
+
+    ConvGraph --&gt; ConvCost
+    ConvGraph --&gt; PathFind
+    ConvGraph --&gt; Registry
+
+    BF --&gt; Spectral
+    BF --&gt; PropTest
+    BF --&gt; Complexity
+    BF --&gt; PBiased
+    BF --&gt; Hyper
+    BF --&gt; Invariance
+    BF --&gt; Crypto
+    BF --&gt; Learning
+    BF --&gt; Sampling
+
+    Families --&gt; Factory
+
+    BF --&gt; Plotter
+    BF --&gt; Growth
+
+    Analysis --&gt; Math
+    Core --&gt; Exceptions
+</pre></div>
+</div>
+</details>
+</section>
+<section id="component-overview">
+<h2>Component Overview<a class="headerlink" href="#component-overview" title="Link to this heading"></a></h2>
+<section id="public-api-api-py-init-py">
+<h3>Public API (<code class="docutils literal notranslate"><span class="pre">api.py</span></code>, <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>)<a class="headerlink" href="#public-api-api-py-init-py" title="Link to this heading"></a></h3>
+<p>The public API provides a unified entry point for users:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+<span class="c1"># All roads lead through bf.create()</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>           <span class="c1"># Truth table</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">^</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Callable</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;x0 &amp; x1&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>         <span class="c1"># Symbolic</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>                     <span class="c1"># Built-in</span>
+</pre></div>
+</div>
+<p><strong>Design decision</strong>: A single <code class="docutils literal notranslate"><span class="pre">create()</span></code> function with type detection simplifies the API. Storage hints (<code class="docutils literal notranslate"><span class="pre">storage='packed'</span></code>, <code class="docutils literal notranslate"><span class="pre">'sparse'</span></code>, <code class="docutils literal notranslate"><span class="pre">'lazy'</span></code>) allow users to optimize without understanding internals.</p>
+</section>
+<section id="core-module-core">
+<h3>Core Module (<code class="docutils literal notranslate"><span class="pre">core/</span></code>)<a class="headerlink" href="#core-module-core" title="Link to this heading"></a></h3>
+<section id="booleanfunction-base-py">
+<h4>BooleanFunction (<code class="docutils literal notranslate"><span class="pre">base.py</span></code>)<a class="headerlink" href="#booleanfunction-base-py" title="Link to this heading"></a></h4>
+<p>The central class representing a Boolean function. Key features:</p>
+<ul class="simple">
+<li><p><strong>Lazy evaluation</strong>: Representations are computed on-demand</p></li>
+<li><p><strong>Multiple representations</strong>: A function can have truth table, Fourier, ANF simultaneously</p></li>
+<li><p><strong>Callable interface</strong>: <code class="docutils literal notranslate"><span class="pre">f([1,0,1])</span></code> or <code class="docutils literal notranslate"><span class="pre">f(5)</span></code> both work</p></li>
+<li><p><strong>Operator overloading</strong>: <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">&amp;</span> <span class="pre">g</span></code>, <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">|</span> <span class="pre">g</span></code>, <code class="docutils literal notranslate"><span class="pre">~f</span></code>, <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">^</span> <span class="pre">g</span></code></p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BooleanFunction</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">error_model</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">representations</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Lazy cache</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">space</span><span class="p">:</span> <span class="n">Space</span>
+</pre></div>
+</div>
+</section>
+<section id="factory-factory-py">
+<h4>Factory (<code class="docutils literal notranslate"><span class="pre">factory.py</span></code>)<a class="headerlink" href="#factory-factory-py" title="Link to this heading"></a></h4>
+<p>Handles creation from various input types:</p>
+<ul class="simple">
+<li><p>Auto-detects input type (list, callable, string, file path)</p></li>
+<li><p>Delegates to appropriate <code class="docutils literal notranslate"><span class="pre">from_*</span></code> methods</p></li>
+<li><p>Validates inputs and sets <code class="docutils literal notranslate"><span class="pre">n_vars</span></code></p></li>
+</ul>
+</section>
+<section id="space-and-measure-spaces-py">
+<h4>Space and Measure (<code class="docutils literal notranslate"><span class="pre">spaces.py</span></code>)<a class="headerlink" href="#space-and-measure-spaces-py" title="Link to this heading"></a></h4>
+<p>Defines the mathematical domain/codomain and probability measures:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Space</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">BOOLEAN_CUBE</span> <span class="o">=</span> <span class="s2">&quot;boolean_cube&quot;</span>      <span class="c1"># {0,1}^n → {0,1}</span>
+    <span class="n">PLUS_MINUS_CUBE</span> <span class="o">=</span> <span class="s2">&quot;plus_minus_cube&quot;</span> <span class="c1"># {-1,+1}^n → {-1,+1}</span>
+    <span class="n">REAL</span> <span class="o">=</span> <span class="s2">&quot;real&quot;</span>                       <span class="c1"># For Fourier coefficients</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Measure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Probability measure on the hypercube.&quot;&quot;&quot;</span>
+    <span class="n">uniform</span> <span class="o">=</span> <span class="n">Measure</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span>         <span class="c1"># p = 0.5</span>
+    <span class="n">biased</span> <span class="o">=</span> <span class="n">Measure</span><span class="o">.</span><span class="n">p_biased</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>    <span class="c1"># μ_p with p = 0.3</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="representations-core-representations">
+<h3>Representations (<code class="docutils literal notranslate"><span class="pre">core/representations/</span></code>)<a class="headerlink" href="#representations-core-representations" title="Link to this heading"></a></h3>
+<p>Uses the <strong>Strategy Pattern</strong> for pluggable representations.</p>
+<section id="registry-registry-py">
+<h4>Registry (<code class="docutils literal notranslate"><span class="pre">registry.py</span></code>)<a class="headerlink" href="#registry-registry-py" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">STRATEGY_REGISTRY</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="n">BooleanFunctionRepresentation</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="nd">@register_strategy</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TruthTableRepresentation</span><span class="p">(</span><span class="n">BooleanFunctionRepresentation</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">):</span> <span class="o">...</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">):</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p><strong>Design decision</strong>: New representations can be added without modifying core code. Each representation handles its own evaluation and conversion logic.</p>
+</section>
+<section id="available-representations">
+<h4>Available Representations<a class="headerlink" href="#available-representations" title="Link to this heading"></a></h4>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Representation</p></th>
+<th class="head"><p>Best For</p></th>
+<th class="head"><p>Space Complexity</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">truth_table</span></code></p></td>
+<td><p>Small n (≤14), fast lookup</p></td>
+<td><p>O(2^n)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">packed_truth_table</span></code></p></td>
+<td><p>Medium n (14-20)</p></td>
+<td><p>O(2^n / 64)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sparse_truth_table</span></code></p></td>
+<td><p>Skewed functions</p></td>
+<td><p>O(k) where k = #exceptions</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">adaptive_truth_table</span></code></p></td>
+<td><p>Auto-selecting dense/sparse</p></td>
+<td><p>O(min(2^n, k))</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fourier_expansion</span></code></p></td>
+<td><p>Spectral analysis</p></td>
+<td><p>O(2^n)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">anf</span></code></p></td>
+<td><p>Algebraic analysis (GF(2))</p></td>
+<td><p>O(2^n)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">polynomial</span></code></p></td>
+<td><p>Real multilinear polynomials</p></td>
+<td><p>O(terms)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">symbolic</span></code></p></td>
+<td><p>Human-readable, n=any</p></td>
+<td><p>O(expression)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bdd</span></code></p></td>
+<td><p>Structure exploitation</p></td>
+<td><p>O(varies)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dnf</span></code> / <code class="docutils literal notranslate"><span class="pre">cnf</span></code></p></td>
+<td><p>Logic optimization</p></td>
+<td><p>O(clauses)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">circuit</span></code></p></td>
+<td><p>Gate-level evaluation</p></td>
+<td><p>O(gates)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ltf</span></code></p></td>
+<td><p>Linear threshold functions</p></td>
+<td><p>O(n) weights + threshold</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">distribution</span></code></p></td>
+<td><p>Probabilistic analysis</p></td>
+<td><p>O(2^n)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">function</span></code></p></td>
+<td><p>Oracles, lazy eval</p></td>
+<td><p>O(1)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="conversion-graph-conversion-graph-py">
+<h3>Conversion Graph (<code class="docutils literal notranslate"><span class="pre">conversion_graph.py</span></code>)<a class="headerlink" href="#conversion-graph-conversion-graph-py" title="Link to this heading"></a></h3>
+<p>Uses <strong>two-level hub dispatch</strong> through <code class="docutils literal notranslate"><span class="pre">truth_table</span></code> as the universal hub (replaced Dijkstra pathfinding in v1.3.0).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ConversionGraph</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_optimal_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">n_vars</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># 1. source == target → no conversion</span>
+        <span class="c1"># 2. Direct edge exists → use it</span>
+        <span class="c1"># 3. Otherwise → source → truth_table → target</span>
+</pre></div>
+</div>
+<p><strong>Design decision</strong>: Every representation can convert to/from <code class="docutils literal notranslate"><span class="pre">truth_table</span></code>, so routing through the hub is simpler and more predictable than general shortest-path search, with no loss of functionality. Conversion costs still consider time, space, and accuracy loss.</p>
+</section>
+<section id="analysis-module-analysis">
+<h3>Analysis Module (<code class="docutils literal notranslate"><span class="pre">analysis/</span></code>)<a class="headerlink" href="#analysis-module-analysis" title="Link to this heading"></a></h3>
+<p>Implements algorithms from O’Donnell’s “Analysis of Boolean Functions”:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Submodule</p></th>
+<th class="head"><p>O’Donnell Ch.</p></th>
+<th class="head"><p>Key Functions</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fourier.py</span></code></p></td>
+<td><p>1-2</p></td>
+<td><p>WHT, influences, spectral weight, Fourier tails <span class="math notranslate nohighlight">\(L_{1,k}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sensitivity.py</span></code></p></td>
+<td><p>2, 4</p></td>
+<td><p>Sensitivity, max/min, moments, histogram</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">block_sensitivity.py</span></code></p></td>
+<td><p>4</p></td>
+<td><p>Block sensitivity bs(f), everywhere sensitivity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">certificates.py</span></code></p></td>
+<td><p>4</p></td>
+<td><p>Certificate complexity C(f), C_0, C_1</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">complexity.py</span></code></p></td>
+<td><p>4</p></td>
+<td><p>D(f), s(f), bs(f), C(f) combined</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">query_complexity.py</span></code></p></td>
+<td><p>-</p></td>
+<td><p>D, R, Q, Ambainis, spectral adversary, polynomial method</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">decision_trees.py</span></code></p></td>
+<td><p>4</p></td>
+<td><p>DP optimal depth, tree enumeration, randomized complexity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">huang.py</span></code></p></td>
+<td><p>-</p></td>
+<td><p>Huang’s sensitivity theorem verification</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">hypercontractivity.py</span></code></p></td>
+<td><p>9-10</p></td>
+<td><p>KKL, Bonami, Friedgut, noise operator</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">global_hypercontractivity.py</span></code></p></td>
+<td><p>Keevash+</p></td>
+<td><p>α-globality, threshold curves, critical p</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">p_biased.py</span></code></p></td>
+<td><p>8</p></td>
+<td><p>P-biased Fourier, influences, expectation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">invariance.py</span></code></p></td>
+<td><p>11</p></td>
+<td><p>Invariance distance, Majority is Stablest</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gaussian.py</span></code></p></td>
+<td><p>10-11</p></td>
+<td><p>Multilinear extension, Berry-Esseen, Hermite</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sampling.py</span></code></p></td>
+<td><p>1-3</p></td>
+<td><p>Monte Carlo estimation, adaptive sampling, RandomVariableView</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">learning.py</span></code></p></td>
+<td><p>3</p></td>
+<td><p>Goldreich-Levin, junta learning</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pac_learning.py</span></code></p></td>
+<td><p>3</p></td>
+<td><p>PAC learning: low-degree, junta, sparse Fourier, monotone</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cryptographic.py</span></code></p></td>
+<td><p>-</p></td>
+<td><p>Nonlinearity, bent, Walsh spectrum, LAT/DDT, SAC, SBoxAnalyzer</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">arrow.py</span></code></p></td>
+<td><p>2</p></td>
+<td><p>Arrow’s theorem, social choice analysis</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fkn.py</span></code></p></td>
+<td><p>2</p></td>
+<td><p>FKN theorem, dictator proximity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">communication_complexity.py</span></code></p></td>
+<td><p>-</p></td>
+<td><p>Deterministic CC, log-rank, fooling sets, discrepancy</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ltf_analysis.py</span></code></p></td>
+<td><p>5</p></td>
+<td><p>Chow parameters, critical index, regularity, LTF fitting</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">restrictions.py</span></code></p></td>
+<td><p>6-7</p></td>
+<td><p>Random restrictions, switching lemma, restriction shrinkage</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">symmetry.py</span></code></p></td>
+<td><p>1</p></td>
+<td><p>Symmetry detection, symmetrization, symmetric profile</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sparsity.py</span></code></p></td>
+<td><p>3</p></td>
+<td><p>Fourier sparsity, granularity, sparse representation</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">canalization.py</span></code></p></td>
+<td><p>-</p></td>
+<td><p>Canalizing variables, nested canalizing depth</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">equivalence.py</span></code></p></td>
+<td><p>-</p></td>
+<td><p>Function equivalence testing</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">basic_properties.py</span></code></p></td>
+<td><p>1</p></td>
+<td><p>Balance, monotonicity, linearity checks</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gf2.py</span></code></p></td>
+<td><p>-</p></td>
+<td><p>GF(2) Fourier transform</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Design decision</strong>: Analysis functions work on <code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code> objects and request representations as needed. Functions are stateless and composable.</p>
+</section>
+<section id="built-in-families-families-core-builtins-py">
+<h3>Built-in Families (<code class="docutils literal notranslate"><span class="pre">families/</span></code>, <code class="docutils literal notranslate"><span class="pre">core/builtins.py</span></code>)<a class="headerlink" href="#built-in-families-families-core-builtins-py" title="Link to this heading"></a></h3>
+<p>Standard Boolean functions used in research:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>      <span class="c1"># MAJ_n: output 1 if &gt;n/2 inputs are 1</span>
+<span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>        <span class="c1"># XOR_n: output XOR of all inputs</span>
+<span class="n">bf</span><span class="o">.</span><span class="n">tribes</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>     <span class="c1"># Tribes function (k groups of n)</span>
+<span class="n">bf</span><span class="o">.</span><span class="n">dictator</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>   <span class="c1"># Output = x_i</span>
+<span class="n">bf</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>  <span class="c1"># Output 1 if ≥k inputs are 1</span>
+<span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">bf</span><span class="o">.</span><span class="n">OR</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="c1"># Basic gates</span>
+</pre></div>
+</div>
+</section>
+<section id="visualization-visualization">
+<h3>Visualization (<code class="docutils literal notranslate"><span class="pre">visualization/</span></code>)<a class="headerlink" href="#visualization-visualization" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BooleanFunctionVisualizer</span></code>: Influence plots, Fourier spectrum, heatmaps</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">decision_tree.py</span></code>: Export decision trees</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">interactive.py</span></code>: Jupyter widgets</p></li>
+<li><p>Supports matplotlib, plotly, seaborn</p></li>
+</ul>
+</section>
+<section id="utilities-utils">
+<h3>Utilities (<code class="docutils literal notranslate"><span class="pre">utils/</span></code>)<a class="headerlink" href="#utilities-utils" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Exception hierarchy</strong>: Structured errors (<code class="docutils literal notranslate"><span class="pre">ConversionError</span></code>, <code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code>, etc.)</p></li>
+<li><p><strong>Math helpers</strong>: Bit manipulation, combinatorics</p></li>
+<li><p><strong>Sampling</strong>: Uniform and biased sampling for Monte Carlo methods</p></li>
+</ul>
+</section>
+</section>
+<section id="key-design-decisions">
+<h2>Key Design Decisions<a class="headerlink" href="#key-design-decisions" title="Link to this heading"></a></h2>
+<section id="lazy-evaluation">
+<h3>1. Lazy Evaluation<a class="headerlink" href="#lazy-evaluation" title="Link to this heading"></a></h3>
+<p>Representations are computed only when needed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># Only stores callable</span>
+<span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>         <span class="c1"># Computes truth_table → fourier on first call</span>
+<span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>         <span class="c1"># Returns cached result</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>: For large n, materializing truth tables is expensive. Lazy evaluation allows working with oracles.</p>
+</section>
+<section id="lsb-bit-ordering">
+<h3>2. LSB Bit Ordering<a class="headerlink" href="#lsb-bit-ordering" title="Link to this heading"></a></h3>
+<p>Input index <code class="docutils literal notranslate"><span class="pre">i</span></code> maps to binary <code class="docutils literal notranslate"><span class="pre">[x_0,</span> <span class="pre">x_1,</span> <span class="pre">...,</span> <span class="pre">x_{n-1}]</span></code> where <code class="docutils literal notranslate"><span class="pre">x_j</span> <span class="pre">=</span> <span class="pre">(i</span> <span class="pre">&gt;&gt;</span> <span class="pre">j)</span> <span class="pre">&amp;</span> <span class="pre">1</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Index 5 (binary 101) → [1, 0, 1] (LSB first)
+</pre></div>
+</div>
+<p><strong>Rationale</strong>: Matches standard Fourier indexing where subset S corresponds to bits set in index.</p>
+</section>
+<section id="plus-minus-vs-boolean-space">
+<h3>3. Plus-Minus vs Boolean Space<a class="headerlink" href="#plus-minus-vs-boolean-space" title="Link to this heading"></a></h3>
+<p>Fourier analysis uses {-1, +1} internally (plus_minus_cube) but accepts {0, 1} inputs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># {0,1} input</span>
+<span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>  <span class="c1"># Internally converts: 0→+1, 1→-1</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>: Fourier theory is cleaner in ±1 space (characters are χ_S(x) = ∏_{i∈S} x_i).</p>
+</section>
+<section id="error-models">
+<h3>4. Error Models<a class="headerlink" href="#error-models" title="Link to this heading"></a></h3>
+<p>Support for uncertainty quantification:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">error_model</span><span class="o">=</span><span class="n">bf</span><span class="o">.</span><span class="n">PACErrorModel</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>: Enables PAC learning and property testing with rigorous error bounds.</p>
+</section>
+<section id="extensibility-via-registry">
+<h3>5. Extensibility via Registry<a class="headerlink" href="#extensibility-via-registry" title="Link to this heading"></a></h3>
+<p>New representations can be added without modifying core:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@register_strategy</span><span class="p">(</span><span class="s2">&quot;my_custom_rep&quot;</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyRepresentation</span><span class="p">(</span><span class="n">BooleanFunctionRepresentation</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><strong>Rationale</strong>: Research often requires custom representations (e.g., for specific function families).</p>
+</section>
+</section>
+<section id="data-flow-example">
+<h2>Data Flow Example<a class="headerlink" href="#data-flow-example" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>User: bf.create(lambda x: x[0] ^ x[1], n=2)
+  ↓
+Factory.from_callable()
+  → stores callable in representations[&quot;function&quot;]
+  → returns BooleanFunction
+
+User: f.fourier()
+  ↓
+BooleanFunction.get_representation(&quot;fourier_expansion&quot;)
+  → not in cache
+  → ConversionGraph.find_optimal_path(&quot;function&quot;, &quot;fourier_expansion&quot;)
+  → routes through hub: function → truth_table → fourier_expansion
+  → executes conversions, caches results
+  → returns Fourier coefficients
+</pre></div>
+</div>
+</section>
+<section id="module-dependencies">
+<h2>Module Dependencies<a class="headerlink" href="#module-dependencies" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>api.py
+  └── core/
+       ├── base.py (BooleanFunction)
+       ├── factory.py
+       ├── builtins.py
+       ├── conversion_graph.py (hub-and-spoke dispatch)
+       ├── spaces.py (Space, Measure)
+       ├── io.py (load/save)
+       ├── adapters.py (adapt_callable for large-n oracles)
+       ├── gpu.py (CuPy acceleration)
+       ├── optimizations.py (NumPy/Numba/pyfwht backend selection)
+       ├── numba_optimizations.py (JIT-compiled hot paths)
+       ├── batch_processing.py (BatchProcessorManager)
+       ├── auto_representation.py (recommend_representation)
+       ├── errormodels.py (PACErrorModel)
+       └── representations/
+            ├── registry.py (STRATEGY_REGISTRY)
+            ├── truth_table.py, packed_truth_table.py, sparse_truth_table.py
+            ├── fourier_expansion.py, anf_form.py, polynomial.py
+            ├── dnf_form.py, cnf_form.py, bdd.py, circuit.py
+            ├── symbolic.py, ltf.py, distribution.py
+            └── base.py (BooleanFunctionRepresentation)
+
+analysis/
+  ├── __init__.py (SpectralAnalyzer, PropertyTester)
+  ├── fourier.py, sensitivity.py, block_sensitivity.py
+  ├── complexity.py, query_complexity.py, certificates.py
+  ├── decision_trees.py, huang.py
+  ├── hypercontractivity.py, global_hypercontractivity.py
+  ├── p_biased.py, sampling.py, learning.py, pac_learning.py
+  ├── cryptographic.py, gaussian.py, invariance.py
+  ├── arrow.py, fkn.py, communication_complexity.py
+  ├── ltf_analysis.py, restrictions.py, symmetry.py
+  └── sparsity.py, canalization.py, equivalence.py, gf2.py, basic_properties.py
+
+families/
+  ├── base.py (FunctionFamily, InductiveFamily)
+  ├── builtins.py (MajorityFamily, ParityFamily, ...)
+  ├── tracker.py (GrowthTracker)
+  └── theoretical.py
+
+visualization/
+  ├── decision_tree.py, decision_tree_export.py
+  ├── growth_plots.py, interactive.py
+  └── animation.py, latex_export.py, widgets.py
+</pre></div>
+</div>
+</section>
+<section id="performance-considerations">
+<h2>Performance Considerations<a class="headerlink" href="#performance-considerations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>n ≤ 14</strong>: Dense truth tables, exact algorithms</p></li>
+<li><p><strong>14 &lt; n ≤ 20</strong>: Packed truth tables, still tractable</p></li>
+<li><p><strong>n &gt; 20</strong>: Sampling-based methods, oracle access</p></li>
+<li><p><strong>n ≥ 64</strong>: Integer overflow protection (use bit-array sampling)</p></li>
+</ul>
+<p>Numba JIT compilation and pyfwht are used for hot paths when available. See <a class="reference internal" href="performance.html"><span class="std std-doc">performance.md</span></a> for benchmarks and optimization tiers.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="guides/migration_from_tal.html" class="btn btn-neutral float-left" title="Migration from Tal’s BooleanFunc.py" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="comparison_guide.html" class="btn btn-neutral float-right" title="Library Comparison" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

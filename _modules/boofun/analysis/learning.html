@@ -1,0 +1,546 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.learning &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.learning</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.learning</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Learning algorithms for Boolean functions.</span>
+
+<span class="sd">This module implements algorithms for learning Boolean functions from</span>
+<span class="sd">queries or samples, including the famous Goldreich-Levin algorithm.</span>
+
+<span class="sd">Key algorithms:</span>
+<span class="sd">- Goldreich-Levin: Find heavy Fourier coefficients with query access</span>
+<span class="sd">- Low-degree algorithm: Learn juntas and low-degree functions</span>
+<span class="sd">- LMN algorithm: Learn decision trees from uniform samples</span>
+<span class="sd">- Sparse Fourier learning: Learn functions with few Fourier coefficients</span>
+
+<span class="sd">References:</span>
+<span class="sd">- O&#39;Donnell Chapter 3.4: Goldreich-Levin</span>
+<span class="sd">- O&#39;Donnell Chapter 4: Social choice and learning</span>
+<span class="sd">- Linial, Mansour, Nisan (1993): Learning decision trees</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;goldreich_levin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;estimate_fourier_coefficient&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;find_heavy_coefficients&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;learn_sparse_fourier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GoldreichLevinLearner&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_random_subset</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a random subset of [n] as a bitmask.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If n &gt;= 64 (overflow)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">64</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;_random_subset requires n &lt; 64, got </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_inner_product_mod2</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute &lt;x, s&gt; mod 2 (parity of intersection).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+
+
+<div class="viewcode-block" id="estimate_fourier_coefficient">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.estimate_fourier_coefficient">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_fourier_coefficient</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the Fourier coefficient f̂(S) using random sampling.</span>
+
+<span class="sd">    Uses the identity: f̂(S) = E_x[f(x) * χ_S(x)]</span>
+<span class="sd">    where χ_S(x) = (-1)^{&lt;x,S&gt;}</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze (or query function)</span>
+<span class="sd">        S: Subset (as bitmask) for which to estimate coefficient</span>
+<span class="sd">        num_samples: Number of random samples</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (estimate, standard_error)</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If n &gt;= 64 (use sampling.estimate_fourier_coefficient instead)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">64</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;estimate_fourier_coefficient in learning.py requires n &lt; 64 (got n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">). &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;For large n, the sampling range 2^n overflows int64. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Consider using bit-array based sampling or oracle patterns.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Sample and compute estimate</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+        <span class="c1"># Generate random input (safe for n &lt; 64)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">))</span>
+
+        <span class="c1"># Evaluate f(x) in ±1 convention</span>
+        <span class="n">fx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Convert {0,1} to {+1,-1}</span>
+
+        <span class="c1"># Compute χ_S(x) = (-1)^{&lt;x,S&gt;}</span>
+        <span class="n">chi_S_x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_inner_product_mod2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+
+        <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fx</span> <span class="o">*</span> <span class="n">chi_S_x</span><span class="p">)</span>
+
+    <span class="n">estimate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="n">stderr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">estimate</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">stderr</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="goldreich_levin">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.goldreich_levin">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">goldreich_levin</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find all heavy Fourier coefficients using the Goldreich-Levin algorithm.</span>
+
+<span class="sd">    The algorithm finds all S such that |f̂(S)| &gt;= threshold, with</span>
+<span class="sd">    high probability.</span>
+
+<span class="sd">    This implementation uses the &quot;bucketing&quot; approach:</span>
+<span class="sd">    1. Hash coefficients into buckets</span>
+<span class="sd">    2. Find heavy buckets</span>
+<span class="sd">    3. Iteratively refine to find individual heavy coefficients</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        threshold: Minimum absolute coefficient value to report</span>
+<span class="sd">        confidence: Confidence level for the estimates</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of (subset_mask, coefficient_estimate) for heavy coefficients</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Query complexity: O(n / threshold^2 * log(1/confidence))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">)))]</span>
+
+    <span class="c1"># Number of samples needed for good estimates</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4</span> <span class="o">/</span> <span class="p">(</span><span class="n">threshold</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">confidence</span><span class="p">)))</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">num_samples</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="c1"># Phase 1: Find candidate heavy coefficients using direct estimation</span>
+    <span class="c1"># For small n, we can check all coefficients directly</span>
+    <span class="n">heavy</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>  <span class="c1"># Direct approach for small n</span>
+        <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">est</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">estimate_fourier_coefficient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">est</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">:</span>  <span class="c1"># Slightly lower threshold to not miss</span>
+                <span class="n">heavy</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">S</span><span class="p">,</span> <span class="n">est</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># For larger n, use the Goldreich-Levin tree search</span>
+        <span class="n">heavy</span> <span class="o">=</span> <span class="n">_gl_tree_search</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">heavy</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_gl_tree_search</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Goldreich-Levin tree search for heavy coefficients.</span>
+
+<span class="sd">    The idea: estimate &quot;aggregate&quot; coefficients for prefixes and prune</span>
+<span class="sd">    branches that can&#39;t contain heavy coefficients.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">heavy</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># BFS through the binary tree of subsets</span>
+    <span class="c1"># Each node represents a partial assignment to variables</span>
+    <span class="c1"># We estimate the sum of squares of coefficients in the subtree</span>
+
+    <span class="n">queue</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>  <span class="c1"># (prefix_mask, prefix_value)</span>
+
+    <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+        <span class="n">prefix_mask</span><span class="p">,</span> <span class="n">prefix_value</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Count bits set in prefix</span>
+        <span class="n">depth</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">prefix_mask</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="c1"># Leaf node - this is a complete subset S</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">prefix_value</span>
+            <span class="n">est</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">estimate_fourier_coefficient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">est</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">:</span>
+                <span class="n">heavy</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">S</span><span class="p">,</span> <span class="n">est</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Find next variable to branch on</span>
+            <span class="n">next_var</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="p">(</span><span class="n">prefix_mask</span> <span class="o">&gt;&gt;</span> <span class="n">next_var</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">next_var</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Estimate potential in each branch</span>
+            <span class="n">new_mask</span> <span class="o">=</span> <span class="n">prefix_mask</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">next_var</span><span class="p">)</span>
+
+            <span class="c1"># Branch where variable is 0 (not in S)</span>
+            <span class="n">est0</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_estimate_subtree_weight</span><span class="p">(</span>
+                <span class="n">f</span><span class="p">,</span> <span class="n">new_mask</span><span class="p">,</span> <span class="n">prefix_value</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">rng</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">est0</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># Could contain heavy coefficient</span>
+                <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">new_mask</span><span class="p">,</span> <span class="n">prefix_value</span><span class="p">))</span>
+
+            <span class="c1"># Branch where variable is 1 (in S)</span>
+            <span class="n">est1</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_estimate_subtree_weight</span><span class="p">(</span>
+                <span class="n">f</span><span class="p">,</span> <span class="n">new_mask</span><span class="p">,</span> <span class="n">prefix_value</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">next_var</span><span class="p">),</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">rng</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">est1</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">new_mask</span><span class="p">,</span> <span class="n">prefix_value</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">next_var</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">heavy</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_estimate_subtree_weight</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">mask</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the sum of squared coefficients in a subtree.</span>
+
+<span class="sd">    Subtree is defined by: S has the same bits as &#39;value&#39; where &#39;mask&#39; is set.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="c1"># Sample pairs (x, y) where x, y agree on masked bits</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+        <span class="c1"># Generate random x</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">))</span>
+
+        <span class="c1"># Generate y that agrees with x on unmasked bits</span>
+        <span class="n">free_bits</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">))</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">mask</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">free_bits</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="p">)</span>
+
+        <span class="c1"># Force the prefix constraint</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">mask</span><span class="p">)</span> <span class="o">|</span> <span class="n">value</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">mask</span><span class="p">)</span> <span class="o">|</span> <span class="n">value</span>
+
+        <span class="c1"># f(x) * f(y) contributes to sum of f̂(S)^2 over S in subtree</span>
+        <span class="n">fx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">fy</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+        <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fx</span> <span class="o">*</span> <span class="n">fy</span><span class="p">)</span>
+
+    <span class="n">estimate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="n">stderr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">estimate</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">stderr</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="find_heavy_coefficients">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.find_heavy_coefficients">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_heavy_coefficients</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find all Fourier coefficients with |f̂(S)| &gt;= threshold.</span>
+
+<span class="sd">    This is a simpler alternative to Goldreich-Levin that directly</span>
+<span class="sd">    estimates all coefficients (suitable for small n).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        threshold: Minimum absolute coefficient value</span>
+<span class="sd">        num_samples: Samples per coefficient estimate</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping subset masks to coefficient estimates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">heavy</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">est</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">estimate_fourier_coefficient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">est</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">heavy</span><span class="p">[</span><span class="n">S</span><span class="p">]</span> <span class="o">=</span> <span class="n">est</span>
+
+    <span class="k">return</span> <span class="n">heavy</span></div>
+
+
+
+<div class="viewcode-block" id="learn_sparse_fourier">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.learn_sparse_fourier">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">learn_sparse_fourier</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">sparsity</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Learn a function assuming it has at most &#39;sparsity&#39; non-zero Fourier coefficients.</span>
+
+<span class="sd">    Uses sampling to find the heavy coefficients, then refines estimates.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to learn</span>
+<span class="sd">        sparsity: Maximum number of non-zero coefficients</span>
+<span class="sd">        num_samples: Number of samples for estimation</span>
+<span class="sd">        rng: Random number generator</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary of estimated non-zero Fourier coefficients</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+
+    <span class="c1"># Threshold based on sparsity: if k coefficients, each at least 1/sqrt(k) contribution</span>
+    <span class="c1"># to have unit L2 norm</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sparsity</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">find_heavy_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="GoldreichLevinLearner">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.GoldreichLevinLearner">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GoldreichLevinLearner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interactive Goldreich-Levin learner with query counting.</span>
+
+<span class="sd">    This class tracks the number of queries made and allows for</span>
+<span class="sd">    interactive exploration of heavy Fourier coefficients.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GoldreichLevinLearner.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.GoldreichLevinLearner.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the learner.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: BooleanFunction to learn</span>
+<span class="sd">            rng: Random number generator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">rng</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Cache queries</span></div>
+
+
+<div class="viewcode-block" id="GoldreichLevinLearner.query">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.GoldreichLevinLearner.query">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Query f(x), with caching.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">query_count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">x</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="GoldreichLevinLearner.estimate_coefficient">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.GoldreichLevinLearner.estimate_coefficient">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_coefficient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate f̂(S) using queries.&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">))</span>
+            <span class="n">fx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">chi_S_x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_inner_product_mod2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">fx</span> <span class="o">*</span> <span class="n">chi_S_x</span>
+
+        <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">num_samples</span></div>
+
+
+<div class="viewcode-block" id="GoldreichLevinLearner.find_heavy">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.GoldreichLevinLearner.find_heavy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">find_heavy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find heavy coefficients using Goldreich-Levin.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">goldreich_levin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rng</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GoldreichLevinLearner.reset_queries">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.GoldreichLevinLearner.reset_queries">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_queries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset the query counter and cache.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="GoldreichLevinLearner.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.learning.html#boofun.analysis.learning.GoldreichLevinLearner.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get summary of learning progress.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;GoldreichLevinLearner: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">query_count</span><span class="si">}</span><span class="s2"> queries made&quot;</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

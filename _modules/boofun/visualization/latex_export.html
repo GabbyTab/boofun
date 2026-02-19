@@ -1,0 +1,654 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.visualization.latex_export &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../visualization.html">boofun.visualization</a></li>
+      <li class="breadcrumb-item active">boofun.visualization.latex_export</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.visualization.latex_export</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">LaTeX/TikZ Export for Boolean Function Visualizations.</span>
+
+<span class="sd">This module provides comprehensive LaTeX export for:</span>
+<span class="sd">- Fourier spectrum diagrams</span>
+<span class="sd">- Influence bar charts</span>
+<span class="sd">- Decision trees</span>
+<span class="sd">- Function family comparison tables</span>
+<span class="sd">- Boolean cube visualizations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="c1"># Module logger</span>
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;boofun.visualization.latex_export&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;export_fourier_tikz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;export_influences_tikz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;export_cube_tikz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;export_comparison_table&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;export_spectrum_table&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LaTeXExporter&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="export_fourier_tikz">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.export_fourier_tikz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">export_fourier_tikz</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">highlight_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">show_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Export Fourier spectrum as TikZ bar chart.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        var_names: Variable names for subset labels</span>
+<span class="sd">        width: Chart width in cm</span>
+<span class="sd">        height: Chart height in cm</span>
+<span class="sd">        highlight_threshold: Highlight coefficients above this</span>
+<span class="sd">        show_labels: Show subset labels on x-axis</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        TikZ code string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">var_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+    <span class="c1"># Limit for reasonable LaTeX output</span>
+    <span class="n">max_show</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fourier</span><span class="p">),</span> <span class="mi">32</span><span class="p">)</span>
+
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">begin</span><span class="si">{tikzpicture}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">begin</span><span class="se">{{</span><span class="s2">axis</span><span class="se">}}</span><span class="s2">[&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    width=</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">cm,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    height=</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">cm,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    ybar,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    bar width=0.5,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    xlabel=</span><span class="se">{{</span><span class="s2">Subset $S$</span><span class="se">}}</span><span class="s2">,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    ylabel=</span><span class="se">{{</span><span class="s2">$</span><span class="se">\\</span><span class="s2">hat</span><span class="se">{{</span><span class="s2">f</span><span class="se">}}</span><span class="s2">(S)$</span><span class="se">}}</span><span class="s2">,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    ymin=-1, ymax=1,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    xtick=data,&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">show_labels</span> <span class="ow">and</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="c1"># Create subset labels</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_show</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">emptyset$&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">bits</span> <span class="o">=</span> <span class="p">[</span><span class="n">var_names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">{&quot;</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">}$&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    xticklabels=</span><span class="se">{{</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="si">}</span><span class="se">}}</span><span class="s2">,&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    x tick label style=</span><span class="se">{{</span><span class="s2">rotate=45, anchor=east</span><span class="se">}}</span><span class="s2">,&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    xticklabels=</span><span class="se">{{}}</span><span class="s2">,&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Add bars</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_show</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fourier</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="s2">&quot;blue&quot;</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">highlight_threshold</span> <span class="k">else</span> <span class="s2">&quot;red&quot;</span>
+        <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">addplot[fill=blue!50] coordinates </span><span class="se">{{</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span><span class="si">}</span><span class="se">}}</span><span class="s2">;&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Add zero line</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">draw[dashed, gray] (axis cs:0,0) -- (axis cs:</span><span class="si">{</span><span class="n">max_show</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">,0);&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">end</span><span class="si">{axis}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">end</span><span class="si">{tikzpicture}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="export_influences_tikz">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.export_influences_tikz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">export_influences_tikz</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">var_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">horizontal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Export influences as TikZ bar chart.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        var_names: Variable names</span>
+<span class="sd">        width: Chart width in cm</span>
+<span class="sd">        height: Chart height in cm</span>
+<span class="sd">        horizontal: Use horizontal bars</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        TikZ code string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">var_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;$x_</span><span class="se">{{</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="se">}}</span><span class="s2">$&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+    <span class="n">bar_type</span> <span class="o">=</span> <span class="s2">&quot;xbar&quot;</span> <span class="k">if</span> <span class="n">horizontal</span> <span class="k">else</span> <span class="s2">&quot;ybar&quot;</span>
+
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">begin</span><span class="si">{tikzpicture}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">begin</span><span class="se">{{</span><span class="s2">axis</span><span class="se">}}</span><span class="s2">[&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    width=</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">cm,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    height=</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">cm,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">bar_type</span><span class="si">}</span><span class="s2">,&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;    bar width=0.4cm,&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">horizontal</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;    xlabel=</span><span class="se">{{</span><span class="s2">Influence $</span><span class="se">\\</span><span class="s2">mathrm</span><span class="se">{{</span><span class="s2">Inf</span><span class="se">}}</span><span class="s2">_i[f]$</span><span class="se">}}</span><span class="s2">,&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;    symbolic y coords=</span><span class="se">{{</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">var_names</span><span class="p">)</span><span class="si">}</span><span class="se">}}</span><span class="s2">,&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;    ytick=data,&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;    xmin=0,&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;    ylabel=</span><span class="se">{{</span><span class="s2">Influence $</span><span class="se">\\</span><span class="s2">mathrm</span><span class="se">{{</span><span class="s2">Inf</span><span class="se">}}</span><span class="s2">_i[f]$</span><span class="se">}}</span><span class="s2">,&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;    symbolic x coords=</span><span class="se">{{</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">var_names</span><span class="p">)</span><span class="si">}</span><span class="se">}}</span><span class="s2">,&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;    xtick=data,&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;    ymin=0,&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Add bars</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">influences</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">horizontal</span><span class="p">:</span>
+            <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">var_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">var_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">addplot[fill=blue!60] coordinates </span><span class="se">{{</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span><span class="si">}</span><span class="se">}}</span><span class="s2">;&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">end</span><span class="si">{axis}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">end</span><span class="si">{tikzpicture}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="export_cube_tikz">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.export_cube_tikz">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">export_cube_tikz</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Export Boolean cube visualization as TikZ.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of dimensions (2, 3, or 4)</span>
+<span class="sd">        labels: Show vertex labels</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        TikZ code string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cube visualization only supports n=2,3,4&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">begin</span><span class="si">{tikzpicture}</span><span class="s2">[&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;    scale=2,&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;    vertex/.style={circle, draw, fill=white, minimum size=5pt, inner sep=1pt},&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;    edge/.style={draw, thick}&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;]&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">positions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">edges</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># Square</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;00&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="s2">&quot;01&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="s2">&quot;10&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="s2">&quot;11&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;00&quot;</span><span class="p">,</span> <span class="s2">&quot;01&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;00&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;01&quot;</span><span class="p">,</span> <span class="s2">&quot;11&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="s2">&quot;11&quot;</span><span class="p">)]</span>  <span class="c1"># noqa: E501</span>
+    <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># Cube</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;000&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="s2">&quot;001&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="s2">&quot;010&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="s2">&quot;011&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="s2">&quot;100&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span>
+            <span class="s2">&quot;101&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">),</span>
+            <span class="s2">&quot;110&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">),</span>
+            <span class="s2">&quot;111&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="s2">&quot;000&quot;</span><span class="p">,</span> <span class="s2">&quot;001&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;000&quot;</span><span class="p">,</span> <span class="s2">&quot;010&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;000&quot;</span><span class="p">,</span> <span class="s2">&quot;100&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;001&quot;</span><span class="p">,</span> <span class="s2">&quot;011&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;001&quot;</span><span class="p">,</span> <span class="s2">&quot;101&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;010&quot;</span><span class="p">,</span> <span class="s2">&quot;011&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;010&quot;</span><span class="p">,</span> <span class="s2">&quot;110&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;011&quot;</span><span class="p">,</span> <span class="s2">&quot;111&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="s2">&quot;101&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;100&quot;</span><span class="p">,</span> <span class="s2">&quot;110&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;101&quot;</span><span class="p">,</span> <span class="s2">&quot;111&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;110&quot;</span><span class="p">,</span> <span class="s2">&quot;111&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># n == 4</span>
+        <span class="c1"># Tesseract projection</span>
+        <span class="n">inner_offset</span> <span class="o">=</span> <span class="mf">0.3</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+            <span class="n">bits</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;04b&quot;</span><span class="p">)</span>
+            <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">+</span> <span class="n">inner_offset</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="n">inner_offset</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">bits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">positions</span><span class="p">[</span><span class="n">bits</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">b</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">:</span>
+                    <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;04b&quot;</span><span class="p">),</span> <span class="nb">format</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="s2">&quot;04b&quot;</span><span class="p">)))</span>
+
+    <span class="c1"># Draw edges</span>
+    <span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">v1</span><span class="p">]</span>
+        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">v2</span><span class="p">]</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">draw[edge] (</span><span class="si">{</span><span class="n">x1</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y1</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">) -- (</span><span class="si">{</span><span class="n">x2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y2</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">);&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Draw vertices</span>
+    <span class="k">for</span> <span class="n">vertex</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">positions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">vertex</span> <span class="k">if</span> <span class="n">labels</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">node[vertex] at (</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">) </span><span class="se">{{</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="se">}}</span><span class="s2">;&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">end</span><span class="si">{tikzpicture}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="export_spectrum_table">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.export_spectrum_table">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">export_spectrum_table</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">var_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Export Fourier spectrum as LaTeX table.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        var_names: Variable names</span>
+<span class="sd">        max_rows: Maximum rows to show</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        LaTeX table string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">var_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">begin</span><span class="si">{tabular}</span><span class="s2">{|c|c|c|c|}&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">hline&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;$S$ &amp; Binary &amp; $|S|$ &amp; $</span><span class="se">\\</span><span class="s2">hat</span><span class="si">{f}</span><span class="s2">(S)$ </span><span class="se">\\\\</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">hline&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Sort by magnitude</span>
+    <span class="n">indexed</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">fourier</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fourier</span><span class="p">))]</span>
+    <span class="n">sorted_by_mag</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">indexed</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">max_rows</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">coef</span> <span class="ow">in</span> <span class="n">sorted_by_mag</span><span class="p">:</span>
+        <span class="c1"># Subset label</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">subset</span> <span class="o">=</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">emptyset$&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bits</span> <span class="o">=</span> <span class="p">[</span><span class="n">var_names</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">subset</span> <span class="o">=</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">{&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">}$&quot;</span>
+
+        <span class="n">binary</span> <span class="o">=</span> <span class="nb">format</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;0</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">b&quot;</span><span class="p">)</span>
+        <span class="n">degree</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2"> &amp; </span><span class="si">{</span><span class="n">binary</span><span class="si">}</span><span class="s2"> &amp; </span><span class="si">{</span><span class="n">degree</span><span class="si">}</span><span class="s2"> &amp; </span><span class="si">{</span><span class="n">coef</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> </span><span class="se">\\\\</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">hline&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">end</span><span class="si">{tabular}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="export_comparison_table">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.export_comparison_table">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">export_comparison_table</span><span class="p">(</span>
+    <span class="n">functions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">],</span> <span class="n">properties</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Export comparison table of multiple functions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        functions: Dict mapping names to BooleanFunction objects</span>
+<span class="sd">        properties: List of properties to compare</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        LaTeX table string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">properties</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;n_vars&quot;</span><span class="p">,</span> <span class="s2">&quot;total_influence&quot;</span><span class="p">,</span> <span class="s2">&quot;max_influence&quot;</span><span class="p">,</span> <span class="s2">&quot;variance&quot;</span><span class="p">,</span> <span class="s2">&quot;degree&quot;</span><span class="p">]</span>
+
+    <span class="n">prop_labels</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="s2">&quot;$n$&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="s2">&quot;$I[f]$&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;max_influence&quot;</span><span class="p">:</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">max_i </span><span class="se">\\</span><span class="s2">mathrm</span><span class="si">{Inf}</span><span class="s2">_i$&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;variance&quot;</span><span class="p">:</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">mathrm</span><span class="si">{Var}</span><span class="s2">[f]$&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;degree&quot;</span><span class="p">:</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">deg(f)$&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sensitivity&quot;</span><span class="p">:</span> <span class="s2">&quot;$s(f)$&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;noise_stability&quot;</span><span class="p">:</span> <span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">mathrm</span><span class="si">{Stab}</span><span class="s2">_</span><span class="si">{0.5}</span><span class="s2">[f]$&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">functions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="c1"># Header</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot; &amp; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;Property&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">names</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\\\\</span><span class="s2">&quot;</span>
+
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">begin</span><span class="si">{tabular}</span><span class="s2">{|l|&quot;</span> <span class="o">+</span> <span class="s2">&quot;c|&quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;}&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">hline&quot;</span><span class="p">,</span>
+        <span class="n">header</span><span class="p">,</span>
+        <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">hline&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">prop_labels</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">prop</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">functions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">val</span><span class="p">:</span> <span class="n">Any</span>
+                <span class="k">if</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+                <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;max_influence&quot;</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">max_influence</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;variance&quot;</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;degree&quot;</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;sensitivity&quot;</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">sensitivity</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">prop</span> <span class="o">==</span> <span class="s2">&quot;noise_stability&quot;</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">prop</span><span class="p">)()</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                    <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Property &#39;</span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s2">&#39; computation failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+
+        <span class="n">row</span> <span class="o">=</span> <span class="s2">&quot; &amp; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">label</span><span class="p">]</span> <span class="o">+</span> <span class="n">values</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; </span><span class="se">\\\\</span><span class="s2">&quot;</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">hline&quot;</span><span class="p">)</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">end</span><span class="si">{tabular}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="LaTeXExporter">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.LaTeXExporter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LaTeXExporter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Unified LaTeX exporter for Boolean function visualizations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LaTeXExporter.__init__">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.LaTeXExporter.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">var_names</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize exporter.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: Boolean function</span>
+<span class="sd">            var_names: Variable names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_names</span> <span class="o">=</span> <span class="n">var_names</span> <span class="ow">or</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="LaTeXExporter.fourier_spectrum">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.LaTeXExporter.fourier_spectrum">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fourier_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export Fourier spectrum as TikZ.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">export_fourier_tikz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LaTeXExporter.influences">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.LaTeXExporter.influences">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">influences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export influences as TikZ.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">export_influences_tikz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LaTeXExporter.spectrum_table">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.LaTeXExporter.spectrum_table">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectrum_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export spectrum as LaTeX table.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">export_spectrum_table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_names</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LaTeXExporter.preamble">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.LaTeXExporter.preamble">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preamble</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get required LaTeX preamble.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;&quot;% Required packages for BooFun visualizations</span>
+<span class="se">\\</span><span class="s2">usepackage</span><span class="si">{tikz}</span>
+<span class="se">\\</span><span class="s2">usepackage</span><span class="si">{pgfplots}</span>
+<span class="se">\\</span><span class="s2">pgfplotsset{compat=1.18}</span>
+<span class="se">\\</span><span class="s2">usetikzlibrary{positioning, shapes, arrows}</span>
+<span class="s2">&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="LaTeXExporter.full_document">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.LaTeXExporter.full_document">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">full_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wrap content in a complete LaTeX document.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *contents: TikZ/table content strings</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Complete LaTeX document</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\\</span><span class="s2">documentclass</span><span class="se">{{</span><span class="s2">article</span><span class="se">}}</span>
+<span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">preamble</span><span class="p">()</span><span class="si">}</span>
+<span class="se">\\</span><span class="s2">begin</span><span class="se">{{</span><span class="s2">document</span><span class="se">}}</span>
+
+<span class="si">{</span><span class="n">body</span><span class="si">}</span>
+
+<span class="se">\\</span><span class="s2">end</span><span class="se">{{</span><span class="s2">document</span><span class="se">}}</span>
+<span class="s2">&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="LaTeXExporter.save">
+<a class="viewcode-back" href="../../../api/boofun.visualization.latex_export.html#boofun.visualization.latex_export.LaTeXExporter.save">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">full_doc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save LaTeX to file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename: Output filename</span>
+<span class="sd">            *contents: Content strings</span>
+<span class="sd">            full_doc: Wrap in complete document</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">full_doc</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_document</span><span class="p">(</span><span class="o">*</span><span class="n">contents</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

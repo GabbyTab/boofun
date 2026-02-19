@@ -1,0 +1,834 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.families.tracker &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.families.tracker</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.families.tracker</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Growth tracking for Boolean function families.</span>
+
+<span class="sd">The GrowthTracker observes and records properties of a function family</span>
+<span class="sd">as n grows, enabling:</span>
+<span class="sd">- Visualization of asymptotic behavior</span>
+<span class="sd">- Comparison with theoretical predictions</span>
+<span class="sd">- Discovery of patterns and phase transitions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Module logger</span>
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;boofun.families.tracker&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FunctionFamily</span>
+
+
+<div class="viewcode-block" id="MarkerType">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.MarkerType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MarkerType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Types of properties that can be tracked.&quot;&quot;&quot;</span>
+
+    <span class="n">SCALAR</span> <span class="o">=</span> <span class="s2">&quot;scalar&quot;</span>  <span class="c1"># Single number (total influence, expectation)</span>
+    <span class="n">VECTOR</span> <span class="o">=</span> <span class="s2">&quot;vector&quot;</span>  <span class="c1"># One value per variable (influences)</span>
+    <span class="n">MATRIX</span> <span class="o">=</span> <span class="s2">&quot;matrix&quot;</span>  <span class="c1"># n x n values (interactions)</span>
+    <span class="n">BOOLEAN</span> <span class="o">=</span> <span class="s2">&quot;boolean&quot;</span>  <span class="c1"># True/False property</span>
+    <span class="n">FOURIER</span> <span class="o">=</span> <span class="s2">&quot;fourier&quot;</span>  <span class="c1"># Fourier spectrum related</span>
+    <span class="n">COMPLEXITY</span> <span class="o">=</span> <span class="s2">&quot;complexity&quot;</span>  <span class="c1"># Query/complexity measures</span></div>
+
+
+
+<div class="viewcode-block" id="Marker">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.Marker">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Marker</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A property to track as n grows.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name: Identifier for this marker</span>
+<span class="sd">        compute_fn: Function(BooleanFunction) -&gt; value</span>
+<span class="sd">        marker_type: Type of the value</span>
+<span class="sd">        description: Human-readable description</span>
+<span class="sd">        theoretical_fn: Optional function(n) -&gt; theoretical value</span>
+<span class="sd">        params: Additional parameters for computation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">compute_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;BooleanFunction&quot;</span><span class="p">],</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="n">marker_type</span><span class="p">:</span> <span class="n">MarkerType</span> <span class="o">=</span> <span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">theoretical_fn</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Marker.compute">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.Marker.compute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the marked value for a function.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_fn</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Marker.theoretical">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.Marker.theoretical">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">theoretical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get theoretical value if available.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theoretical_fn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">theoretical_fn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PropertyMarker">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PropertyMarker</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for common property markers.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PropertyMarker.total_influence">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.total_influence">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_influence</span><span class="p">(</span><span class="n">theoretical</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track total influence I[f].&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+            <span class="k">return</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;total_influence&quot;</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Total influence I[f] = Σ Inf_i[f]&quot;</span><span class="p">,</span>
+            <span class="n">theoretical_fn</span><span class="o">=</span><span class="n">theoretical</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.influences">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.influences">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">influences</span><span class="p">(</span><span class="n">variable</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track variable influences.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+            <span class="n">infs</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">variable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">infs</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="k">if</span> <span class="n">variable</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">infs</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="k">return</span> <span class="n">infs</span>
+
+        <span class="n">marker_type</span> <span class="o">=</span> <span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span> <span class="k">if</span> <span class="n">variable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">MarkerType</span><span class="o">.</span><span class="n">VECTOR</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;influence_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">variable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;influences&quot;</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">marker_type</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Variable influence</span><span class="si">{</span><span class="s1">&#39;s&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39; for x_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s1">&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.noise_stability">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">noise_stability</span><span class="p">(</span>
+        <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">theoretical</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track noise stability Stab_ρ[f].&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+            <span class="k">return</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">theory</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">theoretical</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">theoretical</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;noise_stability_</span><span class="si">{</span><span class="n">rho</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Noise stability Stab_</span><span class="si">{</span><span class="n">rho</span><span class="si">}</span><span class="s2">[f]&quot;</span><span class="p">,</span>
+            <span class="n">theoretical_fn</span><span class="o">=</span><span class="n">theory</span> <span class="k">if</span> <span class="n">theoretical</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;rho&quot;</span><span class="p">:</span> <span class="n">rho</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.fourier_degree">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.fourier_degree">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fourier_degree</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track Fourier degree.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.fourier</span><span class="w"> </span><span class="kn">import</span> <span class="n">fourier_degree</span>
+
+            <span class="k">return</span> <span class="n">fourier_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;fourier_degree&quot;</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Fourier degree (max |S| with f̂(S) ≠ 0)&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.spectral_concentration">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.spectral_concentration">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectral_concentration</span><span class="p">(</span><span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track weight on coefficients of degree ≤ k.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+            <span class="k">return</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">spectral_concentration</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;spectral_concentration_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Σ|S|≤</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> f̂(S)²&quot;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="n">k</span><span class="p">},</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.expectation">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.expectation">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expectation</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track E[f] = f̂(∅).&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+            <span class="n">fourier</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">fourier</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;expectation&quot;</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Expectation E[f] = f̂(∅)&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.variance">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.variance">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">variance</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track Var[f] = 1 - f̂(∅)².&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+            <span class="n">fourier</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+            <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">fourier</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;variance&quot;</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Variance Var[f] = 1 - E[f]²&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.is_property">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.is_property">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_property</span><span class="p">(</span><span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track whether a property holds.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;is_</span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">method</span><span class="p">()</span>
+
+            <span class="c1"># Try property tester</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">PropertyTester</span>
+
+            <span class="n">tester</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">test_method</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">tester</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">_test&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">test_method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">test_method</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;is_</span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">MarkerType</span><span class="o">.</span><span class="n">BOOLEAN</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Is function </span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">?&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.sensitivity">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sensitivity</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track sensitivity s(f).&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_sensitivity</span>
+
+            <span class="k">return</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sensitivity&quot;</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sensitivity s(f)&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.block_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.block_sensitivity">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">block_sensitivity</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Track block sensitivity bs(f).&quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.block_sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_block_sensitivity</span>
+
+            <span class="k">return</span> <span class="n">max_block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;block_sensitivity&quot;</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Block sensitivity bs(f)&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PropertyMarker.custom">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.PropertyMarker.custom">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">custom</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">compute_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;BooleanFunction&quot;</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">marker_type</span><span class="p">:</span> <span class="n">MarkerType</span> <span class="o">=</span> <span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">,</span>
+        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">theoretical_fn</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Marker</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a custom marker.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Marker</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">compute_fn</span><span class="o">=</span><span class="n">compute_fn</span><span class="p">,</span>
+            <span class="n">marker_type</span><span class="o">=</span><span class="n">marker_type</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+            <span class="n">theoretical_fn</span><span class="o">=</span><span class="n">theoretical_fn</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TrackingResult">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.TrackingResult">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TrackingResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Results of tracking a property across n values.&quot;&quot;&quot;</span>
+
+    <span class="n">marker</span><span class="p">:</span> <span class="n">Marker</span>
+    <span class="n">n_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">computed_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="n">theoretical_values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">computation_times</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="TrackingResult.to_arrays">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.TrackingResult.to_arrays">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to numpy arrays for plotting.&quot;&quot;&quot;</span>
+        <span class="n">n_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_values</span><span class="p">)</span>
+        <span class="n">computed_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">computed_values</span><span class="p">)</span>
+        <span class="n">theory_arr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theoretical_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">theory_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theoretical_values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="n">theory_arr</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GrowthTracker">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.GrowthTracker">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GrowthTracker</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Track properties of a function family as n grows.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        tracker = GrowthTracker(MajorityFamily())</span>
+<span class="sd">        tracker.mark(&quot;total_influence&quot;)</span>
+<span class="sd">        tracker.mark(&quot;noise_stability&quot;, rho=0.5)</span>
+
+<span class="sd">        results = tracker.observe([5, 7, 9, 11, 13, 15])</span>
+<span class="sd">        tracker.plot(&quot;total_influence&quot;, show_theory=True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GrowthTracker.__init__">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.GrowthTracker.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">family</span><span class="p">:</span> <span class="s2">&quot;FunctionFamily&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize tracker for a function family.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            family: The function family to track</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">family</span> <span class="o">=</span> <span class="n">family</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Marker</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TrackingResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_functions_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="GrowthTracker.mark">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.GrowthTracker.mark">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mark</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;GrowthTracker&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a property to track.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            property_name: Built-in property name or &quot;custom&quot;</span>
+<span class="sd">            **kwargs: Parameters for the marker</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            self (for chaining)</span>
+
+<span class="sd">        Built-in properties:</span>
+<span class="sd">            - &quot;total_influence&quot;</span>
+<span class="sd">            - &quot;influences&quot; or &quot;influence_i&quot; (with variable=i)</span>
+<span class="sd">            - &quot;noise_stability&quot; (with rho=0.5)</span>
+<span class="sd">            - &quot;fourier_degree&quot;</span>
+<span class="sd">            - &quot;spectral_concentration&quot; (with k=degree)</span>
+<span class="sd">            - &quot;expectation&quot;</span>
+<span class="sd">            - &quot;variance&quot;</span>
+<span class="sd">            - &quot;is_&lt;property&gt;&quot; (e.g., &quot;is_monotone&quot;, &quot;is_balanced&quot;)</span>
+<span class="sd">            - &quot;sensitivity&quot;</span>
+<span class="sd">            - &quot;block_sensitivity&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Try to get theoretical formula from family</span>
+        <span class="n">theoretical</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">family_asymptotics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">asymptotics</span>
+
+        <span class="k">if</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span>
+            <span class="n">theoretical</span> <span class="o">=</span> <span class="n">family_asymptotics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;total_influence&quot;</span><span class="p">)</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">total_influence</span><span class="p">(</span><span class="n">theoretical</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;influences&quot;</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">influences</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variable&quot;</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;influence_&quot;</span><span class="p">):</span>
+            <span class="n">var</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">property_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">influences</span><span class="p">(</span><span class="n">variable</span><span class="o">=</span><span class="n">var</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;noise_stability&quot;</span><span class="p">:</span>
+            <span class="n">rho</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">theoretical</span> <span class="o">=</span> <span class="n">family_asymptotics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;noise_stability&quot;</span><span class="p">)</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">theoretical</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;fourier_degree&quot;</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">fourier_degree</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;spectral_concentration&quot;</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">spectral_concentration</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;expectation&quot;</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">expectation</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;variance&quot;</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;is_&quot;</span><span class="p">):</span>
+            <span class="n">prop</span> <span class="o">=</span> <span class="n">property_name</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">is_property</span><span class="p">(</span><span class="n">prop</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;sensitivity&quot;</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">sensitivity</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;block_sensitivity&quot;</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">block_sensitivity</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="n">property_name</span> <span class="o">==</span> <span class="s2">&quot;custom&quot;</span><span class="p">:</span>
+            <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">custom</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Try as a custom callable</span>
+            <span class="k">if</span> <span class="s2">&quot;compute_fn&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">marker</span> <span class="o">=</span> <span class="n">PropertyMarker</span><span class="o">.</span><span class="n">custom</span><span class="p">(</span><span class="n">property_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown property: </span><span class="si">{</span><span class="n">property_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="p">[</span><span class="n">marker</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">marker</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="GrowthTracker.observe">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.GrowthTracker.observe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">observe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">n_values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">range</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_min</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">n_max</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+        <span class="n">step</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TrackingResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Observe the family over a range of n values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_values: Explicit list of n values</span>
+<span class="sd">            n_range: Range object for n values</span>
+<span class="sd">            n_min, n_max, step: Parameters for default range</span>
+<span class="sd">            verbose: Print progress</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary mapping marker name -&gt; TrackingResult</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+        <span class="c1"># Determine n values</span>
+        <span class="k">if</span> <span class="n">n_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">n_values</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">n_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">n_range</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_min</span><span class="p">,</span> <span class="n">n_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">step</span><span class="p">))</span>
+
+        <span class="c1"># Filter valid n values</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ns</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">validate_n</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ns</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No valid n values for this family&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="c1"># Initialize results</span>
+        <span class="k">for</span> <span class="n">marker_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">marker_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">TrackingResult</span><span class="p">(</span>
+                <span class="n">marker</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="p">[</span><span class="n">marker_name</span><span class="p">],</span>
+                <span class="n">n_values</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">computed_values</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">theoretical_values</span><span class="o">=</span><span class="p">[],</span>
+                <span class="n">computation_times</span><span class="o">=</span><span class="p">[],</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Compute for each n</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Computing n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+            <span class="c1"># Generate or get cached function</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_functions_cache</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_functions_cache</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_functions_cache</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+            <span class="c1"># Compute each marker</span>
+            <span class="k">for</span> <span class="n">marker_name</span><span class="p">,</span> <span class="n">marker</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">marker_name</span><span class="p">]</span>
+
+                <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">marker</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error computing </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+                <span class="n">result</span><span class="o">.</span><span class="n">n_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">computed_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">computation_times</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">computation_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elapsed</span><span class="p">)</span>
+
+                <span class="c1"># Get theoretical value</span>
+                <span class="n">theory</span> <span class="o">=</span> <span class="n">marker</span><span class="o">.</span><span class="n">theoretical</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">theory</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">marker</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">asymptotics</span><span class="p">:</span>
+                    <span class="n">theory_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">asymptotics</span><span class="p">[</span><span class="n">marker</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">theory_fn</span><span class="p">):</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">theory</span> <span class="o">=</span> <span class="n">theory_fn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">marker</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+                        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                            <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;Theoretical value computation failed for </span><span class="si">{</span><span class="n">marker</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> at n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                            <span class="p">)</span>
+                            <span class="n">theory</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">theoretical_values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">theoretical_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theory</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;done&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="GrowthTracker.get_result">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.GrowthTracker.get_result">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TrackingResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get tracking result for a specific marker.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">marker_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GrowthTracker.plot">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.GrowthTracker.plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">marker_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">show_theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">log_scale</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot a tracked property vs n.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            marker_name: Which marker to plot</span>
+<span class="sd">            show_theory: Show theoretical prediction line</span>
+<span class="sd">            log_scale: Use log scale for y-axis</span>
+<span class="sd">            ax: Matplotlib axes (creates new figure if None)</span>
+<span class="sd">            **plot_kwargs: Additional arguments for plt.plot</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Matplotlib axes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;matplotlib not available for plotting&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">marker_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No results for marker: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">marker_name</span><span class="p">]</span>
+        <span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="n">theory_arr</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_arrays</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+        <span class="c1"># Plot computed values</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> (computed)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Plot theoretical values</span>
+        <span class="k">if</span> <span class="n">show_theory</span> <span class="ow">and</span> <span class="n">theory_arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">theory_arr</span><span class="p">)):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">n_arr</span><span class="p">,</span> <span class="n">theory_arr</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> (theory)&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">log_scale</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;n (number of variables)&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">marker</span><span class="o">.</span><span class="n">description</span> <span class="ow">or</span> <span class="n">marker_name</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2"> vs n&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="GrowthTracker.plot_all">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.GrowthTracker.plot_all">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_theory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot all tracked markers in subplots.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;matplotlib not available for plotting&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">n_markers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_markers</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No results to plot&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_markers</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">n_markers</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">axes</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">marker_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">marker_name</span><span class="p">,</span> <span class="n">show_theory</span><span class="o">=</span><span class="n">show_theory</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="GrowthTracker.summary">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.GrowthTracker.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate text summary of tracking results.&quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;Growth Tracking Summary: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">marker_name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">n_arr</span><span class="p">,</span> <span class="n">computed_arr</span><span class="p">,</span> <span class="n">theory_arr</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_arrays</span><span class="p">()</span>
+
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  n range: </span><span class="si">{</span><span class="n">n_arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">n_arr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">marker</span><span class="o">.</span><span class="n">marker_type</span> <span class="o">==</span> <span class="n">MarkerType</span><span class="o">.</span><span class="n">SCALAR</span><span class="p">:</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Computed: </span><span class="si">{</span><span class="n">computed_arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">computed_arr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">theory_arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">([</span><span class="n">t</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">theory_arr</span><span class="p">]):</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Theory:   </span><span class="si">{</span><span class="n">theory_arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">theory_arr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="c1"># Compute relative error</span>
+                    <span class="n">rel_errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">computed_arr</span> <span class="o">-</span> <span class="n">theory_arr</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">theory_arr</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">)</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Max relative error: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">rel_errors</span><span class="p">)</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GrowthTracker.clear">
+<a class="viewcode-back" href="../../../api/boofun.families.tracker.html#boofun.GrowthTracker.clear">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear all tracking data.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_functions_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;MarkerType&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Marker&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PropertyMarker&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TrackingResult&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GrowthTracker&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

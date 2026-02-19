@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Probabilistic View &amp; Pseudorandomness &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced Topics Guide" href="advanced.html" />
+    <link rel="prev" title="Function Families and Growth Analysis" href="families.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Probabilistic View &amp; Pseudorandomness</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#boolean-functions-as-random-variables">Boolean Functions as Random Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#p-biased-measures">P-Biased Measures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#why-p-biased-matters">Why p-biased matters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#built-in-function-conventions">Built-in function conventions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#estimation-vs-exact-computation">Estimation vs Exact Computation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pseudorandomness">Pseudorandomness</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-mechanism">The mechanism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#results-using-this-framework">Results using this framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-boofun-for-spectral-concentration">Using boofun for spectral concentration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connection-to-cryptography">Connection to cryptography</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#invariance-principle">Invariance Principle</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#implications">Implications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">API</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#further-reading">Further Reading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#related-guides">Related guides</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Probabilistic View &amp; Pseudorandomness</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/probabilistic.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="probabilistic-view-pseudorandomness">
+<h1>Probabilistic View &amp; Pseudorandomness<a class="headerlink" href="#probabilistic-view-pseudorandomness" title="Link to this heading"></a></h1>
+<p>Boolean functions are deterministic, but the <em>inputs</em> need not be. When inputs are drawn from a probability distribution, a Boolean function becomes a <strong>random variable</strong> — and the entire machinery of probability, statistics, and information theory applies.</p>
+<p>This guide covers:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#boolean-functions-as-random-variables"><span class="xref myst">Boolean functions as random variables</span></a></p></li>
+<li><p><a class="reference internal" href="#p-biased-measures"><span class="xref myst">P-biased measures and threshold phenomena</span></a></p></li>
+<li><p><a class="reference internal" href="#estimation-vs-exact-computation"><span class="xref myst">When to estimate vs compute exactly</span></a></p></li>
+<li><p><a class="reference internal" href="#pseudorandomness"><span class="xref myst">Connection to pseudorandomness</span></a></p></li>
+<li><p><a class="reference internal" href="#invariance-principle"><span class="xref myst">Connection to the invariance principle</span></a></p></li>
+</ol>
+<p><strong>O’Donnell references</strong>: Chapters 1-3 (Fourier, expectations), Chapter 6 (pseudorandomness), Chapter 8.4 (p-biased analysis, Russo’s formula).</p>
+<hr class="docutils" />
+<section id="boolean-functions-as-random-variables">
+<h2>Boolean Functions as Random Variables<a class="headerlink" href="#boolean-functions-as-random-variables" title="Link to this heading"></a></h2>
+<p>Under the <strong>uniform distribution</strong>, each input <span class="math notranslate nohighlight">\(x \in \{-1,+1\}^n\)</span> is equally likely. A Boolean function <span class="math notranslate nohighlight">\(f\)</span> then has:</p>
+<ul class="simple">
+<li><p><strong>Expectation</strong>: <span class="math notranslate nohighlight">\(\mathbb{E}[f] = \hat{f}(\emptyset)\)</span> (the empty Fourier coefficient)</p></li>
+<li><p><strong>Variance</strong>: <span class="math notranslate nohighlight">\(\text{Var}[f] = \sum_{S \neq \emptyset} \hat{f}(S)^2\)</span> (Parseval’s identity)</p></li>
+<li><p><strong>Influence of variable <span class="math notranslate nohighlight">\(i\)</span></strong>: <span class="math notranslate nohighlight">\(\text{Inf}_i[f] = \Pr_x[f(x) \neq f(x^{\oplus i})]\)</span></p></li>
+</ul>
+<p>The key insight: <strong>Fourier coefficients are expectations</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\hat{f}(S) = \mathbb{E}_x[f(x) \chi_S(x)]\]</div>
+<p>This means they can be <em>estimated</em> by sampling, not just computed exactly.</p>
+<section id="api">
+<h3>API<a class="headerlink" href="#api" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.sampling</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">RandomVariableView</span><span class="p">,</span> <span class="n">SpectralDistribution</span><span class="p">,</span>
+    <span class="n">estimate_fourier_coefficient</span><span class="p">,</span> <span class="n">estimate_influence</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Unified exact + Monte Carlo interface</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">RandomVariableView</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">rv</span><span class="o">.</span><span class="n">expectation</span><span class="p">()</span>                          <span class="c1"># Exact E[f]</span>
+<span class="n">rv</span><span class="o">.</span><span class="n">estimate_expectation</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>  <span class="c1"># Monte Carlo E[f]</span>
+<span class="n">rv</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span>                             <span class="c1"># Exact Var[f]</span>
+<span class="n">rv</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>                      <span class="c1"># Exact I[f]</span>
+<span class="n">rv</span><span class="o">.</span><span class="n">validate_estimates</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>    <span class="c1"># Cross-check exact vs estimated</span>
+
+<span class="c1"># Spectral distribution: Pr[S] = f_hat(S)^2</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="n">SpectralDistribution</span><span class="o">.</span><span class="n">from_function</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">sd</span><span class="o">.</span><span class="n">entropy</span><span class="p">()</span>                              <span class="c1"># Shannon entropy of spectrum</span>
+<span class="n">sd</span><span class="o">.</span><span class="n">weight_at_degree</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>                    <span class="c1"># Fourier weight at degree k</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="p-biased-measures">
+<h2>P-Biased Measures<a class="headerlink" href="#p-biased-measures" title="Link to this heading"></a></h2>
+<p>Under the <strong>p-biased distribution</strong> <span class="math notranslate nohighlight">\(\mu_p\)</span>, each bit is 1 independently with probability <span class="math notranslate nohighlight">\(p\)</span>. This generalizes the uniform case (<span class="math notranslate nohighlight">\(p = 1/2\)</span>).</p>
+<section id="why-p-biased-matters">
+<h3>Why p-biased matters<a class="headerlink" href="#why-p-biased-matters" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Threshold phenomena</strong>: Monotone functions exhibit sharp phase transitions at a critical <span class="math notranslate nohighlight">\(p_c\)</span> where <span class="math notranslate nohighlight">\(\Pr_p[f = 1]\)</span> jumps from near 0 to near 1.</p></li>
+<li><p><strong>Russo’s formula</strong> (Margulis 1974, Russo 1981): For monotone <span class="math notranslate nohighlight">\(f\)</span>,
+<div class="math notranslate nohighlight">
+\[\frac{d}{dp}\mu_p(f) = I_p[f]\]</div>
+
+The slope of the threshold curve equals the total p-biased influence. High influence = sharp threshold.</p></li>
+<li><p><strong>Friedgut-Kalai theorem</strong>: Monotone functions with <em>coarse</em> thresholds (gradual transitions) are close to juntas — they essentially depend on few variables.</p></li>
+</ol>
+</section>
+<section id="id1">
+<h3>API<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.p_biased</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">p_biased_expectation</span><span class="p">,</span>       <span class="c1"># Exact E_{mu_p}[f]</span>
+    <span class="n">p_biased_total_influence</span><span class="p">,</span>   <span class="c1"># Exact I_p[f]</span>
+    <span class="n">PBiasedAnalyzer</span><span class="p">,</span>            <span class="c1"># Full p-biased analysis</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.global_hypercontractivity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">threshold_curve</span><span class="p">,</span>            <span class="c1"># mu_p(f) over a range of p</span>
+    <span class="n">find_critical_p</span><span class="p">,</span>            <span class="c1"># Binary search for p_c</span>
+<span class="p">)</span>
+
+<span class="c1"># Exact p-biased analysis</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">PBiasedAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">expectation</span><span class="p">()</span>        <span class="c1"># E_{mu_0.3}[f]</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>    <span class="c1"># I^{0.3}[f]</span>
+<span class="n">analyzer</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>            <span class="c1"># Full report</span>
+
+<span class="c1"># Threshold curve (Monte Carlo for large n)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">p_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">curve</span> <span class="o">=</span> <span class="n">threshold_curve</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p_range</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+
+<span class="c1"># Critical probability</span>
+<span class="n">pc</span> <span class="o">=</span> <span class="n">find_critical_p</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="built-in-function-conventions">
+<h3>Built-in function conventions<a class="headerlink" href="#built-in-function-conventions" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">bf.tribes(k,</span> <span class="pre">n)</span></code> function creates the <strong>dual tribes</strong> (AND-of-ORs) convention:</p>
+<div class="math notranslate nohighlight">
+\[\text{Tribes}_{k,n}(x) = \bigwedge_{j=1}^{\lceil n/k \rceil} \bigvee_{i \in T_j} x_i\]</div>
+<p>where <span class="math notranslate nohighlight">\(k\)</span> is the tribe size and <span class="math notranslate nohighlight">\(n\)</span> is the total number of variables. The textbook tribes (O’Donnell Ch. 4) uses OR-of-ANDs; the two are related by negation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bf</span><span class="o">.</span><span class="n">tribes</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>  <span class="c1"># 4 tribes of 3 on 12 variables: AND(OR(x0,x1,x2), ..., OR(x9,x10,x11))</span>
+<span class="n">bf</span><span class="o">.</span><span class="n">tribes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>   <span class="c1"># 3 tribes of 2 on 6 variables: AND(OR(x0,x1), OR(x2,x3), OR(x4,x5))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="estimation-vs-exact-computation">
+<h2>Estimation vs Exact Computation<a class="headerlink" href="#estimation-vs-exact-computation" title="Link to this heading"></a></h2>
+<p>The exact Fourier transform enumerates all <span class="math notranslate nohighlight">\(2^n\)</span> inputs. The tradeoff:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(n\)</span></p></th>
+<th class="head"><p>Truth table size</p></th>
+<th class="head"><p>Exact</p></th>
+<th class="head"><p>Monte Carlo (10K samples)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\leq 14\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\leq\)</span> 16K</p></td>
+<td><p>Fast (ms)</p></td>
+<td><p>Unnecessary</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(14\)</span>–<span class="math notranslate nohighlight">\(20\)</span></p></td>
+<td><p>16K–1M</p></td>
+<td><p>Feasible (s)</p></td>
+<td><p>Faster alternative</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(&gt; 20\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(&gt; 1\)</span>M</p></td>
+<td><p><strong>Infeasible</strong></p></td>
+<td><p><strong>Only option</strong></p></td>
+</tr>
+</tbody>
+</table>
+<p>For large <span class="math notranslate nohighlight">\(n\)</span>, use oracle-based functions with Monte Carlo estimation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Oracle: no truth table materialized</span>
+<span class="n">f_large</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="c1"># Estimate Fourier coefficient via 10K samples</span>
+<span class="n">est</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">estimate_fourier_coefficient</span><span class="p">(</span><span class="n">f_large</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+                                           <span class="n">return_confidence</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Error scales as O(1/sqrt(N)) by the CLT</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">RandomVariableView</span></code> class provides both exact and estimated methods on the same object, making it easy to cross-validate on small functions and then trust the estimates on large ones.</p>
+</section>
+<hr class="docutils" />
+<section id="pseudorandomness">
+<h2>Pseudorandomness<a class="headerlink" href="#pseudorandomness" title="Link to this heading"></a></h2>
+<p>A central question in computational complexity: <strong>can we replace truly random bits with “pseudorandom” bits that are cheaper to generate, without affecting the computation?</strong></p>
+<p>Boolean function analysis provides the theoretical foundation for this, through a key insight:</p>
+<blockquote>
+<div><p><strong>Functions with bounded Fourier weight at high degrees are “foolable” by distributions with limited independence.</strong></p>
+</div></blockquote>
+<section id="the-mechanism">
+<h3>The mechanism<a class="headerlink" href="#the-mechanism" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Spectral concentration</strong>: If most of <span class="math notranslate nohighlight">\(f\)</span>’s Fourier weight is at low degrees (<span class="math notranslate nohighlight">\(\sum_{|S| \leq d} \hat{f}(S)^2 \approx 1\)</span>), then <span class="math notranslate nohighlight">\(f\)</span> is well-approximated by its degree-<span class="math notranslate nohighlight">\(d\)</span> truncation <span class="math notranslate nohighlight">\(f^{\leq d}\)</span>.</p></li>
+<li><p><strong>Limited independence fools low degree</strong>: A <span class="math notranslate nohighlight">\(d\)</span>-wise independent distribution (which requires only <span class="math notranslate nohighlight">\(O(d \log n)\)</span> random bits) cannot be distinguished from uniform by any degree-<span class="math notranslate nohighlight">\(d\)</span> polynomial.</p></li>
+<li><p><strong>Therefore</strong>: Functions with spectral concentration at degree <span class="math notranslate nohighlight">\(d\)</span> are “fooled” by <span class="math notranslate nohighlight">\(d\)</span>-wise independent distributions.</p></li>
+</ol>
+</section>
+<section id="results-using-this-framework">
+<h3>Results using this framework<a class="headerlink" href="#results-using-this-framework" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Result</p></th>
+<th class="head"><p>Statement</p></th>
+<th class="head"><p>Connection</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Linial-Mansour-Nisan (1993)</strong></p></td>
+<td><p>AC<span class="math notranslate nohighlight">\(^0\)</span> circuits have Fourier concentration at degree <span class="math notranslate nohighlight">\(O(\log n)^{d-1}\)</span></p></td>
+<td><p>PRGs for AC<span class="math notranslate nohighlight">\(^0\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Hastad (2001), Tal (2017)</strong></p></td>
+<td><p>Tight bounds on AC<span class="math notranslate nohighlight">\(^0\)</span> Fourier tails</p></td>
+<td><p>Optimal PRGs</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Viola (2009)</strong></p></td>
+<td><p><span class="math notranslate nohighlight">\(\mathbb{F}_2\)</span>-polynomials of degree <span class="math notranslate nohighlight">\(d\)</span> fooled by <span class="math notranslate nohighlight">\(2^{O(d)} \log(n/\epsilon)\)</span> bits</p></td>
+<td><p>Fooling polynomials</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Chattopadhyay-Hatami-Lovett-Tal (2019)</strong></p></td>
+<td><p>PRGs from second-level Fourier structure</p></td>
+<td><p>PRGs for AC<span class="math notranslate nohighlight">\(^0\)</span> with parity gates</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="using-boofun-for-spectral-concentration">
+<h3>Using boofun for spectral concentration<a class="headerlink" href="#using-boofun-for-spectral-concentration" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.fourier</span><span class="w"> </span><span class="kn">import</span> <span class="n">truncate_to_degree</span><span class="p">,</span> <span class="n">fourier_weight_distribution</span>
+
+<span class="c1"># How much Fourier weight is at low degrees?</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">fourier_weight_distribution</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="c1"># weights[k] = sum_{|S|=k} f_hat(S)^2</span>
+
+<span class="c1"># Cumulative weight at degree &lt;= d</span>
+<span class="n">cumulative</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">[:</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">))]</span>
+
+<span class="c1"># Truncate to low-degree approximation</span>
+<span class="n">f_approx</span> <span class="o">=</span> <span class="n">truncate_to_degree</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Functions with weight concentrated at low degrees (like Majority, Tribes) are foolable by low-independence distributions. Functions with weight at high degrees (like Parity) require full independence — they are the “hardest to fool.”</p>
+</section>
+<section id="connection-to-cryptography">
+<h3>Connection to cryptography<a class="headerlink" href="#connection-to-cryptography" title="Link to this heading"></a></h3>
+<p>The cryptographic analysis module (<code class="docutils literal notranslate"><span class="pre">analysis.cryptographic</span></code>) approaches “randomness” from the dual perspective: rather than asking “can we fool this function?”, it asks “how random does this function look?” See the <a class="reference internal" href="cryptographic.html"><span class="std std-doc">Cryptographic Analysis guide</span></a> for nonlinearity, bent functions, and Walsh spectrum analysis.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="invariance-principle">
+<h2>Invariance Principle<a class="headerlink" href="#invariance-principle" title="Link to this heading"></a></h2>
+<p>The invariance principle (O’Donnell Ch. 11) connects p-biased analysis to Gaussian analysis:</p>
+<blockquote>
+<div><p><strong>Boolean functions with low influences behave the same whether inputs are drawn from the hypercube or from Gaussian space.</strong></p>
+</div></blockquote>
+<p>Formally, if <span class="math notranslate nohighlight">\(f\)</span> has <span class="math notranslate nohighlight">\(\max_i \text{Inf}_i[f] \leq \epsilon\)</span>, then for smooth test functions <span class="math notranslate nohighlight">\(\psi\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[|\mathbb{E}[\psi(f(x))] - \mathbb{E}[\psi(\tilde{f}(G))]| = O(\epsilon^{1/4})\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tilde{f}\)</span> is the multilinear extension and <span class="math notranslate nohighlight">\(G \sim N(0, I_n)\)</span>.</p>
+<section id="implications">
+<h3>Implications<a class="headerlink" href="#implications" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Majority is Stablest</strong>: Among balanced, low-influence functions, Majority maximizes noise stability. This implies the UGC-hardness of approximating MAX-CUT (Khot-Kindler-Mossel-O’Donnell 2007).</p></li>
+<li><p><strong>Berry-Esseen for Boolean functions</strong>: Low-influence functions have distributions close to Gaussian.</p></li>
+<li><p><strong>Pseudorandomness connection</strong>: The invariance principle says low-influence functions can’t distinguish different input distributions — a form of “fooling.”</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>API<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.invariance</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvarianceAnalyzer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.gaussian</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianAnalyzer</span><span class="p">,</span> <span class="n">multilinear_extension</span>
+
+<span class="c1"># Invariance analysis</span>
+<span class="n">inv</span> <span class="o">=</span> <span class="n">InvarianceAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">inv</span><span class="o">.</span><span class="n">invariance_bound</span><span class="p">()</span>          <span class="c1"># O(max Inf^{1/4}) bound</span>
+<span class="n">inv</span><span class="o">.</span><span class="n">compare_domains</span><span class="p">()</span>           <span class="c1"># Boolean vs Gaussian stats</span>
+<span class="n">inv</span><span class="o">.</span><span class="n">noise_stability_deficit</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>  <span class="c1"># Gap from Majority</span>
+<span class="n">inv</span><span class="o">.</span><span class="n">is_stablest_candidate</span><span class="p">()</span>     <span class="c1"># Check Majority-is-Stablest conditions</span>
+
+<span class="c1"># Gaussian analysis</span>
+<span class="n">ga</span> <span class="o">=</span> <span class="n">GaussianAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">ga</span><span class="o">.</span><span class="n">berry_esseen</span><span class="p">()</span>               <span class="c1"># Berry-Esseen bound</span>
+<span class="n">ga</span><span class="o">.</span><span class="n">is_approximately_gaussian</span><span class="p">()</span>  <span class="c1"># Quick check</span>
+
+<span class="c1"># Multilinear extension: extend f from hypercube to R^n</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">multilinear_extension</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="n">p</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>          <span class="c1"># Evaluate on Gaussian input</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>O’Donnell, <em>Analysis of Boolean Functions</em> (2014): Chapters 1-3, 6, 8, 10-11</p></li>
+<li><p>Tal, “Tight bounds on the Fourier spectrum of AC0” (CCC 2017)</p></li>
+<li><p>Chattopadhyay-Hatami-Lovett-Tal, “Pseudorandom generators from the second Fourier level” (ITCS 2019)</p></li>
+<li><p>Mossel-O’Donnell-Oleszkiewicz, “Noise stability of functions with low influences” (Annals of Mathematics 2010)</p></li>
+<li><p>Viola, “The sum of d small-bias generators fools polynomials of degree d” (CCC 2009)</p></li>
+</ul>
+<section id="related-guides">
+<h3>Related guides<a class="headerlink" href="#related-guides" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference internal" href="spectral_analysis.html"><span class="std std-doc">Spectral Analysis</span></a>: Fourier transform, influences, noise stability</p></li>
+<li><p><a class="reference internal" href="hypercontractivity.html"><span class="std std-doc">Hypercontractivity</span></a>: KKL theorem, Bonami’s lemma, threshold phenomena</p></li>
+<li><p><a class="reference internal" href="cryptographic.html"><span class="std std-doc">Cryptographic Analysis</span></a>: Nonlinearity, bent functions, “close to random”</p></li>
+<li><p><a class="reference internal" href="advanced.html"><span class="std std-doc">Advanced Topics</span></a>: Gaussian analysis, invariance principle, communication complexity</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="families.html" class="btn btn-neutral float-left" title="Function Families and Growth Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="advanced.html" class="btn btn-neutral float-right" title="Advanced Topics Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

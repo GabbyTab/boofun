@@ -1,0 +1,723 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.complexity &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.complexity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.complexity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Complexity measures for Boolean functions.</span>
+
+<span class="sd">This module implements various complexity measures including:</span>
+<span class="sd">- Decision tree depth (deterministic query complexity)</span>
+<span class="sd">- Decision tree size</span>
+<span class="sd">- Sensitivity and block sensitivity</span>
+<span class="sd">- Certificate complexity</span>
+
+<span class="sd">These are fundamental measures in computational complexity theory</span>
+<span class="sd">as discussed in O&#39;Donnell&#39;s book and related literature.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Full names</span>
+    <span class="s2">&quot;decision_tree_depth&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;decision_tree_size&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;max_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;min_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;average_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;certificate_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ComplexityProfile&quot;</span><span class="p">,</span>
+    <span class="c1"># Standard notation aliases</span>
+    <span class="s2">&quot;D&quot;</span><span class="p">,</span>  <span class="c1"># Decision tree depth D(f)</span>
+    <span class="s2">&quot;s&quot;</span><span class="p">,</span>  <span class="c1"># Max sensitivity s(f)</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="decision_tree_depth">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.decision_tree_depth">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the optimal deterministic decision tree depth for function f.</span>
+
+<span class="sd">    The decision tree depth D(f) is the minimum number of adaptive queries</span>
+<span class="sd">    needed to compute f on any input in the worst case.</span>
+
+<span class="sd">    This uses dynamic programming over sub-cubes, computing the optimal</span>
+<span class="sd">    depth for all partial assignments simultaneously.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Optimal decision tree depth</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Time complexity: O(3^n) where n is the number of variables.</span>
+<span class="sd">        Memory complexity: O(3^n)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; majority = bf.BooleanFunctionBuiltins.majority(3)</span>
+<span class="sd">        &gt;&gt;&gt; decision_tree_depth(majority)</span>
+<span class="sd">        2  # Can determine majority with 2 queries</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1"># Get truth table</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="c1"># Phase 1: Compute average values for all sub-cubes</span>
+    <span class="c1"># We represent sub-cubes using ternary indices where:</span>
+    <span class="c1"># - 0 means variable fixed to 0</span>
+    <span class="c1"># - 1 means variable fixed to 1</span>
+    <span class="c1"># - 2 means variable is free (not fixed)</span>
+    <span class="c1"># The average is the fraction of 1s in that sub-cube</span>
+
+    <span class="n">old_layer</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">new_size</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">**</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">new_layer</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">new_size</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">old_layer</span><span class="p">)):</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">index</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">index</span> <span class="o">&amp;</span> <span class="n">mask</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">&amp;</span> <span class="mi">1</span>
+
+            <span class="c1"># Position where this value is directly stored</span>
+            <span class="n">new_ind1</span> <span class="o">=</span> <span class="p">((</span><span class="n">first</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">ind</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">+</span> <span class="n">last</span>
+            <span class="c1"># Position for the &quot;free&quot; variable (average)</span>
+            <span class="n">new_ind2</span> <span class="o">=</span> <span class="p">((</span><span class="n">first</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">+</span> <span class="n">last</span>
+
+            <span class="n">new_layer</span><span class="p">[</span><span class="n">new_ind1</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_layer</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">new_layer</span><span class="p">[</span><span class="n">new_ind2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">old_layer</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="n">old_layer</span> <span class="o">=</span> <span class="n">new_layer</span>
+
+    <span class="c1"># Phase 2: DP to find optimal decision tree depth</span>
+    <span class="c1"># For each sub-cube, compute min depth needed</span>
+    <span class="n">INF</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">20</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">INF</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_layer</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_layer</span><span class="p">)):</span>
+        <span class="n">avg</span> <span class="o">=</span> <span class="n">new_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="c1"># If sub-cube is constant (all 0s or all 1s), depth is 0</span>
+        <span class="k">if</span> <span class="n">avg</span> <span class="o">&lt;</span> <span class="mf">1e-7</span> <span class="ow">or</span> <span class="n">avg</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-7</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Try each variable as the first query</span>
+            <span class="n">trits</span> <span class="o">=</span> <span class="p">[(</span><span class="n">j</span> <span class="o">//</span> <span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="n">i</span><span class="p">))</span> <span class="o">%</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">trits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># Variable i is free</span>
+                    <span class="c1"># Compute indices for sub-cubes with i fixed to 0 and 1</span>
+                    <span class="n">idx_0</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="n">i</span><span class="p">)</span>  <span class="c1"># i fixed to 0</span>
+                    <span class="n">idx_1</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="n">i</span><span class="p">)</span>  <span class="c1"># i fixed to 1</span>
+
+                    <span class="c1"># Depth is max of depths of children + 1</span>
+                    <span class="n">depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">idx_0</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="n">idx_1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+
+                    <span class="k">if</span> <span class="n">depth</span> <span class="o">&lt;</span> <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                        <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">depth</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Last entry is the full cube (all variables free)</span></div>
+
+
+
+<div class="viewcode-block" id="decision_tree_size">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.decision_tree_size">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">decision_tree_size</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">minimize_depth_first</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the optimal decision tree size for function f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        minimize_depth_first: If True, minimize depth first, then size.</span>
+<span class="sd">                             If False, minimize size first, then depth.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (size, depth) where size is the number of leaves</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Size measures the total number of leaves in the decision tree,</span>
+<span class="sd">        while depth measures the longest root-to-leaf path.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Get truth table</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="c1"># Phase 1: Compute averages</span>
+    <span class="n">old_layer</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">new_size</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">**</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">new_layer</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="n">new_size</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">old_layer</span><span class="p">)):</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">index</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">index</span> <span class="o">&amp;</span> <span class="n">mask</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="p">(</span><span class="n">index</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">&amp;</span> <span class="mi">1</span>
+
+            <span class="n">new_ind1</span> <span class="o">=</span> <span class="p">((</span><span class="n">first</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">ind</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">+</span> <span class="n">last</span>
+            <span class="n">new_ind2</span> <span class="o">=</span> <span class="p">((</span><span class="n">first</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">+</span> <span class="n">last</span>
+
+            <span class="n">new_layer</span><span class="p">[</span><span class="n">new_ind1</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_layer</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">new_layer</span><span class="p">[</span><span class="n">new_ind2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">old_layer</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+        <span class="n">old_layer</span> <span class="o">=</span> <span class="n">new_layer</span>
+
+    <span class="c1"># Phase 2: DP for size and depth</span>
+    <span class="n">INF</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">20</span>
+    <span class="c1"># result[j] = (size, depth) for sub-cube j</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[(</span><span class="n">INF</span><span class="p">,</span> <span class="n">INF</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_layer</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_layer</span><span class="p">)):</span>
+        <span class="n">avg</span> <span class="o">=</span> <span class="n">new_layer</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">avg</span> <span class="o">&lt;</span> <span class="mf">1e-7</span><span class="p">:</span>  <span class="c1"># Constant 0</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">avg</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-7</span><span class="p">:</span>  <span class="c1"># Constant 1</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">trits</span> <span class="o">=</span> <span class="p">[(</span><span class="n">j</span> <span class="o">//</span> <span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="n">i</span><span class="p">))</span> <span class="o">%</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">trits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">idx_0</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">idx_1</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="n">i</span><span class="p">)</span>
+
+                    <span class="n">s0</span><span class="p">,</span> <span class="n">d0</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">idx_0</span><span class="p">]</span>
+                    <span class="n">s1</span><span class="p">,</span> <span class="n">d1</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">idx_1</span><span class="p">]</span>
+
+                    <span class="n">size</span> <span class="o">=</span> <span class="n">s0</span> <span class="o">+</span> <span class="n">s1</span>
+                    <span class="n">depth</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+                    <span class="c1"># Compare based on priority</span>
+                    <span class="k">if</span> <span class="n">minimize_depth_first</span><span class="p">:</span>
+                        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+                        <span class="n">current_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+                        <span class="n">current_key</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="n">key</span> <span class="o">&lt;</span> <span class="n">current_key</span><span class="p">:</span>
+                        <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the sensitivity of f at input x.</span>
+
+<span class="sd">    The sensitivity s(f, x) counts how many single-bit flips change the output.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        x: Input index (integer representation)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Number of sensitive coordinates at x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">base_val</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">flipped</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">flipped</span><span class="p">))</span> <span class="o">!=</span> <span class="n">base_val</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">count</span></div>
+
+
+
+<div class="viewcode-block" id="max_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.max_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the maximum sensitivity of f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        value: If specified (0 or 1), only consider inputs where f(x) = value</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Maximum sensitivity across all (relevant) inputs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">max_sens</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="n">sens</span> <span class="o">=</span> <span class="n">sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">max_sens</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_sens</span><span class="p">,</span> <span class="n">sens</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">max_sens</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>  <span class="c1"># Can&#39;t get higher</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">max_sens</span></div>
+
+
+
+<div class="viewcode-block" id="min_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.min_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">min_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the minimum sensitivity of f (over non-trivial inputs).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        value: If specified (0 or 1), only consider inputs where f(x) = value</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Minimum sensitivity across relevant inputs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">min_sens</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="n">sens</span> <span class="o">=</span> <span class="n">sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">min_sens</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_sens</span><span class="p">,</span> <span class="n">sens</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">min_sens</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">min_sens</span> <span class="k">if</span> <span class="n">min_sens</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="k">else</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="average_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.average_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">average_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the average sensitivity of f.</span>
+
+<span class="sd">    The average sensitivity equals the total influence I(f) = sum_i Inf_i(f).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Average sensitivity (total influence)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">size</span></div>
+
+
+
+<div class="viewcode-block" id="certificate_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.certificate_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the certificate complexity at input x.</span>
+
+<span class="sd">    A certificate for f at x is a minimal set of coordinates S such that</span>
+<span class="sd">    fixing the coordinates in S to their values in x determines f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        x: Input index</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (certificate_size, list_of_certificate_variables)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="n">target</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="c1"># Try all subsets of increasing size</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">vars_tuple</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">r</span><span class="p">):</span>
+            <span class="n">vars_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vars_tuple</span><span class="p">)</span>
+            <span class="c1"># Check if fixing these variables determines the output</span>
+            <span class="n">free_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">vars_list</span><span class="p">]</span>
+
+            <span class="n">is_certificate</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">free_vars</span><span class="p">)):</span>
+                <span class="c1"># Construct y: same as x on vars_list, determined by mask on free_vars</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">free_vars</span><span class="p">):</span>
+                    <span class="n">bit</span> <span class="o">=</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="n">idx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+                    <span class="c1"># Set bit v of y to bit</span>
+                    <span class="k">if</span> <span class="p">((</span><span class="n">y</span> <span class="o">&gt;&gt;</span> <span class="n">v</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="n">bit</span><span class="p">:</span>
+                        <span class="n">y</span> <span class="o">^=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">v</span>
+
+                <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="o">!=</span> <span class="n">target</span><span class="p">:</span>
+                    <span class="n">is_certificate</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">is_certificate</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">vars_list</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the maximum certificate complexity of f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        value: If specified (0 or 1), only consider inputs where f(x) = value</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Maximum certificate complexity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">max_cert</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="n">cert</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">max_cert</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_cert</span><span class="p">,</span> <span class="n">cert</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">max_cert</span>
+
+
+<div class="viewcode-block" id="ComplexityProfile">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.ComplexityProfile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComplexityProfile</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute and store various complexity measures for a Boolean function.</span>
+
+<span class="sd">    This class provides a comprehensive analysis of function complexity,</span>
+<span class="sd">    computing multiple measures and checking known relationships between them.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ComplexityProfile.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.ComplexityProfile.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize and compute complexity profile.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: BooleanFunction to analyze</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="ComplexityProfile.compute">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.ComplexityProfile.compute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute all complexity measures.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary of complexity measures</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span>
+
+        <span class="c1"># Sensitivity measures</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;s0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Max sensitivity on 0-inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;s1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Max sensitivity on 1-inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;s0&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;s1&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;avg_sensitivity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">average_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Certificate complexity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;C0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;C1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;C0&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;C1&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Decision tree complexity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">size</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="n">decision_tree_size</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;DT_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;DT_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">depth</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span></div>
+
+
+<div class="viewcode-block" id="ComplexityProfile.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.ComplexityProfile.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a human-readable summary of complexity measures.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;Complexity Profile for function on </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2"> variables:&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Sensitivity:  s=</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (s0=</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;s0&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, s1=</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Avg Sensitivity (Total Influence): I(f)=</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;avg_sensitivity&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Certificate: C=</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (C0=</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, C1=</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;C1&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Decision Tree: D=</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Decision Tree Size: </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;DT_size&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ComplexityProfile.check_relations">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.ComplexityProfile.check_relations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_relations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check known relationships between complexity measures.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary of relationship checks</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+
+        <span class="n">checks</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># s(f) &lt;= C(f) (sensitivity is at most certificate complexity)</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;s &lt;= C&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">]</span>
+
+        <span class="c1"># C(f) &lt;= D(f) (certificate complexity is at most decision tree depth)</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;C &lt;= D&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">]</span>
+
+        <span class="c1"># D(f) &lt;= C0 * C1 (decision tree depth bounded by product of certificates)</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;D &lt;= C0*C1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;C0&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;C1&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Average sensitivity = total influence</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;avg_sens = I(f)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># By definition</span>
+
+        <span class="k">return</span> <span class="n">checks</span></div>
+</div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Standard notation aliases</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="D">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.D">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">D</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decision tree depth D(f).</span>
+
+<span class="sd">    Alias for :func:`decision_tree_depth`.</span>
+
+<span class="sd">    The minimum number of adaptive queries needed to compute f(x)</span>
+<span class="sd">    in the worst case.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Optimal decision tree depth</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; from boofun.analysis import complexity</span>
+<span class="sd">        &gt;&gt;&gt; maj_5 = bf.majority(5)</span>
+<span class="sd">        &gt;&gt;&gt; complexity.D(maj_5)</span>
+<span class="sd">        3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="s">
+<a class="viewcode-back" href="../../../api/boofun.analysis.complexity.html#boofun.analysis.complexity.s">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">s</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Max sensitivity s(f).</span>
+
+<span class="sd">    Alias for :func:`max_sensitivity`.</span>
+
+<span class="sd">    The maximum number of Hamming neighbors x&#39; of any input x</span>
+<span class="sd">    where f(x&#39;) != f(x).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        value: If specified (0 or 1), only consider inputs where f(x) = value</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Maximum sensitivity</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; from boofun.analysis import complexity</span>
+<span class="sd">        &gt;&gt;&gt; maj_5 = bf.majority(5)</span>
+<span class="sd">        &gt;&gt;&gt; complexity.s(maj_5)</span>
+<span class="sd">        5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

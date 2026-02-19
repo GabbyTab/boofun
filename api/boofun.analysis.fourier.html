@@ -1,0 +1,919 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.fourier &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="boofun.analysis.gaussian" href="boofun.analysis.gaussian.html" />
+    <link rel="prev" title="boofun.analysis.fkn" href="boofun.analysis.fkn.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="boofun.html">boofun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.create"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.partial"><code class="docutils literal notranslate"><span class="pre">partial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PartialBooleanFunction"><code class="docutils literal notranslate"><span class="pre">PartialBooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_hex"><code class="docutils literal notranslate"><span class="pre">from_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.to_hex"><code class="docutils literal notranslate"><span class="pre">to_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.majority"><code class="docutils literal notranslate"><span class="pre">majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parity"><code class="docutils literal notranslate"><span class="pre">parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tribes"><code class="docutils literal notranslate"><span class="pre">tribes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dictator"><code class="docutils literal notranslate"><span class="pre">dictator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.constant"><code class="docutils literal notranslate"><span class="pre">constant()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.AND"><code class="docutils literal notranslate"><span class="pre">AND()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.OR"><code class="docutils literal notranslate"><span class="pre">OR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold"><code class="docutils literal notranslate"><span class="pre">threshold()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.weighted_majority"><code class="docutils literal notranslate"><span class="pre">weighted_majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_weights"><code class="docutils literal notranslate"><span class="pre">from_weights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionError"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidInputError"><code class="docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidRepresentationError"><code class="docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidTruthTableError"><code class="docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.EvaluationError"><code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConversionError"><code class="docutils literal notranslate"><span class="pre">ConversionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ResourceUnavailableError"><code class="docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvariantViolationError"><code class="docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parseval_verify"><code class="docutils literal notranslate"><span class="pre">parseval_verify()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.plancherel_inner_product"><code class="docutils literal notranslate"><span class="pre">plancherel_inner_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.convolution"><code class="docutils literal notranslate"><span class="pre">convolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.negate_inputs"><code class="docutils literal notranslate"><span class="pre">negate_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.odd_part"><code class="docutils literal notranslate"><span class="pre">odd_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.even_part"><code class="docutils literal notranslate"><span class="pre">even_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.restriction"><code class="docutils literal notranslate"><span class="pre">restriction()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_degree"><code class="docutils literal notranslate"><span class="pre">fourier_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.spectral_norm"><code class="docutils literal notranslate"><span class="pre">spectral_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_sparsity"><code class="docutils literal notranslate"><span class="pre">fourier_sparsity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dominant_coefficients"><code class="docutils literal notranslate"><span class="pre">dominant_coefficients()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_fourier_transform"><code class="docutils literal notranslate"><span class="pre">gf2_fourier_transform()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_degree"><code class="docutils literal notranslate"><span class="pre">gf2_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_monomials"><code class="docutils literal notranslate"><span class="pre">gf2_monomials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_to_string"><code class="docutils literal notranslate"><span class="pre">gf2_to_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_linear_over_gf2"><code class="docutils literal notranslate"><span class="pre">is_linear_over_gf2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.correlation_with_parity"><code class="docutils literal notranslate"><span class="pre">correlation_with_parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_operator"><code class="docutils literal notranslate"><span class="pre">noise_operator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.lq_norm"><code class="docutils literal notranslate"><span class="pre">lq_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.bonami_lemma_bound"><code class="docutils literal notranslate"><span class="pre">bonami_lemma_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.kkl_lower_bound"><code class="docutils literal notranslate"><span class="pre">kkl_lower_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.max_influence_bound"><code class="docutils literal notranslate"><span class="pre">max_influence_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.friedgut_junta_bound"><code class="docutils literal notranslate"><span class="pre">friedgut_junta_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.junta_approximation_error"><code class="docutils literal notranslate"><span class="pre">junta_approximation_error()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.level_d_inequality"><code class="docutils literal notranslate"><span class="pre">level_d_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractive_inequality"><code class="docutils literal notranslate"><span class="pre">hypercontractive_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GlobalHypercontractivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">GlobalHypercontractivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.generalized_influence"><code class="docutils literal notranslate"><span class="pre">generalized_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_alpha_global"><code class="docutils literal notranslate"><span class="pre">is_alpha_global()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_expectation"><code class="docutils literal notranslate"><span class="pre">p_biased_expectation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_total_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_total_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_stability_p_biased"><code class="docutils literal notranslate"><span class="pre">noise_stability_p_biased()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold_curve"><code class="docutils literal notranslate"><span class="pre">threshold_curve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.find_critical_p"><code class="docutils literal notranslate"><span class="pre">find_critical_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractivity_bound"><code class="docutils literal notranslate"><span class="pre">hypercontractivity_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionValidator"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionValidator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.quick_validate"><code class="docutils literal notranslate"><span class="pre">quick_validate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.validate_representation"><code class="docutils literal notranslate"><span class="pre">validate_representation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.CallableAdapter"><code class="docutils literal notranslate"><span class="pre">CallableAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SymPyAdapter"><code class="docutils literal notranslate"><span class="pre">SymPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NumPyAdapter"><code class="docutils literal notranslate"><span class="pre">NumPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_callable"><code class="docutils literal notranslate"><span class="pre">adapt_callable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_sympy_expr"><code class="docutils literal notranslate"><span class="pre">adapt_sympy_expr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_numpy_function"><code class="docutils literal notranslate"><span class="pre">adapt_numpy_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Measure"><code class="docutils literal notranslate"><span class="pre">Measure</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.get_gf_field"><code class="docutils literal notranslate"><span class="pre">get_gf_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GFField"><code class="docutils literal notranslate"><span class="pre">GFField</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.MajorityFamily"><code class="docutils literal notranslate"><span class="pre">MajorityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ParityFamily"><code class="docutils literal notranslate"><span class="pre">ParityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.TribesFamily"><code class="docutils literal notranslate"><span class="pre">TribesFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ThresholdFamily"><code class="docutils literal notranslate"><span class="pre">ThresholdFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ANDFamily"><code class="docutils literal notranslate"><span class="pre">ANDFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ORFamily"><code class="docutils literal notranslate"><span class="pre">ORFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.DictatorFamily"><code class="docutils literal notranslate"><span class="pre">DictatorFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LTFFamily"><code class="docutils literal notranslate"><span class="pre">LTFFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GrowthTracker"><code class="docutils literal notranslate"><span class="pre">GrowthTracker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.FunctionFamily"><code class="docutils literal notranslate"><span class="pre">FunctionFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InductiveFamily"><code class="docutils literal notranslate"><span class="pre">InductiveFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionVisualizer"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionVisualizer</span></code></a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="boofun.analysis.html">boofun.analysis</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.html#boofun.analysis.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.html#boofun.analysis.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.arrow.html">boofun.analysis.arrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.basic_properties.html">boofun.analysis.basic_properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.block_sensitivity.html">boofun.analysis.block_sensitivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.canalization.html">boofun.analysis.canalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.certificates.html">boofun.analysis.certificates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.communication_complexity.html">boofun.analysis.communication_complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.complexity.html">boofun.analysis.complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.cryptographic.html">boofun.analysis.cryptographic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.decision_trees.html">boofun.analysis.decision_trees</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.equivalence.html">boofun.analysis.equivalence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.fkn.html">boofun.analysis.fkn</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">boofun.analysis.fourier</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.parseval_verify"><code class="docutils literal notranslate"><span class="pre">parseval_verify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.plancherel_inner_product"><code class="docutils literal notranslate"><span class="pre">plancherel_inner_product()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.convolution"><code class="docutils literal notranslate"><span class="pre">convolution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.convolution_values"><code class="docutils literal notranslate"><span class="pre">convolution_values()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.negate_inputs"><code class="docutils literal notranslate"><span class="pre">negate_inputs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.odd_part"><code class="docutils literal notranslate"><span class="pre">odd_part()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.even_part"><code class="docutils literal notranslate"><span class="pre">even_part()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.restriction"><code class="docutils literal notranslate"><span class="pre">restriction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.fourier_degree"><code class="docutils literal notranslate"><span class="pre">fourier_degree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.spectral_norm"><code class="docutils literal notranslate"><span class="pre">spectral_norm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.fourier_sparsity"><code class="docutils literal notranslate"><span class="pre">fourier_sparsity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.dominant_coefficients"><code class="docutils literal notranslate"><span class="pre">dominant_coefficients()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.correlation"><code class="docutils literal notranslate"><span class="pre">correlation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.truncate_to_degree"><code class="docutils literal notranslate"><span class="pre">truncate_to_degree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.annealed_influence"><code class="docutils literal notranslate"><span class="pre">annealed_influence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.fourier_weight_distribution"><code class="docutils literal notranslate"><span class="pre">fourier_weight_distribution()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.min_fourier_coefficient_size"><code class="docutils literal notranslate"><span class="pre">min_fourier_coefficient_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.compute_mux3_fourier"><code class="docutils literal notranslate"><span class="pre">compute_mux3_fourier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.compute_nae3_fourier"><code class="docutils literal notranslate"><span class="pre">compute_nae3_fourier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.analysis.fourier.compute_and_fourier"><code class="docutils literal notranslate"><span class="pre">compute_and_fourier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.gaussian.html">boofun.analysis.gaussian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.gf2.html">boofun.analysis.gf2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.global_hypercontractivity.html">boofun.analysis.global_hypercontractivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.huang.html">boofun.analysis.huang</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.hypercontractivity.html">boofun.analysis.hypercontractivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.invariance.html">boofun.analysis.invariance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.learning.html">boofun.analysis.learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.ltf_analysis.html">boofun.analysis.ltf_analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.p_biased.html">boofun.analysis.p_biased</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.pac_learning.html">boofun.analysis.pac_learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.query_complexity.html">boofun.analysis.query_complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.restrictions.html">boofun.analysis.restrictions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.sampling.html">boofun.analysis.sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.sensitivity.html">boofun.analysis.sensitivity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.sparsity.html">boofun.analysis.sparsity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.analysis.symmetry.html">boofun.analysis.symmetry</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.api.html">boofun.api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.core.html">boofun.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.families.html">boofun.families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.quantum_complexity.html">boofun.quantum_complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.testing.html">boofun.testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.utils.html">boofun.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.visualization.html">boofun.visualization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="boofun.analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.fourier</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/boofun.analysis.fourier.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-boofun.analysis.fourier">
+<span id="boofun-analysis-fourier"></span><h1>boofun.analysis.fourier<a class="headerlink" href="#module-boofun.analysis.fourier" title="Link to this heading"></a></h1>
+<p>Fourier analysis utilities for Boolean functions.</p>
+<p>This module provides core Fourier analysis tools as described in Chapter 1
+of O’Donnell’s “Analysis of Boolean Functions”, including:</p>
+<ul class="simple">
+<li><p>Parseval’s identity: ‖f‖² = Σ_S f̂(S)²</p></li>
+<li><p>Plancherel’s theorem: ⟨f,g⟩ = Σ_S f̂(S)ĝ(S)</p></li>
+<li><p>Convolution: (f * g)(x) = E_y[f(y)g(x⊕y)]</p></li>
+<li><p>Function transformations (negation, odd/even parts)</p></li>
+<li><p>Restriction operators</p></li>
+</ul>
+<dl>
+<dt>Mathematical Background (O’Donnell Chapter 1):</dt><dd><dl class="simple">
+<dt>Every function f: {-1,1}^n → ℝ has a unique Fourier expansion:</dt><dd><p>f(x) = Σ_{S⊆[n]} f̂(S) χ_S(x)</p>
+</dd>
+</dl>
+<p>where χ_S(x) = ∏_{i∈S} x_i are the Fourier characters.</p>
+<p>Key identities:
+- Parseval: E[f(x)²] = Σ_S f̂(S)² (L2 norm preservation)
+- Plancherel: E[f(x)g(x)] = Σ_S f̂(S)ĝ(S) (inner product)
+- Convolution: (f*g)^(S) = f̂(S) · ĝ(S) (pointwise in Fourier domain)</p>
+</dd>
+</dl>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.fourier.annealed_influence" title="boofun.analysis.fourier.annealed_influence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">annealed_influence</span></code></a>(f, i, rho)</p></td>
+<td><p>Compute the annealed (noisy) influence of variable i.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.compute_and_fourier" title="boofun.analysis.fourier.compute_and_fourier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_and_fourier</span></code></a>(n)</p></td>
+<td><p>Compute Fourier expansion of AND_n: {-1,1}^n → {-1,1}.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.fourier.compute_mux3_fourier" title="boofun.analysis.fourier.compute_mux3_fourier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_mux3_fourier</span></code></a>()</p></td>
+<td><p>Compute Fourier expansion of MUX₃: {-1,1}³ → {-1,1}.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.compute_nae3_fourier" title="boofun.analysis.fourier.compute_nae3_fourier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_nae3_fourier</span></code></a>()</p></td>
+<td><p>Compute Fourier expansion of NAE₃: {-1,1}³ → {0,1}.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.fourier.convolution" title="boofun.analysis.fourier.convolution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convolution</span></code></a>(f, g)</p></td>
+<td><p>Compute the Fourier coefficients of the convolution of two Boolean functions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.convolution_values" title="boofun.analysis.fourier.convolution_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convolution_values</span></code></a>(f, g)</p></td>
+<td><p>Compute the time-domain values of the convolution of two Boolean functions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.fourier.correlation" title="boofun.analysis.fourier.correlation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correlation</span></code></a>(f, g)</p></td>
+<td><p>Compute the correlation between two Boolean functions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.dominant_coefficients" title="boofun.analysis.fourier.dominant_coefficients"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dominant_coefficients</span></code></a>(f[, top_k, threshold])</p></td>
+<td><p>Find the dominant (largest magnitude) Fourier coefficients.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.fourier.even_part" title="boofun.analysis.fourier.even_part"><code class="xref py py-obj docutils literal notranslate"><span class="pre">even_part</span></code></a>(f)</p></td>
+<td><p>Compute the even part of f: f^even(x) = (f(x) + f(-x)) / 2.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.fourier_degree" title="boofun.analysis.fourier.fourier_degree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fourier_degree</span></code></a>(f)</p></td>
+<td><p>Compute the Fourier degree (real degree) of f.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fourier_level_lp_norm</span></code>(f, k[, p])</p></td>
+<td><p>Compute the L_p norm of Fourier coefficients at degree k.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.fourier_sparsity" title="boofun.analysis.fourier.fourier_sparsity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fourier_sparsity</span></code></a>(f[, threshold])</p></td>
+<td><p>Count the number of non-zero Fourier coefficients.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fourier_tail_profile</span></code>(f[, p])</p></td>
+<td><p>Compute the Fourier tail profile: L_{p,k}(f) for all k.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.fourier_weight_distribution" title="boofun.analysis.fourier.fourier_weight_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fourier_weight_distribution</span></code></a>(f)</p></td>
+<td><p>Compute the distribution of Fourier weight by degree.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.fourier.min_fourier_coefficient_size" title="boofun.analysis.fourier.min_fourier_coefficient_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">min_fourier_coefficient_size</span></code></a>(f[, threshold])</p></td>
+<td><p>Find the minimum subset size <a href="#id5"><span class="problematic" id="id6">|S|</span></a> with non-zero f̂(S).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.negate_inputs" title="boofun.analysis.fourier.negate_inputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">negate_inputs</span></code></a>(f)</p></td>
+<td><p>Compute g(x) = f(-x) where -x flips all bits.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalized_influence</span></code>(f, i)</p></td>
+<td><p>Compute the normalized influence of variable i.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.odd_part" title="boofun.analysis.fourier.odd_part"><code class="xref py py-obj docutils literal notranslate"><span class="pre">odd_part</span></code></a>(f)</p></td>
+<td><p>Compute the odd part of f: f^odd(x) = (f(x) - f(-x)) / 2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.fourier.parseval_verify" title="boofun.analysis.fourier.parseval_verify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parseval_verify</span></code></a>(f[, tolerance])</p></td>
+<td><p>Verify Parseval's identity for a Boolean function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.plancherel_inner_product" title="boofun.analysis.fourier.plancherel_inner_product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plancherel_inner_product</span></code></a>(f, g)</p></td>
+<td><p>Compute inner product using Plancherel's theorem.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.fourier.restriction" title="boofun.analysis.fourier.restriction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">restriction</span></code></a>(f, fixed_vars)</p></td>
+<td><p>Compute restriction of f by fixing some variables.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.spectral_norm" title="boofun.analysis.fourier.spectral_norm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_norm</span></code></a>(f[, p])</p></td>
+<td><p>Compute the L_p spectral norm of f.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.analysis.fourier.tensor_product" title="boofun.analysis.fourier.tensor_product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tensor_product</span></code></a>(f, g)</p></td>
+<td><p>Compute tensor product: h(x₁, x₂) = f(x₁) · g(x₂).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.analysis.fourier.truncate_to_degree" title="boofun.analysis.fourier.truncate_to_degree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">truncate_to_degree</span></code></a>(f, d)</p></td>
+<td><p>Truncate the Fourier expansion of f to degree at most d.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.parseval_verify">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">parseval_verify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#parseval_verify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.parseval_verify" title="Link to this definition"></a></dt>
+<dd><p>Verify Parseval’s identity for a Boolean function.</p>
+<dl class="simple">
+<dt>Parseval’s identity states that for f: {-1,1}^n → ℝ:</dt><dd><p>E[f(x)²] = Σ_S f̂(S)²</p>
+</dd>
+<dt>For Boolean functions f: {-1,1}^n → {-1,1}, this gives:</dt><dd><p>1 = Σ_S f̂(S)²  (since f(x)² = 1 always)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction to verify</p></li>
+<li><p><strong>tolerance</strong> – Maximum allowed deviation from expected value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>passes: True if <a href="#id7"><span class="problematic" id="id8">|lhs - rhs|</span></a> &lt; tolerance</p></li>
+<li><p>lhs_value: E[f(x)²] computed directly</p></li>
+<li><p>rhs_value: Σ_S f̂(S)² from Fourier coefficients</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple of (passes, lhs_value, rhs_value) where</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xor</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">passes</span><span class="p">,</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">parseval_verify</span><span class="p">(</span><span class="n">xor</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">passes</span>  <span class="c1"># Should be True</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.plancherel_inner_product">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">plancherel_inner_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#plancherel_inner_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.plancherel_inner_product" title="Link to this definition"></a></dt>
+<dd><p>Compute inner product using Plancherel’s theorem.</p>
+<dl class="simple">
+<dt>Plancherel’s theorem (generalization of Parseval):</dt><dd><p>⟨f, g⟩ = E[f(x)g(x)] = Σ_S f̂(S)ĝ(S)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunctions to compute inner product of</p></li>
+<li><p><strong>g</strong> – BooleanFunctions to compute inner product of</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Inner product ⟨f, g⟩</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If f and g have different number of variables</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.convolution">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">convolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#convolution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.convolution" title="Link to this definition"></a></dt>
+<dd><p>Compute the Fourier coefficients of the convolution of two Boolean functions.</p>
+<dl class="simple">
+<dt>The convolution is defined as:</dt><dd><p>(f * g)(x) = E_y[f(y)g(x ⊕ y)]</p>
+</dd>
+</dl>
+<p>By the Convolution Theorem, in the Fourier domain this becomes pointwise
+multiplication:</p>
+<blockquote>
+<div><p>(f * g)^(S) = f̂(S) · ĝ(S)</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunctions to convolve</p></li>
+<li><p><strong>g</strong> – BooleanFunctions to convolve</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array of Fourier coefficients (f * g)^(S) indexed by S</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If f and g have different number of variables</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The convolution of two Boolean functions is generally NOT a Boolean
+function - it’s a real-valued function with values in [-1, 1].
+This function returns the exact Fourier coefficients without any
+loss of information.</p>
+</div>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">conv_coeffs</span> <span class="o">=</span> <span class="n">convolution</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Verify: (f*g)^(S) = f̂(S) · ĝ(S)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">conv_coeffs</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">fourier</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.convolution_values">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">convolution_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#convolution_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.convolution_values" title="Link to this definition"></a></dt>
+<dd><p>Compute the time-domain values of the convolution of two Boolean functions.</p>
+<dl class="simple">
+<dt>The convolution is defined as:</dt><dd><p>(f * g)(x) = E_y[f(y)g(x ⊕ y)]</p>
+</dd>
+</dl>
+<p>This function computes (f * g)(x) for all x via inverse Fourier transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunctions to convolve</p></li>
+<li><p><strong>g</strong> – BooleanFunctions to convolve</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array of real values (f * g)(x) indexed by x</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The values are in [-1, 1], NOT {0, 1} or {-1, 1}.
+This is the correlation between f and g shifted by x.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.negate_inputs">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">negate_inputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#negate_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.negate_inputs" title="Link to this definition"></a></dt>
+<dd><p>Compute g(x) = f(-x) where -x flips all bits.</p>
+<dl class="simple">
+<dt>From HW1 Problem 1: If f(x) = Σ_S f̂(S) χ_S(x), then</dt><dd><p>g(x) = f(-x) = Σ_S (-1)^|S| f̂(S) χ_S(x)</p>
+</dd>
+</dl>
+<p>This flips the sign of odd-degree Fourier coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to transform</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New BooleanFunction g where g(x) = f(-x)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.odd_part">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">odd_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#odd_part"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.odd_part" title="Link to this definition"></a></dt>
+<dd><p>Compute the odd part of f: f^odd(x) = (f(x) - f(-x)) / 2.</p>
+<dl class="simple">
+<dt>From HW1 Problem 1: The odd part contains only odd-degree Fourier coefficients.</dt><dd><p>f^odd(x) = Σ_{<a href="#id9"><span class="problematic" id="id10">|S|</span></a> odd} f̂(S) χ_S(x)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of function values for f^odd (real-valued, not Boolean)</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The result is real-valued, not necessarily Boolean.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.even_part">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">even_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#even_part"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.even_part" title="Link to this definition"></a></dt>
+<dd><p>Compute the even part of f: f^even(x) = (f(x) + f(-x)) / 2.</p>
+<dl class="simple">
+<dt>From HW1 Problem 1: The even part contains only even-degree Fourier coefficients.</dt><dd><p>f^even(x) = Σ_{<a href="#id11"><span class="problematic" id="id12">|S|</span></a> even} f̂(S) χ_S(x)</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of function values for f^even (real-valued)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.tensor_product">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">tensor_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#tensor_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.tensor_product" title="Link to this definition"></a></dt>
+<dd><p>Compute tensor product: h(x₁, x₂) = f(x₁) · g(x₂).</p>
+<dl class="simple">
+<dt>From HW1 Problem 1: If f: {-1,1}^n → ℝ and g: {-1,1}^m → ℝ, then</dt><dd><p>h: {-1,1}^{n+m} → ℝ with h(x₁, x₂) = f(x₁) · g(x₂)</p>
+</dd>
+<dt>has Fourier expansion:</dt><dd><p>ĥ(S₁ ∪ S₂) = f̂(S₁) · ĝ(S₂)</p>
+</dd>
+</dl>
+<p>where S₁ ⊆ [n] and S₂ ⊆ [m] (shifted to [n+1, n+m]).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – First BooleanFunction on n variables</p></li>
+<li><p><strong>g</strong> – Second BooleanFunction on m variables</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tensor product on n+m variables</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.restriction">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">restriction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#restriction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.restriction" title="Link to this definition"></a></dt>
+<dd><p>Compute restriction of f by fixing some variables.</p>
+<dl class="simple">
+<dt>From HW1 Problem 1: If we fix the last (n-k) variables to -1:</dt><dd><p>g(x₁,…,x_k) = f(x₁,…,x_k, -1, -1, …, -1)</p>
+</dd>
+<dt>The Fourier coefficients satisfy:</dt><dd><p>ĝ(T) = Σ_{S⊇T, S⊆[k]} f̂(S ∪ {fixed vars where fixed = -1})</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction to restrict</p></li>
+<li><p><strong>fixed_vars</strong> – Dictionary mapping variable indices to fixed values (0 or 1)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Restricted BooleanFunction on remaining variables</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># XOR</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">restriction</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>   <span class="c1"># Fix x0 = 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># g is now NOT(x1) on 1 variable</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.fourier_degree">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">fourier_degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#fourier_degree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.fourier_degree" title="Link to this definition"></a></dt>
+<dd><p>Compute the Fourier degree (real degree) of f.</p>
+<p>The Fourier degree is the maximum <a href="#id13"><span class="problematic" id="id14">|S|</span></a> such that f̂(S) ≠ 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Maximum degree of non-zero Fourier coefficient</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is different from the GF(2) degree (algebraic degree).
+For f(x) = x₁x₂ (AND), both degrees are 2.
+For f(x) = x₁ ⊕ x₂ (XOR), real degree is 2 but GF(2) degree is 1.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.spectral_norm">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">spectral_norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#spectral_norm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.spectral_norm" title="Link to this definition"></a></dt>
+<dd><p>Compute the L_p spectral norm of f.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction to analyze</p></li>
+<li><p><strong>p</strong> – Norm parameter (1, 2, or inf)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>‖f̂‖_p = (Σ_S <a href="#id1"><span class="problematic" id="id2">|</span></a>f̂(S)|^p)^{1/p}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.fourier_sparsity">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">fourier_sparsity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#fourier_sparsity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.fourier_sparsity" title="Link to this definition"></a></dt>
+<dd><p>Count the number of non-zero Fourier coefficients.</p>
+<p>From HW1 Problem 7: Functions of degree k have at most 4^k non-zero
+Fourier coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction to analyze</p></li>
+<li><p><strong>threshold</strong> – Minimum absolute value to count as non-zero</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of Fourier coefficients with <a href="#id15"><span class="problematic" id="id16">|f̂(S)|</span></a> &gt; threshold</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.dominant_coefficients">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">dominant_coefficients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#dominant_coefficients"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.dominant_coefficients" title="Link to this definition"></a></dt>
+<dd><p>Find the dominant (largest magnitude) Fourier coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction to analyze</p></li>
+<li><p><strong>top_k</strong> – Maximum number of coefficients to return</p></li>
+<li><p><strong>threshold</strong> – Minimum magnitude to include</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of (subset_mask, coefficient) pairs, sorted by magnitude</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.correlation">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#correlation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.correlation" title="Link to this definition"></a></dt>
+<dd><p>Compute the correlation between two Boolean functions.</p>
+<dl class="simple">
+<dt>The correlation is defined as:</dt><dd><p>Corr(f, g) = E[f(x)g(x)] = ⟨f, g⟩</p>
+</dd>
+</dl>
+<p>where the expectation is over the uniform distribution on {-1,+1}^n.</p>
+<p>For ±1-valued functions, Corr(f,f) = 1, and Corr(f,g) ∈ [-1,1].</p>
+<p>This is mathematically equivalent to plancherel_inner_product but
+provided as a more intuitive interface from Tal’s library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – First BooleanFunction</p></li>
+<li><p><strong>g</strong> – Second BooleanFunction</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Correlation ⟨f, g⟩ in [-1, 1]</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If f and g have different number of variables</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Tal’s BooleanFunc.py: correlation</p></li>
+<li><p>O’Donnell Definition 1.6</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.truncate_to_degree">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">truncate_to_degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.ndarray</span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#truncate_to_degree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.truncate_to_degree" title="Link to this definition"></a></dt>
+<dd><p>Truncate the Fourier expansion of f to degree at most d.</p>
+<dl class="simple">
+<dt>Returns the function:</dt><dd><p>f^{≤d}(x) = Σ_{<a href="#id17"><span class="problematic" id="id18">|S|</span></a> ≤ d} f̂(S) χ_S(x)</p>
+</dd>
+</dl>
+<p>This is useful for approximating functions by their low-degree parts.
+The truncated function is generally not Boolean-valued.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction to truncate</p></li>
+<li><p><strong>d</strong> – Maximum degree to keep</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of function values for f^{≤d} (real-valued, not necessarily Boolean)</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Tal’s BooleanFunc.py: truncated_degree_d</p></li>
+<li><p>O’Donnell Definition 1.14 (degree-d part)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.annealed_influence">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">annealed_influence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#annealed_influence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.annealed_influence" title="Link to this definition"></a></dt>
+<dd><p>Compute the annealed (noisy) influence of variable i.</p>
+<dl class="simple">
+<dt>The annealed influence at correlation ρ is:</dt><dd><p>Inf_i^{(ρ)}[f] = Σ_{S∋i} ρ^{<a href="#id19"><span class="problematic" id="id20">|S|</span></a>-1} f̂(S)²</p>
+</dd>
+</dl>
+<p>This interpolates between:
+- ρ = 1: Standard influence Inf_i[f] = Σ_{S∋i} f̂(S)²
+- ρ → 0: Only degree-1 contributions</p>
+<p>The annealed influence measures how sensitive f is to variable i
+after noise has been applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction to analyze</p></li>
+<li><p><strong>i</strong> – Variable index (0-indexed)</p></li>
+<li><p><strong>rho</strong> – Noise correlation parameter in (0, 1]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Annealed influence of variable i</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Tal’s BooleanFunc.py: ann_influence</p></li>
+<li><p>O’Donnell Chapter 2 (noise sensitivity)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.fourier_weight_distribution">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">fourier_weight_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#fourier_weight_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.fourier_weight_distribution" title="Link to this definition"></a></dt>
+<dd><p>Compute the distribution of Fourier weight by degree.</p>
+<p>Returns W^k[f] = Σ_{<a href="#id3"><span class="problematic" id="id4">|</span></a>S|=k} f̂(S)² for each k.</p>
+<p>By Parseval’s identity: Σ_k W^k[f] = 1 for ±1-valued functions.</p>
+<p>This is useful for understanding the “spectral profile” of a function:
+- Low-degree weight → function is “simple”
+- High-degree weight → function is “complex”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>f</strong> – BooleanFunction to analyze</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary mapping degree k to W^k[f]</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Tal’s BooleanFunc.py: fourier_weights</p></li>
+<li><p>O’Donnell Definition 1.14 (spectral sample)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.min_fourier_coefficient_size">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">min_fourier_coefficient_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="boofun.html#boofun.BooleanFunction" title="boofun.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#min_fourier_coefficient_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.min_fourier_coefficient_size" title="Link to this definition"></a></dt>
+<dd><p>Find the minimum subset size <a href="#id21"><span class="problematic" id="id22">|S|</span></a> with non-zero f̂(S).</p>
+<p>Returns min { <a href="#id23"><span class="problematic" id="id24">|S|</span></a> : f̂(S) ≠ 0 }.</p>
+<p>This is 0 if f has non-zero bias (f̂(∅) ≠ 0), otherwise it’s
+the minimum degree of a non-zero Fourier coefficient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – BooleanFunction to analyze</p></li>
+<li><p><strong>threshold</strong> – Minimum magnitude to count as non-zero</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Minimum subset size with non-zero coefficient</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Tal’s BooleanFunc.py: min_size_fourier_coef</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.compute_mux3_fourier">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">compute_mux3_fourier</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#compute_mux3_fourier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.compute_mux3_fourier" title="Link to this definition"></a></dt>
+<dd><p>Compute Fourier expansion of MUX₃: {-1,1}³ → {-1,1}.</p>
+<p>From HW1 Problem 2a:
+MUX₃(x₁, x₂, x₃) outputs x₂ if x₁ = 1, and x₃ if x₁ = -1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary mapping subset masks to Fourier coefficients</p>
+</dd>
+</dl>
+<dl>
+<dt>Mathematical derivation:</dt><dd><dl class="simple">
+<dt>MUX₃(x) = (1+x₁)/2 · x₂ + (1-x₁)/2 · x₃</dt><dd><p>= x₂/2 + x₁x₂/2 + x₃/2 - x₁x₃/2</p>
+</dd>
+</dl>
+<p>So: f̂({2}) = 1/2, f̂({1,2}) = 1/2, f̂({3}) = 1/2, f̂({1,3}) = -1/2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.compute_nae3_fourier">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">compute_nae3_fourier</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#compute_nae3_fourier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.compute_nae3_fourier" title="Link to this definition"></a></dt>
+<dd><p>Compute Fourier expansion of NAE₃: {-1,1}³ → {0,1}.</p>
+<p>From HW1 Problem 2b:
+NAE₃(x₁, x₂, x₃) = 1 iff not all bits are equal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary mapping subset masks to Fourier coefficients</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.analysis.fourier.compute_and_fourier">
+<span class="sig-prename descclassname"><span class="pre">boofun.analysis.fourier.</span></span><span class="sig-name descname"><span class="pre">compute_and_fourier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/analysis/fourier.html#compute_and_fourier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.analysis.fourier.compute_and_fourier" title="Link to this definition"></a></dt>
+<dd><p>Compute Fourier expansion of AND_n: {-1,1}^n → {-1,1}.</p>
+<p>From HW1 Problem 2c:
+AND_n(x) = 1 iff all x_i = 1.</p>
+<dl class="simple">
+<dt>The Fourier expansion is:</dt><dd><p>AND_n(x) = (1/2^n) Σ_{S⊆[n]} (-1)^{n-<a href="#id25"><span class="problematic" id="id26">|S|</span></a>} ∏_{i∈S} x_i</p>
+</dd>
+</dl>
+<p>So f̂(S) = (-1)^{n-<a href="#id27"><span class="problematic" id="id28">|S|</span></a>} / 2^n for all S.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary mapping subset masks to Fourier coefficients</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boofun.analysis.fkn.html" class="btn btn-neutral float-left" title="boofun.analysis.fkn" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boofun.analysis.gaussian.html" class="btn btn-neutral float-right" title="boofun.analysis.gaussian" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

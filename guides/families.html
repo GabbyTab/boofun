@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Function Families and Growth Analysis &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Probabilistic View &amp; Pseudorandomness" href="probabilistic.html" />
+    <link rel="prev" title="Function Operations Guide" href="operations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Function Families and Growth Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-a-function-family">What is a Function Family?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#built-in-families">Built-in Families</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#family-metadata">Family Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#theoretical-values">Theoretical Values</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tracking-growth">Tracking Growth</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#available-markers">Available Markers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#visualization">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#single-family-growth">Single Family Growth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#family-comparison">Family Comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#convergence-rate">Convergence Rate</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-families">Custom Families</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#from-a-generator-function">From a Generator Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inductive-families">Inductive Families</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#weight-pattern-ltfs">Weight Pattern LTFs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#theoretical-bounds">Theoretical Bounds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-growth-plot">Quick Growth Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Function Families and Growth Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/families.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="function-families-and-growth-analysis">
+<h1>Function Families and Growth Analysis<a class="headerlink" href="#function-families-and-growth-analysis" title="Link to this heading"></a></h1>
+<p>This guide covers how to work with function families - parameterized collections of Boolean functions that grow with n.</p>
+<section id="what-is-a-function-family">
+<h2>What is a Function Family?<a class="headerlink" href="#what-is-a-function-family" title="Link to this heading"></a></h2>
+<p>A <strong>function family</strong> is a sequence of Boolean functions indexed by the number of variables n:</p>
+<ul class="simple">
+<li><p><strong>Majority_n</strong>: Returns 1 if more than half of inputs are 1</p></li>
+<li><p><strong>Parity_n</strong>: XOR of all inputs</p></li>
+<li><p><strong>Tribes_{k,n}</strong>: OR of k groups, each an AND of n/k variables</p></li>
+<li><p><strong>AND_n / OR_n</strong>: All inputs must be 1 / at least one input must be 1</p></li>
+</ul>
+<p>Studying how properties change as n grows reveals asymptotic behavior and theoretical bounds.</p>
+</section>
+<section id="built-in-families">
+<h2>Built-in Families<a class="headerlink" href="#built-in-families" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.families</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MajorityFamily</span><span class="p">,</span>
+    <span class="n">ParityFamily</span><span class="p">,</span>
+    <span class="n">TribesFamily</span><span class="p">,</span>
+    <span class="n">ANDFamily</span><span class="p">,</span>
+    <span class="n">ORFamily</span><span class="p">,</span>
+    <span class="n">DictatorFamily</span><span class="p">,</span>
+    <span class="n">ThresholdFamily</span><span class="p">,</span>
+    <span class="n">LTFFamily</span><span class="p">,</span>
+    <span class="n">RecursiveMajority3Family</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Generate a specific instance</span>
+<span class="n">maj</span> <span class="o">=</span> <span class="n">MajorityFamily</span><span class="p">()</span>
+<span class="n">f_5</span> <span class="o">=</span> <span class="n">maj</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># Majority on 5 variables</span>
+<span class="n">f_7</span> <span class="o">=</span> <span class="n">maj</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>           <span class="c1"># Shorthand</span>
+
+<span class="c1"># Generate multiple</span>
+<span class="n">functions</span> <span class="o">=</span> <span class="n">maj</span><span class="o">.</span><span class="n">generate_range</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">])</span>
+</pre></div>
+</div>
+<section id="family-metadata">
+<h3>Family Metadata<a class="headerlink" href="#family-metadata" title="Link to this heading"></a></h3>
+<p>Each family has metadata about its properties:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">maj</span> <span class="o">=</span> <span class="n">MajorityFamily</span><span class="p">()</span>
+<span class="n">meta</span> <span class="o">=</span> <span class="n">maj</span><span class="o">.</span><span class="n">metadata</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>           <span class="c1"># &quot;Majority&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>    <span class="c1"># &quot;MAJ_n(x) = 1 if Σx_i &gt; n/2&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">asymptotics</span><span class="p">)</span>    <span class="c1"># Known theoretical formulas</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">universal_properties</span><span class="p">)</span>  <span class="c1"># [&quot;monotone&quot;, &quot;symmetric&quot;, &quot;balanced&quot;]</span>
+</pre></div>
+</div>
+</section>
+<section id="theoretical-values">
+<h3>Theoretical Values<a class="headerlink" href="#theoretical-values" title="Link to this heading"></a></h3>
+<p>Get theoretical predictions for properties:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total influence of Majority_n ≈ √(2/π) · √n</span>
+<span class="n">theory</span> <span class="o">=</span> <span class="n">maj</span><span class="o">.</span><span class="n">theoretical_value</span><span class="p">(</span><span class="s1">&#39;total_influence&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;I[MAJ_15] ≈ </span><span class="si">{</span><span class="n">theory</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># ≈ 3.09</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="tracking-growth">
+<h2>Tracking Growth<a class="headerlink" href="#tracking-growth" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">GrowthTracker</span></code> observes properties as n increases:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.families</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthTracker</span><span class="p">,</span> <span class="n">MajorityFamily</span>
+
+<span class="c1"># Create tracker</span>
+<span class="n">maj</span> <span class="o">=</span> <span class="n">MajorityFamily</span><span class="p">()</span>
+<span class="n">tracker</span> <span class="o">=</span> <span class="n">GrowthTracker</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+
+<span class="c1"># Mark properties to track</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;total_influence&#39;</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;noise_stability&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;expectation&#39;</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;variance&#39;</span><span class="p">)</span>
+
+<span class="c1"># Observe over range of n</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">tracker</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">n_values</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
+
+<span class="c1"># Get summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tracker</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+<section id="available-markers">
+<h3>Available Markers<a class="headerlink" href="#available-markers" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.families</span><span class="w"> </span><span class="kn">import</span> <span class="n">PropertyMarker</span>
+
+<span class="c1"># Built-in markers</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;total_influence&#39;</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;influences&#39;</span><span class="p">)</span>              <span class="c1"># All variable influences</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;influence_0&#39;</span><span class="p">)</span>             <span class="c1"># Specific variable</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;noise_stability&#39;</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;fourier_degree&#39;</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;spectral_concentration&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;expectation&#39;</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;variance&#39;</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;sensitivity&#39;</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;block_sensitivity&#39;</span><span class="p">)</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;is_monotone&#39;</span><span class="p">)</span>             <span class="c1"># Boolean properties</span>
+
+<span class="c1"># Custom marker</span>
+<span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;custom&#39;</span><span class="p">,</span>
+    <span class="n">compute_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">sparsity</span><span class="p">(),</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Fourier sparsity&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Link to this heading"></a></h2>
+<section id="single-family-growth">
+<h3>Single Family Growth<a class="headerlink" href="#single-family-growth" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.visualization.growth_plots</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrowthVisualizer</span>
+
+<span class="n">viz</span> <span class="o">=</span> <span class="n">GrowthVisualizer</span><span class="p">()</span>
+
+<span class="c1"># Plot with theoretical comparison</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_growth</span><span class="p">(</span>
+    <span class="n">tracker</span><span class="p">,</span>
+    <span class="s1">&#39;total_influence&#39;</span><span class="p">,</span>
+    <span class="n">show_theory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">log_y</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="family-comparison">
+<h3>Family Comparison<a class="headerlink" href="#family-comparison" title="Link to this heading"></a></h3>
+<p>Compare multiple families on the same property:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.families</span><span class="w"> </span><span class="kn">import</span> <span class="n">MajorityFamily</span><span class="p">,</span> <span class="n">ParityFamily</span><span class="p">,</span> <span class="n">ANDFamily</span>
+
+<span class="c1"># Track each family</span>
+<span class="n">families</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Majority&#39;</span><span class="p">:</span> <span class="n">MajorityFamily</span><span class="p">(),</span>
+    <span class="s1">&#39;Parity&#39;</span><span class="p">:</span> <span class="n">ParityFamily</span><span class="p">(),</span>
+    <span class="s1">&#39;AND&#39;</span><span class="p">:</span> <span class="n">ANDFamily</span><span class="p">(),</span>
+<span class="p">}</span>
+
+<span class="n">trackers</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">family</span> <span class="ow">in</span> <span class="n">families</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">tracker</span> <span class="o">=</span> <span class="n">GrowthTracker</span><span class="p">(</span><span class="n">family</span><span class="p">)</span>
+    <span class="n">tracker</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="s1">&#39;total_influence&#39;</span><span class="p">)</span>
+    <span class="n">tracker</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">n_values</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">)))</span>
+    <span class="n">trackers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tracker</span>
+
+<span class="c1"># Compare</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">GrowthVisualizer</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_family_comparison</span><span class="p">(</span>
+    <span class="n">trackers</span><span class="p">,</span>
+    <span class="s1">&#39;total_influence&#39;</span><span class="p">,</span>
+    <span class="n">log_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Total Influence: Parity vs Majority vs AND&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="convergence-rate">
+<h3>Convergence Rate<a class="headerlink" href="#convergence-rate" title="Link to this heading"></a></h3>
+<p>Analyze how a property converges to its asymptotic value:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_convergence_rate</span><span class="p">(</span>
+    <span class="n">tracker</span><span class="p">,</span>
+    <span class="s1">&#39;total_influence&#39;</span><span class="p">,</span>
+    <span class="n">reference</span><span class="o">=</span><span class="s1">&#39;sqrt_n&#39;</span>  <span class="c1"># Divide by √n to see constant factor</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="custom-families">
+<h2>Custom Families<a class="headerlink" href="#custom-families" title="Link to this heading"></a></h2>
+<section id="from-a-generator-function">
+<h3>From a Generator Function<a class="headerlink" href="#from-a-generator-function" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.families</span><span class="w"> </span><span class="kn">import</span> <span class="n">FunctionFamily</span><span class="p">,</span> <span class="n">FamilyMetadata</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyCustomFamily</span><span class="p">(</span><span class="n">FunctionFamily</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">FamilyMetadata</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyFunction&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Custom function family&quot;</span><span class="p">,</span>
+            <span class="n">asymptotics</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;total_influence&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">universal_properties</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;balanced&#39;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Your custom logic</span>
+        <span class="k">return</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">^</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="inductive-families">
+<h3>Inductive Families<a class="headerlink" href="#inductive-families" title="Link to this heading"></a></h3>
+<p>Define families recursively:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.families</span><span class="w"> </span><span class="kn">import</span> <span class="n">InductiveFamily</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RecursiveFamily</span><span class="p">(</span><span class="n">InductiveFamily</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Recursive&quot;</span><span class="p">,</span>
+            <span class="n">base_cases</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="n">bf</span><span class="o">.</span><span class="n">dictator</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)},</span>
+            <span class="n">step_size</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_prev</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">n_prev</span><span class="p">):</span>
+        <span class="c1"># Extend from n-1 to n variables</span>
+        <span class="k">return</span> <span class="n">f_prev</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="weight-pattern-ltfs">
+<h3>Weight Pattern LTFs<a class="headerlink" href="#weight-pattern-ltfs" title="Link to this heading"></a></h3>
+<p>LTF families with custom weight patterns:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.families</span><span class="w"> </span><span class="kn">import</span> <span class="n">LTFFamily</span>
+
+<span class="c1"># Geometric weights: w_i = 0.5^i</span>
+<span class="n">geometric</span> <span class="o">=</span> <span class="n">LTFFamily</span><span class="o">.</span><span class="n">geometric</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Harmonic weights: w_i = 1/(i+1)</span>
+<span class="n">harmonic</span> <span class="o">=</span> <span class="n">LTFFamily</span><span class="o">.</span><span class="n">harmonic</span><span class="p">()</span>
+
+<span class="c1"># Power-law weights: w_i = (n-i)^2</span>
+<span class="n">power</span> <span class="o">=</span> <span class="n">LTFFamily</span><span class="o">.</span><span class="n">power_law</span><span class="p">(</span><span class="n">power</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+
+<span class="c1"># Custom pattern</span>
+<span class="n">custom</span> <span class="o">=</span> <span class="n">LTFFamily</span><span class="p">(</span>
+    <span class="n">weight_pattern</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SqrtHarmonic&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="theoretical-bounds">
+<h2>Theoretical Bounds<a class="headerlink" href="#theoretical-bounds" title="Link to this heading"></a></h2>
+<p>The library includes known asymptotic formulas:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Family</p></th>
+<th class="head"><p>Total Influence</p></th>
+<th class="head"><p>Max Influence</p></th>
+<th class="head"><p>Noise Stability</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Majority_n</p></td>
+<td><p>√(2/π) · √n</p></td>
+<td><p>√(2/(πn))</p></td>
+<td><p>(1/2) + (1/π)arcsin(ρ)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Parity_n</p></td>
+<td><p>n</p></td>
+<td><p>1</p></td>
+<td><p>ρ^n</p></td>
+</tr>
+<tr class="row-even"><td><p>AND_n</p></td>
+<td><p>n · 2^{-(n-1)}</p></td>
+<td><p>2^{-(n-1)}</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tribes</p></td>
+<td><p>O(log n)</p></td>
+<td><p>O(log n / n)</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Dictator</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>ρ</p></td>
+</tr>
+</tbody>
+</table>
+<p>Access these via:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">maj</span> <span class="o">=</span> <span class="n">MajorityFamily</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">maj</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">asymptotics</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="quick-growth-plot">
+<h2>Quick Growth Plot<a class="headerlink" href="#quick-growth-plot" title="Link to this heading"></a></h2>
+<p>For quick exploration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.visualization.growth_plots</span><span class="w"> </span><span class="kn">import</span> <span class="n">quick_growth_plot</span>
+
+<span class="c1"># One-liner visualization</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">quick_growth_plot</span><span class="p">(</span>
+    <span class="s1">&#39;majority&#39;</span><span class="p">,</span>
+    <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;total_influence&#39;</span><span class="p">,</span> <span class="s1">&#39;expectation&#39;</span><span class="p">],</span>
+    <span class="n">n_values</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="spectral_analysis.html"><span class="std std-doc">Spectral Analysis Guide</span></a> - Fourier analysis fundamentals</p></li>
+<li><p><a class="reference internal" href="query_complexity.html"><span class="std std-doc">Query Complexity Guide</span></a> - Complexity measures</p></li>
+<li><p><a class="reference internal" href="../api/boofun.families.html"><span class="std std-doc">API Reference</span></a> - Full API documentation</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="operations.html" class="btn btn-neutral float-left" title="Function Operations Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="probabilistic.html" class="btn btn-neutral float-right" title="Probabilistic View &amp; Pseudorandomness" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

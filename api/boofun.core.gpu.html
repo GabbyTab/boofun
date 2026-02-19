@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.gpu &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="boofun.core.io" href="boofun.core.io.html" />
+    <link rel="prev" title="boofun.core.factory" href="boofun.core.factory.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="boofun.html">boofun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.create"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.partial"><code class="docutils literal notranslate"><span class="pre">partial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PartialBooleanFunction"><code class="docutils literal notranslate"><span class="pre">PartialBooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_hex"><code class="docutils literal notranslate"><span class="pre">from_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.to_hex"><code class="docutils literal notranslate"><span class="pre">to_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.majority"><code class="docutils literal notranslate"><span class="pre">majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parity"><code class="docutils literal notranslate"><span class="pre">parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tribes"><code class="docutils literal notranslate"><span class="pre">tribes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dictator"><code class="docutils literal notranslate"><span class="pre">dictator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.constant"><code class="docutils literal notranslate"><span class="pre">constant()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.AND"><code class="docutils literal notranslate"><span class="pre">AND()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.OR"><code class="docutils literal notranslate"><span class="pre">OR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold"><code class="docutils literal notranslate"><span class="pre">threshold()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.weighted_majority"><code class="docutils literal notranslate"><span class="pre">weighted_majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_weights"><code class="docutils literal notranslate"><span class="pre">from_weights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionError"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidInputError"><code class="docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidRepresentationError"><code class="docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidTruthTableError"><code class="docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.EvaluationError"><code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConversionError"><code class="docutils literal notranslate"><span class="pre">ConversionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ResourceUnavailableError"><code class="docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvariantViolationError"><code class="docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parseval_verify"><code class="docutils literal notranslate"><span class="pre">parseval_verify()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.plancherel_inner_product"><code class="docutils literal notranslate"><span class="pre">plancherel_inner_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.convolution"><code class="docutils literal notranslate"><span class="pre">convolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.negate_inputs"><code class="docutils literal notranslate"><span class="pre">negate_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.odd_part"><code class="docutils literal notranslate"><span class="pre">odd_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.even_part"><code class="docutils literal notranslate"><span class="pre">even_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.restriction"><code class="docutils literal notranslate"><span class="pre">restriction()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_degree"><code class="docutils literal notranslate"><span class="pre">fourier_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.spectral_norm"><code class="docutils literal notranslate"><span class="pre">spectral_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_sparsity"><code class="docutils literal notranslate"><span class="pre">fourier_sparsity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dominant_coefficients"><code class="docutils literal notranslate"><span class="pre">dominant_coefficients()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_fourier_transform"><code class="docutils literal notranslate"><span class="pre">gf2_fourier_transform()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_degree"><code class="docutils literal notranslate"><span class="pre">gf2_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_monomials"><code class="docutils literal notranslate"><span class="pre">gf2_monomials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_to_string"><code class="docutils literal notranslate"><span class="pre">gf2_to_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_linear_over_gf2"><code class="docutils literal notranslate"><span class="pre">is_linear_over_gf2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.correlation_with_parity"><code class="docutils literal notranslate"><span class="pre">correlation_with_parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_operator"><code class="docutils literal notranslate"><span class="pre">noise_operator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.lq_norm"><code class="docutils literal notranslate"><span class="pre">lq_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.bonami_lemma_bound"><code class="docutils literal notranslate"><span class="pre">bonami_lemma_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.kkl_lower_bound"><code class="docutils literal notranslate"><span class="pre">kkl_lower_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.max_influence_bound"><code class="docutils literal notranslate"><span class="pre">max_influence_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.friedgut_junta_bound"><code class="docutils literal notranslate"><span class="pre">friedgut_junta_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.junta_approximation_error"><code class="docutils literal notranslate"><span class="pre">junta_approximation_error()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.level_d_inequality"><code class="docutils literal notranslate"><span class="pre">level_d_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractive_inequality"><code class="docutils literal notranslate"><span class="pre">hypercontractive_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GlobalHypercontractivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">GlobalHypercontractivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.generalized_influence"><code class="docutils literal notranslate"><span class="pre">generalized_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_alpha_global"><code class="docutils literal notranslate"><span class="pre">is_alpha_global()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_expectation"><code class="docutils literal notranslate"><span class="pre">p_biased_expectation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_total_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_total_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_stability_p_biased"><code class="docutils literal notranslate"><span class="pre">noise_stability_p_biased()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold_curve"><code class="docutils literal notranslate"><span class="pre">threshold_curve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.find_critical_p"><code class="docutils literal notranslate"><span class="pre">find_critical_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractivity_bound"><code class="docutils literal notranslate"><span class="pre">hypercontractivity_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionValidator"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionValidator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.quick_validate"><code class="docutils literal notranslate"><span class="pre">quick_validate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.validate_representation"><code class="docutils literal notranslate"><span class="pre">validate_representation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.CallableAdapter"><code class="docutils literal notranslate"><span class="pre">CallableAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SymPyAdapter"><code class="docutils literal notranslate"><span class="pre">SymPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NumPyAdapter"><code class="docutils literal notranslate"><span class="pre">NumPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_callable"><code class="docutils literal notranslate"><span class="pre">adapt_callable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_sympy_expr"><code class="docutils literal notranslate"><span class="pre">adapt_sympy_expr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_numpy_function"><code class="docutils literal notranslate"><span class="pre">adapt_numpy_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Measure"><code class="docutils literal notranslate"><span class="pre">Measure</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.get_gf_field"><code class="docutils literal notranslate"><span class="pre">get_gf_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GFField"><code class="docutils literal notranslate"><span class="pre">GFField</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.MajorityFamily"><code class="docutils literal notranslate"><span class="pre">MajorityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ParityFamily"><code class="docutils literal notranslate"><span class="pre">ParityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.TribesFamily"><code class="docutils literal notranslate"><span class="pre">TribesFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ThresholdFamily"><code class="docutils literal notranslate"><span class="pre">ThresholdFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ANDFamily"><code class="docutils literal notranslate"><span class="pre">ANDFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ORFamily"><code class="docutils literal notranslate"><span class="pre">ORFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.DictatorFamily"><code class="docutils literal notranslate"><span class="pre">DictatorFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LTFFamily"><code class="docutils literal notranslate"><span class="pre">LTFFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GrowthTracker"><code class="docutils literal notranslate"><span class="pre">GrowthTracker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.FunctionFamily"><code class="docutils literal notranslate"><span class="pre">FunctionFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InductiveFamily"><code class="docutils literal notranslate"><span class="pre">InductiveFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionVisualizer"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionVisualizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.analysis.html">boofun.analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.api.html">boofun.api</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="boofun.core.html">boofun.core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Evaluable"><code class="docutils literal notranslate"><span class="pre">Evaluable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Representable"><code class="docutils literal notranslate"><span class="pre">Representable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionFactory"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionFactory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionRepresentation"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionRepresentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ErrorModel"><code class="docutils literal notranslate"><span class="pre">ErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LinearErrorModel"><code class="docutils literal notranslate"><span class="pre">LinearErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QueryModel"><code class="docutils literal notranslate"><span class="pre">QueryModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.AccessType"><code class="docutils literal notranslate"><span class="pre">AccessType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.get_access_type"><code class="docutils literal notranslate"><span class="pre">get_access_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.check_query_safety"><code class="docutils literal notranslate"><span class="pre">check_query_safety()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QuerySafetyWarning"><code class="docutils literal notranslate"><span class="pre">QuerySafetyWarning</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExplicitEnumerationError"><code class="docutils literal notranslate"><span class="pre">ExplicitEnumerationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_json"><code class="docutils literal notranslate"><span class="pre">load_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_json"><code class="docutils literal notranslate"><span class="pre">save_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_bf"><code class="docutils literal notranslate"><span class="pre">load_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_bf"><code class="docutils literal notranslate"><span class="pre">save_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">load_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">save_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.detect_format"><code class="docutils literal notranslate"><span class="pre">detect_format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.FileIOError"><code class="docutils literal notranslate"><span class="pre">FileIOError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.adapters.html">boofun.core.adapters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.auto_representation.html">boofun.core.auto_representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.base.html">boofun.core.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.batch_processing.html">boofun.core.batch_processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.builtins.html">boofun.core.builtins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.conversion_graph.html">boofun.core.conversion_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.errormodels.html">boofun.core.errormodels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.factory.html">boofun.core.factory</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">boofun.core.gpu</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.is_gpu_available"><code class="docutils literal notranslate"><span class="pre">is_gpu_available()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.is_gpu_enabled"><code class="docutils literal notranslate"><span class="pre">is_gpu_enabled()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.enable_gpu"><code class="docutils literal notranslate"><span class="pre">enable_gpu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.get_gpu_info"><code class="docutils literal notranslate"><span class="pre">get_gpu_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.should_use_gpu"><code class="docutils literal notranslate"><span class="pre">should_use_gpu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.get_array_module"><code class="docutils literal notranslate"><span class="pre">get_array_module()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.to_gpu"><code class="docutils literal notranslate"><span class="pre">to_gpu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.to_cpu"><code class="docutils literal notranslate"><span class="pre">to_cpu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.gpu_walsh_hadamard"><code class="docutils literal notranslate"><span class="pre">gpu_walsh_hadamard()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.gpu_influences"><code class="docutils literal notranslate"><span class="pre">gpu_influences()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.gpu_noise_stability"><code class="docutils literal notranslate"><span class="pre">gpu_noise_stability()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.gpu_spectral_weight_by_degree"><code class="docutils literal notranslate"><span class="pre">gpu_spectral_weight_by_degree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.gpu_accelerate"><code class="docutils literal notranslate"><span class="pre">gpu_accelerate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.GPUBooleanFunctionOps"><code class="docutils literal notranslate"><span class="pre">GPUBooleanFunctionOps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.gpu.auto_accelerate"><code class="docutils literal notranslate"><span class="pre">auto_accelerate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.io.html">boofun.core.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.legacy_adapter.html">boofun.core.legacy_adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.numba_optimizations.html">boofun.core.numba_optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.optimizations.html">boofun.core.optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.partial.html">boofun.core.partial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.query_model.html">boofun.core.query_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.representations.html">boofun.core.representations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.spaces.html">boofun.core.spaces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.families.html">boofun.families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.quantum_complexity.html">boofun.quantum_complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.testing.html">boofun.testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.utils.html">boofun.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.visualization.html">boofun.visualization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="boofun.core.html">boofun.core</a></li>
+      <li class="breadcrumb-item active">boofun.core.gpu</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/boofun.core.gpu.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-boofun.core.gpu">
+<span id="boofun-core-gpu"></span><h1>boofun.core.gpu<a class="headerlink" href="#module-boofun.core.gpu" title="Link to this heading"></a></h1>
+<p>GPU acceleration for Boolean function operations.</p>
+<p>Provides CuPy-accelerated implementations of computationally intensive
+operations with automatic fallback to NumPy on CPU.</p>
+<p>Accelerated operations:
+- Walsh-Hadamard Transform (WHT)
+- Influence computation from Fourier coefficients
+- Noise stability computation
+- Spectral weight by degree
+- Batch truth table / Fourier evaluation</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.gpu</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_gpu_available</span><span class="p">,</span> <span class="n">gpu_walsh_hadamard</span>
+
+<span class="k">if</span> <span class="n">is_gpu_available</span><span class="p">():</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">gpu_walsh_hadamard</span><span class="p">(</span><span class="n">truth_table_pm</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Install CuPy for GPU support:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cupy</span><span class="o">-</span><span class="n">cuda12x</span>   <span class="c1"># adjust for your CUDA version</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module was consolidated from <code class="docutils literal notranslate"><span class="pre">gpu.py</span></code> and <code class="docutils literal notranslate"><span class="pre">gpu_acceleration.py</span></code>
+in v1.3.0.  The old <code class="docutils literal notranslate"><span class="pre">gpu_acceleration</span></code> module is removed; all public
+names are available here.</p>
+</div>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.gpu.auto_accelerate" title="boofun.core.gpu.auto_accelerate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">auto_accelerate</span></code></a>(func)</p></td>
+<td><p>Decorator: route to GPU for arrays &gt;= 2^14 elements.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.gpu.enable_gpu" title="boofun.core.gpu.enable_gpu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enable_gpu</span></code></a>([enable])</p></td>
+<td><p>Enable or disable GPU acceleration at runtime.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.gpu.get_array_module" title="boofun.core.gpu.get_array_module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_array_module</span></code></a>(arr)</p></td>
+<td><p>Get the array module (numpy or cupy) for the given array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.gpu.get_gpu_info" title="boofun.core.gpu.get_gpu_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_gpu_info</span></code></a>()</p></td>
+<td><p>Return information about available GPU resources.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.gpu.gpu_accelerate" title="boofun.core.gpu.gpu_accelerate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gpu_accelerate</span></code></a>(operation, *args, **kwargs)</p></td>
+<td><p>Run a named operation on GPU if available, otherwise raise.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.gpu.gpu_influences" title="boofun.core.gpu.gpu_influences"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gpu_influences</span></code></a>(fourier_coeffs[, n_vars])</p></td>
+<td><p>Influence computation: Inf_i[f] = sum_{S containing i} f_hat(S)^2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.gpu.gpu_noise_stability" title="boofun.core.gpu.gpu_noise_stability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gpu_noise_stability</span></code></a>(fourier_coeffs, rho)</p></td>
+<td><p>Noise stability: Stab_rho[f] = sum_S rho^|S| f_hat(S)^2.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.gpu.gpu_spectral_weight_by_degree" title="boofun.core.gpu.gpu_spectral_weight_by_degree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gpu_spectral_weight_by_degree</span></code></a>(fourier_coeffs)</p></td>
+<td><p>Spectral weight by degree: W^{=k}[f] = sum_{<a href="#id1"><span class="problematic" id="id2">|</span></a>S|=k} f_hat(S)^2.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.gpu.gpu_walsh_hadamard" title="boofun.core.gpu.gpu_walsh_hadamard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gpu_walsh_hadamard</span></code></a>(values[, in_place])</p></td>
+<td><p>Walsh-Hadamard Transform with optional GPU acceleration.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.gpu.is_gpu_available" title="boofun.core.gpu.is_gpu_available"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_gpu_available</span></code></a>()</p></td>
+<td><p>Check if GPU acceleration is available (CuPy + working CUDA).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.gpu.is_gpu_enabled" title="boofun.core.gpu.is_gpu_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_gpu_enabled</span></code></a>()</p></td>
+<td><p>Check if GPU acceleration is currently enabled.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.gpu.should_use_gpu" title="boofun.core.gpu.should_use_gpu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">should_use_gpu</span></code></a>(operation, data_size, n_vars)</p></td>
+<td><p>Heuristic: should we use GPU for this operation?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.gpu.to_cpu" title="boofun.core.gpu.to_cpu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_cpu</span></code></a>(arr)</p></td>
+<td><p>Move <em>arr</em> to CPU memory.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.gpu.to_gpu" title="boofun.core.gpu.to_gpu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_gpu</span></code></a>(arr)</p></td>
+<td><p>Move <em>arr</em> to GPU memory if available and enabled.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.gpu.GPUBooleanFunctionOps" title="boofun.core.gpu.GPUBooleanFunctionOps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GPUBooleanFunctionOps</span></code></a>(truth_table)</p></td>
+<td><p>GPU-accelerated operations for a single Boolean function.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.is_gpu_available">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">is_gpu_available</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#is_gpu_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.is_gpu_available" title="Link to this definition"></a></dt>
+<dd><p>Check if GPU acceleration is available (CuPy + working CUDA).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.is_gpu_enabled">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">is_gpu_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#is_gpu_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.is_gpu_enabled" title="Link to this definition"></a></dt>
+<dd><p>Check if GPU acceleration is currently enabled.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.enable_gpu">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">enable_gpu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#enable_gpu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.enable_gpu" title="Link to this definition"></a></dt>
+<dd><p>Enable or disable GPU acceleration at runtime.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.get_gpu_info">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">get_gpu_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#get_gpu_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.get_gpu_info" title="Link to this definition"></a></dt>
+<dd><p>Return information about available GPU resources.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.should_use_gpu">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">should_use_gpu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#should_use_gpu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.should_use_gpu" title="Link to this definition"></a></dt>
+<dd><p>Heuristic: should we use GPU for this operation?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operation</strong> – One of ‘truth_table’, ‘fourier’, ‘walsh_hadamard’, ‘wht’,
+‘influences’, etc.</p></li>
+<li><p><strong>data_size</strong> – Number of elements in the input.</p></li>
+<li><p><strong>n_vars</strong> – Number of Boolean variables.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if GPU acceleration is recommended.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.get_array_module">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">get_array_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#get_array_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.get_array_module" title="Link to this definition"></a></dt>
+<dd><p>Get the array module (numpy or cupy) for the given array.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.to_gpu">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">to_gpu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#to_gpu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.to_gpu" title="Link to this definition"></a></dt>
+<dd><p>Move <em>arr</em> to GPU memory if available and enabled.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.to_cpu">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">to_cpu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#to_cpu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.to_cpu" title="Link to this definition"></a></dt>
+<dd><p>Move <em>arr</em> to CPU memory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.gpu_walsh_hadamard">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">gpu_walsh_hadamard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#gpu_walsh_hadamard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.gpu_walsh_hadamard" title="Link to this definition"></a></dt>
+<dd><p>Walsh-Hadamard Transform with optional GPU acceleration.</p>
+<p>When CuPy is available and enabled the iterative butterfly is run on GPU;
+otherwise delegates to the CPU <code class="docutils literal notranslate"><span class="pre">fast_walsh_hadamard</span></code> in <em>optimizations</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – Array of 2^n values in +/-1 representation.</p></li>
+<li><p><strong>in_place</strong> – Modify <em>values</em> in place (saves memory on CPU path).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>WHT result (normalised, on CPU).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.gpu_influences">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">gpu_influences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fourier_coeffs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#gpu_influences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.gpu_influences" title="Link to this definition"></a></dt>
+<dd><p>Influence computation: Inf_i[f] = sum_{S containing i} f_hat(S)^2.</p>
+<p>Uses GPU when enabled, otherwise falls back to CPU vectorised code.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.gpu_noise_stability">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">gpu_noise_stability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fourier_coeffs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#gpu_noise_stability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.gpu_noise_stability" title="Link to this definition"></a></dt>
+<dd><p>Noise stability: Stab_rho[f] = sum_S rho^|S| f_hat(S)^2.</p>
+<p>Uses GPU when enabled, otherwise falls back to CPU.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.gpu_spectral_weight_by_degree">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">gpu_spectral_weight_by_degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fourier_coeffs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#gpu_spectral_weight_by_degree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.gpu_spectral_weight_by_degree" title="Link to this definition"></a></dt>
+<dd><p>Spectral weight by degree: W^{=k}[f] = sum_{<a href="#id3"><span class="problematic" id="id4">|</span></a>S|=k} f_hat(S)^2.</p>
+<p>Uses GPU when enabled, otherwise falls back to CPU.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.gpu_accelerate">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">gpu_accelerate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#gpu_accelerate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.gpu_accelerate" title="Link to this definition"></a></dt>
+<dd><p>Run a named operation on GPU if available, otherwise raise.</p>
+<p>Supported operations:
+- <code class="docutils literal notranslate"><span class="pre">truth_table_batch</span></code>: args = (inputs, truth_table)
+- <code class="docutils literal notranslate"><span class="pre">fourier_batch</span></code>: args = (inputs, coefficients)
+- <code class="docutils literal notranslate"><span class="pre">walsh_hadamard</span></code>: args = (function_values,)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.gpu.GPUBooleanFunctionOps">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">GPUBooleanFunctionOps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/gpu.html#GPUBooleanFunctionOps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.GPUBooleanFunctionOps" title="Link to this definition"></a></dt>
+<dd><p>GPU-accelerated operations for a single Boolean function.</p>
+<p>Wraps a truth table and caches the Fourier transform.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.gpu.GPUBooleanFunctionOps.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">truth_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#GPUBooleanFunctionOps.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.GPUBooleanFunctionOps.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.core.gpu.GPUBooleanFunctionOps.pm_values">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">pm_values</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span><a class="headerlink" href="#boofun.core.gpu.GPUBooleanFunctionOps.pm_values" title="Link to this definition"></a></dt>
+<dd><p>0-&gt;+1, 1-&gt;-1).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>±1 representation (O’Donnell convention</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.gpu.GPUBooleanFunctionOps.fourier">
+<span class="sig-name descname"><span class="pre">fourier</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#GPUBooleanFunctionOps.fourier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.GPUBooleanFunctionOps.fourier" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.gpu.GPUBooleanFunctionOps.influences">
+<span class="sig-name descname"><span class="pre">influences</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#GPUBooleanFunctionOps.influences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.GPUBooleanFunctionOps.influences" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.gpu.GPUBooleanFunctionOps.total_influence">
+<span class="sig-name descname"><span class="pre">total_influence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#GPUBooleanFunctionOps.total_influence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.GPUBooleanFunctionOps.total_influence" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.gpu.GPUBooleanFunctionOps.noise_stability">
+<span class="sig-name descname"><span class="pre">noise_stability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#GPUBooleanFunctionOps.noise_stability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.GPUBooleanFunctionOps.noise_stability" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.gpu.GPUBooleanFunctionOps.spectral_weights">
+<span class="sig-name descname"><span class="pre">spectral_weights</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/gpu.html#GPUBooleanFunctionOps.spectral_weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.GPUBooleanFunctionOps.spectral_weights" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="boofun.core.gpu.auto_accelerate">
+<span class="sig-prename descclassname"><span class="pre">boofun.core.gpu.</span></span><span class="sig-name descname"><span class="pre">auto_accelerate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/gpu.html#auto_accelerate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.gpu.auto_accelerate" title="Link to this definition"></a></dt>
+<dd><p>Decorator: route to GPU for arrays &gt;= 2^14 elements.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boofun.core.factory.html" class="btn btn-neutral float-left" title="boofun.core.factory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boofun.core.io.html" class="btn btn-neutral float-right" title="boofun.core.io" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

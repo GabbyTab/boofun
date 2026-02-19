@@ -1,0 +1,447 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.spaces &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.core.spaces</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.core.spaces</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Mathematical spaces for Boolean function analysis.</span>
+
+<span class="sd">Provides conversions between different representations:</span>
+<span class="sd">- BOOLEAN_CUBE: {0, 1}^n</span>
+<span class="sd">- PLUS_MINUS_CUBE: {-1, +1}^n</span>
+<span class="sd">- REAL: ℝ^n</span>
+<span class="sd">- LOG: Log-probability space</span>
+<span class="sd">- GAUSSIAN: Standard normal space</span>
+
+<span class="sd">WARNING: Some conversions are lossy (continuous → discrete).</span>
+<span class="sd">These will emit warnings unless explicitly silenced.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="Space">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Space">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Space</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">BOOLEAN_CUBE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># {0,1}^n</span>
+    <span class="n">PLUS_MINUS_CUBE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># {-1,1}^n</span>
+    <span class="n">REAL</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># ℝ^n</span>
+    <span class="n">LOG</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># Log space</span>
+    <span class="n">GAUSSIAN</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># Gaussian space</span>
+
+<div class="viewcode-block" id="Space.translate">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Space.translate">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">translate</span><span class="p">(</span>
+        <span class="nb">input</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">source_space</span><span class="p">:</span> <span class="s2">&quot;Space&quot;</span><span class="p">,</span>
+        <span class="n">target_space</span><span class="p">:</span> <span class="s2">&quot;Space&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Translate a scalar or array from one space to another.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input: Input value(s) to translate</span>
+<span class="sd">            source_space: Source mathematical space</span>
+<span class="sd">            target_space: Target mathematical space</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Translated value(s) in target space</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; Space.translate([0, 1], Space.BOOLEAN_CUBE, Space.PLUS_MINUS_CUBE)</span>
+<span class="sd">            array([-1,  1])</span>
+<span class="sd">            &gt;&gt;&gt; Space.translate([-1, 1], Space.PLUS_MINUS_CUBE, Space.BOOLEAN_CUBE)</span>
+<span class="sd">            array([0, 1])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">target_space</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">input</span>
+
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+
+        <span class="c1"># Boolean (0/1) → ±1</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">PLUS_MINUS_CUBE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">arr</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c1"># ±1 → Boolean (0/1)</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">PLUS_MINUS_CUBE</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">((</span><span class="n">arr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># Real-valued input → Boolean (mod 2) - LOSSY!</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">REAL</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Lossy conversion: REAL → BOOLEAN_CUBE uses round() % 2. &quot;</span>
+                <span class="s2">&quot;Magnitude information is lost.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># Boolean → Real (just cast)</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">REAL</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="c1"># ±1 → Real</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">PLUS_MINUS_CUBE</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">REAL</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="c1"># Real → ±1 (sign function) - LOSSY!</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">REAL</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">PLUS_MINUS_CUBE</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Lossy conversion: REAL → PLUS_MINUS_CUBE uses sign(). &quot;</span>
+                <span class="s2">&quot;Magnitude information is lost.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">arr</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># LOG space conversions - LOSSY!</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">LOG</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Lossy conversion: LOG → BOOLEAN_CUBE uses threshold at 0.5. &quot;</span>
+                <span class="s2">&quot;Probability magnitude is lost.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">LOG</span><span class="p">:</span>
+            <span class="c1"># Convert to log probabilities (avoid log(0))</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-10</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+
+        <span class="c1"># GAUSSIAN space conversions - LOSSY!</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">GAUSSIAN</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Lossy conversion: GAUSSIAN → BOOLEAN_CUBE uses CDF threshold. &quot;</span>
+                <span class="s2">&quot;Distribution information is lost.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+
+            <span class="k">return</span> <span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">GAUSSIAN</span><span class="p">:</span>
+            <span class="c1"># Inverse normal CDF</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">norm</span>
+
+            <span class="n">prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">1e-10</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+
+        <span class="c1"># Cross-conversions through intermediate spaces</span>
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">LOG</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">PLUS_MINUS_CUBE</span><span class="p">:</span>
+            <span class="c1"># LOG -&gt; BOOLEAN -&gt; ±1</span>
+            <span class="n">boolean</span> <span class="o">=</span> <span class="n">Space</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">LOG</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Space</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">boolean</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">PLUS_MINUS_CUBE</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">source_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">PLUS_MINUS_CUBE</span> <span class="ow">and</span> <span class="n">target_space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">LOG</span><span class="p">:</span>
+            <span class="c1"># ±1 -&gt; BOOLEAN -&gt; LOG</span>
+            <span class="n">boolean</span> <span class="o">=</span> <span class="n">Space</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">PLUS_MINUS_CUBE</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Space</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">boolean</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">LOG</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Translation from </span><span class="si">{</span><span class="n">source_space</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">target_space</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> not implemented.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Space.get_canonical_space">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Space.get_canonical_space">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_canonical_space</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s2">&quot;Space&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the canonical space for internal computations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span></div>
+
+
+<div class="viewcode-block" id="Space.is_discrete">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Space.is_discrete">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_discrete</span><span class="p">(</span><span class="n">space</span><span class="p">:</span> <span class="s2">&quot;Space&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if space uses discrete values.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">space</span> <span class="ow">in</span> <span class="p">{</span><span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">PLUS_MINUS_CUBE</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Space.is_continuous">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Space.is_continuous">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_continuous</span><span class="p">(</span><span class="n">space</span><span class="p">:</span> <span class="s2">&quot;Space&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if space uses continuous values.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">space</span> <span class="ow">in</span> <span class="p">{</span><span class="n">Space</span><span class="o">.</span><span class="n">REAL</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">LOG</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">GAUSSIAN</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Space.get_default_threshold">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Space.get_default_threshold">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_default_threshold</span><span class="p">(</span><span class="n">space</span><span class="p">:</span> <span class="s2">&quot;Space&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get default threshold for converting continuous to discrete.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">REAL</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.5</span>
+        <span class="k">elif</span> <span class="n">space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">LOG</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># log(0.5) ≈ -0.693, but 0.0 is simpler</span>
+        <span class="k">elif</span> <span class="n">space</span> <span class="o">==</span> <span class="n">Space</span><span class="o">.</span><span class="n">GAUSSIAN</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># Standard normal median</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.5</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Measure">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Measure">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Measure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A probability measure on the Boolean hypercube.</span>
+
+<span class="sd">    Supports uniform (p=0.5) and p-biased measures where each bit is 1</span>
+<span class="sd">    independently with probability p.</span>
+
+<span class="sd">    This unifies p-biased analysis: instead of calling separate functions</span>
+<span class="sd">    from analysis/p_biased.py, pass a Measure to standard methods.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; uniform = Measure.uniform()</span>
+<span class="sd">        &gt;&gt;&gt; biased = Measure.p_biased(0.3)</span>
+<span class="sd">        &gt;&gt;&gt; biased.p       # 0.3</span>
+<span class="sd">        &gt;&gt;&gt; biased.sigma    # sqrt(0.3 * 0.7)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Measure.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Measure.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bias p must be in (0, 1), got </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">=</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="Measure.uniform">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Measure.uniform">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">uniform</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Measure&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The uniform measure (p = 1/2).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Measure.p_biased">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Measure.p_biased">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p_biased</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Measure&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;P-biased measure: each bit is 1 with probability p.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">p</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Bias parameter.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Standard deviation of a single bit: sqrt(p(1-p)).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if this is the uniform measure (p = 0.5).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">==</span> <span class="mf">0.5</span>
+
+<div class="viewcode-block" id="Measure.sample">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Measure.sample">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample a random input from this measure.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n: Number of variables</span>
+<span class="sd">            rng: NumPy random generator (optional)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Binary array of length n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Measure.sample_batch">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Measure.sample_batch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample multiple inputs from this measure.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n: Number of variables</span>
+<span class="sd">            n_samples: Number of samples</span>
+<span class="sd">            rng: NumPy random generator (optional)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Array of shape (n_samples, n) with binary entries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Measure.weight">
+<a class="viewcode-back" href="../../../api/boofun.core.spaces.html#boofun.Measure.weight">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Probability of a specific input under this measure.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input as integer index or binary array</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            mu_p(x) = p^|x| * (1-p)^(n-|x|)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="c1"># Need n to compute, but can infer from context</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="o">**</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Partial, needs n</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="o">**</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_uniform</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Measure.uniform()&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Measure.p_biased(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Measure</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_p</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_p</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_p</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

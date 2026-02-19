@@ -1,0 +1,458 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.utils.exceptions.ErrorCode &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">boofun.utils.exceptions.ErrorCode</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api/generated/boofun.utils.exceptions.ErrorCode.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="boofun-utils-exceptions-errorcode">
+<h1>boofun.utils.exceptions.ErrorCode<a class="headerlink" href="#boofun-utils-exceptions-errorcode" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">ErrorCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/boofun/utils/exceptions.html#ErrorCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode" title="Link to this definition"></a></dt>
+<dd><p>Machine-readable error codes for BooFun exceptions.</p>
+<p>Error codes enable programmatic error handling and logging aggregation.
+Each code maps to a specific error condition.</p>
+<dl class="simple">
+<dt>Ranges:</dt><dd><p>E1000-E1999: Validation errors
+E2000-E2999: Evaluation errors
+E3000-E3999: Conversion errors
+E4000-E4999: Configuration errors
+E5000-E5999: Resource errors
+E9000-E9999: Internal errors</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.VALIDATION_ERROR" title="boofun.utils.exceptions.ErrorCode.VALIDATION_ERROR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VALIDATION_ERROR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INVALID_INPUT" title="boofun.utils.exceptions.ErrorCode.INVALID_INPUT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INVALID_INPUT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_VALUE" title="boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_VALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INVALID_PARAMETER_VALUE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_TYPE" title="boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_TYPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INVALID_PARAMETER_TYPE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.PARAMETER_OUT_OF_RANGE" title="boofun.utils.exceptions.ErrorCode.PARAMETER_OUT_OF_RANGE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PARAMETER_OUT_OF_RANGE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.EMPTY_INPUT" title="boofun.utils.exceptions.ErrorCode.EMPTY_INPUT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EMPTY_INPUT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INVALID_REPRESENTATION" title="boofun.utils.exceptions.ErrorCode.INVALID_REPRESENTATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INVALID_REPRESENTATION</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.UNKNOWN_REPRESENTATION" title="boofun.utils.exceptions.ErrorCode.UNKNOWN_REPRESENTATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNKNOWN_REPRESENTATION</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.REPRESENTATION_NOT_AVAILABLE" title="boofun.utils.exceptions.ErrorCode.REPRESENTATION_NOT_AVAILABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">REPRESENTATION_NOT_AVAILABLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INVALID_TRUTH_TABLE" title="boofun.utils.exceptions.ErrorCode.INVALID_TRUTH_TABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INVALID_TRUTH_TABLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_WRONG_SIZE" title="boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_WRONG_SIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TRUTH_TABLE_WRONG_SIZE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_EMPTY" title="boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_EMPTY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TRUTH_TABLE_EMPTY</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_INVALID_VALUES" title="boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_INVALID_VALUES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TRUTH_TABLE_INVALID_VALUES</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.EVALUATION_ERROR" title="boofun.utils.exceptions.ErrorCode.EVALUATION_ERROR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EVALUATION_ERROR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.EVALUATION_FAILED" title="boofun.utils.exceptions.ErrorCode.EVALUATION_FAILED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EVALUATION_FAILED</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.CALLABLE_RAISED" title="boofun.utils.exceptions.ErrorCode.CALLABLE_RAISED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CALLABLE_RAISED</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INDEX_OUT_OF_BOUNDS" title="boofun.utils.exceptions.ErrorCode.INDEX_OUT_OF_BOUNDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INDEX_OUT_OF_BOUNDS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.CORRUPTED_DATA" title="boofun.utils.exceptions.ErrorCode.CORRUPTED_DATA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CORRUPTED_DATA</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.CONVERSION_ERROR" title="boofun.utils.exceptions.ErrorCode.CONVERSION_ERROR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONVERSION_ERROR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.NO_CONVERSION_PATH" title="boofun.utils.exceptions.ErrorCode.NO_CONVERSION_PATH"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NO_CONVERSION_PATH</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.CONVERSION_FAILED" title="boofun.utils.exceptions.ErrorCode.CONVERSION_FAILED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONVERSION_FAILED</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_REPRESENTATIONS" title="boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_REPRESENTATIONS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INCOMPATIBLE_REPRESENTATIONS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.NO_REPRESENTATIONS" title="boofun.utils.exceptions.ErrorCode.NO_REPRESENTATIONS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NO_REPRESENTATIONS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.CONFIGURATION_ERROR" title="boofun.utils.exceptions.ErrorCode.CONFIGURATION_ERROR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CONFIGURATION_ERROR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INVALID_ERROR_MODEL" title="boofun.utils.exceptions.ErrorCode.INVALID_ERROR_MODEL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INVALID_ERROR_MODEL</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_SPACE" title="boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_SPACE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INCOMPATIBLE_SPACE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INVALID_OPTIMIZATION" title="boofun.utils.exceptions.ErrorCode.INVALID_OPTIMIZATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INVALID_OPTIMIZATION</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.RESOURCE_UNAVAILABLE" title="boofun.utils.exceptions.ErrorCode.RESOURCE_UNAVAILABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RESOURCE_UNAVAILABLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.NUMBA_UNAVAILABLE" title="boofun.utils.exceptions.ErrorCode.NUMBA_UNAVAILABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NUMBA_UNAVAILABLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.CUPY_UNAVAILABLE" title="boofun.utils.exceptions.ErrorCode.CUPY_UNAVAILABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CUPY_UNAVAILABLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.MATPLOTLIB_UNAVAILABLE" title="boofun.utils.exceptions.ErrorCode.MATPLOTLIB_UNAVAILABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MATPLOTLIB_UNAVAILABLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.SCIPY_UNAVAILABLE" title="boofun.utils.exceptions.ErrorCode.SCIPY_UNAVAILABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SCIPY_UNAVAILABLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.SYMPY_UNAVAILABLE" title="boofun.utils.exceptions.ErrorCode.SYMPY_UNAVAILABLE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SYMPY_UNAVAILABLE</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INTERNAL_ERROR" title="boofun.utils.exceptions.ErrorCode.INTERNAL_ERROR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INTERNAL_ERROR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.INVARIANT_VIOLATION" title="boofun.utils.exceptions.ErrorCode.INVARIANT_VIOLATION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">INVARIANT_VIOLATION</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.STATE_CORRUPTION" title="boofun.utils.exceptions.ErrorCode.STATE_CORRUPTION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STATE_CORRUPTION</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode.ALGORITHM_ERROR" title="boofun.utils.exceptions.ErrorCode.ALGORITHM_ERROR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ALGORITHM_ERROR</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.VALIDATION_ERROR">
+<span class="sig-name descname"><span class="pre">VALIDATION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.VALIDATION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_INPUT">
+<span class="sig-name descname"><span class="pre">INVALID_INPUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1100'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_INPUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_VALUE">
+<span class="sig-name descname"><span class="pre">INVALID_PARAMETER_VALUE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1101'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_VALUE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_TYPE">
+<span class="sig-name descname"><span class="pre">INVALID_PARAMETER_TYPE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1102'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_TYPE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.PARAMETER_OUT_OF_RANGE">
+<span class="sig-name descname"><span class="pre">PARAMETER_OUT_OF_RANGE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1103'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.PARAMETER_OUT_OF_RANGE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.EMPTY_INPUT">
+<span class="sig-name descname"><span class="pre">EMPTY_INPUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1104'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.EMPTY_INPUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_REPRESENTATION">
+<span class="sig-name descname"><span class="pre">INVALID_REPRESENTATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1200'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_REPRESENTATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.UNKNOWN_REPRESENTATION">
+<span class="sig-name descname"><span class="pre">UNKNOWN_REPRESENTATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1201'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.UNKNOWN_REPRESENTATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.REPRESENTATION_NOT_AVAILABLE">
+<span class="sig-name descname"><span class="pre">REPRESENTATION_NOT_AVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1202'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.REPRESENTATION_NOT_AVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_TRUTH_TABLE">
+<span class="sig-name descname"><span class="pre">INVALID_TRUTH_TABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1300'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_TRUTH_TABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_WRONG_SIZE">
+<span class="sig-name descname"><span class="pre">TRUTH_TABLE_WRONG_SIZE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1301'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_WRONG_SIZE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_EMPTY">
+<span class="sig-name descname"><span class="pre">TRUTH_TABLE_EMPTY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1302'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_EMPTY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_INVALID_VALUES">
+<span class="sig-name descname"><span class="pre">TRUTH_TABLE_INVALID_VALUES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1303'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_INVALID_VALUES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.EVALUATION_ERROR">
+<span class="sig-name descname"><span class="pre">EVALUATION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.EVALUATION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.EVALUATION_FAILED">
+<span class="sig-name descname"><span class="pre">EVALUATION_FAILED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.EVALUATION_FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CALLABLE_RAISED">
+<span class="sig-name descname"><span class="pre">CALLABLE_RAISED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CALLABLE_RAISED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INDEX_OUT_OF_BOUNDS">
+<span class="sig-name descname"><span class="pre">INDEX_OUT_OF_BOUNDS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INDEX_OUT_OF_BOUNDS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CORRUPTED_DATA">
+<span class="sig-name descname"><span class="pre">CORRUPTED_DATA</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2004'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CORRUPTED_DATA" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CONVERSION_ERROR">
+<span class="sig-name descname"><span class="pre">CONVERSION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CONVERSION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.NO_CONVERSION_PATH">
+<span class="sig-name descname"><span class="pre">NO_CONVERSION_PATH</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.NO_CONVERSION_PATH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CONVERSION_FAILED">
+<span class="sig-name descname"><span class="pre">CONVERSION_FAILED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CONVERSION_FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_REPRESENTATIONS">
+<span class="sig-name descname"><span class="pre">INCOMPATIBLE_REPRESENTATIONS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_REPRESENTATIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.NO_REPRESENTATIONS">
+<span class="sig-name descname"><span class="pre">NO_REPRESENTATIONS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3004'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.NO_REPRESENTATIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CONFIGURATION_ERROR">
+<span class="sig-name descname"><span class="pre">CONFIGURATION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E4000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CONFIGURATION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_ERROR_MODEL">
+<span class="sig-name descname"><span class="pre">INVALID_ERROR_MODEL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E4001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_ERROR_MODEL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_SPACE">
+<span class="sig-name descname"><span class="pre">INCOMPATIBLE_SPACE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E4002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_SPACE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_OPTIMIZATION">
+<span class="sig-name descname"><span class="pre">INVALID_OPTIMIZATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E4003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_OPTIMIZATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.RESOURCE_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">RESOURCE_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.RESOURCE_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.NUMBA_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">NUMBA_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.NUMBA_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CUPY_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">CUPY_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CUPY_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.MATPLOTLIB_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">MATPLOTLIB_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.MATPLOTLIB_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.SCIPY_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">SCIPY_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5004'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.SCIPY_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.SYMPY_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">SYMPY_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5005'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.SYMPY_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INTERNAL_ERROR">
+<span class="sig-name descname"><span class="pre">INTERNAL_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INTERNAL_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVARIANT_VIOLATION">
+<span class="sig-name descname"><span class="pre">INVARIANT_VIOLATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVARIANT_VIOLATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.STATE_CORRUPTION">
+<span class="sig-name descname"><span class="pre">STATE_CORRUPTION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.STATE_CORRUPTION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.ALGORITHM_ERROR">
+<span class="sig-name descname"><span class="pre">ALGORITHM_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.ALGORITHM_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

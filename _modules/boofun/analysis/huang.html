@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.huang &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.huang</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.huang</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Huang&#39;s Sensitivity Theorem and related results.</span>
+
+<span class="sd">Huang&#39;s Theorem (2019): For any Boolean function f: {0,1}^n → {0,1},</span>
+<span class="sd">    s(f) ≥ √deg(f)</span>
+
+<span class="sd">where s(f) is the sensitivity and deg(f) is the Fourier degree.</span>
+
+<span class="sd">This resolved the long-standing Sensitivity Conjecture, proving that</span>
+<span class="sd">sensitivity is polynomially related to all other complexity measures.</span>
+
+<span class="sd">Key relationships established:</span>
+<span class="sd">- bs(f) ≤ s(f)^2 (block sensitivity)</span>
+<span class="sd">- D(f) ≤ s(f)^4 (deterministic query complexity)</span>
+<span class="sd">- C(f) ≤ s(f)^2 (certificate complexity)</span>
+<span class="sd">- deg(f) ≤ s(f)^2 (Fourier degree)</span>
+
+<span class="sd">References:</span>
+<span class="sd">- Huang, &quot;Induced subgraphs of hypercubes and a proof of the</span>
+<span class="sd">  Sensitivity Conjecture&quot; (2019)</span>
+<span class="sd">- O&#39;Donnell, &quot;Analysis of Boolean Functions&quot; Chapter 2</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sensitivity_at&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;max_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;average_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;block_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;verify_huang_theorem&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sensitivity_vs_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HuangAnalysis&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="sensitivity_at">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.sensitivity_at">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sensitivity_at</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute sensitivity of f at input x.</span>
+
+<span class="sd">    s(f, x) = |{i : f(x) ≠ f(x ⊕ eᵢ)}|</span>
+
+<span class="sd">    The number of bits that, if flipped, change the output.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        x: Input (as integer)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Number of sensitive coordinates at x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">f_x</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">neighbor</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>  <span class="c1"># Flip bit i</span>
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">neighbor</span><span class="p">)</span> <span class="o">!=</span> <span class="n">f_x</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">count</span></div>
+
+
+
+<div class="viewcode-block" id="max_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.max_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute maximum sensitivity: s(f) = max_x s(f, x).</span>
+
+<span class="sd">    Also called just &quot;sensitivity&quot; of f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Maximum sensitivity over all inputs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">sensitivity_at</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Alias for max_sensitivity.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="average_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.average_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">average_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute average sensitivity: E_x[s(f, x)].</span>
+
+<span class="sd">    This equals the total influence I[f].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Average sensitivity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">sensitivity_at</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="block_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.block_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute block sensitivity: bs(f) = max_x bs(f, x).</span>
+
+<span class="sd">    bs(f, x) is the maximum number of disjoint blocks B₁, ..., Bₖ</span>
+<span class="sd">    such that flipping all bits in any Bᵢ changes f(x).</span>
+
+<span class="sd">    Huang showed: bs(f) ≤ s(f)²</span>
+
+<span class="sd">    This delegates to the exact algorithm in block_sensitivity module,</span>
+<span class="sd">    which uses minimal sensitive blocks + backtracking to find the</span>
+<span class="sd">    optimal disjoint packing.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Block sensitivity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.block_sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_block_sensitivity</span>
+
+    <span class="k">return</span> <span class="n">max_block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="verify_huang_theorem">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.verify_huang_theorem">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">verify_huang_theorem</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verify Huang&#39;s Sensitivity Theorem for function f.</span>
+
+<span class="sd">    Checks: s(f) ≥ √deg(f)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict with sensitivity, degree, and verification result</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">deg</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+
+    <span class="c1"># Huang&#39;s bound</span>
+    <span class="n">huang_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span>
+    <span class="n">satisfied</span> <span class="o">=</span> <span class="n">s</span> <span class="o">&gt;=</span> <span class="n">huang_bound</span> <span class="o">-</span> <span class="mf">1e-10</span>  <span class="c1"># Allow small numerical error</span>
+
+    <span class="c1"># Also check block sensitivity relationship</span>
+    <span class="n">bs</span> <span class="o">=</span> <span class="n">block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">bs_bound_satisfied</span> <span class="o">=</span> <span class="n">bs</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;sensitivity&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span>
+        <span class="s2">&quot;fourier_degree&quot;</span><span class="p">:</span> <span class="n">deg</span><span class="p">,</span>
+        <span class="s2">&quot;block_sensitivity&quot;</span><span class="p">:</span> <span class="n">bs</span><span class="p">,</span>
+        <span class="s2">&quot;huang_bound&quot;</span><span class="p">:</span> <span class="n">huang_bound</span><span class="p">,</span>
+        <span class="s2">&quot;huang_satisfied&quot;</span><span class="p">:</span> <span class="n">satisfied</span><span class="p">,</span>
+        <span class="s2">&quot;bs_bound_satisfied&quot;</span><span class="p">:</span> <span class="n">bs_bound_satisfied</span><span class="p">,</span>
+        <span class="s2">&quot;gap&quot;</span><span class="p">:</span> <span class="n">s</span> <span class="o">-</span> <span class="n">huang_bound</span><span class="p">,</span>
+        <span class="s2">&quot;tightness&quot;</span><span class="p">:</span> <span class="n">s</span> <span class="o">/</span> <span class="n">huang_bound</span> <span class="k">if</span> <span class="n">huang_bound</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="sensitivity_vs_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.sensitivity_vs_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sensitivity_vs_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare sensitivity and degree for Huang analysis.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (sensitivity, degree, ratio s/√deg)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">deg</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="n">s</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span> <span class="k">if</span> <span class="n">deg</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">deg</span><span class="p">,</span> <span class="n">ratio</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="HuangAnalysis">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.HuangAnalysis">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HuangAnalysis</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive sensitivity analysis with Huang&#39;s theorem.</span>
+
+<span class="sd">    Computes various sensitivity-related measures and verifies</span>
+<span class="sd">    the polynomial relationships established by Huang.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="HuangAnalysis.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.HuangAnalysis.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize analyzer with a Boolean function.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="k">assert</span> <span class="n">n_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">n_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="HuangAnalysis.sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.HuangAnalysis.sensitivity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get maximum sensitivity.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;sensitivity&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;sensitivity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;sensitivity&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="HuangAnalysis.block_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.HuangAnalysis.block_sensitivity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">block_sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get block sensitivity.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;block_sensitivity&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;block_sensitivity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">block_sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;block_sensitivity&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="HuangAnalysis.degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.HuangAnalysis.degree">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">degree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Fourier degree.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;degree&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;degree&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;degree&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="HuangAnalysis.sensitivity_profile">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.HuangAnalysis.sensitivity_profile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sensitivity_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get sensitivity at each input.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sensitivity_at</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="HuangAnalysis.verify_all_bounds">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.HuangAnalysis.verify_all_bounds">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verify_all_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify all Huang-related polynomial bounds.</span>
+
+<span class="sd">        Checks:</span>
+<span class="sd">        - s(f) ≥ √deg(f)  [Huang]</span>
+<span class="sd">        - bs(f) ≤ s(f)²</span>
+<span class="sd">        - C(f) ≤ s(f)²</span>
+<span class="sd">        - D(f) ≤ s(f)⁴</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensitivity</span><span class="p">()</span>
+        <span class="n">bs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_sensitivity</span><span class="p">()</span>
+        <span class="n">deg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+
+        <span class="c1"># Certificate complexity (max over all inputs)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">certificate_complexity</span>
+
+        <span class="n">cert</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">certificate_complexity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">))</span>
+
+        <span class="c1"># Decision tree depth (deterministic query complexity)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">decision_tree_depth</span>
+
+        <span class="n">D</span> <span class="o">=</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="n">results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;sensitivity&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span>
+            <span class="s2">&quot;block_sensitivity&quot;</span><span class="p">:</span> <span class="n">bs</span><span class="p">,</span>
+            <span class="s2">&quot;certificate_complexity&quot;</span><span class="p">:</span> <span class="n">cert</span><span class="p">,</span>
+            <span class="s2">&quot;deterministic_complexity&quot;</span><span class="p">:</span> <span class="n">D</span><span class="p">,</span>
+            <span class="s2">&quot;fourier_degree&quot;</span><span class="p">:</span> <span class="n">deg</span><span class="p">,</span>
+            <span class="s2">&quot;bounds&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;huang&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;inequality&quot;</span><span class="p">:</span> <span class="s2">&quot;s(f) &gt;= √deg(f)&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;lhs&quot;</span><span class="p">:</span> <span class="n">s</span><span class="p">,</span>
+                    <span class="s2">&quot;rhs&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">deg</span><span class="p">),</span>
+                    <span class="s2">&quot;satisfied&quot;</span><span class="p">:</span> <span class="n">s</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1e-10</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;block_sensitivity&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;inequality&quot;</span><span class="p">:</span> <span class="s2">&quot;bs(f) &lt;= s(f)²&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;lhs&quot;</span><span class="p">:</span> <span class="n">bs</span><span class="p">,</span>
+                    <span class="s2">&quot;rhs&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="s2">&quot;satisfied&quot;</span><span class="p">:</span> <span class="n">bs</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;certificate&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;inequality&quot;</span><span class="p">:</span> <span class="s2">&quot;C(f) &lt;= s(f)²&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;lhs&quot;</span><span class="p">:</span> <span class="n">cert</span><span class="p">,</span>
+                    <span class="s2">&quot;rhs&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="s2">&quot;satisfied&quot;</span><span class="p">:</span> <span class="n">cert</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;deterministic&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;inequality&quot;</span><span class="p">:</span> <span class="s2">&quot;D(f) &lt;= s(f)⁴&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;lhs&quot;</span><span class="p">:</span> <span class="n">D</span><span class="p">,</span>
+                    <span class="s2">&quot;rhs&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span>
+                    <span class="s2">&quot;satisfied&quot;</span><span class="p">:</span> <span class="n">D</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;all_satisfied&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Will update below</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Check if all bounds are satisfied</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;all_satisfied&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="s2">&quot;satisfied&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;bounds&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="HuangAnalysis.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.huang.html#boofun.analysis.huang.HuangAnalysis.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a text summary of the analysis.&quot;&quot;&quot;</span>
+        <span class="n">verification</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_all_bounds</span><span class="p">()</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;=== Huang&#39;s Sensitivity Analysis ===&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;n = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2"> variables&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Measures:&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  s(f)  = </span><span class="si">{</span><span class="n">verification</span><span class="p">[</span><span class="s1">&#39;sensitivity&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (sensitivity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  bs(f) = </span><span class="si">{</span><span class="n">verification</span><span class="p">[</span><span class="s1">&#39;block_sensitivity&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (block sensitivity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  C(f)  = </span><span class="si">{</span><span class="n">verification</span><span class="p">[</span><span class="s1">&#39;certificate_complexity&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (certificate complexity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  D(f)  = </span><span class="si">{</span><span class="n">verification</span><span class="p">[</span><span class="s1">&#39;deterministic_complexity&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (deterministic complexity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  deg(f)= </span><span class="si">{</span><span class="n">verification</span><span class="p">[</span><span class="s1">&#39;fourier_degree&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (Fourier degree)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Polynomial Bounds:&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">bound</span> <span class="ow">in</span> <span class="n">verification</span><span class="p">[</span><span class="s2">&quot;bounds&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;✓&quot;</span> <span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="s2">&quot;satisfied&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;✗&quot;</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">bound</span><span class="p">[</span><span class="s1">&#39;inequality&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">bound</span><span class="p">[</span><span class="s1">&#39;lhs&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">bound</span><span class="p">[</span><span class="s1">&#39;rhs&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;All bounds satisfied! ✓&quot;</span>
+            <span class="k">if</span> <span class="n">verification</span><span class="p">[</span><span class="s2">&quot;all_satisfied&quot;</span><span class="p">]</span>
+            <span class="k">else</span> <span class="s2">&quot;Some bounds violated! ✗&quot;</span>
+        <span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

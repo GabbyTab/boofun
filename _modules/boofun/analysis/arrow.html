@@ -1,0 +1,580 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.arrow &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.arrow</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.arrow</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Arrow&#39;s Impossibility Theorem and Social Choice Theory.</span>
+
+<span class="sd">Arrow&#39;s Theorem (1951): Any social welfare function satisfying:</span>
+<span class="sd">1. Unrestricted Domain (UD)</span>
+<span class="sd">2. Pareto Efficiency (PE)</span>
+<span class="sd">3. Independence of Irrelevant Alternatives (IIA)</span>
+<span class="sd">4. Non-Dictatorship (ND)</span>
+
+<span class="sd">...does not exist for 3+ alternatives.</span>
+
+<span class="sd">For Boolean functions (2 alternatives), the theorem states:</span>
+<span class="sd">Any Boolean function f: {±1}^n → {±1} that is:</span>
+<span class="sd">- Unanimous (Pareto): If all voters agree, output matches</span>
+<span class="sd">- Independent: Output depends only on individual preferences</span>
+<span class="sd">- Non-dictatorial: Not controlled by a single voter</span>
+
+<span class="sd">...must be dictatorial! (Only exception is constant functions)</span>
+
+<span class="sd">Connection to Fourier Analysis:</span>
+<span class="sd">- A function is &quot;close to dictator&quot; if its degree-1 Fourier weight is high</span>
+<span class="sd">- The FKN theorem formalizes this</span>
+
+<span class="sd">This module provides tools to:</span>
+<span class="sd">1. Check if a function satisfies Arrow&#39;s conditions</span>
+<span class="sd">2. Quantify &quot;distance to dictator&quot;</span>
+<span class="sd">3. Analyze voting functions in the social choice framework</span>
+
+<span class="sd">References:</span>
+<span class="sd">- Arrow, &quot;Social Choice and Individual Values&quot; (1951)</span>
+<span class="sd">- O&#39;Donnell, &quot;Analysis of Boolean Functions&quot; Chapter 2</span>
+<span class="sd">- Kalai, &quot;Social Indeterminacy&quot; (2002)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;is_unanimous&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_dictatorial&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_non_dictatorial&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;find_dictator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;arrow_analysis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;social_welfare_properties&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;voting_power_analysis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ArrowAnalyzer&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="is_unanimous">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.is_unanimous">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_unanimous</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if f satisfies unanimity (Pareto efficiency).</span>
+
+<span class="sd">    Unanimity: f(1,1,...,1) = 1 and f(0,0,...,0) = 0</span>
+<span class="sd">    (or in ±1: f(+1,...,+1) = +1 and f(-1,...,-1) = -1)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function (voting rule)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if function satisfies unanimity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="c1"># All ones input</span>
+    <span class="n">all_ones</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># 111...1</span>
+    <span class="c1"># All zeros input</span>
+    <span class="n">all_zeros</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 000...0</span>
+
+    <span class="n">f_all_ones</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">all_ones</span><span class="p">)</span>
+    <span class="n">f_all_zeros</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">all_zeros</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f_all_ones</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">f_all_zeros</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="is_dictatorial">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.is_dictatorial">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_dictatorial</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if f is a dictator function.</span>
+
+<span class="sd">    A dictator function depends on exactly one variable:</span>
+<span class="sd">    f(x) = x_i for some i (or f(x) = 1 - x_i)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is a dictator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dictator_idx</span> <span class="o">=</span> <span class="n">find_dictator</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dictator_idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="is_non_dictatorial">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.is_non_dictatorial">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_non_dictatorial</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if f is non-dictatorial.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if f is NOT a dictator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">is_dictatorial</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="find_dictator">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.find_dictator">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_dictator</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find which variable is the dictator, if f is dictatorial.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple (variable_index, is_negated) if f is a dictator,</span>
+<span class="sd">        None otherwise.</span>
+
+<span class="sd">        is_negated=False means f(x) = x_i</span>
+<span class="sd">        is_negated=True means f(x) = 1 - x_i</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="c1"># Check if f equals x_i</span>
+        <span class="n">is_dictator_i</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">is_neg_dictator_i</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">bit_i</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span>
+            <span class="n">f_x</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">f_x</span> <span class="o">!=</span> <span class="n">bit_i</span><span class="p">:</span>
+                <span class="n">is_dictator_i</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">f_x</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">bit_i</span><span class="p">):</span>
+                <span class="n">is_neg_dictator_i</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_dictator_i</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_neg_dictator_i</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">is_dictator_i</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_neg_dictator_i</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="arrow_analysis">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.arrow_analysis">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">arrow_analysis</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyze a voting function through the lens of Arrow&#39;s theorem.</span>
+
+<span class="sd">    For 2 alternatives (Boolean), Arrow says:</span>
+<span class="sd">    Unanimous + IIA + Non-dictator = Impossible</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict with Arrow analysis results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="c1"># Check properties</span>
+    <span class="n">unanimous</span> <span class="o">=</span> <span class="n">is_unanimous</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">dictator_info</span> <span class="o">=</span> <span class="n">find_dictator</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">is_dictator</span> <span class="o">=</span> <span class="n">dictator_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="c1"># IIA is automatic for Boolean functions (output depends only on inputs)</span>
+    <span class="n">iia</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Compute influences (related to voting power)</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+    <span class="n">total_influence</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span>
+    <span class="n">max_influence</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span>
+
+    <span class="c1"># Distance to dictator (from FKN analysis)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.fkn</span><span class="w"> </span><span class="kn">import</span> <span class="n">closest_dictator</span>
+
+    <span class="n">closest_idx</span><span class="p">,</span> <span class="n">closest_dist</span><span class="p">,</span> <span class="n">closest_neg</span> <span class="o">=</span> <span class="n">closest_dictator</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Arrow&#39;s characterization</span>
+    <span class="k">if</span> <span class="n">dictator_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">arrow_type</span> <span class="o">=</span> <span class="s2">&quot;dictator&quot;</span>
+        <span class="n">arrow_explanation</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;This is dictator on variable </span><span class="si">{</span><span class="n">dictator_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">dictator_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">arrow_explanation</span> <span class="o">+=</span> <span class="s2">&quot; (negated)&quot;</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">unanimous</span><span class="p">:</span>
+        <span class="n">arrow_type</span> <span class="o">=</span> <span class="s2">&quot;non-unanimous&quot;</span>
+        <span class="n">arrow_explanation</span> <span class="o">=</span> <span class="s2">&quot;Violates unanimity (Pareto), so Arrow doesn&#39;t apply&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">arrow_type</span> <span class="o">=</span> <span class="s2">&quot;impossible&quot;</span>
+        <span class="n">arrow_explanation</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;Unanimous + IIA + Non-dictator should be impossible by Arrow&#39;s theorem! &quot;</span>
+            <span class="s2">&quot;This function must be very close to a dictator.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;n_voters&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>
+        <span class="s2">&quot;is_unanimous&quot;</span><span class="p">:</span> <span class="n">unanimous</span><span class="p">,</span>
+        <span class="s2">&quot;is_iia&quot;</span><span class="p">:</span> <span class="n">iia</span><span class="p">,</span>  <span class="c1"># Always true for Boolean</span>
+        <span class="s2">&quot;is_dictator&quot;</span><span class="p">:</span> <span class="n">is_dictator</span><span class="p">,</span>
+        <span class="s2">&quot;dictator_info&quot;</span><span class="p">:</span> <span class="n">dictator_info</span><span class="p">,</span>
+        <span class="s2">&quot;arrow_type&quot;</span><span class="p">:</span> <span class="n">arrow_type</span><span class="p">,</span>
+        <span class="s2">&quot;arrow_explanation&quot;</span><span class="p">:</span> <span class="n">arrow_explanation</span><span class="p">,</span>
+        <span class="s2">&quot;influences&quot;</span><span class="p">:</span> <span class="n">influences</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+        <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="n">total_influence</span><span class="p">,</span>
+        <span class="s2">&quot;max_influence&quot;</span><span class="p">:</span> <span class="n">max_influence</span><span class="p">,</span>
+        <span class="s2">&quot;distance_to_dictator&quot;</span><span class="p">:</span> <span class="n">closest_dist</span><span class="p">,</span>
+        <span class="s2">&quot;closest_dictator_var&quot;</span><span class="p">:</span> <span class="n">closest_idx</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="social_welfare_properties">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.social_welfare_properties">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">social_welfare_properties</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyze social welfare properties of a voting function.</span>
+
+<span class="sd">    Returns dict with:</span>
+<span class="sd">    - Symmetry: Are all voters equally powerful?</span>
+<span class="sd">    - Monotonicity: Does voting &quot;yes&quot; never hurt outcome?</span>
+<span class="sd">    - Neutrality: Is the function balanced?</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+
+    <span class="c1"># Symmetry: all influences equal</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+    <span class="n">is_symmetric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">influences</span><span class="p">,</span> <span class="n">influences</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+    <span class="c1"># Monotonicity: f is monotone</span>
+    <span class="n">is_monotone</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">is_monotone</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="c1"># Neutrality/Balance</span>
+    <span class="n">is_balanced</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">is_balanced</span><span class="p">()</span>
+
+    <span class="c1"># Anonymity (same as symmetry for Boolean)</span>
+    <span class="n">is_anonymous</span> <span class="o">=</span> <span class="n">is_symmetric</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;is_symmetric&quot;</span><span class="p">:</span> <span class="n">is_symmetric</span><span class="p">,</span>
+        <span class="s2">&quot;is_anonymous&quot;</span><span class="p">:</span> <span class="n">is_anonymous</span><span class="p">,</span>
+        <span class="s2">&quot;is_monotone&quot;</span><span class="p">:</span> <span class="n">is_monotone</span><span class="p">,</span>
+        <span class="s2">&quot;is_balanced&quot;</span><span class="p">:</span> <span class="n">is_balanced</span><span class="p">,</span>
+        <span class="s2">&quot;influence_variance&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">influences</span><span class="p">),</span>
+        <span class="s2">&quot;influence_ratio&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="nb">max</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span> <span class="o">/</span> <span class="nb">min</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span> <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+        <span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="voting_power_analysis">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.voting_power_analysis">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">voting_power_analysis</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyze voting power using different power indices.</span>
+
+<span class="sd">    Computes:</span>
+<span class="sd">    - Banzhaf power index (= influence)</span>
+<span class="sd">    - Shapley-Shubik power index (for simple games)</span>
+<span class="sd">    - Pivotal voter analysis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">factorial</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="c1"># Banzhaf power = influence</span>
+    <span class="n">banzhaf</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+    <span class="c1"># Shapley-Shubik: average marginal contribution over orderings</span>
+    <span class="c1"># For Boolean functions: SS_i = (1/n!) Σ_{π} [f(π,i) - f(π,-i)]</span>
+    <span class="c1"># where sum is over orderings π</span>
+
+    <span class="n">shapley</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># For small n, compute exactly</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">permutations</span>
+
+        <span class="k">for</span> <span class="n">perm</span> <span class="ow">in</span> <span class="n">permutations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="c1"># Coalition of voters before i in the ordering</span>
+                <span class="n">coalition</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">perm</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">perm</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                        <span class="n">coalition</span> <span class="o">|=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">j</span>
+
+                <span class="c1"># Compute marginal contribution</span>
+                <span class="n">f_without_i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">coalition</span><span class="p">))</span>
+                <span class="n">f_with_i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">coalition</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)))</span>
+
+                <span class="n">shapley</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">f_with_i</span> <span class="o">-</span> <span class="n">f_without_i</span>
+
+        <span class="n">shapley</span> <span class="o">/=</span> <span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Approximate with sampling</span>
+        <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">10000</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+            <span class="n">perm</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">pos</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">perm</span><span class="p">):</span>
+                <span class="n">coalition</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">perm</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
+                <span class="n">f_without_i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">coalition</span><span class="p">))</span>
+                <span class="n">f_with_i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">coalition</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)))</span>
+                <span class="n">shapley</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">f_with_i</span> <span class="o">-</span> <span class="n">f_without_i</span>
+
+        <span class="n">shapley</span> <span class="o">/=</span> <span class="n">num_samples</span>
+
+    <span class="c1"># Find pivotal voters (high influence)</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n</span>  <span class="c1"># Above average</span>
+    <span class="n">pivotal</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">banzhaf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">]</span>
+
+    <span class="c1"># Dummy voters (zero influence)</span>
+    <span class="n">dummies</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">banzhaf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;banzhaf_index&quot;</span><span class="p">:</span> <span class="n">banzhaf</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+        <span class="s2">&quot;shapley_shubik_index&quot;</span><span class="p">:</span> <span class="n">shapley</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+        <span class="s2">&quot;pivotal_voters&quot;</span><span class="p">:</span> <span class="n">pivotal</span><span class="p">,</span>
+        <span class="s2">&quot;dummy_voters&quot;</span><span class="p">:</span> <span class="n">dummies</span><span class="p">,</span>
+        <span class="s2">&quot;most_powerful&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">banzhaf</span><span class="p">)),</span>
+        <span class="s2">&quot;power_concentration&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">banzhaf</span><span class="p">)</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">banzhaf</span><span class="p">))</span> <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">banzhaf</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="ArrowAnalyzer">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.ArrowAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArrowAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive Arrow&#39;s Theorem analysis for voting functions.</span>
+
+<span class="sd">    Combines all social choice analysis tools.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ArrowAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.ArrowAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize with a voting function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: Boolean function representing the voting rule</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="ArrowAnalyzer.arrow_properties">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.ArrowAnalyzer.arrow_properties">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">arrow_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Arrow&#39;s theorem analysis.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;arrow&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;arrow&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arrow_analysis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;arrow&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ArrowAnalyzer.welfare_properties">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.ArrowAnalyzer.welfare_properties">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">welfare_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get social welfare properties.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;welfare&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;welfare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">social_welfare_properties</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;welfare&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ArrowAnalyzer.voting_power">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.ArrowAnalyzer.voting_power">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">voting_power</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get voting power analysis.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;power&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;power&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">voting_power_analysis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="s2">&quot;power&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ArrowAnalyzer.full_analysis">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.ArrowAnalyzer.full_analysis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">full_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get complete social choice analysis.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;arrow&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrow_properties</span><span class="p">(),</span>
+            <span class="s2">&quot;welfare&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">welfare_properties</span><span class="p">(),</span>
+            <span class="s2">&quot;power&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">voting_power</span><span class="p">(),</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="ArrowAnalyzer.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.arrow.html#boofun.analysis.arrow.ArrowAnalyzer.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get text summary of the analysis.&quot;&quot;&quot;</span>
+        <span class="n">arrow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrow_properties</span><span class="p">()</span>
+        <span class="n">welfare</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">welfare_properties</span><span class="p">()</span>
+        <span class="n">power</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">voting_power</span><span class="p">()</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">,</span>
+            <span class="s2">&quot;SOCIAL CHOICE ANALYSIS&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Number of voters: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--- Arrow&#39;s Theorem ---&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Unanimous: </span><span class="si">{</span><span class="n">arrow</span><span class="p">[</span><span class="s1">&#39;is_unanimous&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;IIA (automatic): </span><span class="si">{</span><span class="n">arrow</span><span class="p">[</span><span class="s1">&#39;is_iia&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Dictator: </span><span class="si">{</span><span class="n">arrow</span><span class="p">[</span><span class="s1">&#39;is_dictator&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Type: </span><span class="si">{</span><span class="n">arrow</span><span class="p">[</span><span class="s1">&#39;arrow_type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Explanation: </span><span class="si">{</span><span class="n">arrow</span><span class="p">[</span><span class="s1">&#39;arrow_explanation&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--- Social Welfare Properties ---&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Symmetric/Anonymous: </span><span class="si">{</span><span class="n">welfare</span><span class="p">[</span><span class="s1">&#39;is_symmetric&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Monotone: </span><span class="si">{</span><span class="n">welfare</span><span class="p">[</span><span class="s1">&#39;is_monotone&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Balanced/Neutral: </span><span class="si">{</span><span class="n">welfare</span><span class="p">[</span><span class="s1">&#39;is_balanced&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--- Voting Power ---&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Most powerful voter: </span><span class="si">{</span><span class="n">power</span><span class="p">[</span><span class="s1">&#39;most_powerful&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Power concentration: </span><span class="si">{</span><span class="n">power</span><span class="p">[</span><span class="s1">&#39;power_concentration&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Dummy voters: </span><span class="si">{</span><span class="n">power</span><span class="p">[</span><span class="s1">&#39;dummy_voters&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Banzhaf Power Index:&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">power</span><span class="p">[</span><span class="s2">&quot;banzhaf_index&quot;</span><span class="p">]):</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Voter </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

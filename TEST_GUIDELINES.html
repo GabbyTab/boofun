@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Guidelines &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="boofun" href="api/boofun.html" />
+    <link rel="prev" title="BooFun Style Guide" href="STYLE_GUIDE.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Test Guidelines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-convolution-bug-a-case-study">The Convolution Bug: A Case Study</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-happened">What Happened</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#why-tests-didn-t-catch-it">Why Tests Didn’t Catch It</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-tests-should-have-done">What Tests Should Have Done</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#anti-patterns-to-avoid">Anti-Patterns to Avoid</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#existence-tests">1. Existence Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#structure-only-tests">2. Structure-Only Tests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#missing-contract-tests">3. Missing Contract Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#test-checklist">Test Checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#property-based-testing-with-hypothesis">Property-Based Testing with Hypothesis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cross-validation-testing">Cross-Validation Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-template">Test Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#files-status">Files Status</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fixed-jan-2026">Fixed (Jan 2026)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#remaining-low-priority">Remaining Low Priority</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-structure">Test Structure</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Test Guidelines</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/TEST_GUIDELINES.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="test-guidelines">
+<h1>Test Guidelines<a class="headerlink" href="#test-guidelines" title="Link to this heading"></a></h1>
+<p>How to write tests that actually catch bugs.</p>
+<section id="the-convolution-bug-a-case-study">
+<h2>The Convolution Bug: A Case Study<a class="headerlink" href="#the-convolution-bug-a-case-study" title="Link to this heading"></a></h2>
+<section id="what-happened">
+<h3>What Happened<a class="headerlink" href="#what-happened" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The bug: silently thresholded real values to Boolean</span>
+<span class="n">result_tt</span> <span class="o">=</span> <span class="p">(</span><span class="n">conv_values</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>  <span class="c1"># Lost magnitude!</span>
+</pre></div>
+</div>
+</section>
+<section id="why-tests-didn-t-catch-it">
+<h3>Why Tests Didn’t Catch It<a class="headerlink" href="#why-tests-didn-t-catch-it" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ORIGINAL TESTS (BAD)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_convolution_same_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">convolution</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>     <span class="c1"># Only checks existence</span>
+    <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">==</span> <span class="mi">2</span>     <span class="c1"># Only checks structure</span>
+</pre></div>
+</div>
+</section>
+<section id="what-tests-should-have-done">
+<h3>What Tests Should Have Done<a class="headerlink" href="#what-tests-should-have-done" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># FIXED TESTS (GOOD)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_convolution_theorem_holds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify (f*g)^(S) = f̂(S)·ĝ(S).&quot;&quot;&quot;</span>
+    <span class="n">conv_coeffs</span> <span class="o">=</span> <span class="n">convolution</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span> <span class="o">*</span> <span class="n">g</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">conv_coeffs</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>  <span class="c1"># Verifies math!</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="anti-patterns-to-avoid">
+<h2>Anti-Patterns to Avoid<a class="headerlink" href="#anti-patterns-to-avoid" title="Link to this heading"></a></h2>
+<section id="existence-tests">
+<h3>1. Existence Tests<a class="headerlink" href="#existence-tests" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BAD: Only checks something returned</span>
+<span class="k">assert</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+<span class="c1"># GOOD: Verify the actual value</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="structure-only-tests">
+<h3>2. Structure-Only Tests<a class="headerlink" href="#structure-only-tests" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BAD: Only checks shape/type</span>
+<span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">BooleanFunction</span><span class="p">)</span>
+
+<span class="c1"># GOOD: Also verify correctness</span>
+<span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">expected_output</span>
+</pre></div>
+</div>
+</section>
+<section id="missing-contract-tests">
+<h3>3. Missing Contract Tests<a class="headerlink" href="#missing-contract-tests" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BAD: Doesn&#39;t verify the mathematical claim</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_parseval</span><span class="p">():</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">parseval_verify</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span>  <span class="c1"># What does this even mean?</span>
+
+<span class="c1"># GOOD: Explicitly verify Parseval&#39;s identity</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_parseval_identity</span><span class="p">():</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">sum_squared</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">())</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">sum_squared</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># Σ f̂(S)² = 1</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="test-checklist">
+<h2>Test Checklist<a class="headerlink" href="#test-checklist" title="Link to this heading"></a></h2>
+<p>Before writing a test, answer:</p>
+<ol class="arabic simple">
+<li><p><strong>What is the mathematical contract?</strong></p>
+<ul class="simple">
+<li><p>What theorem/property should hold?</p></li>
+<li><p>Write the equation in the docstring</p></li>
+</ul>
+</li>
+<li><p><strong>What are the edge cases?</strong></p>
+<ul class="simple">
+<li><p>Empty input, n=0, n=1</p></li>
+<li><p>Constant functions (all 0s, all 1s)</p></li>
+<li><p>Dictator functions (single variable)</p></li>
+</ul>
+</li>
+<li><p><strong>What should fail?</strong></p>
+<ul class="simple">
+<li><p>Test that bad inputs raise exceptions</p></li>
+<li><p>Verify error messages are helpful</p></li>
+</ul>
+</li>
+<li><p><strong>Does this test the implementation or the math?</strong></p>
+<ul class="simple">
+<li><p>Implementation tests: “does it run?”</p></li>
+<li><p>Math tests: “does it compute correctly?”</p></li>
+<li><p><strong>You need both, but math tests catch more bugs</strong></p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="property-based-testing-with-hypothesis">
+<h2>Property-Based Testing with Hypothesis<a class="headerlink" href="#property-based-testing-with-hypothesis" title="Link to this heading"></a></h2>
+<p>Parameterized tests cover <em>specific</em> cases. Property-based tests cover <em>invariants</em> that must hold across all inputs.</p>
+<p>BooFun uses <a class="reference external" href="https://hypothesis.readthedocs.io/">Hypothesis</a> for this. Key properties to test:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">hypothesis</span><span class="w"> </span><span class="kn">import</span> <span class="n">given</span><span class="p">,</span> <span class="n">strategies</span> <span class="k">as</span> <span class="n">st</span>
+
+<span class="nd">@given</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_parseval_identity_any_majority</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parseval: Σ f̂(S)² = 1 for any ±1-valued f.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Majority needs odd n</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="nd">@given</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">st</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">6</span><span class="p">))</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_influences_are_nonnegative</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Influences are probabilities: always in [0, 1].&quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">inf</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">():</span>
+        <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">inf</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><strong>When to use property tests</strong>: monotonicity, symmetry, Parseval, nonnegativity, consistency between related functions (e.g., <code class="docutils literal notranslate"><span class="pre">is_linear</span></code> ↔ <code class="docutils literal notranslate"><span class="pre">nonlinearity</span></code>).</p>
+</section>
+<hr class="docutils" />
+<section id="cross-validation-testing">
+<h2>Cross-Validation Testing<a class="headerlink" href="#cross-validation-testing" title="Link to this heading"></a></h2>
+<p>The strongest tests verify library output against <strong>independent computations</strong>: closed-form formulas, other libraries, or hand-calculated values.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_majority_total_influence_exact</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cross-validate against closed-form: I[Maj_n] = n * C(n-1,(n-1)/2) / 2^(n-1).&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">comb</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]:</span>
+        <span class="n">exact</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">comb</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">total_influence</span><span class="p">(),</span> <span class="n">exact</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Rule</strong>: For every mathematical function, there should be at least one test that computes the expected value <em>independently</em> of the library code being tested.</p>
+</section>
+<hr class="docutils" />
+<section id="test-template">
+<h2>Test Template<a class="headerlink" href="#test-template" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TestFunctionName</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tests for function_name following [mathematical reference].&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_mathematical_property</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify [specific mathematical property].</span>
+
+<span class="sd">        Theorem: [state the theorem being tested]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Arrange</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">some_function</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="c1"># Act</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">function_name</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Assert - verify the MATH, not just existence</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="n">compute_expected_value</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">expected</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_edge_case_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Edge case: constant function.&quot;&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># All zeros</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">function_name</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="n">expected_for_constant</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_input_raises</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Invalid input should fail loud.&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="s2">&quot;helpful error message&quot;</span><span class="p">):</span>
+            <span class="n">function_name</span><span class="p">(</span><span class="n">invalid_input</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="files-status">
+<h2>Files Status<a class="headerlink" href="#files-status" title="Link to this heading"></a></h2>
+<section id="fixed-jan-2026">
+<h3>Fixed (Jan 2026)<a class="headerlink" href="#fixed-jan-2026" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Issue</p></th>
+<th class="head"><p>Fix</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>test_pac_learning.py</p></td>
+<td><p>24 weak assertions</p></td>
+<td><p>Added error rate verification</p></td>
+</tr>
+<tr class="row-odd"><td><p>test_builtins.py</p></td>
+<td><p>14 weak assertions</p></td>
+<td><p>Added truth table verification</p></td>
+</tr>
+<tr class="row-even"><td><p>test_module_exploration.py</p></td>
+<td><p>20 weak assertions</p></td>
+<td><p>Added correctness checks</p></td>
+</tr>
+<tr class="row-odd"><td><p>test_quantum_complexity.py</p></td>
+<td><p>13 weak assertions</p></td>
+<td><p>Added mathematical property tests</p></td>
+</tr>
+<tr class="row-even"><td><p>test_circuit.py</p></td>
+<td><p>10 weak assertions</p></td>
+<td><p>Added circuit evaluation tests</p></td>
+</tr>
+<tr class="row-odd"><td><p>test_property_tester.py</p></td>
+<td><p>(new)</p></td>
+<td><p>Comprehensive PropertyTester tests</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="remaining-low-priority">
+<h3>Remaining Low Priority<a class="headerlink" href="#remaining-low-priority" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Count</p></th>
+<th class="head"><p>Reason</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>test_visualization_*.py</p></td>
+<td><p>70+</p></td>
+<td><p>Visual output, hard to verify</p></td>
+</tr>
+<tr class="row-odd"><td><p>test_gpu_*.py</p></td>
+<td><p>21</p></td>
+<td><p>Infrastructure tests</p></td>
+</tr>
+<tr class="row-even"><td><p>test_benchmarks.py</p></td>
+<td><p>9</p></td>
+<td><p>Performance tests</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="running-tests">
+<h2>Running Tests<a class="headerlink" href="#running-tests" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>tests/<span class="w">                    </span><span class="c1"># All tests</span>
+pytest<span class="w"> </span>tests/<span class="w"> </span>-x<span class="w"> </span>-q<span class="w">              </span><span class="c1"># Stop on first failure, quiet</span>
+pytest<span class="w"> </span>tests/unit/<span class="w">               </span><span class="c1"># Unit tests only</span>
+pytest<span class="w"> </span>tests/analysis/<span class="w">           </span><span class="c1"># Analysis module tests</span>
+pytest<span class="w"> </span>tests/<span class="w"> </span>--cov<span class="o">=</span>boofun<span class="w">       </span><span class="c1"># With coverage report</span>
+pytest<span class="w"> </span>tests/<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;sensitivity&quot;</span><span class="w">   </span><span class="c1"># Tests matching keyword</span>
+</pre></div>
+</div>
+</section>
+<section id="test-structure">
+<h2>Test Structure<a class="headerlink" href="#test-structure" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>tests/
+├── unit/           # Individual function tests
+├── integration/    # Cross-module tests
+├── analysis/       # Analysis module tests (Fourier, sensitivity, etc.)
+├── families/       # Built-in function family tests
+├── correctness/    # Bit-ordering, numerical precision
+├── fuzz/           # Edge case fuzzing (Hypothesis)
+├── benchmarks/     # Performance tests
+└── test_*.py       # Top-level test files
+</pre></div>
+</div>
+<p><strong>Coverage</strong>: 72% with 3200+ tests. Core analysis modules are 70-85%; visualization and quantum_complexity are lower priority.</p>
+<p><strong>CI</strong>: All tests run on every push via GitHub Actions. Pre-commit hooks enforce formatting (black, isort, flake8, codespell).</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="STYLE_GUIDE.html" class="btn btn-neutral float-left" title="BooFun Style Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/boofun.html" class="btn btn-neutral float-right" title="boofun" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

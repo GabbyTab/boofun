@@ -1,0 +1,446 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning Theory Guide &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Representations Guide" href="representations.html" />
+    <link rel="prev" title="Cryptographic Analysis Guide" href="cryptographic.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Learning Theory Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#goldreich-levin-algorithm">Goldreich-Levin Algorithm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#estimating-single-coefficients">Estimating Single Coefficients</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goldreichlevinlearner-class">GoldreichLevinLearner Class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pac-learning">PAC Learning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#learning-low-degree-functions">Learning Low-Degree Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#learning-juntas">Learning Juntas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lmn-algorithm">LMN Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#learning-sparse-fourier-functions">Learning Sparse Fourier Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#learning-monotone-functions">Learning Monotone Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#paclearner-class">PACLearner Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sample-complexity">Sample Complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connections-to-other-topics">Connections to Other Topics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#influences-and-learning">Influences and Learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#noise-stability-and-learning">Noise Stability and Learning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hypercontractivity-and-learning">Hypercontractivity and Learning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#mathematical-background">Mathematical Background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pac-model">PAC Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goldreich-levin-theorem">Goldreich-Levin Theorem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lmn-theorem">LMN Theorem</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Learning Theory Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/learning.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="learning-theory-guide">
+<h1>Learning Theory Guide<a class="headerlink" href="#learning-theory-guide" title="Link to this heading"></a></h1>
+<p>Algorithms for learning Boolean functions from queries or samples.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>BooFun provides implementations of key learning algorithms from computational learning theory:</p>
+<ul class="simple">
+<li><p><strong>Goldreich-Levin</strong>: Find heavy Fourier coefficients with query access</p></li>
+<li><p><strong>PAC Learning</strong>: Probably Approximately Correct learning framework</p></li>
+<li><p><strong>Junta Learning</strong>: Learn functions that depend on few variables</p></li>
+<li><p><strong>LMN Algorithm</strong>: Learn decision trees from uniform samples</p></li>
+<li><p><strong>Sparse Fourier Learning</strong>: Learn functions with few Fourier coefficients</p></li>
+</ul>
+</section>
+<section id="goldreich-levin-algorithm">
+<h2>Goldreich-Levin Algorithm<a class="headerlink" href="#goldreich-levin-algorithm" title="Link to this heading"></a></h2>
+<p>The Goldreich-Levin algorithm finds all “heavy” Fourier coefficients (|f̂(S)| ≥ τ) using only O(n/τ²) queries.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">goldreich_levin</span><span class="p">,</span> <span class="n">find_heavy_coefficients</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="c1"># Find all coefficients with |f̂(S)| ≥ 0.1</span>
+<span class="n">heavy</span> <span class="o">=</span> <span class="n">goldreich_levin</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">heavy</span><span class="p">)</span><span class="si">}</span><span class="s2"> heavy coefficients&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">S</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="n">heavy</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  f̂(</span><span class="si">{</span><span class="n">S</span><span class="si">}</span><span class="s2">) ≈ </span><span class="si">{</span><span class="n">coeff</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="estimating-single-coefficients">
+<h3>Estimating Single Coefficients<a class="headerlink" href="#estimating-single-coefficients" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">estimate_fourier_coefficient</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Estimate f̂({0,1,2,3,4}) - should be ±1 for parity</span>
+<span class="n">S</span> <span class="o">=</span> <span class="mb">0b11111</span>  <span class="c1"># All variables</span>
+<span class="n">estimate</span><span class="p">,</span> <span class="n">std_err</span> <span class="o">=</span> <span class="n">estimate_fourier_coefficient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estimated f̂(S) = </span><span class="si">{</span><span class="n">estimate</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">std_err</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="goldreichlevinlearner-class">
+<h3>GoldreichLevinLearner Class<a class="headerlink" href="#goldreichlevinlearner-class" title="Link to this heading"></a></h3>
+<p>For more control over the learning process:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">GoldreichLevinLearner</span>
+
+<span class="n">learner</span> <span class="o">=</span> <span class="n">GoldreichLevinLearner</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+
+<span class="c1"># Learn from query access</span>
+<span class="n">heavy_coeffs</span> <span class="o">=</span> <span class="n">learner</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="c1"># Get learning statistics</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Queries used: </span><span class="si">{</span><span class="n">learner</span><span class="o">.</span><span class="n">query_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Coefficients found: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">heavy_coeffs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pac-learning">
+<h2>PAC Learning<a class="headerlink" href="#pac-learning" title="Link to this heading"></a></h2>
+<p>The PAC (Probably Approximately Correct) framework:</p>
+<ul class="simple">
+<li><p><strong>Given:</strong> Sample access to f (can draw (x, f(x)) for random x)</p></li>
+<li><p><strong>Goal:</strong> Output hypothesis h such that Pr[h(x) != f(x)] &lt;= epsilon</p></li>
+<li><p><strong>With probability:</strong> at least 1 - delta</p></li>
+</ul>
+<section id="learning-low-degree-functions">
+<h3>Learning Low-Degree Functions<a class="headerlink" href="#learning-low-degree-functions" title="Link to this heading"></a></h3>
+<p>Functions with spectral concentration at low degrees:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.pac_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">pac_learn_low_degree</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Learn degree-2 approximation</span>
+<span class="n">hypothesis</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">pac_learn_low_degree</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">,</span>
+    <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">num_samples</span><span class="o">=</span><span class="mi">10000</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Approximation error: </span><span class="si">{</span><span class="n">error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="learning-juntas">
+<h3>Learning Juntas<a class="headerlink" href="#learning-juntas" title="Link to this heading"></a></h3>
+<p>A k-junta depends on at most k variables:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.pac_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">pac_learn_junta</span>
+
+<span class="c1"># Create a 3-junta (depends on variables 0, 2, 4 only)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">junta_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">^</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">^</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">junta_func</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="c1"># Learn the junta</span>
+<span class="n">hypothesis</span><span class="p">,</span> <span class="n">relevant_vars</span> <span class="o">=</span> <span class="n">pac_learn_junta</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">,</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Relevant variables: </span><span class="si">{</span><span class="n">relevant_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="lmn-algorithm">
+<h3>LMN Algorithm<a class="headerlink" href="#lmn-algorithm" title="Link to this heading"></a></h3>
+<p>Learn decision trees from uniform samples (Linial-Mansour-Nisan):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.pac_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">lmn_algorithm</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">tribes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># A read-once DNF</span>
+
+<span class="c1"># Learn using LMN</span>
+<span class="n">hypothesis</span> <span class="o">=</span> <span class="n">lmn_algorithm</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span>
+<span class="p">)</span>
+
+<span class="c1"># Test accuracy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.pac_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">sample_function</span>
+<span class="n">test_samples</span> <span class="o">=</span> <span class="n">sample_function</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">correct</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">test_samples</span> <span class="k">if</span> <span class="n">hypothesis</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">correct</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="learning-sparse-fourier-functions">
+<h3>Learning Sparse Fourier Functions<a class="headerlink" href="#learning-sparse-fourier-functions" title="Link to this heading"></a></h3>
+<p>Functions with few non-zero Fourier coefficients:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.pac_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">pac_learn_sparse_fourier</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># Has only one non-zero coefficient</span>
+
+<span class="n">hypothesis</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">pac_learn_sparse_fourier</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">,</span>
+    <span class="n">sparsity</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Learned Fourier support: </span><span class="si">{</span><span class="n">support</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="learning-monotone-functions">
+<h3>Learning Monotone Functions<a class="headerlink" href="#learning-monotone-functions" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.pac_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">pac_learn_monotone</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># Monotone function</span>
+
+<span class="n">hypothesis</span> <span class="o">=</span> <span class="n">pac_learn_monotone</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="paclearner-class">
+<h2>PACLearner Class<a class="headerlink" href="#paclearner-class" title="Link to this heading"></a></h2>
+<p>General-purpose PAC learner:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.pac_learning</span><span class="w"> </span><span class="kn">import</span> <span class="n">PACLearner</span>
+
+<span class="n">learner</span> <span class="o">=</span> <span class="n">PACLearner</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+
+<span class="c1"># Learn from samples</span>
+<span class="n">hypothesis</span> <span class="o">=</span> <span class="n">learner</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+
+<span class="c1"># Evaluate</span>
+<span class="n">error</span> <span class="o">=</span> <span class="n">learner</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">hypothesis</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">num_test</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test error: </span><span class="si">{</span><span class="n">error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Get statistics</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Samples used: </span><span class="si">{</span><span class="n">learner</span><span class="o">.</span><span class="n">sample_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="sample-complexity">
+<h2>Sample Complexity<a class="headerlink" href="#sample-complexity" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Function Class</p></th>
+<th class="head"><p>Sample Complexity</p></th>
+<th class="head"><p>Algorithm</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>k-juntas</p></td>
+<td><p>O(2^k log n / ε)</p></td>
+<td><p>Influence-based</p></td>
+</tr>
+<tr class="row-odd"><td><p>Degree-d</p></td>
+<td><p>O(n^d / ε²)</p></td>
+<td><p>Low-degree learning</p></td>
+</tr>
+<tr class="row-even"><td><p>s-sparse Fourier</p></td>
+<td><p>O(s log n / ε²)</p></td>
+<td><p>Sparse recovery</p></td>
+</tr>
+<tr class="row-odd"><td><p>Decision trees (size s)</p></td>
+<td><p>O(s log n / ε²)</p></td>
+<td><p>LMN</p></td>
+</tr>
+<tr class="row-even"><td><p>Monotone</p></td>
+<td><p>O(n / ε²)</p></td>
+<td><p>Monotone learning</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="connections-to-other-topics">
+<h2>Connections to Other Topics<a class="headerlink" href="#connections-to-other-topics" title="Link to this heading"></a></h2>
+<section id="influences-and-learning">
+<h3>Influences and Learning<a class="headerlink" href="#influences-and-learning" title="Link to this heading"></a></h3>
+<p>High-influence variables are likely relevant:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find influential variables for junta learning</span>
+<span class="n">infs</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+<span class="n">top_vars</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">infs</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">infs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">k</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="noise-stability-and-learning">
+<h3>Noise Stability and Learning<a class="headerlink" href="#noise-stability-and-learning" title="Link to this heading"></a></h3>
+<p>Noise-stable functions are easier to learn:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stability</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.99</span><span class="p">)</span>
+<span class="c1"># High stability → few high-degree coefficients → easier to learn</span>
+</pre></div>
+</div>
+</section>
+<section id="hypercontractivity-and-learning">
+<h3>Hypercontractivity and Learning<a class="headerlink" href="#hypercontractivity-and-learning" title="Link to this heading"></a></h3>
+<p>KKL theorem bounds help with junta identification:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_influence_bound</span>
+<span class="n">max_inf</span><span class="p">,</span> <span class="n">kkl_bound</span><span class="p">,</span> <span class="n">total</span> <span class="o">=</span> <span class="n">max_influence_bound</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="c1"># If max_inf &gt;&gt; kkl_bound, function might be close to a junta</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="mathematical-background">
+<h2>Mathematical Background<a class="headerlink" href="#mathematical-background" title="Link to this heading"></a></h2>
+<section id="pac-model">
+<h3>PAC Model<a class="headerlink" href="#pac-model" title="Link to this heading"></a></h3>
+<p>A concept class C is PAC-learnable if there exists an algorithm A such that:</p>
+<ul class="simple">
+<li><p>For any f ∈ C and distribution D</p></li>
+<li><p>Given m = poly(n, 1/ε, 1/δ) samples from D</p></li>
+<li><p>A outputs h with Pr_D[h(x) ≠ f(x)] ≤ ε</p></li>
+<li><p>With probability at least 1 - δ</p></li>
+</ul>
+</section>
+<section id="goldreich-levin-theorem">
+<h3>Goldreich-Levin Theorem<a class="headerlink" href="#goldreich-levin-theorem" title="Link to this heading"></a></h3>
+<p><strong>Theorem</strong>: Given query access to f, we can find all S with |f̂(S)| ≥ τ using O(n/τ²) queries.</p>
+</section>
+<section id="lmn-theorem">
+<h3>LMN Theorem<a class="headerlink" href="#lmn-theorem" title="Link to this heading"></a></h3>
+<p><strong>Theorem</strong> (Linial-Mansour-Nisan): Decision trees of size s can be ε-approximated by degree O(log(s/ε)) polynomials.</p>
+</section>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="spectral_analysis.html"><span class="std std-doc">Spectral Analysis Guide</span></a>: Fourier coefficients</p></li>
+<li><p><a class="reference internal" href="query_complexity.html"><span class="std std-doc">Query Complexity Guide</span></a>: Query models</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">notebooks/lecture7_goldreich_levin.ipynb</span></code>: Goldreich-Levin tutorial</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">notebooks/lecture8_learning_juntas.ipynb</span></code>: Junta learning tutorial</p></li>
+<li><p>O’Donnell, <em>Analysis of Boolean Functions</em>, Chapter 3</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cryptographic.html" class="btn btn-neutral float-left" title="Cryptographic Analysis Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="representations.html" class="btn btn-neutral float-right" title="Representations Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

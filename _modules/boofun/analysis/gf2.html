@@ -1,0 +1,442 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.gf2 &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.gf2</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.gf2</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">GF(2) analysis for Boolean functions (XOR/Algebraic Normal Form).</span>
+
+<span class="sd">This module provides analysis tools based on the polynomial representation</span>
+<span class="sd">of Boolean functions over the field GF(2) = {0, 1}.</span>
+
+<span class="sd">Every Boolean function f: {0,1}^n -&gt; {0,1} can be uniquely represented as:</span>
+<span class="sd">    f(x) = ⊕_{S ⊆ [n]} c_S * ∏_{i∈S} x_i</span>
+
+<span class="sd">where c_S ∈ {0,1} are the GF(2) Fourier coefficients (ANF coefficients).</span>
+
+<span class="sd">Key concepts:</span>
+<span class="sd">- GF(2) degree (algebraic degree): max |S| where c_S ≠ 0</span>
+<span class="sd">- Real degree: max |S| where f̂(S) ≠ 0 (Walsh-Hadamard)</span>
+<span class="sd">- GF(2) Fourier coefficients: obtained via Möbius transform</span>
+
+<span class="sd">Relationships (from O&#39;Donnell Chapter 1):</span>
+<span class="sd">- GF(2) degree ≤ n for any function on n variables</span>
+<span class="sd">- Linear functions have GF(2) degree ≤ 1</span>
+<span class="sd">- The XOR function x₁ ⊕ x₂ ⊕ ... ⊕ xₙ has GF(2) degree 1</span>
+<span class="sd">- Majority function has GF(2) degree n</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;gf2_fourier_transform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gf2_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gf2_monomials&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gf2_to_string&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_linear_over_gf2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;correlation_with_parity&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="gf2_fourier_transform">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gf2.html#boofun.gf2_fourier_transform">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gf2_fourier_transform</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the GF(2) Fourier transform (Möbius transform) of f.</span>
+
+<span class="sd">    The result is an array where result[S] = 1 if the monomial corresponding</span>
+<span class="sd">    to subset S appears in the ANF of f, and 0 otherwise.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy array of length 2^n where result[S] ∈ {0,1} is the coefficient</span>
+<span class="sd">        of monomial S in the ANF representation.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        The index S encodes a subset: bit i is set iff variable i is in the monomial.</span>
+<span class="sd">        E.g., S=3 (binary 11) represents the monomial x₀*x₁.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; xor = bf.create([0, 1, 1, 0])</span>
+<span class="sd">        &gt;&gt;&gt; coeffs = gf2_fourier_transform(xor)</span>
+<span class="sd">        &gt;&gt;&gt; # coeffs[0]=0 (no constant), coeffs[1]=1 (x0), coeffs[2]=1 (x1), coeffs[3]=0 (no x0*x1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># Get truth table</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span>
+
+    <span class="c1"># Copy for in-place Möbius transform</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">truth_table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># In-place Möbius transform over GF(2)</span>
+    <span class="c1"># This computes: c_S = ⊕_{T⊆S} f(T)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+        <span class="k">for</span> <span class="n">mask</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">step</span><span class="p">:</span>
+                <span class="n">coeffs</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">^=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">mask</span> <span class="o">^</span> <span class="n">step</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">coeffs</span></div>
+
+
+
+<div class="viewcode-block" id="gf2_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gf2.html#boofun.gf2_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gf2_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the GF(2) degree (algebraic degree) of f.</span>
+
+<span class="sd">    The GF(2) degree is the size of the largest monomial in the ANF:</span>
+<span class="sd">        deg_2(f) = max{|S| : c_S ≠ 0}</span>
+
+<span class="sd">    This is different from the &quot;real&quot; Fourier degree which uses Walsh coefficients.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The algebraic degree of f over GF(2)</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        - Constant functions have degree 0</span>
+<span class="sd">        - Linear functions have degree ≤ 1</span>
+<span class="sd">        - XOR(x₁,...,xₙ) has degree 1</span>
+<span class="sd">        - AND(x₁,...,xₙ) has degree n</span>
+<span class="sd">        - Majority_n has degree n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">gf2_fourier_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">max_deg</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">mask</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">coeff</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">deg</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">max_deg</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_deg</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">max_deg</span> <span class="k">if</span> <span class="n">max_deg</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="gf2_monomials">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gf2.html#boofun.gf2_monomials">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gf2_monomials</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get all monomials with non-zero coefficients in the ANF of f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of sets, where each set contains the variable indices in a monomial.</span>
+<span class="sd">        E.g., [{0}, {1}, {0,2}] represents x₀ ⊕ x₁ ⊕ x₀*x₂</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">gf2_fourier_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="n">monomials</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">mask</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">coeff</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">monomial</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">}</span>
+            <span class="n">monomials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">monomial</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">monomials</span></div>
+
+
+
+<div class="viewcode-block" id="gf2_to_string">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gf2.html#boofun.gf2_to_string">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">gf2_to_string</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">var_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a string representation of the ANF of f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        var_prefix: Prefix for variable names (default: &quot;x&quot;)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        String like &quot;1 ⊕ x0 ⊕ x1 ⊕ x0*x1&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">monomials</span> <span class="o">=</span> <span class="n">gf2_monomials</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">monomials</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;0&quot;</span>
+
+    <span class="n">terms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">monomial</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">monomials</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">s</span><span class="p">))):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">monomial</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vars_str</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var_prefix</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">monomial</span><span class="p">))</span>
+            <span class="n">terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vars_str</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot; ⊕ &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="is_linear_over_gf2">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gf2.html#boofun.is_linear_over_gf2">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_linear_over_gf2</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if f is linear over GF(2) (i.e., degree ≤ 1).</span>
+
+<span class="sd">    A function is linear over GF(2) if it can be written as:</span>
+<span class="sd">        f(x) = c ⊕ a₁x₁ ⊕ a₂x₂ ⊕ ... ⊕ aₙxₙ</span>
+
+<span class="sd">    for some constants c, a₁, ..., aₙ ∈ {0,1}.</span>
+
+<span class="sd">    Note: This is different from being linear over ℝ (which would require</span>
+<span class="sd">    all variables to have the same influence and specific Fourier structure).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">gf2_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="correlation_with_parity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.gf2.html#boofun.correlation_with_parity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correlation_with_parity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the correlation of f with the parity function on a subset.</span>
+
+<span class="sd">    The correlation is:</span>
+<span class="sd">        corr(f, χ_S) = E[(-1)^(f(x) ⊕ ⊕_{i∈S} x_i)]</span>
+
+<span class="sd">    This equals the (normalized) Walsh-Hadamard coefficient f̂(S).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        subset: Set of variable indices for the parity function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Correlation in [-1, 1]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+
+    <span class="c1"># Get truth table</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span>
+
+    <span class="c1"># Compute subset mask</span>
+    <span class="n">subset_mask</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">)</span>
+
+    <span class="c1"># Compute correlation</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">f_x</span> <span class="o">=</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="n">parity_x</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">subset_mask</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="c1"># (-1)^(f(x) XOR parity_x)</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">f_x</span> <span class="o">^</span> <span class="n">parity_x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">size</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">variable_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the degree of variable var in the ANF of f.</span>
+
+<span class="sd">    This is the maximum degree of any monomial containing var.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        var: Variable index</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Maximum degree of monomials containing var (0 if var is irrelevant)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">gf2_fourier_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="n">max_deg</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">mask</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">coeff</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&gt;&gt;</span> <span class="n">var</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">deg</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">max_deg</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_deg</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">max_deg</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">connected_variables</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">var_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if all variables in var_set appear together in some monomial.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        var_set: Set of variable indices to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if there exists a monomial containing all variables in var_set</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">gf2_fourier_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Compute mask for var_set</span>
+    <span class="n">var_mask</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">var_set</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">mask</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">coeff</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Check if var_mask is a subset of mask</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&amp;</span> <span class="n">var_mask</span><span class="p">)</span> <span class="o">==</span> <span class="n">var_mask</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_weight_by_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the GF(2) Fourier weight at each degree level.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List where result[d] = number of degree-d monomials with non-zero coefficient</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">gf2_fourier_transform</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">mask</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">coeff</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">deg</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">weights</span><span class="p">[</span><span class="n">deg</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">weights</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
