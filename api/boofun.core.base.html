@@ -1,0 +1,1274 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.base &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="boofun.core.batch_processing" href="boofun.core.batch_processing.html" />
+    <link rel="prev" title="boofun.core.auto_representation" href="boofun.core.auto_representation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="boofun.html">boofun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.create"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.partial"><code class="docutils literal notranslate"><span class="pre">partial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PartialBooleanFunction"><code class="docutils literal notranslate"><span class="pre">PartialBooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_hex"><code class="docutils literal notranslate"><span class="pre">from_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.to_hex"><code class="docutils literal notranslate"><span class="pre">to_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.majority"><code class="docutils literal notranslate"><span class="pre">majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parity"><code class="docutils literal notranslate"><span class="pre">parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tribes"><code class="docutils literal notranslate"><span class="pre">tribes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dictator"><code class="docutils literal notranslate"><span class="pre">dictator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.constant"><code class="docutils literal notranslate"><span class="pre">constant()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.AND"><code class="docutils literal notranslate"><span class="pre">AND()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.OR"><code class="docutils literal notranslate"><span class="pre">OR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold"><code class="docutils literal notranslate"><span class="pre">threshold()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.weighted_majority"><code class="docutils literal notranslate"><span class="pre">weighted_majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_weights"><code class="docutils literal notranslate"><span class="pre">from_weights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionError"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidInputError"><code class="docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidRepresentationError"><code class="docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidTruthTableError"><code class="docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.EvaluationError"><code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConversionError"><code class="docutils literal notranslate"><span class="pre">ConversionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ResourceUnavailableError"><code class="docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvariantViolationError"><code class="docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parseval_verify"><code class="docutils literal notranslate"><span class="pre">parseval_verify()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.plancherel_inner_product"><code class="docutils literal notranslate"><span class="pre">plancherel_inner_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.convolution"><code class="docutils literal notranslate"><span class="pre">convolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.negate_inputs"><code class="docutils literal notranslate"><span class="pre">negate_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.odd_part"><code class="docutils literal notranslate"><span class="pre">odd_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.even_part"><code class="docutils literal notranslate"><span class="pre">even_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.restriction"><code class="docutils literal notranslate"><span class="pre">restriction()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_degree"><code class="docutils literal notranslate"><span class="pre">fourier_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.spectral_norm"><code class="docutils literal notranslate"><span class="pre">spectral_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_sparsity"><code class="docutils literal notranslate"><span class="pre">fourier_sparsity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dominant_coefficients"><code class="docutils literal notranslate"><span class="pre">dominant_coefficients()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_fourier_transform"><code class="docutils literal notranslate"><span class="pre">gf2_fourier_transform()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_degree"><code class="docutils literal notranslate"><span class="pre">gf2_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_monomials"><code class="docutils literal notranslate"><span class="pre">gf2_monomials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_to_string"><code class="docutils literal notranslate"><span class="pre">gf2_to_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_linear_over_gf2"><code class="docutils literal notranslate"><span class="pre">is_linear_over_gf2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.correlation_with_parity"><code class="docutils literal notranslate"><span class="pre">correlation_with_parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_operator"><code class="docutils literal notranslate"><span class="pre">noise_operator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.lq_norm"><code class="docutils literal notranslate"><span class="pre">lq_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.bonami_lemma_bound"><code class="docutils literal notranslate"><span class="pre">bonami_lemma_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.kkl_lower_bound"><code class="docutils literal notranslate"><span class="pre">kkl_lower_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.max_influence_bound"><code class="docutils literal notranslate"><span class="pre">max_influence_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.friedgut_junta_bound"><code class="docutils literal notranslate"><span class="pre">friedgut_junta_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.junta_approximation_error"><code class="docutils literal notranslate"><span class="pre">junta_approximation_error()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.level_d_inequality"><code class="docutils literal notranslate"><span class="pre">level_d_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractive_inequality"><code class="docutils literal notranslate"><span class="pre">hypercontractive_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GlobalHypercontractivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">GlobalHypercontractivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.generalized_influence"><code class="docutils literal notranslate"><span class="pre">generalized_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_alpha_global"><code class="docutils literal notranslate"><span class="pre">is_alpha_global()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_expectation"><code class="docutils literal notranslate"><span class="pre">p_biased_expectation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_total_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_total_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_stability_p_biased"><code class="docutils literal notranslate"><span class="pre">noise_stability_p_biased()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold_curve"><code class="docutils literal notranslate"><span class="pre">threshold_curve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.find_critical_p"><code class="docutils literal notranslate"><span class="pre">find_critical_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractivity_bound"><code class="docutils literal notranslate"><span class="pre">hypercontractivity_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionValidator"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionValidator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.quick_validate"><code class="docutils literal notranslate"><span class="pre">quick_validate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.validate_representation"><code class="docutils literal notranslate"><span class="pre">validate_representation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.CallableAdapter"><code class="docutils literal notranslate"><span class="pre">CallableAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SymPyAdapter"><code class="docutils literal notranslate"><span class="pre">SymPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NumPyAdapter"><code class="docutils literal notranslate"><span class="pre">NumPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_callable"><code class="docutils literal notranslate"><span class="pre">adapt_callable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_sympy_expr"><code class="docutils literal notranslate"><span class="pre">adapt_sympy_expr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_numpy_function"><code class="docutils literal notranslate"><span class="pre">adapt_numpy_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Measure"><code class="docutils literal notranslate"><span class="pre">Measure</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.get_gf_field"><code class="docutils literal notranslate"><span class="pre">get_gf_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GFField"><code class="docutils literal notranslate"><span class="pre">GFField</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.MajorityFamily"><code class="docutils literal notranslate"><span class="pre">MajorityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ParityFamily"><code class="docutils literal notranslate"><span class="pre">ParityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.TribesFamily"><code class="docutils literal notranslate"><span class="pre">TribesFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ThresholdFamily"><code class="docutils literal notranslate"><span class="pre">ThresholdFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ANDFamily"><code class="docutils literal notranslate"><span class="pre">ANDFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ORFamily"><code class="docutils literal notranslate"><span class="pre">ORFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.DictatorFamily"><code class="docutils literal notranslate"><span class="pre">DictatorFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LTFFamily"><code class="docutils literal notranslate"><span class="pre">LTFFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GrowthTracker"><code class="docutils literal notranslate"><span class="pre">GrowthTracker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.FunctionFamily"><code class="docutils literal notranslate"><span class="pre">FunctionFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InductiveFamily"><code class="docutils literal notranslate"><span class="pre">InductiveFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionVisualizer"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionVisualizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.analysis.html">boofun.analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.api.html">boofun.api</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="boofun.core.html">boofun.core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Evaluable"><code class="docutils literal notranslate"><span class="pre">Evaluable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Representable"><code class="docutils literal notranslate"><span class="pre">Representable</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionFactory"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionFactory</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.BooleanFunctionRepresentation"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionRepresentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ErrorModel"><code class="docutils literal notranslate"><span class="pre">ErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.LinearErrorModel"><code class="docutils literal notranslate"><span class="pre">LinearErrorModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QueryModel"><code class="docutils literal notranslate"><span class="pre">QueryModel</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.AccessType"><code class="docutils literal notranslate"><span class="pre">AccessType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.get_access_type"><code class="docutils literal notranslate"><span class="pre">get_access_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.check_query_safety"><code class="docutils literal notranslate"><span class="pre">check_query_safety()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.QuerySafetyWarning"><code class="docutils literal notranslate"><span class="pre">QuerySafetyWarning</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.ExplicitEnumerationError"><code class="docutils literal notranslate"><span class="pre">ExplicitEnumerationError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_json"><code class="docutils literal notranslate"><span class="pre">load_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_json"><code class="docutils literal notranslate"><span class="pre">save_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_bf"><code class="docutils literal notranslate"><span class="pre">load_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_bf"><code class="docutils literal notranslate"><span class="pre">save_bf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.load_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">load_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.save_dimacs_cnf"><code class="docutils literal notranslate"><span class="pre">save_dimacs_cnf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.detect_format"><code class="docutils literal notranslate"><span class="pre">detect_format()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.html#boofun.core.FileIOError"><code class="docutils literal notranslate"><span class="pre">FileIOError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.adapters.html">boofun.core.adapters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.auto_representation.html">boofun.core.auto_representation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">boofun.core.base</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.base.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.base.PropertyStore"><code class="docutils literal notranslate"><span class="pre">PropertyStore</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.base.Evaluable"><code class="docutils literal notranslate"><span class="pre">Evaluable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.base.Representable"><code class="docutils literal notranslate"><span class="pre">Representable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.core.base.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.batch_processing.html">boofun.core.batch_processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.builtins.html">boofun.core.builtins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.conversion_graph.html">boofun.core.conversion_graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.errormodels.html">boofun.core.errormodels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.factory.html">boofun.core.factory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.gpu.html">boofun.core.gpu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.io.html">boofun.core.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.legacy_adapter.html">boofun.core.legacy_adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.numba_optimizations.html">boofun.core.numba_optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.optimizations.html">boofun.core.optimizations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.partial.html">boofun.core.partial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.query_model.html">boofun.core.query_model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.representations.html">boofun.core.representations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.core.spaces.html">boofun.core.spaces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.families.html">boofun.families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.quantum_complexity.html">boofun.quantum_complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.testing.html">boofun.testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.utils.html">boofun.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.visualization.html">boofun.visualization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="boofun.core.html">boofun.core</a></li>
+      <li class="breadcrumb-item active">boofun.core.base</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/boofun.core.base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-boofun.core.base">
+<span id="boofun-core-base"></span><h1>boofun.core.base<a class="headerlink" href="#module-boofun.core.base" title="Link to this heading"></a></h1>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a>([space, error_model, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.base.Evaluable" title="boofun.core.base.Evaluable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Evaluable</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.base.Property" title="boofun.core.base.Property"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Property</span></code></a>(name[, test_func, doc, closed_under])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#boofun.core.base.PropertyStore" title="boofun.core.base.PropertyStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PropertyStore</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#boofun.core.base.Representable" title="boofun.core.base.Representable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Representable</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.base.Property">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.base.</span></span><span class="sig-name descname"><span class="pre">Property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">closed_under</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#Property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.Property" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.Property.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">closed_under</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#Property.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.Property.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.base.PropertyStore">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.base.</span></span><span class="sig-name descname"><span class="pre">PropertyStore</span></span><a class="reference internal" href="../_modules/boofun/core/base.html#PropertyStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.PropertyStore" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.PropertyStore.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#PropertyStore.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.PropertyStore.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.PropertyStore.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.base.Property" title="boofun.core.base.Property"><span class="pre">Property</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'user'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#PropertyStore.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.PropertyStore.add" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.PropertyStore.has">
+<span class="sig-name descname"><span class="pre">has</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#PropertyStore.has"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.PropertyStore.has" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.base.Evaluable">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.base.</span></span><span class="sig-name descname"><span class="pre">Evaluable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#Evaluable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.Evaluable" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.Evaluable.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#Evaluable.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.Evaluable.evaluate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.Evaluable.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boofun.core.base.Evaluable.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.base.Representable">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.base.</span></span><span class="sig-name descname"><span class="pre">Representable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#Representable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.Representable" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.Representable.to_representation">
+<span class="sig-name descname"><span class="pre">to_representation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#Representable.to_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.Representable.to_representation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.Representable.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#boofun.core.base.Representable.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.core.base.</span></span><span class="sig-name descname"><span class="pre">BooleanFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'plus_minus_cube'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_manager</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'plus_minus_cube'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_manager</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.compose">
+<span class="sig-name descname"><span class="pre">compose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.compose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.compose" title="Link to this definition"></a></dt>
+<dd><p>Compose this function with another BooleanFunction.</p>
+<p>Semantics mirror the legacy <code class="docutils literal notranslate"><span class="pre">BooleanFunc.compose</span></code>: if <code class="docutils literal notranslate"><span class="pre">self</span></code> depends
+on <code class="docutils literal notranslate"><span class="pre">n</span></code> variables and <code class="docutils literal notranslate"><span class="pre">other</span></code> depends on <code class="docutils literal notranslate"><span class="pre">m</span></code> variables, the result is
+a function on <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">*</span> <span class="pre">m</span></code> variables obtained by substituting <code class="docutils literal notranslate"><span class="pre">other</span></code> into
+each input of <code class="docutils literal notranslate"><span class="pre">self</span></code> on disjoint variable blocks.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.get_representation">
+<span class="sig-name descname"><span class="pre">get_representation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.get_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.get_representation" title="Link to this definition"></a></dt>
+<dd><p>Retrieve or compute representation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.add_representation">
+<span class="sig-name descname"><span class="pre">add_representation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rep_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.add_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.add_representation" title="Link to this definition"></a></dt>
+<dd><p>Add a representation to this boolean function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rep_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Evaluate function with automatic input type detection and representation selection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – Input data (array, list, or scipy random variable)</p></li>
+<li><p><strong>rep_type</strong> – Optional specific representation to use</p></li>
+<li><p><strong>**kwargs</strong> – Additional evaluation parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Boolean result(s) or distribution (with error model applied)</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="boofun.html#boofun.InvalidInputError" title="boofun.InvalidInputError"><strong>InvalidInputError</strong></a> – If inputs are empty or have unsupported type</p></li>
+<li><p><a class="reference internal" href="boofun.html#boofun.EvaluationError" title="boofun.EvaluationError"><strong>EvaluationError</strong></a> – If evaluation fails</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.evaluate_range">
+<span class="sig-name descname"><span class="pre">evaluate_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.evaluate_range"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.evaluate_range" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.rvs">
+<span class="sig-name descname"><span class="pre">rvs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.rvs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.rvs" title="Link to this definition"></a></dt>
+<dd><p>Generate random samples (like scipy.stats)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.pmf">
+<span class="sig-name descname"><span class="pre">pmf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.pmf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.pmf" title="Link to this definition"></a></dt>
+<dd><p>Probability mass function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.cdf">
+<span class="sig-name descname"><span class="pre">cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.cdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.cdf" title="Link to this definition"></a></dt>
+<dd><p>Cumulative distribution function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.get_n_vars">
+<span class="sig-name descname"><span class="pre">get_n_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.get_n_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.get_n_vars" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.num_variables">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">num_variables</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#boofun.core.base.BooleanFunction.num_variables" title="Link to this definition"></a></dt>
+<dd><p>Alias for n_vars for backwards compatibility.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.num_vars">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">num_vars</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#boofun.core.base.BooleanFunction.num_vars" title="Link to this definition"></a></dt>
+<dd><p>Alias for n_vars for backwards compatibility.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.has_rep">
+<span class="sig-name descname"><span class="pre">has_rep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.has_rep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.has_rep" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.get_conversion_options">
+<span class="sig-name descname"><span class="pre">get_conversion_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.get_conversion_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.get_conversion_options" title="Link to this definition"></a></dt>
+<dd><p>Get available conversion options from current representations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_cost</strong> – Maximum acceptable conversion cost</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with conversion options and costs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.estimate_conversion_cost">
+<span class="sig-name descname"><span class="pre">estimate_conversion_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_rep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.estimate_conversion_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.estimate_conversion_cost" title="Link to this definition"></a></dt>
+<dd><p>Estimate cost to convert to target representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target_rep</strong> – Target representation name</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Conversion cost estimate or None if impossible</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.to">
+<span class="sig-name descname"><span class="pre">to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">representation_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.to"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.to" title="Link to this definition"></a></dt>
+<dd><p>Convert to specified representation (convenience method).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>representation_type</strong> – Target representation type</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self (for method chaining)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.fix">
+<span class="sig-name descname"><span class="pre">fix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.fix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.fix" title="Link to this definition"></a></dt>
+<dd><p>Fix variable(s) to specific value(s), returning a new function on fewer variables.</p>
+<p>This is a fundamental operation for Boolean function analysis, used in:
+- Decision tree computation
+- Certificate analysis
+- Influence computation via derivatives</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var</strong> – Variable index (int) or list of variable indices</p></li>
+<li><p><strong>val</strong> – Value (0 or 1) or list of values to fix variables to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New BooleanFunction with fixed variables removed</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>  <span class="c1"># XOR on 2 vars</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Fix x_0 = 1, get function on x_1 only</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.restrict">
+<span class="sig-name descname"><span class="pre">restrict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.restrict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.restrict" title="Link to this definition"></a></dt>
+<dd><p>Alias for fix() - restrict a variable to a specific value.</p>
+<p>This terminology is often used in the literature (e.g., random restrictions).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.derivative">
+<span class="sig-name descname"><span class="pre">derivative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.derivative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.derivative" title="Link to this definition"></a></dt>
+<dd><p>Compute the discrete derivative with respect to variable var.</p>
+<dl class="simple">
+<dt>The derivative D_i f is defined as:</dt><dd><p>D_i f(x) = f(x) XOR f(x ⊕ e_i)</p>
+</dd>
+</dl>
+<p>where e_i is the i-th unit vector. The derivative is 1 exactly when
+variable i is influential at input x.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>var</strong> – Variable index to differentiate with respect to</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New BooleanFunction representing the derivative</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The influence of variable i equals E[D_i f] = Pr[D_i f(x) = 1]</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.shift">
+<span class="sig-name descname"><span class="pre">shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.shift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.shift" title="Link to this definition"></a></dt>
+<dd><p>Shift the function: f_s(x) = f(x ⊕ s).</p>
+<p>This applies an XOR mask to all inputs, effectively translating
+the function in the Boolean cube.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> – Shift mask (integer representing the XOR offset)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New BooleanFunction with shifted inputs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.negation">
+<span class="sig-name descname"><span class="pre">negation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.negation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.negation" title="Link to this definition"></a></dt>
+<dd><p>Return the negation of this function: NOT f.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>New BooleanFunction where all outputs are flipped</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.bias">
+<span class="sig-name descname"><span class="pre">bias</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.bias"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.bias" title="Link to this definition"></a></dt>
+<dd><p>Compute the bias of the function: E[(-1)^f(x)] = 1 - 2*Pr[f(x)=1].</p>
+<p>The bias is in [-1, 1]:
+- bias = 1 means f is constantly 0
+- bias = -1 means f is constantly 1
+- bias = 0 means f is balanced</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Bias value in [-1, 1]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.is_balanced">
+<span class="sig-name descname"><span class="pre">is_balanced</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.is_balanced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.is_balanced" title="Link to this definition"></a></dt>
+<dd><p>Check if the function is balanced (equal 0s and 1s in truth table).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the function outputs 0 and 1 equally often</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.query_model">
+<span class="sig-name descname"><span class="pre">query_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_queries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="boofun.core.html#boofun.core.QueryModel" title="boofun.core.QueryModel"><span class="pre">QueryModel</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.query_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.query_model" title="Link to this definition"></a></dt>
+<dd><p>Get the query model for this function.</p>
+<p>The query model helps understand computational costs and prevents
+accidentally running exponential-time operations on huge functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_queries</strong> – Maximum acceptable number of function evaluations</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>QueryModel instance with cost estimation methods</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">huge_neural_net</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qm</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">query_model</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qm</span><span class="o">.</span><span class="n">can_compute</span><span class="p">(</span><span class="s2">&quot;is_linear&quot;</span><span class="p">)</span>  <span class="c1"># True - O(k) queries</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qm</span><span class="o">.</span><span class="n">can_compute</span><span class="p">(</span><span class="s2">&quot;fourier&quot;</span><span class="p">)</span>     <span class="c1"># False - would need 2^100 queries</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.access_type">
+<span class="sig-name descname"><span class="pre">access_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="boofun.core.html#boofun.core.AccessType" title="boofun.core.AccessType"><span class="pre">AccessType</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.access_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.access_type" title="Link to this definition"></a></dt>
+<dd><p>Get the access type for this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>AccessType.EXPLICIT if we have the full truth table
+AccessType.QUERY if we can only evaluate on demand
+AccessType.SYMBOLIC if we have a formula</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.is_explicit">
+<span class="sig-name descname"><span class="pre">is_explicit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.is_explicit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.is_explicit" title="Link to this definition"></a></dt>
+<dd><p>Check if we have explicit access (full truth table).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.is_query_access">
+<span class="sig-name descname"><span class="pre">is_query_access</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.is_query_access"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.is_query_access" title="Link to this definition"></a></dt>
+<dd><p>Check if this is a query-access function (no truth table).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.fourier">
+<span class="sig-name descname"><span class="pre">fourier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_recompute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.fourier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.fourier" title="Link to this definition"></a></dt>
+<dd><p>Compute Fourier coefficients f̂(S) for all subsets S ⊆ [n].</p>
+<p>The Fourier expansion is: f(x) = Σ_S f̂(S) χ_S(x)
+where χ_S(x) = ∏_{i∈S} x_i are the Walsh characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Array of Fourier coefficients indexed by subset bitmask</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xor</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coeffs</span> <span class="o">=</span> <span class="n">xor</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coeffs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># f̂({0,1}) = -1 for XOR</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.spectrum">
+<span class="sig-name descname"><span class="pre">spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_recompute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.spectrum" title="Link to this definition"></a></dt>
+<dd><p>Alias for fourier() - returns Fourier spectrum.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.degree">
+<span class="sig-name descname"><span class="pre">degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gf2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.degree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.degree" title="Link to this definition"></a></dt>
+<dd><p>Compute the degree of the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gf2</strong> – If True, compute GF(2) (algebraic) degree
+If False, compute Fourier (real) degree</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Maximum degree of non-zero coefficient</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xor</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xor</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>        <span class="c1"># Fourier degree = 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xor</span><span class="o">.</span><span class="n">degree</span><span class="p">(</span><span class="n">gf2</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># GF(2) degree = 1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.influences">
+<span class="sig-name descname"><span class="pre">influences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force_recompute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.influences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.influences" title="Link to this definition"></a></dt>
+<dd><p>Compute influences of all variables: Inf_i[f] = Pr[f(x) ≠ f(x ⊕ e_i)].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Array of influences, one per variable</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">maj</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maj</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>  <span class="c1"># All equal for symmetric function</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.influence">
+<span class="sig-name descname"><span class="pre">influence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.influence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.influence" title="Link to this definition"></a></dt>
+<dd><p>Compute influence of a single variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>var</strong> – Variable index (0-indexed)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Influence value in [0, 1]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.total_influence">
+<span class="sig-name descname"><span class="pre">total_influence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.total_influence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.total_influence" title="Link to this definition"></a></dt>
+<dd><p>Compute total influence: I[f] = Σ_i Inf_i[f].</p>
+<p>Also called average sensitivity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sum of all variable influences</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.noise_stability">
+<span class="sig-name descname"><span class="pre">noise_stability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.noise_stability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.noise_stability" title="Link to this definition"></a></dt>
+<dd><p>Compute noise stability at correlation ρ.</p>
+<p>Stab_ρ[f] = E[f(x)f(y)] where y is ρ-correlated with x.
+In Fourier: Stab_ρ[f] = Σ_S f̂(S)² ρ^|S|</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rho</strong> – Correlation parameter in [-1, 1]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Noise stability value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.W">
+<span class="sig-name descname"><span class="pre">W</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.W"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.W" title="Link to this definition"></a></dt>
+<dd><p>Compute Fourier weight at exactly degree k: W^{=k}[f] = Σ_{<a href="#id1"><span class="problematic" id="id2">|</span></a>S|=k} f̂(S)².</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>k</strong> – Degree level</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sum of squared Fourier coefficients at degree k</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.W_leq">
+<span class="sig-name descname"><span class="pre">W_leq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.W_leq"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.W_leq" title="Link to this definition"></a></dt>
+<dd><p>Compute Fourier weight up to degree k: W^{≤k}[f] = Σ_{<a href="#id3"><span class="problematic" id="id4">|</span></a>S|≤k} f̂(S)².</p>
+<p>This measures spectral concentration on low-degree coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>k</strong> – Maximum degree</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sum of squared Fourier coefficients up to degree k</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.sparsity">
+<span class="sig-name descname"><span class="pre">sparsity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.sparsity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.sparsity" title="Link to this definition"></a></dt>
+<dd><p>Count non-zero Fourier coefficients.</p>
+<p>From O’Donnell: degree-k functions have at most 4^k non-zero coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>threshold</strong> – Minimum magnitude to count as non-zero</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of significant Fourier coefficients</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.spectral_weight_by_degree">
+<span class="sig-name descname"><span class="pre">spectral_weight_by_degree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.spectral_weight_by_degree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.spectral_weight_by_degree" title="Link to this definition"></a></dt>
+<dd><p>Compute spectral weight at each degree level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict mapping degree k -&gt; W^{=k}[f] = Σ_{<a href="#id5"><span class="problematic" id="id6">|</span></a>S|=k} f̂(S)²</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">maj</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maj</span><span class="o">.</span><span class="n">spectral_weight_by_degree</span><span class="p">()</span>
+<span class="go">{0: 0.0, 1: 0.625, 3: 0.3125, 5: 0.0625}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.heavy_coefficients">
+<span class="sig-name descname"><span class="pre">heavy_coefficients</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.heavy_coefficients"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.heavy_coefficients" title="Link to this definition"></a></dt>
+<dd><p>Find Fourier coefficients with <a href="#id13"><span class="problematic" id="id14">|f̂(S)|</span></a> ≥ τ.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tau</strong> – Threshold for “heavy” coefficient</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of (subset_tuple, coefficient) pairs sorted by magnitude</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">maj</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maj</span><span class="o">.</span><span class="n">heavy_coefficients</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="go">[((0,), 0.5), ((1,), 0.5), ((2,), 0.5)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.variance">
+<span class="sig-name descname"><span class="pre">variance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.variance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.variance" title="Link to this definition"></a></dt>
+<dd><p>Compute variance: Var[f] = E[f²] - E[f]² = Σ_{S≠∅} f̂(S)².</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Variance of the function (0 for constant, 1 for balanced ±1 function)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.max_influence">
+<span class="sig-name descname"><span class="pre">max_influence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.max_influence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.max_influence" title="Link to this definition"></a></dt>
+<dd><p>Compute maximum influence: max_i Inf_i[f].</p>
+<p>Important for KKL theorem: max_i Inf_i[f] ≥ Ω(log n / n) for balanced f.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Maximum influence value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.analyze">
+<span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.analyze" title="Link to this definition"></a></dt>
+<dd><p>Quick analysis returning common metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>n_vars, is_balanced, variance, degree,</dt><dd><p>total_influence, max_influence, noise_stability_0.5</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict with</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="go">{&#39;n_vars&#39;: 5, &#39;is_balanced&#39;: True, &#39;variance&#39;: 1.0, ...}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.negate_inputs">
+<span class="sig-name descname"><span class="pre">negate_inputs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.negate_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.negate_inputs" title="Link to this definition"></a></dt>
+<dd><p>Compute g(x) = f(-x) where -x flips all bits.</p>
+<p>In Fourier: ĝ(S) = (-1)^|S| f̂(S) (odd-degree coefficients flip sign)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>New function with negated inputs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.is_linear">
+<span class="sig-name descname"><span class="pre">is_linear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_tests</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.is_linear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.is_linear" title="Link to this definition"></a></dt>
+<dd><p>Test if function is linear (affine over GF(2)).</p>
+<p>Uses BLR linearity test.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.is_monotone">
+<span class="sig-name descname"><span class="pre">is_monotone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_tests</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.is_monotone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.is_monotone" title="Link to this definition"></a></dt>
+<dd><p>Test if function is monotone: x ≤ y implies f(x) ≤ f(y).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.is_junta">
+<span class="sig-name descname"><span class="pre">is_junta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.is_junta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.is_junta" title="Link to this definition"></a></dt>
+<dd><p>Test if function depends on at most k variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.is_global">
+<span class="sig-name descname"><span class="pre">is_global</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_set_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.is_global"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.is_global" title="Link to this definition"></a></dt>
+<dd><p>Check if f has alpha-small generalized influences (is alpha-global).</p>
+<p>A function is alpha-global if I_S(f) &lt;= alpha * E[f^2] for all small
+sets S. Global functions satisfy hypercontractivity under p-biased
+measures (Keevash-Lifshitz-Long-Minzer).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha</strong> – Threshold for generalized influences</p></li>
+<li><p><strong>max_set_size</strong> – Maximum <a href="#id15"><span class="problematic" id="id16">|S|</span></a> to check (default 3)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if all generalized influences are &lt;= alpha * E[f^2]</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Keevash, Lifshitz, Long &amp; Minzer (arXiv:1906.05039)</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.is_symmetric">
+<span class="sig-name descname"><span class="pre">is_symmetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_tests</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.is_symmetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.is_symmetric" title="Link to this definition"></a></dt>
+<dd><p>Test if function is symmetric (invariant under variable permutations).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.hamming_weight">
+<span class="sig-name descname"><span class="pre">hamming_weight</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.hamming_weight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.hamming_weight" title="Link to this definition"></a></dt>
+<dd><p>Count number of 1s in truth table (outputs where f(x) = 1).</p>
+<p>Also called the “weight” or “on-set size” of the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of inputs x where f(x) = 1</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">hamming_weight</span><span class="p">()</span>  <span class="c1"># 4 (inputs with ≥2 ones)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">hamming_weight</span><span class="p">()</span>       <span class="c1"># 1 (only 111)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.support">
+<span class="sig-name descname"><span class="pre">support</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.support"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.support" title="Link to this definition"></a></dt>
+<dd><p>Return all inputs where f(x) = 1.</p>
+<p>Also called the “on-set” or “satisfying assignments”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of input indices (as integers) where f(x) = 1</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">support</span><span class="p">()</span>  <span class="c1"># [3] (binary 11)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bf</span><span class="o">.</span><span class="n">OR</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">support</span><span class="p">()</span>   <span class="c1"># [1, 2, 3] (01, 10, 11)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.restriction">
+<span class="sig-name descname"><span class="pre">restriction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fixed_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.restriction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.restriction" title="Link to this definition"></a></dt>
+<dd><p>Create restriction of f by fixing some variables.</p>
+<p>Alias for fix() with more standard mathematical terminology.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fixed_vars</strong> – Dict mapping variable index -&gt; fixed value (0 or 1)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Restricted function on remaining variables</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">restriction</span><span class="p">({</span><span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>  <span class="c1"># Fix x₀=1, get 2-variable function</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.cofactor">
+<span class="sig-name descname"><span class="pre">cofactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.cofactor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.cofactor" title="Link to this definition"></a></dt>
+<dd><p>Compute Shannon cofactor f|_{x_i=b}.</p>
+<p>The cofactor is the restriction of f with variable i fixed to val.
+Shannon expansion: f = x_i · f|_{x_i=1} + (1-x_i) · f|_{x_i=0}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var</strong> – Variable index to fix</p></li>
+<li><p><strong>val</strong> – Value to fix it to (0 or 1)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cofactor function (one fewer variable)</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f0</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">cofactor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># f with x₀=0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">cofactor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># f with x₀=1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.sensitivity_at">
+<span class="sig-name descname"><span class="pre">sensitivity_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.sensitivity_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.sensitivity_at" title="Link to this definition"></a></dt>
+<dd><p>Compute sensitivity of f at input x.</p>
+<p>s(f, x) = <a href="#id17"><span class="problematic" id="id18">|{i : f(x) ≠ f(x ⊕ eᵢ)}|</span></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – Input (as integer)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of sensitive coordinates at x</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.sensitivity">
+<span class="sig-name descname"><span class="pre">sensitivity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.sensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.sensitivity" title="Link to this definition"></a></dt>
+<dd><p>Compute sensitivity: s(f) = max_x s(f, x).</p>
+<p>Maximum number of sensitive bits over all inputs.
+Huang’s theorem: s(f) ≥ √deg(f)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Maximum sensitivity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.xor">
+<span class="sig-name descname"><span class="pre">xor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.xor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.xor" title="Link to this definition"></a></dt>
+<dd><p>XOR with another function (chainable).</p>
+<p>Equivalent to f ^ g but more readable in chains.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">xor</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">restrict</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">xor</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.and_">
+<span class="sig-name descname"><span class="pre">and_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.and_"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.and_" title="Link to this definition"></a></dt>
+<dd><p>AND with another function (chainable).</p>
+<p>Named with underscore to avoid Python keyword conflict.
+Equivalent to f &amp; g.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.or_">
+<span class="sig-name descname"><span class="pre">or_</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.or_"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.or_" title="Link to this definition"></a></dt>
+<dd><p>OR with another function (chainable).</p>
+<p>Named with underscore to avoid Python keyword conflict.
+Equivalent to f | g.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.not_">
+<span class="sig-name descname"><span class="pre">not_</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.not_"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.not_" title="Link to this definition"></a></dt>
+<dd><p>Negate output (chainable).</p>
+<p>Equivalent to ~f. Returns function g where g(x) = NOT f(x).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.apply_noise">
+<span class="sig-name descname"><span class="pre">apply_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.apply_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.apply_noise" title="Link to this definition"></a></dt>
+<dd><p>Apply noise to get a new Boolean function via sampling.</p>
+<p>For each input x, outputs the majority vote of f(y) over multiple y,
+where each y is independently ρ-correlated with x.</p>
+<p>This gives a Boolean approximation to the noise operator T_ρ.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rho</strong> – Correlation parameter in [-1, 1]</p></li>
+<li><p><strong>samples</strong> – Number of samples for majority vote (default: 100)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New Boolean function representing noisy version of f</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">noisy_f</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">apply_noise</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>  <span class="c1"># High noise correlation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Noisy version has lower degree (high-degree parts attenuated)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.noise_expectation">
+<span class="sig-name descname"><span class="pre">noise_expectation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.noise_expectation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.noise_expectation" title="Link to this definition"></a></dt>
+<dd><p>Compute (T_ρ f)(x) = E_y[f(y)] for all inputs x.</p>
+<p>This returns the real-valued expectations, not a Boolean function.
+Useful for analysis of noise stability.</p>
+<p>In Fourier: (T_ρ f)^(S) = ρ^|S| · f̂(S)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rho</strong> – Correlation parameter in [-1, 1]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of expectations E[f(y)|x] in {-1,+1} representation</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expectations</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">noise_expectation</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># All values close to 0 (noise destroys parity signal)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.permute">
+<span class="sig-name descname"><span class="pre">permute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.permute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.permute" title="Link to this definition"></a></dt>
+<dd><p>Permute variables according to given permutation.</p>
+<p>Creates g where g(x_{perm[0]}, …, x_{perm[n-1]}) = f(x_0, …, x_{n-1}).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>perm</strong> – List defining the permutation, where perm[i] = j means
+variable i in the new function corresponds to variable j in self.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New function with permuted variables</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">dictator</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># f(x) = x_0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">permute</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># g(x) = x_2 (old position 0 → new position 2)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.dual">
+<span class="sig-name descname"><span class="pre">dual</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.dual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.dual" title="Link to this definition"></a></dt>
+<dd><p>Compute the dual function f*(x) = 1 - f(1-x) = NOT f(NOT x).</p>
+<p>The dual swaps the roles of AND and OR.
+For monotone functions, f* is the De Morgan dual.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dual function</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">dual</span><span class="p">()</span>  <span class="c1"># Returns OR(3)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bf</span><span class="o">.</span><span class="n">OR</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">dual</span><span class="p">()</span>   <span class="c1"># Returns AND(3)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.extend">
+<span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'dummy'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.extend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.extend" title="Link to this definition"></a></dt>
+<dd><p>Extend function to more variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_n</strong> – New number of variables (must be &gt;= current n)</p></li>
+<li><p><strong>method</strong> – How to extend:
+- “dummy”: New variables don’t affect output (default)
+- “xor”: XOR new variables with output</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Extended function</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># f(x0, x1) = x0 AND x1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># g(x0,x1,x2,x3) = x0 AND x1 (x2,x3 ignored)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.named">
+<span class="sig-name descname"><span class="pre">named</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#boofun.core.base.BooleanFunction" title="boofun.core.base.BooleanFunction"><span class="pre">BooleanFunction</span></a></span></span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.named"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.named" title="Link to this definition"></a></dt>
+<dd><p>Return same function with a descriptive name (for display/debugging).</p>
+<p>This is a fluent method that returns self with updated nickname.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">named</span><span class="p">(</span><span class="s2">&quot;MAJ_5&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">nickname</span>
+<span class="go">&#39;MAJ_5&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.core.base.BooleanFunction.pipe">
+<span class="sig-name descname"><span class="pre">pipe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/core/base.html#BooleanFunction.pipe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.core.base.BooleanFunction.pipe" title="Link to this definition"></a></dt>
+<dd><p>Apply an arbitrary function to self (for maximum fluency).</p>
+<p>Allows inserting custom transformations into a chain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – Function to apply, receives self as first argument</p></li>
+<li><p><strong>*args</strong> – Additional arguments to func</p></li>
+<li><p><strong>**kwargs</strong> – <p>Additional arguments to func</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Result of func(self, <a href="#id9"><span class="problematic" id="id10">*</span></a>args, <a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs)</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">custom_transform</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">apply_noise</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">custom_transform</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boofun.core.auto_representation.html" class="btn btn-neutral float-left" title="boofun.core.auto_representation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boofun.core.batch_processing.html" class="btn btn-neutral float-right" title="boofun.core.batch_processing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

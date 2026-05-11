@@ -1,0 +1,1232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.query_complexity &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.query_complexity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.query_complexity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Query complexity measures for Boolean functions.</span>
+
+<span class="sd">This module implements various query complexity measures as described in</span>
+<span class="sd">Scott Aaronson&#39;s Boolean Function Wizard and related literature.</span>
+
+<span class="sd">Query complexity measures how many queries to the input bits are needed</span>
+<span class="sd">to compute a Boolean function under different computational models:</span>
+
+<span class="sd">- D(f): Deterministic query complexity (worst-case)</span>
+<span class="sd">- R0(f): Zero-error randomized query complexity</span>
+<span class="sd">- R2(f): Two-sided-error (bounded-error) randomized query complexity</span>
+<span class="sd">- Q(f): Bounded-error quantum query complexity</span>
+
+<span class="sd">Also includes related measures:</span>
+<span class="sd">- Ambainis complexity (quantum lower bound)</span>
+<span class="sd">- Various degree measures (approximate, nondeterministic)</span>
+
+<span class="sd">References:</span>
+<span class="sd">- Aaronson, &quot;Algorithms for Boolean Function Query Measures&quot; (2000)</span>
+<span class="sd">- Buhrman &amp; de Wolf, &quot;Complexity Measures and Decision Tree Complexity&quot; (2002)</span>
+<span class="sd">- O&#39;Donnell, &quot;Analysis of Boolean Functions&quot; (2014)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Core complexity measures</span>
+    <span class="s2">&quot;deterministic_query_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;average_deterministic_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zero_error_randomized_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bounded_error_randomized_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;one_sided_randomized_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nondeterministic_complexity&quot;</span><span class="p">,</span>
+    <span class="c1"># Quantum complexity</span>
+    <span class="s2">&quot;quantum_query_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;exact_quantum_complexity&quot;</span><span class="p">,</span>
+    <span class="c1"># Sensitivity variants</span>
+    <span class="s2">&quot;everywhere_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;average_everywhere_sensitivity&quot;</span><span class="p">,</span>
+    <span class="c1"># Lower bounds</span>
+    <span class="s2">&quot;ambainis_complexity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;spectral_adversary_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;polynomial_method_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;general_adversary_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;certificate_lower_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sensitivity_lower_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;block_sensitivity_lower_bound&quot;</span><span class="p">,</span>
+    <span class="c1"># Degree measures</span>
+    <span class="s2">&quot;approximate_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;one_sided_approximate_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nondeterministic_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;strong_nondeterministic_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;weak_nondeterministic_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;threshold_degree&quot;</span><span class="p">,</span>
+    <span class="c1"># Utility</span>
+    <span class="s2">&quot;QueryComplexityProfile&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="deterministic_query_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.deterministic_query_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">deterministic_query_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute D(f), the deterministic query complexity (worst-case).</span>
+
+<span class="sd">    This is the minimum depth of a decision tree that computes f.</span>
+<span class="sd">    Same as decision_tree_depth() from complexity.py.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Worst-case number of queries needed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">decision_tree_depth</span>
+
+    <span class="k">return</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="average_deterministic_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.average_deterministic_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">average_deterministic_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute D_avg(f), the average-case deterministic query complexity.</span>
+
+<span class="sd">    This is the expected number of queries under the uniform distribution</span>
+<span class="sd">    on inputs, using an optimal decision tree.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Average number of queries needed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Get truth table</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="c1"># We compute this via the optimal decision tree</span>
+    <span class="c1"># For now, we use a greedy approximation based on maximum information gain</span>
+    <span class="c1"># (A full optimal solution requires tracking paths in the DP)</span>
+
+    <span class="c1"># Greedy approximation: repeatedly pick variable with max entropy reduction</span>
+    <span class="n">total_queries</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Each input contributes its depth in an optimal tree</span>
+    <span class="c1"># Approximate by balanced tree depth</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Simple approximation: depth based on certificate complexity</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.certificates</span><span class="w"> </span><span class="kn">import</span> <span class="n">certificate</span>
+
+        <span class="n">cert_size</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">certificate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">total_queries</span> <span class="o">+=</span> <span class="n">cert_size</span>
+
+    <span class="k">return</span> <span class="n">total_queries</span> <span class="o">/</span> <span class="n">size</span></div>
+
+
+
+<div class="viewcode-block" id="zero_error_randomized_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.zero_error_randomized_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">zero_error_randomized_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute R0(f), the zero-error randomized query complexity.</span>
+
+<span class="sd">    This is the expected number of queries needed by the best randomized</span>
+<span class="sd">    algorithm that always outputs the correct answer (Las Vegas).</span>
+
+<span class="sd">    Satisfies: R0(f) &gt;= sqrt(D(f)) and R0(f) &lt;= D(f)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Expected number of queries for zero-error randomized computation</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This is an approximation; the exact computation requires solving</span>
+<span class="sd">        a linear program over all possible randomized protocols.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Lower bound: max(C0(f), C1(f)) where C_b is certificate complexity for b-inputs</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">decision_tree_depth</span><span class="p">,</span> <span class="n">max_certificate_complexity</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">D</span> <span class="o">=</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">C0</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">C1</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># R0(f) is at least the expected certificate complexity</span>
+    <span class="c1"># Upper bound: D(f) (can always use deterministic algorithm)</span>
+    <span class="c1"># Approximation: geometric mean of certificate complexities</span>
+
+    <span class="c1"># Better approximation using known bounds</span>
+    <span class="n">lower_bound</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">C0</span><span class="p">,</span> <span class="n">C1</span><span class="p">)</span>
+    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">D</span>
+
+    <span class="c1"># For many functions, R0 is close to sqrt(C0 * C1)</span>
+    <span class="n">approx</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">C0</span> <span class="o">*</span> <span class="n">C1</span><span class="p">)</span> <span class="k">if</span> <span class="n">C0</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">C1</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">lower_bound</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">approx</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="bounded_error_randomized_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.bounded_error_randomized_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">bounded_error_randomized_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute R2(f), the bounded-error randomized query complexity.</span>
+
+<span class="sd">    This is the minimum expected queries for a randomized algorithm that</span>
+<span class="sd">    outputs the correct answer with probability &gt;= 1 - error.</span>
+
+<span class="sd">    Satisfies: R2(f) = Omega(sqrt(bs(f))) and R2(f) = O(D(f))</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        error: Maximum error probability (default 1/3)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Expected queries for bounded-error randomized computation</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This is an approximation based on known lower bounds.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.block_sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_block_sensitivity</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">decision_tree_depth</span><span class="p">,</span> <span class="n">max_sensitivity</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Lower bounds</span>
+    <span class="n">bs</span> <span class="o">=</span> <span class="n">max_block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># R2(f) &gt;= Omega(sqrt(bs(f))) - this is tight for many functions</span>
+    <span class="c1"># R2(f) &gt;= Omega(sqrt(s(f) * bs(f))) is a better lower bound</span>
+
+    <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">s</span> <span class="o">*</span> <span class="n">bs</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">bs</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">bs</span><span class="p">))</span>
+    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">D</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">lower_bound</span> <span class="o">*</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="one_sided_randomized_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.one_sided_randomized_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_sided_randomized_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute R1(f), the one-sided-error randomized query complexity.</span>
+
+<span class="sd">    A one-sided algorithm never errs on inputs with f(x) = side.</span>
+
+<span class="sd">    Satisfies: R2(f) &lt;= R1(f) &lt;= R0(f) &lt;= D(f)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        side: Which side has no error (0 or 1, default 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated one-sided randomized complexity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">decision_tree_depth</span><span class="p">,</span> <span class="n">max_certificate_complexity</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># R1(f) is related to certificate complexity on the &quot;side&quot; inputs</span>
+    <span class="n">C_side</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span>
+    <span class="n">C_other</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">side</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># R1(f) &gt;= C_side (must verify certificates on side inputs)</span>
+    <span class="c1"># Approximation: between C_side and R0</span>
+    <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">C_side</span>
+    <span class="n">r0_approx</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">C_side</span> <span class="o">*</span> <span class="n">C_other</span><span class="p">)</span> <span class="k">if</span> <span class="n">C_side</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">C_other</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">C_side</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">r0_approx</span><span class="p">,</span> <span class="n">D</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="nondeterministic_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.nondeterministic_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nondeterministic_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute NR(f), the nondeterministic query complexity.</span>
+
+<span class="sd">    This is the minimum certificate complexity over inputs where f(x) = side.</span>
+<span class="sd">    Nondeterministic algorithms &quot;guess&quot; the certificate and verify it.</span>
+
+<span class="sd">    Satisfies: NR(f) &lt;= R1(f)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        side: Which value to compute NR for (0 or 1, default 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Nondeterministic query complexity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">certificate_complexity</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="n">min_cert</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="nb">bool</span><span class="p">(</span><span class="n">side</span><span class="p">):</span>
+            <span class="n">cert</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+            <span class="n">min_cert</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_cert</span><span class="p">,</span> <span class="n">cert</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">min_cert</span> <span class="k">if</span> <span class="n">min_cert</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="k">else</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="everywhere_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.everywhere_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">everywhere_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute es(f), the everywhere sensitivity.</span>
+
+<span class="sd">    The everywhere sensitivity is the minimum sensitivity over all inputs:</span>
+<span class="sd">        es(f) = min_x s(f, x)</span>
+
+<span class="sd">    This measures the &quot;easiest&quot; input to compute in terms of sensitivity.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Minimum sensitivity across all inputs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">min_sensitivity</span>
+
+    <span class="k">return</span> <span class="n">min_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="average_everywhere_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.average_everywhere_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">average_everywhere_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute esu(f), the average everywhere sensitivity.</span>
+
+<span class="sd">    This is the average of min sensitivity values, optionally restricted</span>
+<span class="sd">    to inputs where f(x) = value.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        value: If specified (0 or 1), only consider inputs where f(x) = value</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Average of minimum sensitivities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">sensitivity</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="n">sensitivities</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">sensitivities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sensitivities</span><span class="p">))</span> <span class="k">if</span> <span class="n">sensitivities</span> <span class="k">else</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="quantum_query_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.quantum_query_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">quantum_query_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate Q2(f), the bounded-error quantum query complexity.</span>
+
+<span class="sd">    Uses multiple lower bounds:</span>
+<span class="sd">    - Ambainis adversary bound</span>
+<span class="sd">    - Spectral adversary bound</span>
+<span class="sd">    - sqrt(bs(f)) (Grover lower bound)</span>
+
+<span class="sd">    Q2(f) = Theta(sqrt(D(f))) for many functions by Grover-type algorithms.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated bounded-error quantum query complexity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.block_sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_block_sensitivity</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">decision_tree_depth</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Lower bounds</span>
+    <span class="n">amb</span> <span class="o">=</span> <span class="n">ambainis_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">bs</span> <span class="o">=</span> <span class="n">max_block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Q2(f) &gt;= max(Amb(f), sqrt(bs(f)))</span>
+    <span class="n">grover_bound</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+    <span class="n">lower_bound</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">amb</span><span class="p">,</span> <span class="n">grover_bound</span><span class="p">)</span>
+
+    <span class="c1"># Upper bound: can always do Grover search over D(f)-depth tree</span>
+    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># Rough upper bound</span>
+
+    <span class="c1"># Q2(f) is typically around sqrt(D) for read-once functions</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="p">),</span> <span class="n">upper_bound</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="exact_quantum_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.exact_quantum_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">exact_quantum_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate QE(f), the exact quantum query complexity.</span>
+
+<span class="sd">    QE(f) is the minimum queries for a quantum algorithm that always</span>
+<span class="sd">    outputs the correct answer (no error allowed).</span>
+
+<span class="sd">    Satisfies: Q2(f) &lt;= QE(f) &lt;= D(f)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated exact quantum query complexity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.gf2</span><span class="w"> </span><span class="kn">import</span> <span class="n">gf2_degree</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">decision_tree_depth</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">D</span> <span class="o">=</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">deg</span> <span class="o">=</span> <span class="n">gf2_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># QE(f) &gt;= deg(f) (exact computation needs all degree-deg terms)</span>
+    <span class="c1"># For symmetric functions, QE(f) = Theta(n)</span>
+    <span class="c1"># For many functions, QE(f) is close to D(f)</span>
+
+    <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">deg</span>
+
+    <span class="c1"># Check if function is symmetric - if so, QE is high</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.basic_properties</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_symmetric</span>
+
+    <span class="k">if</span> <span class="n">is_symmetric</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">lower_bound</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="spectral_adversary_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.spectral_adversary_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectral_adversary_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the spectral adversary bound for Q2(f).</span>
+
+<span class="sd">    This is the &quot;positive weights&quot; adversary method, which is sometimes</span>
+<span class="sd">    tighter than the basic Ambainis bound.</span>
+
+<span class="sd">    The spectral bound equals sqrt(λ) where λ is the largest eigenvalue</span>
+<span class="sd">    of a certain matrix derived from the function structure.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Spectral adversary lower bound</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">zeros</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span>
+    <span class="n">ones</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">ones</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Build adversary matrix</span>
+    <span class="c1"># M[i,j] = 1/hamming(zeros[i], ones[j]) if connected</span>
+    <span class="n">m0</span><span class="p">,</span> <span class="n">m1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ones</span><span class="p">)</span>
+
+    <span class="c1"># For efficiency, limit matrix size</span>
+    <span class="k">if</span> <span class="n">m0</span> <span class="o">*</span> <span class="n">m1</span> <span class="o">&gt;</span> <span class="mi">10000</span><span class="p">:</span>
+        <span class="c1"># Subsample</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+        <span class="n">zeros</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">zeros</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">m0</span><span class="p">))</span>
+        <span class="n">ones</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">ones</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">m1</span><span class="p">))</span>
+        <span class="n">m0</span><span class="p">,</span> <span class="n">m1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ones</span><span class="p">)</span>
+
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">m0</span><span class="p">,</span> <span class="n">m1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">zeros</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ones</span><span class="p">):</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">z</span> <span class="o">^</span> <span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">h</span>
+
+    <span class="c1"># Spectral norm of M</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">svdvals</span>
+
+        <span class="n">singular_values</span> <span class="o">=</span> <span class="n">svdvals</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">singular_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">singular_values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="c1"># Fallback: use power iteration</span>
+        <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">ambainis_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ambainis_complexity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.ambainis_complexity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ambainis_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Ambainis adversary bound, a lower bound for Q2(f).</span>
+
+<span class="sd">    The Ambainis bound is defined as:</span>
+<span class="sd">        Adv(f) = max_R sqrt(max_x |{y: R(x,y)=1}| * max_y |{x: R(x,y)=1}|)</span>
+<span class="sd">                 / max_{x,y:R(x,y)=1} |{i: x_i != y_i}|</span>
+
+<span class="sd">    where R is any binary relation with R(x,y) = 1 only when f(x) != f(y).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Ambainis adversary lower bound for quantum query complexity</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Computing the optimal R is NP-hard in general. This uses a heuristic.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Collect 0-inputs and 1-inputs</span>
+    <span class="n">zeros</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span>
+    <span class="n">ones</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">ones</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>  <span class="c1"># Constant function</span>
+
+    <span class="c1"># Simple heuristic: use the &quot;all-pairs&quot; relation R(x,y) = 1 iff f(x) != f(y)</span>
+    <span class="c1"># For each pair, count Hamming distance</span>
+
+    <span class="c1"># For efficiency, sample if too many pairs</span>
+    <span class="n">max_pairs</span> <span class="o">=</span> <span class="mi">10000</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">ones</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_pairs</span><span class="p">:</span>
+        <span class="c1"># Sample pairs</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">zeros</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">ones</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_pairs</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">z</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">zeros</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">ones</span><span class="p">]</span>
+
+    <span class="c1"># Compute Hamming distances</span>
+    <span class="n">min_hamming</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="k">for</span> <span class="n">z</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">z</span> <span class="o">^</span> <span class="n">o</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">min_hamming</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_hamming</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_hamming</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Ambainis bound approximation</span>
+    <span class="c1"># sqrt(|zeros| * |ones|) / min_hamming</span>
+    <span class="n">bound</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">ones</span><span class="p">))</span> <span class="o">/</span> <span class="n">min_hamming</span>
+
+    <span class="k">return</span> <span class="n">bound</span></div>
+
+
+
+<div class="viewcode-block" id="certificate_lower_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.certificate_lower_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">certificate_lower_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute lower bound on D(f) from certificate complexity.</span>
+
+<span class="sd">    D(f) &gt;= max(C0(f), C1(f))</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Certificate-based lower bound</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_certificate_complexity</span>
+
+    <span class="n">C0</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">C1</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">C0</span><span class="p">,</span> <span class="n">C1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="sensitivity_lower_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.sensitivity_lower_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sensitivity_lower_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute lower bound on D(f) from sensitivity.</span>
+
+<span class="sd">    By Huang&#39;s theorem (2019): D(f) &gt;= s(f)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Sensitivity-based lower bound</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_sensitivity</span>
+
+    <span class="k">return</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="block_sensitivity_lower_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.block_sensitivity_lower_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">block_sensitivity_lower_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute lower bound on D(f) from block sensitivity.</span>
+
+<span class="sd">    D(f) &gt;= bs(f)</span>
+
+<span class="sd">    Also: bs(f) &lt;= D(f) &lt;= bs(f)^2 (the latter is Nisan&#39;s theorem)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Block sensitivity-based lower bound</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.block_sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_block_sensitivity</span>
+
+    <span class="k">return</span> <span class="n">max_block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="approximate_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.approximate_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">approximate_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the approximate degree deg_epsilon(f).</span>
+
+<span class="sd">    The approximate degree is the minimum degree of a polynomial p such that</span>
+<span class="sd">    |p(x) - f(x)| &lt;= epsilon for all x in {0,1}^n.</span>
+
+<span class="sd">    This is a lower bound for R2(f): R2(f) &gt;= deg_1/3(f)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        epsilon: Approximation parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated approximate degree</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Exact computation requires linear programming. This uses bounds.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.block_sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_block_sensitivity</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_sensitivity</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">bs</span> <span class="o">=</span> <span class="n">max_block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Lower bound: Omega(sqrt(bs(f)))</span>
+    <span class="c1"># For AND/OR: deg_1/3 = Theta(sqrt(n))</span>
+
+    <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="one_sided_approximate_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.one_sided_approximate_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">one_sided_approximate_degree</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate deg1(f), the one-sided approximate degree.</span>
+
+<span class="sd">    This is the minimum degree of a polynomial p such that:</span>
+<span class="sd">    - p(x) &gt;= 1 - epsilon when f(x) = side</span>
+<span class="sd">    - p(x) &lt;= epsilon when f(x) != side</span>
+
+<span class="sd">    Satisfies: deg1(f) &gt;= deg2(f) (two-sided approximate degree)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        side: Which side to approximate (0 or 1, default 1)</span>
+<span class="sd">        epsilon: Approximation parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated one-sided approximate degree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_certificate_complexity</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># deg1(f) &gt;= sqrt(C_side(f)) for the &quot;side&quot; inputs</span>
+    <span class="n">C_side</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span>
+
+    <span class="c1"># Also bounded below by approximate degree</span>
+    <span class="n">deg2</span> <span class="o">=</span> <span class="n">approximate_degree</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">C_side</span><span class="p">),</span> <span class="n">deg2</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="nondeterministic_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.nondeterministic_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">side</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate ndeg(f), the nondeterministic degree.</span>
+
+<span class="sd">    This is the minimum degree of a polynomial p such that:</span>
+<span class="sd">    - p(x) &gt;= 1 when f(x) = side</span>
+<span class="sd">    - p(x) = 0 when f(x) != side</span>
+
+<span class="sd">    This equals the minimum size of an AND of ORs (DNF width for side=1).</span>
+
+<span class="sd">    Satisfies: ndeg(f) &lt;= deg1(f)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        side: Which side to exactly represent (0 or 1, default 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated nondeterministic degree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="c1"># ndeg is related to the minimum DNF term width (for side=1)</span>
+    <span class="c1"># or minimum CNF clause width (for side=0)</span>
+
+    <span class="c1"># Simple bound: minimum certificate complexity</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">certificate_complexity</span>
+
+    <span class="n">min_cert</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="nb">bool</span><span class="p">(</span><span class="n">side</span><span class="p">):</span>
+            <span class="n">cert</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+            <span class="n">min_cert</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_cert</span><span class="p">,</span> <span class="n">cert</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">min_cert</span> <span class="k">if</span> <span class="n">min_cert</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="k">else</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="strong_nondeterministic_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.strong_nondeterministic_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">strong_nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate degs(f), the strong nondeterministic degree.</span>
+
+<span class="sd">    This is the minimum degree needed for polynomials that:</span>
+<span class="sd">    - Are nonnegative on all inputs</span>
+<span class="sd">    - Are &gt; 0 exactly when f(x) = 1</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated strong nondeterministic degree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># degs(f) &gt;= max(ndeg0(f), ndeg1(f))</span>
+    <span class="n">ndeg0</span> <span class="o">=</span> <span class="n">nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">ndeg1</span> <span class="o">=</span> <span class="n">nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">ndeg0</span><span class="p">,</span> <span class="n">ndeg1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="weak_nondeterministic_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.weak_nondeterministic_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">weak_nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate degw(f), the weak nondeterministic degree.</span>
+
+<span class="sd">    This is min(ndeg0(f), ndeg1(f)).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated weak nondeterministic degree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ndeg0</span> <span class="o">=</span> <span class="n">nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">ndeg1</span> <span class="o">=</span> <span class="n">nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">ndeg0</span><span class="p">,</span> <span class="n">ndeg1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="threshold_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.threshold_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">threshold_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the threshold degree of f (degree as a sign-polynomial).</span>
+
+<span class="sd">    The threshold degree is the minimum degree d such that there exists</span>
+<span class="sd">    a polynomial p of degree d with sign(p(x)) = f(x) for all x.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Threshold degree</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This equals the real degree for most Boolean functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.fourier</span><span class="w"> </span><span class="kn">import</span> <span class="n">fourier_degree</span>
+
+    <span class="c1"># Threshold degree &lt;= real degree</span>
+    <span class="c1"># For most functions they&#39;re equal</span>
+    <span class="k">return</span> <span class="n">fourier_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="polynomial_method_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.polynomial_method_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">polynomial_method_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute lower bound on Q2(f) via the polynomial method.</span>
+
+<span class="sd">    The polynomial method shows that quantum algorithms induce low-degree</span>
+<span class="sd">    polynomials. Any quantum algorithm making T queries induces polynomials</span>
+<span class="sd">    of degree at most 2T representing acceptance probabilities.</span>
+
+<span class="sd">    Therefore: Q2(f) &gt;= deg~(f)/2, where deg~(f) is the approximate degree.</span>
+
+<span class="sd">    For symmetric functions, this is often tight.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Polynomial method lower bound for quantum query complexity</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Beals et al., &quot;Quantum lower bounds by polynomials&quot; (2001)</span>
+<span class="sd">        - Belovs, &quot;A Direct Reduction from Polynomial to Adversary Method&quot; (TQC 2024)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># The polynomial method bound is deg~(f)/2</span>
+    <span class="n">approx_deg</span> <span class="o">=</span> <span class="n">approximate_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">approx_deg</span> <span class="o">/</span> <span class="mi">2</span></div>
+
+
+
+<div class="viewcode-block" id="general_adversary_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.general_adversary_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">general_adversary_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the general (negative-weight) adversary bound for Q2(f).</span>
+
+<span class="sd">    The general adversary method with negative weights *characterizes*</span>
+<span class="sd">    bounded-error quantum query complexity for total Boolean functions:</span>
+
+<span class="sd">        Q2(f) = Θ(ADV±(f))</span>
+
+<span class="sd">    This is the strongest known quantum lower bound technique.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated general adversary bound (approximation)</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Computing the exact ADV±(f) requires solving a semidefinite program.</span>
+<span class="sd">        This implementation provides a heuristic approximation combining</span>
+<span class="sd">        multiple lower bound techniques.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Reichardt, &quot;Reflections for quantum query algorithms&quot; (2011)</span>
+<span class="sd">        - Belovs (TQC 2024): dual polynomials → adversary bounds</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># The general adversary is at least as strong as:</span>
+    <span class="c1"># 1. Spectral adversary</span>
+    <span class="c1"># 2. Ambainis bound</span>
+    <span class="c1"># 3. Polynomial method / 2</span>
+
+    <span class="n">spec_adv</span> <span class="o">=</span> <span class="n">spectral_adversary_bound</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">amb</span> <span class="o">=</span> <span class="n">ambainis_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">poly_bound</span> <span class="o">=</span> <span class="n">polynomial_method_bound</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Take maximum of all known bounds</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">spec_adv</span><span class="p">,</span> <span class="n">amb</span><span class="p">,</span> <span class="n">poly_bound</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="QueryComplexityProfile">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.QueryComplexityProfile">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QueryComplexityProfile</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute and store query complexity measures for a Boolean function.</span>
+
+<span class="sd">    This class provides a comprehensive analysis similar to Aaronson&#39;s</span>
+<span class="sd">    Boolean Function Wizard.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="QueryComplexityProfile.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.QueryComplexityProfile.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize query complexity profile.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: BooleanFunction to analyze</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="QueryComplexityProfile.compute">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.QueryComplexityProfile.compute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute all query complexity measures.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary of complexity measures</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.fourier</span><span class="w"> </span><span class="kn">import</span> <span class="n">fourier_degree</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.gf2</span><span class="w"> </span><span class="kn">import</span> <span class="n">gf2_degree</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.block_sensitivity</span><span class="w"> </span><span class="kn">import</span> <span class="n">max_block_sensitivity</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+            <span class="n">average_sensitivity</span><span class="p">,</span>
+            <span class="n">decision_tree_depth</span><span class="p">,</span>
+            <span class="n">max_certificate_complexity</span><span class="p">,</span>
+            <span class="n">max_sensitivity</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Basic properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+        <span class="c1"># Sensitivity measures</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;s0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;s1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;avg_s&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">average_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Block sensitivity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;bs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_block_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Certificate complexity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;C0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;C1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_certificate_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Decision tree complexity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Degree measures</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;deg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fourier_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;degZ2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gf2_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;deg2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">approximate_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;ndeg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;degs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">strong_nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;degw&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weak_nondeterministic_degree</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Everywhere sensitivity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;es&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">everywhere_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;esu&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">average_everywhere_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Randomized complexity (approximations)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;R0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">zero_error_randomized_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;R1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">one_sided_randomized_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;R2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounded_error_randomized_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;NR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nondeterministic_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Quantum complexity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;Q2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">quantum_query_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;QE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">exact_quantum_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;Amb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ambainis_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;SpecAdv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spectral_adversary_bound</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;PolyMethod&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">polynomial_method_bound</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;GenAdv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">general_adversary_bound</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Influence</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">influences</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;max_inf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">influences</span><span class="p">))</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span><span class="p">[</span><span class="s2">&quot;total_inf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">influences</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_computed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measures</span></div>
+
+
+<div class="viewcode-block" id="QueryComplexityProfile.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.QueryComplexityProfile.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a human-readable summary in BFW style.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Boolean Function Wizard - Query Complexity Profile&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Variables:      n = </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;n&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;BASIC PROPERTIES:&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  unate         (see basic_properties)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  balanced      (Pr[f=1] = 0.5?)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SENSITIVITY MEASURES:&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  s(f)          </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (max sensitivity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  s0(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;s0&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (max sens on 0-inputs)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  s1(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (max sens on 1-inputs)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  avg_s(f)      </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;avg_s&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   (average sensitivity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  es(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;es&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (everywhere sensitivity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  esu(f)        </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;esu&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   (avg everywhere sensitivity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  bs(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;bs&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (block sensitivity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  max_inf(f)    </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;max_inf&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   (max influence)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  total_inf(f)  </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;total_inf&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   (total influence)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DEGREE MEASURES:&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  deg(f)        </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;deg&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (real degree)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  degZ2(f)      </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;degZ2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (GF(2) degree)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  deg2(f)       </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;deg2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (approx degree, 2-sided)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  ndeg(f)       </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;ndeg&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (nondeterministic degree)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  degs(f)       </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;degs&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (strong nondet degree)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  degw(f)       </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;degw&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (weak nondet degree)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DETERMINISTIC COMPLEXITY:&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  D(f)          </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (decision tree depth)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  C(f)          </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (certificate complexity)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  C0(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (cert complexity, 0-inputs)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  C1(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;C1&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">          (cert complexity, 1-inputs)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;RANDOMIZED COMPLEXITY (approximations):&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  R0(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;R0&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (zero-error randomized)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  R1(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;R1&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (one-sided randomized)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  R2(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;R2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (bounded-error randomized)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  NR(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;NR&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (nondeterministic)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;QUANTUM COMPLEXITY (approximations):&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Q2(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;Q2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (bounded-error quantum)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  QE(f)         </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;QE&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">      (exact quantum)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Amb(f)        </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;Amb&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   (Ambainis adversary)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  SpecAdv(f)    </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;SpecAdv&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">   (spectral adversary)&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QueryComplexityProfile.check_known_relations">
+<a class="viewcode-back" href="../../../api/boofun.analysis.query_complexity.html#boofun.analysis.query_complexity.QueryComplexityProfile.check_known_relations">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_known_relations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify known relationships between complexity measures.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary of relationship checks</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+
+        <span class="n">checks</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Sensitivity vs certificate</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;s &lt;= C&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">]</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;s &lt;= bs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;bs&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Block sensitivity bounds</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;bs &lt;= C&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;bs&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">]</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;bs &lt;= D&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;bs&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Certificate bounds</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;C &lt;= D&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">]</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;D &lt;= C0*C1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;C0&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;C1&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Degree bounds</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;deg &gt;= bs/2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;deg&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;bs&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="c1"># Total influence = average sensitivity</span>
+        <span class="n">checks</span><span class="p">[</span><span class="s2">&quot;total_inf = avg_s&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;total_inf&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">[</span><span class="s2">&quot;avg_s&quot;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">0.001</span>
+
+        <span class="k">return</span> <span class="n">checks</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

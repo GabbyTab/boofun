@@ -1,0 +1,1125 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.fourier &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.fourier</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.fourier</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Fourier analysis utilities for Boolean functions.</span>
+
+<span class="sd">This module provides core Fourier analysis tools as described in Chapter 1</span>
+<span class="sd">of O&#39;Donnell&#39;s &quot;Analysis of Boolean Functions&quot;, including:</span>
+
+<span class="sd">- Parseval&#39;s identity: ‖f‖² = Σ_S f̂(S)²</span>
+<span class="sd">- Plancherel&#39;s theorem: ⟨f,g⟩ = Σ_S f̂(S)ĝ(S)</span>
+<span class="sd">- Convolution: (f * g)(x) = E_y[f(y)g(x⊕y)]</span>
+<span class="sd">- Function transformations (negation, odd/even parts)</span>
+<span class="sd">- Restriction operators</span>
+
+<span class="sd">Mathematical Background (O&#39;Donnell Chapter 1):</span>
+<span class="sd">    Every function f: {-1,1}^n → ℝ has a unique Fourier expansion:</span>
+<span class="sd">        f(x) = Σ_{S⊆[n]} f̂(S) χ_S(x)</span>
+
+<span class="sd">    where χ_S(x) = ∏_{i∈S} x_i are the Fourier characters.</span>
+
+<span class="sd">    Key identities:</span>
+<span class="sd">    - Parseval: E[f(x)²] = Σ_S f̂(S)² (L2 norm preservation)</span>
+<span class="sd">    - Plancherel: E[f(x)g(x)] = Σ_S f̂(S)ĝ(S) (inner product)</span>
+<span class="sd">    - Convolution: (f*g)^(S) = f̂(S) · ĝ(S) (pointwise in Fourier domain)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Fundamental identities</span>
+    <span class="s2">&quot;parseval_verify&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plancherel_inner_product&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;convolution&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;convolution_values&quot;</span><span class="p">,</span>
+    <span class="c1"># Function transformations (from HW1)</span>
+    <span class="s2">&quot;negate_inputs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;odd_part&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;even_part&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tensor_product&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;restriction&quot;</span><span class="p">,</span>
+    <span class="c1"># Fourier utilities</span>
+    <span class="s2">&quot;fourier_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;spectral_norm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fourier_sparsity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dominant_coefficients&quot;</span><span class="p">,</span>
+    <span class="c1"># From Tal&#39;s library</span>
+    <span class="s2">&quot;correlation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;truncate_to_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;annealed_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fourier_weight_distribution&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;min_fourier_coefficient_size&quot;</span><span class="p">,</span>
+    <span class="c1"># Examples from O&#39;Donnell</span>
+    <span class="s2">&quot;compute_mux3_fourier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;compute_nae3_fourier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;compute_and_fourier&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get Fourier coefficients, computing if necessary.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="parseval_verify">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.parseval_verify">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parseval_verify</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verify Parseval&#39;s identity for a Boolean function.</span>
+
+<span class="sd">    Parseval&#39;s identity states that for f: {-1,1}^n → ℝ:</span>
+<span class="sd">        E[f(x)²] = Σ_S f̂(S)²</span>
+
+<span class="sd">    For Boolean functions f: {-1,1}^n → {-1,1}, this gives:</span>
+<span class="sd">        1 = Σ_S f̂(S)²  (since f(x)² = 1 always)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to verify</span>
+<span class="sd">        tolerance: Maximum allowed deviation from expected value</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (passes, lhs_value, rhs_value) where:</span>
+<span class="sd">        - passes: True if |lhs - rhs| &lt; tolerance</span>
+<span class="sd">        - lhs_value: E[f(x)²] computed directly</span>
+<span class="sd">        - rhs_value: Σ_S f̂(S)² from Fourier coefficients</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; xor = bf.create([0, 1, 1, 0])</span>
+<span class="sd">        &gt;&gt;&gt; passes, lhs, rhs = parseval_verify(xor)</span>
+<span class="sd">        &gt;&gt;&gt; passes  # Should be True</span>
+<span class="sd">        True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">pm_val</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">val</span>  <span class="c1"># Convert to ±1</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">pm_val</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">pm_val</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Compute LHS: E[f(x)²]</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">pm_values</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>  <span class="c1"># Convert {0,1} to {+1,-1}</span>
+    <span class="n">lhs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pm_values</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Compute RHS: Σ_S f̂(S)²</span>
+    <span class="n">fourier_coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">rhs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fourier_coeffs</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="n">passes</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lhs</span> <span class="o">-</span> <span class="n">rhs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tolerance</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">passes</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">lhs</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">rhs</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="plancherel_inner_product">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.plancherel_inner_product">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plancherel_inner_product</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute inner product using Plancherel&#39;s theorem.</span>
+
+<span class="sd">    Plancherel&#39;s theorem (generalization of Parseval):</span>
+<span class="sd">        ⟨f, g⟩ = E[f(x)g(x)] = Σ_S f̂(S)ĝ(S)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f, g: BooleanFunctions to compute inner product of</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Inner product ⟨f, g⟩</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If f and g have different number of variables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">!=</span> <span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Functions must have same number of variables: </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">f_coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">g_coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f_coeffs</span> <span class="o">*</span> <span class="n">g_coeffs</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="convolution">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.convolution">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convolution</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Fourier coefficients of the convolution of two Boolean functions.</span>
+
+<span class="sd">    The convolution is defined as:</span>
+<span class="sd">        (f * g)(x) = E_y[f(y)g(x ⊕ y)]</span>
+
+<span class="sd">    By the Convolution Theorem, in the Fourier domain this becomes pointwise</span>
+<span class="sd">    multiplication:</span>
+<span class="sd">        (f * g)^(S) = f̂(S) · ĝ(S)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f, g: BooleanFunctions to convolve</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy array of Fourier coefficients (f * g)^(S) indexed by S</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If f and g have different number of variables</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        The convolution of two Boolean functions is generally NOT a Boolean</span>
+<span class="sd">        function - it&#39;s a real-valued function with values in [-1, 1].</span>
+<span class="sd">        This function returns the exact Fourier coefficients without any</span>
+<span class="sd">        loss of information.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.majority(3)</span>
+<span class="sd">        &gt;&gt;&gt; g = bf.parity(3)</span>
+<span class="sd">        &gt;&gt;&gt; conv_coeffs = convolution(f, g)</span>
+<span class="sd">        &gt;&gt;&gt; # Verify: (f*g)^(S) = f̂(S) · ĝ(S)</span>
+<span class="sd">        &gt;&gt;&gt; assert np.allclose(conv_coeffs, f.fourier() * g.fourier())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">!=</span> <span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Functions must have same number of variables: </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># The Convolution Theorem: (f * g)^(S) = f̂(S) · ĝ(S)</span>
+    <span class="c1"># This IS the convolution in Fourier space - just pointwise multiplication!</span>
+    <span class="n">f_coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">g_coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f_coeffs</span> <span class="o">*</span> <span class="n">g_coeffs</span></div>
+
+
+
+<div class="viewcode-block" id="convolution_values">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.convolution_values">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convolution_values</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the time-domain values of the convolution of two Boolean functions.</span>
+
+<span class="sd">    The convolution is defined as:</span>
+<span class="sd">        (f * g)(x) = E_y[f(y)g(x ⊕ y)]</span>
+
+<span class="sd">    This function computes (f * g)(x) for all x via inverse Fourier transform.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f, g: BooleanFunctions to convolve</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy array of real values (f * g)(x) indexed by x</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        The values are in [-1, 1], NOT {0, 1} or {-1, 1}.</span>
+<span class="sd">        This is the correlation between f and g shifted by x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conv_coeffs</span> <span class="o">=</span> <span class="n">convolution</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Inverse Fourier transform: (f*g)(x) = Σ_S (f*g)^(S) · χ_S(x)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="c1"># χ_S(x) = (-1)^{popcount(x &amp; S)}</span>
+            <span class="n">chi_val</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">conv_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi_val</span>
+        <span class="n">values</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
+
+    <span class="k">return</span> <span class="n">values</span></div>
+
+
+
+<div class="viewcode-block" id="negate_inputs">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.negate_inputs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">negate_inputs</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute g(x) = f(-x) where -x flips all bits.</span>
+
+<span class="sd">    From HW1 Problem 1: If f(x) = Σ_S f̂(S) χ_S(x), then</span>
+<span class="sd">        g(x) = f(-x) = Σ_S (-1)^|S| f̂(S) χ_S(x)</span>
+
+<span class="sd">    This flips the sign of odd-degree Fourier coefficients.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to transform</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        New BooleanFunction g where g(x) = f(-x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionFactory</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="c1"># f(-x) means flipping all bits: x → x ⊕ (2^n - 1)</span>
+    <span class="n">flip_mask</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">new_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">truth_table</span><span class="p">[</span><span class="n">x</span> <span class="o">^</span> <span class="n">flip_mask</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">BooleanFunctionFactory</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">new_tt</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="odd_part">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.odd_part">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">odd_part</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the odd part of f: f^odd(x) = (f(x) - f(-x)) / 2.</span>
+
+<span class="sd">    From HW1 Problem 1: The odd part contains only odd-degree Fourier coefficients.</span>
+<span class="sd">        f^odd(x) = Σ_{|S| odd} f̂(S) χ_S(x)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of function values for f^odd (real-valued, not Boolean)</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        The result is real-valued, not necessarily Boolean.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">pm_values</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>
+
+    <span class="n">flip_mask</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">pm_negated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pm_values</span><span class="p">[</span><span class="n">x</span> <span class="o">^</span> <span class="n">flip_mask</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">pm_values</span> <span class="o">-</span> <span class="n">pm_negated</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span></div>
+
+
+
+<div class="viewcode-block" id="even_part">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.even_part">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">even_part</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the even part of f: f^even(x) = (f(x) + f(-x)) / 2.</span>
+
+<span class="sd">    From HW1 Problem 1: The even part contains only even-degree Fourier coefficients.</span>
+<span class="sd">        f^even(x) = Σ_{|S| even} f̂(S) χ_S(x)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of function values for f^even (real-valued)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">pm_values</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>
+
+    <span class="n">flip_mask</span> <span class="o">=</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">pm_negated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pm_values</span><span class="p">[</span><span class="n">x</span> <span class="o">^</span> <span class="n">flip_mask</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">pm_values</span> <span class="o">+</span> <span class="n">pm_negated</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span></div>
+
+
+
+<div class="viewcode-block" id="tensor_product">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.tensor_product">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tensor_product</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute tensor product: h(x₁, x₂) = f(x₁) · g(x₂).</span>
+
+<span class="sd">    From HW1 Problem 1: If f: {-1,1}^n → ℝ and g: {-1,1}^m → ℝ, then</span>
+<span class="sd">        h: {-1,1}^{n+m} → ℝ with h(x₁, x₂) = f(x₁) · g(x₂)</span>
+
+<span class="sd">    has Fourier expansion:</span>
+<span class="sd">        ĥ(S₁ ∪ S₂) = f̂(S₁) · ĝ(S₂)</span>
+
+<span class="sd">    where S₁ ⊆ [n] and S₂ ⊆ [m] (shifted to [n+1, n+m]).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: First BooleanFunction on n variables</span>
+<span class="sd">        g: Second BooleanFunction on m variables</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tensor product on n+m variables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionFactory</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="n">f_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">g_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="c1"># Convert to ±1</span>
+    <span class="n">f_pm</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">f_tt</span>
+    <span class="n">g_pm</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">g_tt</span>
+
+    <span class="c1"># Build tensor product truth table</span>
+    <span class="n">new_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">new_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">new_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">x1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">x2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">m</span><span class="p">):</span>
+            <span class="c1"># Combined index: x1 in high bits, x2 in low bits</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">&lt;&lt;</span> <span class="n">m</span><span class="p">)</span> <span class="o">|</span> <span class="n">x2</span>
+            <span class="c1"># Product of ±1 values</span>
+            <span class="n">product</span> <span class="o">=</span> <span class="n">f_pm</span><span class="p">[</span><span class="n">x1</span><span class="p">]</span> <span class="o">*</span> <span class="n">g_pm</span><span class="p">[</span><span class="n">x2</span><span class="p">]</span>
+            <span class="c1"># Convert back to {0,1}: +1 → 0, -1 → 1</span>
+            <span class="n">new_tt</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">product</span> <span class="o">&lt;</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">BooleanFunctionFactory</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">new_tt</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span> <span class="o">+</span> <span class="n">m</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="restriction">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.restriction">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">restriction</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">fixed_vars</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute restriction of f by fixing some variables.</span>
+
+<span class="sd">    From HW1 Problem 1: If we fix the last (n-k) variables to -1:</span>
+<span class="sd">        g(x₁,...,x_k) = f(x₁,...,x_k, -1, -1, ..., -1)</span>
+
+<span class="sd">    The Fourier coefficients satisfy:</span>
+<span class="sd">        ĝ(T) = Σ_{S⊇T, S⊆[k]} f̂(S ∪ {fixed vars where fixed = -1})</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to restrict</span>
+<span class="sd">        fixed_vars: Dictionary mapping variable indices to fixed values (0 or 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Restricted BooleanFunction on remaining variables</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.create([0, 1, 1, 0])  # XOR</span>
+<span class="sd">        &gt;&gt;&gt; g = restriction(f, {0: 1})   # Fix x0 = 1</span>
+<span class="sd">        &gt;&gt;&gt; # g is now NOT(x1) on 1 variable</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Use the fix method from BooleanFunction</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">f</span>
+    <span class="c1"># Sort by index descending to fix from right to left</span>
+    <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fixed_vars</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="fourier_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.fourier_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Fourier degree (real degree) of f.</span>
+
+<span class="sd">    The Fourier degree is the maximum |S| such that f̂(S) ≠ 0.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Maximum degree of non-zero Fourier coefficient</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This is different from the GF(2) degree (algebraic degree).</span>
+<span class="sd">        For f(x) = x₁x₂ (AND), both degrees are 2.</span>
+<span class="sd">        For f(x) = x₁ ⊕ x₂ (XOR), real degree is 2 but GF(2) degree is 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">max_degree</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">max_degree</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_degree</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">max_degree</span></div>
+
+
+
+<div class="viewcode-block" id="spectral_norm">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.spectral_norm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectral_norm</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the L_p spectral norm of f.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        p: Norm parameter (1, 2, or inf)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ‖f̂‖_p = (Σ_S |f̂(S)|^p)^{1/p}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="n">p</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">coeffs</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="n">p</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="o">**</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">p</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="fourier_sparsity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.fourier_sparsity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_sparsity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count the number of non-zero Fourier coefficients.</span>
+
+<span class="sd">    From HW1 Problem 7: Functions of degree k have at most 4^k non-zero</span>
+<span class="sd">    Fourier coefficients.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        threshold: Minimum absolute value to count as non-zero</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Number of Fourier coefficients with |f̂(S)| &gt; threshold</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="dominant_coefficients">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.dominant_coefficients">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dominant_coefficients</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the dominant (largest magnitude) Fourier coefficients.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        top_k: Maximum number of coefficients to return</span>
+<span class="sd">        threshold: Minimum magnitude to include</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of (subset_mask, coefficient) pairs, sorted by magnitude</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Get indices sorted by absolute value</span>
+    <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">sorted_indices</span><span class="p">:</span>
+        <span class="n">coeff</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">coeff</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">top_k</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Functions from Avishay Tal&#39;s library</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="correlation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.correlation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correlation</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the correlation between two Boolean functions.</span>
+
+<span class="sd">    The correlation is defined as:</span>
+<span class="sd">        Corr(f, g) = E[f(x)g(x)] = ⟨f, g⟩</span>
+
+<span class="sd">    where the expectation is over the uniform distribution on {-1,+1}^n.</span>
+
+<span class="sd">    For ±1-valued functions, Corr(f,f) = 1, and Corr(f,g) ∈ [-1,1].</span>
+
+<span class="sd">    This is mathematically equivalent to plancherel_inner_product but</span>
+<span class="sd">    provided as a more intuitive interface from Tal&#39;s library.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: First BooleanFunction</span>
+<span class="sd">        g: Second BooleanFunction</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Correlation ⟨f, g⟩ in [-1, 1]</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If f and g have different number of variables</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: correlation</span>
+<span class="sd">        - O&#39;Donnell Definition 1.6</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">!=</span> <span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Functions must have same n_vars: </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">g</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">f_val</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">g_val</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">f_val</span> <span class="o">*</span> <span class="n">g_val</span>
+
+    <span class="n">f_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">g_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="c1"># Convert to ±1</span>
+    <span class="n">f_pm</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">f_tt</span>
+    <span class="n">g_pm</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">g_tt</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f_pm</span> <span class="o">*</span> <span class="n">g_pm</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="truncate_to_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.truncate_to_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">truncate_to_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Truncate the Fourier expansion of f to degree at most d.</span>
+
+<span class="sd">    Returns the function:</span>
+<span class="sd">        f^{≤d}(x) = Σ_{|S| ≤ d} f̂(S) χ_S(x)</span>
+
+<span class="sd">    This is useful for approximating functions by their low-degree parts.</span>
+<span class="sd">    The truncated function is generally not Boolean-valued.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to truncate</span>
+<span class="sd">        d: Maximum degree to keep</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of function values for f^{≤d} (real-valued, not necessarily Boolean)</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: truncated_degree_d</span>
+<span class="sd">        - O&#39;Donnell Definition 1.14 (degree-d part)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">val</span><span class="p">])</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Zero out coefficients with |S| &gt; d</span>
+    <span class="n">truncated_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">d</span><span class="p">:</span>
+            <span class="n">truncated_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+
+    <span class="c1"># Inverse Fourier transform to get function values</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="c1"># χ_S(x) = (-1)^{|x ∩ S|}</span>
+            <span class="n">chi_val</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">truncated_coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">*</span> <span class="n">chi_val</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="annealed_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.annealed_influence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">annealed_influence</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the annealed (noisy) influence of variable i.</span>
+
+<span class="sd">    The annealed influence at correlation ρ is:</span>
+<span class="sd">        Inf_i^{(ρ)}[f] = Σ_{S∋i} ρ^{|S|-1} f̂(S)²</span>
+
+<span class="sd">    This interpolates between:</span>
+<span class="sd">    - ρ = 1: Standard influence Inf_i[f] = Σ_{S∋i} f̂(S)²</span>
+<span class="sd">    - ρ → 0: Only degree-1 contributions</span>
+
+<span class="sd">    The annealed influence measures how sensitive f is to variable i</span>
+<span class="sd">    after noise has been applied.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        i: Variable index (0-indexed)</span>
+<span class="sd">        rho: Noise correlation parameter in (0, 1]</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Annealed influence of variable i</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: ann_influence</span>
+<span class="sd">        - O&#39;Donnell Chapter 2 (noise sensitivity)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> out of range [0, </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">rho</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rho must be in (0, 1], got </span><span class="si">{</span><span class="n">rho</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Check if i is in S</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">subset_size</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="c1"># ρ^{|S|-1} f̂(S)²</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="p">(</span><span class="n">rho</span> <span class="o">**</span> <span class="p">(</span><span class="n">subset_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">total</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normalized_influence</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the normalized influence of variable i.</span>
+
+<span class="sd">    The normalized influence weights each Fourier coefficient by 1/|S|:</span>
+
+<span class="sd">        NormInf_i[f] = Σ_{S∋i} f̂(S)² / |S|</span>
+
+<span class="sd">    This measures how &quot;spread out&quot; the influence of variable i is</span>
+<span class="sd">    across different degrees.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        i: Variable index (0-indexed)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Normalized influence of variable i</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: norm_influence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> out of range [0, </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">subset_size</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">subset_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">subset_size</span>
+
+    <span class="k">return</span> <span class="n">total</span>
+
+
+<div class="viewcode-block" id="fourier_weight_distribution">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.fourier_weight_distribution">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_weight_distribution</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the distribution of Fourier weight by degree.</span>
+
+<span class="sd">    Returns W^k[f] = Σ_{|S|=k} f̂(S)² for each k.</span>
+
+<span class="sd">    By Parseval&#39;s identity: Σ_k W^k[f] = 1 for ±1-valued functions.</span>
+
+<span class="sd">    This is useful for understanding the &quot;spectral profile&quot; of a function:</span>
+<span class="sd">    - Low-degree weight → function is &quot;simple&quot;</span>
+<span class="sd">    - High-degree weight → function is &quot;complex&quot;</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping degree k to W^k[f]</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: fourier_weights</span>
+<span class="sd">        - O&#39;Donnell Definition 1.14 (spectral sample)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
+
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">weights</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">degree</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">weights</span><span class="p">[</span><span class="n">degree</span><span class="p">]</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">weight</span>
+
+    <span class="k">return</span> <span class="n">weights</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_level_lp_norm</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the L_p norm of Fourier coefficients at degree k.</span>
+
+<span class="sd">    L_{p,k}(f) = (Σ_{|S|=k} |f̂(S)|^p)^{1/p}</span>
+
+<span class="sd">    Special cases:</span>
+<span class="sd">    - p=1: L_{1,k}(f) = Σ_{|S|=k} |f̂(S)| (used in CHLT ITCS 2019)</span>
+<span class="sd">    - p=2: sqrt(W^k[f]) = (Σ_{|S|=k} f̂(S)²)^{1/2}</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        k: Degree level</span>
+<span class="sd">        p: Norm parameter (default 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        L_{p,k} norm</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Chattopadhyay-Hatami-Lovett-Tal (ITCS 2019), Definition of L_{1,k}</span>
+<span class="sd">        - O&#39;Donnell Chapter 6 (pseudorandomness and Fourier tails)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">**</span> <span class="n">p</span>
+
+    <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">total</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">p</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_tail_profile</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Fourier tail profile: L_{p,k}(f) for all k.</span>
+
+<span class="sd">    Returns a dictionary mapping degree k to L_{p,k}(f).</span>
+
+<span class="sd">    With p=1, this gives the level-k Fourier tails used in the</span>
+<span class="sd">    PRG framework of Chattopadhyay et al. (CCC 2018, ITCS 2019):</span>
+
+<span class="sd">        L_{1,k}(f) = Σ_{|S|=k} |f̂(S)|</span>
+
+<span class="sd">    With p=2, this gives the square root of the Fourier weight</span>
+<span class="sd">    distribution: (W^k[f])^{1/2}.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        p: Norm parameter (default 1 for L1 tails)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping degree k to L_{p,k}(f)</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Chattopadhyay-Hatami-Lovett-Tal (ITCS 2019), Theorem 2</span>
+<span class="sd">        - O&#39;Donnell Chapter 6</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span> <span class="o">**</span> <span class="n">p</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">)))}</span>
+
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="n">profile</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">degree</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">**</span> <span class="n">p</span>
+        <span class="n">profile</span><span class="p">[</span><span class="n">degree</span><span class="p">]</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">val</span>
+
+    <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">profile</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="k">return</span> <span class="n">profile</span>
+
+
+<div class="viewcode-block" id="min_fourier_coefficient_size">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.min_fourier_coefficient_size">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">min_fourier_coefficient_size</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the minimum subset size |S| with non-zero f̂(S).</span>
+
+<span class="sd">    Returns min { |S| : f̂(S) ≠ 0 }.</span>
+
+<span class="sd">    This is 0 if f has non-zero bias (f̂(∅) ≠ 0), otherwise it&#39;s</span>
+<span class="sd">    the minimum degree of a non-zero Fourier coefficient.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        threshold: Minimum magnitude to count as non-zero</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Minimum subset size with non-zero coefficient</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: min_size_fourier_coef</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">min_size</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># Sentinel</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">min_size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">min_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>  <span class="c1"># Can&#39;t get smaller than 0</span>
+
+    <span class="k">return</span> <span class="n">min_size</span> <span class="k">if</span> <span class="n">min_size</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="k">else</span> <span class="mi">0</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Example functions from O&#39;Donnell book and HW1</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="compute_mux3_fourier">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.compute_mux3_fourier">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_mux3_fourier</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Fourier expansion of MUX₃: {-1,1}³ → {-1,1}.</span>
+
+<span class="sd">    From HW1 Problem 2a:</span>
+<span class="sd">    MUX₃(x₁, x₂, x₃) outputs x₂ if x₁ = 1, and x₃ if x₁ = -1.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping subset masks to Fourier coefficients</span>
+
+<span class="sd">    Mathematical derivation:</span>
+<span class="sd">        MUX₃(x) = (1+x₁)/2 · x₂ + (1-x₁)/2 · x₃</span>
+<span class="sd">                = x₂/2 + x₁x₂/2 + x₃/2 - x₁x₃/2</span>
+
+<span class="sd">        So: f̂({2}) = 1/2, f̂({1,2}) = 1/2, f̂({3}) = 1/2, f̂({1,3}) = -1/2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+    <span class="c1"># MUX₃: output x₂ if x₁=+1 (i.e., x₁=0 in {0,1}), else x₃</span>
+    <span class="c1"># In {0,1}: MUX(x₁,x₂,x₃) = (1-x₁)x₂ + x₁x₃</span>
+    <span class="c1"># Truth table: inputs ordered as (x₁,x₂,x₃) in MSB order</span>
+    <span class="c1"># 000→x₂=0, 001→x₂=0, 010→x₂=1, 011→x₂=1, 100→x₃=0, 101→x₃=1, 110→x₃=0, 111→x₃=1</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">mux3</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">mux3</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="compute_nae3_fourier">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.compute_nae3_fourier">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_nae3_fourier</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Fourier expansion of NAE₃: {-1,1}³ → {0,1}.</span>
+
+<span class="sd">    From HW1 Problem 2b:</span>
+<span class="sd">    NAE₃(x₁, x₂, x₃) = 1 iff not all bits are equal.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping subset masks to Fourier coefficients</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+    <span class="c1"># NAE₃: output 1 if not all equal</span>
+    <span class="c1"># 000→0, 001→1, 010→1, 011→1, 100→1, 101→1, 110→1, 111→0</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">nae3</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">nae3</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="compute_and_fourier">
+<a class="viewcode-back" href="../../../api/boofun.analysis.fourier.html#boofun.compute_and_fourier">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_and_fourier</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Fourier expansion of AND_n: {-1,1}^n → {-1,1}.</span>
+
+<span class="sd">    From HW1 Problem 2c:</span>
+<span class="sd">    AND_n(x) = 1 iff all x_i = 1.</span>
+
+<span class="sd">    The Fourier expansion is:</span>
+<span class="sd">        AND_n(x) = (1/2^n) Σ_{S⊆[n]} (-1)^{n-|S|} ∏_{i∈S} x_i</span>
+
+<span class="sd">    So f̂(S) = (-1)^{n-|S|} / 2^n for all S.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping subset masks to Fourier coefficients</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+
+    <span class="c1"># AND_n: all 0s except last position (all 1s → output 1)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+    <span class="n">tt</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span>
+    <span class="n">tt</span><span class="p">[</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Only 111...1 → 1</span>
+    <span class="n">and_n</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">and_n</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

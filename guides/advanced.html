@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Topics Guide &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Migration from Tal’s BooleanFunc.py" href="migration_from_tal.html" />
+    <link rel="prev" title="Probabilistic View &amp; Pseudorandomness" href="probabilistic.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Topics Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#social-choice-theory">Social Choice Theory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#arrow-s-theorem">Arrow’s Theorem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fkn-theorem">FKN Theorem</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gaussian-analysis">Gaussian Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#invariance-principle">Invariance Principle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#communication-complexity">Communication Complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ltf-analysis">LTF Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#random-restrictions">Random Restrictions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#symmetry-analysis">Symmetry Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fourier-sparsity">Fourier Sparsity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#canalization">Canalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-reference">Module Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Advanced Topics Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/guides/advanced.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="advanced-topics-guide">
+<h1>Advanced Topics Guide<a class="headerlink" href="#advanced-topics-guide" title="Link to this heading"></a></h1>
+<p>This guide covers advanced analysis modules not covered in the main guides.</p>
+<section id="social-choice-theory">
+<h2>Social Choice Theory<a class="headerlink" href="#social-choice-theory" title="Link to this heading"></a></h2>
+<section id="arrow-s-theorem">
+<h3>Arrow’s Theorem<a class="headerlink" href="#arrow-s-theorem" title="Link to this heading"></a></h3>
+<p>Analysis of voting functions and impossibility results.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.arrow</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_unanimous</span><span class="p">,</span>
+    <span class="n">is_dictator</span><span class="p">,</span>
+    <span class="n">is_iia</span><span class="p">,</span>
+    <span class="n">arrow_analysis</span><span class="p">,</span>
+    <span class="n">distance_to_dictator</span><span class="p">,</span>
+    <span class="n">SocialChoiceAnalyzer</span>
+<span class="p">)</span>
+
+<span class="n">maj</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Check Arrow&#39;s conditions</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unanimous: </span><span class="si">{</span><span class="n">is_unanimous</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dictator: </span><span class="si">{</span><span class="n">is_dictator</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Full social choice analysis</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">arrow_analysis</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance to nearest dictator: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;min_distance_to_dictator&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use the analyzer class</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">SocialChoiceAnalyzer</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">analyzer</span><span class="o">.</span><span class="n">report</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="fkn-theorem">
+<h3>FKN Theorem<a class="headerlink" href="#fkn-theorem" title="Link to this heading"></a></h3>
+<p>Functions with low influence are close to dictators (Friedgut-Kalai-Naor).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.fkn</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">distance_to_dictator</span><span class="p">,</span>
+    <span class="n">nearest_dictator</span><span class="p">,</span>
+    <span class="n">fkn_distance</span><span class="p">,</span>
+    <span class="n">fkn_analysis</span>
+<span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Distance to specific dictator</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">distance_to_dictator</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance to x_0: </span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Find nearest dictator</span>
+<span class="n">best_i</span><span class="p">,</span> <span class="n">min_dist</span> <span class="o">=</span> <span class="n">nearest_dictator</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nearest dictator: x_</span><span class="si">{</span><span class="n">best_i</span><span class="si">}</span><span class="s2"> (distance </span><span class="si">{</span><span class="n">min_dist</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># FKN theorem bound</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">fkn_analysis</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="gaussian-analysis">
+<h2>Gaussian Analysis<a class="headerlink" href="#gaussian-analysis" title="Link to this heading"></a></h2>
+<p>Connection between Boolean functions and Gaussian space (O’Donnell Chapter 10).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.gaussian</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">hermite_polynomial</span><span class="p">,</span>
+    <span class="n">hermite_coefficients</span><span class="p">,</span>
+    <span class="n">gaussian_noise_stability</span><span class="p">,</span>
+    <span class="n">ornstein_uhlenbeck_operator</span><span class="p">,</span>
+    <span class="n">multilinear_extension</span><span class="p">,</span>
+    <span class="n">gaussian_expectation</span><span class="p">,</span>
+    <span class="n">GaussianAnalyzer</span>
+<span class="p">)</span>
+
+<span class="n">maj</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Hermite polynomials (Gaussian analog of Fourier characters)</span>
+<span class="n">H3</span> <span class="o">=</span> <span class="n">hermite_polynomial</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># H_3(x)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;H_3(0) = </span><span class="si">{</span><span class="n">H3</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Gaussian noise stability</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">stability</span> <span class="o">=</span> <span class="n">gaussian_noise_stability</span><span class="p">(</span><span class="n">maj</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gaussian stability at rho=</span><span class="si">{</span><span class="n">rho</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">stability</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Multilinear extension</span>
+<span class="n">mle</span> <span class="o">=</span> <span class="n">multilinear_extension</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MLE at (0.5, 0.5, 0.5, 0.5, 0.5) = </span><span class="si">{</span><span class="n">mle</span><span class="p">([</span><span class="mf">0.5</span><span class="p">]</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Full Gaussian analysis</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">GaussianAnalyzer</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hermite degree: </span><span class="si">{</span><span class="n">analyzer</span><span class="o">.</span><span class="n">hermite_degree</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="invariance-principle">
+<h2>Invariance Principle<a class="headerlink" href="#invariance-principle" title="Link to this heading"></a></h2>
+<p>The invariance principle connects Boolean and Gaussian behavior (O’Donnell Chapter 11).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.invariance</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">invariance_distance</span><span class="p">,</span>
+    <span class="n">multilinear_extension_gaussian_expectation</span><span class="p">,</span>
+    <span class="n">majority_is_stablest_bound</span><span class="p">,</span>
+    <span class="n">max_influence_for_invariance</span><span class="p">,</span>
+    <span class="n">InvarianceAnalyzer</span>
+<span class="p">)</span>
+
+<span class="n">maj</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="c1"># How well does invariance hold?</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">invariance_distance</span><span class="p">(</span><span class="n">maj</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invariance distance: </span><span class="si">{</span><span class="n">dist</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># &quot;Majority is Stablest&quot; theorem bound</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="n">bound</span> <span class="o">=</span> <span class="n">majority_is_stablest_bound</span><span class="p">(</span><span class="n">maj</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Majority is Stablest bound: </span><span class="si">{</span><span class="n">bound</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check if influences are low enough for invariance</span>
+<span class="n">max_inf</span> <span class="o">=</span> <span class="n">max_influence_for_invariance</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max influence: </span><span class="si">{</span><span class="n">max_inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="communication-complexity">
+<h2>Communication Complexity<a class="headerlink" href="#communication-complexity" title="Link to this heading"></a></h2>
+<p>Analysis of communication complexity for Boolean functions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.communication_complexity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">deterministic_cc</span><span class="p">,</span>
+    <span class="n">log_rank_bound</span><span class="p">,</span>
+    <span class="n">fooling_set_bound</span><span class="p">,</span>
+    <span class="n">rectangle_partition_bound</span><span class="p">,</span>
+    <span class="n">discrepancy</span><span class="p">,</span>
+    <span class="n">CommunicationMatrix</span><span class="p">,</span>
+    <span class="n">CommunicationComplexityProfile</span>
+<span class="p">)</span>
+
+<span class="c1"># Simple function (inner product)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Communication matrix</span>
+<span class="n">matrix</span> <span class="o">=</span> <span class="n">CommunicationMatrix</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matrix rank: </span><span class="si">{</span><span class="n">matrix</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Various bounds</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Log-rank bound: </span><span class="si">{</span><span class="n">log_rank_bound</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fooling set bound: </span><span class="si">{</span><span class="n">fooling_set_bound</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Full complexity profile</span>
+<span class="n">profile</span> <span class="o">=</span> <span class="n">CommunicationComplexityProfile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deterministic CC: </span><span class="si">{</span><span class="n">profile</span><span class="o">.</span><span class="n">deterministic</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Discrepancy: </span><span class="si">{</span><span class="n">profile</span><span class="o">.</span><span class="n">discrepancy</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="ltf-analysis">
+<h2>LTF Analysis<a class="headerlink" href="#ltf-analysis" title="Link to this heading"></a></h2>
+<p>Linear Threshold Function analysis (O’Donnell Chapter 5).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.ltf_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_ltf</span><span class="p">,</span>
+    <span class="n">chow_parameters</span><span class="p">,</span>
+    <span class="n">critical_index</span><span class="p">,</span>
+    <span class="n">regularity</span><span class="p">,</span>
+    <span class="n">ltf_noise_sensitivity</span><span class="p">,</span>
+    <span class="n">LTFAnalysis</span><span class="p">,</span>
+    <span class="n">fit_ltf</span>
+<span class="p">)</span>
+
+<span class="n">maj</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Check if LTF</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is LTF: </span><span class="si">{</span><span class="n">is_ltf</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Chow parameters (uniquely identify LTFs)</span>
+<span class="n">chow</span> <span class="o">=</span> <span class="n">chow_parameters</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chow parameters: </span><span class="si">{</span><span class="n">chow</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Critical index (important for LTF analysis)</span>
+<span class="n">ci</span> <span class="o">=</span> <span class="n">critical_index</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Critical index: </span><span class="si">{</span><span class="n">ci</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Full LTF analysis</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">LTFAnalysis</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weights: </span><span class="si">{</span><span class="n">analysis</span><span class="o">.</span><span class="n">weights</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Threshold: </span><span class="si">{</span><span class="n">analysis</span><span class="o">.</span><span class="n">threshold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Fit an LTF to approximate a function</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">tribes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">approx_ltf</span> <span class="o">=</span> <span class="n">fit_ltf</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Approximation error: </span><span class="si">{</span><span class="n">approx_ltf</span><span class="o">.</span><span class="n">error</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="random-restrictions">
+<h2>Random Restrictions<a class="headerlink" href="#random-restrictions" title="Link to this heading"></a></h2>
+<p>Random restrictions and the switching lemma (O’Donnell Chapter 4).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.restrictions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Restriction</span><span class="p">,</span>
+    <span class="n">random_restriction</span><span class="p">,</span>
+    <span class="n">apply_restriction</span><span class="p">,</span>
+    <span class="n">restriction_shrinkage</span><span class="p">,</span>
+    <span class="n">average_restricted_decision_tree_depth</span><span class="p">,</span>
+    <span class="n">switching_lemma_probability</span><span class="p">,</span>
+    <span class="n">batch_random_restrictions</span>
+<span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">tribes</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Create a p-random restriction</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="n">random_restriction</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Free variables: </span><span class="si">{</span><span class="n">rho</span><span class="o">.</span><span class="n">free_variables</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Apply restriction</span>
+<span class="n">f_restricted</span> <span class="o">=</span> <span class="n">apply_restriction</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original vars: </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">, Restricted vars: </span><span class="si">{</span><span class="n">f_restricted</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Average decision tree depth after restriction</span>
+<span class="n">avg_depth</span> <span class="o">=</span> <span class="n">average_restricted_decision_tree_depth</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">num_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Avg DT depth after p=0.5 restriction: </span><span class="si">{</span><span class="n">avg_depth</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Switching lemma probability</span>
+<span class="n">prob</span> <span class="o">=</span> <span class="n">switching_lemma_probability</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pr[DT depth &gt; 2]: </span><span class="si">{</span><span class="n">prob</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="symmetry-analysis">
+<h2>Symmetry Analysis<a class="headerlink" href="#symmetry-analysis" title="Link to this heading"></a></h2>
+<p>Symmetry properties and symmetrization.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.symmetry</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_symmetric</span><span class="p">,</span>
+    <span class="n">symmetrize</span><span class="p">,</span>
+    <span class="n">symmetrize_profile</span><span class="p">,</span>
+    <span class="n">degree_sym</span><span class="p">,</span>
+    <span class="n">sens_sym</span><span class="p">,</span>
+    <span class="n">sens_sym_by_weight</span><span class="p">,</span>
+    <span class="n">shift_function</span><span class="p">,</span>
+    <span class="n">find_monotone_shift</span><span class="p">,</span>
+    <span class="n">symmetric_representation</span>
+<span class="p">)</span>
+
+<span class="n">maj</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Check if symmetric</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is symmetric: </span><span class="si">{</span><span class="n">is_symmetric</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Symmetrize any function</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">tribes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">f_sym</span> <span class="o">=</span> <span class="n">symmetrize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Symmetric profile (value at each Hamming weight)</span>
+<span class="n">profile</span> <span class="o">=</span> <span class="n">symmetrize_profile</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Profile: </span><span class="si">{</span><span class="n">profile</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Symmetric degree</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="n">degree_sym</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Symmetric degree: </span><span class="si">{</span><span class="n">sd</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Symmetric sensitivity</span>
+<span class="n">sens</span> <span class="o">=</span> <span class="n">sens_sym</span><span class="p">(</span><span class="n">maj</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Symmetric sensitivity: </span><span class="si">{</span><span class="n">sens</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Find shift to make function monotone</span>
+<span class="n">shift</span> <span class="o">=</span> <span class="n">find_monotone_shift</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">shift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">f_monotone</span> <span class="o">=</span> <span class="n">shift_function</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">shift</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shifted to monotone by mask: </span><span class="si">{</span><span class="nb">bin</span><span class="p">(</span><span class="n">shift</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="fourier-sparsity">
+<h2>Fourier Sparsity<a class="headerlink" href="#fourier-sparsity" title="Link to this heading"></a></h2>
+<p>Analysis of Fourier sparsity.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.sparsity</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">fourier_sparsity</span><span class="p">,</span>
+    <span class="n">fourier_sparsity_up_to_constants</span><span class="p">,</span>
+    <span class="n">granularity</span><span class="p">,</span>
+    <span class="n">sparse_representation</span><span class="p">,</span>
+    <span class="n">SparsityAnalyzer</span>
+<span class="p">)</span>
+
+<span class="n">parity</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">parity</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Sparsity (number of non-zero coefficients)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">fourier_sparsity</span><span class="p">(</span><span class="n">parity</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fourier sparsity: </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># 1 for parity!</span>
+
+<span class="c1"># Sparsity up to constant multiples</span>
+<span class="n">s_const</span> <span class="o">=</span> <span class="n">fourier_sparsity_up_to_constants</span><span class="p">(</span><span class="n">parity</span><span class="p">)</span>
+
+<span class="c1"># Granularity (GCD structure)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">granularity</span><span class="p">(</span><span class="n">parity</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Granularity: </span><span class="si">{</span><span class="n">g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Full sparsity analysis</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">SparsityAnalyzer</span><span class="p">(</span><span class="n">parity</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sparsity: </span><span class="si">{</span><span class="n">analyzer</span><span class="o">.</span><span class="n">sparsity</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Non-zero coefficients: </span><span class="si">{</span><span class="n">analyzer</span><span class="o">.</span><span class="n">non_zero_sets</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="canalization">
+<h2>Canalization<a class="headerlink" href="#canalization" title="Link to this heading"></a></h2>
+<p>Canalization analysis from systems biology.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.canalization</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_canalizing</span><span class="p">,</span>
+    <span class="n">canalizing_variables</span><span class="p">,</span>
+    <span class="n">nested_canalizing_depth</span><span class="p">,</span>
+    <span class="n">canalizing_values</span><span class="p">,</span>
+    <span class="n">CanalizationAnalysis</span>
+<span class="p">)</span>
+
+<span class="n">and_func</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Check if canalizing</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is canalizing: </span><span class="si">{</span><span class="n">is_canalizing</span><span class="p">(</span><span class="n">and_func</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># True</span>
+
+<span class="c1"># Which variables are canalizing?</span>
+<span class="nb">vars</span> <span class="o">=</span> <span class="n">canalizing_variables</span><span class="p">(</span><span class="n">and_func</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Canalizing variables: </span><span class="si">{</span><span class="nb">vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Nested canalizing depth</span>
+<span class="n">depth</span> <span class="o">=</span> <span class="n">nested_canalizing_depth</span><span class="p">(</span><span class="n">and_func</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nested depth: </span><span class="si">{</span><span class="n">depth</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Full analysis</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">CanalizationAnalysis</span><span class="p">(</span><span class="n">and_func</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="p">(</span><span class="n">canalizing_input</span><span class="p">,</span> <span class="n">canalized_output</span><span class="p">)</span> <span class="ow">in</span> <span class="n">analysis</span><span class="o">.</span><span class="n">canalizing_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">: input=</span><span class="si">{</span><span class="n">canalizing_input</span><span class="si">}</span><span class="s2"> -&gt; output=</span><span class="si">{</span><span class="n">canalized_output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="module-reference">
+<h2>Module Reference<a class="headerlink" href="#module-reference" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Module</p></th>
+<th class="head"><p>Topic</p></th>
+<th class="head"><p>O’Donnell Chapter</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">arrow</span></code></p></td>
+<td><p>Social choice, voting</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">fkn</span></code></p></td>
+<td><p>FKN theorem</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gaussian</span></code></p></td>
+<td><p>Gaussian analysis, Hermite</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">invariance</span></code></p></td>
+<td><p>Invariance principle</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">communication_complexity</span></code></p></td>
+<td><p>Communication complexity</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ltf_analysis</span></code></p></td>
+<td><p>Linear threshold functions</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">restrictions</span></code></p></td>
+<td><p>Random restrictions</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">symmetry</span></code></p></td>
+<td><p>Symmetric functions</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sparsity</span></code></p></td>
+<td><p>Fourier sparsity</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">canalization</span></code></p></td>
+<td><p>Canalization</p></td>
+<td><p>-</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="spectral_analysis.html"><span class="std std-doc">Spectral Analysis Guide</span></a>: Core Fourier analysis</p></li>
+<li><p><a class="reference internal" href="hypercontractivity.html"><span class="std std-doc">Hypercontractivity Guide</span></a>: Noise and KKL</p></li>
+<li><p><a class="reference internal" href="query_complexity.html"><span class="std std-doc">Query Complexity Guide</span></a>: Decision tree complexity</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">notebooks/lecture10_fourier_concentration.ipynb</span></code>: Gaussian analysis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">notebooks/lecture11_invariance_principle.ipynb</span></code>: Invariance</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="probabilistic.html" class="btn btn-neutral float-left" title="Probabilistic View &amp; Pseudorandomness" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="migration_from_tal.html" class="btn btn-neutral float-right" title="Migration from Tal’s BooleanFunc.py" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

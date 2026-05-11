@@ -1,0 +1,706 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.quantum_complexity &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.quantum_complexity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.quantum_complexity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Classical estimation of quantum query complexity bounds for Boolean functions.</span>
+
+<span class="sd">.. warning:: **Experimental — NOT part of the stable public API**</span>
+
+<span class="sd">   This module is **not exported** from the top-level ``boofun`` package.</span>
+<span class="sd">   Import it explicitly if you want to use it::</span>
+
+<span class="sd">       from boofun.quantum_complexity import QuantumComplexityAnalyzer</span>
+
+<span class="sd">   It is an **exploratory sandbox** for thinking about quantum query</span>
+<span class="sd">   complexity in the context of Boolean function analysis.  It is *not*</span>
+<span class="sd">   a finished feature.  The API is unstable, the scope is still being</span>
+<span class="sd">   figured out, and everything here may be reorganized, expanded, or</span>
+<span class="sd">   removed in a future release.</span>
+
+<span class="sd">   **Everything runs on a classical CPU.** There is no quantum hardware</span>
+<span class="sd">   or quantum simulator involved.  The functions compute closed-form</span>
+<span class="sd">   formulas from textbooks (Grover iteration counts, quantum walk hitting</span>
+<span class="sd">   times, etc.) — useful for building intuition, but not a substitute</span>
+<span class="sd">   for actual quantum simulation.</span>
+
+<span class="sd">   What&#39;s here today:</span>
+
+<span class="sd">   * **Grover complexity bounds** — closed-form ``O(√(N/M))`` formulas.</span>
+<span class="sd">   * **Quantum walk complexity bounds** — analytical Szegedy walk</span>
+<span class="sd">     estimates on the Boolean hypercube.</span>
+<span class="sd">   * **Element distinctness analysis** — classical collision enumeration</span>
+<span class="sd">     plus the known ``O(N^{2/3})`` quantum upper bound.</span>
+<span class="sd">   * **Oracle circuit construction** — a Qiskit ``QuantumCircuit`` that</span>
+<span class="sd">     implements the standard phase oracle (if Qiskit is installed).</span>
+<span class="sd">     The circuit is built but **never executed**.</span>
+
+<span class="sd">   What we&#39;re thinking about for v2.0.0 (see ROADMAP.md):</span>
+
+<span class="sd">   * A lightweight statevector simulator so Grover / walk results come</span>
+<span class="sd">     from actual simulated quantum dynamics, not just formulas.</span>
+<span class="sd">   * Optional Qiskit/Cirq backends for larger simulations.</span>
+<span class="sd">   * Genuine quantum property testers (BLR, monotonicity, junta).</span>
+<span class="sd">   * Comparing simulated vs. analytical results side by side.</span>
+
+<span class="sd">   If you have ideas about what would be most useful here, we&#39;d love</span>
+<span class="sd">   to hear them — see CONTRIBUTING.md.</span>
+
+<span class="sd">   The ``boofun.analysis.query_complexity`` module provides the</span>
+<span class="sd">   complementary quantum *lower bounds* (Ambainis adversary, spectral</span>
+<span class="sd">   adversary, polynomial method).  Those are mature, well-tested, and</span>
+<span class="sd">   correctly named.</span>
+
+<span class="sd">   **What was removed (v1.3.0):** The previous ``quantum`` module</span>
+<span class="sd">   contained classical algorithms with misleading ``quantum_`` prefixes</span>
+<span class="sd">   (Fourier analysis, influence estimation, property testing) that</span>
+<span class="sd">   duplicated ``SpectralAnalyzer`` and ``PropertyTester``.  Use those</span>
+<span class="sd">   instead::</span>
+
+<span class="sd">       analyzer = SpectralAnalyzer(f)</span>
+<span class="sd">       analyzer.fourier_expansion()   # was quantum_fourier_analysis()</span>
+<span class="sd">       analyzer.influences()          # was quantum_influence_estimation()</span>
+
+<span class="sd">       tester = PropertyTester(f)</span>
+<span class="sd">       tester.blr_linearity_test()    # was _quantum_linearity_test()</span>
+<span class="sd">       tester.monotonicity_test()     # was _quantum_monotonicity_test()</span>
+<span class="sd">       tester.junta_test(k)           # was _quantum_junta_test()</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassicalRegister</span><span class="p">,</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">QuantumRegister</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.quantum_info</span><span class="w"> </span><span class="kn">import</span> <span class="n">Statevector</span>
+
+    <span class="n">HAS_QISKIT</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_QISKIT</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">cirq</span>
+
+    <span class="n">HAS_CIRQ</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_CIRQ</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+
+<div class="viewcode-block" id="QuantumComplexityAnalyzer">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.QuantumComplexityAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QuantumComplexityAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute quantum complexity bounds for a Boolean function.</span>
+
+<span class="sd">    .. warning:: **Experimental** — this class is part of BooFun&#39;s quantum</span>
+<span class="sd">       complexity playground. The API may change in future releases.</span>
+
+<span class="sd">    This is a *classical* analyzer that plugs numbers into closed-form</span>
+<span class="sd">    formulas from quantum query complexity theory. It does **not**</span>
+<span class="sd">    simulate quantum circuits or run quantum algorithms.</span>
+
+<span class="sd">    Useful for building intuition about questions like:</span>
+
+<span class="sd">    - &quot;How many Grover iterations would be optimal for this function?&quot;</span>
+<span class="sd">    - &quot;What is the quantum walk hitting time on the hypercube?&quot;</span>
+<span class="sd">    - &quot;What does the Grover amplitude evolution look like analytically?&quot;</span>
+
+<span class="sd">    For Fourier analysis, influences, or property testing, use</span>
+<span class="sd">    :class:`~boofun.analysis.SpectralAnalyzer` and</span>
+<span class="sd">    :class:`~boofun.analysis.PropertyTester` — those are mature and</span>
+<span class="sd">    well-tested.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        import boofun as bf</span>
+<span class="sd">        from boofun.quantum_complexity import QuantumComplexityAnalyzer</span>
+
+<span class="sd">        f = bf.AND(6)</span>
+<span class="sd">        qca = QuantumComplexityAnalyzer(f)</span>
+<span class="sd">        result = qca.grover_analysis()</span>
+<span class="sd">        print(f&quot;Grover speedup: {result[&#39;speedup&#39;]:.1f}x&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="QuantumComplexityAnalyzer.__init__">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.QuantumComplexityAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boolean_function</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the analyzer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            boolean_function: Classical Boolean function to analyze</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">boolean_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">=</span> <span class="n">boolean_function</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Function must have defined number of variables&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Cache for circuit construction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_circuit</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="QuantumComplexityAnalyzer.create_quantum_oracle">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.QuantumComplexityAnalyzer.create_quantum_oracle">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_quantum_oracle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Qiskit quantum oracle circuit for the Boolean function.</span>
+
+<span class="sd">        This builds a valid ``QuantumCircuit`` implementing the standard</span>
+<span class="sd">        phase-oracle construction (enumerate satisfying inputs, apply</span>
+<span class="sd">        multi-controlled-X).  The circuit is **not executed** — it is</span>
+<span class="sd">        returned as a data structure.</span>
+
+<span class="sd">        Requires ``pip install qiskit``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Qiskit QuantumCircuit, or None if Qiskit is not installed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_QISKIT</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Qiskit not available - cannot create quantum oracle&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">qreg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span> <span class="s2">&quot;input&quot;</span><span class="p">)</span>
+        <span class="n">ancilla</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">)</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">ancilla</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">):</span>
+            <span class="n">binary_x</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">)]</span>
+            <span class="n">f_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">f_x</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">binary_x</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">bit</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">circuit</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">circuit</span><span class="o">.</span><span class="n">mcx</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">ancilla</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">binary_x</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">bit</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">circuit</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_quantum_circuit</span> <span class="o">=</span> <span class="n">circuit</span>
+        <span class="k">return</span> <span class="n">circuit</span></div>
+
+
+<div class="viewcode-block" id="QuantumComplexityAnalyzer.grover_analysis">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.QuantumComplexityAnalyzer.grover_analysis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grover_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Grover&#39;s algorithm complexity bounds (closed-form).</span>
+
+<span class="sd">        Given a function f : {0,1}^n -&gt; {0,1} with M satisfying</span>
+<span class="sd">        assignments out of N = 2^n total inputs:</span>
+
+<span class="sd">        - Classical expected queries: N / M</span>
+<span class="sd">        - Grover queries: (pi/4) * sqrt(N / M)</span>
+<span class="sd">        - Optimal iterations: floor(pi/4 * sqrt(N / M))</span>
+
+<span class="sd">        These are standard textbook formulas (Grover 1996, Boyer et al. 1998).</span>
+<span class="sd">        No quantum circuit is built or simulated.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict with num_solutions, classical_queries, grover_queries,</span>
+<span class="sd">            speedup, optimal_iterations, has_solutions, solution_density.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span>
+
+        <span class="n">num_solutions</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="n">num_solutions</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">M</span> <span class="o">=</span> <span class="n">num_solutions</span>
+
+        <span class="k">if</span> <span class="n">M</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;num_solutions&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;classical_queries&quot;</span><span class="p">:</span> <span class="n">N</span><span class="p">,</span>
+                <span class="s2">&quot;grover_queries&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">),</span>
+                <span class="s2">&quot;speedup&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">),</span>
+                <span class="s2">&quot;optimal_iterations&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span><span class="p">)),</span>
+                <span class="s2">&quot;has_solutions&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="n">classical_queries</span> <span class="o">=</span> <span class="n">N</span> <span class="o">/</span> <span class="n">M</span>
+        <span class="n">grover_queries</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span>
+        <span class="n">optimal_iterations</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="n">M</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;num_solutions&quot;</span><span class="p">:</span> <span class="n">M</span><span class="p">,</span>
+            <span class="s2">&quot;solution_density&quot;</span><span class="p">:</span> <span class="n">M</span> <span class="o">/</span> <span class="n">N</span><span class="p">,</span>
+            <span class="s2">&quot;classical_queries&quot;</span><span class="p">:</span> <span class="n">classical_queries</span><span class="p">,</span>
+            <span class="s2">&quot;grover_queries&quot;</span><span class="p">:</span> <span class="n">grover_queries</span><span class="p">,</span>
+            <span class="s2">&quot;speedup&quot;</span><span class="p">:</span> <span class="n">classical_queries</span> <span class="o">/</span> <span class="n">grover_queries</span><span class="p">,</span>
+            <span class="s2">&quot;optimal_iterations&quot;</span><span class="p">:</span> <span class="n">optimal_iterations</span><span class="p">,</span>
+            <span class="s2">&quot;has_solutions&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="QuantumComplexityAnalyzer.grover_amplitude_analysis">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.QuantumComplexityAnalyzer.grover_amplitude_analysis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grover_amplitude_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Grover amplitude evolution analytically (closed-form).</span>
+
+<span class="sd">        Uses the exact formulas for amplitude amplification:</span>
+
+<span class="sd">        - theta = arcsin(sqrt(M / N))</span>
+<span class="sd">        - After k iterations: solution_amplitude = sin((2k+1) * theta)</span>
+<span class="sd">        - Success probability = sin^2((2k+1) * theta)</span>
+
+<span class="sd">        No statevector simulation — these are the known analytical results</span>
+<span class="sd">        (Grover 1996, Boyer et al. 1998).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict with num_solutions, theta, optimal_iterations,</span>
+<span class="sd">            evolution (list of per-iteration amplitudes), max_success_prob.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span>
+
+        <span class="n">solutions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="n">solutions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">M</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">solutions</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">M</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">M</span> <span class="o">==</span> <span class="n">N</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;num_solutions&quot;</span><span class="p">:</span> <span class="n">M</span><span class="p">,</span>
+                <span class="s2">&quot;evolution&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;All or no solutions - Grover not applicable&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">M</span> <span class="o">/</span> <span class="n">N</span><span class="p">))</span>
+        <span class="n">optimal_k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">theta</span><span class="p">))</span>
+
+        <span class="n">evolution</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">optimal_k</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">20</span><span class="p">)):</span>
+            <span class="n">sol_amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta</span><span class="p">)</span>
+            <span class="n">non_sol_amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="n">M</span><span class="p">)</span>
+            <span class="n">success_prob</span> <span class="o">=</span> <span class="n">sol_amp</span><span class="o">**</span><span class="mi">2</span>
+
+            <span class="n">evolution</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;iteration&quot;</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span>
+                    <span class="s2">&quot;solution_amplitude&quot;</span><span class="p">:</span> <span class="n">sol_amp</span><span class="p">,</span>
+                    <span class="s2">&quot;success_probability&quot;</span><span class="p">:</span> <span class="n">success_prob</span><span class="p">,</span>
+                    <span class="s2">&quot;non_solution_amplitude&quot;</span><span class="p">:</span> <span class="n">non_sol_amp</span> <span class="k">if</span> <span class="n">M</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;num_solutions&quot;</span><span class="p">:</span> <span class="n">M</span><span class="p">,</span>
+            <span class="s2">&quot;theta&quot;</span><span class="p">:</span> <span class="n">theta</span><span class="p">,</span>
+            <span class="s2">&quot;optimal_iterations&quot;</span><span class="p">:</span> <span class="n">optimal_k</span><span class="p">,</span>
+            <span class="s2">&quot;evolution&quot;</span><span class="p">:</span> <span class="n">evolution</span><span class="p">,</span>
+            <span class="s2">&quot;max_success_prob&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s2">&quot;success_probability&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">evolution</span><span class="p">),</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Standalone functions</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="create_complexity_analyzer">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.create_complexity_analyzer">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_complexity_analyzer</span><span class="p">(</span>
+    <span class="n">classical_function</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumComplexityAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a quantum complexity analyzer from a classical Boolean function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        classical_function: Classical Boolean function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        QuantumComplexityAnalyzer instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">QuantumComplexityAnalyzer</span><span class="p">(</span><span class="n">classical_function</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="grover_speedup">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.grover_speedup">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">grover_speedup</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convenience function: compute Grover speedup bounds for a Boolean function.</span>
+
+<span class="sd">    Returns the same dict as ``QuantumComplexityAnalyzer(f).grover_analysis()``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">QuantumComplexityAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">grover_analysis</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="quantum_walk_bounds">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.quantum_walk_bounds">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">quantum_walk_bounds</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute quantum walk complexity bounds on the Boolean hypercube (closed-form).</span>
+
+<span class="sd">    Estimates the Szegedy quantum walk parameters for searching marked</span>
+<span class="sd">    vertices (where f(x) = 1) on the n-dimensional hypercube {0,1}^n.</span>
+
+<span class="sd">    Formulas used (Szegedy 2004, Magniez et al. 2011):</span>
+<span class="sd">    - Spectral gap of hypercube walk: 2/n</span>
+<span class="sd">    - Classical mixing time: n * log(N) / 2</span>
+<span class="sd">    - Classical hitting time: N / M</span>
+<span class="sd">    - Quantum hitting time: sqrt(classical_hitting * mixing)</span>
+<span class="sd">    - Quantum walk complexity: sqrt(N/M) * sqrt(mixing_time)</span>
+
+<span class="sd">    No walk is simulated — these are plugged-in analytical formulas.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function (marked vertices are where f(x) = 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict with spectral_gap, mixing_time, hitting times, speedup, etc.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span>
+
+    <span class="n">ones</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">zeros</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="n">ones</span>
+
+    <span class="n">spectral_gap</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="n">mixing_time</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">classical_hitting_time</span> <span class="o">=</span> <span class="n">N</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">ones</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">quantum_hitting_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">classical_hitting_time</span> <span class="o">*</span> <span class="n">mixing_time</span><span class="p">)</span>
+    <span class="n">setup_cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mixing_time</span><span class="p">)</span>
+    <span class="n">checking_cost</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">ones</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">ones</span>
+        <span class="n">quantum_complexity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="n">S</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mixing_time</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">quantum_complexity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="n">mixing_time</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>
+        <span class="s2">&quot;state_space_size&quot;</span><span class="p">:</span> <span class="n">N</span><span class="p">,</span>
+        <span class="s2">&quot;marked_states&quot;</span><span class="p">:</span> <span class="n">ones</span><span class="p">,</span>
+        <span class="s2">&quot;unmarked_states&quot;</span><span class="p">:</span> <span class="n">zeros</span><span class="p">,</span>
+        <span class="s2">&quot;hypercube_degree&quot;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>
+        <span class="s2">&quot;spectral_gap&quot;</span><span class="p">:</span> <span class="n">spectral_gap</span><span class="p">,</span>
+        <span class="s2">&quot;mixing_time&quot;</span><span class="p">:</span> <span class="n">mixing_time</span><span class="p">,</span>
+        <span class="s2">&quot;classical_hitting_time&quot;</span><span class="p">:</span> <span class="n">classical_hitting_time</span><span class="p">,</span>
+        <span class="s2">&quot;quantum_hitting_time&quot;</span><span class="p">:</span> <span class="n">quantum_hitting_time</span><span class="p">,</span>
+        <span class="s2">&quot;setup_cost&quot;</span><span class="p">:</span> <span class="n">setup_cost</span><span class="p">,</span>
+        <span class="s2">&quot;checking_cost&quot;</span><span class="p">:</span> <span class="n">checking_cost</span><span class="p">,</span>
+        <span class="s2">&quot;quantum_walk_complexity&quot;</span><span class="p">:</span> <span class="n">quantum_complexity</span><span class="p">,</span>
+        <span class="s2">&quot;speedup_over_classical&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="n">classical_hitting_time</span> <span class="o">/</span> <span class="n">quantum_hitting_time</span>
+            <span class="k">if</span> <span class="n">quantum_hitting_time</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;Szegedy quantum walk on hypercube (analytical bounds)&quot;</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="element_distinctness_analysis">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.element_distinctness_analysis">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">element_distinctness_analysis</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyze element distinctness structure of a Boolean function.</span>
+
+<span class="sd">    Performs classical enumeration to find collision pairs, then reports</span>
+<span class="sd">    the known quantum upper bound O(N^{2/3}) from Ambainis (2007).</span>
+
+<span class="sd">    The collision structure is computed classically by exhaustive evaluation.</span>
+<span class="sd">    The quantum complexity is the known theoretical bound, not a simulated result.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function (viewed as function from [N] to some range)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict with collision info, classical_complexity, quantum_complexity, speedup.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span>
+
+    <span class="n">value_to_inputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value_to_inputs</span><span class="p">:</span>
+            <span class="n">value_to_inputs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">value_to_inputs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">collisions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">inputs</span> <span class="ow">in</span> <span class="n">value_to_inputs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">num_pairs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+            <span class="n">collisions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">val</span><span class="p">,</span>
+                    <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="n">inputs</span><span class="p">,</span>
+                    <span class="s2">&quot;num_colliding&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span>
+                    <span class="s2">&quot;num_pairs&quot;</span><span class="p">:</span> <span class="n">num_pairs</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+    <span class="n">has_collision</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">collisions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">total_collision_pairs</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;num_pairs&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">collisions</span><span class="p">)</span>
+
+    <span class="n">classical_complexity</span> <span class="o">=</span> <span class="n">N</span>
+    <span class="n">quantum_complexity</span> <span class="o">=</span> <span class="n">N</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Ambainis 2007 (theoretical bound)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;has_collision&quot;</span><span class="p">:</span> <span class="n">has_collision</span><span class="p">,</span>
+        <span class="s2">&quot;num_distinct_values&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_to_inputs</span><span class="p">),</span>
+        <span class="s2">&quot;total_collision_pairs&quot;</span><span class="p">:</span> <span class="n">total_collision_pairs</span><span class="p">,</span>
+        <span class="s2">&quot;collision_details&quot;</span><span class="p">:</span> <span class="n">collisions</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">collisions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span> <span class="k">else</span> <span class="n">collisions</span><span class="p">,</span>
+        <span class="s2">&quot;classical_complexity&quot;</span><span class="p">:</span> <span class="n">classical_complexity</span><span class="p">,</span>
+        <span class="s2">&quot;quantum_complexity&quot;</span><span class="p">:</span> <span class="n">quantum_complexity</span><span class="p">,</span>
+        <span class="s2">&quot;speedup&quot;</span><span class="p">:</span> <span class="n">classical_complexity</span> <span class="o">/</span> <span class="n">quantum_complexity</span><span class="p">,</span>
+        <span class="s2">&quot;algorithm&quot;</span><span class="p">:</span> <span class="s2">&quot;Ambainis element distinctness (theoretical bound)&quot;</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="quantum_walk_search_bounds">
+<a class="viewcode-back" href="../../api/boofun.quantum_complexity.html#boofun.quantum_complexity.quantum_walk_search_bounds">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">quantum_walk_search_bounds</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">num_iterations</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute quantum walk search success probabilities analytically.</span>
+
+<span class="sd">    Uses the same closed-form Grover-like formulas:</span>
+<span class="sd">    - theta = arcsin(sqrt(M / N))</span>
+<span class="sd">    - Success probability after t steps: sin^2((2t+1) * theta)</span>
+
+<span class="sd">    This is the analytical result, not a simulation.  The connection is</span>
+<span class="sd">    mathematically valid: quantum walk search on the complete graph</span>
+<span class="sd">    reduces to Grover&#39;s algorithm (Szegedy 2004).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function (marked vertices are where f(x) = 1)</span>
+<span class="sd">        num_iterations: Number of walk iterations (default: optimal)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dict with marked_vertices, success probabilities, evolution, speedup.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span>
+
+    <span class="n">marked</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">marked</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">M</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;marked_vertices&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;optimal_iterations&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;success_probability&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;No marked vertices&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">M</span> <span class="o">==</span> <span class="n">N</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;marked_vertices&quot;</span><span class="p">:</span> <span class="n">N</span><span class="p">,</span>
+            <span class="s2">&quot;optimal_iterations&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;success_probability&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;All vertices marked&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">num_iterations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">optimal</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="n">M</span><span class="p">))</span>
+        <span class="n">num_iterations</span> <span class="o">=</span> <span class="n">optimal</span>
+
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">M</span> <span class="o">/</span> <span class="n">N</span><span class="p">))</span>
+
+    <span class="n">evolution</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">num_iterations</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">30</span><span class="p">)):</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">evolution</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;iteration&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span> <span class="s2">&quot;success_probability&quot;</span><span class="p">:</span> <span class="n">prob</span><span class="p">})</span>
+
+    <span class="n">max_prob</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s2">&quot;success_probability&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">evolution</span><span class="p">)</span>
+    <span class="n">optimal_t</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">evolution</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">evolution</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="s2">&quot;success_probability&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;marked_vertices&quot;</span><span class="p">:</span> <span class="n">M</span><span class="p">,</span>
+        <span class="s2">&quot;total_vertices&quot;</span><span class="p">:</span> <span class="n">N</span><span class="p">,</span>
+        <span class="s2">&quot;marked_fraction&quot;</span><span class="p">:</span> <span class="n">M</span> <span class="o">/</span> <span class="n">N</span><span class="p">,</span>
+        <span class="s2">&quot;optimal_iterations&quot;</span><span class="p">:</span> <span class="n">optimal_t</span><span class="p">,</span>
+        <span class="s2">&quot;iterations_used&quot;</span><span class="p">:</span> <span class="n">num_iterations</span><span class="p">,</span>
+        <span class="s2">&quot;max_success_probability&quot;</span><span class="p">:</span> <span class="n">max_prob</span><span class="p">,</span>
+        <span class="s2">&quot;final_success_probability&quot;</span><span class="p">:</span> <span class="n">evolution</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;success_probability&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">evolution</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;evolution&quot;</span><span class="p">:</span> <span class="n">evolution</span><span class="p">[:</span><span class="mi">10</span><span class="p">],</span>
+        <span class="s2">&quot;speedup&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">N</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="k">if</span> <span class="n">M</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Backwards compatibility aliases (deprecated, will be removed in v2.0.0)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># Old name -&gt; new name</span>
+<span class="n">QuantumBooleanFunction</span> <span class="o">=</span> <span class="n">QuantumComplexityAnalyzer</span>
+<span class="sd">&quot;&quot;&quot;Deprecated alias. Use :class:`QuantumComplexityAnalyzer` instead.&quot;&quot;&quot;</span>
+
+<span class="n">create_quantum_boolean_function</span> <span class="o">=</span> <span class="n">create_complexity_analyzer</span>
+<span class="sd">&quot;&quot;&quot;Deprecated alias. Use :func:`create_complexity_analyzer` instead.&quot;&quot;&quot;</span>
+
+<span class="n">quantum_walk_analysis</span> <span class="o">=</span> <span class="n">quantum_walk_bounds</span>
+<span class="sd">&quot;&quot;&quot;Deprecated alias. Use :func:`quantum_walk_bounds` instead.&quot;&quot;&quot;</span>
+
+<span class="n">quantum_walk_search</span> <span class="o">=</span> <span class="n">quantum_walk_search_bounds</span>
+<span class="sd">&quot;&quot;&quot;Deprecated alias. Use :func:`quantum_walk_search_bounds` instead.&quot;&quot;&quot;</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># New names (preferred)</span>
+    <span class="s2">&quot;QuantumComplexityAnalyzer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;create_complexity_analyzer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;grover_speedup&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quantum_walk_bounds&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;element_distinctness_analysis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quantum_walk_search_bounds&quot;</span><span class="p">,</span>
+    <span class="c1"># Deprecated aliases (backwards compatibility)</span>
+    <span class="s2">&quot;QuantumBooleanFunction&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;create_quantum_boolean_function&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quantum_walk_analysis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;quantum_walk_search&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

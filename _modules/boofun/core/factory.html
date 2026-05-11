@@ -1,0 +1,857 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.factory &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.core.factory</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.core.factory</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numbers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidRepresentationError</span><span class="p">,</span> <span class="n">InvalidTruthTableError</span>
+
+<span class="c1"># Import DNF/CNF types for type checking</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.representations.cnf_form</span><span class="w"> </span><span class="kn">import</span> <span class="n">CNFFormula</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.representations.dnf_form</span><span class="w"> </span><span class="kn">import</span> <span class="n">DNFFormula</span>
+
+    <span class="n">_DNF_CNF_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_DNF_CNF_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">DNFFormula</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[misc,assignment]</span>
+    <span class="n">CNFFormula</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[misc,assignment]</span>
+
+
+<span class="c1"># Supported representation types for better error messages</span>
+<span class="n">_SUPPORTED_REP_TYPES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;truth_table&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;packed_truth_table&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sparse_truth_table&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;adaptive_truth_table&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;function&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;distribution&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;polynomial&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fourier_expansion&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fourier&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;symbolic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dnf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cnf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;file&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BooleanFunctionFactory</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for creating BooleanFunction instances from various representations.&quot;&quot;&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_determine_rep_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine the representation type based on data type.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: Input data to analyze</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            String representation type name</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            InvalidRepresentationError: If data type cannot be mapped to a representation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check for file path (string ending with known extensions or Path object)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;.json&quot;</span><span class="p">,</span> <span class="s2">&quot;.bf&quot;</span><span class="p">,</span> <span class="s2">&quot;.cnf&quot;</span><span class="p">,</span> <span class="s2">&quot;.dimacs&quot;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;file&quot;</span>
+            <span class="c1"># If it looks like a file path but doesn&#39;t have known extension, check if it exists</span>
+            <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                <span class="k">return</span> <span class="s2">&quot;file&quot;</span>
+
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;function&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;rvs&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;distribution&quot;</span>
+        <span class="c1"># Check for DNF/CNF formulas</span>
+        <span class="k">if</span> <span class="n">_DNF_CNF_AVAILABLE</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">DNFFormula</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;dnf&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">CNFFormula</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;cnf&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">bool</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;truth_table&quot;</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;fourier_expansion&quot;</span>
+            <span class="c1"># For integer arrays, assume truth table (most common case)</span>
+            <span class="c1"># Polynomial coefficients should be passed as dict</span>
+            <span class="k">return</span> <span class="s2">&quot;truth_table&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidTruthTableError</span><span class="p">(</span>
+                    <span class="s2">&quot;Cannot create Boolean function from empty list&quot;</span><span class="p">,</span>
+                    <span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="n">suggestion</span><span class="o">=</span><span class="s2">&quot;Provide a non-empty truth table or other representation&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_determine_rep_type</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;polynomial&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;symbolic&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;invariant_truth_table&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;iterable_rep&quot;</span>
+
+        <span class="k">raise</span> <span class="n">InvalidRepresentationError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Cannot determine representation type for data of type &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+            <span class="n">representation</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="n">available</span><span class="o">=</span><span class="n">_SUPPORTED_REP_TYPES</span><span class="p">,</span>
+            <span class="n">suggestion</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Expected: list, np.ndarray (truth table), callable (function), &quot;</span>
+                <span class="s2">&quot;dict (polynomial), str (symbolic expression), or DNF/CNF formula&quot;</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="BooleanFunctionFactory.create">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.create">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Main factory method that dispatches to specialized creators based on input data type.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            boolean_function_cls: The BooleanFunction class to instantiate</span>
+<span class="sd">            data: Input data in one of the supported formats</span>
+<span class="sd">            **kwargs: Additional arguments (n_vars, space, rep_type, etc.)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BooleanFunction instance</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            InvalidRepresentationError: If data type is not supported</span>
+<span class="sd">            InvalidTruthTableError: If truth table has invalid structure</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; bf.create([0, 1, 1, 0])  # From truth table</span>
+<span class="sd">            &gt;&gt;&gt; bf.create(lambda x: x[0] ^ x[1], n=2)  # From function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Determine representation type and dispatch accordingly</span>
+        <span class="n">rep_type</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rep_type&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rep_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rep_type</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_determine_rep_type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_function</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;distribution&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_scipy_distribution</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;truth_table&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;packed_truth_table&quot;</span><span class="p">,</span> <span class="s2">&quot;sparse_truth_table&quot;</span><span class="p">,</span> <span class="s2">&quot;adaptive_truth_table&quot;</span><span class="p">):</span>
+            <span class="c1"># These are specialized truth table representations</span>
+            <span class="c1"># Remove rep_type from kwargs if present to avoid duplicate</span>
+            <span class="n">kwargs_clean</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;rep_type&quot;</span><span class="p">}</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span>
+                <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="n">rep_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_clean</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;invariant_truth_table&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_input_invariant_truth_table</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;polynomial&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_polynomial</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;fourier_expansion&quot;</span> <span class="ow">or</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;fourier&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_multilinear</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;symbolic&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_symbolic</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;iterable_rep&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;dnf&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dnf</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;cnf&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_cnf</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;file&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="n">InvalidRepresentationError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown representation type &#39;</span><span class="si">{</span><span class="n">rep_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+            <span class="n">representation</span><span class="o">=</span><span class="n">rep_type</span><span class="p">,</span>
+            <span class="n">available</span><span class="o">=</span><span class="n">_SUPPORTED_REP_TYPES</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_truth_table">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_truth_table">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_truth_table</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">truth_table</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;truth_table&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create from truth table data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            boolean_function_cls: The BooleanFunction class to instantiate</span>
+<span class="sd">            truth_table: List or array of boolean values (length must be power of 2)</span>
+<span class="sd">            rep_type: Representation type name (default &quot;truth_table&quot;)</span>
+<span class="sd">            **kwargs: Additional arguments</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BooleanFunction instance</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            InvalidTruthTableError: If truth table size is not a power of 2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Convert to array for validation</span>
+        <span class="n">tt_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tt_array</span><span class="p">)</span>
+
+        <span class="c1"># Validate size is power of 2</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidTruthTableError</span><span class="p">(</span>
+                <span class="s2">&quot;Truth table cannot be empty&quot;</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">suggestion</span><span class="o">=</span><span class="s2">&quot;Provide at least one value for a constant function&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">size</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Not a power of 2</span>
+            <span class="c1"># Find the closest powers of 2</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+            <span class="n">lower_power</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">size</span><span class="p">)))</span>
+            <span class="n">upper_power</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="n">InvalidTruthTableError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Truth table size must be a power of 2, got </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
+                <span class="n">expected_size</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">lower_power</span><span class="si">}</span><span class="s2"> or </span><span class="si">{</span><span class="n">upper_power</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">suggestion</span><span class="o">=</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;For </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">lower_power</span><span class="p">))</span><span class="si">}</span><span class="s2">-variable function, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;use </span><span class="si">{</span><span class="n">lower_power</span><span class="si">}</span><span class="s2"> entries. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;For </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">upper_power</span><span class="p">))</span><span class="si">}</span><span class="s2">-variable function, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;use </span><span class="si">{</span><span class="n">upper_power</span><span class="si">}</span><span class="s2"> entries.&quot;</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_vars</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_vars</span>
+
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># For specialized truth table representations, convert the data format</span>
+        <span class="k">if</span> <span class="n">rep_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;sparse_truth_table&quot;</span><span class="p">,</span> <span class="s2">&quot;adaptive_truth_table&quot;</span><span class="p">):</span>
+            <span class="c1"># Convert truth table to sparse format</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_convert_to_sparse_format</span><span class="p">(</span><span class="n">tt_array</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">rep_type</span> <span class="o">==</span> <span class="s2">&quot;packed_truth_table&quot;</span><span class="p">:</span>
+            <span class="c1"># Convert truth table to packed format</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_convert_to_packed_format</span><span class="p">(</span><span class="n">tt_array</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert_to_sparse_format</span><span class="p">(</span><span class="n">tt_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert truth table array to sparse format dictionary.&quot;&quot;&quot;</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tt_array</span><span class="p">)</span>
+        <span class="n">tt_bool</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tt_array</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="c1"># Determine the most common value (default)</span>
+        <span class="n">true_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tt_bool</span><span class="p">))</span>
+        <span class="n">default_value</span> <span class="o">=</span> <span class="n">true_count</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">size</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># Build exceptions dictionary (indices where value != default)</span>
+        <span class="n">exceptions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">tt_bool</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">default_value</span><span class="p">:</span>
+                <span class="n">exceptions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">tt_bool</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;default_value&quot;</span><span class="p">:</span> <span class="n">default_value</span><span class="p">,</span>
+            <span class="s2">&quot;exceptions&quot;</span><span class="p">:</span> <span class="n">exceptions</span><span class="p">,</span>
+            <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="n">n_vars</span><span class="p">,</span>
+            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert_to_packed_format</span><span class="p">(</span><span class="n">tt_array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert truth table array to packed format dictionary.&quot;&quot;&quot;</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tt_array</span><span class="p">)</span>
+        <span class="n">tt_bool</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">tt_array</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="c1"># Try to use bitarray if available</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">bitarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">bitarray</span>
+
+            <span class="n">ba</span> <span class="o">=</span> <span class="n">bitarray</span><span class="p">(</span><span class="n">tt_bool</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;bitarray&quot;</span><span class="p">:</span> <span class="n">ba</span><span class="p">,</span> <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="n">n_vars</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">}</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="c1"># Fallback to numpy packed</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;array&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">packbits</span><span class="p">(</span><span class="n">tt_bool</span><span class="p">),</span>
+                <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="n">n_vars</span><span class="p">,</span>
+                <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
+                <span class="s2">&quot;original_dtype&quot;</span><span class="p">:</span> <span class="s2">&quot;packed_uint8&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_function">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_function">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_function</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">,</span> <span class="n">domain_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from callable function&quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">domain_size</span><span class="p">:</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">domain_size</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_scipy_distribution">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_scipy_distribution">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_scipy_distribution</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">distribution</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;distribution&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from scipy.stats distribution&quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">_setup_probabilistic_interface</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_polynomial">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_polynomial">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_polynomial</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;polynomial&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from polynomial coefficients&quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">coeffs</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_multilinear">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_multilinear">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_multilinear</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;fourier_expansion&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from multilinear polynomial coefficients&quot;&quot;&quot;</span>
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_vars</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)))</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_vars</span>
+
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">coeffs</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_iterable">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_iterable">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_iterable</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;iterable_rep&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from streaming truth table&quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_symbolic">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_symbolic">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">expression</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;symbolic&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from symbolic expression string.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            boolean_function_cls: The BooleanFunction class to instantiate</span>
+<span class="sd">            expression: Symbolic expression (e.g., &#39;x0 &amp; x1&#39;, &#39;a or b&#39;)</span>
+<span class="sd">            rep_type: Representation type name (default &quot;symbolic&quot;)</span>
+<span class="sd">            **kwargs: Additional arguments:</span>
+<span class="sd">                - variables: List of variable names in order (auto-detected if not provided)</span>
+<span class="sd">                - n: Number of variables (used to generate x0, x1, ... if variables not provided)</span>
+
+<span class="sd">        Variable auto-detection:</span>
+<span class="sd">            1. If &#39;variables&#39; kwarg provided, use those</span>
+<span class="sd">            2. Else if &#39;n&#39; kwarg provided, generate [&#39;x0&#39;, &#39;x1&#39;, ..., &#39;x{n-1}&#39;]</span>
+<span class="sd">            3. Else extract from expression: &#39;x0&#39;, &#39;x1&#39;, ... patterns, sorted numerically</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variables&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">variables</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Use x0, x1, ... xn-1 convention</span>
+                <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Auto-detect variables from expression</span>
+                <span class="c1"># Match x0, x1, x2, ... patterns</span>
+                <span class="n">var_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\bx(\d+)\b&quot;</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">var_pattern</span><span class="p">:</span>
+                    <span class="c1"># Found x0, x1, ... style variables</span>
+                    <span class="n">max_idx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">var_pattern</span><span class="p">)</span>
+                    <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Try to find alphabetic variable names (a, b, c, etc.)</span>
+                    <span class="c1"># Exclude Python keywords and operators</span>
+                    <span class="n">keywords</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;and&quot;</span><span class="p">,</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="s2">&quot;None&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;is&quot;</span><span class="p">}</span>
+                    <span class="n">word_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\b([a-zA-Z_]\w*)\b&quot;</span><span class="p">,</span> <span class="n">expression</span><span class="p">)</span>
+                    <span class="n">variables</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">word_pattern</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">))</span>
+
+        <span class="c1"># Set n_vars if not already set</span>
+        <span class="k">if</span> <span class="n">instance</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">variables</span><span class="p">:</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
+
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">((</span><span class="n">expression</span><span class="p">,</span> <span class="n">variables</span><span class="p">),</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_input_invariant_truth_table">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_input_invariant_truth_table">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_input_invariant_truth_table</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">true_inputs</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;truth_table&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from set of true input vectors&quot;&quot;&quot;</span>
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">true_inputs</span><span class="p">)))</span> <span class="k">if</span> <span class="n">true_inputs</span> <span class="k">else</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n_vars&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n_vars</span>
+        <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="c1"># LSB convention: vec[j] = x_j = (i &gt;&gt; j) &amp; 1</span>
+            <span class="n">vec</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="n">i</span> <span class="o">&gt;&gt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_vars</span><span class="p">))</span>
+            <span class="n">truth_table</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">vec</span> <span class="ow">in</span> <span class="n">true_inputs</span>
+
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;n_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_vars</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.create_composite">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.create_composite">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_composite</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">boolean_function_cls</span><span class="p">,</span>
+        <span class="n">operator</span><span class="p">,</span>
+        <span class="n">left_func</span><span class="p">,</span>
+        <span class="n">right_func</span><span class="p">,</span>
+        <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;symbolic&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create composite function from BooleanFunctions or scalars.</span>
+
+<span class="sd">        Prefers truth-table composition when both operands are BooleanFunction</span>
+<span class="sd">        instances on the same domain/space, while still recording the symbolic</span>
+<span class="sd">        expression for readability. Falls back to symbolic-only composition when</span>
+<span class="sd">        truth tables are unavailable (e.g., mixing scalars or mismatched domains).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_is_boolean_function</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;get_representation&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;n_vars&quot;</span><span class="p">)</span>
+
+        <span class="n">left_is_func</span> <span class="o">=</span> <span class="n">_is_boolean_function</span><span class="p">(</span><span class="n">left_func</span><span class="p">)</span>
+        <span class="n">right_is_func</span> <span class="o">=</span> <span class="n">_is_boolean_function</span><span class="p">(</span><span class="n">right_func</span><span class="p">)</span> <span class="k">if</span> <span class="n">right_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">left_is_func</span> <span class="ow">and</span> <span class="s2">&quot;space&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">left_func</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;space&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">left_func</span><span class="o">.</span><span class="n">space</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">right_is_func</span>
+            <span class="ow">and</span> <span class="s2">&quot;space&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span>
+            <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">right_func</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;space&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">right_func</span><span class="o">.</span><span class="n">space</span>
+
+        <span class="n">variables</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left_func</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">):</span>
+            <span class="n">left_sym</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">left_func</span><span class="p">)</span>
+            <span class="n">left_n_vars</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">left_sym</span> <span class="o">=</span> <span class="s2">&quot;x0&quot;</span>
+            <span class="k">if</span> <span class="n">left_is_func</span><span class="p">:</span>
+                <span class="n">variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">left_func</span><span class="p">)</span>
+                <span class="n">left_n_vars</span> <span class="o">=</span> <span class="n">left_func</span><span class="o">.</span><span class="n">get_n_vars</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">left_n_vars</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">right_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">right_sym</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">right_n_vars</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right_func</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">):</span>
+            <span class="n">right_sym</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">right_func</span><span class="p">)</span>
+            <span class="n">right_n_vars</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">right_is_func</span><span class="p">:</span>
+            <span class="n">right_sym</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">right_func</span><span class="p">)</span>
+            <span class="n">right_n_vars</span> <span class="o">=</span> <span class="n">right_func</span><span class="o">.</span><span class="n">get_n_vars</span><span class="p">()</span> <span class="ow">or</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid operand type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">right_func</span><span class="p">)</span><span class="si">}</span><span class="s2">. Expected BooleanFunction or number.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">same_domain</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">left_is_func</span>
+            <span class="ow">and</span> <span class="n">right_is_func</span>
+            <span class="ow">and</span> <span class="n">left_func</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">right_func</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">left_func</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">==</span> <span class="n">right_func</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="p">)</span>
+
+        <span class="n">same_space</span> <span class="o">=</span> <span class="n">same_domain</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">left_func</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="n">right_func</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">right_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result_n_vars</span> <span class="o">=</span> <span class="n">left_n_vars</span>
+        <span class="k">elif</span> <span class="n">same_domain</span><span class="p">:</span>
+            <span class="n">result_n_vars</span> <span class="o">=</span> <span class="n">left_func</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result_n_vars</span> <span class="o">=</span> <span class="n">left_n_vars</span> <span class="o">+</span> <span class="n">right_n_vars</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_truth_table_unary</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">left_is_func</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">&quot;~&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_truth_table_binary</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">same_domain</span> <span class="ow">and</span> <span class="n">same_space</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">left_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+                <span class="n">right_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">right</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">left_tt</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">right_tt</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;^&quot;</span><span class="p">}:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_xor</span><span class="p">(</span><span class="n">left_tt</span><span class="p">,</span> <span class="n">right_tt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="s2">&quot;&amp;&quot;</span><span class="p">}:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">left_tt</span><span class="p">,</span> <span class="n">right_tt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s2">&quot;|&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">left_tt</span><span class="p">,</span> <span class="n">right_tt</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;~&quot;</span><span class="p">:</span>
+            <span class="n">truth_table</span> <span class="o">=</span> <span class="n">_truth_table_unary</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">left_func</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">truth_table</span> <span class="o">=</span> <span class="n">_truth_table_binary</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">left_func</span><span class="p">,</span> <span class="n">right_func</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">truth_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">result_n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot infer number of variables for composite function&quot;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;n_vars&quot;</span><span class="p">,</span> <span class="n">result_n_vars</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">left_is_func</span>
+                <span class="ow">and</span> <span class="s2">&quot;space&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span>
+                <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">left_func</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">):</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;space&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">left_func</span><span class="o">.</span><span class="n">space</span>
+
+            <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">truth_table</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">),</span> <span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">right_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">expression</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;not </span><span class="si">{</span><span class="n">left_sym</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;~&quot;</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">operator</span><span class="si">}{</span><span class="n">left_sym</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">expression</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">left_sym</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">right_sym</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+            <span class="k">if</span> <span class="n">variables</span><span class="p">:</span>
+                <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">((</span><span class="n">expression</span><span class="p">,</span> <span class="n">variables</span><span class="p">),</span> <span class="n">rep_type</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">instance</span>
+
+        <span class="c1"># Fallback to symbolic composition</span>
+        <span class="k">if</span> <span class="n">result_n_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;n_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result_n_vars</span>
+
+        <span class="k">if</span> <span class="n">right_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">operator</span> <span class="o">==</span> <span class="s2">&quot;~&quot;</span><span class="p">:</span>
+                <span class="n">expression</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;not </span><span class="si">{</span><span class="n">left_sym</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">expression</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">operator</span><span class="si">}{</span><span class="n">left_sym</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">expression</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">left_sym</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">operator</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">right_sym</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">((</span><span class="n">expression</span><span class="p">,</span> <span class="n">variables</span><span class="p">),</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.compose_truth_tables">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.compose_truth_tables">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compose_truth_tables</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">boolean_function_cls</span><span class="p">,</span>
+        <span class="n">outer_func</span><span class="p">,</span>
+        <span class="n">inner_func</span><span class="p">,</span>
+        <span class="n">rep_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;truth_table&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compose two BooleanFunction instances via truth tables.</span>
+
+<span class="sd">        Mirrors the legacy ``BooleanFunc.compose`` semantics: if ``outer`` has</span>
+<span class="sd">        ``n`` variables and ``inner`` has ``m`` variables, the result is a</span>
+<span class="sd">        function on ``n * m`` variables obtained by feeding disjoint copies of</span>
+<span class="sd">        ``inner`` into each input of ``outer``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="nb">hasattr</span><span class="p">(</span><span class="n">outer_func</span><span class="p">,</span> <span class="s2">&quot;get_representation&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">inner_func</span><span class="p">,</span> <span class="s2">&quot;get_representation&quot;</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Both operands must be BooleanFunction instances&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">outer_func</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">inner_func</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both functions must have defined n_vars for composition&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">outer_func</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">inner_func</span><span class="p">,</span> <span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Composition requires both functions to share the same space&quot;</span><span class="p">)</span>
+
+        <span class="n">outer_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">outer_func</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">inner_tt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">inner_func</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="n">outer_n</span> <span class="o">=</span> <span class="n">outer_func</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="n">inner_n</span> <span class="o">=</span> <span class="n">inner_func</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="n">total_n</span> <span class="o">=</span> <span class="n">outer_n</span> <span class="o">*</span> <span class="n">inner_n</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">total_n</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">inner_n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">outer_index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">outer_n</span><span class="p">):</span>
+                <span class="n">block</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">inner_n</span> <span class="o">*</span> <span class="n">j</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">mask</span>
+                <span class="n">bit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inner_tt</span><span class="p">[</span><span class="n">block</span><span class="p">])</span>
+                <span class="n">outer_index</span> <span class="o">|=</span> <span class="n">bit</span> <span class="o">&lt;&lt;</span> <span class="n">j</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">outer_tt</span><span class="p">[</span><span class="n">outer_index</span><span class="p">])</span>
+
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;n_vars&quot;</span><span class="p">,</span> <span class="n">total_n</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;space&quot;</span><span class="p">,</span> <span class="n">outer_func</span><span class="o">.</span><span class="n">space</span><span class="p">)</span>
+
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_dnf">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_dnf">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dnf</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">dnf_formula</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;dnf&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from DNF (Disjunctive Normal Form) formula.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            boolean_function_cls: The BooleanFunction class to instantiate</span>
+<span class="sd">            dnf_formula: A DNFFormula object</span>
+<span class="sd">            rep_type: Representation type (default &quot;dnf&quot;)</span>
+<span class="sd">            **kwargs: Additional arguments (n_vars, space, etc.)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BooleanFunction instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_DNF_CNF_AVAILABLE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;DNF representation not available&quot;</span><span class="p">)</span>
+
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n_vars&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">dnf_formula</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;n_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_vars</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># Remove &#39;n&#39; if present to avoid conflict</span>
+
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">dnf_formula</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_cnf">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_cnf">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_cnf</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">cnf_formula</span><span class="p">,</span> <span class="n">rep_type</span><span class="o">=</span><span class="s2">&quot;cnf&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from CNF (Conjunctive Normal Form) formula.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            boolean_function_cls: The BooleanFunction class to instantiate</span>
+<span class="sd">            cnf_formula: A CNFFormula object</span>
+<span class="sd">            rep_type: Representation type (default &quot;cnf&quot;)</span>
+<span class="sd">            **kwargs: Additional arguments (n_vars, space, etc.)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BooleanFunction instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_DNF_CNF_AVAILABLE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;CNF representation not available&quot;</span><span class="p">)</span>
+
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n_vars&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">cnf_formula</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;n_vars&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_vars</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># Remove &#39;n&#39; if present to avoid conflict</span>
+
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">boolean_function_cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">cnf_formula</span><span class="p">,</span> <span class="n">rep_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span></div>
+
+
+<div class="viewcode-block" id="BooleanFunctionFactory.from_file">
+<a class="viewcode-back" href="../../../api/boofun.core.factory.html#boofun.core.BooleanFunctionFactory.from_file">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">boolean_function_cls</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from file (JSON, .bf, or DIMACS CNF).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            boolean_function_cls: The BooleanFunction class to instantiate</span>
+<span class="sd">            path: Path to file (str or Path object)</span>
+<span class="sd">            **kwargs: Additional arguments passed to the loader</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BooleanFunction instance</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; bf.create(&quot;function.json&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; bf.create(&quot;function.bf&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; bf.create(&quot;function.cnf&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">load</span>
+
+        <span class="k">return</span> <span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

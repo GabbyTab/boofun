@@ -1,0 +1,759 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.utils.exceptions &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.utils.exceptions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.utils.exceptions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Exception hierarchy for the BooFun library.</span>
+
+<span class="sd">This module provides a structured exception taxonomy that enables:</span>
+<span class="sd">- Clear differentiation between user errors and internal errors</span>
+<span class="sd">- Machine-readable error categorization via error codes</span>
+<span class="sd">- Consistent error handling across the library</span>
+<span class="sd">- Actionable error messages with context</span>
+
+<span class="sd">Exception Hierarchy:</span>
+<span class="sd">    BooleanFunctionError (base)</span>
+<span class="sd">    ├── ValidationError          - Invalid user input (E1xxx)</span>
+<span class="sd">    │   ├── InvalidInputError    - Bad function arguments (E11xx)</span>
+<span class="sd">    │   ├── InvalidRepresentationError - Unsupported representation (E12xx)</span>
+<span class="sd">    │   └── InvalidTruthTableError - Malformed truth table (E13xx)</span>
+<span class="sd">    ├── EvaluationError          - Function evaluation failures (E2xxx)</span>
+<span class="sd">    ├── ConversionError          - Representation conversion failures (E3xxx)</span>
+<span class="sd">    ├── ConfigurationError       - Setup/configuration errors (E4xxx)</span>
+<span class="sd">    ├── ResourceUnavailableError - Optional deps unavailable (E5xxx)</span>
+<span class="sd">    └── InvariantViolationError  - Internal library bugs (E9xxx)</span>
+
+<span class="sd">Error Code Ranges:</span>
+<span class="sd">    E1000-E1999: Validation errors (user input problems)</span>
+<span class="sd">    E2000-E2999: Evaluation errors (function execution problems)</span>
+<span class="sd">    E3000-E3999: Conversion errors (representation problems)</span>
+<span class="sd">    E4000-E4999: Configuration errors (setup problems)</span>
+<span class="sd">    E5000-E5999: Resource errors (dependency problems)</span>
+<span class="sd">    E9000-E9999: Internal errors (library bugs)</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">    import boofun as bf</span>
+
+<span class="sd">    try:</span>
+<span class="sd">        f = bf.create([0, 1, 1])  # Invalid size</span>
+<span class="sd">    except bf.BooleanFunctionError as e:</span>
+<span class="sd">        print(f&quot;Error {e.code}: {e.message}&quot;)</span>
+<span class="sd">        if e.suggestion:</span>
+<span class="sd">            print(f&quot;Fix: {e.suggestion}&quot;)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+
+<div class="viewcode-block" id="ErrorCode">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.ErrorCode.html#boofun.ErrorCode">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ErrorCode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Machine-readable error codes for BooFun exceptions.</span>
+
+<span class="sd">    Error codes enable programmatic error handling and logging aggregation.</span>
+<span class="sd">    Each code maps to a specific error condition.</span>
+
+<span class="sd">    Ranges:</span>
+<span class="sd">        E1000-E1999: Validation errors</span>
+<span class="sd">        E2000-E2999: Evaluation errors</span>
+<span class="sd">        E3000-E3999: Conversion errors</span>
+<span class="sd">        E4000-E4999: Configuration errors</span>
+<span class="sd">        E5000-E5999: Resource errors</span>
+<span class="sd">        E9000-E9999: Internal errors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Validation errors (E1xxx)</span>
+    <span class="n">VALIDATION_ERROR</span> <span class="o">=</span> <span class="s2">&quot;E1000&quot;</span>
+    <span class="n">INVALID_INPUT</span> <span class="o">=</span> <span class="s2">&quot;E1100&quot;</span>
+    <span class="n">INVALID_PARAMETER_VALUE</span> <span class="o">=</span> <span class="s2">&quot;E1101&quot;</span>
+    <span class="n">INVALID_PARAMETER_TYPE</span> <span class="o">=</span> <span class="s2">&quot;E1102&quot;</span>
+    <span class="n">PARAMETER_OUT_OF_RANGE</span> <span class="o">=</span> <span class="s2">&quot;E1103&quot;</span>
+    <span class="n">EMPTY_INPUT</span> <span class="o">=</span> <span class="s2">&quot;E1104&quot;</span>
+    <span class="n">INVALID_REPRESENTATION</span> <span class="o">=</span> <span class="s2">&quot;E1200&quot;</span>
+    <span class="n">UNKNOWN_REPRESENTATION</span> <span class="o">=</span> <span class="s2">&quot;E1201&quot;</span>
+    <span class="n">REPRESENTATION_NOT_AVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;E1202&quot;</span>
+    <span class="n">INVALID_TRUTH_TABLE</span> <span class="o">=</span> <span class="s2">&quot;E1300&quot;</span>
+    <span class="n">TRUTH_TABLE_WRONG_SIZE</span> <span class="o">=</span> <span class="s2">&quot;E1301&quot;</span>
+    <span class="n">TRUTH_TABLE_EMPTY</span> <span class="o">=</span> <span class="s2">&quot;E1302&quot;</span>
+    <span class="n">TRUTH_TABLE_INVALID_VALUES</span> <span class="o">=</span> <span class="s2">&quot;E1303&quot;</span>
+
+    <span class="c1"># Evaluation errors (E2xxx)</span>
+    <span class="n">EVALUATION_ERROR</span> <span class="o">=</span> <span class="s2">&quot;E2000&quot;</span>
+    <span class="n">EVALUATION_FAILED</span> <span class="o">=</span> <span class="s2">&quot;E2001&quot;</span>
+    <span class="n">CALLABLE_RAISED</span> <span class="o">=</span> <span class="s2">&quot;E2002&quot;</span>
+    <span class="n">INDEX_OUT_OF_BOUNDS</span> <span class="o">=</span> <span class="s2">&quot;E2003&quot;</span>
+    <span class="n">CORRUPTED_DATA</span> <span class="o">=</span> <span class="s2">&quot;E2004&quot;</span>
+
+    <span class="c1"># Conversion errors (E3xxx)</span>
+    <span class="n">CONVERSION_ERROR</span> <span class="o">=</span> <span class="s2">&quot;E3000&quot;</span>
+    <span class="n">NO_CONVERSION_PATH</span> <span class="o">=</span> <span class="s2">&quot;E3001&quot;</span>
+    <span class="n">CONVERSION_FAILED</span> <span class="o">=</span> <span class="s2">&quot;E3002&quot;</span>
+    <span class="n">INCOMPATIBLE_REPRESENTATIONS</span> <span class="o">=</span> <span class="s2">&quot;E3003&quot;</span>
+    <span class="n">NO_REPRESENTATIONS</span> <span class="o">=</span> <span class="s2">&quot;E3004&quot;</span>
+
+    <span class="c1"># Configuration errors (E4xxx)</span>
+    <span class="n">CONFIGURATION_ERROR</span> <span class="o">=</span> <span class="s2">&quot;E4000&quot;</span>
+    <span class="n">INVALID_ERROR_MODEL</span> <span class="o">=</span> <span class="s2">&quot;E4001&quot;</span>
+    <span class="n">INCOMPATIBLE_SPACE</span> <span class="o">=</span> <span class="s2">&quot;E4002&quot;</span>
+    <span class="n">INVALID_OPTIMIZATION</span> <span class="o">=</span> <span class="s2">&quot;E4003&quot;</span>
+
+    <span class="c1"># Resource errors (E5xxx)</span>
+    <span class="n">RESOURCE_UNAVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;E5000&quot;</span>
+    <span class="n">NUMBA_UNAVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;E5001&quot;</span>
+    <span class="n">CUPY_UNAVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;E5002&quot;</span>
+    <span class="n">MATPLOTLIB_UNAVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;E5003&quot;</span>
+    <span class="n">SCIPY_UNAVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;E5004&quot;</span>
+    <span class="n">SYMPY_UNAVAILABLE</span> <span class="o">=</span> <span class="s2">&quot;E5005&quot;</span>
+
+    <span class="c1"># Internal errors (E9xxx)</span>
+    <span class="n">INTERNAL_ERROR</span> <span class="o">=</span> <span class="s2">&quot;E9000&quot;</span>
+    <span class="n">INVARIANT_VIOLATION</span> <span class="o">=</span> <span class="s2">&quot;E9001&quot;</span>
+    <span class="n">STATE_CORRUPTION</span> <span class="o">=</span> <span class="s2">&quot;E9002&quot;</span>
+    <span class="n">ALGORITHM_ERROR</span> <span class="o">=</span> <span class="s2">&quot;E9003&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="BooleanFunctionError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.BooleanFunctionError.html#boofun.BooleanFunctionError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BooleanFunctionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base exception for all BooFun library errors.</span>
+
+<span class="sd">    All library-specific exceptions inherit from this class, allowing</span>
+<span class="sd">    users to catch all library errors with a single except clause.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        message: Human-readable error description</span>
+<span class="sd">        code: Machine-readable error code (ErrorCode enum)</span>
+<span class="sd">        context: Dictionary with additional error context</span>
+<span class="sd">        suggestion: Optional suggestion for how to fix the error</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        This base class is not raised directly. Use specific subclasses.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; try:</span>
+<span class="sd">        ...     result = bf.create(data).fourier()</span>
+<span class="sd">        ... except bf.BooleanFunctionError as e:</span>
+<span class="sd">        ...     logger.error(f&quot;[{e.code.value}] {e.message}&quot;)</span>
+<span class="sd">        ...     if e.suggestion:</span>
+<span class="sd">        ...         logger.info(f&quot;Suggestion: {e.suggestion}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span><span class="p">:</span> <span class="n">ErrorCode</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">INTERNAL_ERROR</span>
+
+<div class="viewcode-block" id="BooleanFunctionError.__init__">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.BooleanFunctionError.html#boofun.BooleanFunctionError.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ErrorCode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">suggestion</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">suggestion</span> <span class="o">=</span> <span class="n">suggestion</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format_message</span><span class="p">())</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_format_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Format the full error message with code, context and suggestion.&quot;&quot;&quot;</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">:</span>
+            <span class="n">context_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">!r}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Context: </span><span class="si">{</span><span class="n">context_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">suggestion</span><span class="p">:</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Suggestion: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">suggestion</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BooleanFunctionError.to_dict">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.BooleanFunctionError.html#boofun.BooleanFunctionError.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert exception to dictionary for logging/serialization.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with error details suitable for JSON logging.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;error_code&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;error_type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">,</span>
+            <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="p">,</span>
+            <span class="s2">&quot;suggestion&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">suggestion</span><span class="p">,</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Validation Errors - User input problems (E1xxx)</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="ValidationError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.ValidationError.html#boofun.ValidationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ValidationError</span><span class="p">(</span><span class="n">BooleanFunctionError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when user input fails validation.</span>
+
+<span class="sd">    This is the parent class for all input validation errors.</span>
+<span class="sd">    Use specific subclasses when possible for more precise error handling.</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        - bf.create() when data format is unrecognized</span>
+<span class="sd">        - Analysis functions when parameters are invalid</span>
+<span class="sd">        - Any function receiving malformed input</span>
+
+<span class="sd">    Error Codes:</span>
+<span class="sd">        E1000: Generic validation error</span>
+<span class="sd">        E1100-E1199: Input parameter errors</span>
+<span class="sd">        E1200-E1299: Representation errors</span>
+<span class="sd">        E1300-E1399: Truth table errors</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; try:</span>
+<span class="sd">        ...     bf.create(&quot;invalid&quot;)</span>
+<span class="sd">        ... except bf.ValidationError as e:</span>
+<span class="sd">        ...     print(f&quot;Invalid input: {e.message}&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">VALIDATION_ERROR</span></div>
+
+
+
+<div class="viewcode-block" id="InvalidInputError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.InvalidInputError.html#boofun.InvalidInputError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvalidInputError</span><span class="p">(</span><span class="n">ValidationError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when function arguments are invalid.</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        - bf.BooleanFunction.evaluate() with empty or wrong-type inputs</span>
+<span class="sd">        - bf.BooleanFunction.fix() with invalid variable index or value</span>
+<span class="sd">        - bf.BooleanFunction.noise_stability() with rho outside [-1, 1]</span>
+<span class="sd">        - Any method receiving out-of-range parameters</span>
+
+<span class="sd">    Error Codes:</span>
+<span class="sd">        E1100: Generic invalid input</span>
+<span class="sd">        E1101: Invalid parameter value</span>
+<span class="sd">        E1102: Invalid parameter type</span>
+<span class="sd">        E1103: Parameter out of range</span>
+<span class="sd">        E1104: Empty input</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.create([0, 1, 1, 0])</span>
+<span class="sd">        &gt;&gt;&gt; f.fix(0, 5)  # Raises InvalidInputError (value must be 0 or 1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">INVALID_INPUT</span>
+
+<div class="viewcode-block" id="InvalidInputError.__init__">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.InvalidInputError.html#boofun.InvalidInputError.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ErrorCode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">parameter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">received</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">expected</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">suggestion</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">parameter</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;parameter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter</span>
+        <span class="k">if</span> <span class="n">received</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;received&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">received</span>
+        <span class="k">if</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;expected&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">expected</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="InvalidRepresentationError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.InvalidRepresentationError.html#boofun.InvalidRepresentationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvalidRepresentationError</span><span class="p">(</span><span class="n">ValidationError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when requesting an unsupported or unknown representation.</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        - bf.create() with rep_type parameter set to unknown value</span>
+<span class="sd">        - bf.BooleanFunction.get_representation() for unsupported type</span>
+<span class="sd">        - Factory methods when representation cannot be determined</span>
+
+<span class="sd">    Error Codes:</span>
+<span class="sd">        E1200: Generic representation error</span>
+<span class="sd">        E1201: Unknown representation type</span>
+<span class="sd">        E1202: Representation not available</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.create([0, 1, 1, 0])</span>
+<span class="sd">        &gt;&gt;&gt; f.get_representation(&quot;unknown_type&quot;)  # Raises InvalidRepresentationError</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">INVALID_REPRESENTATION</span>
+
+<div class="viewcode-block" id="InvalidRepresentationError.__init__">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.InvalidRepresentationError.html#boofun.InvalidRepresentationError.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ErrorCode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">representation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">available</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">suggestion</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">representation</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;representation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">representation</span>
+        <span class="k">if</span> <span class="n">available</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;available&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">available</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">suggestion</span><span class="p">:</span>
+                <span class="n">suggestion</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Available representations: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">available</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="InvalidTruthTableError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.InvalidTruthTableError.html#boofun.InvalidTruthTableError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvalidTruthTableError</span><span class="p">(</span><span class="n">ValidationError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when a truth table has invalid structure.</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        - bf.create() with list/array that is not power of 2</span>
+<span class="sd">        - bf.create() with empty list</span>
+<span class="sd">        - Factory.from_truth_table() with malformed data</span>
+
+<span class="sd">    Error Codes:</span>
+<span class="sd">        E1300: Generic truth table error</span>
+<span class="sd">        E1301: Wrong size (not power of 2)</span>
+<span class="sd">        E1302: Empty truth table</span>
+<span class="sd">        E1303: Invalid values (not boolean-convertible)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; bf.create([0, 1, 1])  # Raises InvalidTruthTableError (size=3, not power of 2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">INVALID_TRUTH_TABLE</span>
+
+<div class="viewcode-block" id="InvalidTruthTableError.__init__">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.InvalidTruthTableError.html#boofun.InvalidTruthTableError.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ErrorCode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">expected_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">suggestion</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="k">if</span> <span class="n">expected_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;expected_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">expected_size</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Evaluation Errors - Function evaluation problems (E2xxx)</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="EvaluationError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.EvaluationError.html#boofun.EvaluationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EvaluationError</span><span class="p">(</span><span class="n">BooleanFunctionError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when function evaluation fails.</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        - bf.BooleanFunction.evaluate() when underlying callable fails</span>
+<span class="sd">        - TruthTableRepresentation.convert_from() during truth table generation</span>
+<span class="sd">        - Any operation that evaluates the function on inputs</span>
+
+<span class="sd">    Error Codes:</span>
+<span class="sd">        E2000: Generic evaluation error</span>
+<span class="sd">        E2001: Evaluation failed</span>
+<span class="sd">        E2002: Underlying callable raised exception</span>
+<span class="sd">        E2003: Index out of bounds</span>
+<span class="sd">        E2004: Corrupted representation data</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; def bad_func(x):</span>
+<span class="sd">        ...     raise ValueError(&quot;oops&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.create(bad_func, n=2)</span>
+<span class="sd">        &gt;&gt;&gt; f.get_representation(&quot;truth_table&quot;)  # Raises EvaluationError</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">EVALUATION_ERROR</span>
+
+<div class="viewcode-block" id="EvaluationError.__init__">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.EvaluationError.html#boofun.EvaluationError.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ErrorCode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">representation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">suggestion</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">input_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_value</span>
+        <span class="k">if</span> <span class="n">representation</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;representation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">representation</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Conversion Errors - Representation conversion problems (E3xxx)</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="ConversionError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.ConversionError.html#boofun.ConversionError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConversionError</span><span class="p">(</span><span class="n">BooleanFunctionError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when representation conversion fails.</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        - bf.BooleanFunction.get_representation() when no path exists</span>
+<span class="sd">        - bf.BooleanFunction._compute_representation() on conversion failure</span>
+<span class="sd">        - Representation strategies during convert_to/convert_from</span>
+
+<span class="sd">    Error Codes:</span>
+<span class="sd">        E3000: Generic conversion error</span>
+<span class="sd">        E3001: No conversion path exists</span>
+<span class="sd">        E3002: Conversion algorithm failed</span>
+<span class="sd">        E3003: Incompatible representations</span>
+<span class="sd">        E3004: No representations available (empty function)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.BooleanFunction(n=2)  # No representations</span>
+<span class="sd">        &gt;&gt;&gt; f.get_representation(&quot;fourier&quot;)  # Raises ConversionError</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">CONVERSION_ERROR</span>
+
+<div class="viewcode-block" id="ConversionError.__init__">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.ConversionError.html#boofun.ConversionError.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ErrorCode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">source_repr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">target_repr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">suggestion</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">source_repr</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_repr</span>
+        <span class="k">if</span> <span class="n">target_repr</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target_repr</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Configuration Errors - Setup and configuration problems (E4xxx)</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="ConfigurationError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.ConfigurationError.html#boofun.ConfigurationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ConfigurationError</span><span class="p">(</span><span class="n">BooleanFunctionError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when library configuration is invalid.</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        - Error model initialization with invalid parameters</span>
+<span class="sd">        - Space configuration conflicts</span>
+<span class="sd">        - Optimization settings that are incompatible</span>
+
+<span class="sd">    Error Codes:</span>
+<span class="sd">        E4000: Generic configuration error</span>
+<span class="sd">        E4001: Invalid error model</span>
+<span class="sd">        E4002: Incompatible space settings</span>
+<span class="sd">        E4003: Invalid optimization settings</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; from boofun import PACErrorModel</span>
+<span class="sd">        &gt;&gt;&gt; PACErrorModel(epsilon=2.0)  # Raises ConfigurationError (epsilon must be in (0,1))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">CONFIGURATION_ERROR</span></div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Resource Errors - External dependency problems (E5xxx)</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="ResourceUnavailableError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.ResourceUnavailableError.html#boofun.ResourceUnavailableError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ResourceUnavailableError</span><span class="p">(</span><span class="n">BooleanFunctionError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when an optional resource is unavailable.</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        - GPU acceleration code when CuPy is not installed</span>
+<span class="sd">        - JIT compilation when Numba is not installed</span>
+<span class="sd">        - Visualization when Matplotlib is not installed</span>
+<span class="sd">        - Any feature requiring optional dependencies</span>
+
+<span class="sd">    Error Codes:</span>
+<span class="sd">        E5000: Generic resource unavailable</span>
+<span class="sd">        E5001: Numba unavailable</span>
+<span class="sd">        E5002: CuPy unavailable</span>
+<span class="sd">        E5003: Matplotlib unavailable</span>
+<span class="sd">        E5004: SciPy unavailable</span>
+<span class="sd">        E5005: SymPy unavailable</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; # When CuPy is not installed:</span>
+<span class="sd">        &gt;&gt;&gt; f.to_gpu()  # Raises ResourceUnavailableError</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">RESOURCE_UNAVAILABLE</span>
+
+<div class="viewcode-block" id="ResourceUnavailableError.__init__">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.ResourceUnavailableError.html#boofun.ResourceUnavailableError.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ErrorCode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">resource</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">install_hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">resource</span><span class="p">:</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;resource&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resource</span>
+        <span class="n">suggestion</span> <span class="o">=</span> <span class="n">install_hint</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Install </span><span class="si">{</span><span class="n">resource</span><span class="si">}</span><span class="s2"> to enable this feature&quot;</span> <span class="k">if</span> <span class="n">resource</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Internal Errors - Library bugs (E9xxx)</span>
+<span class="c1"># =============================================================================</span>
+
+
+<div class="viewcode-block" id="InvariantViolationError">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.InvariantViolationError.html#boofun.InvariantViolationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InvariantViolationError</span><span class="p">(</span><span class="n">BooleanFunctionError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when an internal invariant is violated.</span>
+
+<span class="sd">    This indicates a bug in the library itself, not a user error.</span>
+<span class="sd">    If you encounter this exception, please report it as a bug.</span>
+
+<span class="sd">    Raised By:</span>
+<span class="sd">        - Internal consistency checks that fail</span>
+<span class="sd">        - Algorithm outputs that violate postconditions</span>
+<span class="sd">        - State machine transitions to invalid states</span>
+
+<span class="sd">    Error Codes:</span>
+<span class="sd">        E9000: Generic internal error</span>
+<span class="sd">        E9001: Invariant violation</span>
+<span class="sd">        E9002: State corruption</span>
+<span class="sd">        E9003: Algorithm error</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        If you see this error, please report it at:</span>
+<span class="sd">        https://github.com/boofun/boofun/issues</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_code</span> <span class="o">=</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">INVARIANT_VIOLATION</span>
+
+<div class="viewcode-block" id="InvariantViolationError.__init__">
+<a class="viewcode-back" href="../../../api/generated/boofun.utils.exceptions.InvariantViolationError.html#boofun.InvariantViolationError.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ErrorCode</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">suggestion</span> <span class="o">=</span> <span class="s2">&quot;This is likely a bug in BooFun. Please report it at https://github.com/boofun/boofun/issues&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">suggestion</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Exports</span>
+<span class="c1"># =============================================================================</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Error codes</span>
+    <span class="s2">&quot;ErrorCode&quot;</span><span class="p">,</span>
+    <span class="c1"># Base</span>
+    <span class="s2">&quot;BooleanFunctionError&quot;</span><span class="p">,</span>
+    <span class="c1"># Validation</span>
+    <span class="s2">&quot;ValidationError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;InvalidInputError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;InvalidRepresentationError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;InvalidTruthTableError&quot;</span><span class="p">,</span>
+    <span class="c1"># Evaluation</span>
+    <span class="s2">&quot;EvaluationError&quot;</span><span class="p">,</span>
+    <span class="c1"># Conversion</span>
+    <span class="s2">&quot;ConversionError&quot;</span><span class="p">,</span>
+    <span class="c1"># Configuration</span>
+    <span class="s2">&quot;ConfigurationError&quot;</span><span class="p">,</span>
+    <span class="c1"># Resources</span>
+    <span class="s2">&quot;ResourceUnavailableError&quot;</span><span class="p">,</span>
+    <span class="c1"># Internal</span>
+    <span class="s2">&quot;InvariantViolationError&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
