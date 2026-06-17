@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Machine Learning Feature Selection &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Machine Learning Feature Selection</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/feature_selection.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="machine-learning-feature-selection">
+<h1>Machine Learning Feature Selection<a class="headerlink" href="#machine-learning-feature-selection" title="Link to this heading"></a></h1>
+<p>This example demonstrates how to use Boolean function theory for understanding and improving machine learning models, particularly for feature importance and model interpretability.</p>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p>A binary classifier can be viewed as a Boolean function:</p>
+<ul class="simple">
+<li><p>Inputs: Binary features (or binarized continuous features)</p></li>
+<li><p>Output: Class prediction (0 or 1)</p></li>
+</ul>
+<p>Boolean function analysis provides:</p>
+<ul class="simple">
+<li><p><strong>Influence</strong>: Which features matter most?</p></li>
+<li><p><strong>Junta testing</strong>: Does the model depend on only a few features?</p></li>
+<li><p><strong>Fourier analysis</strong>: What interactions exist between features?</p></li>
+</ul>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">PropertyTester</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.query_complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">QueryComplexityProfile</span>
+</pre></div>
+</div>
+</section>
+<section id="example-1-analyzing-a-decision-tree">
+<h2>Example 1: Analyzing a Decision Tree<a class="headerlink" href="#example-1-analyzing-a-decision-tree" title="Link to this heading"></a></h2>
+<p>Decision trees are naturally Boolean functions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">decision_tree_to_boofun</span><span class="p">(</span><span class="n">tree_predict</span><span class="p">,</span> <span class="n">n_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert sklearn decision tree to BooleanFunction.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tree_predict: Function that takes binary array and returns 0/1</span>
+<span class="sd">        n_features: Number of binary features</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Build truth table by evaluating on all inputs</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n_features</span><span class="p">):</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">)])</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tree_predict</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">truth_table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">n_vars</span><span class="o">=</span><span class="n">n_features</span><span class="p">)</span>
+
+<span class="c1"># Example: Simple decision tree</span>
+<span class="c1"># if x0 AND x1: return 1</span>
+<span class="c1"># elif x2: return 1</span>
+<span class="c1"># else: return 0</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_tree</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">tree_func</span> <span class="o">=</span> <span class="n">decision_tree_to_boofun</span><span class="p">(</span><span class="n">simple_tree</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Analyze</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Feature influences:&quot;</span><span class="p">)</span>
+<span class="n">influences</span> <span class="o">=</span> <span class="n">tree_func</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">influences</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Feature </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Which features matter?</span>
+<span class="n">important</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span> <span class="k">if</span> <span class="n">inf</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Important features: </span><span class="si">{</span><span class="n">important</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-junta-testing-for-sparse-models">
+<h2>Example 2: Junta Testing for Sparse Models<a class="headerlink" href="#example-2-junta-testing-for-sparse-models" title="Link to this heading"></a></h2>
+<p>Many good ML models are “juntas” - they depend on only k features:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analyze_model_sparsity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if model is essentially a k-junta.&quot;&quot;&quot;</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Test for different k values</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">is_junta</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">junta_test</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">num_queries</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">-junta: </span><span class="si">{</span><span class="n">is_junta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_junta</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  -&gt; Model depends on at most </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> features!&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+
+<span class="c1"># Test our simple tree (should be 3-junta: depends on x0, x1, x2)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sparsity analysis of decision tree:&quot;</span><span class="p">)</span>
+<span class="n">analyze_model_sparsity</span><span class="p">(</span><span class="n">tree_func</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-feature-interactions-via-fourier-analysis">
+<h2>Example 3: Feature Interactions via Fourier Analysis<a class="headerlink" href="#example-3-feature-interactions-via-fourier-analysis" title="Link to this heading"></a></h2>
+<p>Fourier coefficients reveal feature interactions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analyze_feature_interactions</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the most important feature interactions.</span>
+
+<span class="sd">    Fourier coefficient f̂(S) measures the interaction strength</span>
+<span class="sd">    among the features in set S.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+
+    <span class="c1"># Get top coefficients by magnitude</span>
+    <span class="n">indexed</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">fourier</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fourier</span><span class="p">))]</span>
+    <span class="n">sorted_coeffs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">indexed</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Top </span><span class="si">{</span><span class="n">top_k</span><span class="si">}</span><span class="s2"> feature interactions:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">coeff</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_coeffs</span><span class="p">[:</span><span class="n">top_k</span><span class="p">],</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Convert index to feature set</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">idx</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">feature_str</span> <span class="o">=</span> <span class="s2">&quot;∅ (bias)&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">feature_str</span> <span class="o">=</span> <span class="s2">&quot;{&quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">features</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;}&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">rank</span><span class="si">:</span><span class="s2">2</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">feature_str</span><span class="si">:</span><span class="s2">20</span><span class="si">}</span><span class="s2"> | Coefficient: </span><span class="si">{</span><span class="n">coeff</span><span class="si">:</span><span class="s2">+.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Analyze our decision tree</span>
+<span class="n">analyze_feature_interactions</span><span class="p">(</span><span class="n">tree_func</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-4-model-complexity-analysis">
+<h2>Example 4: Model Complexity Analysis<a class="headerlink" href="#example-4-model-complexity-analysis" title="Link to this heading"></a></h2>
+<p>Query complexity measures model complexity:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analyze_model_complexity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Comprehensive complexity analysis of a model.&quot;&quot;&quot;</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="n">QueryComplexityProfile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">measures</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model Complexity Measures:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Decision tree depth (D): </span><span class="si">{</span><span class="n">measures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sensitivity (s): </span><span class="si">{</span><span class="n">measures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Block sensitivity (bs): </span><span class="si">{</span><span class="n">measures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bs&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Certificate complexity (C): </span><span class="si">{</span><span class="n">measures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Approximate degree: </span><span class="si">{</span><span class="n">measures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;approx_deg&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Interpretation</span>
+    <span class="k">if</span> <span class="n">measures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✓ Simple model (depth ≤ 3)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">measures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✓ Low sensitivity (robust to single feature changes)&quot;</span><span class="p">)</span>
+
+<span class="n">analyze_model_complexity</span><span class="p">(</span><span class="n">tree_func</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-5-comparing-model-interpretability">
+<h2>Example 5: Comparing Model Interpretability<a class="headerlink" href="#example-5-comparing-model-interpretability" title="Link to this heading"></a></h2>
+<p>Compare different models on the same task:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compare_models_interpretability</span><span class="p">(</span><span class="n">models</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">n_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare interpretability of different models.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        models: Dict of {name: predict_function}</span>
+<span class="sd">        n_features: Number of features</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model Interpretability Comparison&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">predict</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">decision_tree_to_boofun</span><span class="p">(</span><span class="n">predict</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+
+        <span class="n">influences</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+        <span class="n">tester</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Compute metrics</span>
+        <span class="n">max_inf</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span>
+        <span class="n">num_influential</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">inf</span> <span class="ow">in</span> <span class="n">influences</span> <span class="k">if</span> <span class="n">inf</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">)</span>
+        <span class="n">is_monotone</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">monotonicity_test</span><span class="p">()</span>
+        <span class="n">total_inf</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s1">&#39;max_influence&#39;</span><span class="p">:</span> <span class="n">max_inf</span><span class="p">,</span>
+            <span class="s1">&#39;num_features_used&#39;</span><span class="p">:</span> <span class="n">num_influential</span><span class="p">,</span>
+            <span class="s1">&#39;is_monotone&#39;</span><span class="p">:</span> <span class="n">is_monotone</span><span class="p">,</span>
+            <span class="s1">&#39;total_influence&#39;</span><span class="p">:</span> <span class="n">total_inf</span><span class="p">,</span>
+        <span class="p">})</span>
+
+    <span class="c1"># Print comparison table</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Model&#39;</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="s1">&#39;Max Inf&#39;</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="s1">&#39;#Features&#39;</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="s1">&#39;Monotone&#39;</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="s1">&#39;Total I&#39;</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;15</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;max_influence&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;8.3f</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;num_features_used&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}</span><span class="s2"> | &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Yes&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;is_monotone&#39;</span><span class="p">]</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;No&#39;</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;total_influence&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;8.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Example models</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">linear_threshold</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Linear model: 1 if x0 + x1 + x2 &gt;= 2&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">complex_model</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Complex model with many interactions&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">^</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="ow">or</span> <span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span> <span class="k">else</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Simple Tree&#39;</span><span class="p">:</span> <span class="n">simple_tree</span><span class="p">,</span>
+    <span class="s1">&#39;Linear&#39;</span><span class="p">:</span> <span class="n">linear_threshold</span><span class="p">,</span>
+    <span class="s1">&#39;Complex&#39;</span><span class="p">:</span> <span class="n">complex_model</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">compare_models_interpretability</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-6-feature-selection-via-influence">
+<h2>Example 6: Feature Selection via Influence<a class="headerlink" href="#example-6-feature-selection-via-influence" title="Link to this heading"></a></h2>
+<p>Use influence to select features:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">influence_based_feature_selection</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Select top-k features by influence.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Model as BooleanFunction</span>
+<span class="sd">        k: Number of features to select</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of selected feature indices</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+    <span class="c1"># Sort by influence</span>
+    <span class="n">indexed</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">inf</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">influences</span><span class="p">)]</span>
+    <span class="n">sorted_features</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">indexed</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">selected</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">sorted_features</span><span class="p">[:</span><span class="n">k</span><span class="p">]]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected features (top </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> by influence):&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="n">sorted_features</span><span class="p">[:</span><span class="n">k</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Feature </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: influence = </span><span class="si">{</span><span class="n">inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">selected</span>
+
+<span class="c1"># Select top 3 features from our tree</span>
+<span class="n">selected</span> <span class="o">=</span> <span class="n">influence_based_feature_selection</span><span class="p">(</span><span class="n">tree_func</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Selected: </span><span class="si">{</span><span class="n">selected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Should be [0, 1, 2]</span>
+</pre></div>
+</div>
+</section>
+<section id="example-7-noise-robustness-analysis">
+<h2>Example 7: Noise Robustness Analysis<a class="headerlink" href="#example-7-noise-robustness-analysis" title="Link to this heading"></a></h2>
+<p>Check how robust predictions are to noise:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analyze_noise_robustness</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyze model robustness to input noise.</span>
+
+<span class="sd">    Noise stability at ρ = probability that prediction</span>
+<span class="sd">    stays the same when each input is flipped with prob (1-ρ)/2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Noise Robustness Analysis:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+
+    <span class="n">rhos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">rho</span> <span class="ow">in</span> <span class="n">rhos</span><span class="p">:</span>
+        <span class="n">stability</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+        <span class="n">flip_prob</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rho</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ρ=</span><span class="si">{</span><span class="n">rho</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> (flip prob </span><span class="si">{</span><span class="n">flip_prob</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">): stability = </span><span class="si">{</span><span class="n">stability</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Interpretation</span>
+    <span class="n">stab_95</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.95</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">stab_95</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✓ Model is robust to small input perturbations&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">stab_95</span> <span class="o">&lt;</span> <span class="mf">0.7</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠ Model is sensitive to input noise&quot;</span><span class="p">)</span>
+
+<span class="n">analyze_noise_robustness</span><span class="p">(</span><span class="n">tree_func</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="practical-workflow">
+<h2>Practical Workflow<a class="headerlink" href="#practical-workflow" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">full_model_analysis</span><span class="p">(</span><span class="n">predict_func</span><span class="p">,</span> <span class="n">n_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Model&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Complete interpretability analysis pipeline.&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ANALYSIS: </span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Convert to Boolean function</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">decision_tree_to_boofun</span><span class="p">(</span><span class="n">predict_func</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+
+    <span class="c1"># 1. Feature importance</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. FEATURE IMPORTANCE&quot;</span><span class="p">)</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">influences</span><span class="p">):</span>
+        <span class="n">bar</span> <span class="o">=</span> <span class="s2">&quot;█&quot;</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">inf</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   x</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">bar</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 2. Model properties</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">2. MODEL PROPERTIES&quot;</span><span class="p">)</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Monotone: </span><span class="si">{</span><span class="n">tester</span><span class="o">.</span><span class="n">monotonicity_test</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Symmetric: </span><span class="si">{</span><span class="n">tester</span><span class="o">.</span><span class="n">symmetry_test</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Linear: </span><span class="si">{</span><span class="n">tester</span><span class="o">.</span><span class="n">blr_linearity_test</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 3. Sparsity</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">3. SPARSITY (JUNTA TEST)&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="n">n_features</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">tester</span><span class="o">.</span><span class="n">junta_test</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Model is a </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">-junta&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    <span class="c1"># 4. Complexity</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">4. COMPLEXITY&quot;</span><span class="p">)</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="n">QueryComplexityProfile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">measures</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Decision tree depth: </span><span class="si">{</span><span class="n">measures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Total influence: </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 5. Noise robustness</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">5. NOISE ROBUSTNESS&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Stab(0.95): </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.95</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   Stab(0.90): </span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.90</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span>
+
+<span class="c1"># Run full analysis</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">full_model_analysis</span><span class="p">(</span><span class="n">simple_tree</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Simple Decision Tree&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Influence = Feature Importance</strong>: Boolean influence directly measures feature importance</p></li>
+<li><p><strong>Junta Testing</strong>: Identifies if model uses only a subset of features</p></li>
+<li><p><strong>Fourier Coefficients</strong>: Reveal feature interactions of all orders</p></li>
+<li><p><strong>Noise Stability</strong>: Measures robustness to input perturbations</p></li>
+<li><p><strong>Query Complexity</strong>: Provides bounds on model complexity</p></li>
+</ol>
+</section>
+<section id="applications">
+<h2>Applications<a class="headerlink" href="#applications" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Model Debugging</strong>: Why is this feature important?</p></li>
+<li><p><strong>Feature Selection</strong>: Which features actually matter?</p></li>
+<li><p><strong>Model Comparison</strong>: Which model is more interpretable?</p></li>
+<li><p><strong>Robustness Analysis</strong>: How sensitive is the model to noise?</p></li>
+</ul>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Blum, A. et al. (2003). “Learning juntas” - k-junta learning</p></li>
+<li><p>O’Donnell, R. (2014). “Analysis of Boolean Functions” - Chapter on learning</p></li>
+<li><p>Kalai, A. T., Samorodnitsky, A. (2006). “Agnostic learning of juntas”</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,440 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.legacy_adapter &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.core.legacy_adapter</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.core.legacy_adapter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Legacy adapter for converting old BooleanFunc objects to new BooleanFunction.</span>
+
+<span class="sd">This module provides adapters to use the legacy BooleanFunc class from</span>
+<span class="sd">BooleanFunc.py with the modern boofun library, enabling:</span>
+
+<span class="sd">1. Import old BooleanFunc objects as new BooleanFunction</span>
+<span class="sd">2. Export new BooleanFunction to legacy format</span>
+<span class="sd">3. Wrap legacy objects for analysis with new tools</span>
+<span class="sd">4. Migrate codebases incrementally</span>
+
+<span class="sd">Example usage:</span>
+<span class="sd">    &gt;&gt;&gt; from boofun.core.legacy_adapter import from_legacy, to_legacy</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Convert legacy object to new</span>
+<span class="sd">    &gt;&gt;&gt; legacy_func = BooleanFunc([0, 1, 1, 0])</span>
+<span class="sd">    &gt;&gt;&gt; new_func = from_legacy(legacy_func)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; # Use new analysis tools</span>
+<span class="sd">    &gt;&gt;&gt; from boofun.analysis import SpectralAnalyzer</span>
+<span class="sd">    &gt;&gt;&gt; analyzer = SpectralAnalyzer(new_func)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;from_legacy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;to_legacy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;LegacyWrapper&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_legacy_object&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="is_legacy_object">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.is_legacy_object">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_legacy_object</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if an object is a legacy BooleanFunc instance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        obj: Object to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if obj appears to be a legacy BooleanFunc</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check for characteristic attributes of legacy BooleanFunc</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;fix_single&quot;</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;FourierTransform&quot;</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="from_legacy">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.from_legacy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_legacy</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">import_fourier</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a legacy BooleanFunc object to a modern BooleanFunction.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        legacy_func: Legacy BooleanFunc object with .f (truth table) and .k (n_vars)</span>
+<span class="sd">        import_fourier: If True and legacy has Fourier data, import it</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        New BooleanFunction with truth table representation</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the legacy object doesn&#39;t have required attributes</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; # Assuming BooleanFunc is the legacy class</span>
+<span class="sd">        &gt;&gt;&gt; legacy = BooleanFunc([0, 1, 1, 0])</span>
+<span class="sd">        &gt;&gt;&gt; modern = from_legacy(legacy)</span>
+<span class="sd">        &gt;&gt;&gt; modern.evaluate(0)  # Works with new API</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionFactory</span>
+
+    <span class="c1"># Validate legacy object</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Legacy object must have &#39;f&#39; attribute (truth table)&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Legacy object must have &#39;k&#39; attribute (number of variables)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract truth table</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">legacy_func</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">n_vars</span> <span class="o">=</span> <span class="n">legacy_func</span><span class="o">.</span><span class="n">k</span>
+
+    <span class="c1"># Create new BooleanFunction</span>
+    <span class="n">new_func</span> <span class="o">=</span> <span class="n">BooleanFunctionFactory</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">truth_table</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_vars</span><span class="p">)</span>
+
+    <span class="c1"># Optionally import Fourier coefficients if available</span>
+    <span class="k">if</span> <span class="n">import_fourier</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">,</span> <span class="s2">&quot;FourierCoef&quot;</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">fourier_data</span> <span class="o">=</span> <span class="n">legacy_func</span><span class="o">.</span><span class="n">FourierCoef</span>
+            <span class="k">if</span> <span class="n">fourier_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">new_func</span><span class="o">.</span><span class="n">add_representation</span><span class="p">(</span><span class="n">fourier_data</span><span class="p">,</span> <span class="s2">&quot;fourier&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c1"># Ignore if Fourier import fails</span>
+
+    <span class="k">return</span> <span class="n">new_func</span></div>
+
+
+
+<div class="viewcode-block" id="to_legacy">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.to_legacy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_legacy</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a modern BooleanFunction to legacy format (list-based).</span>
+
+<span class="sd">    Note: This returns the truth table as a list, which can be passed</span>
+<span class="sd">    to the legacy BooleanFunc constructor. It does NOT create a BooleanFunc</span>
+<span class="sd">    object directly (to avoid importing the legacy module).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        func: Modern BooleanFunction</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (truth_table_list, n_vars) for legacy BooleanFunc constructor</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; modern = bf.create([0, 1, 1, 0])</span>
+<span class="sd">        &gt;&gt;&gt; tt, k = to_legacy(modern)</span>
+<span class="sd">        &gt;&gt;&gt; legacy = BooleanFunc(tt)  # In code that has legacy import</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+    <span class="n">tt_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">truth_table</span><span class="p">]</span>
+    <span class="n">n_vars</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">n_vars</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">tt_list</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="LegacyWrapper">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.LegacyWrapper">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">LegacyWrapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper that provides legacy BooleanFunc-like interface for modern functions.</span>
+
+<span class="sd">    This allows using modern BooleanFunction objects with code that expects</span>
+<span class="sd">    the legacy API, without modifying the modern object.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; modern = bf.create([0, 1, 1, 0])</span>
+<span class="sd">        &gt;&gt;&gt; wrapped = LegacyWrapper(modern)</span>
+<span class="sd">        &gt;&gt;&gt; wrapped.k  # Legacy attribute access</span>
+<span class="sd">        2</span>
+<span class="sd">        &gt;&gt;&gt; wrapped.f  # Truth table as list</span>
+<span class="sd">        [0, 1, 1, 0]</span>
+<span class="sd">        &gt;&gt;&gt; wrapped.fix(0, 1)  # Legacy method, returns wrapped result</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LegacyWrapper.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.LegacyWrapper.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wrap a modern BooleanFunction with legacy-compatible interface.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            func: Modern BooleanFunction to wrap</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_func</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Cached truth table list</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Truth table as list (legacy format).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tt</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">k</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of variables (legacy naming).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Allow f[x] syntax for evaluation.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Length of truth table.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span>
+
+<div class="viewcode-block" id="LegacyWrapper.fix">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.LegacyWrapper.fix">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LegacyWrapper&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fix a variable (legacy method).</span>
+
+<span class="sd">        Returns a new LegacyWrapper around the restricted function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">LegacyWrapper</span><span class="p">(</span><span class="n">new_func</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LegacyWrapper.fix_single">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.LegacyWrapper.fix_single">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fix_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;LegacyWrapper&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Alias for fix() - legacy naming.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LegacyWrapper.sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.LegacyWrapper.sensitivity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute sensitivity at input x.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.complexity</span><span class="w"> </span><span class="kn">import</span> <span class="n">sensitivity</span>
+
+        <span class="k">return</span> <span class="n">sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LegacyWrapper.influence">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.LegacyWrapper.influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">influence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute influence of variable i.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">analyzer</span><span class="o">.</span><span class="n">influences</span><span class="p">()[</span><span class="n">i</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="LegacyWrapper.total_influence">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.LegacyWrapper.total_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_influence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute total influence.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="LegacyWrapper.bias">
+<a class="viewcode-back" href="../../../api/boofun.core.legacy_adapter.html#boofun.core.legacy_adapter.LegacyWrapper.bias">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bias</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute bias of the function.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="o">.</span><span class="n">bias</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modern</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the underlying modern BooleanFunction.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;LegacyWrapper(k=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="si">}</span><span class="s2">, f=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">[:</span><span class="nb">min</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">))]</span><span class="si">}</span><span class="s2">...)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;LegacyWrapper(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="si">!r}</span><span class="s2">)&quot;</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_legacy_function</span><span class="p">(</span>
+    <span class="n">legacy_class</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">modern_class</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">legacy_func</span><span class="p">:</span> <span class="n">Any</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic conversion function for custom legacy classes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        legacy_class: The legacy class type (for validation)</span>
+<span class="sd">        modern_class: The modern BooleanFunction class to create</span>
+<span class="sd">        legacy_func: Instance of legacy_class to convert</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        New instance of modern_class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.factory</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunctionFactory</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">,</span> <span class="n">legacy_class</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="n">legacy_class</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract truth table - try common attribute names</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;truth_table&quot;</span><span class="p">,</span> <span class="s2">&quot;tt&quot;</span><span class="p">,</span> <span class="s2">&quot;_truth_table&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+            <span class="n">truth_table</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">truth_table</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Could not find truth table attribute in legacy object&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Extract n_vars - try common attribute names</span>
+    <span class="n">n_vars</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;n_vars&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;_n_vars&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+            <span class="n">n_vars</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">legacy_func</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Infer from truth table size</span>
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">truth_table</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">BooleanFunctionFactory</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span>
+        <span class="n">modern_class</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="n">n_vars</span>
+    <span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

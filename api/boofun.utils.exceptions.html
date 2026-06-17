@@ -1,0 +1,958 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.utils.exceptions &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="boofun.utils.finite_fields" href="boofun.utils.finite_fields.html" />
+    <link rel="prev" title="boofun.utils" href="boofun.utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="boofun.html">boofun</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.create"><code class="docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunction"><code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.partial"><code class="docutils literal notranslate"><span class="pre">partial()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PartialBooleanFunction"><code class="docutils literal notranslate"><span class="pre">PartialBooleanFunction</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_hex"><code class="docutils literal notranslate"><span class="pre">from_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.to_hex"><code class="docutils literal notranslate"><span class="pre">to_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.save"><code class="docutils literal notranslate"><span class="pre">save()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.majority"><code class="docutils literal notranslate"><span class="pre">majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parity"><code class="docutils literal notranslate"><span class="pre">parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tribes"><code class="docutils literal notranslate"><span class="pre">tribes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dictator"><code class="docutils literal notranslate"><span class="pre">dictator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.constant"><code class="docutils literal notranslate"><span class="pre">constant()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.AND"><code class="docutils literal notranslate"><span class="pre">AND()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.OR"><code class="docutils literal notranslate"><span class="pre">OR()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold"><code class="docutils literal notranslate"><span class="pre">threshold()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.weighted_majority"><code class="docutils literal notranslate"><span class="pre">weighted_majority()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.from_weights"><code class="docutils literal notranslate"><span class="pre">from_weights()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SpectralAnalyzer"><code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PropertyTester"><code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionError"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidInputError"><code class="docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidRepresentationError"><code class="docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvalidTruthTableError"><code class="docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.EvaluationError"><code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConversionError"><code class="docutils literal notranslate"><span class="pre">ConversionError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ResourceUnavailableError"><code class="docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InvariantViolationError"><code class="docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionBuiltins"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionBuiltins</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.parseval_verify"><code class="docutils literal notranslate"><span class="pre">parseval_verify()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.plancherel_inner_product"><code class="docutils literal notranslate"><span class="pre">plancherel_inner_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.convolution"><code class="docutils literal notranslate"><span class="pre">convolution()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.negate_inputs"><code class="docutils literal notranslate"><span class="pre">negate_inputs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.odd_part"><code class="docutils literal notranslate"><span class="pre">odd_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.even_part"><code class="docutils literal notranslate"><span class="pre">even_part()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.restriction"><code class="docutils literal notranslate"><span class="pre">restriction()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_degree"><code class="docutils literal notranslate"><span class="pre">fourier_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.spectral_norm"><code class="docutils literal notranslate"><span class="pre">spectral_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.fourier_sparsity"><code class="docutils literal notranslate"><span class="pre">fourier_sparsity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.dominant_coefficients"><code class="docutils literal notranslate"><span class="pre">dominant_coefficients()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_fourier_transform"><code class="docutils literal notranslate"><span class="pre">gf2_fourier_transform()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_degree"><code class="docutils literal notranslate"><span class="pre">gf2_degree()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_monomials"><code class="docutils literal notranslate"><span class="pre">gf2_monomials()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.gf2_to_string"><code class="docutils literal notranslate"><span class="pre">gf2_to_string()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_linear_over_gf2"><code class="docutils literal notranslate"><span class="pre">is_linear_over_gf2()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.correlation_with_parity"><code class="docutils literal notranslate"><span class="pre">correlation_with_parity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_operator"><code class="docutils literal notranslate"><span class="pre">noise_operator()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.lq_norm"><code class="docutils literal notranslate"><span class="pre">lq_norm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.bonami_lemma_bound"><code class="docutils literal notranslate"><span class="pre">bonami_lemma_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.kkl_lower_bound"><code class="docutils literal notranslate"><span class="pre">kkl_lower_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.max_influence_bound"><code class="docutils literal notranslate"><span class="pre">max_influence_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.friedgut_junta_bound"><code class="docutils literal notranslate"><span class="pre">friedgut_junta_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.junta_approximation_error"><code class="docutils literal notranslate"><span class="pre">junta_approximation_error()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.level_d_inequality"><code class="docutils literal notranslate"><span class="pre">level_d_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractive_inequality"><code class="docutils literal notranslate"><span class="pre">hypercontractive_inequality()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GlobalHypercontractivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">GlobalHypercontractivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.generalized_influence"><code class="docutils literal notranslate"><span class="pre">generalized_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.is_alpha_global"><code class="docutils literal notranslate"><span class="pre">is_alpha_global()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_expectation"><code class="docutils literal notranslate"><span class="pre">p_biased_expectation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.p_biased_total_influence"><code class="docutils literal notranslate"><span class="pre">p_biased_total_influence()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.noise_stability_p_biased"><code class="docutils literal notranslate"><span class="pre">noise_stability_p_biased()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.threshold_curve"><code class="docutils literal notranslate"><span class="pre">threshold_curve()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.find_critical_p"><code class="docutils literal notranslate"><span class="pre">find_critical_p()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.hypercontractivity_bound"><code class="docutils literal notranslate"><span class="pre">hypercontractivity_bound()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionValidator"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionValidator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.quick_validate"><code class="docutils literal notranslate"><span class="pre">quick_validate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.validate_representation"><code class="docutils literal notranslate"><span class="pre">validate_representation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.CallableAdapter"><code class="docutils literal notranslate"><span class="pre">CallableAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LegacyAdapter"><code class="docutils literal notranslate"><span class="pre">LegacyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.SymPyAdapter"><code class="docutils literal notranslate"><span class="pre">SymPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NumPyAdapter"><code class="docutils literal notranslate"><span class="pre">NumPyAdapter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_callable"><code class="docutils literal notranslate"><span class="pre">adapt_callable()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_sympy_expr"><code class="docutils literal notranslate"><span class="pre">adapt_sympy_expr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.adapt_numpy_function"><code class="docutils literal notranslate"><span class="pre">adapt_numpy_function()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Space"><code class="docutils literal notranslate"><span class="pre">Space</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Measure"><code class="docutils literal notranslate"><span class="pre">Measure</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.Property"><code class="docutils literal notranslate"><span class="pre">Property</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ExactErrorModel"><code class="docutils literal notranslate"><span class="pre">ExactErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.PACErrorModel"><code class="docutils literal notranslate"><span class="pre">PACErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.NoiseErrorModel"><code class="docutils literal notranslate"><span class="pre">NoiseErrorModel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.get_gf_field"><code class="docutils literal notranslate"><span class="pre">get_gf_field()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GFField"><code class="docutils literal notranslate"><span class="pre">GFField</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.MajorityFamily"><code class="docutils literal notranslate"><span class="pre">MajorityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ParityFamily"><code class="docutils literal notranslate"><span class="pre">ParityFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.TribesFamily"><code class="docutils literal notranslate"><span class="pre">TribesFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ThresholdFamily"><code class="docutils literal notranslate"><span class="pre">ThresholdFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ANDFamily"><code class="docutils literal notranslate"><span class="pre">ANDFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.ORFamily"><code class="docutils literal notranslate"><span class="pre">ORFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.DictatorFamily"><code class="docutils literal notranslate"><span class="pre">DictatorFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.LTFFamily"><code class="docutils literal notranslate"><span class="pre">LTFFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.GrowthTracker"><code class="docutils literal notranslate"><span class="pre">GrowthTracker</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.FunctionFamily"><code class="docutils literal notranslate"><span class="pre">FunctionFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.InductiveFamily"><code class="docutils literal notranslate"><span class="pre">InductiveFamily</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.html#boofun.BooleanFunctionVisualizer"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionVisualizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.analysis.html">boofun.analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.api.html">boofun.api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.core.html">boofun.core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.families.html">boofun.families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.quantum_complexity.html">boofun.quantum_complexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.testing.html">boofun.testing</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="boofun.utils.html">boofun.utils</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.popcnt"><code class="docutils literal notranslate"><span class="pre">popcnt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.poppar"><code class="docutils literal notranslate"><span class="pre">poppar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.over"><code class="docutils literal notranslate"><span class="pre">over()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.subsets"><code class="docutils literal notranslate"><span class="pre">subsets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.cartesian"><code class="docutils literal notranslate"><span class="pre">cartesian()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.num2bin_list"><code class="docutils literal notranslate"><span class="pre">num2bin_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.bits"><code class="docutils literal notranslate"><span class="pre">bits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.tensor_product"><code class="docutils literal notranslate"><span class="pre">tensor_product()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.krawchouk"><code class="docutils literal notranslate"><span class="pre">krawchouk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.krawchouk2"><code class="docutils literal notranslate"><span class="pre">krawchouk2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.hamming_distance"><code class="docutils literal notranslate"><span class="pre">hamming_distance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.hamming_weight"><code class="docutils literal notranslate"><span class="pre">hamming_weight()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.generate_permutations"><code class="docutils literal notranslate"><span class="pre">generate_permutations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.int_to_binary_tuple"><code class="docutils literal notranslate"><span class="pre">int_to_binary_tuple()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.binary_tuple_to_int"><code class="docutils literal notranslate"><span class="pre">binary_tuple_to_int()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.gcd"><code class="docutils literal notranslate"><span class="pre">gcd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.invmod"><code class="docutils literal notranslate"><span class="pre">invmod()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.crt"><code class="docutils literal notranslate"><span class="pre">crt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.is_prime"><code class="docutils literal notranslate"><span class="pre">is_prime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.prime_sieve"><code class="docutils literal notranslate"><span class="pre">prime_sieve()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.factor"><code class="docutils literal notranslate"><span class="pre">factor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.prime_factorization"><code class="docutils literal notranslate"><span class="pre">prime_factorization()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.euler_phi"><code class="docutils literal notranslate"><span class="pre">euler_phi()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.totient"><code class="docutils literal notranslate"><span class="pre">totient()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.binomial"><code class="docutils literal notranslate"><span class="pre">binomial()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.binomial_sum"><code class="docutils literal notranslate"><span class="pre">binomial_sum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.lcm"><code class="docutils literal notranslate"><span class="pre">lcm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.mobius"><code class="docutils literal notranslate"><span class="pre">mobius()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.get_field"><code class="docutils literal notranslate"><span class="pre">get_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.html#boofun.utils.GFField"><code class="docutils literal notranslate"><span class="pre">GFField</span></code></a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">boofun.utils.exceptions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.BooleanFunctionError"><code class="docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.InvalidInputError"><code class="docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.InvalidRepresentationError"><code class="docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.InvalidTruthTableError"><code class="docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.EvaluationError"><code class="docutils literal notranslate"><span class="pre">EvaluationError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.ConversionError"><code class="docutils literal notranslate"><span class="pre">ConversionError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.ResourceUnavailableError"><code class="docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#boofun.utils.exceptions.InvariantViolationError"><code class="docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.finite_fields.html">boofun.utils.finite_fields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.logging.html">boofun.utils.logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.math.html">boofun.utils.math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="boofun.utils.number_theory.html">boofun.utils.number_theory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="boofun.visualization.html">boofun.visualization</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="boofun.utils.html">boofun.utils</a></li>
+      <li class="breadcrumb-item active">boofun.utils.exceptions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/boofun.utils.exceptions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-boofun.utils.exceptions">
+<span id="boofun-utils-exceptions"></span><h1>boofun.utils.exceptions<a class="headerlink" href="#module-boofun.utils.exceptions" title="Link to this heading"></a></h1>
+<p>Exception hierarchy for the BooFun library.</p>
+<p>This module provides a structured exception taxonomy that enables:
+- Clear differentiation between user errors and internal errors
+- Machine-readable error categorization via error codes
+- Consistent error handling across the library
+- Actionable error messages with context</p>
+<dl>
+<dt>Exception Hierarchy:</dt><dd><p>BooleanFunctionError (base)
+├── ValidationError          - Invalid user input (E1xxx)
+│   ├── InvalidInputError    - Bad function arguments (E11xx)
+│   ├── InvalidRepresentationError - Unsupported representation (E12xx)
+│   └── InvalidTruthTableError - Malformed truth table (E13xx)
+├── EvaluationError          - Function evaluation failures (E2xxx)
+├── ConversionError          - Representation conversion failures (E3xxx)
+├── ConfigurationError       - Setup/configuration errors (E4xxx)
+├── ResourceUnavailableError - Optional deps unavailable (E5xxx)
+└── InvariantViolationError  - Internal library bugs (E9xxx)</p>
+</dd>
+<dt>Error Code Ranges:</dt><dd><p>E1000-E1999: Validation errors (user input problems)
+E2000-E2999: Evaluation errors (function execution problems)
+E3000-E3999: Conversion errors (representation problems)
+E4000-E4999: Configuration errors (setup problems)
+E5000-E5999: Resource errors (dependency problems)
+E9000-E9999: Internal errors (library bugs)</p>
+</dd>
+<dt>Usage:</dt><dd><p>import boofun as bf</p>
+<dl>
+<dt>try:</dt><dd><p>f = bf.create([0, 1, 1])  # Invalid size</p>
+</dd>
+<dt>except bf.BooleanFunctionError as e:</dt><dd><p>print(f”Error {e.code}: {e.message}”)
+if e.suggestion:</p>
+<blockquote>
+<div><p>print(f”Fix: {e.suggestion}”)</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Classes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ErrorCode</span></code></a>(value)</p></td>
+<td><p>Machine-readable error codes for BooFun exceptions.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Exceptions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.BooleanFunctionError.html#boofun.utils.exceptions.BooleanFunctionError" title="boofun.utils.exceptions.BooleanFunctionError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BooleanFunctionError</span></code></a>(message[, code, ...])</p></td>
+<td><p>Base exception for all BooFun library errors.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.ConfigurationError.html#boofun.utils.exceptions.ConfigurationError" title="boofun.utils.exceptions.ConfigurationError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a>(message[, code, context, ...])</p></td>
+<td><p>Raised when library configuration is invalid.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.ConversionError.html#boofun.utils.exceptions.ConversionError" title="boofun.utils.exceptions.ConversionError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConversionError</span></code></a>(message[, code, ...])</p></td>
+<td><p>Raised when representation conversion fails.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.EvaluationError.html#boofun.utils.exceptions.EvaluationError" title="boofun.utils.exceptions.EvaluationError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluationError</span></code></a>(message[, code, ...])</p></td>
+<td><p>Raised when function evaluation fails.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.InvalidInputError.html#boofun.utils.exceptions.InvalidInputError" title="boofun.utils.exceptions.InvalidInputError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InvalidInputError</span></code></a>(message[, code, ...])</p></td>
+<td><p>Raised when function arguments are invalid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.InvalidRepresentationError.html#boofun.utils.exceptions.InvalidRepresentationError" title="boofun.utils.exceptions.InvalidRepresentationError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InvalidRepresentationError</span></code></a>(message[, code, ...])</p></td>
+<td><p>Raised when requesting an unsupported or unknown representation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.InvalidTruthTableError.html#boofun.utils.exceptions.InvalidTruthTableError" title="boofun.utils.exceptions.InvalidTruthTableError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InvalidTruthTableError</span></code></a>(message[, code, ...])</p></td>
+<td><p>Raised when a truth table has invalid structure.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.InvariantViolationError.html#boofun.utils.exceptions.InvariantViolationError" title="boofun.utils.exceptions.InvariantViolationError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InvariantViolationError</span></code></a>(message[, code, context])</p></td>
+<td><p>Raised when an internal invariant is violated.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.ResourceUnavailableError.html#boofun.utils.exceptions.ResourceUnavailableError" title="boofun.utils.exceptions.ResourceUnavailableError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResourceUnavailableError</span></code></a>(message[, code, ...])</p></td>
+<td><p>Raised when an optional resource is unavailable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/boofun.utils.exceptions.ValidationError.html#boofun.utils.exceptions.ValidationError" title="boofun.utils.exceptions.ValidationError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValidationError</span></code></a>(message[, code, context, ...])</p></td>
+<td><p>Raised when user input fails validation.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">ErrorCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#ErrorCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode" title="Link to this definition"></a></dt>
+<dd><p>Machine-readable error codes for BooFun exceptions.</p>
+<p>Error codes enable programmatic error handling and logging aggregation.
+Each code maps to a specific error condition.</p>
+<dl class="simple">
+<dt>Ranges:</dt><dd><p>E1000-E1999: Validation errors
+E2000-E2999: Evaluation errors
+E3000-E3999: Conversion errors
+E4000-E4999: Configuration errors
+E5000-E5999: Resource errors
+E9000-E9999: Internal errors</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.VALIDATION_ERROR">
+<span class="sig-name descname"><span class="pre">VALIDATION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.VALIDATION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_INPUT">
+<span class="sig-name descname"><span class="pre">INVALID_INPUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1100'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_INPUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_VALUE">
+<span class="sig-name descname"><span class="pre">INVALID_PARAMETER_VALUE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1101'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_VALUE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_TYPE">
+<span class="sig-name descname"><span class="pre">INVALID_PARAMETER_TYPE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1102'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_PARAMETER_TYPE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.PARAMETER_OUT_OF_RANGE">
+<span class="sig-name descname"><span class="pre">PARAMETER_OUT_OF_RANGE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1103'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.PARAMETER_OUT_OF_RANGE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.EMPTY_INPUT">
+<span class="sig-name descname"><span class="pre">EMPTY_INPUT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1104'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.EMPTY_INPUT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_REPRESENTATION">
+<span class="sig-name descname"><span class="pre">INVALID_REPRESENTATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1200'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_REPRESENTATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.UNKNOWN_REPRESENTATION">
+<span class="sig-name descname"><span class="pre">UNKNOWN_REPRESENTATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1201'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.UNKNOWN_REPRESENTATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.REPRESENTATION_NOT_AVAILABLE">
+<span class="sig-name descname"><span class="pre">REPRESENTATION_NOT_AVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1202'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.REPRESENTATION_NOT_AVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_TRUTH_TABLE">
+<span class="sig-name descname"><span class="pre">INVALID_TRUTH_TABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1300'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_TRUTH_TABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_WRONG_SIZE">
+<span class="sig-name descname"><span class="pre">TRUTH_TABLE_WRONG_SIZE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1301'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_WRONG_SIZE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_EMPTY">
+<span class="sig-name descname"><span class="pre">TRUTH_TABLE_EMPTY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1302'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_EMPTY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_INVALID_VALUES">
+<span class="sig-name descname"><span class="pre">TRUTH_TABLE_INVALID_VALUES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1303'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.TRUTH_TABLE_INVALID_VALUES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.EVALUATION_ERROR">
+<span class="sig-name descname"><span class="pre">EVALUATION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.EVALUATION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.EVALUATION_FAILED">
+<span class="sig-name descname"><span class="pre">EVALUATION_FAILED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.EVALUATION_FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CALLABLE_RAISED">
+<span class="sig-name descname"><span class="pre">CALLABLE_RAISED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CALLABLE_RAISED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INDEX_OUT_OF_BOUNDS">
+<span class="sig-name descname"><span class="pre">INDEX_OUT_OF_BOUNDS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INDEX_OUT_OF_BOUNDS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CORRUPTED_DATA">
+<span class="sig-name descname"><span class="pre">CORRUPTED_DATA</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2004'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CORRUPTED_DATA" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CONVERSION_ERROR">
+<span class="sig-name descname"><span class="pre">CONVERSION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CONVERSION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.NO_CONVERSION_PATH">
+<span class="sig-name descname"><span class="pre">NO_CONVERSION_PATH</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.NO_CONVERSION_PATH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CONVERSION_FAILED">
+<span class="sig-name descname"><span class="pre">CONVERSION_FAILED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CONVERSION_FAILED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_REPRESENTATIONS">
+<span class="sig-name descname"><span class="pre">INCOMPATIBLE_REPRESENTATIONS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_REPRESENTATIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.NO_REPRESENTATIONS">
+<span class="sig-name descname"><span class="pre">NO_REPRESENTATIONS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3004'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.NO_REPRESENTATIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CONFIGURATION_ERROR">
+<span class="sig-name descname"><span class="pre">CONFIGURATION_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E4000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CONFIGURATION_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_ERROR_MODEL">
+<span class="sig-name descname"><span class="pre">INVALID_ERROR_MODEL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E4001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_ERROR_MODEL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_SPACE">
+<span class="sig-name descname"><span class="pre">INCOMPATIBLE_SPACE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E4002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INCOMPATIBLE_SPACE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVALID_OPTIMIZATION">
+<span class="sig-name descname"><span class="pre">INVALID_OPTIMIZATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E4003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVALID_OPTIMIZATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.RESOURCE_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">RESOURCE_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.RESOURCE_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.NUMBA_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">NUMBA_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.NUMBA_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.CUPY_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">CUPY_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.CUPY_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.MATPLOTLIB_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">MATPLOTLIB_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.MATPLOTLIB_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.SCIPY_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">SCIPY_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5004'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.SCIPY_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.SYMPY_UNAVAILABLE">
+<span class="sig-name descname"><span class="pre">SYMPY_UNAVAILABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5005'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.SYMPY_UNAVAILABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INTERNAL_ERROR">
+<span class="sig-name descname"><span class="pre">INTERNAL_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INTERNAL_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.INVARIANT_VIOLATION">
+<span class="sig-name descname"><span class="pre">INVARIANT_VIOLATION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.INVARIANT_VIOLATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.STATE_CORRUPTION">
+<span class="sig-name descname"><span class="pre">STATE_CORRUPTION</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9002'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.STATE_CORRUPTION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ErrorCode.ALGORITHM_ERROR">
+<span class="sig-name descname"><span class="pre">ALGORITHM_ERROR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9003'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ErrorCode.ALGORITHM_ERROR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.BooleanFunctionError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">BooleanFunctionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#BooleanFunctionError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.BooleanFunctionError" title="Link to this definition"></a></dt>
+<dd><p>Base exception for all BooFun library errors.</p>
+<p>All library-specific exceptions inherit from this class, allowing
+users to catch all library errors with a single except clause.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.BooleanFunctionError.message">
+<span class="sig-name descname"><span class="pre">message</span></span><a class="headerlink" href="#boofun.utils.exceptions.BooleanFunctionError.message" title="Link to this definition"></a></dt>
+<dd><p>Human-readable error description</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.BooleanFunctionError.code">
+<span class="sig-name descname"><span class="pre">code</span></span><a class="headerlink" href="#boofun.utils.exceptions.BooleanFunctionError.code" title="Link to this definition"></a></dt>
+<dd><p>Machine-readable error code (ErrorCode enum)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.BooleanFunctionError.context">
+<span class="sig-name descname"><span class="pre">context</span></span><a class="headerlink" href="#boofun.utils.exceptions.BooleanFunctionError.context" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with additional error context</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.BooleanFunctionError.suggestion">
+<span class="sig-name descname"><span class="pre">suggestion</span></span><a class="headerlink" href="#boofun.utils.exceptions.BooleanFunctionError.suggestion" title="Link to this definition"></a></dt>
+<dd><p>Optional suggestion for how to fix the error</p>
+</dd></dl>
+
+<dl class="simple">
+<dt>Raised By:</dt><dd><p>This base class is not raised directly. Use specific subclasses.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">result</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+<span class="gp">... </span><span class="k">except</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunctionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">code</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">suggestion</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Suggestion: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">suggestion</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.BooleanFunctionError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.BooleanFunctionError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.BooleanFunctionError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#BooleanFunctionError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.BooleanFunctionError.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.BooleanFunctionError.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#BooleanFunctionError.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.BooleanFunctionError.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Convert exception to dictionary for logging/serialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary with error details suitable for JSON logging.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ValidationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">ValidationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#ValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.ValidationError" title="Link to this definition"></a></dt>
+<dd><p>Raised when user input fails validation.</p>
+<p>This is the parent class for all input validation errors.
+Use specific subclasses when possible for more precise error handling.</p>
+<dl class="simple">
+<dt>Raised By:</dt><dd><ul class="simple">
+<li><p>bf.create() when data format is unrecognized</p></li>
+<li><p>Analysis functions when parameters are invalid</p></li>
+<li><p>Any function receiving malformed input</p></li>
+</ul>
+</dd>
+<dt>Error Codes:</dt><dd><p>E1000: Generic validation error
+E1100-E1199: Input parameter errors
+E1200-E1299: Representation errors
+E1300-E1399: Truth table errors</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;invalid&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">except</span> <span class="n">bf</span><span class="o">.</span><span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid input: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ValidationError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ValidationError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvalidInputError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidInputError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">received</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#InvalidInputError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.InvalidInputError" title="Link to this definition"></a></dt>
+<dd><p>Raised when function arguments are invalid.</p>
+<dl class="simple">
+<dt>Raised By:</dt><dd><ul class="simple">
+<li><p>bf.BooleanFunction.evaluate() with empty or wrong-type inputs</p></li>
+<li><p>bf.BooleanFunction.fix() with invalid variable index or value</p></li>
+<li><p>bf.BooleanFunction.noise_stability() with rho outside [-1, 1]</p></li>
+<li><p>Any method receiving out-of-range parameters</p></li>
+</ul>
+</dd>
+<dt>Error Codes:</dt><dd><p>E1100: Generic invalid input
+E1101: Invalid parameter value
+E1102: Invalid parameter type
+E1103: Parameter out of range
+E1104: Empty input</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Raises InvalidInputError (value must be 0 or 1)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvalidInputError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1100'</span></span><a class="headerlink" href="#boofun.utils.exceptions.InvalidInputError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvalidInputError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">received</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#InvalidInputError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.InvalidInputError.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvalidRepresentationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidRepresentationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">available</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#InvalidRepresentationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.InvalidRepresentationError" title="Link to this definition"></a></dt>
+<dd><p>Raised when requesting an unsupported or unknown representation.</p>
+<dl class="simple">
+<dt>Raised By:</dt><dd><ul class="simple">
+<li><p>bf.create() with rep_type parameter set to unknown value</p></li>
+<li><p>bf.BooleanFunction.get_representation() for unsupported type</p></li>
+<li><p>Factory methods when representation cannot be determined</p></li>
+</ul>
+</dd>
+<dt>Error Codes:</dt><dd><p>E1200: Generic representation error
+E1201: Unknown representation type
+E1202: Representation not available</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;unknown_type&quot;</span><span class="p">)</span>  <span class="c1"># Raises InvalidRepresentationError</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvalidRepresentationError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1200'</span></span><a class="headerlink" href="#boofun.utils.exceptions.InvalidRepresentationError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvalidRepresentationError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">available</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#InvalidRepresentationError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.InvalidRepresentationError.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvalidTruthTableError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidTruthTableError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#InvalidTruthTableError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.InvalidTruthTableError" title="Link to this definition"></a></dt>
+<dd><p>Raised when a truth table has invalid structure.</p>
+<dl class="simple">
+<dt>Raised By:</dt><dd><ul class="simple">
+<li><p>bf.create() with list/array that is not power of 2</p></li>
+<li><p>bf.create() with empty list</p></li>
+<li><p>Factory.from_truth_table() with malformed data</p></li>
+</ul>
+</dd>
+<dt>Error Codes:</dt><dd><p>E1300: Generic truth table error
+E1301: Wrong size (not power of 2)
+E1302: Empty truth table
+E1303: Invalid values (not boolean-convertible)</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># Raises InvalidTruthTableError (size=3, not power of 2)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvalidTruthTableError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E1300'</span></span><a class="headerlink" href="#boofun.utils.exceptions.InvalidTruthTableError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvalidTruthTableError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expected_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#InvalidTruthTableError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.InvalidTruthTableError.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.EvaluationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">EvaluationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#EvaluationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.EvaluationError" title="Link to this definition"></a></dt>
+<dd><p>Raised when function evaluation fails.</p>
+<dl class="simple">
+<dt>Raised By:</dt><dd><ul class="simple">
+<li><p>bf.BooleanFunction.evaluate() when underlying callable fails</p></li>
+<li><p>TruthTableRepresentation.convert_from() during truth table generation</p></li>
+<li><p>Any operation that evaluates the function on inputs</p></li>
+</ul>
+</dd>
+<dt>Error Codes:</dt><dd><p>E2000: Generic evaluation error
+E2001: Evaluation failed
+E2002: Underlying callable raised exception
+E2003: Index out of bounds
+E2004: Corrupted representation data</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">bad_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;oops&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">bad_func</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">)</span>  <span class="c1"># Raises EvaluationError</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.EvaluationError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E2000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.EvaluationError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.EvaluationError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#EvaluationError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.EvaluationError.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ConversionError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">ConversionError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_repr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_repr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#ConversionError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.ConversionError" title="Link to this definition"></a></dt>
+<dd><p>Raised when representation conversion fails.</p>
+<dl class="simple">
+<dt>Raised By:</dt><dd><ul class="simple">
+<li><p>bf.BooleanFunction.get_representation() when no path exists</p></li>
+<li><p>bf.BooleanFunction._compute_representation() on conversion failure</p></li>
+<li><p>Representation strategies during convert_to/convert_from</p></li>
+</ul>
+</dd>
+<dt>Error Codes:</dt><dd><p>E3000: Generic conversion error
+E3001: No conversion path exists
+E3002: Conversion algorithm failed
+E3003: Incompatible representations
+E3004: No representations available (empty function)</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># No representations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;fourier&quot;</span><span class="p">)</span>  <span class="c1"># Raises ConversionError</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ConversionError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E3000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ConversionError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ConversionError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_repr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_repr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#ConversionError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.ConversionError.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ConfigurationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">ConfigurationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suggestion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#ConfigurationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.ConfigurationError" title="Link to this definition"></a></dt>
+<dd><p>Raised when library configuration is invalid.</p>
+<dl class="simple">
+<dt>Raised By:</dt><dd><ul class="simple">
+<li><p>Error model initialization with invalid parameters</p></li>
+<li><p>Space configuration conflicts</p></li>
+<li><p>Optimization settings that are incompatible</p></li>
+</ul>
+</dd>
+<dt>Error Codes:</dt><dd><p>E4000: Generic configuration error
+E4001: Invalid error model
+E4002: Incompatible space settings
+E4003: Invalid optimization settings</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="kn">import</span> <span class="n">PACErrorModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">PACErrorModel</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>  <span class="c1"># Raises ConfigurationError (epsilon must be in (0,1))</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ConfigurationError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E4000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ConfigurationError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ResourceUnavailableError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">ResourceUnavailableError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">install_hint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#ResourceUnavailableError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.ResourceUnavailableError" title="Link to this definition"></a></dt>
+<dd><p>Raised when an optional resource is unavailable.</p>
+<dl class="simple">
+<dt>Raised By:</dt><dd><ul class="simple">
+<li><p>GPU acceleration code when CuPy is not installed</p></li>
+<li><p>JIT compilation when Numba is not installed</p></li>
+<li><p>Visualization when Matplotlib is not installed</p></li>
+<li><p>Any feature requiring optional dependencies</p></li>
+</ul>
+</dd>
+<dt>Error Codes:</dt><dd><p>E5000: Generic resource unavailable
+E5001: Numba unavailable
+E5002: CuPy unavailable
+E5003: Matplotlib unavailable
+E5004: SciPy unavailable
+E5005: SymPy unavailable</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># When CuPy is not installed:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">to_gpu</span><span class="p">()</span>  <span class="c1"># Raises ResourceUnavailableError</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ResourceUnavailableError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E5000'</span></span><a class="headerlink" href="#boofun.utils.exceptions.ResourceUnavailableError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.ResourceUnavailableError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">install_hint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#ResourceUnavailableError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.ResourceUnavailableError.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvariantViolationError">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">boofun.utils.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvariantViolationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#InvariantViolationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.InvariantViolationError" title="Link to this definition"></a></dt>
+<dd><p>Raised when an internal invariant is violated.</p>
+<p>This indicates a bug in the library itself, not a user error.
+If you encounter this exception, please report it as a bug.</p>
+<dl class="simple">
+<dt>Raised By:</dt><dd><ul class="simple">
+<li><p>Internal consistency checks that fail</p></li>
+<li><p>Algorithm outputs that violate postconditions</p></li>
+<li><p>State machine transitions to invalid states</p></li>
+</ul>
+</dd>
+<dt>Error Codes:</dt><dd><p>E9000: Generic internal error
+E9001: Invariant violation
+E9002: State corruption
+E9003: Algorithm error</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>If you see this error, please report it at:
+<a class="reference external" href="https://github.com/boofun/boofun/issues">https://github.com/boofun/boofun/issues</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvariantViolationError.default_code">
+<span class="sig-name descname"><span class="pre">default_code</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'E9001'</span></span><a class="headerlink" href="#boofun.utils.exceptions.InvariantViolationError.default_code" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="boofun.utils.exceptions.InvariantViolationError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="generated/boofun.utils.exceptions.ErrorCode.html#boofun.utils.exceptions.ErrorCode" title="boofun.utils.exceptions.ErrorCode"><span class="pre">ErrorCode</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/boofun/utils/exceptions.html#InvariantViolationError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#boofun.utils.exceptions.InvariantViolationError.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="boofun.utils.html" class="btn btn-neutral float-left" title="boofun.utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="boofun.utils.finite_fields.html" class="btn btn-neutral float-right" title="boofun.utils.finite_fields" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

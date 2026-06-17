@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.families.theoretical &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.families.theoretical</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.families.theoretical</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Theoretical bounds and asymptotic formulas for Boolean function properties.</span>
+
+<span class="sd">This module provides known theoretical results that can be compared</span>
+<span class="sd">against computed values to validate understanding and implementation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="TheoreticalBounds">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TheoreticalBounds</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Collection of theoretical bounds and asymptotic formulas.</span>
+
+<span class="sd">    These are from O&#39;Donnell&#39;s book and other sources.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># ==========================================================</span>
+    <span class="c1"># Total Influence Bounds</span>
+    <span class="c1"># ==========================================================</span>
+
+<div class="viewcode-block" id="TheoreticalBounds.majority_total_influence">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.majority_total_influence">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">majority_total_influence</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Total influence of Majority_n.</span>
+
+<span class="sd">        I[MAJ_n] = √(2/π) · √n + O(1/√n)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.parity_total_influence">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.parity_total_influence">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parity_total_influence</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Total influence of Parity_n = n.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.and_total_influence">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.and_total_influence">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">and_total_influence</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Total influence of AND_n = n · 2^{-(n-1)}.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.tribes_total_influence">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.tribes_total_influence">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tribes_total_influence</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">w</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Total influence of Tribes.</span>
+
+<span class="sd">        For standard balanced Tribes: I[TRIBES_n] ≈ log(n)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">log_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">log_n</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">log_n</span><span class="p">)))</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="n">w</span>
+        <span class="c1"># Each variable has influence ≈ (1/2)^{w-1}</span>
+        <span class="k">return</span> <span class="n">k</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ==========================================================</span>
+    <span class="c1"># Noise Stability Bounds</span>
+    <span class="c1"># ==========================================================</span>
+
+<div class="viewcode-block" id="TheoreticalBounds.majority_noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.majority_noise_stability">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">majority_noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Noise stability of Majority (Sheppard&#39;s formula).</span>
+
+<span class="sd">        Stab_ρ[MAJ_n] → (1/2) + (1/π)·arcsin(ρ) as n → ∞</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.parity_noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.parity_noise_stability">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parity_noise_stability</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Noise stability of Parity.</span>
+
+<span class="sd">        Stab_ρ[XOR_n] = ρ^n → 0 for ρ &lt; 1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">rho</span><span class="o">**</span><span class="n">n</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.dictator_noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.dictator_noise_stability">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dictator_noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Noise stability of Dictator.</span>
+
+<span class="sd">        Stab_ρ[DICT] = ρ</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">rho</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.and_noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.and_noise_stability">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">and_noise_stability</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Noise stability of AND.</span>
+
+<span class="sd">        Stab_ρ[AND_n] = Pr[AND(x) = AND(y)] where y = ρ-correlated with x</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Complex formula involving sums</span>
+        <span class="c1"># Simplified: approximately ((1+rho)/2)^n for large n</span>
+        <span class="k">return</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rho</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="n">n</span></div>
+
+
+    <span class="c1"># ==========================================================</span>
+    <span class="c1"># Influence Bounds</span>
+    <span class="c1"># ==========================================================</span>
+
+<div class="viewcode-block" id="TheoreticalBounds.majority_influence_i">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.majority_influence_i">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">majority_influence_i</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Influence of variable i in Majority_n.</span>
+
+<span class="sd">        By symmetry: Inf_i[MAJ_n] = √(2/(πn)) for all i</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">n</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.parity_influence_i">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.parity_influence_i">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parity_influence_i</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Each variable has influence 1 in Parity.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">1.0</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.and_influence_i">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.and_influence_i">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">and_influence_i</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Influence of each variable in AND_n = 2^{-(n-1)}.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span></div>
+
+
+    <span class="c1"># ==========================================================</span>
+    <span class="c1"># Poincaré and KKL Bounds</span>
+    <span class="c1"># ==========================================================</span>
+
+<div class="viewcode-block" id="TheoreticalBounds.poincare_lower_bound">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.poincare_lower_bound">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">poincare_lower_bound</span><span class="p">(</span><span class="n">variance</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Poincaré inequality: Var[f] ≤ I[f]</span>
+
+<span class="sd">        So I[f] ≥ Var[f]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">variance</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.kkl_lower_bound">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.kkl_lower_bound">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">kkl_lower_bound</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">variance</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        KKL Theorem: max_i Inf_i[f] ≥ Var[f] · c·log(n)/n</span>
+
+<span class="sd">        For balanced f: max Inf_i ≥ Ω(log(n)/n)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Constant factor</span>
+        <span class="k">return</span> <span class="n">variance</span> <span class="o">*</span> <span class="n">c</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.friedgut_junta_bound">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.friedgut_junta_bound">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">friedgut_junta_bound</span><span class="p">(</span><span class="n">total_influence</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Friedgut&#39;s Junta Theorem.</span>
+
+<span class="sd">        If I[f] ≤ k, then f is ε-close to a 2^{O(k/ε)}-junta.</span>
+
+<span class="sd">        Returns the junta size bound.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">total_influence</span> <span class="o">/</span> <span class="n">epsilon</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ==========================================================</span>
+    <span class="c1"># Fourier Concentration Bounds</span>
+    <span class="c1"># ==========================================================</span>
+
+<div class="viewcode-block" id="TheoreticalBounds.decision_tree_fourier_support">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.decision_tree_fourier_support">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decision_tree_fourier_support</span><span class="p">(</span><span class="n">depth</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decision tree of depth d has at most 4^d non-zero Fourier coefficients.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">4</span><span class="o">**</span><span class="n">depth</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.decision_tree_spectral_norm">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.decision_tree_spectral_norm">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decision_tree_spectral_norm</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decision tree of size s has Σ|f̂(S)| ≤ s.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">size</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.mansour_spectral_concentration">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.mansour_spectral_concentration">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mansour_spectral_concentration</span><span class="p">(</span><span class="n">depth</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mansour&#39;s Theorem: DNF of depth d has (1-ε) of Fourier weight</span>
+<span class="sd">        on O(1/ε^2 · 2^{O(d)}) coefficients.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="mi">1</span> <span class="o">/</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">depth</span><span class="p">))</span></div>
+
+
+    <span class="c1"># ==========================================================</span>
+    <span class="c1"># LTF-specific Bounds</span>
+    <span class="c1"># ==========================================================</span>
+
+<div class="viewcode-block" id="TheoreticalBounds.ltf_total_influence">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.ltf_total_influence">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ltf_total_influence</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">regularity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Total influence of an LTF.</span>
+
+<span class="sd">        For regular LTFs (τ small): I[f] ≈ √(2/π)·√n</span>
+<span class="sd">        For irregular (τ → 1): I[f] → 1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">regular</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">regular</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">regularity</span><span class="p">)</span> <span class="o">+</span> <span class="n">regularity</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.ltf_noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.ltf_noise_stability">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ltf_noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">regularity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Noise stability of LTF.</span>
+
+<span class="sd">        Regular LTFs: Stab_ρ → (1/2) + (1/π)arcsin(ρ)</span>
+<span class="sd">        Dictator (τ=1): Stab_ρ = ρ</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">regular</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">regular</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">regularity</span><span class="p">)</span> <span class="o">+</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">regularity</span></div>
+
+
+    <span class="c1"># ==========================================================</span>
+    <span class="c1"># Query Complexity Bounds</span>
+    <span class="c1"># ==========================================================</span>
+
+<div class="viewcode-block" id="TheoreticalBounds.sensitivity_vs_block_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.sensitivity_vs_block_sensitivity">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sensitivity_vs_block_sensitivity</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sensitivity Theorem (Huang 2019): bs(f) ≤ s(f)^4</span>
+
+<span class="sd">        Returns upper bound on block sensitivity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">**</span><span class="mi">4</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.certificate_vs_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.certificate_vs_sensitivity">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">certificate_vs_sensitivity</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        C(f) ≤ s(f) · bs(f) ≤ s(f)^5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">**</span><span class="mi">5</span></div>
+
+
+<div class="viewcode-block" id="TheoreticalBounds.degree_vs_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.degree_vs_sensitivity">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">degree_vs_sensitivity</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        deg(f) ≤ s(f)^2 (from Sensitivity Theorem)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">**</span><span class="mi">2</span></div>
+
+
+    <span class="c1"># ==========================================================</span>
+    <span class="c1"># Helper: Get all bounds for a family</span>
+    <span class="c1"># ==========================================================</span>
+
+<div class="viewcode-block" id="TheoreticalBounds.get_bounds_for_family">
+<a class="viewcode-back" href="../../../api/boofun.families.theoretical.html#boofun.families.TheoreticalBounds.get_bounds_for_family">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bounds_for_family</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">family_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get all applicable theoretical bounds for a named family.</span>
+
+<span class="sd">        Returns dictionary of {property_name: bound_function}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">family_name</span> <span class="o">=</span> <span class="n">family_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">family_name</span> <span class="o">==</span> <span class="s2">&quot;majority&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">majority_total_influence</span><span class="p">,</span>
+                <span class="s2">&quot;influence_i&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">majority_influence_i</span><span class="p">,</span>
+                <span class="s2">&quot;noise_stability&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">0.5</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">majority_noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">),</span>
+            <span class="p">}</span>
+
+        <span class="k">elif</span> <span class="n">family_name</span> <span class="o">==</span> <span class="s2">&quot;parity&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">parity_total_influence</span><span class="p">,</span>
+                <span class="s2">&quot;influence_i&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">parity_influence_i</span><span class="p">,</span>
+                <span class="s2">&quot;noise_stability&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">parity_noise_stability</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">elif</span> <span class="n">family_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;and&quot;</span><span class="p">,</span> <span class="s2">&quot;or&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">and_total_influence</span><span class="p">,</span>
+                <span class="s2">&quot;influence_i&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">and_influence_i</span><span class="p">,</span>
+                <span class="s2">&quot;noise_stability&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">and_noise_stability</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">elif</span> <span class="n">family_name</span> <span class="o">==</span> <span class="s2">&quot;tribes&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">tribes_total_influence</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="k">elif</span> <span class="n">family_name</span> <span class="o">==</span> <span class="s2">&quot;dictator&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">&quot;noise_stability&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">0.5</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">dictator_noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">),</span>
+            <span class="p">}</span>
+
+        <span class="k">elif</span> <span class="n">family_name</span> <span class="o">==</span> <span class="s2">&quot;ltf&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ltf_total_influence</span><span class="p">,</span>
+                <span class="s2">&quot;noise_stability&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ltf_noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">tau</span><span class="p">),</span>
+            <span class="p">}</span>
+
+        <span class="k">return</span> <span class="p">{}</span></div>
+</div>
+
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TheoreticalBounds&quot;</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,392 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.sparsity &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.sparsity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.sparsity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Fourier sparsity analysis for Boolean functions.</span>
+
+<span class="sd">This module provides functions for analyzing the Fourier sparsity of Boolean</span>
+<span class="sd">functions - the number and structure of non-zero Fourier coefficients.</span>
+
+<span class="sd">Fourier sparsity is important for:</span>
+<span class="sd">- Learning algorithms (sparse functions are easier to learn)</span>
+<span class="sd">- Circuit complexity (sparsity bounds imply circuit bounds)</span>
+<span class="sd">- Approximate degree bounds</span>
+
+<span class="sd">Key concepts:</span>
+<span class="sd">- sparsity(f): Number of non-zero Fourier coefficients |{S : f̂(S) ≠ 0}|</span>
+<span class="sd">- granularity(f): GCD structure of Fourier coefficients</span>
+<span class="sd">- sparsity_up_to_constants(f): Sparsity ignoring constant multiples</span>
+
+<span class="sd">Bounds:</span>
+<span class="sd">- If deg(f) = d, then sparsity(f) ≤ 4^d (Nisan-Szegedy style)</span>
+<span class="sd">- If sparsity(f) = k, then deg(f) ≤ k</span>
+
+<span class="sd">References:</span>
+<span class="sd">- O&#39;Donnell HW1 Problem 7</span>
+<span class="sd">- Tal&#39;s BooleanFunc.py (sparsity, sparsity_upto_constants)</span>
+<span class="sd">- Gopalan et al., &quot;Sparsity and Fourier Analysis&quot; (2011)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;fourier_sparsity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fourier_sparsity_up_to_constants&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;granularity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fourier_support&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sparsity_by_degree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;effective_sparsity&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get Fourier coefficients, computing if necessary.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="fourier_sparsity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sparsity.html#boofun.analysis.sparsity.fourier_sparsity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_sparsity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count the number of non-zero Fourier coefficients.</span>
+
+<span class="sd">    The Fourier sparsity is:</span>
+<span class="sd">        sparsity(f) = |{S : |f̂(S)| &gt; threshold}|</span>
+
+<span class="sd">    For any Boolean function f of degree d:</span>
+<span class="sd">        sparsity(f) ≤ 4^d  (Nisan-Szegedy style bound)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        threshold: Minimum magnitude to count as non-zero</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Number of non-zero Fourier coefficients</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: sparsity</span>
+<span class="sd">        - O&#39;Donnell HW1 Problem 7</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="fourier_sparsity_up_to_constants">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sparsity.html#boofun.analysis.sparsity.fourier_sparsity_up_to_constants">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_sparsity_up_to_constants</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Fourier sparsity ignoring constant multiples.</span>
+
+<span class="sd">    This counts the number of distinct non-trivial Fourier coefficient values,</span>
+<span class="sd">    where &quot;trivial&quot; means 0 or ±f̂(∅). This measure captures the &quot;essential&quot;</span>
+<span class="sd">    complexity of the Fourier spectrum.</span>
+
+<span class="sd">    Specifically, counts:</span>
+<span class="sd">        |{S : f̂(S) ≠ 0 and f̂(S) ∉ {0, f̂(∅), -f̂(∅)}}|</span>
+
+<span class="sd">    This is Tal&#39;s `sparsity_upto_constants` function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        threshold: Minimum magnitude for non-zero</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Effective sparsity ignoring constants</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: sparsity_upto_constants</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1"># Get f̂(∅)</span>
+    <span class="n">f_hat_empty</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">trivial_values</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">f_hat_empty</span><span class="p">,</span> <span class="o">-</span><span class="n">f_hat_empty</span><span class="p">}</span>
+
+    <span class="c1"># Count non-trivial, non-zero coefficients</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">coeff</span> <span class="o">=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="c1"># Check if it&#39;s trivial</span>
+            <span class="n">is_trivial</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">coeff</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">threshold</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">trivial_values</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_trivial</span><span class="p">:</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">size</span> <span class="o">-</span> <span class="n">count</span>  <span class="c1"># Return count of non-trivial</span></div>
+
+
+
+<div class="viewcode-block" id="granularity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sparsity.html#boofun.analysis.sparsity.granularity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">granularity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyze the granularity structure of Fourier coefficients.</span>
+
+<span class="sd">    Returns a count of how many times each distinct coefficient value appears.</span>
+<span class="sd">    This reveals patterns in the Fourier spectrum, e.g., all coefficients</span>
+<span class="sd">    being powers of 1/2.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        threshold: Precision for rounding coefficients</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping coefficient values to their counts</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Round to threshold precision for grouping</span>
+    <span class="n">rounded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">coeffs</span> <span class="o">/</span> <span class="n">threshold</span><span class="p">)</span> <span class="o">*</span> <span class="n">threshold</span>
+
+    <span class="n">counter</span><span class="p">:</span> <span class="n">Counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">rounded</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="fourier_support">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sparsity.html#boofun.analysis.sparsity.fourier_support">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_support</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the support of the Fourier spectrum.</span>
+
+<span class="sd">    The support is the set of subsets S where f̂(S) ≠ 0.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        threshold: Minimum magnitude for non-zero</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of subset masks where f̂(S) ≠ 0, sorted by |S| then by value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="n">support</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">support</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="c1"># Sort by degree (number of bits), then by value</span>
+    <span class="n">support</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">),</span> <span class="n">s</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">support</span></div>
+
+
+
+<div class="viewcode-block" id="sparsity_by_degree">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sparsity.html#boofun.analysis.sparsity.sparsity_by_degree">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sparsity_by_degree</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count non-zero Fourier coefficients at each degree.</span>
+
+<span class="sd">    Returns a dictionary where result[d] = |{S : |S| = d and f̂(S) ≠ 0}|.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        threshold: Minimum magnitude for non-zero</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping degree to count of non-zero coefficients at that degree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="n">counts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">degree</span><span class="p">]</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">counts</span></div>
+
+
+
+<div class="viewcode-block" id="effective_sparsity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.sparsity.html#boofun.analysis.sparsity.effective_sparsity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">effective_sparsity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">weight_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute effective sparsity based on Fourier weight concentration.</span>
+
+<span class="sd">    Returns the number of coefficients needed to capture (1 - weight_threshold)</span>
+<span class="sd">    of the total Fourier weight.</span>
+
+<span class="sd">    This is useful because many functions have most of their weight</span>
+<span class="sd">    concentrated on a small number of coefficients.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        weight_threshold: Fraction of weight to allow outside the effective support</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (effective_sparsity, weight_captured)</span>
+<span class="sd">        - effective_sparsity: minimum k such that top-k coefficients have weight ≥ 1 - threshold</span>
+<span class="sd">        - weight_captured: actual fraction of weight captured</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">_get_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Sort by squared magnitude (descending)</span>
+    <span class="n">weights</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">coeffs</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">sorted_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">weights</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">total_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">total_weight</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="n">target_weight</span> <span class="o">=</span> <span class="n">total_weight</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">weight_threshold</span><span class="p">)</span>
+
+    <span class="n">cumulative</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_indices</span><span class="p">):</span>
+        <span class="n">cumulative</span> <span class="o">+=</span> <span class="n">weights</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">cumulative</span> <span class="o">&gt;=</span> <span class="n">target_weight</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cumulative</span> <span class="o">/</span> <span class="n">total_weight</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,533 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.families.base &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.families.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.families.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Base classes for Boolean function families.</span>
+
+<span class="sd">A FunctionFamily represents a parameterized collection of Boolean functions</span>
+<span class="sd">indexed by the number of variables n (and possibly other parameters).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+
+<div class="viewcode-block" id="FamilyMetadata">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.FamilyMetadata">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FamilyMetadata</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata about a function family.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="c1"># Theoretical asymptotic behavior (formulas as strings or callables)</span>
+    <span class="n">asymptotics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="c1"># Known properties that hold for all members</span>
+    <span class="n">universal_properties</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="c1"># Constraints on n</span>
+    <span class="n">n_constraints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">n_constraint_description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="FunctionFamily">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.FunctionFamily">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FunctionFamily</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for Boolean function families.</span>
+
+<span class="sd">    A function family is a parameterized collection f_n indexed by n.</span>
+<span class="sd">    Examples: Majority_n, Parity_n, Tribes_{k,n}</span>
+
+<span class="sd">    Subclasses must implement:</span>
+<span class="sd">    - generate(n) -&gt; BooleanFunction</span>
+<span class="sd">    - metadata property</span>
+
+<span class="sd">    Optional overrides:</span>
+<span class="sd">    - theoretical_value(property_name, n) -&gt; theoretical prediction</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FunctionFamily.generate">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.FunctionFamily.generate">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate the function for n variables.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n: Number of variables</span>
+<span class="sd">            **kwargs: Additional family-specific parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            BooleanFunction instance</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FamilyMetadata</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return metadata about this family.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shorthand for generate(n).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FunctionFamily.validate_n">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.FunctionFamily.validate_n">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_n</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if n is valid for this family.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">n_constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">n_constraints</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="FunctionFamily.theoretical_value">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.FunctionFamily.theoretical_value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">theoretical_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get theoretical/asymptotic value for a property.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            property_name: Name of the property (e.g., &quot;total_influence&quot;)</span>
+<span class="sd">            n: Number of variables</span>
+<span class="sd">            **kwargs: Additional parameters (e.g., rho for noise stability)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Theoretical value if known, None otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">property_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">asymptotics</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">formula</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">asymptotics</span><span class="p">[</span><span class="n">property_name</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">formula</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">formula</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># Could parse string formulas if needed</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">formula</span></div>
+
+
+<div class="viewcode-block" id="FunctionFamily.generate_range">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.FunctionFamily.generate_range">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate functions for a range of n values.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_values: List of n values to generate</span>
+<span class="sd">            **kwargs: Additional parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary mapping n -&gt; BooleanFunction</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">n_values</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_n</span><span class="p">(</span><span class="n">n</span><span class="p">)}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="InductiveFamily">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.InductiveFamily">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">InductiveFamily</span><span class="p">(</span><span class="n">FunctionFamily</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function family defined inductively/recursively.</span>
+
+<span class="sd">    The user provides:</span>
+<span class="sd">    - base_case(n) -&gt; BooleanFunction for small n</span>
+<span class="sd">    - step(f_prev, n) -&gt; how to extend from n-1 to n variables</span>
+
+<span class="sd">    This is useful for functions defined by their structure:</span>
+<span class="sd">    - &quot;Add a new variable with weight w_n&quot;</span>
+<span class="sd">    - &quot;Apply a recursive construction&quot;</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        # Define Majority inductively</span>
+<span class="sd">        class InductiveMajority(InductiveFamily):</span>
+<span class="sd">            def base_case(self, n):</span>
+<span class="sd">                if n == 1:</span>
+<span class="sd">                    return bf.dictator(1, 0)  # 1 variable, dictator on var 0</span>
+<span class="sd">                return None</span>
+
+<span class="sd">            def step(self, f_prev, n, n_prev):</span>
+<span class="sd">                # Majority_n from Majority_{n-1}</span>
+<span class="sd">                # Requires knowing the recursive structure</span>
+<span class="sd">                ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="InductiveFamily.__init__">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.InductiveFamily.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;InductiveFamily&quot;</span><span class="p">,</span>
+        <span class="n">base_cases</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">step_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">step_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># How many variables added per step</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize an inductive family.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: Family name</span>
+<span class="sd">            base_cases: Dictionary of {n: BooleanFunction} for base cases</span>
+<span class="sd">            step_function: Function (f_prev, n) -&gt; f_n</span>
+<span class="sd">            step_size: Number of variables added per step (default 1)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_cases</span> <span class="o">=</span> <span class="n">base_cases</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_step_function</span> <span class="o">=</span> <span class="n">step_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_step_size</span> <span class="o">=</span> <span class="n">step_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FamilyMetadata</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FamilyMetadata</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Inductively defined family (step size </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_step_size</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;step_size&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_step_size</span><span class="p">)},</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="InductiveFamily.base_case">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.InductiveFamily.base_case">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">base_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;BooleanFunction&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get base case for n, if it exists.</span>
+
+<span class="sd">        Override this in subclasses or provide base_cases dict.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_cases</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InductiveFamily.step">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.InductiveFamily.step">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_prev</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_prev</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate f_n from f_{n_prev}.</span>
+
+<span class="sd">        Override this in subclasses or provide step_function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f_prev: Function at previous step</span>
+<span class="sd">            n: Target number of variables</span>
+<span class="sd">            n_prev: Previous number of variables</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Function with n variables</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_function</span><span class="p">(</span><span class="n">f_prev</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">n_prev</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Must either override step() or provide step_function&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InductiveFamily.generate">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.InductiveFamily.generate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate function for n variables using induction.&quot;&quot;&quot;</span>
+        <span class="c1"># Check cache</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+        <span class="c1"># Check base case</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_case</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">base</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">base</span>
+            <span class="k">return</span> <span class="n">base</span>
+
+        <span class="c1"># Find largest valid n_prev &lt; n</span>
+        <span class="n">n_prev</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_size</span>
+        <span class="k">while</span> <span class="n">n_prev</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n_prev</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_case</span><span class="p">(</span><span class="n">n_prev</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">n_prev</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_size</span>
+
+        <span class="k">if</span> <span class="n">n_prev</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Cannot generate n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">: no base case found. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Searched step sizes: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_step_size</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Build up from base</span>
+        <span class="n">f_prev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">n_prev</span><span class="p">)</span>
+        <span class="n">current_n</span> <span class="o">=</span> <span class="n">n_prev</span>
+
+        <span class="k">while</span> <span class="n">current_n</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">next_n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">current_n</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_size</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">f_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">f_prev</span><span class="p">,</span> <span class="n">next_n</span><span class="p">,</span> <span class="n">current_n</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">next_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_next</span>
+            <span class="n">f_prev</span> <span class="o">=</span> <span class="n">f_next</span>
+            <span class="n">current_n</span> <span class="o">=</span> <span class="n">next_n</span>
+
+        <span class="k">return</span> <span class="n">f_prev</span></div>
+
+
+<div class="viewcode-block" id="InductiveFamily.clear_cache">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.InductiveFamily.clear_cache">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear the cached functions.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="WeightPatternFamily">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.WeightPatternFamily">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">WeightPatternFamily</span><span class="p">(</span><span class="n">FunctionFamily</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    LTF family with weights following a pattern.</span>
+
+<span class="sd">    The user provides a weight function w(i, n) that determines</span>
+<span class="sd">    the weight of variable i in the n-variable function.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        # Uniform weights (Majority)</span>
+<span class="sd">        uniform = WeightPatternFamily(lambda i, n: 1)</span>
+
+<span class="sd">        # Geometric weights (more dictator-like)</span>
+<span class="sd">        geometric = WeightPatternFamily(lambda i, n: 2**(-i))</span>
+
+<span class="sd">        # Harmonic weights</span>
+<span class="sd">        harmonic = WeightPatternFamily(lambda i, n: 1/(i+1))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="WeightPatternFamily.__init__">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.WeightPatternFamily.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">weight_function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">threshold_function</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;WeightPatternLTF&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize weight pattern family.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            weight_function: Function (i, n) -&gt; weight of variable i</span>
+<span class="sd">            threshold_function: Function n -&gt; threshold (default: 0)</span>
+<span class="sd">            name: Family name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight_fn</span> <span class="o">=</span> <span class="n">weight_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_threshold_fn</span> <span class="o">=</span> <span class="n">threshold_function</span> <span class="ow">or</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FamilyMetadata</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FamilyMetadata</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;LTF with parameterized weight pattern&quot;</span><span class="p">,</span>
+            <span class="n">parameters</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;weight_function&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weight_fn</span><span class="p">)},</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="WeightPatternFamily.get_weights">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.WeightPatternFamily.get_weights">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get weight vector for n variables.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_weight_fn</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="WeightPatternFamily.get_threshold">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.WeightPatternFamily.get_threshold">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get threshold for n variables.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threshold_fn</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WeightPatternFamily.generate">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.WeightPatternFamily.generate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate LTF with pattern weights.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">..analysis.ltf_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_weighted_majority</span>
+
+        <span class="n">weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_weights</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_threshold</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">create_weighted_majority</span><span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">threshold</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># Convenience constructors for common patterns</span>
+<div class="viewcode-block" id="uniform_ltf_family">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.uniform_ltf_family">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">uniform_ltf_family</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;UniformLTF&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WeightPatternFamily</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create LTF family with uniform weights (equivalent to Majority).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">WeightPatternFamily</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="geometric_ltf_family">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.geometric_ltf_family">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">geometric_ltf_family</span><span class="p">(</span><span class="n">ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;GeometricLTF&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WeightPatternFamily</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create LTF family with geometrically decaying weights.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">WeightPatternFamily</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="n">ratio</span><span class="o">**</span><span class="n">i</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="harmonic_ltf_family">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.harmonic_ltf_family">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">harmonic_ltf_family</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;HarmonicLTF&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WeightPatternFamily</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create LTF family with harmonic weights 1/(i+1).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">WeightPatternFamily</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="power_ltf_family">
+<a class="viewcode-back" href="../../../api/boofun.families.base.html#boofun.power_ltf_family">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">power_ltf_family</span><span class="p">(</span><span class="n">power</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;PowerLTF&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WeightPatternFamily</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create LTF family with power-law weights (n-i)^power.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">WeightPatternFamily</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">**</span> <span class="n">power</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;FamilyMetadata&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FunctionFamily&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;InductiveFamily&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;WeightPatternFamily&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uniform_ltf_family&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;geometric_ltf_family&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;harmonic_ltf_family&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;power_ltf_family&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,738 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.global_hypercontractivity &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.global_hypercontractivity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.global_hypercontractivity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Global Hypercontractivity Module</span>
+
+<span class="sd">Implements concepts from Keevash, Lifshitz, Long &amp; Minzer&#39;s</span>
+<span class="sd">&quot;Global hypercontractivity and its applications&quot; (arXiv:1906.05039).</span>
+
+<span class="sd">This module provides tools for analyzing Boolean functions under p-biased</span>
+<span class="sd">measures, particularly for &quot;global&quot; functions that don&#39;t depend too much</span>
+<span class="sd">on any small set of coordinates.</span>
+
+<span class="sd">Key concepts:</span>
+<span class="sd">- Generalized influences: I_S(f) for sets S ⊆ [n]</span>
+<span class="sd">- Global functions: Functions with small generalized influences</span>
+<span class="sd">- p-biased Fourier analysis</span>
+<span class="sd">- Sharp threshold phenomena</span>
+
+<span class="sd">Reference:</span>
+<span class="sd">    Keevash, P., Lifshitz, N., Long, E., &amp; Minzer, D. (2019).</span>
+<span class="sd">    Global hypercontractivity and its applications.</span>
+<span class="sd">    arXiv:1906.05039</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+
+<div class="viewcode-block" id="sigma">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.sigma">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sigma</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute σ(p) = √(p(1-p)), the standard deviation of a p-biased bit.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        p: Bias parameter in (0, 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Standard deviation σ(p)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">p</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)))</span></div>
+
+
+
+<div class="viewcode-block" id="lambda_p">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.lambda_p">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">lambda_p</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute λ(p) = E[(χ_i^p)^4], the 4th moment of a p-biased character.</span>
+
+<span class="sd">    This quantity controls the failure of standard hypercontractivity</span>
+<span class="sd">    for small p. For p = 1/2, λ = 3. As p → 0 or p → 1, λ → ∞.</span>
+
+<span class="sd">    From Section II.1 of the paper:</span>
+<span class="sd">    λ = σ^{-2}((1-p)^3 + p^3)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        p: Bias parameter in (0, 1)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        4th moment λ(p), or infinity if p is at boundary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">p</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_character">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.p_biased_character">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_character</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the p-biased character χ_S^p(x).</span>
+
+<span class="sd">    χ_S^p(x) = Π_{i∈S} (x_i - p)/σ</span>
+
+<span class="sd">    where σ = √(p(1-p)).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: Binary input vector</span>
+<span class="sd">        S: Set of variable indices</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Value of χ_S^p(x)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">*=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">/</span> <span class="n">s</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="generalized_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.generalized_influence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generalized_influence</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the generalized S-influence I_S(f) under μ_p.</span>
+
+<span class="sd">    From Definition I.1.2 and equation (2) in the paper:</span>
+<span class="sd">    I_S(f) = σ^{-2|S|} ||D_S(f)||_2^2 = σ^{-2|S|} Σ_{T⊇S} f̂(T)^2</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to analyze</span>
+<span class="sd">        S: Set of variable indices</span>
+<span class="sd">        p: Bias parameter (default 0.5 for uniform measure)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Generalized S-influence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpectralAnalyzer</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="c1"># Get Fourier coefficients under the uniform measure.</span>
+    <span class="c1">#</span>
+    <span class="c1"># LIMITATION: For p != 0.5 the correct computation requires the</span>
+    <span class="c1"># p-biased Fourier expansion (using p-biased characters), not the</span>
+    <span class="c1"># standard uniform Fourier expansion.  The results are exact when</span>
+    <span class="c1"># p = 0.5 and approximate otherwise.  A full p-biased Fourier</span>
+    <span class="c1"># implementation is planned for a future release.</span>
+    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">SpectralAnalyzer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">fourier_expansion</span><span class="p">()</span>
+
+    <span class="c1"># Sum over all T ⊇ S</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">T_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">T_idx</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">S</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">fourier</span><span class="p">[</span><span class="n">T_idx</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">total</span>  <span class="c1"># I_∅(f) = ||f||_2^2</span>
+
+    <span class="k">return</span> <span class="n">s</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">))</span> <span class="o">*</span> <span class="n">total</span></div>
+
+
+
+<div class="viewcode-block" id="is_alpha_global">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.is_alpha_global">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_alpha_global</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_set_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if f has α-small generalized influences (Definition I.1.2).</span>
+
+<span class="sd">    A function has α-small generalized influences if:</span>
+<span class="sd">    I_S(f) ≤ α·E[f^2] for all S ⊆ [n]</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function to test</span>
+<span class="sd">        alpha: Threshold for generalized influences</span>
+<span class="sd">        max_set_size: Maximum |S| to check (for efficiency)</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (is_global, details_dict) where details_dict contains:</span>
+<span class="sd">        - max_generalized_influence: Largest I_S found</span>
+<span class="sd">        - worst_set: The set S achieving the maximum</span>
+<span class="sd">        - threshold: α·E[f^2]</span>
+<span class="sd">        - all_influences: Dictionary of all computed I_S values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">ef2</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># E[f^2] = 1 for Boolean functions in ±1 representation</span>
+
+    <span class="n">max_influence</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">worst_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">all_influences</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Check all sets up to max_set_size</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_set_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">S_tuple</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">k</span><span class="p">):</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">S_tuple</span><span class="p">)</span>
+            <span class="n">inf_S</span> <span class="o">=</span> <span class="n">generalized_influence</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+            <span class="n">all_influences</span><span class="p">[</span><span class="n">S_tuple</span><span class="p">]</span> <span class="o">=</span> <span class="n">inf_S</span>
+
+            <span class="k">if</span> <span class="n">inf_S</span> <span class="o">&gt;</span> <span class="n">max_influence</span><span class="p">:</span>
+                <span class="n">max_influence</span> <span class="o">=</span> <span class="n">inf_S</span>
+                <span class="n">worst_set</span> <span class="o">=</span> <span class="n">S</span>
+
+    <span class="n">is_global</span> <span class="o">=</span> <span class="n">max_influence</span> <span class="o">&lt;=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">ef2</span>
+
+    <span class="k">return</span> <span class="n">is_global</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;max_generalized_influence&quot;</span><span class="p">:</span> <span class="n">max_influence</span><span class="p">,</span>
+        <span class="s2">&quot;worst_set&quot;</span><span class="p">:</span> <span class="n">worst_set</span><span class="p">,</span>
+        <span class="s2">&quot;threshold&quot;</span><span class="p">:</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">ef2</span><span class="p">,</span>
+        <span class="s2">&quot;all_influences&quot;</span><span class="p">:</span> <span class="n">all_influences</span><span class="p">,</span>
+        <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span>
+        <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.p_biased_expectation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_expectation</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate E_μp[f(x)] via Monte Carlo sampling.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        p: Bias parameter</span>
+<span class="sd">        samples: Number of Monte Carlo samples</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated expectation under μ_p</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">samples</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.p_biased_influence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_influence</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate Inf_i^p[f] under the p-biased measure.</span>
+
+<span class="sd">    Inf_i^p[f] = Pr_{x~μp}[f(x) ≠ f(x^i)]</span>
+
+<span class="sd">    where x^i differs from x only in coordinate i.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        i: Variable index</span>
+<span class="sd">        p: Bias parameter</span>
+<span class="sd">        samples: Number of Monte Carlo samples</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated p-biased influence of variable i</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">x0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">x1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="c1"># Use bit_strings=True to interpret arrays as bit vectors</span>
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">bit_strings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">!=</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">bit_strings</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">count</span> <span class="o">/</span> <span class="n">samples</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_total_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.p_biased_total_influence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_total_influence</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate I^p[f] = Σ_i Inf_i^p[f] under the p-biased measure.</span>
+
+<span class="sd">    From equation (1) in the paper:</span>
+<span class="sd">    I(f) = (p(1-p))^{-1} Σ_S |S| f̂(S)^2</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        p: Bias parameter</span>
+<span class="sd">        samples: Number of Monte Carlo samples per variable</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated total influence under μ_p</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p_biased_influence</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="noise_stability_p_biased">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.noise_stability_p_biased">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">noise_stability_p_biased</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate noise stability S_ρ(f) under the p-biased measure.</span>
+
+<span class="sd">    S_ρ(f) = E_{x~μp}[f(x)·(T_ρf)(x)]</span>
+
+<span class="sd">    where (T_ρf)(x) = E_{y~N_ρ(x)}[f(y)] and y is obtained by</span>
+<span class="sd">    keeping each bit with probability ρ or resampling from μp.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        rho: Noise correlation parameter</span>
+<span class="sd">        p: Bias parameter</span>
+<span class="sd">        samples: Number of Monte Carlo samples</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Estimated noise stability</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="k">assert</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+        <span class="c1"># Sample x from μp</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># Sample y from N_ρ(x)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">rho</span><span class="p">:</span>
+                <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">)</span>
+
+        <span class="c1"># Compute contribution</span>
+        <span class="n">f_x</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Convert to ±1</span>
+        <span class="n">f_y</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">f_x</span> <span class="o">*</span> <span class="n">f_y</span>
+
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">samples</span></div>
+
+
+
+<div class="viewcode-block" id="threshold_curve">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.threshold_curve">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">threshold_curve</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p_range</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute μ_p(f) for each p in the range.</span>
+
+<span class="sd">    This is useful for visualizing sharp threshold phenomena.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        p_range: Array of p values to evaluate</span>
+<span class="sd">        samples: Number of samples per p value</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Array of μ_p(f) values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p_biased_expectation</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">p_range</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="find_critical_p">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.find_critical_p">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_critical_p</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the critical probability p_c where μ_p(f) ≈ 0.5.</span>
+
+<span class="sd">    For monotone functions, this is the &quot;threshold&quot; of the function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function (should be monotone for meaningful result)</span>
+<span class="sd">        samples: Number of samples for expectation estimation</span>
+<span class="sd">        tolerance: Tolerance for binary search</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Critical probability p_c</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Binary search for p where μ_p(f) ≈ 0.5</span>
+    <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.999</span>
+
+    <span class="k">while</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span> <span class="o">&gt;</span> <span class="n">tolerance</span><span class="p">:</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">hi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">p_biased_expectation</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mu</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">mid</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">lo</span> <span class="o">+</span> <span class="n">hi</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span></div>
+
+
+
+<div class="viewcode-block" id="hypercontractivity_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.hypercontractivity_bound">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hypercontractivity_bound</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the hypercontractivity bound for a function.</span>
+
+<span class="sd">    From Theorem I.1.3: If f has α-small generalized influences, then</span>
+<span class="sd">    ||T_{1/5}f||_4 ≤ α^{1/4} ||f||_2</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: Boolean function</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary with:</span>
+<span class="sd">        - alpha: Maximum generalized influence / E[f^2]</span>
+<span class="sd">        - bound: α^{1/4} (the hypercontractive bound)</span>
+<span class="sd">        - is_global: Whether the function is global</span>
+<span class="sd">        - details: Full globality check results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_global</span><span class="p">,</span> <span class="n">details</span> <span class="o">=</span> <span class="n">is_alpha_global</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">max_set_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="c1"># α is the ratio of max I_S to E[f^2]</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">details</span><span class="p">[</span><span class="s2">&quot;max_generalized_influence&quot;</span><span class="p">]</span>
+    <span class="n">bound</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span>
+        <span class="s2">&quot;bound&quot;</span><span class="p">:</span> <span class="n">bound</span><span class="p">,</span>
+        <span class="s2">&quot;is_global&quot;</span><span class="p">:</span> <span class="n">is_global</span><span class="p">,</span>
+        <span class="s2">&quot;worst_set&quot;</span><span class="p">:</span> <span class="n">details</span><span class="p">[</span><span class="s2">&quot;worst_set&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;details&quot;</span><span class="p">:</span> <span class="n">details</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GlobalHypercontractivityAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analyzer for global hypercontractivity properties.</span>
+
+<span class="sd">    This class provides comprehensive analysis of Boolean functions</span>
+<span class="sd">    under p-biased measures, following the framework of Keevash et al.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the analyzer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: Boolean function to analyze</span>
+<span class="sd">            p: Default bias parameter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="n">n_vars</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+        <span class="k">assert</span> <span class="n">n_vars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">n_vars</span>
+
+        <span class="c1"># Cache for expensive computations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_globality_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_influence_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.sigma">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.sigma">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return σ(p) for the current bias.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sigma</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.lambda_p">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.lambda_p">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">lambda_p</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return λ(p) for the current bias.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">lambda_p</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.is_global">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.is_global">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_global</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">max_set_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the function is α-global.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            alpha: Threshold parameter</span>
+<span class="sd">            max_set_size: Maximum set size to check</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple of (is_global, details)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cache_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">max_set_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cache_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_globality_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_globality_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_alpha_global</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">max_set_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_globality_cache</span><span class="p">[</span><span class="n">cache_key</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.generalized_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.generalized_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generalized_influence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute I_S(f).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            S: Set of variable indices</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generalized S-influence</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">S_key</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">S_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_influence_cache</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_influence_cache</span><span class="p">[</span><span class="n">S_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">generalized_influence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_influence_cache</span><span class="p">[</span><span class="n">S_key</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.expectation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expectation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate E_μp[f].&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_expectation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.total_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.total_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_influence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate I^p[f].&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_total_influence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.noise_stability">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">noise_stability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Estimate S_ρ(f) under μp.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">noise_stability_p_biased</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.hypercontractive_bound">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.hypercontractive_bound">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hypercontractive_bound</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the hypercontractivity bound.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">hypercontractivity_bound</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.threshold_curve">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.threshold_curve">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">threshold_curve</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">p_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the threshold curve μ_p(f) over a range of p.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            p_range: Array of p values (default: 0.01 to 0.99)</span>
+<span class="sd">            samples: Monte Carlo samples per point</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Array of μ_p(f) values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">p_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">p_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">threshold_curve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">p_range</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GlobalHypercontractivityAnalyzer.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.global_hypercontractivity.html#boofun.GlobalHypercontractivityAnalyzer.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Comprehensive summary of the function&#39;s global hypercontractivity properties.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            samples: Monte Carlo samples for numerical estimates</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with all key properties</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">is_global</span><span class="p">,</span> <span class="n">details</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_global</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">hc_bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hypercontractive_bound</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;n_vars&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_vars</span><span class="p">,</span>
+            <span class="s2">&quot;bias_p&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span>
+            <span class="s2">&quot;sigma_p&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">(),</span>
+            <span class="s2">&quot;lambda_p&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_p</span><span class="p">(),</span>
+            <span class="s2">&quot;is_global_alpha_0.5&quot;</span><span class="p">:</span> <span class="n">is_global</span><span class="p">,</span>
+            <span class="s2">&quot;max_generalized_influence&quot;</span><span class="p">:</span> <span class="n">details</span><span class="p">[</span><span class="s2">&quot;max_generalized_influence&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;worst_set&quot;</span><span class="p">:</span> <span class="n">details</span><span class="p">[</span><span class="s2">&quot;worst_set&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;hypercontractive_bound&quot;</span><span class="p">:</span> <span class="n">hc_bound</span><span class="p">[</span><span class="s2">&quot;bound&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;expectation_mu_p&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">expectation</span><span class="p">(</span><span class="n">samples</span><span class="p">),</span>
+            <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_influence</span><span class="p">(</span><span class="n">samples</span><span class="p">),</span>
+            <span class="s2">&quot;noise_stability_0.9&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">samples</span><span class="p">),</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<span class="c1"># Module exports</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;sigma&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lambda_p&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_character&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;generalized_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_alpha_global&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_expectation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_total_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;noise_stability_p_biased&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;threshold_curve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;find_critical_p&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hypercontractivity_bound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GlobalHypercontractivityAnalyzer&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

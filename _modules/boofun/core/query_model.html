@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.query_model &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.core.query_model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.core.query_model</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Query Model for Boolean Functions.</span>
+
+<span class="sd">This module formalizes the distinction between:</span>
+<span class="sd">1. EXPLICIT functions - we have the full truth table in memory</span>
+<span class="sd">2. QUERY-ACCESS functions - we can only evaluate f(x) on demand</span>
+
+<span class="sd">This is CRITICAL for production safety. A user should be able to:</span>
+<span class="sd">    f = bf.create(massive_neural_network, n=1000)</span>
+<span class="sd">    f.is_linear(num_tests=100)  # SAFE: only 300 queries</span>
+
+<span class="sd">Without the library trying to compute 2^1000 entries.</span>
+
+<span class="sd">Design Philosophy:</span>
+<span class="sd">    &quot;Never assume we can enumerate the domain&quot;</span>
+
+<span class="sd">    The library should work correctly even if the function represents:</span>
+<span class="sd">    - A billion-parameter neural network</span>
+<span class="sd">    - A database lookup</span>
+<span class="sd">    - An external API call</span>
+<span class="sd">    - A physical measurement device</span>
+
+<span class="sd">    For such functions, only QUERY-BASED algorithms are valid.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;QueryModel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AccessType&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_access_type&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;check_query_safety&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;QuerySafetyWarning&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ExplicitEnumerationError&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;QUERY_COMPLEXITY&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="AccessType">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.AccessType">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AccessType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;How can we access the function&#39;s values?&quot;&quot;&quot;</span>
+
+    <span class="n">EXPLICIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># Full truth table in memory - can enumerate</span>
+    <span class="n">QUERY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># Can only evaluate f(x) - cannot enumerate safely</span>
+    <span class="n">STREAMING</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># Can iterate once but not random access</span>
+    <span class="n">SYMBOLIC</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># Have formula but may be expensive to evaluate all</span></div>
+
+
+
+<div class="viewcode-block" id="QuerySafetyWarning">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.QuerySafetyWarning">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QuerySafetyWarning</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Warning when an operation may be unsafe for query-access functions.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="ExplicitEnumerationError">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.ExplicitEnumerationError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExplicitEnumerationError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when trying to enumerate a query-access function.</span>
+
+<span class="sd">    This protects users from accidentally trying to compute 2^n</span>
+<span class="sd">    evaluations on a huge function.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<span class="c1"># Query complexity for each operation</span>
+<span class="c1"># Format: (base_queries, scaling)</span>
+<span class="c1"># Total queries ≈ base_queries * scaling(n)</span>
+<span class="n">QUERY_COMPLEXITY</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># SAFE operations - O(k) queries where k is user-specified</span>
+    <span class="s2">&quot;is_linear&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;BLR test&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;is_monotone&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Edge test&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;is_symmetric&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Permutation test&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;is_balanced_approx&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Sample mean&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;evaluate&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Single query&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;estimate_fourier&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Sample estimator&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;goldreich_levin&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;GL algorithm&quot;</span><span class="p">},</span>
+    <span class="c1"># UNSAFE operations - O(2^n) or worse</span>
+    <span class="s2">&quot;fourier&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Full WHT&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;influences&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;All inputs, all flips&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;degree&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Uses fourier&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Uses influences&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;W&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Uses fourier&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;W_leq&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Uses fourier&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;sparsity&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Uses fourier&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;is_balanced&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Count all&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;is_junta&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Uses influences&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;fix&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Builds new table&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;derivative&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Builds new table&quot;</span><span class="p">},</span>
+    <span class="s2">&quot;constant_test&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Exhaustive check&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;decision_tree_depth&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">3</span><span class="o">**</span><span class="n">n</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;DP over subcubes&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;get_representation:truth_table&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">,</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Materialize&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="get_access_type">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.get_access_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_access_type</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AccessType</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine how the function&#39;s values can be accessed.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        AccessType indicating safest access pattern</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">f</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">AccessType</span><span class="o">.</span><span class="n">QUERY</span>  <span class="c1"># Assume most restrictive</span>
+
+    <span class="c1"># Check what representations we have</span>
+    <span class="n">reps</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">representations</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="c1"># If we have truth table, we&#39;re explicit</span>
+    <span class="k">if</span> <span class="s2">&quot;truth_table&quot;</span> <span class="ow">in</span> <span class="n">reps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">AccessType</span><span class="o">.</span><span class="n">EXPLICIT</span>
+
+    <span class="c1"># If we have symbolic formula, depends on complexity</span>
+    <span class="k">if</span> <span class="s2">&quot;symbolic&quot;</span> <span class="ow">in</span> <span class="n">reps</span> <span class="ow">or</span> <span class="s2">&quot;anf&quot;</span> <span class="ow">in</span> <span class="n">reps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">AccessType</span><span class="o">.</span><span class="n">SYMBOLIC</span>
+
+    <span class="c1"># If we only have a function callable, it&#39;s query-access</span>
+    <span class="k">if</span> <span class="s2">&quot;function&quot;</span> <span class="ow">in</span> <span class="n">reps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">AccessType</span><span class="o">.</span><span class="n">QUERY</span>
+
+    <span class="c1"># If we have Fourier coefficients, we can reconstruct</span>
+    <span class="k">if</span> <span class="s2">&quot;fourier_expansion&quot;</span> <span class="ow">in</span> <span class="n">reps</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">AccessType</span><span class="o">.</span><span class="n">EXPLICIT</span>
+
+    <span class="k">return</span> <span class="n">AccessType</span><span class="o">.</span><span class="n">QUERY</span></div>
+
+
+
+<div class="viewcode-block" id="check_query_safety">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.check_query_safety">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_query_safety</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span>
+    <span class="n">operation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">max_safe_n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">num_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if an operation is safe to perform on this function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to check</span>
+<span class="sd">        operation: Name of operation (e.g., &quot;fourier&quot;, &quot;is_linear&quot;)</span>
+<span class="sd">        max_safe_n: Maximum n for which we allow unsafe operations</span>
+<span class="sd">        num_queries: Number of queries for safe operations</span>
+<span class="sd">        strict: If True, raise error instead of warning</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        True if operation is safe to proceed</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ExplicitEnumerationError: If strict=True and operation is unsafe</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.create(huge_function, n=100)</span>
+<span class="sd">        &gt;&gt;&gt; check_query_safety(f, &quot;fourier&quot;)  # Returns False, warns</span>
+<span class="sd">        &gt;&gt;&gt; check_query_safety(f, &quot;is_linear&quot;)  # Returns True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">access_type</span> <span class="o">=</span> <span class="n">get_access_type</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Get operation info</span>
+    <span class="n">op_info</span> <span class="o">=</span> <span class="n">QUERY_COMPLEXITY</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">})</span>
+    <span class="n">is_safe</span> <span class="o">=</span> <span class="n">op_info</span><span class="p">[</span><span class="s2">&quot;safe&quot;</span><span class="p">]</span>
+    <span class="n">query_count</span> <span class="o">=</span> <span class="n">op_info</span><span class="p">[</span><span class="s2">&quot;queries&quot;</span><span class="p">](</span><span class="n">n</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">)</span>
+
+    <span class="c1"># If operation is safe (query-based), always allow</span>
+    <span class="k">if</span> <span class="n">is_safe</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># If we have explicit representation, allow up to max_safe_n</span>
+    <span class="k">if</span> <span class="n">access_type</span> <span class="o">==</span> <span class="n">AccessType</span><span class="o">.</span><span class="n">EXPLICIT</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">max_safe_n</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Operation &#39;</span><span class="si">{</span><span class="n">operation</span><span class="si">}</span><span class="s2">&#39; requires </span><span class="si">{</span><span class="n">query_count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> queries for n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;This may be slow. Use query-based alternatives or reduce n.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ExplicitEnumerationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">QuerySafetyWarning</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Still allow but warn</span>
+
+    <span class="c1"># Query-access function with unsafe operation</span>
+    <span class="k">if</span> <span class="n">access_type</span> <span class="o">==</span> <span class="n">AccessType</span><span class="o">.</span><span class="n">QUERY</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="n">max_safe_n</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;UNSAFE: Operation &#39;</span><span class="si">{</span><span class="n">operation</span><span class="si">}</span><span class="s2">&#39; would require ~</span><span class="si">{</span><span class="n">query_count</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> queries &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;on a query-access function with n=</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;This is likely impossible (2^</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> evaluations). &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Use query-based alternatives like estimate_fourier() or is_linear().&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ExplicitEnumerationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">QuerySafetyWarning</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># Don&#39;t allow</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Small n, we can convert to truth table</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="QueryModel">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.QueryModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QueryModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages query complexity and safety for Boolean function operations.</span>
+
+<span class="sd">    This class helps users understand and control the computational</span>
+<span class="sd">    cost of operations on their functions.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; f = bf.create(my_function, n=30)</span>
+<span class="sd">        &gt;&gt;&gt; qm = QueryModel(f)</span>
+<span class="sd">        &gt;&gt;&gt; qm.can_compute(&quot;fourier&quot;)</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; qm.can_compute(&quot;is_linear&quot;, num_queries=100)</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; qm.estimate_cost(&quot;influences&quot;)</span>
+<span class="sd">        {&#39;queries&#39;: 32212254720, &#39;feasible&#39;: False}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="QueryModel.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.QueryModel.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">max_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10_000_000</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize query model for a function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: BooleanFunction to analyze</span>
+<span class="sd">            max_queries: Maximum acceptable query count</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_queries</span> <span class="o">=</span> <span class="n">max_queries</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_type</span> <span class="o">=</span> <span class="n">get_access_type</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QueryModel.can_compute">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.QueryModel.can_compute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if operation is computationally feasible.&quot;&quot;&quot;</span>
+        <span class="n">cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_cost</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cost</span><span class="p">[</span><span class="s2">&quot;feasible&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="QueryModel.estimate_cost">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.QueryModel.estimate_cost">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Estimate computational cost of an operation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dict with keys:</span>
+<span class="sd">                - queries: Estimated number of function evaluations</span>
+<span class="sd">                - feasible: Whether this is computationally reasonable</span>
+<span class="sd">                - time_estimate: Rough time estimate (assuming 1µs per query)</span>
+<span class="sd">                - description: Human-readable description</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">op_info</span> <span class="o">=</span> <span class="n">QUERY_COMPLEXITY</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">operation</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="n">queries</span> <span class="o">=</span> <span class="n">op_info</span><span class="p">[</span><span class="s2">&quot;queries&quot;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">num_queries</span><span class="p">)</span>
+        <span class="n">feasible</span> <span class="o">=</span> <span class="n">queries</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_queries</span>
+
+        <span class="c1"># Rough time estimate at 1µs per query</span>
+        <span class="n">time_us</span> <span class="o">=</span> <span class="n">queries</span>
+        <span class="k">if</span> <span class="n">time_us</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+            <span class="n">time_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_us</span><span class="si">}</span><span class="s2">µs&quot;</span>
+        <span class="k">elif</span> <span class="n">time_us</span> <span class="o">&lt;</span> <span class="mi">1_000_000</span><span class="p">:</span>
+            <span class="n">time_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_us</span><span class="o">/</span><span class="mi">1000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">ms&quot;</span>
+        <span class="k">elif</span> <span class="n">time_us</span> <span class="o">&lt;</span> <span class="mi">1_000_000_000</span><span class="p">:</span>
+            <span class="n">time_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_us</span><span class="o">/</span><span class="mi">1_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_us</span><span class="o">/</span><span class="mi">1_000_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">ks (hours+)&quot;</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="n">queries</span><span class="p">,</span>
+            <span class="s2">&quot;feasible&quot;</span><span class="p">:</span> <span class="n">feasible</span><span class="p">,</span>
+            <span class="s2">&quot;safe&quot;</span><span class="p">:</span> <span class="n">op_info</span><span class="p">[</span><span class="s2">&quot;safe&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;time_estimate&quot;</span><span class="p">:</span> <span class="n">time_str</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">op_info</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;access_type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_type</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="QueryModel.summary">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.QueryModel.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get cost summary for all operations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">op</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_cost</span><span class="p">(</span><span class="n">op</span><span class="p">)</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">QUERY_COMPLEXITY</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="QueryModel.print_summary">
+<a class="viewcode-back" href="../../../api/boofun.core.query_model.html#boofun.core.QueryModel.print_summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">print_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print human-readable cost summary.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query Model Summary for n=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Access type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">access_type</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max queries: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_queries</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+
+        <span class="n">safe_ops</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">unsafe_ops</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">QUERY_COMPLEXITY</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimate_cost</span><span class="p">(</span><span class="n">op</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;safe&quot;</span><span class="p">]:</span>
+                <span class="n">safe_ops</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">op</span><span class="p">,</span> <span class="n">cost</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">unsafe_ops</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">op</span><span class="p">,</span> <span class="n">cost</span><span class="p">))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">✓ SAFE operations (query-based):&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">cost</span> <span class="ow">in</span> <span class="n">safe_ops</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">op</span><span class="si">}</span><span class="s2">: ~</span><span class="si">{</span><span class="n">cost</span><span class="p">[</span><span class="s1">&#39;queries&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> queries (</span><span class="si">{</span><span class="n">cost</span><span class="p">[</span><span class="s1">&#39;time_estimate&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠ POTENTIALLY UNSAFE operations (may enumerate):&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">cost</span> <span class="ow">in</span> <span class="n">unsafe_ops</span><span class="p">:</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;✓&quot;</span> <span class="k">if</span> <span class="n">cost</span><span class="p">[</span><span class="s2">&quot;feasible&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;✗&quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">op</span><span class="si">}</span><span class="s2">: ~</span><span class="si">{</span><span class="n">cost</span><span class="p">[</span><span class="s1">&#39;queries&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> queries (</span><span class="si">{</span><span class="n">cost</span><span class="p">[</span><span class="s1">&#39;time_estimate&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">safe_alternatives</span><span class="p">(</span><span class="n">operation</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Suggest query-safe alternative for an unsafe operation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        operation: Unsafe operation name</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Name of safe alternative, or None if none exists</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alternatives</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;fourier&quot;</span><span class="p">:</span> <span class="s2">&quot;estimate_fourier (sample-based)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;influences&quot;</span><span class="p">:</span> <span class="s2">&quot;estimate_influence (sample-based)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;is_balanced&quot;</span><span class="p">:</span> <span class="s2">&quot;is_balanced_approx (sample-based)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;total_influence&quot;</span><span class="p">:</span> <span class="s2">&quot;estimate_total_influence&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;is_junta&quot;</span><span class="p">:</span> <span class="s2">&quot;detect_influential_vars (sample-based)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;constant_test&quot;</span><span class="p">:</span> <span class="s2">&quot;is_constant_approx (sample-based)&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">alternatives</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

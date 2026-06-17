@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voting System Analysis &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Voting System Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/voting_analysis.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="voting-system-analysis">
+<h1>Voting System Analysis<a class="headerlink" href="#voting-system-analysis" title="Link to this heading"></a></h1>
+<p>This example demonstrates how to use BooFun to analyze voting systems using the theory of Boolean functions and social choice.</p>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p>Voting rules can be modeled as Boolean functions where:</p>
+<ul class="simple">
+<li><p>Inputs: Individual votes (0 = against, 1 = for)</p></li>
+<li><p>Output: Election result (0 = fails, 1 = passes)</p></li>
+</ul>
+<p>Key concepts from Boolean function analysis:</p>
+<ul class="simple">
+<li><p><strong>Influence</strong>: How much power does each voter have?</p></li>
+<li><p><strong>Dictator proximity</strong>: Is one voter essentially deciding everything?</p></li>
+<li><p><strong>FKN Theorem</strong>: If total influence is low, the system is close to a dictatorship</p></li>
+</ul>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">PropertyTester</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis.fkn</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">distance_to_dictator</span><span class="p">,</span> <span class="n">closest_dictator</span><span class="p">,</span>
+    <span class="n">is_close_to_dictator</span><span class="p">,</span> <span class="n">analyze_dictator_proximity</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-1-simple-majority">
+<h2>Example 1: Simple Majority<a class="headerlink" href="#example-1-simple-majority" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 5-person committee with simple majority</span>
+<span class="n">majority_5</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Check influences - should be equal</span>
+<span class="n">influences</span> <span class="o">=</span> <span class="n">majority_5</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Influences:&quot;</span><span class="p">,</span> <span class="n">influences</span><span class="p">)</span>
+<span class="c1"># [0.375, 0.375, 0.375, 0.375, 0.375]</span>
+
+<span class="c1"># Total influence</span>
+<span class="n">total_inf</span> <span class="o">=</span> <span class="n">majority_5</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total influence: </span><span class="si">{</span><span class="n">total_inf</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># 1.875</span>
+
+<span class="c1"># Check if it&#39;s close to a dictatorship (should be NO)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Close to dictator: </span><span class="si">{</span><span class="n">is_close_to_dictator</span><span class="p">(</span><span class="n">majority_5</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># False</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-weighted-voting-un-security-council">
+<h2>Example 2: Weighted Voting (UN Security Council)<a class="headerlink" href="#example-2-weighted-voting-un-security-council" title="Link to this heading"></a></h2>
+<p>The UN Security Council has 5 permanent members (veto power) and 10 non-permanent members:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">un_security_council</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Model UN Security Council voting.</span>
+<span class="sd">    - 5 permanent members (P5): each has veto power</span>
+<span class="sd">    - 10 non-permanent: need 9 total yes votes (including all P5)</span>
+
+<span class="sd">    Simplified model: f(x) = 1 iff all P5 vote yes AND ≥4 non-permanent vote yes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">15</span>  <span class="c1"># 5 permanent + 10 non-permanent</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="c1"># First 5 bits are P5</span>
+        <span class="n">p5_votes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+        <span class="n">non_perm_votes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">)]</span>
+
+        <span class="c1"># All P5 must vote yes (veto power)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">p5_votes</span><span class="p">):</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="c1"># Need at least 4 more yes votes from non-permanent</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">non_perm_votes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">n_vars</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">unsc</span> <span class="o">=</span> <span class="n">un_security_council</span><span class="p">()</span>
+
+<span class="c1"># Analyze influences</span>
+<span class="n">influences</span> <span class="o">=</span> <span class="n">unsc</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+<span class="n">p5_influences</span> <span class="o">=</span> <span class="n">influences</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">non_perm_influences</span> <span class="o">=</span> <span class="n">influences</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;P5 member influences:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p5_influences</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Non-permanent avg influence:&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">non_perm_influences</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P5 / non-perm ratio: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">p5_influences</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">non_perm_influences</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">x&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-weighted-threshold-voting">
+<h2>Example 3: Weighted Threshold Voting<a class="headerlink" href="#example-3-weighted-threshold-voting" title="Link to this heading"></a></h2>
+<p>Many real voting systems use weighted votes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: Company board with different share weights</span>
+<span class="c1"># Weights: CEO (30), CFO (20), 3 board members (10 each), 2 advisors (5 each)</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="mi">51</span>  <span class="c1"># Need majority of 100 total</span>
+
+<span class="c1"># Create weighted threshold function</span>
+<span class="c1"># f(x) = 1 iff sum(w_i * x_i) &gt;= threshold</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">weighted_threshold</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">weights</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;=</span> <span class="n">threshold</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">n</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">n_vars</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+
+<span class="n">board_vote</span> <span class="o">=</span> <span class="n">weighted_threshold</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+
+<span class="c1"># Analyze power distribution</span>
+<span class="n">influences</span> <span class="o">=</span> <span class="n">board_vote</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+<span class="n">roles</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CEO&quot;</span><span class="p">,</span> <span class="s2">&quot;CFO&quot;</span><span class="p">,</span> <span class="s2">&quot;Board1&quot;</span><span class="p">,</span> <span class="s2">&quot;Board2&quot;</span><span class="p">,</span> <span class="s2">&quot;Board3&quot;</span><span class="p">,</span> <span class="s2">&quot;Adv1&quot;</span><span class="p">,</span> <span class="s2">&quot;Adv2&quot;</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Voting Power Analysis:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">role</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">roles</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">influences</span><span class="p">):</span>
+    <span class="c1"># Banzhaf power index is related to influence</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">role</span><span class="si">:</span><span class="s2">8</span><span class="si">}</span><span class="s2"> | Weight: </span><span class="si">{</span><span class="n">weight</span><span class="si">:</span><span class="s2">2</span><span class="si">}</span><span class="s2"> | Influence: </span><span class="si">{</span><span class="n">inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total influence: </span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-4-dictator-detection">
+<h2>Example 4: Dictator Detection<a class="headerlink" href="#example-4-dictator-detection" title="Link to this heading"></a></h2>
+<p>Use the FKN theorem to detect near-dictatorial systems:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Obvious dictator: f(x) = x_0 (first person decides)</span>
+<span class="n">dictator</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">dictator</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">analyze_dictator_proximity</span><span class="p">(</span><span class="n">dictator</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dictator analysis:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Distance to dictator: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Closest dictator: variable </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;closest_dictator&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Is close: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;is_close&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Hidden near-dictator: weighted system where one person dominates</span>
+<span class="n">skewed_weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># First person has overwhelming weight</span>
+<span class="n">skewed_vote</span> <span class="o">=</span> <span class="n">weighted_threshold</span><span class="p">(</span><span class="n">skewed_weights</span><span class="p">,</span> <span class="mi">51</span><span class="p">)</span>
+
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">analyze_dictator_proximity</span><span class="p">(</span><span class="n">skewed_vote</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Skewed voting analysis:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Distance to dictator: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Closest dictator: variable </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;closest_dictator&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Is close: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;is_close&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Likely True!</span>
+</pre></div>
+</div>
+</section>
+<section id="example-5-electoral-college-simulation">
+<h2>Example 5: Electoral College Simulation<a class="headerlink" href="#example-5-electoral-college-simulation" title="Link to this heading"></a></h2>
+<p>Simplified model of US Electoral College:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">electoral_college_simplified</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simplified electoral college with 5 states.</span>
+<span class="sd">    State electoral votes: [55, 38, 29, 20, 11] (like CA, TX, FL, NY, smaller)</span>
+<span class="sd">    Total: 153, need 77 to win</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">state_votes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mi">77</span>
+
+    <span class="k">return</span> <span class="n">weighted_threshold</span><span class="p">(</span><span class="n">state_votes</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+
+<span class="n">ec</span> <span class="o">=</span> <span class="n">electoral_college_simplified</span><span class="p">()</span>
+<span class="n">influences</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+
+<span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="s2">&quot;TX&quot;</span><span class="p">,</span> <span class="s2">&quot;FL&quot;</span><span class="p">,</span> <span class="s2">&quot;NY&quot;</span><span class="p">,</span> <span class="s2">&quot;Small&quot;</span><span class="p">]</span>
+<span class="n">votes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Electoral College Power Analysis:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">state</span><span class="p">,</span> <span class="n">vote</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">votes</span><span class="p">,</span> <span class="n">influences</span><span class="p">):</span>
+    <span class="c1"># Compare nominal voting power to actual influence</span>
+    <span class="n">nominal</span> <span class="o">=</span> <span class="n">vote</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">votes</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">state</span><span class="si">:</span><span class="s2">6</span><span class="si">}</span><span class="s2"> | Votes: </span><span class="si">{</span><span class="n">vote</span><span class="si">:</span><span class="s2">2</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">nominal</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">) | Influence: </span><span class="si">{</span><span class="n">inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="noise-stability-and-chaotic-elections">
+<h2>Noise Stability and Chaotic Elections<a class="headerlink" href="#noise-stability-and-chaotic-elections" title="Link to this heading"></a></h2>
+<p>How sensitive is the outcome to random vote changes?</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare noise stability of different systems</span>
+<span class="n">majority_9</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">dictator_9</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">dictator</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Weighted system that&#39;s somewhat balanced</span>
+<span class="n">balanced_weights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">balanced_vote</span> <span class="o">=</span> <span class="n">weighted_threshold</span><span class="p">(</span><span class="n">balanced_weights</span><span class="p">,</span> <span class="mi">51</span><span class="p">)</span>
+
+<span class="c1"># Noise stability: probability outcome stays same if each vote flips with prob (1-ρ)/2</span>
+<span class="n">rhos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Noise Stability (higher = more stable):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">rho</span> <span class="ow">in</span> <span class="n">rhos</span><span class="p">:</span>
+    <span class="n">maj_stab</span> <span class="o">=</span> <span class="n">majority_9</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+    <span class="n">dict_stab</span> <span class="o">=</span> <span class="n">dictator_9</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+    <span class="n">bal_stab</span> <span class="o">=</span> <span class="n">balanced_vote</span><span class="o">.</span><span class="n">noise_stability</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ρ=</span><span class="si">{</span><span class="n">rho</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> | Majority: </span><span class="si">{</span><span class="n">maj_stab</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> | Dictator: </span><span class="si">{</span><span class="n">dict_stab</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> | Balanced: </span><span class="si">{</span><span class="n">bal_stab</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="property-testing-for-voting-fairness">
+<h2>Property Testing for Voting Fairness<a class="headerlink" href="#property-testing-for-voting-fairness" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analyze_voting_fairness</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Comprehensive fairness analysis of a voting system.&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> Fairness Analysis ===&quot;</span><span class="p">)</span>
+
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="c1"># Is it dictatorial?</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is dictator: </span><span class="si">{</span><span class="n">tester</span><span class="o">.</span><span class="n">dictator_test</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Is it symmetric (all voters equal)?</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is symmetric: </span><span class="si">{</span><span class="n">tester</span><span class="o">.</span><span class="n">symmetry_test</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Is it monotone (more yes votes can&#39;t hurt)?</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is monotone: </span><span class="si">{</span><span class="n">tester</span><span class="o">.</span><span class="n">monotonicity_test</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Influence analysis</span>
+    <span class="n">influences</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+    <span class="n">max_inf</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span>
+    <span class="n">min_inf</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">influences</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max influence: </span><span class="si">{</span><span class="n">max_inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (voter </span><span class="si">{</span><span class="n">influences</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_inf</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Min influence: </span><span class="si">{</span><span class="n">min_inf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Influence ratio: </span><span class="si">{</span><span class="n">max_inf</span><span class="o">/</span><span class="n">min_inf</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">x&quot;</span><span class="p">)</span>
+
+    <span class="c1"># FKN analysis</span>
+    <span class="n">analysis</span> <span class="o">=</span> <span class="n">analyze_dictator_proximity</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Close to dictator: </span><span class="si">{</span><span class="n">analysis</span><span class="p">[</span><span class="s1">&#39;is_close&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Test different systems</span>
+<span class="n">analyze_voting_fairness</span><span class="p">(</span><span class="n">majority_5</span><span class="p">,</span> <span class="s2">&quot;Simple Majority&quot;</span><span class="p">)</span>
+<span class="n">analyze_voting_fairness</span><span class="p">(</span><span class="n">board_vote</span><span class="p">,</span> <span class="s2">&quot;Weighted Board&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Influence ≠ Weight</strong>: Nominal voting weight doesn’t equal actual power</p></li>
+<li><p><strong>FKN Theorem</strong>: Systems with low total influence are near-dictatorships</p></li>
+<li><p><strong>Noise Stability</strong>: Measures how robust outcomes are to random perturbations</p></li>
+<li><p><strong>Property Testing</strong>: Can detect dictators, asymmetry, non-monotonicity</p></li>
+</ol>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Banzhaf, J. (1965). “Weighted voting doesn’t work”</p></li>
+<li><p>O’Donnell, R. (2014). “Analysis of Boolean Functions” - Chapter on social choice</p></li>
+<li><p>Friedgut, E., Kalai, G., Naor, A. (2002). “Boolean functions whose Fourier transform is concentrated”</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,739 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.core.batch_processing &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+      <li class="breadcrumb-item active">boofun.core.batch_processing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.core.batch_processing</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Comprehensive batch processing infrastructure for Boolean function operations.</span>
+
+<span class="sd">This module provides efficient batch evaluation, vectorized operations, and</span>
+<span class="sd">parallel processing capabilities for Boolean functions across all representations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">ThreadPoolExecutor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">numba</span><span class="w"> </span><span class="kn">import</span> <span class="n">jit</span><span class="p">,</span> <span class="n">prange</span>
+
+    <span class="n">HAS_NUMBA</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_NUMBA</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Numba not available - batch processing will use pure NumPy&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.gpu</span><span class="w"> </span><span class="kn">import</span> <span class="n">gpu_accelerate</span><span class="p">,</span> <span class="n">should_use_gpu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.spaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">Space</span>
+
+
+<div class="viewcode-block" id="BatchProcessor">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.BatchProcessor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BatchProcessor</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for batch processing strategies.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BatchProcessor.process_batch">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.BatchProcessor.process_batch">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_batch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process a batch of inputs.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BatchProcessor.supports_representation">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.BatchProcessor.supports_representation">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">supports_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">representation</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if processor supports a representation.&quot;&quot;&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="VectorizedBatchProcessor">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.VectorizedBatchProcessor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">VectorizedBatchProcessor</span><span class="p">(</span><span class="n">BatchProcessor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vectorized batch processor using NumPy operations.</span>
+
+<span class="sd">    Optimized for representations that can leverage NumPy&#39;s vectorization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VectorizedBatchProcessor.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.VectorizedBatchProcessor.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize vectorized processor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            chunk_size: Size of chunks for memory-efficient processing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size</span> <span class="o">=</span> <span class="n">chunk_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">supported_representations</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;truth_table&quot;</span><span class="p">,</span> <span class="s2">&quot;fourier_expansion&quot;</span><span class="p">,</span> <span class="s2">&quot;anf&quot;</span><span class="p">,</span> <span class="s2">&quot;polynomial&quot;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="VectorizedBatchProcessor.process_batch">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.VectorizedBatchProcessor.process_batch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_batch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process batch using vectorized operations.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_chunk</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Process in chunks to manage memory</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size</span><span class="p">):</span>
+                <span class="n">chunk</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunk_size</span><span class="p">]</span>
+                <span class="n">chunk_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_chunk</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunk_results</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_chunk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process a single chunk of inputs.&quot;&quot;&quot;</span>
+        <span class="c1"># This is a generic implementation - specific representations</span>
+        <span class="c1"># should override with optimized versions</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">input_val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+            <span class="c1"># Fallback to individual evaluation</span>
+            <span class="c1"># In practice, each representation would have optimized batch methods</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate_single</span><span class="p">(</span><span class="n">input_val</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_evaluate_single</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">input_val</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fallback single evaluation method — truth table lookup.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">function_data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">input_val</span><span class="p">)])</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="VectorizedBatchProcessor.supports_representation">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.VectorizedBatchProcessor.supports_representation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">supports_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">representation</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if representation is supported.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">representation</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_representations</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ParallelBatchProcessor">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.ParallelBatchProcessor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParallelBatchProcessor</span><span class="p">(</span><span class="n">BatchProcessor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parallel batch processor using multiprocessing.</span>
+
+<span class="sd">    Distributes work across multiple CPU cores for compute-intensive operations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ParallelBatchProcessor.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.ParallelBatchProcessor.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_workers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">use_processes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize parallel processor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_workers: Number of worker processes/threads (default: CPU count)</span>
+<span class="sd">            use_processes: Whether to use processes (True) or threads (False)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_workers</span> <span class="o">=</span> <span class="n">n_workers</span> <span class="ow">or</span> <span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_processes</span> <span class="o">=</span> <span class="n">use_processes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">supported_representations</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;symbolic&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;circuit&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bdd&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cnf_form&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;dnf_form&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ltf&quot;</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="ParallelBatchProcessor.process_batch">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.ParallelBatchProcessor.process_batch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_batch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process batch using parallel workers.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_workers</span> <span class="o">*</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="c1"># Too small for parallelization overhead</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_sequential</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+
+        <span class="c1"># Split inputs across workers</span>
+        <span class="n">chunks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_workers</span><span class="p">)</span>
+
+        <span class="n">executor_class</span> <span class="o">=</span> <span class="n">ProcessPoolExecutor</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_processes</span> <span class="k">else</span> <span class="n">ThreadPoolExecutor</span>
+
+        <span class="k">with</span> <span class="n">executor_class</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="n">futures</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_process_chunk</span><span class="p">,</span> <span class="n">chunk</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunks</span>
+            <span class="p">]</span>
+
+            <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">chunk_result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>  <span class="c1"># 30 second timeout</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunk_result</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Parallel processing failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="c1"># Fallback to sequential processing</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_sequential</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_chunk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process a chunk of inputs in a worker.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_sequential</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_sequential</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sequential fallback processing.&quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">input_val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate_single</span><span class="p">(</span><span class="n">input_val</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_evaluate_single</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">input_val</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Single evaluation method — truth table lookup.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">function_data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">input_val</span><span class="p">)])</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="ParallelBatchProcessor.supports_representation">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.ParallelBatchProcessor.supports_representation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">supports_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">representation</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if representation is supported.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">representation</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_representations</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="OptimizedTruthTableProcessor">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.OptimizedTruthTableProcessor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OptimizedTruthTableProcessor</span><span class="p">(</span><span class="n">VectorizedBatchProcessor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optimized batch processor for truth table representations.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptimizedTruthTableProcessor.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.OptimizedTruthTableProcessor.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chunk_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">supported_representations</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;truth_table&quot;</span><span class="p">}</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_chunk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Optimized truth table batch processing with GPU acceleration.&quot;&quot;&quot;</span>
+        <span class="c1"># Ensure function_data is a numpy array (may be a Python list)</span>
+        <span class="n">function_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">function_data</span><span class="p">)</span>
+
+        <span class="c1"># Try GPU acceleration if beneficial</span>
+        <span class="k">if</span> <span class="n">should_use_gpu</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">gpu_accelerate</span><span class="p">(</span><span class="s2">&quot;truth_table_batch&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU acceleration failed, falling back to CPU: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># CPU implementation</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">:</span>
+            <span class="c1"># Integer indices - direct lookup</span>
+            <span class="n">indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="c1"># Bounds checking</span>
+            <span class="n">valid_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">indices</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">function_data</span><span class="p">))</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">valid_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">function_data</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">valid_mask</span><span class="p">]]</span>
+            <span class="k">return</span> <span class="n">results</span>
+        <span class="k">elif</span> <span class="n">inputs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="c1"># Binary vectors - convert to indices</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_binary_vectors_to_indices</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">function_data</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_process_chunk</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_binary_vectors_to_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">binary_vectors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert batch of binary vectors to indices efficiently.&quot;&quot;&quot;</span>
+        <span class="c1"># Vectorized binary to integer conversion</span>
+        <span class="n">powers</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">binary_vectors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">binary_vectors</span><span class="p">,</span> <span class="n">powers</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="OptimizedFourierProcessor">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.OptimizedFourierProcessor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OptimizedFourierProcessor</span><span class="p">(</span><span class="n">VectorizedBatchProcessor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optimized batch processor for Fourier expansion representations.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptimizedFourierProcessor.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.OptimizedFourierProcessor.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50000</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chunk_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">supported_representations</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fourier_expansion&quot;</span><span class="p">}</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_chunk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Optimized Fourier expansion batch processing with GPU acceleration.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Try GPU acceleration first</span>
+        <span class="k">if</span> <span class="n">should_use_gpu</span><span class="p">(</span><span class="s2">&quot;fourier&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">gpu_accelerate</span><span class="p">(</span><span class="s2">&quot;fourier_batch&quot;</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GPU Fourier acceleration failed, falling back to CPU: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># CPU implementations</span>
+        <span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numba_fourier_batch</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numpy_fourier_batch</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_numpy_fourier_batch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;NumPy-based batch Fourier evaluation.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">:</span>
+            <span class="c1"># Integer inputs</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate_fourier_single</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">coeffs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">results</span> <span class="o">&gt;</span> <span class="mi">0</span>  <span class="c1"># Convert to boolean</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Fallback to sequential</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_process_chunk</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">Space</span><span class="o">.</span><span class="n">BOOLEAN_CUBE</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_evaluate_fourier_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate single Fourier expansion.&quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)):</span>
+            <span class="n">parity</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+            <span class="n">char_val</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">parity</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">char_val</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_numba_fourier_batch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Numba-accelerated batch Fourier evaluation.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numpy_fourier_batch</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">_numba_fourier_batch_impl</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="OptimizedANFProcessor">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.OptimizedANFProcessor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OptimizedANFProcessor</span><span class="p">(</span><span class="n">VectorizedBatchProcessor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optimized batch processor for ANF representations.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptimizedANFProcessor.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.OptimizedANFProcessor.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50000</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chunk_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">supported_representations</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;anf&quot;</span><span class="p">}</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_chunk</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Optimized ANF batch processing.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numba_anf_batch</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numpy_anf_batch</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_numpy_anf_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">anf_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;NumPy-based batch ANF evaluation.&quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="c1"># Convert ANF dict to arrays for vectorization</span>
+        <span class="n">monomials</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">monomial</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="n">anf_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">coeff</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">monomials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">monomial</span><span class="p">))</span>
+                <span class="n">coeffs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">monomials</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">results</span>  <span class="c1"># Zero function</span>
+
+        <span class="c1"># Vectorized evaluation</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="c1"># Convert integer to binary</span>
+                <span class="n">binary</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">bit</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_vars</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">binary</span> <span class="o">=</span> <span class="n">x</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">monomial</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">monomials</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">):</span>
+                <span class="c1"># Compute monomial value</span>
+                <span class="n">monomial_val</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">var_idx</span> <span class="ow">in</span> <span class="n">monomial</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">var_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">binary</span><span class="p">):</span>
+                        <span class="n">monomial_val</span> <span class="o">*=</span> <span class="n">binary</span><span class="p">[</span><span class="n">var_idx</span><span class="p">]</span>
+                <span class="n">result</span> <span class="o">^=</span> <span class="n">coeff</span> <span class="o">*</span> <span class="n">monomial_val</span>
+
+            <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_numba_anf_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">anf_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Numba-accelerated batch ANF evaluation.&quot;&quot;&quot;</span>
+        <span class="c1"># Convert to format suitable for Numba</span>
+        <span class="n">monomials_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">coeffs_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">monomial</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="n">anf_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">coeff</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># Convert frozenset to sorted list</span>
+                <span class="n">mono_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">monomial</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+                <span class="n">monomials_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mono_array</span><span class="p">)</span>
+                <span class="n">coeffs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">monomials_list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="c1"># This would need a more complex Numba implementation</span>
+        <span class="c1"># For now, fall back to NumPy version</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numpy_anf_batch</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">anf_dict</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Numba JIT compiled functions (if available)</span>
+<span class="k">if</span> <span class="n">HAS_NUMBA</span><span class="p">:</span>
+
+    <span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_numba_fourier_batch_impl</span><span class="p">(</span>
+        <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Numba-compiled batch Fourier evaluation.&quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)):</span>
+                <span class="c1"># Count bits in x &amp; j</span>
+                <span class="n">parity</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&amp;</span> <span class="n">j</span>
+                <span class="k">while</span> <span class="n">temp</span><span class="p">:</span>
+                    <span class="n">parity</span> <span class="o">^=</span> <span class="mi">1</span>
+                    <span class="n">temp</span> <span class="o">&amp;=</span> <span class="n">temp</span> <span class="o">-</span> <span class="mi">1</span>
+
+                <span class="n">char_val</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">parity</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="n">coeffs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">char_val</span>
+
+            <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+    <span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_numba_truth_table_batch_impl</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">truth_table</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Numba-compiled batch truth table evaluation.&quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">truth_table</span><span class="p">):</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+
+<div class="viewcode-block" id="BatchProcessorManager">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.BatchProcessorManager">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BatchProcessorManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages batch processing strategies for different representations.</span>
+
+<span class="sd">    Automatically selects the best processor based on representation type,</span>
+<span class="sd">    input size, and available hardware.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BatchProcessorManager.__init__">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.BatchProcessorManager.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize batch processor manager.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">processors</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;truth_table&quot;</span><span class="p">:</span> <span class="n">OptimizedTruthTableProcessor</span><span class="p">(),</span>
+            <span class="s2">&quot;fourier_expansion&quot;</span><span class="p">:</span> <span class="n">OptimizedFourierProcessor</span><span class="p">(),</span>
+            <span class="s2">&quot;anf&quot;</span><span class="p">:</span> <span class="n">OptimizedANFProcessor</span><span class="p">(),</span>
+            <span class="s2">&quot;vectorized&quot;</span><span class="p">:</span> <span class="n">VectorizedBatchProcessor</span><span class="p">(),</span>
+            <span class="s2">&quot;parallel&quot;</span><span class="p">:</span> <span class="n">ParallelBatchProcessor</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Performance thresholds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parallel_threshold</span> <span class="o">=</span> <span class="mi">10000</span>  <span class="c1"># Use parallel processing above this size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vectorized_threshold</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># Use vectorized processing above this size</span></div>
+
+
+<div class="viewcode-block" id="BatchProcessorManager.process_batch">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.BatchProcessorManager.process_batch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">process_batch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">representation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Process batch using optimal strategy.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            inputs: Batch of inputs to process</span>
+<span class="sd">            function_data: Representation-specific function data</span>
+<span class="sd">            representation: Representation type</span>
+<span class="sd">            space: Mathematical space</span>
+<span class="sd">            n_vars: Number of variables</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Batch evaluation results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Select processor based on representation and input size</span>
+        <span class="n">processor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_processor</span><span class="p">(</span><span class="n">representation</span><span class="p">,</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">processor</span><span class="o">.</span><span class="n">process_batch</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Batch processing failed with </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">processor</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="c1"># Fallback to sequential processing</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequential_fallback</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">representation</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_processor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">representation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">input_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BatchProcessor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select optimal processor for given conditions.&quot;&quot;&quot;</span>
+
+        <span class="c1"># First, try representation-specific processor</span>
+        <span class="k">if</span> <span class="n">representation</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">processors</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">processors</span><span class="p">[</span><span class="n">representation</span><span class="p">]</span>
+
+        <span class="c1"># Fall back to general strategies based on input size</span>
+        <span class="k">if</span> <span class="n">input_size</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_threshold</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">processors</span><span class="p">[</span><span class="s2">&quot;parallel&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">input_size</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorized_threshold</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">processors</span><span class="p">[</span><span class="s2">&quot;vectorized&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">processors</span><span class="p">[</span><span class="s2">&quot;vectorized&quot;</span><span class="p">]</span>  <span class="c1"># Default choice</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sequential_fallback</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">representation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sequential processing fallback.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">.representations.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_strategy</span>
+
+        <span class="n">strategy</span> <span class="o">=</span> <span class="n">get_strategy</span><span class="p">(</span><span class="n">representation</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">input_val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">strategy</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">input_val</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Safe fallback</span>
+
+        <span class="k">return</span> <span class="n">results</span>
+
+<div class="viewcode-block" id="BatchProcessorManager.get_processor_stats">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.BatchProcessorManager.get_processor_stats">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_processor_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get statistics about available processors.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;available_processors&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processors</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+            <span class="s2">&quot;numba_available&quot;</span><span class="p">:</span> <span class="n">HAS_NUMBA</span><span class="p">,</span>
+            <span class="s2">&quot;cpu_count&quot;</span><span class="p">:</span> <span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span>
+            <span class="s2">&quot;thresholds&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;parallel&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parallel_threshold</span><span class="p">,</span>
+                <span class="s2">&quot;vectorized&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">vectorized_threshold</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<span class="c1"># Global batch processor manager</span>
+<span class="n">_batch_manager</span> <span class="o">=</span> <span class="n">BatchProcessorManager</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="process_batch">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.process_batch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_batch</span><span class="p">(</span>
+    <span class="n">inputs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">function_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">representation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">space</span><span class="p">:</span> <span class="n">Space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Process a batch of inputs efficiently.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        inputs: Batch of inputs</span>
+<span class="sd">        function_data: Representation-specific data</span>
+<span class="sd">        representation: Representation type</span>
+<span class="sd">        space: Mathematical space</span>
+<span class="sd">        n_vars: Number of variables</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Batch evaluation results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_batch_manager</span><span class="o">.</span><span class="n">process_batch</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">function_data</span><span class="p">,</span> <span class="n">representation</span><span class="p">,</span> <span class="n">space</span><span class="p">,</span> <span class="n">n_vars</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_batch_processor_stats">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.get_batch_processor_stats">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_batch_processor_stats</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get batch processing statistics and capabilities.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_batch_manager</span><span class="o">.</span><span class="n">get_processor_stats</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="set_batch_thresholds">
+<a class="viewcode-back" href="../../../api/boofun.core.batch_processing.html#boofun.core.batch_processing.set_batch_thresholds">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_batch_thresholds</span><span class="p">(</span><span class="n">vectorized_threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">parallel_threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set thresholds for batch processing strategies.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        vectorized_threshold: Minimum size for vectorized processing</span>
+<span class="sd">        parallel_threshold: Minimum size for parallel processing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_batch_manager</span><span class="o">.</span><span class="n">vectorized_threshold</span> <span class="o">=</span> <span class="n">vectorized_threshold</span>
+    <span class="n">_batch_manager</span><span class="o">.</span><span class="n">parallel_threshold</span> <span class="o">=</span> <span class="n">parallel_threshold</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

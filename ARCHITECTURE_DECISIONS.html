@@ -1,0 +1,204 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture Decision Records &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Architecture Decision Records</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/ARCHITECTURE_DECISIONS.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="architecture-decision-records">
+<h1>Architecture Decision Records<a class="headerlink" href="#architecture-decision-records" title="Link to this heading"></a></h1>
+<p>Intentional design choices in BooFun, documented to prevent re-litigating them.</p>
+<hr class="docutils" />
+<section id="adr-001-booleanfunction-is-a-god-object-intentional">
+<h2>ADR-001: BooleanFunction is a God Object (Intentional)<a class="headerlink" href="#adr-001-booleanfunction-is-a-god-object-intentional" title="Link to this heading"></a></h2>
+<p><strong>Decision</strong>: <code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code> has 60+ public methods spanning evaluation, Fourier analysis, sensitivity, restrictions, and composition.</p>
+<p><strong>Why</strong>: The primary users are researchers in a Jupyter notebook. They expect <code class="docutils literal notranslate"><span class="pre">f.fourier()</span></code>, <code class="docutils literal notranslate"><span class="pre">f.influences()</span></code>, <code class="docutils literal notranslate"><span class="pre">f.is_monotone()</span></code> – not <code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer(f).fourier_expansion()</span></code>. The fluent API is the reason people use this library over raw Tal scripts.</p>
+<p><strong>Trade-off</strong>: Harder to maintain. Mixing concerns. But we keep the class as a thin delegation layer: the real logic lives in <code class="docutils literal notranslate"><span class="pre">analysis/</span></code> modules, and <code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code> methods are one-line wrappers.</p>
+<p><strong>Future</strong>: If the class exceeds ~2000 lines, refactor into mixins or extract to standalone functions with thin wrappers.</p>
+</section>
+<hr class="docutils" />
+<section id="adr-002-eager-import-of-analysis-modules">
+<h2>ADR-002: Eager Import of Analysis Modules<a class="headerlink" href="#adr-002-eager-import-of-analysis-modules" title="Link to this heading"></a></h2>
+<p><strong>Decision</strong>: <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">boofun</span></code> eagerly loads all 28 analysis modules.</p>
+<p><strong>Why</strong>: For Jupyter notebook workflows (the primary use case), a 2-second import on first cell is invisible. Lazy imports would add complexity and risk “NameError” surprises when users access <code class="docutils literal notranslate"><span class="pre">bf.analysis.fourier</span></code> in later cells.</p>
+<p><strong>Trade-off</strong>: CLI scripts pay a startup cost. Lambda/serverless environments would suffer.</p>
+<p><strong>Future</strong>: If import time exceeds 5 seconds or a CLI use case emerges, implement <code class="docutils literal notranslate"><span class="pre">__getattr__</span></code>-based lazy loading on <code class="docutils literal notranslate"><span class="pre">analysis/</span></code>.</p>
+</section>
+<hr class="docutils" />
+<section id="adr-003-conversion-graph-uses-hardcoded-costs">
+<h2>ADR-003: Conversion Graph Uses Hardcoded Costs<a class="headerlink" href="#adr-003-conversion-graph-uses-hardcoded-costs" title="Link to this heading"></a></h2>
+<p><strong>Decision</strong>: The Dijkstra-based conversion graph uses hardcoded <code class="docutils literal notranslate"><span class="pre">ConversionCost</span></code> values.</p>
+<p><strong>Why</strong>: The graph has only ~14 nodes and ~30 edges. Most conversions go through truth tables. Benchmarking real costs for all edges would be fragile (hardware-dependent, n-dependent). The hardcoded costs are “directionally correct” (truth table lookups are cheap, BDD construction is expensive).</p>
+<p><strong>Trade-off</strong>: The “optimal” path might not be truly optimal. But since most paths are 1-2 hops through truth tables, the cost of a wrong choice is small.</p>
+<p><strong>Future</strong>: If a conversion is measurably slow, adjust its cost. Don’t benchmark everything.</p>
+</section>
+<hr class="docutils" />
+<section id="adr-004-numba-as-a-hard-dependency">
+<h2>ADR-004: Numba as a Hard Dependency<a class="headerlink" href="#adr-004-numba-as-a-hard-dependency" title="Link to this heading"></a></h2>
+<p><strong>Decision</strong>: <code class="docutils literal notranslate"><span class="pre">numba&gt;=0.56.0</span></code> is in core <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>.</p>
+<p><strong>Why (historical)</strong>: Numba was added early for WHT and influence computation speedups.</p>
+<p><strong>Known issue</strong>: Numba adds significant install weight (LLVM), warns on import if unavailable, and is rarely needed for the typical <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">&lt;=</span> <span class="pre">14</span></code> use case.</p>
+<p><strong>Future</strong>: Move to <code class="docutils literal notranslate"><span class="pre">[project.optional-dependencies]</span></code> as <code class="docutils literal notranslate"><span class="pre">performance</span></code> extra. All Numba code paths already have fallbacks. This is a Phase 2 priority.</p>
+</section>
+<hr class="docutils" />
+<section id="adr-005-gpu-module-is-a-stub-quantum-module-renamed">
+<h2>ADR-005: GPU Module Is a Stub; Quantum Module Renamed<a class="headerlink" href="#adr-005-gpu-module-is-a-stub-quantum-module-renamed" title="Link to this heading"></a></h2>
+<p><strong>Decision</strong>: <code class="docutils literal notranslate"><span class="pre">gpu_acceleration.py</span></code> and <code class="docutils literal notranslate"><span class="pre">gpu.py</span></code> exist but contain minimal working code. The former <code class="docutils literal notranslate"><span class="pre">quantum/</span></code> module was renamed to <code class="docutils literal notranslate"><span class="pre">quantum_complexity/</span></code> in v1.3.0.</p>
+<p><strong>Why (GPU)</strong>: Created aspirationally. Serves as an extension point.</p>
+<p><strong>Why (quantum rename)</strong>: The old <code class="docutils literal notranslate"><span class="pre">quantum/</span></code> module contained classical algorithms with misleading <code class="docutils literal notranslate"><span class="pre">quantum_*</span></code> prefixes (Fourier analysis, influence estimation, property testing) that duplicated functionality in <code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code> and <code class="docutils literal notranslate"><span class="pre">PropertyTester</span></code>. Those duplicates were deleted. The remaining code — Grover bounds, quantum walk bounds, element distinctness analysis — honestly computes complexity-theoretic quantities and is now in <code class="docutils literal notranslate"><span class="pre">quantum_complexity/</span></code> with clear docstrings stating everything runs classically.</p>
+<p><strong>Future</strong>: Delete GPU stubs (keep only CuPy WHT in <code class="docutils literal notranslate"><span class="pre">optimizations.py</span></code>). Full quantum simulation in <code class="docutils literal notranslate"><span class="pre">quantum_complexity/</span></code> deferred to v2.0.0.</p>
+</section>
+<hr class="docutils" />
+<section id="adr-006-dual-tribes-convention-and-of-ors">
+<h2>ADR-006: Dual Tribes Convention (AND-of-ORs)<a class="headerlink" href="#adr-006-dual-tribes-convention-and-of-ors" title="Link to this heading"></a></h2>
+<p><strong>Decision</strong>: <code class="docutils literal notranslate"><span class="pre">bf.tribes(k,</span> <span class="pre">n)</span></code> implements AND-of-ORs (dual tribes), not O’Donnell’s OR-of-ANDs.</p>
+<p><strong>Why (historical)</strong>: The implementation followed a specific reference that used the dual convention.</p>
+<p><strong>Mitigation</strong>: The docstring explicitly documents the convention, notes the duality with O’Donnell Ch. 4, and provides examples. The migration guide documents this for Tal’s BooleanFunc.py users.</p>
+</section>
+<hr class="docutils" />
+<section id="adr-007-mypy-disabled-on-most-modules">
+<h2>ADR-007: mypy Disabled on Most Modules<a class="headerlink" href="#adr-007-mypy-disabled-on-most-modules" title="Link to this heading"></a></h2>
+<p><strong>Decision</strong>: <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> has 23 <code class="docutils literal notranslate"><span class="pre">ignore_errors</span> <span class="pre">=</span> <span class="pre">true</span></code> overrides.</p>
+<p><strong>Why</strong>: The codebase was written without type annotations and adding them retroactively to 40k LoC is a multi-week project. The <code class="docutils literal notranslate"><span class="pre">py.typed</span></code> marker was added optimistically.</p>
+<p><strong>Known issue</strong>: This is the single largest technical debt item.</p>
+<p><strong>Future</strong>: Phase 3 priority. Enable mypy module-by-module, starting with <code class="docutils literal notranslate"><span class="pre">core/base.py</span></code> and <code class="docutils literal notranslate"><span class="pre">core/factory.py</span></code>. Consider removing <code class="docutils literal notranslate"><span class="pre">py.typed</span></code> until this is done.</p>
+</section>
+<hr class="docutils" />
+<section id="adr-008-856-line-roadmap">
+<h2>ADR-008: 856-Line ROADMAP<a class="headerlink" href="#adr-008-856-line-roadmap" title="Link to this heading"></a></h2>
+<p><strong>Decision</strong>: The ROADMAP tracks both completed work and future plans in detail.</p>
+<p><strong>Why</strong>: This is a course companion project. The ROADMAP serves as a development journal for the instructor, showing what was delivered each week, what’s planned, and what trade-offs were made. Students and collaborators reference it.</p>
+<p><strong>Trade-off</strong>: Long. Could be split into CHANGELOG (completed) and ROADMAP (planned).</p>
+</section>
+<hr class="docutils" />
+<section id="adr-009-no-init-subclassing-pattern">
+<h2>ADR-009: No <strong>init</strong> Subclassing Pattern<a class="headerlink" href="#adr-009-no-init-subclassing-pattern" title="Link to this heading"></a></h2>
+<p><strong>Status</strong>: FIXED (Feb 2026)</p>
+<p>The original <code class="docutils literal notranslate"><span class="pre">__new__</span></code>/<code class="docutils literal notranslate"><span class="pre">_init</span></code> pattern was a historical artifact that prevented normal subclassing. It has been replaced with standard <code class="docutils literal notranslate"><span class="pre">__init__</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

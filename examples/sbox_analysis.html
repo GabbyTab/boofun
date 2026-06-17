@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cryptographic S-box Analysis &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Cryptographic S-box Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/sbox_analysis.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="cryptographic-s-box-analysis">
+<h1>Cryptographic S-box Analysis<a class="headerlink" href="#cryptographic-s-box-analysis" title="Link to this heading"></a></h1>
+<p>This example demonstrates how to use BooFun to analyze cryptographic S-boxes, a critical component of block ciphers like AES.</p>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h2>
+<p>S-boxes (Substitution boxes) are nonlinear components in symmetric ciphers. Their cryptographic strength depends on several Boolean function properties:</p>
+<ul class="simple">
+<li><p><strong>Nonlinearity</strong>: Distance from all affine functions (higher is better)</p></li>
+<li><p><strong>Algebraic degree</strong>: Complexity of the polynomial representation</p></li>
+<li><p><strong>Balancedness</strong>: Equal number of 0 and 1 outputs</p></li>
+<li><p><strong>Differential uniformity</strong>: Resistance to differential cryptanalysis</p></li>
+</ul>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">boofun</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">PropertyTester</span>
+
+<span class="c1"># AES S-box (first 32 values shown)</span>
+<span class="n">AES_SBOX</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0x7c</span><span class="p">,</span> <span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x7b</span><span class="p">,</span> <span class="mh">0xf2</span><span class="p">,</span> <span class="mh">0x6b</span><span class="p">,</span> <span class="mh">0x6f</span><span class="p">,</span> <span class="mh">0xc5</span><span class="p">,</span>
+    <span class="mh">0x30</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0x2b</span><span class="p">,</span> <span class="mh">0xfe</span><span class="p">,</span> <span class="mh">0xd7</span><span class="p">,</span> <span class="mh">0xab</span><span class="p">,</span> <span class="mh">0x76</span><span class="p">,</span>
+    <span class="mh">0xca</span><span class="p">,</span> <span class="mh">0x82</span><span class="p">,</span> <span class="mh">0xc9</span><span class="p">,</span> <span class="mh">0x7d</span><span class="p">,</span> <span class="mh">0xfa</span><span class="p">,</span> <span class="mh">0x59</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> <span class="mh">0xf0</span><span class="p">,</span>
+    <span class="mh">0xad</span><span class="p">,</span> <span class="mh">0xd4</span><span class="p">,</span> <span class="mh">0xa2</span><span class="p">,</span> <span class="mh">0xaf</span><span class="p">,</span> <span class="mh">0x9c</span><span class="p">,</span> <span class="mh">0xa4</span><span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span> <span class="mh">0xc0</span><span class="p">,</span>
+    <span class="c1"># ... full 256 entries</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="extracting-component-functions">
+<h2>Extracting Component Functions<a class="headerlink" href="#extracting-component-functions" title="Link to this heading"></a></h2>
+<p>An 8-bit S-box can be viewed as 8 separate Boolean functions, one for each output bit:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_sbox_component</span><span class="p">(</span><span class="n">sbox</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">bit</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the bit-th component function from an S-box.&quot;&quot;&quot;</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="p">[(</span><span class="n">sbox</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">bit</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="o">.</span><span class="n">from_truth_table</span><span class="p">(</span><span class="n">truth_table</span><span class="p">,</span> <span class="n">n_vars</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="c1"># Get all 8 component functions</span>
+<span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_sbox_component</span><span class="p">(</span><span class="n">AES_SBOX</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+</pre></div>
+</div>
+</section>
+<section id="nonlinearity-analysis">
+<h2>Nonlinearity Analysis<a class="headerlink" href="#nonlinearity-analysis" title="Link to this heading"></a></h2>
+<p>Nonlinearity is the minimum Hamming distance to all affine functions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">compute_nonlinearity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">bf</span><span class="o">.</span><span class="n">BooleanFunction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute nonlinearity using Walsh-Hadamard transform.&quot;&quot;&quot;</span>
+    <span class="n">fourier</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n</span>
+
+    <span class="c1"># Convert Fourier coefficients to Walsh spectrum</span>
+    <span class="c1"># Walsh(a) = sum_x (-1)^{f(x) + &lt;a,x&gt;}</span>
+    <span class="n">walsh</span> <span class="o">=</span> <span class="n">fourier</span> <span class="o">*</span> <span class="n">N</span>
+
+    <span class="c1"># Nonlinearity = (N - max|Walsh|) / 2</span>
+    <span class="n">max_walsh</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">walsh</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">N</span> <span class="o">-</span> <span class="n">max_walsh</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># AES S-box components have nonlinearity 112 (optimal for 8-bit)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
+    <span class="n">nl</span> <span class="o">=</span> <span class="n">compute_nonlinearity</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Component </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: nonlinearity = </span><span class="si">{</span><span class="n">nl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="balancedness-check">
+<h2>Balancedness Check<a class="headerlink" href="#balancedness-check" title="Link to this heading"></a></h2>
+<p>A balanced function outputs 0 and 1 equally often:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+    <span class="n">balanced</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">balanced_test</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Component </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: balanced = </span><span class="si">{</span><span class="n">balanced</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="linearity-testing">
+<h2>Linearity Testing<a class="headerlink" href="#linearity-testing" title="Link to this heading"></a></h2>
+<p>Good S-boxes should be far from linear:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+
+    <span class="c1"># Should fail - S-box is highly nonlinear</span>
+    <span class="n">is_linear</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">blr_linearity_test</span><span class="p">(</span><span class="n">num_queries</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Component </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: linear = </span><span class="si">{</span><span class="n">is_linear</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Should be False</span>
+</pre></div>
+</div>
+</section>
+<section id="fourier-analysis">
+<h2>Fourier Analysis<a class="headerlink" href="#fourier-analysis" title="Link to this heading"></a></h2>
+<p>Examine the spectral structure:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
+    <span class="c1"># Get Fourier degree (highest level with non-zero weight)</span>
+    <span class="n">degree</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+
+    <span class="c1"># Get spectral weight distribution</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">spectral_weight_by_degree</span><span class="p">()</span>
+
+    <span class="c1"># Total influence (measure of complexity)</span>
+    <span class="n">total_inf</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Component </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Fourier degree: </span><span class="si">{</span><span class="n">degree</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Total influence: </span><span class="si">{</span><span class="n">total_inf</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Weight at degree 1: </span><span class="si">{</span><span class="n">weights</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="interactive-visualization">
+<h2>Interactive Visualization<a class="headerlink" href="#interactive-visualization" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">boofun.visualization.interactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">FourierExplorer</span>
+
+<span class="c1"># Explore the Fourier spectrum interactively</span>
+<span class="n">explorer</span> <span class="o">=</span> <span class="n">FourierExplorer</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># In Jupyter notebook:</span>
+<span class="c1"># fig = explorer.spectrum_plot()</span>
+<span class="c1"># fig.show()</span>
+
+<span class="c1"># Get top coefficients</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">explorer</span><span class="o">.</span><span class="n">top_coefficients</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="comparing-s-boxes">
+<h2>Comparing S-boxes<a class="headerlink" href="#comparing-s-boxes" title="Link to this heading"></a></h2>
+<p>Compare different S-box designs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simple (weak) S-box: just bit rotation</span>
+<span class="n">weak_sbox</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span> <span class="o">|</span> <span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)]</span>
+<span class="n">weak_comp</span> <span class="o">=</span> <span class="n">get_sbox_component</span><span class="p">(</span><span class="n">weak_sbox</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Compare</span>
+<span class="n">aes_nl</span> <span class="o">=</span> <span class="n">compute_nonlinearity</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">weak_nl</span> <span class="o">=</span> <span class="n">compute_nonlinearity</span><span class="p">(</span><span class="n">weak_comp</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AES nonlinearity: </span><span class="si">{</span><span class="n">aes_nl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># 112</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weak nonlinearity: </span><span class="si">{</span><span class="n">weak_nl</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Much lower</span>
+
+<span class="c1"># Linearity test</span>
+<span class="n">weak_tester</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">weak_comp</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Weak S-box passes linearity: </span><span class="si">{</span><span class="n">weak_tester</span><span class="o">.</span><span class="n">blr_linearity_test</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="full-analysis-report">
+<h2>Full Analysis Report<a class="headerlink" href="#full-analysis-report" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analyze_sbox</span><span class="p">(</span><span class="n">sbox</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;S-box&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate comprehensive S-box analysis report.&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;=== </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> Analysis ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">components</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_sbox_component</span><span class="p">(</span><span class="n">sbox</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+
+    <span class="c1"># Per-component analysis</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">components</span><span class="p">):</span>
+        <span class="n">nl</span> <span class="o">=</span> <span class="n">compute_nonlinearity</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">deg</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span>
+        <span class="n">bal</span> <span class="o">=</span> <span class="n">PropertyTester</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span><span class="o">.</span><span class="n">balanced_test</span><span class="p">()</span>
+        <span class="n">inf</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bit </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: NL=</span><span class="si">{</span><span class="n">nl</span><span class="si">}</span><span class="s2">, deg=</span><span class="si">{</span><span class="n">deg</span><span class="si">}</span><span class="s2">, balanced=</span><span class="si">{</span><span class="n">bal</span><span class="si">}</span><span class="s2">, I[f]=</span><span class="si">{</span><span class="n">inf</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Summary</span>
+    <span class="n">nonlinearities</span> <span class="o">=</span> <span class="p">[</span><span class="n">compute_nonlinearity</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Min nonlinearity: </span><span class="si">{</span><span class="nb">min</span><span class="p">(</span><span class="n">nonlinearities</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max nonlinearity: </span><span class="si">{</span><span class="nb">max</span><span class="p">(</span><span class="n">nonlinearities</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All balanced: </span><span class="si">{</span><span class="nb">all</span><span class="p">(</span><span class="n">PropertyTester</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">balanced_test</span><span class="p">()</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">components</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">analyze_sbox</span><span class="p">(</span><span class="n">AES_SBOX</span><span class="p">,</span> <span class="s2">&quot;AES&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>High nonlinearity</strong> (112 for AES) provides resistance to linear cryptanalysis</p></li>
+<li><p><strong>Balancedness</strong> ensures no output bias</p></li>
+<li><p><strong>High algebraic degree</strong> resists algebraic attacks</p></li>
+<li><p><strong>BooFun makes it easy</strong> to compute all these properties with a unified API</p></li>
+</ol>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Nyberg, K. (1991). “Perfect nonlinear S-boxes”</p></li>
+<li><p>Carlet, C. (2010). “Boolean Functions for Cryptography”</p></li>
+<li><p>O’Donnell, R. (2014). “Analysis of Boolean Functions” - Chapter on noise stability</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

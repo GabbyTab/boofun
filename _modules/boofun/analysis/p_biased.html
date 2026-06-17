@@ -1,0 +1,895 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>boofun.analysis.p_biased &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../boofun.html">boofun</a></li>
+          <li class="breadcrumb-item"><a href="../analysis.html">boofun.analysis</a></li>
+      <li class="breadcrumb-item active">boofun.analysis.p_biased</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for boofun.analysis.p_biased</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">P-biased Fourier analysis for Boolean functions.</span>
+
+<span class="sd">This module implements Fourier analysis over p-biased product distributions,</span>
+<span class="sd">as described in O&#39;Donnell&#39;s &quot;Analysis of Boolean Functions&quot; Chapter 8.</span>
+
+<span class="sd">In the standard (uniform) setting, inputs are drawn from {-1,+1}^n uniformly.</span>
+<span class="sd">In the p-biased setting, each coordinate is independently:</span>
+<span class="sd">    x_i = -1 with probability p</span>
+<span class="sd">    x_i = +1 with probability 1-p</span>
+
+<span class="sd">The p-biased Fourier basis uses orthogonal polynomials called the:</span>
+<span class="sd">    φ_S^(p)(x) = ∏_{i∈S} φ^(p)(x_i)</span>
+
+<span class="sd">where φ^(p)(x) = (x - μ)/σ is the normalized basis function, with:</span>
+<span class="sd">    μ = E[x] = 1 - 2p</span>
+<span class="sd">    σ = √Var(x) = 2√(p(1-p))</span>
+
+<span class="sd">Key concepts:</span>
+<span class="sd">- p-biased measure μ_p: Pr[x_i = -1] = p, Pr[x_i = +1] = 1-p</span>
+<span class="sd">- p-biased inner product: ⟨f,g⟩_p = E_{x~μ_p}[f(x)g(x)]</span>
+<span class="sd">- p-biased Fourier coefficients: f̂(S)_p = ⟨f, φ_S^(p)⟩_p</span>
+<span class="sd">- p-noise operator T_{1-2ε}: smoothing towards the p-biased mean</span>
+
+<span class="sd">Applications:</span>
+<span class="sd">- Analysis of Boolean functions under non-uniform input distributions</span>
+<span class="sd">- Sharp threshold phenomena (p → 0)</span>
+<span class="sd">- Monotone function analysis</span>
+<span class="sd">- Influence under biased distributions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..core.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BooleanFunction</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Core p-biased analysis</span>
+    <span class="s2">&quot;p_biased_fourier_coefficients&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_fourier_coefficient&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_total_influence&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_noise_stability&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_expectation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_variance&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;biased_measure_mass&quot;</span><span class="p">,</span>
+    <span class="c1"># Sensitivity under μ_p (from Tal&#39;s library)</span>
+    <span class="s2">&quot;p_biased_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_average_sensitivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p_biased_total_influence_fourier&quot;</span><span class="p">,</span>
+    <span class="c1"># Utility functions</span>
+    <span class="s2">&quot;parity_biased_coefficient&quot;</span><span class="p">,</span>
+    <span class="c1"># Analyzer class</span>
+    <span class="s2">&quot;PBiasedAnalyzer&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_p_biased_basis</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute p-biased basis transformation parameters.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (mu, sigma) where:</span>
+<span class="sd">        - mu = E[x] = 1 - 2p (mean of single coordinate)</span>
+<span class="sd">        - sigma = 2*sqrt(p*(1-p)) (std of single coordinate)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p must be in (0,1), got </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">p</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span>
+
+
+<div class="viewcode-block" id="biased_measure_mass">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.biased_measure_mass">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">biased_measure_mass</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">subset_mask</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute μ_p(x : x has 1s exactly at positions in subset_mask).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        p: Bias parameter (Pr[x_i = -1] = p)</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        subset_mask: Bitmask of positions that should be -1</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Probability mass under the p-biased measure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">subset_mask</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>  <span class="c1"># Number of -1 coordinates</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">k</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_expectation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_expectation</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute E_{μ_p}[f] - the expectation of f under p-biased measure.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction (in ±1 convention, or converted)</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Expected value of f under p-biased distribution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="c1"># Convert {0,1} to {-1,+1} if needed (assuming truth table is in {0,1})</span>
+    <span class="n">truth_table_pm</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Count bits set (which become -1 in the ±1 convention)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">k</span><span class="p">))</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">truth_table_pm</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">*</span> <span class="n">prob</span>
+
+    <span class="k">return</span> <span class="n">total</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_variance">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_variance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_variance</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Var_{μ_p}[f] - the variance under p-biased measure.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Variance of f under p-biased distribution</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">truth_table_pm</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Compute E[f] and E[f^2]</span>
+    <span class="n">ef</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">ef2</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">k</span><span class="p">))</span>
+        <span class="n">fx</span> <span class="o">=</span> <span class="n">truth_table_pm</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="n">ef</span> <span class="o">+=</span> <span class="n">fx</span> <span class="o">*</span> <span class="n">prob</span>
+        <span class="n">ef2</span> <span class="o">+=</span> <span class="p">(</span><span class="n">fx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">prob</span>
+
+    <span class="k">return</span> <span class="n">ef2</span> <span class="o">-</span> <span class="n">ef</span><span class="o">**</span><span class="mi">2</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_fourier_coefficients">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_fourier_coefficients">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the p-biased Fourier coefficients of f.</span>
+
+<span class="sd">    The p-biased Fourier expansion is:</span>
+<span class="sd">        f(x) = Σ_S f̂(S)_p φ_S^(p)(x)</span>
+
+<span class="sd">    where φ_S^(p)(x) = ∏_{i∈S} φ^(p)(x_i) and φ^(p)(x_i) = (x_i - μ)/σ.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        p: Bias parameter (default 0.5 = uniform)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Dictionary mapping subset masks to p-biased Fourier coefficients</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))}</span>
+
+    <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">_p_biased_basis</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">truth_table_pm</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+    <span class="n">coefficients</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Compute f̂(S)_p = E_{μ_p}[f(x) φ_S^(p)(x)]</span>
+        <span class="n">coeff</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="c1"># Compute probability mass of x</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+            <span class="n">prob</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">k</span><span class="p">))</span>
+
+            <span class="c1"># Compute φ_S^(p)(x) = ∏_{i∈S} (x_i - μ)/σ</span>
+            <span class="n">phi</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">S</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># i is in S</span>
+                    <span class="n">x_i</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">1.0</span>
+                    <span class="n">phi</span> <span class="o">*=</span> <span class="p">(</span><span class="n">x_i</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma</span>
+
+            <span class="n">coeff</span> <span class="o">+=</span> <span class="n">truth_table_pm</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">*</span> <span class="n">phi</span> <span class="o">*</span> <span class="n">prob</span>
+
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">:</span>  <span class="c1"># Store non-negligible coefficients</span>
+            <span class="n">coefficients</span><span class="p">[</span><span class="n">S</span><span class="p">]</span> <span class="o">=</span> <span class="n">coeff</span>
+
+    <span class="k">return</span> <span class="n">coefficients</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_influence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_influence</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the p-biased influence of variable i on f.</span>
+
+<span class="sd">    The p-biased influence is:</span>
+<span class="sd">        Inf_i^(p)[f] = E_{μ_p}[(D_i f)^2] = Σ_{S∋i} f̂(S)_p^2 / (p(1-p))</span>
+
+<span class="sd">    where D_i f(x) = (f(x^{(i→+1)}) - f(x^{(i→-1)})) / 2.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        i: Variable index</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        p-biased influence of variable i</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> out of range&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">truth_table_pm</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">truth_table</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="c1"># Compute E_{μ_p}[(f(x^{i=+1}) - f(x^{i=-1}))^2] / 4</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Skip if bit i is set (we&#39;ll handle pairs)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">x_with_i</span> <span class="o">=</span> <span class="n">x</span> <span class="o">|</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>
+
+        <span class="c1"># f at x (bit i is 0, meaning x_i = +1)</span>
+        <span class="c1"># f at x_with_i (bit i is 1, meaning x_i = -1)</span>
+        <span class="n">f_plus</span> <span class="o">=</span> <span class="n">truth_table_pm</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="n">f_minus</span> <span class="o">=</span> <span class="n">truth_table_pm</span><span class="p">[</span><span class="n">x_with_i</span><span class="p">]</span>
+
+        <span class="c1"># Probability of the rest of the coordinates</span>
+        <span class="n">k_rest</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>  <span class="c1"># Count of -1s excluding position i</span>
+        <span class="n">prob_rest</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">k_rest</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">k_rest</span><span class="p">))</span>
+
+        <span class="c1"># The derivative squared</span>
+        <span class="n">diff_sq</span> <span class="o">=</span> <span class="p">((</span><span class="n">f_plus</span> <span class="o">-</span> <span class="n">f_minus</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">diff_sq</span> <span class="o">*</span> <span class="n">prob_rest</span>
+
+    <span class="k">return</span> <span class="n">total</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_total_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_total_influence">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_total_influence</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the total p-biased influence.</span>
+
+<span class="sd">    I^(p)[f] = Σ_i Inf_i^(p)[f]</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Total p-biased influence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p_biased_influence</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_noise_stability">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_noise_stability</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the p-biased noise stability at correlation rho.</span>
+
+<span class="sd">    Stab_ρ^(p)[f] = E[f(x)f(y)] where (x,y) are ρ-correlated under μ_p</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        rho: Noise correlation parameter in [-1, 1]</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        p-biased noise stability</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+
+    <span class="c1"># Use Fourier formula: Stab_ρ^(p)[f] = Σ_S ρ^|S| f̂(S)_p^2</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">p_biased_fourier_coefficients</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+    <span class="n">stability</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">S</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="n">coeffs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">stability</span> <span class="o">+=</span> <span class="p">(</span><span class="n">rho</span><span class="o">**</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">coeff</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">stability</span></div>
+
+
+
+<span class="c1"># ============================================================================</span>
+<span class="c1"># Functions from Avishay Tal&#39;s library</span>
+<span class="c1"># ============================================================================</span>
+
+
+<div class="viewcode-block" id="p_biased_fourier_coefficient">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_fourier_coefficient">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_fourier_coefficient</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute single p-biased Fourier coefficient using Tal&#39;s formula.</span>
+
+<span class="sd">    This is an alternative (and often faster) formula for computing</span>
+<span class="sd">    individual p-biased Fourier coefficients. Uses the explicit basis:</span>
+
+<span class="sd">        φ_S^(p)(x) = ∏_{i∈S} φ^(p)(x_i)</span>
+
+<span class="sd">    where φ^(p)(x_i) = -√(q/p) if x_i = -1, else √(p/q)</span>
+<span class="sd">    (with q = 1-p)</span>
+
+<span class="sd">    This formula is from Tal&#39;s FourierCoefMuP function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        p: Bias parameter in (0, 1)</span>
+<span class="sd">        S: Subset mask (integer with bits indicating which variables)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The p-biased Fourier coefficient f̂(S)_p</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: FourierCoefMuP</span>
+<span class="sd">        - O&#39;Donnell Chapter 8</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p must be in (0,1), got </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="k">if</span> <span class="n">S</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span>
+    <span class="n">sqrt_q_over_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q</span> <span class="o">/</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">sqrt_p_over_q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">p</span> <span class="o">/</span> <span class="n">q</span><span class="p">)</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">val</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+    <span class="n">popcnt_S</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Probability of x under μ_p</span>
+        <span class="n">popcnt_x</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">pr</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">popcnt_x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">popcnt_x</span><span class="p">))</span>
+
+        <span class="c1"># Compute φ_S^(p)(x):</span>
+        <span class="c1"># For each i in S: if x_i = -1 (bit set), use -√(q/p)</span>
+        <span class="c1">#                  if x_i = +1 (bit not set), use √(p/q)</span>
+        <span class="n">overlap</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>  <span class="c1"># Number of bits set in both x and S</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="p">((</span><span class="o">-</span><span class="n">sqrt_q_over_p</span><span class="p">)</span> <span class="o">**</span> <span class="n">overlap</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">sqrt_p_over_q</span> <span class="o">**</span> <span class="p">(</span><span class="n">popcnt_S</span> <span class="o">-</span> <span class="n">overlap</span><span class="p">))</span>
+
+        <span class="c1"># f in ±1 convention: 0 → +1, 1 → -1</span>
+        <span class="n">f_x</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">else</span> <span class="mf">1.0</span>
+
+        <span class="n">val</span> <span class="o">+=</span> <span class="n">pr</span> <span class="o">*</span> <span class="n">phi</span> <span class="o">*</span> <span class="n">f_x</span>
+
+    <span class="k">return</span> <span class="n">val</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the sensitivity of f at input x.</span>
+
+<span class="sd">    This is the same as standard sensitivity (number of sensitive coordinates),</span>
+<span class="sd">    independent of p. Included for API consistency with p_biased_average_sensitivity.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        x: Input point (integer)</span>
+<span class="sd">        p: Bias parameter (not used, for API consistency)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Number of coordinates i where f(x) ≠ f(x^i)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">f_x</span> <span class="o">=</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+    <span class="n">sens</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">x_flip</span> <span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">truth_table</span><span class="p">[</span><span class="n">x_flip</span><span class="p">]</span> <span class="o">!=</span> <span class="n">f_x</span><span class="p">:</span>
+            <span class="n">sens</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">sens</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_average_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_average_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_average_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the average sensitivity under p-biased distribution μ_p.</span>
+
+<span class="sd">    This computes:</span>
+<span class="sd">        as_p(f) = E_{x ~ μ_p}[s(f, x)]</span>
+
+<span class="sd">    where s(f, x) is the sensitivity at input x.</span>
+
+<span class="sd">    This is Tal&#39;s `asMuP` function. Note that by Poincaré&#39;s inequality,</span>
+<span class="sd">    this equals the p-biased total influence for Boolean functions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Average sensitivity under μ_p</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: asMuP</span>
+<span class="sd">        - O&#39;Donnell Proposition 8.28</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p must be in (0,1), got </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span>
+    <span class="n">truth_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">get_representation</span><span class="p">(</span><span class="s2">&quot;truth_table&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="c1"># Probability of x under μ_p</span>
+        <span class="n">popcnt_x</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">pr</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">popcnt_x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">popcnt_x</span><span class="p">))</span>
+
+        <span class="c1"># Sensitivity at x</span>
+        <span class="n">sens</span> <span class="o">=</span> <span class="n">p_biased_sensitivity</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">pr</span> <span class="o">*</span> <span class="n">sens</span>
+
+    <span class="k">return</span> <span class="n">total</span></div>
+
+
+
+<div class="viewcode-block" id="p_biased_total_influence_fourier">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.p_biased_total_influence_fourier">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">p_biased_total_influence_fourier</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute total p-biased influence via Fourier coefficients.</span>
+
+<span class="sd">    The p-biased total influence via Fourier is:</span>
+<span class="sd">        I^(p)[f] = (1 / (4p(1-p))) × Σ_S |S| · f̂(S)_p²</span>
+
+<span class="sd">    The normalization factor 4p(1-p) is the variance of a single ±1 coordinate</span>
+<span class="sd">    under the p-biased distribution. At p=0.5, this factor equals 1.</span>
+
+<span class="sd">    This should equal the average sensitivity under μ_p (Poincaré inequality).</span>
+
+<span class="sd">    Note: Tal&#39;s original `asFourierMuP` function computes Σ_S |S| f̂(S)_p²</span>
+<span class="sd">    WITHOUT the normalization, which only equals the total influence at p=0.5.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        f: BooleanFunction to analyze</span>
+<span class="sd">        p: Bias parameter</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Total p-biased influence (via Fourier)</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - O&#39;Donnell Theorem 8.32 (p-biased Poincaré inequality)</span>
+<span class="sd">        - O&#39;Donnell Proposition 8.28</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p must be in (0,1), got </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">n</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">coeff</span> <span class="o">=</span> <span class="n">p_biased_fourier_coefficient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+        <span class="n">popcnt_S</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">coeff</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">popcnt_S</span>
+
+    <span class="c1"># Normalization factor: 4p(1-p) is the variance of a single coordinate</span>
+    <span class="c1"># At p=0.5, this is 4 * 0.5 * 0.5 = 1, so no change</span>
+    <span class="n">normalization</span> <span class="o">=</span> <span class="mf">4.0</span> <span class="o">*</span> <span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">normalization</span></div>
+
+
+
+<div class="viewcode-block" id="parity_biased_coefficient">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.parity_biased_coefficient">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parity_biased_coefficient</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the p-biased Fourier coefficient of the parity function.</span>
+
+<span class="sd">    For the parity function PAR_n(x) = x_1 ⊕ x_2 ⊕ ... ⊕ x_n (XOR of all bits),</span>
+<span class="sd">    this computes a specific coefficient related to the bias.</span>
+
+<span class="sd">    The formula uses Krawchouk-like recurrence:</span>
+<span class="sd">        S = Σ_{j=0}^{i} (-1)^j * C(n-k, j) * C(k, i-j)</span>
+<span class="sd">        result = S / C(n, i)</span>
+
+<span class="sd">    where k relates to the bias via k = p*n (expected number of 1s).</span>
+
+<span class="sd">    This is Tal&#39;s `parity_biased` function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        n: Number of variables</span>
+<span class="sd">        k: Bias-related parameter (typically floor(p*n) or similar)</span>
+<span class="sd">        i: Coefficient index</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The biased parity coefficient</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - Tal&#39;s BooleanFunc.py: parity_biased</span>
+<span class="sd">        - Krawchouk polynomials in coding theory</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.math</span><span class="w"> </span><span class="kn">import</span> <span class="n">over</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">S</span> <span class="o">+=</span> <span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="n">over</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="n">over</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span>
+
+    <span class="n">denom</span> <span class="o">=</span> <span class="n">over</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">S</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">denom</span><span class="p">)</span> <span class="k">if</span> <span class="n">denom</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PBiasedAnalyzer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Comprehensive p-biased analysis for Boolean functions.</span>
+
+<span class="sd">    This class provides caching and convenient methods for analyzing</span>
+<span class="sd">    Boolean functions under p-biased distributions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PBiasedAnalyzer.__init__">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="s2">&quot;BooleanFunction&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize p-biased analyzer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            f: BooleanFunction to analyze</span>
+<span class="sd">            p: Bias parameter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coefficients</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get cached p-biased Fourier coefficients.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coefficients</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_coefficients</span> <span class="o">=</span> <span class="n">p_biased_fourier_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coefficients</span>
+
+<div class="viewcode-block" id="PBiasedAnalyzer.expectation">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.expectation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expectation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get E[f] under p-biased measure.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_expectation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.variance">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.variance">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">variance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Var[f] under p-biased measure.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_variance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">influence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get p-biased influence of variable i.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_influence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.influences">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.influences">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">influences</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get p-biased influences of all variables.&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">influence</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.total_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.total_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_influence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get total p-biased influence.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_total_influence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.noise_stability">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.noise_stability">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">noise_stability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get p-biased noise stability at correlation rho.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_noise_stability</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.spectral_norm">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.spectral_norm">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">spectral_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get L2 norm of degree-level Fourier coefficients.&quot;&quot;&quot;</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">S</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">level</span><span class="p">:</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="n">coeff</span><span class="o">**</span><span class="mi">2</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">total</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.max_influence">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.max_influence">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">max_influence</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find variable with maximum p-biased influence.&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span> <span class="ow">or</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="n">influences</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">influences</span><span class="p">()</span>
+        <span class="n">max_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">influences</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">max_idx</span><span class="p">,</span> <span class="n">influences</span><span class="p">[</span><span class="n">max_idx</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.average_sensitivity">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.average_sensitivity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">average_sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute average sensitivity under μ_p distribution.</span>
+
+<span class="sd">        By Poincaré&#39;s inequality, this equals total_influence() for Boolean functions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_average_sensitivity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.total_influence_fourier">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.total_influence_fourier">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">total_influence_fourier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute total influence via Fourier formula.</span>
+
+<span class="sd">        This should equal average_sensitivity() and total_influence(),</span>
+<span class="sd">        providing a cross-validation check.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_total_influence_fourier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.fourier_coefficient">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.fourier_coefficient">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fourier_coefficient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute single Fourier coefficient using Tal&#39;s efficient formula.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            S: Subset mask</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The p-biased Fourier coefficient f̂(S)_p</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">p_biased_fourier_coefficient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.validate">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.validate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cross-validate p-biased computations.</span>
+
+<span class="sd">        Checks that mathematically equivalent quantities match:</span>
+<span class="sd">        - total_influence() ≈ average_sensitivity() ≈ total_influence_fourier()</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tol: Tolerance for floating point comparison</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary of validation checks and their results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ti</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span>
+        <span class="n">as_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">average_sensitivity</span><span class="p">()</span>
+        <span class="n">ti_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_influence_fourier</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;total_influence ≈ average_sensitivity&quot;</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ti</span> <span class="o">-</span> <span class="n">as_p</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">,</span>
+            <span class="s2">&quot;total_influence ≈ fourier_formula&quot;</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ti</span> <span class="o">-</span> <span class="n">ti_f</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">,</span>
+            <span class="s2">&quot;average_sensitivity ≈ fourier_formula&quot;</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">as_p</span> <span class="o">-</span> <span class="n">ti_f</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="PBiasedAnalyzer.summary">
+<a class="viewcode-back" href="../../../api/boofun.analysis.p_biased.html#boofun.analysis.p_biased.PBiasedAnalyzer.summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get human-readable summary of p-biased analysis.&quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;P-biased Analysis (p=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Variables: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="o">.</span><span class="n">n_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Expectation: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">expectation</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Variance: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">variance</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Total Influence: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_influence</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Average Sensitivity (μ_p): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">average_sensitivity</span><span class="p">()</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;  Non-zero Fourier coefficients: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
