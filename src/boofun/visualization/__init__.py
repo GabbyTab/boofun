@@ -246,9 +246,12 @@ class BooleanFunctionVisualizer:
             degree_list = sorted(degrees.keys())
             coeff_data = [degrees[d] for d in degree_list]
 
-            bp = ax1.boxplot(
-                coeff_data, labels=[f"Deg {d}" for d in degree_list], patch_artist=True
-            )
+            # Note: set tick labels via set_xticklabels rather than passing
+            # labels=/tick_labels= to boxplot. The labels kwarg was removed in
+            # matplotlib 3.11 and tick_labels only exists from 3.9, so neither
+            # is safe across the supported range (matplotlib>=3.5).
+            bp = ax1.boxplot(coeff_data, patch_artist=True)
+            ax1.set_xticklabels([f"Deg {d}" for d in degree_list])
 
             # Color boxes
             colors = plt.get_cmap("viridis")(np.linspace(0, 1, len(bp["boxes"])))
