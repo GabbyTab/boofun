@@ -19,7 +19,7 @@ import sys
 
 import numpy as np
 import pytest
-from hypothesis import HealthCheck, assume, given, settings
+from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
 sys.path.insert(0, "src")
@@ -56,6 +56,20 @@ def boolean_functions(draw, max_vars=6):
 def small_functions(draw):
     """Generate small functions (n <= 4) for expensive tests."""
     return draw(boolean_functions(max_vars=4))
+
+
+@st.composite
+def boolean_function_pairs(draw, max_vars=4):
+    """Generate two Boolean functions with the same number of variables.
+
+    Drawing n_vars once and reusing it avoids the heavy input filtering that
+    results from generating two functions independently and discarding pairs
+    with mismatched arity (which trips Hypothesis's filter_too_much check).
+    """
+    n_vars = draw(st.integers(min_value=1, max_value=max_vars))
+    tt1 = draw(truth_tables(n_vars=n_vars))
+    tt2 = draw(truth_tables(n_vars=n_vars))
+    return bf.create(tt1), bf.create(tt2)
 
 
 # =============================================================================
@@ -373,11 +387,11 @@ class TestLearningFuzz:
 class TestBooleanOperationsFuzz:
     """Fuzz test Boolean operations for consistency."""
 
-    @given(boolean_functions(max_vars=4), boolean_functions(max_vars=4))
+    @given(boolean_function_pairs(max_vars=4))
     @settings(max_examples=30, suppress_health_check=[HealthCheck.too_slow])
-    def test_xor_commutative(self, f, g):
+    def test_xor_commutative(self, fg):
         """XOR should be commutative: f ⊕ g = g ⊕ f."""
-        assume(f.n_vars == g.n_vars)
+        f, g = fg
 
         h1 = f ^ g
         h2 = g ^ f
@@ -386,11 +400,11 @@ class TestBooleanOperationsFuzz:
         for x in range(min(2**n, 16)):
             assert h1.evaluate(x) == h2.evaluate(x)
 
-    @given(boolean_functions(max_vars=4), boolean_functions(max_vars=4))
+    @given(boolean_function_pairs(max_vars=4))
     @settings(max_examples=30, suppress_health_check=[HealthCheck.too_slow])
-    def test_and_commutative(self, f, g):
+    def test_and_commutative(self, fg):
         """AND should be commutative."""
-        assume(f.n_vars == g.n_vars)
+        f, g = fg
 
         h1 = f & g
         h2 = g & f
@@ -399,11 +413,11 @@ class TestBooleanOperationsFuzz:
         for x in range(min(2**n, 16)):
             assert h1.evaluate(x) == h2.evaluate(x)
 
-    @given(boolean_functions(max_vars=4), boolean_functions(max_vars=4))
+    @given(boolean_function_pairs(max_vars=4))
     @settings(max_examples=30, suppress_health_check=[HealthCheck.too_slow])
-    def test_or_commutative(self, f, g):
+    def test_or_commutative(self, fg):
         """OR should be commutative."""
-        assume(f.n_vars == g.n_vars)
+        f, g = fg
 
         h1 = f | g
         h2 = g | f
