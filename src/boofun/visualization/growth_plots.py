@@ -9,7 +9,7 @@ This module provides specialized plotting tools for:
 """
 
 import logging
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -743,6 +743,7 @@ def quick_growth_plot(
     from ..families import (
         ANDFamily,
         DictatorFamily,
+        FunctionFamily,
         GrowthTracker,
         MajorityFamily,
         ORFamily,
@@ -750,7 +751,9 @@ def quick_growth_plot(
         TribesFamily,
     )
 
-    families = {
+    # Values are concrete subclasses; annotate as callables so mypy doesn't
+    # flag instantiation of the inferred abstract base type.
+    families: Dict[str, Callable[[], FunctionFamily]] = {
         "majority": MajorityFamily,
         "parity": ParityFamily,
         "tribes": TribesFamily,

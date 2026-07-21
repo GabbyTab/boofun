@@ -214,14 +214,14 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
 
             A_ub.append(constraint)
 
-        A_ub = np.array(A_ub)
-        b_ub = np.array(b_ub)
+        A_ub_arr = np.array(A_ub)
+        b_ub_arr = np.array(b_ub)
 
         # Bounds: slack variables ≥ 0, weights and threshold unbounded
         bounds = [(None, None)] * (n_vars + 1) + [(0, None)] * size
 
         # Solve linear program
-        result = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method="highs")
+        result = linprog(c, A_ub=A_ub_arr, b_ub=b_ub_arr, bounds=bounds, method="highs")
 
         if not result.success or result.fun > 1e-6:
             # Function is not linearly separable

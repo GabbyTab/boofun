@@ -205,9 +205,9 @@ def multilinear_extension_gaussian_expectation(
     for i in range(num_samples):
         values.append(mle(G[i]))
 
-    values = np.array(values)
+    value_arr = np.array(values)
 
-    return (float(np.mean(values)), float(np.mean(np.sign(values))))
+    return (float(np.mean(value_arr)), float(np.mean(np.sign(value_arr))))
 
 
 def compute_test_function_expectation(
