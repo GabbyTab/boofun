@@ -184,11 +184,10 @@ jobs:
 
     - name: Run mutation testing (core modules)
       run: |
-        # Run mutation testing on critical modules only (full run too slow)
-        mutmut run --paths-to-mutate=src/boofun/core/optimizations.py \
-          --tests-dir=tests/core/ \
-          --runner="pytest -x -q" \
-          --no-progress || true
+        # Run mutation testing on critical modules only (full run too slow).
+        # mutmut 3.x: paths come from [tool.mutmut] in pyproject.toml;
+        # restrict to optimizations via a mutant-name pattern.
+        mutmut run "src.boofun.core.optimizations*" || true
         mutmut results
 
   benchmark:
