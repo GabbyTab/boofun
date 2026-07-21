@@ -64,7 +64,8 @@ class LTFAnalysis:
         if self.is_ltf and self.weights is not None:
             lines.append(f"Weights: {np.round(self.weights, 4)}")
             lines.append(f"Threshold: {self.threshold:.4f}")
-            lines.append(f"Chow params: {np.round(self.chow_parameters, 4)}")
+            if self.chow_parameters is not None:
+                lines.append(f"Chow params: {np.round(self.chow_parameters, 4)}")
             lines.append(f"Critical index: {self.critical_index}")
             lines.append(f"Regularity τ: {self.regularity:.4f}")
             if self.gaussian_noise_stability is not None:
@@ -385,7 +386,7 @@ def create_weighted_majority(
     import boofun as bf
 
     n = len(weights)
-    weights = np.array(weights)
+    weight_arr = np.array(weights)
 
     if threshold is None:
         threshold = 0.0
@@ -397,7 +398,7 @@ def create_weighted_majority(
         x = np.array([(i >> j) & 1 for j in range(n)])
         # Convert to ±1: 0 → +1, 1 → -1
         x_pm = 1 - 2 * x
-        val = 1 if np.dot(weights, x_pm) >= threshold else 0
+        val = 1 if np.dot(weight_arr, x_pm) >= threshold else 0
         truth_table.append(val)
 
     return bf.create(truth_table)

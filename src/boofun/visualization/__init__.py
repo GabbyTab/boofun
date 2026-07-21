@@ -490,11 +490,11 @@ class BooleanFunctionVisualizer:
                 binary_str = format(i, f"0{self.n_vars}b")
                 inputs.append(list(binary_str))
 
-            inputs = np.array(inputs)
+            input_arr = np.array(inputs)
             headers = [f"x_{i}" for i in range(self.n_vars)] + ["f(x)"]
 
             # Combine inputs and outputs
-            table_data = np.column_stack([inputs, truth_table.astype(int)])
+            table_data = np.column_stack([input_arr, truth_table.astype(int)])
 
             fig = go.Figure(
                 data=[

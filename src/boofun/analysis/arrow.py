@@ -296,9 +296,9 @@ def voting_power_analysis(f: "BooleanFunction") -> Dict[str, Any]:
         rng = np.random.default_rng(42)
 
         for _ in range(num_samples):
-            perm = rng.permutation(n)
-            for pos, i in enumerate(perm):
-                coalition = sum(1 << perm[j] for j in range(pos))
+            sampled_perm = rng.permutation(n)
+            for pos, i in enumerate(sampled_perm):
+                coalition = sum(1 << sampled_perm[j] for j in range(pos))
                 f_without_i = int(f.evaluate(coalition))
                 f_with_i = int(f.evaluate(coalition | (1 << i)))
                 shapley[i] += f_with_i - f_without_i
