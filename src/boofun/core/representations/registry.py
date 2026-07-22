@@ -36,7 +36,7 @@ def register_strategy(key: str) -> typing.Any:
     return decorator
 
 
-def register_partial_strategy(
+def register_partial_strategy(  # noqa: PLR0913  # one optional argument per strategy interface method
     key: str,
     *,
     evaluate: Callable[..., typing.Any],

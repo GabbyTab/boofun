@@ -109,7 +109,7 @@ class LegacyAdapter(BooleanFunctionAdapter):
         # Convert output to expected format
         return self._adapt_output(result)
 
-    def _adapt_inputs(self, inputs: typing.Any) -> Any:
+    def _adapt_inputs(self, inputs: typing.Any) -> Any:  # noqa: PLR0911  # one return per accepted input format
         """Convert inputs to legacy format.
 
         Args:

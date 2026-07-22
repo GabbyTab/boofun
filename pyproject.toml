@@ -120,6 +120,7 @@ select = [
     "NPY",  # NumPy-specific rules
     "RUF",  # Ruff-specific rules
     "PL",   # Pylint
+    "C90",  # mccabe complexity
 ]
 ignore = [
     # BooFun intentionally uses local imports to break dependency cycles and
@@ -129,12 +130,7 @@ ignore = [
     # formulas, and user-facing strings that cannot be safely reformatted.
     "E501",
     "PLC0415",
-    # Mathematical algorithms naturally contain many branches, parameters,
-    # return points, statements, and comparisons against named constants.
-    "PLR0911",
-    "PLR0912",
-    "PLR0913",
-    "PLR0915",
+    # Mathematical comparisons against named constants are domain notation.
     "PLR2004",
     # Greek symbols and mathematical operators are intentional domain notation.
     "RUF001",
@@ -152,6 +148,18 @@ ignore = [
     "SIM102",
     "SIM108",
 ]
+
+# Complexity thresholds calibrated for mathematical code: case analyses,
+# dispatch over representations, and multi-option plotting APIs run naturally
+# hotter than business logic, but runaway growth should still fail the lint.
+[tool.ruff.lint.mccabe]
+max-complexity = 15
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-branches = 15
+max-returns = 8
+max-statements = 60
 
 [tool.ruff.lint.flake8-unused-arguments]
 # Interface methods and IO/plotting wrappers accept **kwargs for signature

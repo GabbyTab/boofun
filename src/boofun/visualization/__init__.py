@@ -411,7 +411,7 @@ class BooleanFunctionVisualizer:
             return self._plot_truth_table_plotly(truth_table, save_path, show)
         return None
 
-    def _plot_truth_table_matplotlib(
+    def _plot_truth_table_matplotlib(  # noqa: PLR0912  # branches cover annotation/eval-count display modes
         self, truth_table: typing.Any, figsize: tuple[int, int], save_path: typing.Any, show: bool
     ) -> typing.Any:
         """Plot truth table using matplotlib."""

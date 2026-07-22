@@ -388,7 +388,7 @@ def get_input_types(f: "BooleanFunction") -> dict[int, str]:
     return types
 
 
-def get_symmetry_groups(f: "BooleanFunction") -> list[set[int]]:
+def get_symmetry_groups(f: "BooleanFunction") -> list[set[int]]:  # noqa: C901  # union-find over variable pairs is inherently branchy
     """
     Find groups of symmetric (interchangeable) variables.
 

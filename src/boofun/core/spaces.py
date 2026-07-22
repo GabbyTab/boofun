@@ -27,7 +27,7 @@ class Space(Enum):
     GAUSSIAN = auto()  # Gaussian space
 
     @staticmethod
-    def translate(
+    def translate(  # noqa: PLR0911  # one return per source/target space pair
         input: int | float | np.ndarray,
         source_space: "Space",
         target_space: "Space",

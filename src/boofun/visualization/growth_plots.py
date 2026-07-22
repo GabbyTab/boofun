@@ -83,7 +83,7 @@ class GrowthVisualizer:
             ]
         )
 
-    def plot_growth(
+    def plot_growth(  # noqa: PLR0913  # public plotting API: each argument is a documented option
         self,
         tracker: "GrowthTracker",
         marker_name: str,
@@ -146,7 +146,7 @@ class GrowthVisualizer:
             **kwargs,
         )
 
-    def _plot_growth_matplotlib(
+    def _plot_growth_matplotlib(  # noqa: PLR0913  # mirrors the plot_growth option surface
         self,
         n_arr: np.ndarray,
         computed_arr: np.ndarray,
@@ -209,7 +209,7 @@ class GrowthVisualizer:
 
         return fig, ax
 
-    def _plot_growth_plotly(
+    def _plot_growth_plotly(  # noqa: PLR0913  # mirrors the plot_growth option surface
         self,
         n_arr: np.ndarray,
         computed_arr: np.ndarray,

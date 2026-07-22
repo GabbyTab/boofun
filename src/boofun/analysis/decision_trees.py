@@ -603,7 +603,7 @@ def reconstruct_tree(
     return DecisionTree(var=var, left=left_tree, right=right_tree)
 
 
-def enumerate_decision_trees(
+def enumerate_decision_trees(  # noqa: C901  # exhaustive tree enumeration is one case analysis
     f: BooleanFunction, prune_dominated: bool = True
 ) -> list[DecisionTree]:
     """
