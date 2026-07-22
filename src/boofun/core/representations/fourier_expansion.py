@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 import numpy as np
 
@@ -47,7 +47,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             results[idx] = self._evaluate_single(x, coeffs)
         return results
 
-    def dump(self, data: np.ndarray, space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: np.ndarray, space=None, **kwargs) -> dict[str, Any]:
         """Export Fourier coefficients in serializable format"""
         return {
             "coefficients": data.tolist(),
@@ -123,7 +123,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         """Check if representation contains non-zero coefficients"""
         return bool(np.any(data != 0))
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity estimates for Fourier operations."""
         size = 2**n_vars
         return {
@@ -135,7 +135,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             "storage": size,  # O(2^n) storage
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return memory requirements for n variables"""
         num_coeffs = 2**n_vars
         return {

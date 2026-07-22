@@ -20,7 +20,7 @@ Key applications:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict, List, Optional, Set, Union
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -52,8 +52,8 @@ class Restriction:
         n_vars: Original number of variables
     """
 
-    fixed: Dict[int, int]
-    free: Set[int]
+    fixed: dict[int, int]
+    free: set[int]
     n_vars: int
 
     @property
@@ -74,7 +74,7 @@ class Restriction:
         return f"Restriction({self})"
 
 
-def random_restriction(n: int, p: float, rng: Optional[np.random.Generator] = None) -> Restriction:
+def random_restriction(n: int, p: float, rng: np.random.Generator | None = None) -> Restriction:
     """
     Generate a random p-restriction on n variables.
 
@@ -116,7 +116,7 @@ def random_restriction(n: int, p: float, rng: Optional[np.random.Generator] = No
     return Restriction(fixed=fixed, free=free, n_vars=n)
 
 
-def apply_restriction(f: "BooleanFunction", rho: Restriction) -> "BooleanFunction":
+def apply_restriction(f: BooleanFunction, rho: Restriction) -> BooleanFunction:
     """
     Apply a restriction to a Boolean function.
 
@@ -147,11 +147,11 @@ def apply_restriction(f: "BooleanFunction", rho: Restriction) -> "BooleanFunctio
 
 
 def restriction_shrinkage(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     p: float,
     num_samples: int = 100,
-    rng: Optional[np.random.Generator] = None,
-) -> Dict[str, float]:
+    rng: np.random.Generator | None = None,
+) -> dict[str, float]:
     """
     Estimate how much random restrictions shrink various complexity measures.
 
@@ -220,10 +220,10 @@ def restriction_shrinkage(
 
 
 def average_restricted_decision_tree_depth(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     p: float,
     num_samples: int = 100,
-    rng: Optional[np.random.Generator] = None,
+    rng: np.random.Generator | None = None,
 ) -> float:
     """
     Estimate expected decision tree depth after random p-restriction.
@@ -286,8 +286,8 @@ def switching_lemma_probability(width: int, p: float, depth_threshold: int) -> f
 
 
 def batch_random_restrictions(
-    n: int, p: float, num_restrictions: int, rng: Optional[np.random.Generator] = None
-) -> List[Restriction]:
+    n: int, p: float, num_restrictions: int, rng: np.random.Generator | None = None
+) -> list[Restriction]:
     """
     Generate multiple random restrictions.
 
@@ -306,7 +306,7 @@ def batch_random_restrictions(
     return [random_restriction(n, p, rng) for _ in range(num_restrictions)]
 
 
-def restriction_to_inputs(rho: Restriction, num_inputs: Optional[int] = None) -> List[int]:
+def restriction_to_inputs(rho: Restriction, num_inputs: int | None = None) -> list[int]:
     """
     Generate all inputs consistent with a restriction.
 
@@ -346,10 +346,10 @@ def restriction_to_inputs(rho: Restriction, num_inputs: Optional[int] = None) ->
 
 
 def min_fixing_to_constant(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     target_value: int = 1,
-    rng: Optional[np.random.Generator] = None,
-) -> Optional[Dict[int, int]]:
+    rng: np.random.Generator | None = None,
+) -> dict[int, int] | None:
     """
     Find a minimum set of variable assignments that fixes f to a constant.
 
@@ -380,13 +380,13 @@ def min_fixing_to_constant(
 
     # Greedy approach: try to fix variables one at a time
     # This doesn't guarantee minimum but is efficient
-    fixed: Dict[int, int] = {}
+    fixed: dict[int, int] = {}
     remaining = set(range(n))
 
     while remaining:
         # Check if already constant
         is_constant = True
-        first_val: Optional[bool] = None
+        first_val: bool | None = None
 
         for x in range(1 << n):
             # Check if x is consistent with current fixing
@@ -465,7 +465,7 @@ def min_fixing_to_constant(
     return fixed
 
 
-def shift_by_mask(f: "BooleanFunction", mask: int) -> "BooleanFunction":
+def shift_by_mask(f: BooleanFunction, mask: int) -> BooleanFunction:
     """
     Shift a Boolean function by XORing all inputs with a mask.
 

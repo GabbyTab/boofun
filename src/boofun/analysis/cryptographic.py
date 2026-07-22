@@ -26,7 +26,7 @@ References:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -61,7 +61,7 @@ __all__ = [
 ]
 
 
-def walsh_transform(f: "BooleanFunction") -> np.ndarray:
+def walsh_transform(f: BooleanFunction) -> np.ndarray:
     """
     Compute the Walsh-Hadamard transform of a Boolean function.
 
@@ -105,7 +105,7 @@ def walsh_transform(f: "BooleanFunction") -> np.ndarray:
     return (coeffs * size).astype(int)
 
 
-def walsh_spectrum(f: "BooleanFunction") -> Dict[int, int]:
+def walsh_spectrum(f: BooleanFunction) -> dict[int, int]:
     """
     Compute the Walsh spectrum (distribution of Walsh coefficients).
 
@@ -127,7 +127,7 @@ def walsh_spectrum(f: "BooleanFunction") -> Dict[int, int]:
     return dict(zip(unique.tolist(), counts.tolist()))
 
 
-def nonlinearity(f: "BooleanFunction") -> int:
+def nonlinearity(f: BooleanFunction) -> int:
     """
     Compute the nonlinearity of a Boolean function.
 
@@ -165,7 +165,7 @@ def nonlinearity(f: "BooleanFunction") -> int:
     return int((1 << (n - 1)) - max_walsh // 2)
 
 
-def is_bent(f: "BooleanFunction") -> bool:
+def is_bent(f: BooleanFunction) -> bool:
     """
     Check if a Boolean function is bent.
 
@@ -205,7 +205,7 @@ def is_bent(f: "BooleanFunction") -> bool:
     return bool(np.all(np.abs(W) == bent_value))
 
 
-def is_balanced(f: "BooleanFunction") -> bool:
+def is_balanced(f: BooleanFunction) -> bool:
     """
     Check if a Boolean function is balanced.
 
@@ -231,7 +231,7 @@ def is_balanced(f: "BooleanFunction") -> bool:
     return ones_count == size // 2
 
 
-def algebraic_degree(f: "BooleanFunction") -> int:
+def algebraic_degree(f: BooleanFunction) -> int:
     """
     Compute the algebraic degree (ANF degree) of a Boolean function.
 
@@ -256,7 +256,7 @@ def algebraic_degree(f: "BooleanFunction") -> int:
     return gf2_degree(f)
 
 
-def algebraic_normal_form(f: "BooleanFunction") -> np.ndarray:
+def algebraic_normal_form(f: BooleanFunction) -> np.ndarray:
     """
     Compute the Algebraic Normal Form (ANF) coefficients.
 
@@ -277,7 +277,7 @@ def algebraic_normal_form(f: "BooleanFunction") -> np.ndarray:
     return gf2_fourier_transform(f)
 
 
-def anf_monomials(f: "BooleanFunction") -> List[Tuple[int, ...]]:
+def anf_monomials(f: BooleanFunction) -> list[tuple[int, ...]]:
     """
     Return the monomials present in the ANF.
 
@@ -306,7 +306,7 @@ def anf_monomials(f: "BooleanFunction") -> List[Tuple[int, ...]]:
     return monomials
 
 
-def correlation_immunity(f: "BooleanFunction") -> int:
+def correlation_immunity(f: BooleanFunction) -> int:
     """
     Compute the correlation immunity order of a Boolean function.
 
@@ -336,7 +336,7 @@ def correlation_immunity(f: "BooleanFunction") -> int:
     return n  # All non-constant Walsh coefficients are zero
 
 
-def resiliency(f: "BooleanFunction") -> int:
+def resiliency(f: BooleanFunction) -> int:
     """
     Compute the resiliency order of a Boolean function.
 
@@ -354,7 +354,7 @@ def resiliency(f: "BooleanFunction") -> int:
     return correlation_immunity(f)
 
 
-def propagation_criterion(f: "BooleanFunction", order: int = 1) -> bool:
+def propagation_criterion(f: BooleanFunction, order: int = 1) -> bool:
     """
     Check if f satisfies the Propagation Criterion of order k.
 
@@ -368,7 +368,6 @@ def propagation_criterion(f: "BooleanFunction", order: int = 1) -> bool:
     Returns:
         True if f satisfies PC(k)
     """
-    import boofun as bf
 
     n = f.n_vars or 0
     if n == 0:
@@ -395,7 +394,7 @@ def propagation_criterion(f: "BooleanFunction", order: int = 1) -> bool:
     return True
 
 
-def strict_avalanche_criterion(f: "BooleanFunction") -> bool:
+def strict_avalanche_criterion(f: BooleanFunction) -> bool:
     """
     Check if f satisfies the Strict Avalanche Criterion (SAC).
 
@@ -423,7 +422,7 @@ class CryptographicAnalyzer:
         >>> print(analyzer.summary())
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: BooleanFunction):
         """
         Initialize analyzer with a Boolean function.
 
@@ -431,8 +430,8 @@ class CryptographicAnalyzer:
             f: BooleanFunction to analyze
         """
         self.function = f
-        self._walsh: Optional[np.ndarray] = None
-        self._anf: Optional[np.ndarray] = None
+        self._walsh: np.ndarray | None = None
+        self._anf: np.ndarray | None = None
 
     @property
     def n_vars(self) -> int:
@@ -492,7 +491,7 @@ class CryptographicAnalyzer:
         """Check if satisfies SAC."""
         return strict_avalanche_criterion(self.function)
 
-    def walsh_spectrum(self) -> Dict[int, int]:
+    def walsh_spectrum(self) -> dict[int, int]:
         """Get Walsh spectrum."""
         unique, counts = np.unique(self.walsh, return_counts=True)
         return dict(zip(unique.tolist(), counts.tolist()))
@@ -523,7 +522,7 @@ class CryptographicAnalyzer:
 
         return "\n".join(lines)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Export all measures as dictionary (for cross-validation)."""
         return {
             "n_vars": self.n_vars,
@@ -543,7 +542,7 @@ class CryptographicAnalyzer:
 # =============================================================================
 
 
-def algebraic_immunity(f: "BooleanFunction") -> int:
+def algebraic_immunity(f: BooleanFunction) -> int:
     """
     Compute the algebraic immunity of a Boolean function.
 
@@ -670,7 +669,7 @@ def _gf2_rank(A: np.ndarray) -> int:
 # =============================================================================
 
 
-def linear_approximation_table(sbox: List[int]) -> np.ndarray:
+def linear_approximation_table(sbox: list[int]) -> np.ndarray:
     """
     Compute the Linear Approximation Table (LAT) of an S-box.
 
@@ -722,7 +721,7 @@ def linear_approximation_table(sbox: List[int]) -> np.ndarray:
     return lat
 
 
-def difference_distribution_table(sbox: List[int]) -> np.ndarray:
+def difference_distribution_table(sbox: list[int]) -> np.ndarray:
     """
     Compute the Difference Distribution Table (DDT) of an S-box.
 
@@ -768,7 +767,7 @@ def difference_distribution_table(sbox: List[int]) -> np.ndarray:
     return ddt
 
 
-def differential_uniformity(sbox: List[int]) -> int:
+def differential_uniformity(sbox: list[int]) -> int:
     """
     Compute the differential uniformity of an S-box.
 
@@ -796,7 +795,7 @@ def differential_uniformity(sbox: List[int]) -> int:
     return 0
 
 
-def linearity(sbox: List[int]) -> int:
+def linearity(sbox: list[int]) -> int:
     """
     Compute the linearity of an S-box.
 
@@ -838,7 +837,7 @@ class SBoxAnalyzer:
         >>> print(analyzer.summary())
     """
 
-    def __init__(self, sbox: List[int]):
+    def __init__(self, sbox: list[int]):
         """
         Initialize S-box analyzer.
 
@@ -846,8 +845,8 @@ class SBoxAnalyzer:
             sbox: S-box as list where sbox[x] = S(x)
         """
         self.sbox = list(sbox)
-        self._lat: Optional[np.ndarray] = None
-        self._ddt: Optional[np.ndarray] = None
+        self._lat: np.ndarray | None = None
+        self._ddt: np.ndarray | None = None
 
     @property
     def n_inputs(self) -> int:
@@ -921,7 +920,7 @@ class SBoxAnalyzer:
         ]
         return "\n".join(lines)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Export measures as dictionary."""
         return {
             "n_inputs": self.n_inputs,

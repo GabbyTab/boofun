@@ -8,7 +8,7 @@ Example: f(x₁,x₂,x₃) = (x₁ ∧ ¬x₂) ∨ (¬x₁ ∧ x₂ ∧ x₃)
 """
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Union
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -30,15 +30,15 @@ class DNFTerm:
         negative_vars: Set of variables that appear negatively
     """
 
-    positive_vars: Set[int]
-    negative_vars: Set[int]
+    positive_vars: set[int]
+    negative_vars: set[int]
 
     def __post_init__(self):
         """Validate that positive and negative variables don't overlap."""
         if self.positive_vars & self.negative_vars:
             raise ValueError("Variable cannot be both positive and negative in same term")
 
-    def evaluate(self, x: Union[List[int], np.ndarray]) -> bool:
+    def evaluate(self, x: list[int] | np.ndarray) -> bool:
         """
         Evaluate this DNF term.
 
@@ -60,11 +60,11 @@ class DNFTerm:
 
         return True
 
-    def get_variables(self) -> Set[int]:
+    def get_variables(self) -> set[int]:
         """Get all variables in this term."""
         return self.positive_vars | self.negative_vars
 
-    def to_string(self, var_names: Optional[List[str]] = None) -> str:
+    def to_string(self, var_names: list[str] | None = None) -> str:
         """
         Convert term to string representation.
 
@@ -94,7 +94,7 @@ class DNFTerm:
 
         return " ∧ ".join(literals)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Export term to dictionary."""
         return {
             "positive_vars": list(self.positive_vars),
@@ -102,7 +102,7 @@ class DNFTerm:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "DNFTerm":
+    def from_dict(cls, data: dict[str, Any]) -> "DNFTerm":
         """Create term from dictionary."""
         return cls(
             positive_vars=set(data["positive_vars"]), negative_vars=set(data["negative_vars"])
@@ -119,10 +119,10 @@ class DNFFormula:
         n_vars: Number of variables
     """
 
-    terms: List[DNFTerm]
+    terms: list[DNFTerm]
     n_vars: int
 
-    def evaluate(self, x: Union[List[int], np.ndarray]) -> bool:
+    def evaluate(self, x: list[int] | np.ndarray) -> bool:
         """
         Evaluate DNF formula.
 
@@ -184,7 +184,7 @@ class DNFFormula:
             and term1.negative_vars <= term2.negative_vars
         )
 
-    def to_string(self, var_names: Optional[List[str]] = None) -> str:
+    def to_string(self, var_names: list[str] | None = None) -> str:
         """
         Convert DNF to string representation.
 
@@ -200,12 +200,12 @@ class DNFFormula:
         term_strings = [term.to_string(var_names) for term in self.terms]
         return " ∨ ".join(term_strings)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Export DNF to dictionary."""
         return {"terms": [term.to_dict() for term in self.terms], "n_vars": self.n_vars}
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "DNFFormula":
+    def from_dict(cls, data: dict[str, Any]) -> "DNFFormula":
         """Create DNF from dictionary."""
         terms = [DNFTerm.from_dict(term_data) for term_data in data["terms"]]
         return cls(terms=terms, n_vars=data["n_vars"])
@@ -217,7 +217,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
 
     def evaluate(
         self, inputs: np.ndarray, data: DNFFormula, space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+    ) -> bool | np.ndarray:
         """
         Evaluate DNF representation.
 
@@ -259,12 +259,12 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         else:
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def _index_to_binary(self, index: int, n_vars: int) -> List[int]:
+    def _index_to_binary(self, index: int, n_vars: int) -> list[int]:
         """Convert integer index to binary vector using LSB=x₀ convention."""
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 for i in range(n_vars)]
 
-    def dump(self, data: DNFFormula, space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: DNFFormula, space=None, **kwargs) -> dict[str, Any]:
         """Export DNF representation."""
         result = data.to_dict()
         result["type"] = "dnf"
@@ -294,7 +294,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         # Generate DNF from truth table
         return self._truth_table_to_dnf(truth_table, n_vars)
 
-    def _truth_table_to_dnf(self, truth_table: List[bool], n_vars: int) -> DNFFormula:
+    def _truth_table_to_dnf(self, truth_table: list[bool], n_vars: int) -> DNFFormula:
         """
         Convert truth table to DNF using minterms.
 
@@ -346,7 +346,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         """Check if DNF is complete."""
         return data.terms is not None and data.n_vars is not None
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for DNF operations."""
         return {
             "evaluation": 0,  # O(terms * literals_per_term)
@@ -355,7 +355,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
             "space_complexity": n_vars,  # O(2^n) worst case for number of terms
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return storage requirements for DNF representation."""
         # Worst case: all 2^n minterms
         max_terms = 2**n_vars
@@ -370,7 +370,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
 
 
 # Utility functions for DNF manipulation
-def create_dnf_from_minterms(minterms: List[int], n_vars: int) -> DNFFormula:
+def create_dnf_from_minterms(minterms: list[int], n_vars: int) -> DNFFormula:
     """
     Create DNF from list of minterm indices.
 

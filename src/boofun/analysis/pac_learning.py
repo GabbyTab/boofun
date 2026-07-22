@@ -24,7 +24,7 @@ References:
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -44,8 +44,8 @@ __all__ = [
 
 
 def sample_function(
-    f: "BooleanFunction", num_samples: int, rng: Optional[np.random.Generator] = None
-) -> List[Tuple[int, int]]:
+    f: BooleanFunction, num_samples: int, rng: np.random.Generator | None = None
+) -> list[tuple[int, int]]:
     """
     Draw random labeled samples from a Boolean function.
 
@@ -73,12 +73,12 @@ def sample_function(
 
 
 def pac_learn_low_degree(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     max_degree: int,
     epsilon: float = 0.1,
     delta: float = 0.05,
-    rng: Optional[np.random.Generator] = None,
-) -> Dict[int, float]:
+    rng: np.random.Generator | None = None,
+) -> dict[int, float]:
     """
     PAC learn a function assuming it has degree at most max_degree.
 
@@ -142,12 +142,12 @@ def pac_learn_low_degree(
 
 
 def pac_learn_junta(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     k: int,
     epsilon: float = 0.1,
     delta: float = 0.05,
-    rng: Optional[np.random.Generator] = None,
-) -> Tuple[List[int], Dict[int, float]]:
+    rng: np.random.Generator | None = None,
+) -> tuple[list[int], dict[int, float]]:
     """
     PAC learn a k-junta (function depending on at most k variables).
 
@@ -194,13 +194,13 @@ def pac_learn_junta(
 
     # Step 3: Learn the function restricted to these variables
     # Build truth table on the k variables
-    learned_function: Dict[int, float] = {}
+    learned_function: dict[int, float] = {}
 
     num_verify_samples = int(2**k * np.log(2**k / delta) / epsilon**2)
     num_verify_samples = max(num_verify_samples, 2 ** (k + 2))
 
     # Sample and majority vote for each setting of relevant variables
-    vote_counts: Dict[int, list] = defaultdict(lambda: [0, 0])
+    vote_counts: dict[int, list] = defaultdict(lambda: [0, 0])
 
     for _ in range(num_verify_samples):
         x = int(rng.integers(0, 2**n))
@@ -223,11 +223,11 @@ def pac_learn_junta(
 
 
 def lmn_algorithm(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     epsilon: float = 0.1,
     delta: float = 0.05,
-    rng: Optional[np.random.Generator] = None,
-) -> Dict[int, float]:
+    rng: np.random.Generator | None = None,
+) -> dict[int, float]:
     """
     Learn a function using the Linial-Mansour-Nisan algorithm.
 
@@ -264,12 +264,12 @@ def lmn_algorithm(
 
 
 def pac_learn_sparse_fourier(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     sparsity: int,
     epsilon: float = 0.1,
     delta: float = 0.05,
-    rng: Optional[np.random.Generator] = None,
-) -> Dict[int, float]:
+    rng: np.random.Generator | None = None,
+) -> dict[int, float]:
     """
     Learn a function assuming it has at most 'sparsity' non-zero Fourier coefficients.
 
@@ -313,12 +313,12 @@ def pac_learn_sparse_fourier(
 
 
 def pac_learn_decision_tree(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     max_depth: int,
     epsilon: float = 0.1,
     delta: float = 0.05,
-    rng: Optional[np.random.Generator] = None,
-) -> Dict[int, float]:
+    rng: np.random.Generator | None = None,
+) -> dict[int, float]:
     """
     PAC learn a function computed by a depth-d decision tree.
 
@@ -339,11 +339,11 @@ def pac_learn_decision_tree(
 
 
 def pac_learn_monotone(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     epsilon: float = 0.1,
     delta: float = 0.05,
-    rng: Optional[np.random.Generator] = None,
-) -> Dict[int, float]:
+    rng: np.random.Generator | None = None,
+) -> dict[int, float]:
     """
     PAC learn a monotone Boolean function.
 
@@ -389,10 +389,10 @@ class PACLearner:
 
     def __init__(
         self,
-        f: "BooleanFunction",
+        f: BooleanFunction,
         epsilon: float = 0.1,
         delta: float = 0.05,
-        rng: Optional[np.random.Generator] = None,
+        rng: np.random.Generator | None = None,
     ):
         """
         Initialize PAC learner.
@@ -412,36 +412,36 @@ class PACLearner:
         self.rng = rng or np.random.default_rng()
 
         self.sample_count = 0
-        self._samples_cache: List[Tuple[int, int]] = []
+        self._samples_cache: list[tuple[int, int]] = []
 
-    def sample(self, num_samples: int) -> List[Tuple[int, int]]:
+    def sample(self, num_samples: int) -> list[tuple[int, int]]:
         """Draw samples and track count."""
         samples = sample_function(self.f, num_samples, self.rng)
         self.sample_count += num_samples
         self._samples_cache.extend(samples)
         return samples
 
-    def learn_low_degree(self, max_degree: int) -> Dict[int, float]:
+    def learn_low_degree(self, max_degree: int) -> dict[int, float]:
         """Learn assuming low degree."""
         return pac_learn_low_degree(self.f, max_degree, self.epsilon, self.delta, self.rng)
 
-    def learn_junta(self, k: int) -> Tuple[List[int], Dict[int, float]]:
+    def learn_junta(self, k: int) -> tuple[list[int], dict[int, float]]:
         """Learn assuming k-junta."""
         return pac_learn_junta(self.f, k, self.epsilon, self.delta, self.rng)
 
-    def learn_sparse(self, sparsity: int) -> Dict[int, float]:
+    def learn_sparse(self, sparsity: int) -> dict[int, float]:
         """Learn assuming sparse Fourier spectrum."""
         return pac_learn_sparse_fourier(self.f, sparsity, self.epsilon, self.delta, self.rng)
 
-    def learn_decision_tree(self, max_depth: int) -> Dict[int, float]:
+    def learn_decision_tree(self, max_depth: int) -> dict[int, float]:
         """Learn assuming decision tree structure."""
         return pac_learn_decision_tree(self.f, max_depth, self.epsilon, self.delta, self.rng)
 
-    def learn_monotone(self) -> Dict[int, float]:
+    def learn_monotone(self) -> dict[int, float]:
         """Learn assuming monotone function."""
         return pac_learn_monotone(self.f, self.epsilon, self.delta, self.rng)
 
-    def learn_adaptive(self) -> Dict[str, Any]:
+    def learn_adaptive(self) -> dict[str, Any]:
         """
         Adaptively choose learning algorithm based on function properties.
 
@@ -486,7 +486,7 @@ class PACLearner:
             "coefficients": coeffs,
         }
 
-    def evaluate_hypothesis(self, coefficients: Dict[int, float], x: int) -> int:
+    def evaluate_hypothesis(self, coefficients: dict[int, float], x: int) -> int:
         """
         Evaluate learned hypothesis on input x.
 
@@ -499,7 +499,7 @@ class PACLearner:
 
         return 1 if total <= 0 else 0  # Convert from ±1 to {0,1}
 
-    def test_accuracy(self, coefficients: Dict[int, float], num_tests: int = 1000) -> float:
+    def test_accuracy(self, coefficients: dict[int, float], num_tests: int = 1000) -> float:
         """Test accuracy of learned hypothesis."""
         correct = 0
         for _ in range(num_tests):

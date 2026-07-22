@@ -18,7 +18,7 @@ References:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -51,8 +51,8 @@ def _inner_product_mod2(x: int, s: int) -> int:
 
 
 def estimate_fourier_coefficient(
-    f: "BooleanFunction", S: int, num_samples: int = 1000, rng: Optional[np.random.Generator] = None
-) -> Tuple[float, float]:
+    f: BooleanFunction, S: int, num_samples: int = 1000, rng: np.random.Generator | None = None
+) -> tuple[float, float]:
     """
     Estimate the Fourier coefficient f̂(S) using random sampling.
 
@@ -106,11 +106,11 @@ def estimate_fourier_coefficient(
 
 
 def goldreich_levin(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     threshold: float = 0.1,
     confidence: float = 0.95,
-    rng: Optional[np.random.Generator] = None,
-) -> List[Tuple[int, float]]:
+    rng: np.random.Generator | None = None,
+) -> list[tuple[int, float]]:
     """
     Find all heavy Fourier coefficients using the Goldreich-Levin algorithm.
 
@@ -162,8 +162,8 @@ def goldreich_levin(
 
 
 def _gl_tree_search(
-    f: "BooleanFunction", threshold: float, num_samples: int, rng: np.random.Generator
-) -> List[Tuple[int, float]]:
+    f: BooleanFunction, threshold: float, num_samples: int, rng: np.random.Generator
+) -> list[tuple[int, float]]:
     """
     Goldreich-Levin tree search for heavy coefficients.
 
@@ -218,13 +218,13 @@ def _gl_tree_search(
 
 
 def _estimate_subtree_weight(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     mask: int,
     value: int,
     threshold: float,
     num_samples: int,
     rng: np.random.Generator,
-) -> Tuple[float, float]:
+) -> tuple[float, float]:
     """
     Estimate the sum of squared coefficients in a subtree.
 
@@ -260,11 +260,11 @@ def _estimate_subtree_weight(
 
 
 def find_heavy_coefficients(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     threshold: float = 0.01,
     num_samples: int = 10000,
-    rng: Optional[np.random.Generator] = None,
-) -> Dict[int, float]:
+    rng: np.random.Generator | None = None,
+) -> dict[int, float]:
     """
     Find all Fourier coefficients with |f̂(S)| >= threshold.
 
@@ -295,11 +295,11 @@ def find_heavy_coefficients(
 
 
 def learn_sparse_fourier(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     sparsity: int,
     num_samples: int = 10000,
-    rng: Optional[np.random.Generator] = None,
-) -> Dict[int, float]:
+    rng: np.random.Generator | None = None,
+) -> dict[int, float]:
     """
     Learn a function assuming it has at most 'sparsity' non-zero Fourier coefficients.
 
@@ -332,7 +332,7 @@ class GoldreichLevinLearner:
     interactive exploration of heavy Fourier coefficients.
     """
 
-    def __init__(self, f: "BooleanFunction", rng: Optional[np.random.Generator] = None):
+    def __init__(self, f: BooleanFunction, rng: np.random.Generator | None = None):
         """
         Initialize the learner.
 
@@ -343,7 +343,7 @@ class GoldreichLevinLearner:
         self.function = f
         self.rng = rng or np.random.default_rng()
         self.query_count = 0
-        self._cache: Dict[int, int] = {}  # Cache queries
+        self._cache: dict[int, int] = {}  # Cache queries
 
     def query(self, x: int) -> int:
         """Query f(x), with caching."""
@@ -365,7 +365,7 @@ class GoldreichLevinLearner:
 
         return total / num_samples
 
-    def find_heavy(self, threshold: float = 0.1) -> List[Tuple[int, float]]:
+    def find_heavy(self, threshold: float = 0.1) -> list[tuple[int, float]]:
         """Find heavy coefficients using Goldreich-Levin."""
         return goldreich_levin(self.function, threshold, rng=self.rng)
 

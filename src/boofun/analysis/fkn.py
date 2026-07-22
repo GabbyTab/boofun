@@ -10,7 +10,7 @@ References:
 - O'Donnell: "Analysis of Boolean Functions" Chapter 2
 """
 
-from typing import TYPE_CHECKING, Any, Dict, Tuple
+from typing import TYPE_CHECKING, Any
 
 from ..utils.exceptions import InvalidInputError
 
@@ -81,7 +81,7 @@ def distance_to_negated_dictator(f: "BooleanFunction", i: int) -> float:
     return (1.0 + coeff_i) / 2.0
 
 
-def closest_dictator(f: "BooleanFunction") -> Tuple[int, float, bool]:
+def closest_dictator(f: "BooleanFunction") -> tuple[int, float, bool]:
     """
     Find the dictator (or negated dictator) closest to f.
 
@@ -116,7 +116,7 @@ def closest_dictator(f: "BooleanFunction") -> Tuple[int, float, bool]:
     return best_idx, best_dist, best_negated
 
 
-def fkn_theorem_bound(f: "BooleanFunction") -> Dict[str, Any]:
+def fkn_theorem_bound(f: "BooleanFunction") -> dict[str, Any]:
     """
     Apply the FKN Theorem to bound distance to dictators.
 
@@ -203,7 +203,7 @@ def spectral_gap(f: "BooleanFunction") -> float:
     return 1 - max_degree1
 
 
-def analyze_dictator_proximity(f: "BooleanFunction") -> Dict[str, Any]:
+def analyze_dictator_proximity(f: "BooleanFunction") -> dict[str, Any]:
     """
     Comprehensive analysis of how close f is to dictator functions.
 

@@ -25,7 +25,6 @@ References:
 
 from __future__ import annotations
 
-from typing import List, Optional, Tuple
 
 import numpy as np
 
@@ -73,7 +72,7 @@ def sensitivity_at(f: BooleanFunction, x: int) -> int:
     return count
 
 
-def sensitive_coordinates(f: BooleanFunction, x: int) -> List[int]:
+def sensitive_coordinates(f: BooleanFunction, x: int) -> list[int]:
     """
     Return the list of sensitive coordinates at input x.
 
@@ -115,7 +114,7 @@ def sensitivity_profile(f: BooleanFunction) -> np.ndarray:
     return np.array([sensitivity_at(f, i) for i in range(size)], dtype=int)
 
 
-def max_sensitivity(f: BooleanFunction, output_value: Optional[int] = None) -> int:
+def max_sensitivity(f: BooleanFunction, output_value: int | None = None) -> int:
     """
     Compute the maximum sensitivity s(f).
 
@@ -154,7 +153,7 @@ def max_sensitivity(f: BooleanFunction, output_value: Optional[int] = None) -> i
     return max_sens
 
 
-def min_sensitivity(f: BooleanFunction, output_value: Optional[int] = None) -> int:
+def min_sensitivity(f: BooleanFunction, output_value: int | None = None) -> int:
     """
     Compute the minimum sensitivity (everywhere sensitivity).
 
@@ -290,7 +289,7 @@ def sensitivity_histogram(f: BooleanFunction) -> np.ndarray:
     return histogram / size
 
 
-def arg_max_sensitivity(f: BooleanFunction, output_value: Optional[int] = None) -> Tuple[int, int]:
+def arg_max_sensitivity(f: BooleanFunction, output_value: int | None = None) -> tuple[int, int]:
     """
     Find an input achieving maximum sensitivity.
 
@@ -328,7 +327,7 @@ def arg_max_sensitivity(f: BooleanFunction, output_value: Optional[int] = None) 
     return (best_x, best_sens)
 
 
-def arg_min_sensitivity(f: BooleanFunction, output_value: Optional[int] = None) -> Tuple[int, int]:
+def arg_min_sensitivity(f: BooleanFunction, output_value: int | None = None) -> tuple[int, int]:
     """
     Find an input achieving minimum sensitivity.
 

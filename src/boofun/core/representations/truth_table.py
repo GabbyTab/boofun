@@ -1,5 +1,5 @@
 import warnings
-from typing import Any, Dict, Union
+from typing import Any
 
 import numpy as np
 
@@ -15,7 +15,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
 
     def evaluate(
         self, inputs: np.ndarray, data: np.ndarray, space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+    ) -> bool | np.ndarray:
         """
         Evaluate the Boolean function using its truth table.
 
@@ -86,7 +86,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         """Optimized bit packing using NumPy"""
         return int(np.packbits(bits.astype(np.uint8), bitorder="big")[0])
 
-    def dump(self, data: np.ndarray, space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: np.ndarray, space=None, **kwargs) -> dict[str, Any]:
         """
         Export the truth table.
 
@@ -201,7 +201,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         size = 1 << n_vars
         return np.zeros(size, dtype=bool)
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Storage grows exponentially: 1 byte per entry (packed to bits)."""
         entries = 1 << n_vars
         return {
@@ -210,7 +210,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             "space_complexity": "O(2^n)",
         }
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for computing/evaluating n variables."""
         return {
             "evaluation": 1,  # O(1) - direct indexing

@@ -29,7 +29,8 @@ References:
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import TYPE_CHECKING, Callable, Dict, Optional, Tuple
+from typing import TYPE_CHECKING
+from collections.abc import Callable
 
 import numpy as np
 
@@ -148,7 +149,7 @@ def physicists_hermite(n: int, x: float) -> float:
     return h_prev1
 
 
-def hermite_coefficients(f: "BooleanFunction") -> Dict[Tuple[int, ...], float]:
+def hermite_coefficients(f: BooleanFunction) -> dict[tuple[int, ...], float]:
     """
     Compute the Hermite expansion of the multilinear extension of f.
 
@@ -185,7 +186,7 @@ def hermite_coefficients(f: "BooleanFunction") -> Dict[Tuple[int, ...], float]:
     return coeffs
 
 
-def gaussian_noise_stability(f: "BooleanFunction", rho: float) -> float:
+def gaussian_noise_stability(f: BooleanFunction, rho: float) -> float:
     """
     Compute the Gaussian noise stability of f at correlation rho.
 
@@ -217,7 +218,7 @@ def gaussian_noise_stability(f: "BooleanFunction", rho: float) -> float:
     return stability
 
 
-def gaussian_noise_sensitivity(f: "BooleanFunction", rho: float) -> float:
+def gaussian_noise_sensitivity(f: BooleanFunction, rho: float) -> float:
     """
     Compute the Gaussian noise sensitivity: 1 - Stab_ρ[f].
 
@@ -233,7 +234,7 @@ def gaussian_noise_sensitivity(f: "BooleanFunction", rho: float) -> float:
     return 1.0 - gaussian_noise_stability(f, rho)
 
 
-def ornstein_uhlenbeck_operator(f: "BooleanFunction", rho: float) -> np.ndarray:
+def ornstein_uhlenbeck_operator(f: BooleanFunction, rho: float) -> np.ndarray:
     """
     Apply the Ornstein-Uhlenbeck (noise) operator T_ρ to f.
 
@@ -277,7 +278,7 @@ def ornstein_uhlenbeck_operator(f: "BooleanFunction", rho: float) -> np.ndarray:
     return result
 
 
-def berry_esseen_bound(f: "BooleanFunction") -> float:
+def berry_esseen_bound(f: BooleanFunction) -> float:
     """
     Compute the Berry-Esseen bound for the CLT approximation of f.
 
@@ -318,7 +319,7 @@ def berry_esseen_bound(f: "BooleanFunction") -> float:
     return bound
 
 
-def clt_approximation(f: "BooleanFunction", num_samples: int = 10000) -> Tuple[float, float]:
+def clt_approximation(f: BooleanFunction, num_samples: int = 10000) -> tuple[float, float]:
     """
     Estimate how well f's distribution is approximated by a Gaussian.
 
@@ -345,7 +346,7 @@ def clt_approximation(f: "BooleanFunction", num_samples: int = 10000) -> Tuple[f
     return (float(mean), float(var))
 
 
-def gaussian_inner_product(f: "BooleanFunction", g: "BooleanFunction") -> float:
+def gaussian_inner_product(f: BooleanFunction, g: BooleanFunction) -> float:
     """
     Compute the Gaussian inner product ⟨f, g⟩_γ.
 
@@ -365,7 +366,7 @@ def gaussian_inner_product(f: "BooleanFunction", g: "BooleanFunction") -> float:
     return plancherel_inner_product(f, g)
 
 
-def multilinear_extension(f: "BooleanFunction") -> Callable[[np.ndarray], float]:
+def multilinear_extension(f: BooleanFunction) -> Callable[[np.ndarray], float]:
     """
     Return the multilinear extension of f.
 
@@ -415,7 +416,7 @@ class GaussianAnalyzer:
     Gaussian space and central limit theorems.
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: BooleanFunction):
         """
         Initialize Gaussian analyzer.
 
@@ -424,10 +425,10 @@ class GaussianAnalyzer:
         """
         self.function = f
         self.n_vars = f.n_vars
-        self._hermite_coeffs: Optional[Dict] = None
+        self._hermite_coeffs: dict | None = None
 
     @property
-    def hermite_coefficients(self) -> Dict[Tuple[int, ...], float]:
+    def hermite_coefficients(self) -> dict[tuple[int, ...], float]:
         """Get cached Hermite coefficients."""
         if self._hermite_coeffs is None:
             self._hermite_coeffs = hermite_coefficients(self.function)

@@ -9,7 +9,7 @@ to various formats including:
 - LaTeX/TikZ code
 """
 
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
@@ -28,8 +28,8 @@ class DecisionTreeNode:
 
     def __init__(
         self,
-        variable: Optional[int] = None,
-        value: Optional[bool] = None,
+        variable: int | None = None,
+        value: bool | None = None,
         low: Optional["DecisionTreeNode"] = None,
         high: Optional["DecisionTreeNode"] = None,
         depth: int = 0,
@@ -47,7 +47,7 @@ class DecisionTreeNode:
         return f"Node(x_{self.variable})"
 
 
-def build_decision_tree(f: "BooleanFunction", max_depth: Optional[int] = None) -> DecisionTreeNode:
+def build_decision_tree(f: "BooleanFunction", max_depth: int | None = None) -> DecisionTreeNode:
     """
     Build a decision tree for a Boolean function.
 
@@ -65,7 +65,7 @@ def build_decision_tree(f: "BooleanFunction", max_depth: Optional[int] = None) -
     if max_depth is None:
         max_depth = n
 
-    def build_subtree(assignment: Dict[int, int], depth: int) -> DecisionTreeNode:
+    def build_subtree(assignment: dict[int, int], depth: int) -> DecisionTreeNode:
         # Check if we can determine the value
         assert max_depth is not None
         if depth >= max_depth or len(assignment) == n:
@@ -105,7 +105,7 @@ def build_decision_tree(f: "BooleanFunction", max_depth: Optional[int] = None) -
 
 
 def export_decision_tree_text(
-    f: "BooleanFunction", var_names: Optional[List[str]] = None, max_depth: Optional[int] = None
+    f: "BooleanFunction", var_names: list[str] | None = None, max_depth: int | None = None
 ) -> str:
     """
     Export decision tree as ASCII text.
@@ -125,7 +125,7 @@ def export_decision_tree_text(
 
     tree = build_decision_tree(f, max_depth)
 
-    lines: List[str] = []
+    lines: list[str] = []
 
     def print_tree(
         node: DecisionTreeNode, prefix: str = "", is_left: bool = True, edge_label: str = ""
@@ -162,8 +162,8 @@ def export_decision_tree_text(
 
 def export_decision_tree_dot(
     f: "BooleanFunction",
-    var_names: Optional[List[str]] = None,
-    max_depth: Optional[int] = None,
+    var_names: list[str] | None = None,
+    max_depth: int | None = None,
     graph_name: str = "DecisionTree",
 ) -> str:
     """
@@ -190,7 +190,7 @@ def export_decision_tree_dot(
     node_id = [0]  # Mutable counter
 
     def add_node(
-        node: DecisionTreeNode, parent_id: Optional[int] = None, edge_label: str = ""
+        node: DecisionTreeNode, parent_id: int | None = None, edge_label: str = ""
     ) -> int:
         current_id = node_id[0]
         node_id[0] += 1
@@ -225,8 +225,8 @@ def export_decision_tree_dot(
 
 
 def export_decision_tree_json(
-    f: "BooleanFunction", var_names: Optional[List[str]] = None, max_depth: Optional[int] = None
-) -> Dict[str, Any]:
+    f: "BooleanFunction", var_names: list[str] | None = None, max_depth: int | None = None
+) -> dict[str, Any]:
     """
     Export decision tree as JSON structure.
 
@@ -245,7 +245,7 @@ def export_decision_tree_json(
 
     tree = build_decision_tree(f, max_depth)
 
-    def node_to_dict(node: DecisionTreeNode) -> Dict[str, Any]:
+    def node_to_dict(node: DecisionTreeNode) -> dict[str, Any]:
         if node.is_leaf:
             return {"type": "leaf", "value": node.value, "depth": node.depth}
         else:
@@ -265,7 +265,7 @@ def export_decision_tree_json(
 
 
 def export_decision_tree_tikz(
-    f: "BooleanFunction", var_names: Optional[List[str]] = None, max_depth: Optional[int] = None
+    f: "BooleanFunction", var_names: list[str] | None = None, max_depth: int | None = None
 ) -> str:
     """
     Export decision tree as LaTeX TikZ code.
@@ -331,8 +331,8 @@ class DecisionTreeExporter:
     def __init__(
         self,
         f: "BooleanFunction",
-        var_names: Optional[List[str]] = None,
-        max_depth: Optional[int] = None,
+        var_names: list[str] | None = None,
+        max_depth: int | None = None,
     ):
         """
         Initialize exporter.
@@ -347,7 +347,7 @@ class DecisionTreeExporter:
         assert n is not None
         self.var_names = var_names or [f"x_{i}" for i in range(n)]
         self.max_depth = max_depth
-        self._tree: Optional[DecisionTreeNode] = None
+        self._tree: DecisionTreeNode | None = None
 
     @property
     def tree(self) -> DecisionTreeNode:
@@ -364,7 +364,7 @@ class DecisionTreeExporter:
         """Export to Graphviz DOT format."""
         return export_decision_tree_dot(self.function, self.var_names, self.max_depth, graph_name)
 
-    def to_json(self) -> Dict[str, Any]:
+    def to_json(self) -> dict[str, Any]:
         """Export to JSON structure."""
         return export_decision_tree_json(self.function, self.var_names, self.max_depth)
 

@@ -27,9 +27,10 @@ References:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
+import functools
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
@@ -73,9 +74,9 @@ class DecisionTree:
     """
 
     var: int = -1
-    left: Optional["DecisionTree"] = None
-    right: Optional["DecisionTree"] = None
-    value: Optional[int] = None
+    left: DecisionTree | None = None
+    right: DecisionTree | None = None
+    value: int | None = None
 
     def is_leaf(self) -> bool:
         """Return True if this is a leaf node."""
@@ -137,7 +138,7 @@ class DecisionTree:
         else:
             return 1 + (self.right.query_depth(x, n_vars) if self.right else 0)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert tree to dictionary representation."""
         if self.is_leaf():
             return {"type": "leaf", "value": self.value}
@@ -154,7 +155,7 @@ class DecisionTree:
         return f"Node(x{self.var}, {self.left}, {self.right})"
 
 
-def tree_depth(tree: Union[DecisionTree, List, Tuple]) -> int:
+def tree_depth(tree: DecisionTree | list | tuple) -> int:
     """
     Compute the depth of a decision tree.
 
@@ -179,7 +180,7 @@ def tree_depth(tree: Union[DecisionTree, List, Tuple]) -> int:
     return 0
 
 
-def tree_size(tree: Union[DecisionTree, List, Tuple]) -> int:
+def tree_size(tree: DecisionTree | list | tuple) -> int:
     """
     Compute the size (number of leaves) of a decision tree.
 
@@ -200,7 +201,7 @@ def tree_size(tree: Union[DecisionTree, List, Tuple]) -> int:
     return 1
 
 
-def decision_tree_depth_dp(f: "BooleanFunction") -> int:
+def decision_tree_depth_dp(f: BooleanFunction) -> int:
     """
     Compute optimal decision tree depth using dynamic programming.
 
@@ -284,8 +285,8 @@ def decision_tree_depth_dp(f: "BooleanFunction") -> int:
 
 
 def decision_tree_depth_uniform_dp(
-    f: "BooleanFunction", weights: Optional[List[float]] = None
-) -> Tuple[float, Optional[DecisionTree]]:
+    f: BooleanFunction, weights: list[float] | None = None
+) -> tuple[float, DecisionTree | None]:
     """
     Compute optimal average-case decision tree depth under uniform distribution.
 
@@ -371,8 +372,8 @@ def decision_tree_depth_uniform_dp(
 
 
 def decision_tree_depth_weighted_dp(
-    f: "BooleanFunction", probabilities: List[float], weights: Optional[List[float]] = None
-) -> Tuple[float, Optional[DecisionTree]]:
+    f: BooleanFunction, probabilities: list[float], weights: list[float] | None = None
+) -> tuple[float, DecisionTree | None]:
     """
     Compute optimal decision tree depth under arbitrary input distribution.
 
@@ -478,8 +479,8 @@ def decision_tree_depth_weighted_dp(
 
 
 def decision_tree_size_dp(
-    f: "BooleanFunction", optimize_size_first: bool = True
-) -> Tuple[int, int, Optional[DecisionTree]]:
+    f: BooleanFunction, optimize_size_first: bool = True
+) -> tuple[int, int, DecisionTree | None]:
     """
     Compute decision tree optimizing for size (number of leaves).
 
@@ -527,7 +528,7 @@ def decision_tree_size_dp(
 
     # Results: (size, depth, tree)
     INF = 1 << 20
-    results: List[Tuple[int, int, Any]] = [(INF, INF, None)] * len(new_layer)
+    results: list[tuple[int, int, Any]] = [(INF, INF, None)] * len(new_layer)
 
     for j in range(len(new_layer)):
         layer_val: float = new_layer[j]
@@ -564,8 +565,8 @@ def decision_tree_size_dp(
 
 
 def reconstruct_tree(
-    back_ptr: List[int], index: int, n_vars: int, truth_table: List[int]
-) -> Optional[DecisionTree]:
+    back_ptr: list[int], index: int, n_vars: int, truth_table: list[int]
+) -> DecisionTree | None:
     """
     Reconstruct a decision tree from back pointers.
 
@@ -606,8 +607,8 @@ def reconstruct_tree(
 
 
 def enumerate_decision_trees(
-    f: "BooleanFunction", prune_dominated: bool = True
-) -> List[DecisionTree]:
+    f: BooleanFunction, prune_dominated: bool = True
+) -> list[DecisionTree]:
     """
     Enumerate all valid decision trees for a Boolean function.
 
@@ -651,10 +652,10 @@ def enumerate_decision_trees(
         # Constant function
         return [DecisionTree(value=int(truth_table[0]))]
 
-    def enumerate_recursive(fixed: Dict[int, int]) -> List[DecisionTree]:
+    def enumerate_recursive(fixed: dict[int, int]) -> list[DecisionTree]:
         """Recursively enumerate trees for subcube defined by fixed."""
         # Check if subcube is constant
-        first_val: Optional[int] = None
+        first_val: int | None = None
         is_constant = True
 
         for x in range(1 << n):
@@ -701,8 +702,8 @@ def enumerate_decision_trees(
 
 
 def _prune_dominated_trees(
-    trees: List[DecisionTree], n_vars: int, influential: List[int]
-) -> List[DecisionTree]:
+    trees: list[DecisionTree], n_vars: int, influential: list[int]
+) -> list[DecisionTree]:
     """Remove trees that are dominated by others on all inputs."""
     if len(trees) <= 1:
         return trees
@@ -737,7 +738,7 @@ def _prune_dominated_trees(
     return keep
 
 
-def count_decision_trees(f: "BooleanFunction") -> int:
+def count_decision_trees(f: BooleanFunction) -> int:
     """
     Count the number of distinct decision trees (without enumeration).
 
@@ -769,14 +770,13 @@ def count_decision_trees(f: "BooleanFunction") -> int:
         return 1
 
     # Use DP with memoization on subcube signatures
-    from functools import lru_cache
 
-    @lru_cache(maxsize=None)
-    def count_for_subcube(fixed_tuple: Tuple[Tuple[int, int], ...]) -> int:
+    @functools.cache
+    def count_for_subcube(fixed_tuple: tuple[tuple[int, int], ...]) -> int:
         fixed = dict(fixed_tuple)
 
         # Check if constant
-        first_val: Optional[int] = None
+        first_val: int | None = None
         is_constant = True
         for x in range(1 << n):
             in_subcube = all(((x >> v) & 1) == fv for v, fv in fixed.items())
@@ -804,7 +804,7 @@ def count_decision_trees(f: "BooleanFunction") -> int:
 
 
 def randomized_complexity_matrix(
-    f: "BooleanFunction", output_value: Optional[int] = None
+    f: BooleanFunction, output_value: int | None = None
 ) -> np.ndarray:
     """
     Build the game matrix for randomized decision tree complexity.
@@ -845,7 +845,7 @@ def randomized_complexity_matrix(
 
 
 def compute_randomized_complexity(
-    f: "BooleanFunction", output_value: Optional[int] = None
+    f: BooleanFunction, output_value: int | None = None
 ) -> float:
     """
     Compute the randomized decision tree complexity R(f).

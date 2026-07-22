@@ -7,7 +7,8 @@ enabling probabilistic analysis, sampling, and statistical properties.
 
 import warnings
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any
+from collections.abc import Callable
 
 import numpy as np
 
@@ -63,7 +64,7 @@ class BooleanDistribution:
         if np.any(self.input_distribution < 0):
             raise ValueError("Input distribution must be non-negative")
 
-    def evaluate(self, x: Union[int, List[int], np.ndarray]) -> bool:
+    def evaluate(self, x: int | list[int] | np.ndarray) -> bool:
         """
         Evaluate function at given input.
 
@@ -86,7 +87,7 @@ class BooleanDistribution:
 
         return bool(self.truth_table[index])
 
-    def sample_input(self, size: int = 1, random_state: Optional[int] = None) -> np.ndarray:
+    def sample_input(self, size: int = 1, random_state: int | None = None) -> np.ndarray:
         """
         Sample inputs according to input distribution.
 
@@ -100,7 +101,7 @@ class BooleanDistribution:
         rng = np.random.RandomState(random_state)
         return rng.choice(self.domain_size, size=size, p=self.input_distribution)
 
-    def sample_outputs(self, size: int = 1, random_state: Optional[int] = None) -> np.ndarray:
+    def sample_outputs(self, size: int = 1, random_state: int | None = None) -> np.ndarray:
         """
         Sample function outputs according to induced distribution.
 
@@ -267,7 +268,7 @@ class BooleanDistribution:
 
         return cov / np.sqrt(var_f * var_var)
 
-    def moments(self, order: int = 4) -> List[float]:
+    def moments(self, order: int = 4) -> list[float]:
         """
         Compute moments of the output distribution.
 
@@ -309,7 +310,7 @@ class BooleanDistribution:
 
         return moments
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Export distribution to dictionary."""
         return {
             "truth_table": self.truth_table.tolist(),
@@ -319,7 +320,7 @@ class BooleanDistribution:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "BooleanDistribution":
+    def from_dict(cls, data: dict[str, Any]) -> "BooleanDistribution":
         """Create distribution from dictionary."""
         return cls(
             truth_table=np.array(data["truth_table"]),
@@ -381,7 +382,7 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
 
     def evaluate(
         self, inputs: np.ndarray, data: BooleanDistribution, space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+    ) -> bool | np.ndarray:
         """
         Evaluate distribution representation.
 
@@ -419,7 +420,7 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
         else:
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def dump(self, data: BooleanDistribution, space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: BooleanDistribution, space=None, **kwargs) -> dict[str, Any]:
         """Export distribution representation."""
         result = data.to_dict()
         result["type"] = "distribution"
@@ -490,7 +491,7 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
             and len(data.truth_table) == data.domain_size
         )
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for distribution operations."""
         return {
             "evaluation": 0,  # O(1) - direct lookup
@@ -499,7 +500,7 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
             "space_complexity": n_vars,  # O(2^n) - stores full truth table and distribution
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return storage requirements for distribution representation."""
         domain_size = 2**n_vars
 

@@ -16,7 +16,7 @@ Theory:
 """
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -46,12 +46,12 @@ class LTFAnalysis:
     """
 
     is_ltf: bool
-    weights: Optional[np.ndarray] = None
-    threshold: Optional[float] = None
-    chow_parameters: Optional[np.ndarray] = None
-    critical_index: Optional[int] = None
-    regularity: Optional[float] = None
-    gaussian_noise_stability: Optional[float] = None
+    weights: np.ndarray | None = None
+    threshold: float | None = None
+    chow_parameters: np.ndarray | None = None
+    critical_index: int | None = None
+    regularity: float | None = None
+    gaussian_noise_stability: float | None = None
 
     def summary(self) -> str:
         """Generate human-readable summary."""
@@ -139,7 +139,7 @@ def is_ltf(f: "BooleanFunction") -> bool:
         return False
 
 
-def find_ltf_weights(f: "BooleanFunction") -> Tuple[np.ndarray, float]:
+def find_ltf_weights(f: "BooleanFunction") -> tuple[np.ndarray, float]:
     """
     Find LTF weights and threshold for a Boolean function.
 
@@ -164,7 +164,7 @@ def find_ltf_weights(f: "BooleanFunction") -> Tuple[np.ndarray, float]:
     return params.weights, params.threshold
 
 
-def normalize_ltf_weights(weights: np.ndarray, threshold: float) -> Tuple[np.ndarray, float]:
+def normalize_ltf_weights(weights: np.ndarray, threshold: float) -> tuple[np.ndarray, float]:
     """
     Normalize LTF weights to have unit L2 norm.
 
@@ -363,7 +363,7 @@ def analyze_ltf(f: "BooleanFunction") -> LTFAnalysis:
 
 
 def create_weighted_majority(
-    weights: List[float], threshold: Optional[float] = None
+    weights: list[float], threshold: float | None = None
 ) -> "BooleanFunction":
     """
     Create a weighted majority (LTF) function.
@@ -485,7 +485,7 @@ def is_regular_ltf(f: "BooleanFunction", tau_threshold: float = 0.5) -> bool:
     return tau <= tau_threshold
 
 
-def dummy_voters(f: "BooleanFunction") -> List[int]:
+def dummy_voters(f: "BooleanFunction") -> list[int]:
     """
     Find "dummy voters" in a weighted voting system.
 
@@ -529,7 +529,7 @@ def chow_distance(f: "BooleanFunction", g: "BooleanFunction") -> float:
     return float(np.linalg.norm(chow_f - chow_g))
 
 
-def find_closest_ltf(f: "BooleanFunction") -> Tuple["BooleanFunction", float]:
+def find_closest_ltf(f: "BooleanFunction") -> tuple["BooleanFunction", float]:
     """
     Find the LTF closest to a given function (by Chow parameters).
 

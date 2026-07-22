@@ -10,7 +10,7 @@ Also provides:
 - Storage hints: `storage='packed'`, `storage='sparse'`, `storage='lazy'`
 """
 
-from typing import Callable, Dict, Optional, Union
+from collections.abc import Callable
 
 import numpy as np
 
@@ -122,8 +122,8 @@ def _create_lazy_function(oracle: Callable, **kwargs) -> BooleanFunction:
 
 def partial(
     n: int,
-    known_values: Optional[Dict[int, bool]] = None,
-    name: Optional[str] = None,
+    known_values: dict[int, bool] | None = None,
+    name: str | None = None,
 ) -> PartialBooleanFunction:
     """
     Create a partial Boolean function with incremental/streaming support.

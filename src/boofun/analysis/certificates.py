@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import itertools as it
-from typing import List, Optional, Tuple
 
 from ..core.base import BooleanFunction
 
 __all__ = ["certificate", "max_certificate_size", "min_certificate_size"]
 
 
-def certificate(f: BooleanFunction, x: int) -> Tuple[int, List[int]]:
+def certificate(f: BooleanFunction, x: int) -> tuple[int, list[int]]:
     """Return a minimal certificate size and variables for input ``x``."""
 
     n = f.n_vars or 0
@@ -52,7 +51,7 @@ def max_certificate_size(f: BooleanFunction) -> int:
     return best
 
 
-def min_certificate_size(f: BooleanFunction, value: Optional[int] = None) -> int:
+def min_certificate_size(f: BooleanFunction, value: int | None = None) -> int:
     """Minimum certificate size across inputs.
 
     Args:

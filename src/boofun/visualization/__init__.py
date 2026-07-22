@@ -8,7 +8,7 @@ and interactive analysis tools.
 
 import logging
 import warnings
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import numpy as np
 
@@ -77,7 +77,7 @@ class BooleanFunctionVisualizer:
             raise ImportError("Plotly not available")
 
     def plot_influences(
-        self, figsize: Tuple[int, int] = (10, 6), save_path: Optional[str] = None, show: bool = True
+        self, figsize: tuple[int, int] = (10, 6), save_path: str | None = None, show: bool = True
     ) -> Any:
         """
         Plot variable influences.
@@ -199,9 +199,9 @@ class BooleanFunctionVisualizer:
 
     def plot_fourier_spectrum(
         self,
-        max_degree: Optional[int] = None,
-        figsize: Tuple[int, int] = (12, 8),
-        save_path: Optional[str] = None,
+        max_degree: int | None = None,
+        figsize: tuple[int, int] = (12, 8),
+        save_path: str | None = None,
         show: bool = True,
     ) -> Any:
         """
@@ -231,7 +231,7 @@ class BooleanFunctionVisualizer:
             raise ImportError("Matplotlib not available")
 
         # Group coefficients by degree
-        degrees: Dict[int, List[float]] = {}
+        degrees: dict[int, list[float]] = {}
         for i, coeff in enumerate(fourier_coeffs):
             degree = bin(i).count("1")
             if max_degree is None or degree <= max_degree:
@@ -302,7 +302,7 @@ class BooleanFunctionVisualizer:
             raise ImportError("Plotly not available")
 
         # Group coefficients by degree
-        degrees: Dict[int, List[float]] = {}
+        degrees: dict[int, list[float]] = {}
         for i, coeff in enumerate(fourier_coeffs):
             degree = bin(i).count("1")
             if max_degree is None or degree <= max_degree:
@@ -369,7 +369,7 @@ class BooleanFunctionVisualizer:
         return fig
 
     def plot_truth_table(
-        self, figsize: Tuple[int, int] = (10, 8), save_path: Optional[str] = None, show: bool = True
+        self, figsize: tuple[int, int] = (10, 8), save_path: str | None = None, show: bool = True
     ) -> Any:
         """
         Plot truth table as a heatmap.
@@ -543,9 +543,9 @@ class BooleanFunctionVisualizer:
 
     def plot_noise_stability_curve(
         self,
-        rho_range: Optional[np.ndarray] = None,
-        figsize: Tuple[int, int] = (10, 6),
-        save_path: Optional[str] = None,
+        rho_range: np.ndarray | None = None,
+        figsize: tuple[int, int] = (10, 6),
+        save_path: str | None = None,
         show: bool = True,
     ) -> Any:
         """
@@ -639,7 +639,7 @@ class BooleanFunctionVisualizer:
 
         return fig
 
-    def create_dashboard(self, save_path: Optional[str] = None, show: bool = True) -> Any:
+    def create_dashboard(self, save_path: str | None = None, show: bool = True) -> Any:
         """
         Create comprehensive analysis dashboard.
 
@@ -850,7 +850,7 @@ class BooleanFunctionVisualizer:
 
 # Convenience functions
 def plot_function_comparison(
-    functions: Dict[str, BooleanFunction],
+    functions: dict[str, BooleanFunction],
     metric: str = "influences",
     backend: str = "matplotlib",
     **kwargs,
@@ -917,7 +917,7 @@ def _compare_fourier_matplotlib(functions, figsize=(12, 6), **kwargs):
     for name, func in functions.items():
         coeffs = func.fourier()
         # Plot Fourier weight by degree
-        weights_by_degree: Dict[int, float] = {}
+        weights_by_degree: dict[int, float] = {}
         for s in range(len(coeffs)):
             deg = bin(s).count("1")
             weights_by_degree[deg] = weights_by_degree.get(deg, 0) + coeffs[s] ** 2
@@ -940,8 +940,8 @@ def _compare_fourier_matplotlib(functions, figsize=(12, 6), **kwargs):
 
 def plot_hypercube(
     f: BooleanFunction,
-    figsize: Tuple[int, int] = (10, 10),
-    save_path: Optional[str] = None,
+    figsize: tuple[int, int] = (10, 10),
+    save_path: str | None = None,
     show: bool = True,
 ) -> Any:
     """
@@ -1053,8 +1053,8 @@ def plot_hypercube(
 
 def plot_sensitivity_heatmap(
     f: BooleanFunction,
-    figsize: Tuple[int, int] = (10, 8),
-    save_path: Optional[str] = None,
+    figsize: tuple[int, int] = (10, 8),
+    save_path: str | None = None,
     show: bool = True,
 ) -> Any:
     """

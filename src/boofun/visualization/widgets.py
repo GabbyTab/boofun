@@ -10,7 +10,8 @@ Requires: ipywidgets (pip install ipywidgets)
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Callable, Dict
+from typing import TYPE_CHECKING
+from collections.abc import Callable
 
 import numpy as np
 
@@ -65,7 +66,7 @@ class InteractiveFunctionExplorer:
     - Noise stability curve
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: BooleanFunction):
         """
         Create explorer for a Boolean function.
 
@@ -248,7 +249,7 @@ class GrowthExplorer:
 
     def __init__(
         self,
-        family_func: Callable[[int], "BooleanFunction"],
+        family_func: Callable[[int], BooleanFunction],
         name: str = "Function",
         n_range: tuple = (1, 12),
     ):
@@ -361,7 +362,7 @@ class PropertyDashboard:
     Dashboard comparing multiple functions side by side.
     """
 
-    def __init__(self, functions: Dict[str, "BooleanFunction"]):
+    def __init__(self, functions: dict[str, BooleanFunction]):
         """
         Create dashboard for multiple functions.
 
@@ -481,7 +482,7 @@ class PropertyDashboard:
         display(widgets.VBox([self.property_dropdown, self.output]))
 
 
-def create_function_explorer(f: "BooleanFunction") -> InteractiveFunctionExplorer:
+def create_function_explorer(f: BooleanFunction) -> InteractiveFunctionExplorer:
     """
     Convenience function to create and display a function explorer.
 
@@ -497,7 +498,7 @@ def create_function_explorer(f: "BooleanFunction") -> InteractiveFunctionExplore
 
 
 def create_growth_explorer(
-    family_func: Callable[[int], "BooleanFunction"],
+    family_func: Callable[[int], BooleanFunction],
     name: str = "Function",
     n_range: tuple = (1, 12),
 ) -> GrowthExplorer:

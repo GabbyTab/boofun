@@ -23,7 +23,7 @@ Example usage:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, List, Optional
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -57,7 +57,7 @@ def is_legacy_object(obj: Any) -> bool:
     )
 
 
-def from_legacy(legacy_func: Any, import_fourier: bool = False) -> "BooleanFunction":
+def from_legacy(legacy_func: Any, import_fourier: bool = False) -> BooleanFunction:
     """
     Convert a legacy BooleanFunc object to a modern BooleanFunction.
 
@@ -105,7 +105,7 @@ def from_legacy(legacy_func: Any, import_fourier: bool = False) -> "BooleanFunct
     return new_func
 
 
-def to_legacy(func: "BooleanFunction") -> Any:
+def to_legacy(func: BooleanFunction) -> Any:
     """
     Convert a modern BooleanFunction to legacy format (list-based).
 
@@ -148,7 +148,7 @@ class LegacyWrapper:
         >>> wrapped.fix(0, 1)  # Legacy method, returns wrapped result
     """
 
-    def __init__(self, func: "BooleanFunction"):
+    def __init__(self, func: BooleanFunction):
         """
         Wrap a modern BooleanFunction with legacy-compatible interface.
 
@@ -156,10 +156,10 @@ class LegacyWrapper:
             func: Modern BooleanFunction to wrap
         """
         self._func = func
-        self._f: Optional[List[int]] = None  # Cached truth table list
+        self._f: list[int] | None = None  # Cached truth table list
 
     @property
-    def f(self) -> List[int]:
+    def f(self) -> list[int]:
         """Truth table as list (legacy format)."""
         if self._f is None:
             tt = self._func.get_representation("truth_table")
@@ -180,7 +180,7 @@ class LegacyWrapper:
         """Length of truth table."""
         return 1 << self.k
 
-    def fix(self, var: int, val: int) -> "LegacyWrapper":
+    def fix(self, var: int, val: int) -> LegacyWrapper:
         """
         Fix a variable (legacy method).
 
@@ -189,7 +189,7 @@ class LegacyWrapper:
         new_func = self._func.fix(var, val)
         return LegacyWrapper(new_func)
 
-    def fix_single(self, var: int, val: int) -> "LegacyWrapper":
+    def fix_single(self, var: int, val: int) -> LegacyWrapper:
         """Alias for fix() - legacy naming."""
         return self.fix(var, val)
 
@@ -218,7 +218,7 @@ class LegacyWrapper:
         return self._func.bias()
 
     @property
-    def modern(self) -> "BooleanFunction":
+    def modern(self) -> BooleanFunction:
         """Get the underlying modern BooleanFunction."""
         return self._func
 
@@ -231,7 +231,7 @@ class LegacyWrapper:
 
 def convert_legacy_function(
     legacy_class: type, modern_class: type, legacy_func: Any
-) -> "BooleanFunction":
+) -> BooleanFunction:
     """
     Generic conversion function for custom legacy classes.
 

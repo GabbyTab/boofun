@@ -1,9 +1,9 @@
 # representations/registry.py
-from typing import Callable, Dict, Optional, Type
+from collections.abc import Callable
 
 from .base import BooleanFunctionRepresentation
 
-STRATEGY_REGISTRY: Dict[str, Type[BooleanFunctionRepresentation]] = {}
+STRATEGY_REGISTRY: dict[str, type[BooleanFunctionRepresentation]] = {}
 
 
 def get_strategy(rep_key: str) -> BooleanFunctionRepresentation:
@@ -28,7 +28,7 @@ def get_strategy(rep_key: str) -> BooleanFunctionRepresentation:
 def register_strategy(key: str):
     """Decorator to register representation classes"""
 
-    def decorator(cls: Type[BooleanFunctionRepresentation]):
+    def decorator(cls: type[BooleanFunctionRepresentation]):
         STRATEGY_REGISTRY[key] = cls
         return cls
 
@@ -39,13 +39,13 @@ def register_partial_strategy(
     key: str,
     *,
     evaluate: Callable,
-    dump: Optional[Callable] = None,
-    convert_from: Optional[Callable] = None,
-    convert_to: Optional[Callable] = None,
-    create_empty: Optional[Callable] = None,
-    is_complete: Optional[Callable] = None,
-    get_storage_requirements: Optional[Callable] = None,
-    time_complexity_rank: Optional[Callable] = None,
+    dump: Callable | None = None,
+    convert_from: Callable | None = None,
+    convert_to: Callable | None = None,
+    create_empty: Callable | None = None,
+    is_complete: Callable | None = None,
+    get_storage_requirements: Callable | None = None,
+    time_complexity_rank: Callable | None = None,
 ):
     """
     Register a strategy by supplying only the key methods.

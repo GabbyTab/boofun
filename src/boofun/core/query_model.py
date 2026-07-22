@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import warnings
 from enum import Enum, auto
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from .base import BooleanFunction
@@ -68,7 +68,7 @@ class ExplicitEnumerationError(RuntimeError):
 # Query complexity for each operation
 # Format: (base_queries, scaling)
 # Total queries ≈ base_queries * scaling(n)
-QUERY_COMPLEXITY: Dict[str, Dict[str, Any]] = {
+QUERY_COMPLEXITY: dict[str, dict[str, Any]] = {
     # SAFE operations - O(k) queries where k is user-specified
     "is_linear": {"safe": True, "queries": lambda n, k: 3 * k, "description": "BLR test"},
     "is_monotone": {"safe": True, "queries": lambda n, k: 2 * k, "description": "Edge test"},
@@ -123,7 +123,7 @@ QUERY_COMPLEXITY: Dict[str, Dict[str, Any]] = {
 }
 
 
-def get_access_type(f: "BooleanFunction") -> AccessType:
+def get_access_type(f: BooleanFunction) -> AccessType:
     """
     Determine how the function's values can be accessed.
 
@@ -159,7 +159,7 @@ def get_access_type(f: "BooleanFunction") -> AccessType:
 
 
 def check_query_safety(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     operation: str,
     max_safe_n: int = 20,
     num_queries: int = 100,
@@ -250,7 +250,7 @@ class QueryModel:
         {'queries': 32212254720, 'feasible': False}
     """
 
-    def __init__(self, f: "BooleanFunction", max_queries: int = 10_000_000):
+    def __init__(self, f: BooleanFunction, max_queries: int = 10_000_000):
         """
         Initialize query model for a function.
 
@@ -268,7 +268,7 @@ class QueryModel:
         cost = self.estimate_cost(operation, **kwargs)
         return cost["feasible"]
 
-    def estimate_cost(self, operation: str, num_queries: int = 100) -> Dict[str, Any]:
+    def estimate_cost(self, operation: str, num_queries: int = 100) -> dict[str, Any]:
         """
         Estimate computational cost of an operation.
 
@@ -306,7 +306,7 @@ class QueryModel:
             "access_type": self.access_type.name,
         }
 
-    def summary(self) -> Dict[str, Dict[str, Any]]:
+    def summary(self) -> dict[str, dict[str, Any]]:
         """Get cost summary for all operations."""
         return {op: self.estimate_cost(op) for op in QUERY_COMPLEXITY}
 
@@ -337,7 +337,7 @@ class QueryModel:
             print(f"  {status} {op}: ~{cost['queries']:,} queries ({cost['time_estimate']})")
 
 
-def safe_alternatives(operation: str) -> Optional[str]:
+def safe_alternatives(operation: str) -> str | None:
     """
     Suggest query-safe alternative for an unsafe operation.
 

@@ -5,7 +5,7 @@ This module implements the Algebraic Normal Form (ANF) representation,
 where Boolean functions are represented as multivariate polynomials over GF(2).
 """
 
-from typing import Any, Dict, List, Union
+from typing import Any
 
 import numpy as np
 
@@ -15,7 +15,7 @@ from .registry import register_strategy
 
 
 @register_strategy("polynomial")
-class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int]]):
+class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int]]):
     """
     Polynomial (ANF) representation using coefficient dictionaries.
 
@@ -26,8 +26,8 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
     """
 
     def evaluate(
-        self, inputs: np.ndarray, data: Dict[frozenset, int], space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+        self, inputs: np.ndarray, data: dict[frozenset, int], space: Space, n_vars: int
+    ) -> bool | np.ndarray:
         """
         Evaluate the polynomial at given inputs.
 
@@ -61,7 +61,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         else:
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def _evaluate_single(self, x: int, coeffs: Dict[frozenset, int], n_vars: int) -> bool:
+    def _evaluate_single(self, x: int, coeffs: dict[frozenset, int], n_vars: int) -> bool:
         """Evaluate polynomial at single input x (as integer)."""
         result = 0
 
@@ -88,7 +88,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         # LSB-first: binary_vector[i] corresponds to x_i, so index = Σ x_i * 2^i
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector))))
 
-    def dump(self, data: Dict[frozenset, int], space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: dict[frozenset, int], space=None, **kwargs) -> dict[str, Any]:
         """
         Export polynomial in serializable format.
 
@@ -109,7 +109,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         space: Space,
         n_vars: int,
         **kwargs,
-    ) -> Dict[frozenset, int]:
+    ) -> dict[frozenset, int]:
         """
         Convert from any representation to polynomial using truth table method.
 
@@ -126,7 +126,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         # Apply Möbius transform to get ANF coefficients
         return self._truth_table_to_anf(truth_table, n_vars)
 
-    def _truth_table_to_anf(self, truth_table: np.ndarray, n_vars: int) -> Dict[frozenset, int]:
+    def _truth_table_to_anf(self, truth_table: np.ndarray, n_vars: int) -> dict[frozenset, int]:
         """
         Convert truth table to ANF using Möbius transform.
 
@@ -164,15 +164,15 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         """Convert from polynomial to another representation."""
         return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
-    def create_empty(self, n_vars: int, **kwargs) -> Dict[frozenset, int]:
+    def create_empty(self, n_vars: int, **kwargs) -> dict[frozenset, int]:
         """Create empty polynomial (constant 0)."""
         return {}
 
-    def is_complete(self, data: Dict[frozenset, int]) -> bool:
+    def is_complete(self, data: dict[frozenset, int]) -> bool:
         """Check if polynomial has any non-zero coefficients."""
         return any(coeff % 2 == 1 for coeff in data.values())
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for polynomial operations."""
         return {
             "evaluation": n_vars,  # O(2^n) worst case (all monomials)
@@ -181,7 +181,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
             "space_complexity": n_vars,  # O(2^n) worst case
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return storage requirements for polynomial representation."""
         max_monomials = 2**n_vars
         return {
@@ -191,19 +191,19 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
             "space_complexity": "O(2^n)",
         }
 
-    def get_degree(self, data: Dict[frozenset, int]) -> int:
+    def get_degree(self, data: dict[frozenset, int]) -> int:
         """Get the degree of the polynomial (size of largest monomial)."""
         if not data:
             return 0
         return max(len(subset) for subset, coeff in data.items() if coeff % 2 == 1)
 
-    def get_monomials(self, data: Dict[frozenset, int]) -> List[frozenset]:
+    def get_monomials(self, data: dict[frozenset, int]) -> list[frozenset]:
         """Get all monomials with non-zero coefficients."""
         return [subset for subset, coeff in data.items() if coeff % 2 == 1]
 
     def add_polynomials(
-        self, poly1: Dict[frozenset, int], poly2: Dict[frozenset, int]
-    ) -> Dict[frozenset, int]:
+        self, poly1: dict[frozenset, int], poly2: dict[frozenset, int]
+    ) -> dict[frozenset, int]:
         """Add two polynomials in GF(2) (XOR operation)."""
         result = poly1.copy()
 
@@ -218,10 +218,10 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
         return result
 
     def multiply_polynomials(
-        self, poly1: Dict[frozenset, int], poly2: Dict[frozenset, int]
-    ) -> Dict[frozenset, int]:
+        self, poly1: dict[frozenset, int], poly2: dict[frozenset, int]
+    ) -> dict[frozenset, int]:
         """Multiply two polynomials in GF(2)."""
-        result: Dict[frozenset, int] = {}
+        result: dict[frozenset, int] = {}
 
         for subset1, coeff1 in poly1.items():
             for subset2, coeff2 in poly2.items():
@@ -241,12 +241,12 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[Dict[frozenset, int
 
 
 # Utility functions for polynomial operations
-def create_monomial(variables: List[int]) -> Dict[frozenset, int]:
+def create_monomial(variables: list[int]) -> dict[frozenset, int]:
     """Create a single monomial from list of variable indices."""
     return {frozenset(variables): 1}
 
 
-def create_constant(value: bool) -> Dict[frozenset, int]:
+def create_constant(value: bool) -> dict[frozenset, int]:
     """Create constant polynomial."""
     if value:
         return {frozenset(): 1}  # Constant 1
@@ -254,6 +254,6 @@ def create_constant(value: bool) -> Dict[frozenset, int]:
         return {}  # Constant 0
 
 
-def create_variable(var_index: int) -> Dict[frozenset, int]:
+def create_variable(var_index: int) -> dict[frozenset, int]:
     """Create polynomial for single variable."""
     return {frozenset([var_index]): 1}

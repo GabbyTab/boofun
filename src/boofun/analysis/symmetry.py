@@ -18,7 +18,7 @@ References:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -38,7 +38,7 @@ __all__ = [
 ]
 
 
-def symmetrize(f: "BooleanFunction") -> np.ndarray:
+def symmetrize(f: BooleanFunction) -> np.ndarray:
     """
     Return counts of true outputs grouped by Hamming weight.
 
@@ -64,7 +64,7 @@ def symmetrize(f: "BooleanFunction") -> np.ndarray:
     return counts
 
 
-def symmetrize_profile(f: "BooleanFunction") -> Dict[int, Tuple[int, int]]:
+def symmetrize_profile(f: BooleanFunction) -> dict[int, tuple[int, int]]:
     """
     Return detailed profile of function values by Hamming weight.
 
@@ -98,7 +98,7 @@ def symmetrize_profile(f: "BooleanFunction") -> Dict[int, Tuple[int, int]]:
     return profile
 
 
-def is_symmetric(f: "BooleanFunction") -> bool:
+def is_symmetric(f: BooleanFunction) -> bool:
     """
     Check if a function is symmetric (value depends only on Hamming weight).
 
@@ -131,7 +131,7 @@ def is_symmetric(f: "BooleanFunction") -> bool:
     return True
 
 
-def degree_sym(f: "BooleanFunction") -> int:
+def degree_sym(f: BooleanFunction) -> int:
     """
     Symmetric degree: largest Hamming weight with nonzero output count.
 
@@ -152,7 +152,7 @@ def degree_sym(f: "BooleanFunction") -> int:
     return int(nz.max()) if nz.size else 0
 
 
-def sens_sym(f: "BooleanFunction") -> float:
+def sens_sym(f: BooleanFunction) -> float:
     """
     Symmetric sensitivity proxy: mean Hamming weight of true inputs.
 
@@ -173,7 +173,7 @@ def sens_sym(f: "BooleanFunction") -> float:
     return float(np.dot(weights, counts) / total)
 
 
-def sens_sym_by_weight(f: "BooleanFunction") -> np.ndarray:
+def sens_sym_by_weight(f: BooleanFunction) -> np.ndarray:
     """
     Compute sensitivity for each Hamming weight class.
 
@@ -218,7 +218,7 @@ def sens_sym_by_weight(f: "BooleanFunction") -> np.ndarray:
     return result
 
 
-def shift_function(f: "BooleanFunction", shift: int) -> "BooleanFunction":
+def shift_function(f: BooleanFunction, shift: int) -> BooleanFunction:
     """
     Shift a Boolean function by XORing all inputs with a constant.
 
@@ -249,7 +249,7 @@ def shift_function(f: "BooleanFunction", shift: int) -> "BooleanFunction":
     return bf.create(new_tt)
 
 
-def _is_monotone_increasing(f: "BooleanFunction") -> bool:
+def _is_monotone_increasing(f: BooleanFunction) -> bool:
     """Check if f is monotone increasing (x ≤ y implies f(x) ≤ f(y))."""
     n = f.n_vars or 0
 
@@ -275,7 +275,7 @@ def _is_monotone_increasing(f: "BooleanFunction") -> bool:
     return True
 
 
-def find_monotone_shift(f: "BooleanFunction") -> Optional[int]:
+def find_monotone_shift(f: BooleanFunction) -> int | None:
     """
     Find a shift that makes the function monotone, if one exists.
 
@@ -304,7 +304,7 @@ def find_monotone_shift(f: "BooleanFunction") -> Optional[int]:
     return None
 
 
-def symmetric_representation(f: "BooleanFunction") -> List[int]:
+def symmetric_representation(f: BooleanFunction) -> list[int]:
     """
     Get the symmetric representation of a function.
 

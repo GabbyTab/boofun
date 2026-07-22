@@ -8,7 +8,7 @@ where w = (w₁, w₂, ..., wₙ) are the weights and θ is the threshold.
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Union
+from typing import Any
 
 import numpy as np
 
@@ -39,7 +39,7 @@ class LTFParameters:
                 f"Weights length {len(self.weights)} doesn't match n_vars {self.n_vars}"
             )
 
-    def evaluate(self, x: Union[List[int], np.ndarray]) -> bool:
+    def evaluate(self, x: list[int] | np.ndarray) -> bool:
         """
         Evaluate LTF at given input.
 
@@ -55,7 +55,7 @@ class LTFParameters:
         weighted_sum = np.dot(self.weights, x)
         return weighted_sum >= self.threshold
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Export LTF parameters to dictionary."""
         return {
             "weights": self.weights.tolist(),
@@ -64,7 +64,7 @@ class LTFParameters:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "LTFParameters":
+    def from_dict(cls, data: dict[str, Any]) -> "LTFParameters":
         """Create LTF parameters from dictionary."""
         return cls(
             weights=np.array(data["weights"]), threshold=data["threshold"], n_vars=data["n_vars"]
@@ -77,7 +77,7 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
 
     def evaluate(
         self, inputs: np.ndarray, data: LTFParameters, space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+    ) -> bool | np.ndarray:
         """
         Evaluate LTF representation.
 
@@ -119,12 +119,12 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
         else:
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def _index_to_binary(self, index: int, n_vars: int) -> List[int]:
+    def _index_to_binary(self, index: int, n_vars: int) -> list[int]:
         """Convert integer index to binary vector using LSB=x₀ convention."""
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 for i in range(n_vars)]
 
-    def dump(self, data: LTFParameters, space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: LTFParameters, space=None, **kwargs) -> dict[str, Any]:
         """Export LTF representation."""
         result = data.to_dict()
         result["type"] = "ltf"
@@ -155,7 +155,7 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
         # Try to find LTF parameters
         return self._find_ltf_parameters(truth_table, n_vars)
 
-    def _find_ltf_parameters(self, truth_table: List[bool], n_vars: int) -> LTFParameters:
+    def _find_ltf_parameters(self, truth_table: list[bool], n_vars: int) -> LTFParameters:
         """
         Find LTF parameters using linear programming approach.
 
@@ -232,7 +232,7 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
 
         return LTFParameters(weights=weights, threshold=threshold, n_vars=n_vars)
 
-    def _find_ltf_heuristic(self, truth_table: List[bool], n_vars: int) -> LTFParameters:
+    def _find_ltf_heuristic(self, truth_table: list[bool], n_vars: int) -> LTFParameters:
         """
         Fallback heuristic method when scipy is not available.
 
@@ -301,7 +301,7 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
             and len(data.weights) == data.n_vars
         )
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for LTF operations."""
         return {
             "evaluation": 0,  # O(n) - linear in number of variables
@@ -310,7 +310,7 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
             "space_complexity": 0,  # O(n) - stores weights and threshold
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return storage requirements for LTF representation."""
         return {
             "weights": n_vars,
@@ -322,7 +322,7 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
 
 
 # Utility functions for LTF analysis
-def is_ltf(truth_table: List[bool], n_vars: int) -> bool:
+def is_ltf(truth_table: list[bool], n_vars: int) -> bool:
     """
     Check if a Boolean function can be represented as an LTF.
 

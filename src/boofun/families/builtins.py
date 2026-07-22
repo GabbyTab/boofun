@@ -7,7 +7,8 @@ Each family has:
 - Universal properties that always hold
 """
 
-from typing import TYPE_CHECKING, Callable, List, Optional
+from typing import TYPE_CHECKING
+from collections.abc import Callable
 
 import numpy as np
 
@@ -123,7 +124,7 @@ class TribesFamily(FunctionFamily):
         )
 
     def generate(
-        self, n: int, k: Optional[int] = None, w: Optional[int] = None, **kwargs
+        self, n: int, k: int | None = None, w: int | None = None, **kwargs
     ) -> "BooleanFunction":
         """
         Generate tribes function.
@@ -169,7 +170,7 @@ class ThresholdFamily(FunctionFamily):
     - k = (n+1)/2: Majority (for odd n)
     """
 
-    def __init__(self, k_function: Optional[Callable[[int], int]] = None):
+    def __init__(self, k_function: Callable[[int], int] | None = None):
         """
         Initialize threshold family.
 
@@ -188,7 +189,7 @@ class ThresholdFamily(FunctionFamily):
             universal_properties=["monotone", "symmetric", "is_ltf"],
         )
 
-    def generate(self, n: int, k: Optional[int] = None, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, k: int | None = None, **kwargs) -> "BooleanFunction":
         import boofun as bf
 
         if k is None:
@@ -318,7 +319,7 @@ class LTFFamily(WeightPatternFamily):
     def __init__(
         self,
         weight_pattern: Callable[[int, int], float] = lambda i, n: 1.0,
-        threshold_pattern: Optional[Callable[[int], float]] = None,
+        threshold_pattern: Callable[[int], float] | None = None,
         name: str = "LTF",
     ):
         """
@@ -565,7 +566,7 @@ class RandomDNFFamily(FunctionFamily):
     A k-DNF is an OR of terms, where each term is an AND of at most k literals.
     """
 
-    def __init__(self, term_width: int = 3, num_terms: Optional[int] = None):
+    def __init__(self, term_width: int = 3, num_terms: int | None = None):
         """
         Initialize random DNF family.
 
@@ -591,7 +592,7 @@ class RandomDNFFamily(FunctionFamily):
             universal_properties=[],  # Properties vary by instance
         )
 
-    def generate(self, n: int, seed: Optional[int] = None, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, seed: int | None = None, **kwargs) -> "BooleanFunction":
         import boofun as bf
 
         rng = np.random.RandomState(seed)
@@ -904,7 +905,7 @@ class SboxFamily(FunctionFamily):
         0x16,
     ]
 
-    def __init__(self, sbox: Optional[List[int]] = None, bit: int = 0):
+    def __init__(self, sbox: list[int] | None = None, bit: int = 0):
         """
         Initialize S-box family.
 
@@ -930,7 +931,7 @@ class SboxFamily(FunctionFamily):
             n_constraint_description=f"n must equal S-box input bits ({self._n_bits})",
         )
 
-    def generate(self, n: Optional[int] = None, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int | None = None, **kwargs) -> "BooleanFunction":
         import boofun as bf
 
         bit = kwargs.get("bit", self._bit)
@@ -947,7 +948,7 @@ class SboxFamily(FunctionFamily):
         truth_table = [(self._sbox[x] >> bit) & 1 for x in range(len(self._sbox))]
         return bf.create(truth_table)
 
-    def all_components(self) -> List["BooleanFunction"]:
+    def all_components(self) -> list["BooleanFunction"]:
         """Get all component functions."""
         return [self.get_component(b) for b in range(self._n_bits)]
 

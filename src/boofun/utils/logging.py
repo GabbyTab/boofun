@@ -17,7 +17,6 @@ Usage:
 """
 
 import logging
-from typing import Optional
 
 # Library-wide logger
 logger = logging.getLogger("boofun")
@@ -31,7 +30,7 @@ optimization_logger = logging.getLogger("boofun.optimization")
 
 def enable_debug_logging(
     level: int = logging.DEBUG,
-    format_string: Optional[str] = None,
+    format_string: str | None = None,
 ) -> None:
     """
     Enable debug logging for the BooFun library.

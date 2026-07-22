@@ -10,7 +10,8 @@ These optimizations are automatically used when available.
 """
 
 from collections import OrderedDict
-from typing import Any, Callable, Optional
+from typing import Any
+from collections.abc import Callable
 
 import numpy as np
 
@@ -224,7 +225,7 @@ class LazyFourierCoefficients:
             compute_func: Function that computes the Fourier coefficients
         """
         self._compute_func = compute_func
-        self._coeffs: Optional[np.ndarray] = None
+        self._coeffs: np.ndarray | None = None
         self._computed = False
 
     def get(self) -> np.ndarray:
@@ -299,7 +300,7 @@ except ImportError:
 
 
 def parallel_batch_influences(
-    functions: list, max_workers: Optional[int] = None, use_threads: bool = True
+    functions: list, max_workers: int | None = None, use_threads: bool = True
 ) -> list:
     """
     Compute influences for multiple Boolean functions in parallel.
@@ -329,7 +330,7 @@ def parallel_batch_influences(
     return results
 
 
-def parallel_batch_fourier(functions: list, max_workers: Optional[int] = None) -> list:
+def parallel_batch_fourier(functions: list, max_workers: int | None = None) -> list:
     """
     Compute Fourier coefficients for multiple Boolean functions in parallel.
 
@@ -399,7 +400,6 @@ if HAS_NUMBA:
 
 import functools
 import hashlib
-from typing import Dict, Tuple
 
 
 class ComputeCache:
@@ -421,7 +421,7 @@ class ComputeCache:
         args_str = "_".join(str(a) for a in args)
         return f"{func_hash}_{computation}_{args_str}"
 
-    def get(self, func_hash: str, computation: str, *args) -> Tuple[bool, Any]:
+    def get(self, func_hash: str, computation: str, *args) -> tuple[bool, Any]:
         """Try to get cached result. Returns (found, value)."""
         key = self._make_key(func_hash, computation, *args)
 
@@ -448,7 +448,7 @@ class ComputeCache:
         """Clear all cached entries."""
         self._cache.clear()
 
-    def stats(self) -> Dict[str, Any]:
+    def stats(self) -> dict[str, Any]:
         """Get cache statistics."""
         total = self._hits + self._misses
         return {

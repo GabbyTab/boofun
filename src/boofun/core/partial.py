@@ -39,7 +39,8 @@ Cross-validation:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, Iterator, Optional, Tuple, Union
+from typing import TYPE_CHECKING
+from collections.abc import Iterator
 
 import numpy as np
 
@@ -86,8 +87,8 @@ class PartialBooleanFunction:
     def __init__(
         self,
         n_vars: int,
-        known_values: Optional[Dict[int, bool]] = None,
-        name: Optional[str] = None,
+        known_values: dict[int, bool] | None = None,
+        name: str | None = None,
     ):
         """
         Initialize a partial Boolean function.
@@ -150,7 +151,7 @@ class PartialBooleanFunction:
         return self._partial.is_complete
 
     @property
-    def name(self) -> Optional[str]:
+    def name(self) -> str | None:
         """Optional name for this function."""
         return self._name
 
@@ -179,7 +180,7 @@ class PartialBooleanFunction:
             raise IndexError(f"Index {idx} out of range [0, {self._size})")
         self._partial.add_value(idx, bool(value))
 
-    def add_batch(self, values: Dict[int, bool]) -> None:
+    def add_batch(self, values: dict[int, bool]) -> None:
         """
         Add multiple known values at once.
 
@@ -241,7 +242,7 @@ class PartialBooleanFunction:
         """
         return self._partial.is_known(idx)
 
-    def evaluate(self, idx: int) -> Optional[bool]:
+    def evaluate(self, idx: int) -> bool | None:
         """
         Evaluate the function at a specific input.
 
@@ -266,7 +267,7 @@ class PartialBooleanFunction:
     def evaluate_with_confidence(
         self,
         idx: int,
-    ) -> Tuple[bool, float]:
+    ) -> tuple[bool, float]:
         """
         Evaluate with confidence estimate for unknown values.
 
@@ -310,7 +311,7 @@ class PartialBooleanFunction:
         """
         return self._partial.get_unknown_indices()
 
-    def get_known_values(self) -> Dict[int, bool]:
+    def get_known_values(self) -> dict[int, bool]:
         """
         Get dictionary of all known (index, value) pairs.
 
@@ -320,7 +321,7 @@ class PartialBooleanFunction:
         indices = self.get_known_indices()
         return {int(i): bool(self._partial.data[i]) for i in indices}
 
-    def __getitem__(self, idx: int) -> Optional[bool]:
+    def __getitem__(self, idx: int) -> bool | None:
         """
         Get value at index using bracket notation.
 
@@ -352,7 +353,7 @@ class PartialBooleanFunction:
         """Return number of known values."""
         return self.num_known
 
-    def __iter__(self) -> Iterator[Tuple[int, bool]]:
+    def __iter__(self) -> Iterator[tuple[int, bool]]:
         """Iterate over known (index, value) pairs."""
         for idx in self.get_known_indices():
             yield (int(idx), bool(self._partial.data[idx]))
@@ -365,7 +366,7 @@ class PartialBooleanFunction:
         self,
         fill_unknown: bool = False,
         estimate_unknown: bool = False,
-    ) -> "BooleanFunction":
+    ) -> BooleanFunction:
         """
         Convert to a full BooleanFunction.
 
@@ -418,7 +419,7 @@ class PartialBooleanFunction:
     def sample_unknown(
         self,
         n_samples: int = 1,
-        seed: Optional[int] = None,
+        seed: int | None = None,
     ) -> np.ndarray:
         """
         Randomly sample from unknown indices.
@@ -471,8 +472,8 @@ class PartialBooleanFunction:
 
 def partial(
     n: int,
-    known_values: Optional[Dict[int, bool]] = None,
-    name: Optional[str] = None,
+    known_values: dict[int, bool] | None = None,
+    name: str | None = None,
 ) -> PartialBooleanFunction:
     """
     Create a partial Boolean function.

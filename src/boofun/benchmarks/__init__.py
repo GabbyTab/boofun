@@ -8,8 +8,9 @@ the performance of different Boolean function representations and algorithms.
 import gc
 import time
 import warnings
+from collections.abc import Callable
 from contextlib import contextmanager
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any
 
 import numpy as np
 import psutil
@@ -45,7 +46,7 @@ class PerformanceBenchmark:
         """
         self.warmup_runs = warmup_runs
         self.benchmark_runs = benchmark_runs
-        self.results: Dict[str, Any] = {}
+        self.results: dict[str, Any] = {}
 
     @contextmanager
     def timer(self):
@@ -65,7 +66,7 @@ class PerformanceBenchmark:
             "peak_memory": max(start_memory, end_memory),
         }
 
-    def benchmark_function(self, func: Callable, *args, **kwargs) -> Dict[str, Any]:
+    def benchmark_function(self, func: Callable, *args, **kwargs) -> dict[str, Any]:
         """
         Benchmark a single function with multiple runs.
 
@@ -104,7 +105,7 @@ class PerformanceBenchmark:
             "result": result if "result" in locals() else None,  # type: ignore[possibly-undefined]
         }
 
-    def benchmark_creation(self, n_vars_range: List[int]) -> Dict[str, Any]:
+    def benchmark_creation(self, n_vars_range: list[int]) -> dict[str, Any]:
         """
         Benchmark Boolean function creation across different sizes.
 
@@ -114,7 +115,7 @@ class PerformanceBenchmark:
         Returns:
             Benchmark results for each method
         """
-        results: Dict[str, Any] = {
+        results: dict[str, Any] = {
             "truth_table": {"n_vars": [], "times": [], "memory": []},
             "majority": {"n_vars": [], "times": [], "memory": []},
             "parity": {"n_vars": [], "times": [], "memory": []},
@@ -144,7 +145,7 @@ class PerformanceBenchmark:
 
         return results
 
-    def benchmark_evaluation(self, n_vars_range: List[int]) -> Dict[str, Any]:
+    def benchmark_evaluation(self, n_vars_range: list[int]) -> dict[str, Any]:
         """
         Benchmark function evaluation performance.
 
@@ -154,7 +155,7 @@ class PerformanceBenchmark:
         Returns:
             Evaluation benchmark results
         """
-        results: Dict[str, Any] = {
+        results: dict[str, Any] = {
             "single_eval": {"n_vars": [], "times": []},
             "batch_eval": {"n_vars": [], "times": []},
             "binary_eval": {"n_vars": [], "times": []},
@@ -190,7 +191,7 @@ class PerformanceBenchmark:
 
         return results
 
-    def benchmark_spectral_analysis(self, n_vars_range: List[int]) -> Dict[str, Any]:
+    def benchmark_spectral_analysis(self, n_vars_range: list[int]) -> dict[str, Any]:
         """
         Benchmark spectral analysis algorithms.
 
@@ -200,7 +201,7 @@ class PerformanceBenchmark:
         Returns:
             Spectral analysis benchmark results
         """
-        results: Dict[str, Any] = {
+        results: dict[str, Any] = {
             "influences": {"n_vars": [], "times": []},
             "fourier": {"n_vars": [], "times": []},
             "noise_stability": {"n_vars": [], "times": []},
@@ -233,7 +234,7 @@ class PerformanceBenchmark:
 
         return results
 
-    def benchmark_representations(self, n_vars: int = 6) -> Dict[str, Any]:
+    def benchmark_representations(self, n_vars: int = 6) -> dict[str, Any]:
         """
         Compare different representation formats.
 
@@ -248,7 +249,7 @@ class PerformanceBenchmark:
         # Create test function
         base_func = BooleanFunctionBuiltins.majority(n_vars)
 
-        results: Dict[str, Any] = {"creation": {}, "evaluation": {}, "memory": {}}
+        results: dict[str, Any] = {"creation": {}, "evaluation": {}, "memory": {}}
 
         # Test different representations
         representations = ["truth_table"]  # Add more as they become available
@@ -271,7 +272,7 @@ class PerformanceBenchmark:
 
         return results
 
-    def run_comprehensive_benchmark(self, max_vars: int = 10) -> Dict[str, Any]:
+    def run_comprehensive_benchmark(self, max_vars: int = 10) -> dict[str, Any]:
         """
         Run comprehensive benchmark suite.
 
@@ -313,7 +314,7 @@ class PerformanceBenchmark:
 
         return results
 
-    def _get_system_info(self) -> Dict[str, Any]:
+    def _get_system_info(self) -> dict[str, Any]:
         """Get system information for benchmark context."""
         import platform
 
@@ -326,7 +327,7 @@ class PerformanceBenchmark:
             "numpy_version": np.__version__,
         }
 
-    def print_results(self, results: Dict[str, Any]) -> None:
+    def print_results(self, results: dict[str, Any]) -> None:
         """Print formatted benchmark results."""
         print("\n📈 Benchmark Results Summary")
         print("=" * 50)
@@ -368,7 +369,7 @@ class PerformanceBenchmark:
                         f"  {analysis_type.replace('_', ' ').title()}: {avg_time*1000:.2f}ms average"
                     )
 
-    def plot_results(self, results: Dict[str, Any], save_path: Optional[str] = None) -> None:
+    def plot_results(self, results: dict[str, Any], save_path: str | None = None) -> None:
         """Plot benchmark results if matplotlib is available."""
         if not HAS_MATPLOTLIB:
             print("📊 Matplotlib not available - skipping plots")
@@ -454,7 +455,7 @@ class PerformanceBenchmark:
             plt.show()
 
 
-def run_quick_benchmark() -> Dict[str, Any]:
+def run_quick_benchmark() -> dict[str, Any]:
     """Run a quick benchmark for development testing."""
     benchmark = PerformanceBenchmark(warmup_runs=1, benchmark_runs=3)
     results = benchmark.run_comprehensive_benchmark(max_vars=6)

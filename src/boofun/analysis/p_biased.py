@@ -31,7 +31,7 @@ Applications:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -59,7 +59,7 @@ __all__ = [
 ]
 
 
-def _p_biased_basis(p: float, n: int) -> Tuple[float, float]:
+def _p_biased_basis(p: float, n: int) -> tuple[float, float]:
     """
     Compute p-biased basis transformation parameters.
 
@@ -93,7 +93,7 @@ def biased_measure_mass(p: float, n: int, subset_mask: int) -> float:
     return (p**k) * ((1.0 - p) ** (n - k))
 
 
-def p_biased_expectation(f: "BooleanFunction", p: float = 0.5) -> float:
+def p_biased_expectation(f: BooleanFunction, p: float = 0.5) -> float:
     """
     Compute E_{μ_p}[f] - the expectation of f under p-biased measure.
 
@@ -124,7 +124,7 @@ def p_biased_expectation(f: "BooleanFunction", p: float = 0.5) -> float:
     return total
 
 
-def p_biased_variance(f: "BooleanFunction", p: float = 0.5) -> float:
+def p_biased_variance(f: BooleanFunction, p: float = 0.5) -> float:
     """
     Compute Var_{μ_p}[f] - the variance under p-biased measure.
 
@@ -158,7 +158,7 @@ def p_biased_variance(f: "BooleanFunction", p: float = 0.5) -> float:
     return ef2 - ef**2
 
 
-def p_biased_fourier_coefficients(f: "BooleanFunction", p: float = 0.5) -> Dict[int, float]:
+def p_biased_fourier_coefficients(f: BooleanFunction, p: float = 0.5) -> dict[int, float]:
     """
     Compute the p-biased Fourier coefficients of f.
 
@@ -210,7 +210,7 @@ def p_biased_fourier_coefficients(f: "BooleanFunction", p: float = 0.5) -> Dict[
     return coefficients
 
 
-def p_biased_influence(f: "BooleanFunction", i: int, p: float = 0.5) -> float:
+def p_biased_influence(f: BooleanFunction, i: int, p: float = 0.5) -> float:
     """
     Compute the p-biased influence of variable i on f.
 
@@ -263,7 +263,7 @@ def p_biased_influence(f: "BooleanFunction", i: int, p: float = 0.5) -> float:
     return total
 
 
-def p_biased_total_influence(f: "BooleanFunction", p: float = 0.5) -> float:
+def p_biased_total_influence(f: BooleanFunction, p: float = 0.5) -> float:
     """
     Compute the total p-biased influence.
 
@@ -280,7 +280,7 @@ def p_biased_total_influence(f: "BooleanFunction", p: float = 0.5) -> float:
     return sum(p_biased_influence(f, i, p) for i in range(n))
 
 
-def p_biased_noise_stability(f: "BooleanFunction", rho: float, p: float = 0.5) -> float:
+def p_biased_noise_stability(f: BooleanFunction, rho: float, p: float = 0.5) -> float:
     """
     Compute the p-biased noise stability at correlation rho.
 
@@ -314,7 +314,7 @@ def p_biased_noise_stability(f: "BooleanFunction", rho: float, p: float = 0.5) -
 # ============================================================================
 
 
-def p_biased_fourier_coefficient(f: "BooleanFunction", p: float, S: int) -> float:
+def p_biased_fourier_coefficient(f: BooleanFunction, p: float, S: int) -> float:
     """
     Compute single p-biased Fourier coefficient using Tal's formula.
 
@@ -376,7 +376,7 @@ def p_biased_fourier_coefficient(f: "BooleanFunction", p: float, S: int) -> floa
     return val
 
 
-def p_biased_sensitivity(f: "BooleanFunction", x: int, p: float = 0.5) -> int:
+def p_biased_sensitivity(f: BooleanFunction, x: int, p: float = 0.5) -> int:
     """
     Compute the sensitivity of f at input x.
 
@@ -407,7 +407,7 @@ def p_biased_sensitivity(f: "BooleanFunction", x: int, p: float = 0.5) -> int:
     return sens
 
 
-def p_biased_average_sensitivity(f: "BooleanFunction", p: float = 0.5) -> float:
+def p_biased_average_sensitivity(f: BooleanFunction, p: float = 0.5) -> float:
     """
     Compute the average sensitivity under p-biased distribution μ_p.
 
@@ -456,7 +456,7 @@ def p_biased_average_sensitivity(f: "BooleanFunction", p: float = 0.5) -> float:
     return total
 
 
-def p_biased_total_influence_fourier(f: "BooleanFunction", p: float = 0.5) -> float:
+def p_biased_total_influence_fourier(f: BooleanFunction, p: float = 0.5) -> float:
     """
     Compute total p-biased influence via Fourier coefficients.
 
@@ -552,7 +552,7 @@ class PBiasedAnalyzer:
     Boolean functions under p-biased distributions.
     """
 
-    def __init__(self, f: "BooleanFunction", p: float = 0.5):
+    def __init__(self, f: BooleanFunction, p: float = 0.5):
         """
         Initialize p-biased analyzer.
 
@@ -562,10 +562,10 @@ class PBiasedAnalyzer:
         """
         self.function = f
         self.p = p
-        self._coefficients: Optional[Dict[int, float]] = None
+        self._coefficients: dict[int, float] | None = None
 
     @property
-    def coefficients(self) -> Dict[int, float]:
+    def coefficients(self) -> dict[int, float]:
         """Get cached p-biased Fourier coefficients."""
         if self._coefficients is None:
             self._coefficients = p_biased_fourier_coefficients(self.function, self.p)
@@ -583,7 +583,7 @@ class PBiasedAnalyzer:
         """Get p-biased influence of variable i."""
         return p_biased_influence(self.function, i, self.p)
 
-    def influences(self) -> List[float]:
+    def influences(self) -> list[float]:
         """Get p-biased influences of all variables."""
         n = self.function.n_vars or 0
         return [self.influence(i) for i in range(n)]
@@ -604,7 +604,7 @@ class PBiasedAnalyzer:
                 total += coeff**2
         return np.sqrt(total)
 
-    def max_influence(self) -> Tuple[int, float]:
+    def max_influence(self) -> tuple[int, float]:
         """Find variable with maximum p-biased influence."""
         n = self.function.n_vars or 0
         if n == 0:
@@ -643,7 +643,7 @@ class PBiasedAnalyzer:
         """
         return p_biased_fourier_coefficient(self.function, self.p, S)
 
-    def validate(self, tol: float = 1e-6) -> Dict[str, bool]:
+    def validate(self, tol: float = 1e-6) -> dict[str, bool]:
         """
         Cross-validate p-biased computations.
 

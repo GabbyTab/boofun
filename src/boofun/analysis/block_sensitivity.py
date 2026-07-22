@@ -13,7 +13,7 @@ This module provides both exact and efficient algorithms:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -34,7 +34,7 @@ def _popcnt(x: int) -> int:
     return bin(x).count("1")
 
 
-def sensitive_coordinates(f: "BooleanFunction", x: int) -> List[int]:
+def sensitive_coordinates(f: BooleanFunction, x: int) -> list[int]:
     """
     Find coordinates where f is sensitive at input x.
 
@@ -59,7 +59,7 @@ def sensitive_coordinates(f: "BooleanFunction", x: int) -> List[int]:
     return sensitive
 
 
-def minimal_sensitive_blocks(f: "BooleanFunction", x: int) -> List[int]:
+def minimal_sensitive_blocks(f: BooleanFunction, x: int) -> list[int]:
     """
     Find all minimal sensitive blocks at input x.
 
@@ -118,7 +118,7 @@ def minimal_sensitive_blocks(f: "BooleanFunction", x: int) -> List[int]:
     return minimal
 
 
-def _max_disjoint(blocks: List[int], start: int, used: int) -> int:
+def _max_disjoint(blocks: list[int], start: int, used: int) -> int:
     """
     Find maximum number of pairwise disjoint blocks via backtracking.
 
@@ -139,7 +139,7 @@ def _max_disjoint(blocks: List[int], start: int, used: int) -> int:
     return best
 
 
-def block_sensitivity_at(f: "BooleanFunction", x: int) -> int:
+def block_sensitivity_at(f: BooleanFunction, x: int) -> int:
     """
     Compute the block sensitivity of f at input x.
 
@@ -174,7 +174,7 @@ def block_sensitivity_at(f: "BooleanFunction", x: int) -> int:
 
 
 def max_block_sensitivity(
-    f: "BooleanFunction", value: Optional[int] = None, use_pruning: bool = True
+    f: BooleanFunction, value: int | None = None, use_pruning: bool = True
 ) -> int:
     """
     Compute the maximum block sensitivity of f.
@@ -240,7 +240,7 @@ def max_block_sensitivity(
     return best
 
 
-def block_sensitivity_profile(f: "BooleanFunction") -> Tuple[int, int, List[int]]:
+def block_sensitivity_profile(f: BooleanFunction) -> tuple[int, int, list[int]]:
     """
     Compute block sensitivity profile of f.
 

@@ -11,7 +11,8 @@ Supports:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
+from collections.abc import Callable
 
 import numpy as np
 
@@ -59,7 +60,7 @@ class GrowthAnimator:
         >>> animator.save("majority_growth.gif")
     """
 
-    def __init__(self, family: "FunctionFamily"):
+    def __init__(self, family: FunctionFamily):
         """
         Initialize animator with a function family.
 
@@ -70,15 +71,15 @@ class GrowthAnimator:
         self.family = family
         self.fig: Any = None
         self.anim: Any = None
-        self._frames_data: List[Dict[str, Any]] = []
+        self._frames_data: list[dict[str, Any]] = []
 
     def animate(
         self,
         property_name: str,
-        n_range: Tuple[int, int, int] = (3, 15, 2),
-        figsize: Tuple[int, int] = (10, 6),
+        n_range: tuple[int, int, int] = (3, 15, 2),
+        figsize: tuple[int, int] = (10, 6),
         interval: int = 500,
-        property_func: Optional[Callable] = None,
+        property_func: Callable | None = None,
     ) -> animation.FuncAnimation:
         """
         Create animation of property growth.
@@ -174,8 +175,8 @@ class GrowthAnimator:
 
     def animate_influences(
         self,
-        n_range: Tuple[int, int, int] = (3, 15, 2),
-        figsize: Tuple[int, int] = (12, 6),
+        n_range: tuple[int, int, int] = (3, 15, 2),
+        figsize: tuple[int, int] = (12, 6),
         interval: int = 700,
     ) -> animation.FuncAnimation:
         """
@@ -285,9 +286,9 @@ class GrowthAnimator:
 
 
 def animate_growth(
-    family: "FunctionFamily",
+    family: FunctionFamily,
     property_name: str = "total_influence",
-    n_range: Tuple[int, int, int] = (3, 15, 2),
+    n_range: tuple[int, int, int] = (3, 15, 2),
     **kwargs,
 ) -> animation.FuncAnimation:
     """
@@ -307,7 +308,7 @@ def animate_growth(
 
 
 def animate_influences(
-    family: "FunctionFamily", n_range: Tuple[int, int, int] = (3, 15, 2), **kwargs
+    family: FunctionFamily, n_range: tuple[int, int, int] = (3, 15, 2), **kwargs
 ) -> animation.FuncAnimation:
     """
     Convenience function to animate influence distribution.
@@ -325,9 +326,9 @@ def animate_influences(
 
 
 def animate_fourier_spectrum(
-    family: "FunctionFamily",
-    n_range: Tuple[int, int, int] = (3, 9, 2),
-    figsize: Tuple[int, int] = (12, 6),
+    family: FunctionFamily,
+    n_range: tuple[int, int, int] = (3, 9, 2),
+    figsize: tuple[int, int] = (12, 6),
     interval: int = 800,
 ) -> animation.FuncAnimation:
     """
@@ -403,10 +404,10 @@ def animate_fourier_spectrum(
 
 
 def create_growth_animation(
-    family: "FunctionFamily",
-    properties: Optional[List[str]] = None,
-    n_range: Tuple[int, int, int] = (3, 15, 2),
-    figsize: Tuple[int, int] = (14, 8),
+    family: FunctionFamily,
+    properties: list[str] | None = None,
+    n_range: tuple[int, int, int] = (3, 15, 2),
+    figsize: tuple[int, int] = (14, 8),
     interval: int = 600,
 ) -> animation.FuncAnimation:
     """
@@ -431,10 +432,10 @@ def create_growth_animation(
     num_props = len(properties)
 
     # Compute all data
-    frames_data: List[Dict[str, Any]] = []
+    frames_data: list[dict[str, Any]] = []
     for n in n_values:
         f = family.generate(n)
-        frame: Dict[str, Any] = {"n": n}
+        frame: dict[str, Any] = {"n": n}
 
         for prop in properties:
             if prop == "total_influence":

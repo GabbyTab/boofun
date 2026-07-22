@@ -21,7 +21,7 @@ Mathematical Background:
 from __future__ import annotations
 
 from math import log, sqrt
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -45,7 +45,7 @@ __all__ = [
 ]
 
 
-def noise_operator(f: "BooleanFunction", rho: float) -> np.ndarray:
+def noise_operator(f: BooleanFunction, rho: float) -> np.ndarray:
     r"""
     Apply the noise operator T_ρ to a Boolean function.
 
@@ -103,7 +103,7 @@ def noise_operator(f: "BooleanFunction", rho: float) -> np.ndarray:
     return result
 
 
-def lq_norm(f: "BooleanFunction", q: float) -> float:
+def lq_norm(f: BooleanFunction, q: float) -> float:
     """
     Compute the L_q norm of f: ‖f‖_q = (E[|f(x)|^q])^{1/q}.
 
@@ -131,7 +131,7 @@ def lq_norm(f: "BooleanFunction", q: float) -> float:
     return float(np.mean(np.abs(pm_values) ** q) ** (1.0 / q))
 
 
-def bonami_lemma_bound(f: "BooleanFunction", q: float, rho: float) -> Tuple[float, float]:
+def bonami_lemma_bound(f: BooleanFunction, q: float, rho: float) -> tuple[float, float]:
     """
     Verify Bonami's Lemma: ‖T_ρ f‖_q ≤ ‖f‖_2.
 
@@ -208,7 +208,7 @@ def kkl_lower_bound(total_influence: float, n: int) -> float:
     return c * log(n) / n
 
 
-def max_influence_bound(f: "BooleanFunction") -> Tuple[float, float, float]:
+def max_influence_bound(f: BooleanFunction) -> tuple[float, float, float]:
     """
     Compute max influence and compare with KKL lower bound.
 
@@ -262,7 +262,7 @@ def friedgut_junta_bound(total_influence: float, epsilon: float) -> int:
     return int(2**exponent)
 
 
-def junta_approximation_error(f: "BooleanFunction", junta_vars: List[int]) -> float:
+def junta_approximation_error(f: BooleanFunction, junta_vars: list[int]) -> float:
     """
     Compute the error of approximating f by its projection onto junta variables.
 
@@ -329,7 +329,7 @@ def junta_approximation_error(f: "BooleanFunction", junta_vars: List[int]) -> fl
     return disagreements / size
 
 
-def level_d_inequality(f: "BooleanFunction", d: int, q: float = 4) -> Tuple[float, float]:
+def level_d_inequality(f: BooleanFunction, d: int, q: float = 4) -> tuple[float, float]:
     """
     Level-d inequality (O'Donnell Lemma 9.23).
 
@@ -382,8 +382,8 @@ def level_d_inequality(f: "BooleanFunction", d: int, q: float = 4) -> Tuple[floa
 
 
 def hypercontractive_inequality(
-    f: "BooleanFunction", rho: float, p: float = 2, q: float = 4
-) -> Tuple[float, float, bool]:
+    f: BooleanFunction, rho: float, p: float = 2, q: float = 4
+) -> tuple[float, float, bool]:
     """
     Verify the hypercontractive inequality.
 

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Generic, List, Optional, TypeVar
+from typing import Any, Generic, TypeVar
 
 import numpy as np
 
@@ -25,7 +25,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         """
 
     @abstractmethod
-    def dump(self, data: DataType, space: Optional[Space] = None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: DataType, space: Space | None = None, **kwargs) -> dict[str, Any]:
         """
         Export the representation data in a serializable format.
 
@@ -89,11 +89,11 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         """Check if the representation contains complete information."""
 
     @abstractmethod
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, Any]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, Any]:
         """Return time_complexity for computing/evaluating n variables."""
 
     @abstractmethod
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return memory/storage requirements for n variables."""
 
     def __str__(self) -> str:
@@ -133,8 +133,8 @@ class PartialRepresentation(Generic[DataType]):
         self,
         strategy: BooleanFunctionRepresentation[DataType],
         data: DataType,
-        known_mask: Optional[np.ndarray] = None,
-        n_vars: Optional[int] = None,
+        known_mask: np.ndarray | None = None,
+        n_vars: int | None = None,
     ):
         """
         Initialize partial representation.
@@ -148,8 +148,8 @@ class PartialRepresentation(Generic[DataType]):
         self.strategy = strategy
         self.data = data
         self.n_vars = n_vars
-        self._confidence_cache: Dict[int, "tuple[bool, float]"] = {}
-        self.known_mask: Optional[np.ndarray]
+        self._confidence_cache: dict[int, tuple[bool, float]] = {}
+        self.known_mask: np.ndarray | None
 
         # Initialize or validate known_mask
         if known_mask is None:
@@ -169,7 +169,7 @@ class PartialRepresentation(Generic[DataType]):
     def from_sparse(
         cls,
         n_vars: int,
-        known_values: Dict[int, bool],
+        known_values: dict[int, bool],
         strategy_name: str = "truth_table",
     ) -> "PartialRepresentation[np.ndarray]":
         """
@@ -272,7 +272,7 @@ class PartialRepresentation(Generic[DataType]):
             return None
 
         # Handle array of indices
-        results: List[Optional[bool]] = []
+        results: list[bool | None] = []
         for idx in inputs.flat:
             if self.is_known(int(idx)):
                 results.append(bool(self.data[int(idx)]))

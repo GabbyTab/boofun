@@ -23,7 +23,7 @@ Relationships (from O'Donnell Chapter 1):
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Set
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -40,7 +40,7 @@ __all__ = [
 ]
 
 
-def gf2_fourier_transform(f: "BooleanFunction") -> np.ndarray:
+def gf2_fourier_transform(f: BooleanFunction) -> np.ndarray:
     """
     Compute the GF(2) Fourier transform (Möbius transform) of f.
 
@@ -85,7 +85,7 @@ def gf2_fourier_transform(f: "BooleanFunction") -> np.ndarray:
     return coeffs
 
 
-def gf2_degree(f: "BooleanFunction") -> int:
+def gf2_degree(f: BooleanFunction) -> int:
     """
     Compute the GF(2) degree (algebraic degree) of f.
 
@@ -118,7 +118,7 @@ def gf2_degree(f: "BooleanFunction") -> int:
     return max_deg if max_deg >= 0 else 0
 
 
-def gf2_monomials(f: "BooleanFunction") -> List[Set[int]]:
+def gf2_monomials(f: BooleanFunction) -> list[set[int]]:
     """
     Get all monomials with non-zero coefficients in the ANF of f.
 
@@ -141,7 +141,7 @@ def gf2_monomials(f: "BooleanFunction") -> List[Set[int]]:
     return monomials
 
 
-def gf2_to_string(f: "BooleanFunction", var_prefix: str = "x") -> str:
+def gf2_to_string(f: BooleanFunction, var_prefix: str = "x") -> str:
     """
     Get a string representation of the ANF of f.
 
@@ -168,7 +168,7 @@ def gf2_to_string(f: "BooleanFunction", var_prefix: str = "x") -> str:
     return " ⊕ ".join(terms)
 
 
-def is_linear_over_gf2(f: "BooleanFunction") -> bool:
+def is_linear_over_gf2(f: BooleanFunction) -> bool:
     """
     Check if f is linear over GF(2) (i.e., degree ≤ 1).
 
@@ -183,7 +183,7 @@ def is_linear_over_gf2(f: "BooleanFunction") -> bool:
     return gf2_degree(f) <= 1
 
 
-def correlation_with_parity(f: "BooleanFunction", subset: Set[int]) -> float:
+def correlation_with_parity(f: BooleanFunction, subset: set[int]) -> float:
     """
     Compute the correlation of f with the parity function on a subset.
 
@@ -221,7 +221,7 @@ def correlation_with_parity(f: "BooleanFunction", subset: Set[int]) -> float:
     return total / size
 
 
-def variable_degree(f: "BooleanFunction", var: int) -> int:
+def variable_degree(f: BooleanFunction, var: int) -> int:
     """
     Compute the degree of variable var in the ANF of f.
 
@@ -246,7 +246,7 @@ def variable_degree(f: "BooleanFunction", var: int) -> int:
     return max_deg
 
 
-def connected_variables(f: "BooleanFunction", var_set: Set[int]) -> bool:
+def connected_variables(f: BooleanFunction, var_set: set[int]) -> bool:
     """
     Check if all variables in var_set appear together in some monomial.
 
@@ -271,7 +271,7 @@ def connected_variables(f: "BooleanFunction", var_set: Set[int]) -> bool:
     return False
 
 
-def fourier_weight_by_degree(f: "BooleanFunction") -> List[int]:
+def fourier_weight_by_degree(f: BooleanFunction) -> list[int]:
     """
     Compute the GF(2) Fourier weight at each degree level.
 

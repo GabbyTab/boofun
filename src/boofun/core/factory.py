@@ -1,6 +1,6 @@
 import numbers
 from collections.abc import Iterable
-from typing import Any, Type
+from typing import Any
 
 import numpy as np
 
@@ -110,7 +110,7 @@ class BooleanFunctionFactory:
         )
 
     @classmethod
-    def create(cls, boolean_function_cls: Type, data: Any = None, **kwargs):
+    def create(cls, boolean_function_cls: type, data: Any = None, **kwargs):
         """
         Main factory method that dispatches to specialized creators based on input data type.
 

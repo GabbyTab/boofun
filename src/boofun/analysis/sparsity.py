@@ -27,7 +27,7 @@ References:
 from __future__ import annotations
 
 from collections import Counter
-from typing import TYPE_CHECKING, Dict, List, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -44,7 +44,7 @@ __all__ = [
 ]
 
 
-def _get_fourier_coefficients(f: "BooleanFunction") -> np.ndarray:
+def _get_fourier_coefficients(f: BooleanFunction) -> np.ndarray:
     """Get Fourier coefficients, computing if necessary."""
     from . import SpectralAnalyzer
 
@@ -52,7 +52,7 @@ def _get_fourier_coefficients(f: "BooleanFunction") -> np.ndarray:
     return analyzer.fourier_expansion()
 
 
-def fourier_sparsity(f: "BooleanFunction", threshold: float = 1e-10) -> int:
+def fourier_sparsity(f: BooleanFunction, threshold: float = 1e-10) -> int:
     """
     Count the number of non-zero Fourier coefficients.
 
@@ -77,7 +77,7 @@ def fourier_sparsity(f: "BooleanFunction", threshold: float = 1e-10) -> int:
     return int(np.sum(np.abs(coeffs) > threshold))
 
 
-def fourier_sparsity_up_to_constants(f: "BooleanFunction", threshold: float = 1e-10) -> int:
+def fourier_sparsity_up_to_constants(f: BooleanFunction, threshold: float = 1e-10) -> int:
     """
     Compute Fourier sparsity ignoring constant multiples.
 
@@ -124,7 +124,7 @@ def fourier_sparsity_up_to_constants(f: "BooleanFunction", threshold: float = 1e
     return size - count  # Return count of non-trivial
 
 
-def granularity(f: "BooleanFunction", threshold: float = 1e-10) -> Dict[float, int]:
+def granularity(f: BooleanFunction, threshold: float = 1e-10) -> dict[float, int]:
     """
     Analyze the granularity structure of Fourier coefficients.
 
@@ -148,7 +148,7 @@ def granularity(f: "BooleanFunction", threshold: float = 1e-10) -> Dict[float, i
     return dict(counter)
 
 
-def fourier_support(f: "BooleanFunction", threshold: float = 1e-10) -> List[int]:
+def fourier_support(f: BooleanFunction, threshold: float = 1e-10) -> list[int]:
     """
     Return the support of the Fourier spectrum.
 
@@ -174,7 +174,7 @@ def fourier_support(f: "BooleanFunction", threshold: float = 1e-10) -> List[int]
     return support
 
 
-def sparsity_by_degree(f: "BooleanFunction", threshold: float = 1e-10) -> Dict[int, int]:
+def sparsity_by_degree(f: BooleanFunction, threshold: float = 1e-10) -> dict[int, int]:
     """
     Count non-zero Fourier coefficients at each degree.
 
@@ -190,7 +190,7 @@ def sparsity_by_degree(f: "BooleanFunction", threshold: float = 1e-10) -> Dict[i
     coeffs = _get_fourier_coefficients(f)
     n = f.n_vars or 0
 
-    counts: Dict[int, int] = {}
+    counts: dict[int, int] = {}
 
     for s, coeff in enumerate(coeffs):
         if abs(coeff) > threshold:
@@ -200,7 +200,7 @@ def sparsity_by_degree(f: "BooleanFunction", threshold: float = 1e-10) -> Dict[i
     return counts
 
 
-def effective_sparsity(f: "BooleanFunction", weight_threshold: float = 0.01) -> Tuple[int, float]:
+def effective_sparsity(f: BooleanFunction, weight_threshold: float = 0.01) -> tuple[int, float]:
     """
     Compute effective sparsity based on Fourier weight concentration.
 

@@ -6,7 +6,7 @@ including Fourier spectrum exploration, influence heatmaps, and comparison tools
 """
 
 import logging
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
 
 # Module logger
 _logger = logging.getLogger("boofun.visualization.interactive")
@@ -103,7 +103,7 @@ def interactive_fourier_spectrum(
 
     # Colors
     if color_by_degree:
-        colors: List[Any] = degrees
+        colors: list[Any] = degrees
         colorscale = "Viridis"
         colorbar_title = "Degree"
     else:
@@ -324,8 +324,8 @@ def interactive_complexity_comparison(
 
 def interactive_growth_explorer(
     family: "FunctionFamily",
-    n_range: Tuple[int, int, int] = (3, 15, 2),
-    properties: Optional[List[str]] = None,
+    n_range: tuple[int, int, int] = (3, 15, 2),
+    properties: list[str] | None = None,
     height: int = 600,
     width: int = 1000,
 ) -> "go.Figure":
@@ -357,7 +357,7 @@ def interactive_growth_explorer(
         n_values = [n for n in n_values if family.validate_n(n)]
 
     # Compute data for each n
-    data: Dict[str, Any] = {prop: [] for prop in properties}
+    data: dict[str, Any] = {prop: [] for prop in properties}
     data["n"] = n_values
 
     for n in n_values:
@@ -430,7 +430,7 @@ class FourierExplorer:
         self.n_vars = f.n_vars
         assert self.n_vars is not None
         self.fourier = f.fourier()
-        self._cache: Dict[str, Any] = {}
+        self._cache: dict[str, Any] = {}
 
     def spectrum_plot(self, **kwargs) -> "go.Figure":
         """Get interactive spectrum plot."""

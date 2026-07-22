@@ -9,7 +9,7 @@ import multiprocessing as mp
 import warnings
 from abc import ABC, abstractmethod
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
-from typing import Any, Dict, Optional
+from typing import Any
 
 import numpy as np
 
@@ -105,7 +105,7 @@ class ParallelBatchProcessor(BatchProcessor):
     Distributes work across multiple CPU cores for compute-intensive operations.
     """
 
-    def __init__(self, n_workers: Optional[int] = None, use_processes: bool = True):
+    def __init__(self, n_workers: int | None = None, use_processes: bool = True):
         """
         Initialize parallel processor.
 
@@ -294,7 +294,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
         self.supported_representations = {"anf"}
 
     def _process_chunk(
-        self, inputs: np.ndarray, function_data: Dict, space: Space, n_vars: int
+        self, inputs: np.ndarray, function_data: dict, space: Space, n_vars: int
     ) -> np.ndarray:
         """Optimized ANF batch processing."""
         if HAS_NUMBA:
@@ -302,7 +302,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
         else:
             return self._numpy_anf_batch(inputs, function_data, n_vars)
 
-    def _numpy_anf_batch(self, inputs: np.ndarray, anf_dict: Dict, n_vars: int) -> np.ndarray:
+    def _numpy_anf_batch(self, inputs: np.ndarray, anf_dict: dict, n_vars: int) -> np.ndarray:
         """NumPy-based batch ANF evaluation."""
         results = np.zeros(len(inputs), dtype=bool)
 
@@ -338,7 +338,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
 
         return results
 
-    def _numba_anf_batch(self, inputs: np.ndarray, anf_dict: Dict, n_vars: int) -> np.ndarray:
+    def _numba_anf_batch(self, inputs: np.ndarray, anf_dict: dict, n_vars: int) -> np.ndarray:
         """Numba-accelerated batch ANF evaluation."""
         # Convert to format suitable for Numba
         monomials_list = []
@@ -481,7 +481,7 @@ class BatchProcessorManager:
 
         return results
 
-    def get_processor_stats(self) -> Dict[str, Any]:
+    def get_processor_stats(self) -> dict[str, Any]:
         """Get statistics about available processors."""
         return {
             "available_processors": list(self.processors.keys()),
@@ -517,7 +517,7 @@ def process_batch(
     return _batch_manager.process_batch(inputs, function_data, representation, space, n_vars)
 
 
-def get_batch_processor_stats() -> Dict[str, Any]:
+def get_batch_processor_stats() -> dict[str, Any]:
     """Get batch processing statistics and capabilities."""
     return _batch_manager.get_processor_stats()
 

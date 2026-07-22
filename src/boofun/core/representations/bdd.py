@@ -5,7 +5,7 @@ This module implements Reduced Ordered Binary Decision Diagrams (ROBDDs)
 for efficient representation and manipulation of Boolean functions.
 """
 
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional
 
 import numpy as np
 
@@ -28,10 +28,10 @@ class BDDNode:
 
     def __init__(
         self,
-        var: Optional[int] = None,
+        var: int | None = None,
         low: Optional["BDDNode"] = None,
         high: Optional["BDDNode"] = None,
-        value: Optional[bool] = None,
+        value: bool | None = None,
     ):
         self.var = var
         self.low = low
@@ -74,8 +74,8 @@ class BDD:
             n_vars: Number of variables
         """
         self.n_vars = n_vars
-        self.root: Optional[BDDNode] = None
-        self.node_cache: Dict[Tuple[int, "BDDNode", "BDDNode"], BDDNode] = {}
+        self.root: BDDNode | None = None
+        self.node_cache: dict[tuple[int, BDDNode, BDDNode], BDDNode] = {}
         self.terminal_true = BDDNode(value=True)
         self.terminal_false = BDDNode(value=False)
 
@@ -109,7 +109,7 @@ class BDD:
         self.node_cache[key] = node
         return node
 
-    def evaluate(self, inputs: List[bool]) -> bool:
+    def evaluate(self, inputs: list[bool]) -> bool:
         """
         Evaluate BDD with given inputs.
 
@@ -166,7 +166,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
 
     def evaluate(
         self, inputs: np.ndarray, data: BDD, space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+    ) -> bool | np.ndarray:
         """
         Evaluate BDD representation.
 
@@ -208,12 +208,12 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         else:
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def _index_to_binary(self, index: int, n_vars: int) -> List[bool]:
+    def _index_to_binary(self, index: int, n_vars: int) -> list[bool]:
         """Convert integer index to binary vector using LSB=x₀ convention."""
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 == 1 for i in range(n_vars)]
 
-    def dump(self, data: BDD, space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: BDD, space=None, **kwargs) -> dict[str, Any]:
         """Export BDD representation."""
         return {"type": "bdd", "n_vars": data.n_vars, "node_count": data.get_node_count()}
 
@@ -241,7 +241,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         # Build BDD from truth table
         return self._build_bdd_from_truth_table(truth_table, n_vars)
 
-    def _build_bdd_from_truth_table(self, truth_table: List[bool], n_vars: int) -> BDD:
+    def _build_bdd_from_truth_table(self, truth_table: list[bool], n_vars: int) -> BDD:
         """
         Build BDD from truth table using Shannon expansion.
 
@@ -262,7 +262,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         return bdd
 
     def _shannon_expansion_lsb(
-        self, truth_table: List[bool], indices: List[int], var: int, bdd: BDD
+        self, truth_table: list[bool], indices: list[int], var: int, bdd: BDD
     ) -> BDDNode:
         """
         Apply Shannon expansion with LSB=x₀ convention.
@@ -316,7 +316,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         """Check if BDD is complete (has root node)."""
         return data.root is not None
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for BDD operations."""
         return {
             "evaluation": 0,  # O(depth) - typically O(n)
@@ -325,7 +325,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
             "space_complexity": 0,  # O(nodes) - often much smaller than 2^n
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return storage requirements for BDD representation."""
         return {
             "max_nodes": 2**n_vars,  # Worst case

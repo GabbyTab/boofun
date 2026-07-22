@@ -29,7 +29,7 @@ Install CuPy for GPU support::
 """
 
 import warnings
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any
 
 import numpy as np
 
@@ -72,9 +72,9 @@ def enable_gpu(enable: bool = True) -> None:
     _GPU_ENABLED = enable
 
 
-def get_gpu_info() -> Dict[str, Any]:
+def get_gpu_info() -> dict[str, Any]:
     """Return information about available GPU resources."""
-    info: Dict[str, Any] = {
+    info: dict[str, Any] = {
         "gpu_available": CUPY_AVAILABLE,
         "gpu_enabled": is_gpu_enabled(),
         "backend": "cupy" if CUPY_AVAILABLE else None,
@@ -129,21 +129,21 @@ def should_use_gpu(operation: str, data_size: int, n_vars: int) -> bool:
 # ---------------------------------------------------------------------------
 
 
-def get_array_module(arr: Union[np.ndarray, Any]) -> Any:
+def get_array_module(arr: np.ndarray | Any) -> Any:
     """Get the array module (numpy or cupy) for the given array."""
     if CUPY_AVAILABLE and isinstance(arr, cp.ndarray):
         return cp
     return np
 
 
-def to_gpu(arr: np.ndarray) -> Union[np.ndarray, Any]:
+def to_gpu(arr: np.ndarray) -> np.ndarray | Any:
     """Move *arr* to GPU memory if available and enabled."""
     if is_gpu_enabled():
         return cp.asarray(arr)
     return arr
 
 
-def to_cpu(arr: Union[np.ndarray, Any]) -> np.ndarray:
+def to_cpu(arr: np.ndarray | Any) -> np.ndarray:
     """Move *arr* to CPU memory."""
     if CUPY_AVAILABLE and isinstance(arr, cp.ndarray):
         return cp.asnumpy(arr)
@@ -201,7 +201,7 @@ def _gpu_wht_cupy(values: np.ndarray) -> np.ndarray:
     return cp.asnumpy(d)
 
 
-def gpu_influences(fourier_coeffs: np.ndarray, n_vars: Optional[int] = None) -> np.ndarray:
+def gpu_influences(fourier_coeffs: np.ndarray, n_vars: int | None = None) -> np.ndarray:
     """
     Influence computation: Inf_i[f] = sum_{S containing i} f_hat(S)^2.
 
@@ -338,7 +338,7 @@ class GPUBooleanFunctionOps:
     def __init__(self, truth_table: np.ndarray) -> None:
         self.truth_table = np.asarray(truth_table)
         self.n = int(np.log2(len(self.truth_table)))
-        self._fourier_cache: Optional[np.ndarray] = None
+        self._fourier_cache: np.ndarray | None = None
 
     @property
     def pm_values(self) -> np.ndarray:

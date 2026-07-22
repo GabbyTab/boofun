@@ -6,7 +6,7 @@ significant performance improvements in compute-intensive scenarios.
 """
 
 import warnings
-from typing import Any, Dict
+from typing import Any
 
 import numpy as np
 
@@ -308,7 +308,7 @@ class NumbaOptimizer:
         walsh_hadamard_transform_inplace(result)
         return result
 
-    def optimize_anf_batch(self, inputs: np.ndarray, anf_data: Dict) -> np.ndarray:
+    def optimize_anf_batch(self, inputs: np.ndarray, anf_data: dict) -> np.ndarray:
         """Optimized batch ANF evaluation."""
         if not self.available:
             raise RuntimeError("Numba not available")
@@ -342,7 +342,7 @@ class NumbaOptimizer:
             np.array(coeffs, dtype=np.int32),
         )
 
-    def get_optimization_stats(self) -> Dict[str, Any]:
+    def get_optimization_stats(self) -> dict[str, Any]:
         """Get optimization statistics."""
         return {
             "numba_available": self.available,
@@ -390,7 +390,7 @@ def numba_optimize(operation: str, *args, **kwargs) -> Any:
         raise ValueError(f"Unknown optimization: {operation}")
 
 
-def get_numba_stats() -> Dict[str, Any]:
+def get_numba_stats() -> dict[str, Any]:
     """Get Numba optimization statistics."""
     return _numba_optimizer.get_optimization_stats()
 

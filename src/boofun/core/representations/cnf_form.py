@@ -8,7 +8,7 @@ Example: f(x₁,x₂,x₃) = (x₁ ∨ ¬x₂) ∧ (¬x₁ ∨ x₂ ∨ x₃)
 """
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Union
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -30,15 +30,15 @@ class CNFClause:
         negative_vars: Set of variables that appear negatively
     """
 
-    positive_vars: Set[int]
-    negative_vars: Set[int]
+    positive_vars: set[int]
+    negative_vars: set[int]
 
     def __post_init__(self):
         """Validate clause."""
         # Note: Unlike DNF terms, CNF clauses can have the same variable positive and negative
         # This would make the clause always true (tautology)
 
-    def evaluate(self, x: Union[List[int], np.ndarray]) -> bool:
+    def evaluate(self, x: list[int] | np.ndarray) -> bool:
         """
         Evaluate this CNF clause.
 
@@ -61,7 +61,7 @@ class CNFClause:
         # If no literals are satisfied, clause is False
         return len(self.positive_vars) == 0 and len(self.negative_vars) == 0
 
-    def get_variables(self) -> Set[int]:
+    def get_variables(self) -> set[int]:
         """Get all variables in this clause."""
         return self.positive_vars | self.negative_vars
 
@@ -69,7 +69,7 @@ class CNFClause:
         """Check if clause is a tautology (always true)."""
         return bool(self.positive_vars & self.negative_vars)
 
-    def to_string(self, var_names: Optional[List[str]] = None) -> str:
+    def to_string(self, var_names: list[str] | None = None) -> str:
         """
         Convert clause to string representation.
 
@@ -99,7 +99,7 @@ class CNFClause:
 
         return " ∨ ".join(literals)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Export clause to dictionary."""
         return {
             "positive_vars": list(self.positive_vars),
@@ -107,7 +107,7 @@ class CNFClause:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "CNFClause":
+    def from_dict(cls, data: dict[str, Any]) -> "CNFClause":
         """Create clause from dictionary."""
         return cls(
             positive_vars=set(data["positive_vars"]), negative_vars=set(data["negative_vars"])
@@ -124,10 +124,10 @@ class CNFFormula:
         n_vars: Number of variables
     """
 
-    clauses: List[CNFClause]
+    clauses: list[CNFClause]
     n_vars: int
 
-    def evaluate(self, x: Union[List[int], np.ndarray]) -> bool:
+    def evaluate(self, x: list[int] | np.ndarray) -> bool:
         """
         Evaluate CNF formula.
 
@@ -162,7 +162,7 @@ class CNFFormula:
         Returns:
             Simplified CNF formula
         """
-        simplified_clauses: List[CNFClause] = []
+        simplified_clauses: list[CNFClause] = []
 
         for clause in self.clauses:
             # Remove tautologies
@@ -196,7 +196,7 @@ class CNFFormula:
             and clause1.negative_vars <= clause2.negative_vars
         )
 
-    def to_string(self, var_names: Optional[List[str]] = None) -> str:
+    def to_string(self, var_names: list[str] | None = None) -> str:
         """
         Convert CNF to string representation.
 
@@ -212,12 +212,12 @@ class CNFFormula:
         clause_strings = [f"({clause.to_string(var_names)})" for clause in self.clauses]
         return " ∧ ".join(clause_strings)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Export CNF to dictionary."""
         return {"clauses": [clause.to_dict() for clause in self.clauses], "n_vars": self.n_vars}
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "CNFFormula":
+    def from_dict(cls, data: dict[str, Any]) -> "CNFFormula":
         """Create CNF from dictionary."""
         clauses = [CNFClause.from_dict(clause_data) for clause_data in data["clauses"]]
         return cls(clauses=clauses, n_vars=data["n_vars"])
@@ -229,7 +229,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
 
     def evaluate(
         self, inputs: np.ndarray, data: CNFFormula, space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+    ) -> bool | np.ndarray:
         """
         Evaluate CNF representation.
 
@@ -271,12 +271,12 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
         else:
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def _index_to_binary(self, index: int, n_vars: int) -> List[int]:
+    def _index_to_binary(self, index: int, n_vars: int) -> list[int]:
         """Convert integer index to binary vector using LSB=x₀ convention."""
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 for i in range(n_vars)]
 
-    def dump(self, data: CNFFormula, space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: CNFFormula, space=None, **kwargs) -> dict[str, Any]:
         """Export CNF representation."""
         result = data.to_dict()
         result["type"] = "cnf"
@@ -306,7 +306,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
         # Generate CNF from truth table
         return self._truth_table_to_cnf(truth_table, n_vars)
 
-    def _truth_table_to_cnf(self, truth_table: List[bool], n_vars: int) -> CNFFormula:
+    def _truth_table_to_cnf(self, truth_table: list[bool], n_vars: int) -> CNFFormula:
         """
         Convert truth table to CNF using maxterms.
 
@@ -358,7 +358,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
         """Check if CNF is complete."""
         return data.clauses is not None and data.n_vars is not None
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for CNF operations."""
         return {
             "evaluation": 0,  # O(clauses * literals_per_clause)
@@ -367,7 +367,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
             "space_complexity": n_vars,  # O(2^n) worst case for number of clauses
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return storage requirements for CNF representation."""
         # Worst case: all 2^n maxterms
         max_clauses = 2**n_vars
@@ -382,7 +382,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
 
 
 # Utility functions for CNF manipulation
-def create_cnf_from_maxterms(maxterms: List[int], n_vars: int) -> CNFFormula:
+def create_cnf_from_maxterms(maxterms: list[int], n_vars: int) -> CNFFormula:
     """
     Create CNF from list of maxterm indices.
 

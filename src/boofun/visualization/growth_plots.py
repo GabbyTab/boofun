@@ -9,7 +9,8 @@ This module provides specialized plotting tools for:
 """
 
 import logging
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
+from collections.abc import Callable
 
 import numpy as np
 
@@ -89,8 +90,8 @@ class GrowthVisualizer:
         show_error: bool = True,
         log_x: bool = False,
         log_y: bool = False,
-        figsize: Tuple[int, int] = (10, 6),
-        title: Optional[str] = None,
+        figsize: tuple[int, int] = (10, 6),
+        title: str | None = None,
         ax=None,
         **kwargs,
     ):
@@ -262,13 +263,13 @@ class GrowthVisualizer:
 
     def plot_family_comparison(
         self,
-        trackers: Dict[str, "GrowthTracker"],
+        trackers: dict[str, "GrowthTracker"],
         marker_name: str,
         show_theory: bool = True,
         log_x: bool = False,
         log_y: bool = False,
-        figsize: Tuple[int, int] = (12, 6),
-        title: Optional[str] = None,
+        figsize: tuple[int, int] = (12, 6),
+        title: str | None = None,
     ):
         """
         Compare a property across multiple function families.
@@ -390,7 +391,7 @@ class GrowthVisualizer:
         tracker: "GrowthTracker",
         marker_name: str,
         reference: str = "sqrt_n",
-        figsize: Tuple[int, int] = (10, 6),
+        figsize: tuple[int, int] = (10, 6),
     ):
         """
         Plot ratio of computed value to theoretical reference.
@@ -481,8 +482,8 @@ class GrowthVisualizer:
     def plot_multi_property_growth(
         self,
         tracker: "GrowthTracker",
-        marker_names: Optional[List[str]] = None,
-        figsize: Tuple[int, int] = (14, 4),
+        marker_names: list[str] | None = None,
+        figsize: tuple[int, int] = (14, 4),
     ):
         """
         Plot multiple properties side by side.
@@ -544,8 +545,8 @@ class LTFVisualizer:
     def plot_weight_distribution(
         self,
         weights: np.ndarray,
-        figsize: Tuple[int, int] = (10, 6),
-        title: Optional[str] = None,
+        figsize: tuple[int, int] = (10, 6),
+        title: str | None = None,
     ):
         """
         Plot weight distribution of an LTF.
@@ -591,7 +592,7 @@ class LTFVisualizer:
     def plot_influence_vs_weight(
         self,
         f: "BooleanFunction",
-        figsize: Tuple[int, int] = (8, 8),
+        figsize: tuple[int, int] = (8, 8),
     ):
         """
         Scatter plot comparing |weight| vs influence.
@@ -652,7 +653,7 @@ class ComplexityVisualizer:
     def plot_complexity_relations(
         self,
         f: "BooleanFunction",
-        figsize: Tuple[int, int] = (12, 5),
+        figsize: tuple[int, int] = (12, 5),
     ):
         """
         Plot relationships between different complexity measures.
@@ -725,8 +726,8 @@ class ComplexityVisualizer:
 # Convenience function to quickly visualize growth
 def quick_growth_plot(
     family_name: str,
-    properties: List[str] = ["total_influence"],
-    n_values: Optional[List[int]] = None,
+    properties: list[str] = ["total_influence"],
+    n_values: list[int] | None = None,
     **kwargs,
 ):
     """
@@ -753,7 +754,7 @@ def quick_growth_plot(
 
     # Values are concrete subclasses; annotate as callables so mypy doesn't
     # flag instantiation of the inferred abstract base type.
-    families: Dict[str, Callable[[], FunctionFamily]] = {
+    families: dict[str, Callable[[], FunctionFamily]] = {
         "majority": MajorityFamily,
         "parity": ParityFamily,
         "tribes": TribesFamily,

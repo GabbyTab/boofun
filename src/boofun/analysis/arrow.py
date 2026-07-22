@@ -34,7 +34,7 @@ References:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, Optional, Tuple
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -53,7 +53,7 @@ __all__ = [
 ]
 
 
-def is_unanimous(f: "BooleanFunction") -> bool:
+def is_unanimous(f: BooleanFunction) -> bool:
     """
     Check if f satisfies unanimity (Pareto efficiency).
 
@@ -80,7 +80,7 @@ def is_unanimous(f: "BooleanFunction") -> bool:
     return f_all_ones == 1 and f_all_zeros == 0
 
 
-def is_dictatorial(f: "BooleanFunction") -> bool:
+def is_dictatorial(f: BooleanFunction) -> bool:
     """
     Check if f is a dictator function.
 
@@ -97,7 +97,7 @@ def is_dictatorial(f: "BooleanFunction") -> bool:
     return dictator_idx is not None
 
 
-def is_non_dictatorial(f: "BooleanFunction") -> bool:
+def is_non_dictatorial(f: BooleanFunction) -> bool:
     """
     Check if f is non-dictatorial.
 
@@ -110,7 +110,7 @@ def is_non_dictatorial(f: "BooleanFunction") -> bool:
     return not is_dictatorial(f)
 
 
-def find_dictator(f: "BooleanFunction") -> Optional[Tuple[int, bool]]:
+def find_dictator(f: BooleanFunction) -> tuple[int, bool] | None:
     """
     Find which variable is the dictator, if f is dictatorial.
 
@@ -149,7 +149,7 @@ def find_dictator(f: "BooleanFunction") -> Optional[Tuple[int, bool]]:
     return None
 
 
-def arrow_analysis(f: "BooleanFunction") -> Dict[str, Any]:
+def arrow_analysis(f: BooleanFunction) -> dict[str, Any]:
     """
     Analyze a voting function through the lens of Arrow's theorem.
 
@@ -212,7 +212,7 @@ def arrow_analysis(f: "BooleanFunction") -> Dict[str, Any]:
     }
 
 
-def social_welfare_properties(f: "BooleanFunction") -> Dict[str, Any]:
+def social_welfare_properties(f: BooleanFunction) -> dict[str, Any]:
     """
     Analyze social welfare properties of a voting function.
 
@@ -248,7 +248,7 @@ def social_welfare_properties(f: "BooleanFunction") -> Dict[str, Any]:
     }
 
 
-def voting_power_analysis(f: "BooleanFunction") -> Dict[str, Any]:
+def voting_power_analysis(f: BooleanFunction) -> dict[str, Any]:
     """
     Analyze voting power using different power indices.
 
@@ -329,7 +329,7 @@ class ArrowAnalyzer:
     Combines all social choice analysis tools.
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: BooleanFunction):
         """
         Initialize with a voting function.
 
@@ -338,27 +338,27 @@ class ArrowAnalyzer:
         """
         self.f = f
         self.n = f.n_vars
-        self._cache: Dict[str, Any] = {}
+        self._cache: dict[str, Any] = {}
 
-    def arrow_properties(self) -> Dict[str, Any]:
+    def arrow_properties(self) -> dict[str, Any]:
         """Get Arrow's theorem analysis."""
         if "arrow" not in self._cache:
             self._cache["arrow"] = arrow_analysis(self.f)
         return self._cache["arrow"]
 
-    def welfare_properties(self) -> Dict[str, Any]:
+    def welfare_properties(self) -> dict[str, Any]:
         """Get social welfare properties."""
         if "welfare" not in self._cache:
             self._cache["welfare"] = social_welfare_properties(self.f)
         return self._cache["welfare"]
 
-    def voting_power(self) -> Dict[str, Any]:
+    def voting_power(self) -> dict[str, Any]:
         """Get voting power analysis."""
         if "power" not in self._cache:
             self._cache["power"] = voting_power_analysis(self.f)
         return self._cache["power"]
 
-    def full_analysis(self) -> Dict[str, Any]:
+    def full_analysis(self) -> dict[str, Any]:
         """Get complete social choice analysis."""
         return {
             "arrow": self.arrow_properties(),

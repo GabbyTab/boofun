@@ -18,7 +18,7 @@ References:
   Advances in Applied Mathematics.
 """
 
-from typing import TYPE_CHECKING, Any, Dict, List, Set
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -70,7 +70,7 @@ def is_canalizing(f: "BooleanFunction") -> bool:
     return False
 
 
-def get_canalizing_variables(f: "BooleanFunction") -> List[Dict]:
+def get_canalizing_variables(f: "BooleanFunction") -> list[dict]:
     """
     Find all canalizing variables and their canalizing inputs/outputs.
 
@@ -143,7 +143,7 @@ def get_canalizing_depth(f: "BooleanFunction") -> int:
     return _compute_canalizing_depth_simple(f)
 
 
-def _compute_canalizing_depth_recursive(f: "BooleanFunction", fixed_vars: Dict[int, int]) -> int:
+def _compute_canalizing_depth_recursive(f: "BooleanFunction", fixed_vars: dict[int, int]) -> int:
     """Recursive helper to compute canalizing depth.
 
     Args:
@@ -294,7 +294,7 @@ def is_nested_canalizing(f: "BooleanFunction") -> bool:
     return _compute_canalizing_depth_simple(f) == f.n_vars
 
 
-def get_essential_variables(f: "BooleanFunction") -> List[int]:
+def get_essential_variables(f: "BooleanFunction") -> list[int]:
     """
     Find all essential (non-degenerate) variables.
 
@@ -334,7 +334,7 @@ def get_essential_variables(f: "BooleanFunction") -> List[int]:
     return essential
 
 
-def get_input_types(f: "BooleanFunction") -> Dict[int, str]:
+def get_input_types(f: "BooleanFunction") -> dict[int, str]:
     """
     Classify each input variable by its type.
 
@@ -385,7 +385,7 @@ def get_input_types(f: "BooleanFunction") -> Dict[int, str]:
     return types
 
 
-def get_symmetry_groups(f: "BooleanFunction") -> List[Set[int]]:
+def get_symmetry_groups(f: "BooleanFunction") -> list[set[int]]:
     """
     Find groups of symmetric (interchangeable) variables.
 
@@ -459,7 +459,7 @@ def get_symmetry_groups(f: "BooleanFunction") -> List[Set[int]]:
         union(i, j)
 
     # Collect groups
-    groups_dict: Dict[int, Set[int]] = {}
+    groups_dict: dict[int, set[int]] = {}
     for i in range(n):
         root = find(i)
         if root not in groups_dict:
@@ -555,7 +555,7 @@ class CanalizationAnalyzer:
             f: Boolean function to analyze
         """
         self.f = f
-        self._cache: Dict[str, Any] = {}
+        self._cache: dict[str, Any] = {}
 
     def is_canalizing(self) -> bool:
         """Check if function is canalizing."""
@@ -569,7 +569,7 @@ class CanalizationAnalyzer:
             self._cache["depth"] = _compute_canalizing_depth_simple(self.f)
         return self._cache["depth"]
 
-    def canalizing_variables(self) -> List[Dict]:
+    def canalizing_variables(self) -> list[dict]:
         """Get all canalizing variables."""
         if "can_vars" not in self._cache:
             self._cache["can_vars"] = get_canalizing_variables(self.f)
@@ -579,19 +579,19 @@ class CanalizationAnalyzer:
         """Check if function is nested canalizing."""
         return self.canalizing_depth() == self.f.n_vars
 
-    def essential_variables(self) -> List[int]:
+    def essential_variables(self) -> list[int]:
         """Get essential variables."""
         if "essential" not in self._cache:
             self._cache["essential"] = get_essential_variables(self.f)
         return self._cache["essential"]
 
-    def input_types(self) -> Dict[int, str]:
+    def input_types(self) -> dict[int, str]:
         """Get input type classification."""
         if "types" not in self._cache:
             self._cache["types"] = get_input_types(self.f)
         return self._cache["types"]
 
-    def symmetry_groups(self) -> List[Set[int]]:
+    def symmetry_groups(self) -> list[set[int]]:
         """Get symmetry groups."""
         if "symmetry" not in self._cache:
             self._cache["symmetry"] = get_symmetry_groups(self.f)
@@ -601,7 +601,7 @@ class CanalizationAnalyzer:
         """Get input redundancy."""
         return input_redundancy(self.f)
 
-    def summary(self) -> Dict:
+    def summary(self) -> dict:
         """
         Get comprehensive canalization summary.
 

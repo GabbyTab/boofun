@@ -1,9 +1,9 @@
 import warnings
-from typing import TYPE_CHECKING, Any, Dict, Optional, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 
 import numpy as np
 
-from ..utils.exceptions import ConversionError, EvaluationError, InvalidInputError
+from ..utils.exceptions import ConversionError, InvalidInputError
 from .conversion_graph import find_conversion_path
 from .errormodels import ExactErrorModel
 from .factory import BooleanFunctionFactory
@@ -60,20 +60,20 @@ class BooleanFunction(Evaluable, Representable):
     def __init__(
         self,
         space: str = "plus_minus_cube",
-        error_model: Optional[Any] = None,
+        error_model: Any | None = None,
         storage_manager=None,
         **kwargs,
     ):
         self.space = self._create_space(space)
-        self.representations: Dict[str, Any] = {}
+        self.representations: dict[str, Any] = {}
         self.properties = PropertyStore()
         self.error_model = error_model or ExactErrorModel()
         self.tracking = kwargs.get("tracking")
         self.restrictions = kwargs.get("restrictions")
         # Use explicit None check to handle n=0 (constant functions) correctly
         n = kwargs.get("n")
-        self.n_vars: Optional[int] = n if n is not None else kwargs.get("n_vars")
-        self._metadata: Dict[str, Any] = kwargs.get("metadata", {})
+        self.n_vars: int | None = n if n is not None else kwargs.get("n_vars")
+        self._metadata: dict[str, Any] = kwargs.get("metadata", {})
         self.nickname: str = kwargs.get("nickname") or "x_0"
 
     @property
@@ -520,7 +520,7 @@ class BooleanFunction(Evaluable, Representable):
             return True
         return False
 
-    def get_conversion_options(self, max_cost: Optional[float] = None) -> Dict[str, Any]:
+    def get_conversion_options(self, max_cost: float | None = None) -> dict[str, Any]:
         """
         Get available conversion options from current representations.
 
@@ -535,7 +535,7 @@ class BooleanFunction(Evaluable, Representable):
         if not self.representations:
             return {}
 
-        all_options: Dict[str, Any] = {}
+        all_options: dict[str, Any] = {}
         for source_rep in self.representations.keys():
             options = get_conversion_options(source_rep, max_cost)
             for target, path in options.items():
@@ -549,7 +549,7 @@ class BooleanFunction(Evaluable, Representable):
 
         return all_options
 
-    def estimate_conversion_cost(self, target_rep: str) -> Optional[Any]:
+    def estimate_conversion_cost(self, target_rep: str) -> Any | None:
         """
         Estimate cost to convert to target representation.
 
@@ -1020,7 +1020,7 @@ class BooleanFunction(Evaluable, Representable):
             {0: 0.0, 1: 0.625, 3: 0.3125, 5: 0.0625}
         """
         coeffs = self.fourier()
-        weights: Dict[int, float] = {}
+        weights: dict[int, float] = {}
         for s, c in enumerate(coeffs):
             deg = bin(s).count("1")
             weights[deg] = weights.get(deg, 0) + c * c

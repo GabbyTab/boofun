@@ -7,7 +7,8 @@ compatible with the BooFun library's representation system.
 
 import warnings
 from abc import ABC, abstractmethod
-from typing import Any, Callable, Optional, Protocol
+from typing import Any, Protocol
+from collections.abc import Callable
 
 import numpy as np
 
@@ -60,7 +61,7 @@ class LegacyAdapter(BooleanFunctionAdapter):
         evaluation_method: str = "evaluate",
         input_format: str = "auto",
         output_format: str = "auto",
-        n_vars: Optional[int] = None,
+        n_vars: int | None = None,
     ):
         """
         Initialize legacy adapter.
@@ -176,7 +177,7 @@ class CallableAdapter(BooleanFunctionAdapter):
     Wraps Python functions or lambdas to work with BooFun system.
     """
 
-    def __init__(self, n_vars: Optional[int] = None, input_type: str = "binary_vector"):
+    def __init__(self, n_vars: int | None = None, input_type: str = "binary_vector"):
         """
         Initialize callable adapter.
 
@@ -259,7 +260,7 @@ class SymPyAdapter(BooleanFunctionAdapter):
             warnings.warn("SymPy not available - SymPyAdapter disabled")
             self.available = False
 
-    def adapt(self, sympy_expr, variables: Optional[list] = None) -> BooleanFunction:
+    def adapt(self, sympy_expr, variables: list | None = None) -> BooleanFunction:
         """
         Adapt SymPy Boolean expression to BooleanFunction.
 
@@ -379,7 +380,7 @@ def adapt_callable(func: Callable, n_vars: int, **kwargs) -> BooleanFunction:
     return adapter.adapt(func)
 
 
-def adapt_sympy_expr(expr, variables: Optional[list] = None) -> BooleanFunction:
+def adapt_sympy_expr(expr, variables: list | None = None) -> BooleanFunction:
     """Adapt SymPy Boolean expression."""
     adapter = SymPyAdapter()
     return adapter.adapt(expr, variables)

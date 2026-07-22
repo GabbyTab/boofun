@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import numpy as np
 
@@ -12,7 +12,7 @@ _logger = logging.getLogger("boofun.core.representations.symbolic")
 
 
 @register_strategy("symbolic")
-class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]]):
+class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]]):
     """
     Symbolic representation storing an expression and variable order.
 
@@ -20,7 +20,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
     """
 
     def evaluate(
-        self, inputs: np.ndarray, data: Tuple[str, List[Any]], space: Space, n_vars: int
+        self, inputs: np.ndarray, data: tuple[str, list[Any]], space: Space, n_vars: int
     ) -> np.ndarray:
         """
         Evaluate the symbolic Boolean expression composed of sub-BooleanFunctions using bit slicing.
@@ -133,7 +133,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
 
         return np.array(results)
 
-    def dump(self, data: Tuple[str, List[str]], space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: tuple[str, list[str]], space=None, **kwargs) -> dict[str, Any]:
         """
         Export the symbolic representation as a dictionary.
 
@@ -153,7 +153,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
         space: Space,
         n_vars: int,
         **kwargs,
-    ) -> Tuple[str, List[Any]]:
+    ) -> tuple[str, list[Any]]:
         """
         Convert from another representation to symbolic form.
 
@@ -188,7 +188,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
         # Placeholder: Actual conversion requires inverse transform
         return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
-    def create_empty(self, n_vars: int, **kwargs) -> Tuple[str, List[str]]:
+    def create_empty(self, n_vars: int, **kwargs) -> tuple[str, list[str]]:
         """
         Create an empty symbolic representation:
         - Empty expression string
@@ -197,14 +197,14 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
         vars = [f"x{i}" for i in range(n_vars)]
         return "", vars
 
-    def is_complete(self, data: Tuple[str, List[str]]) -> bool:
+    def is_complete(self, data: tuple[str, list[str]]) -> bool:
         """
         A symbolic representation is complete if the expression is non-empty.
         """
         expr, _ = data
         return bool(expr)
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, int]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, int]:
         """
         Estimate minimal storage for the expression metadata.
         """
@@ -213,6 +213,6 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[Tuple[str, List[str]]
             "variables": n_vars,  # one pointer per variable symbol
         }
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, Any]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, Any]:
         """Return time_complexity for computing/evaluating n variables."""
         return {}

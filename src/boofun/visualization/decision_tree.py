@@ -7,7 +7,7 @@ Boolean functions, including optimal trees and user-specified trees.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -34,10 +34,10 @@ class DecisionTreeNode:
     def __init__(
         self,
         is_leaf: bool = False,
-        value: Optional[int] = None,
-        variable: Optional[int] = None,
-        left: Optional["DecisionTreeNode"] = None,
-        right: Optional["DecisionTreeNode"] = None,
+        value: int | None = None,
+        variable: int | None = None,
+        left: DecisionTreeNode | None = None,
+        right: DecisionTreeNode | None = None,
         depth: int = 0,
     ):
         """
@@ -80,9 +80,9 @@ class DecisionTreeNode:
 
 
 def build_optimal_decision_tree(
-    f: "BooleanFunction",
-    available_vars: Optional[List[int]] = None,
-    inputs: Optional[List[int]] = None,
+    f: BooleanFunction,
+    available_vars: list[int] | None = None,
+    inputs: list[int] | None = None,
     depth: int = 0,
     max_depth: int = 20,
 ) -> DecisionTreeNode:
@@ -178,7 +178,7 @@ def build_optimal_decision_tree(
     )
 
 
-def decision_tree_to_dict(node: DecisionTreeNode) -> Dict[str, Any]:
+def decision_tree_to_dict(node: DecisionTreeNode) -> dict[str, Any]:
     """Convert decision tree to dictionary for serialization."""
     if node.is_leaf:
         return {"type": "leaf", "value": node.value}
@@ -212,10 +212,10 @@ def _tree_depth(node: DecisionTreeNode) -> int:
 
 
 def plot_decision_tree(
-    f: "BooleanFunction",
-    tree: Optional[DecisionTreeNode] = None,
-    figsize: Tuple[int, int] = (12, 8),
-    save_path: Optional[str] = None,
+    f: BooleanFunction,
+    tree: DecisionTreeNode | None = None,
+    figsize: tuple[int, int] = (12, 8),
+    save_path: str | None = None,
     show: bool = True,
     node_size: int = 2000,
     font_size: int = 10,

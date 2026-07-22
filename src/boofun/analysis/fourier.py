@@ -24,7 +24,7 @@ Mathematical Background (O'Donnell Chapter 1):
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Dict, List, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -61,7 +61,7 @@ __all__ = [
 ]
 
 
-def _get_fourier_coefficients(f: "BooleanFunction") -> np.ndarray:
+def _get_fourier_coefficients(f: BooleanFunction) -> np.ndarray:
     """Get Fourier coefficients, computing if necessary."""
     from . import SpectralAnalyzer
 
@@ -69,7 +69,7 @@ def _get_fourier_coefficients(f: "BooleanFunction") -> np.ndarray:
     return analyzer.fourier_expansion()
 
 
-def parseval_verify(f: "BooleanFunction", tolerance: float = 1e-10) -> Tuple[bool, float, float]:
+def parseval_verify(f: BooleanFunction, tolerance: float = 1e-10) -> tuple[bool, float, float]:
     """
     Verify Parseval's identity for a Boolean function.
 
@@ -114,7 +114,7 @@ def parseval_verify(f: "BooleanFunction", tolerance: float = 1e-10) -> Tuple[boo
     return (passes, float(lhs), float(rhs))
 
 
-def plancherel_inner_product(f: "BooleanFunction", g: "BooleanFunction") -> float:
+def plancherel_inner_product(f: BooleanFunction, g: BooleanFunction) -> float:
     """
     Compute inner product using Plancherel's theorem.
 
@@ -139,7 +139,7 @@ def plancherel_inner_product(f: "BooleanFunction", g: "BooleanFunction") -> floa
     return float(np.sum(f_coeffs * g_coeffs))
 
 
-def convolution(f: "BooleanFunction", g: "BooleanFunction") -> np.ndarray:
+def convolution(f: BooleanFunction, g: BooleanFunction) -> np.ndarray:
     """
     Compute the Fourier coefficients of the convolution of two Boolean functions.
 
@@ -183,7 +183,7 @@ def convolution(f: "BooleanFunction", g: "BooleanFunction") -> np.ndarray:
     return f_coeffs * g_coeffs
 
 
-def convolution_values(f: "BooleanFunction", g: "BooleanFunction") -> np.ndarray:
+def convolution_values(f: BooleanFunction, g: BooleanFunction) -> np.ndarray:
     """
     Compute the time-domain values of the convolution of two Boolean functions.
 
@@ -219,7 +219,7 @@ def convolution_values(f: "BooleanFunction", g: "BooleanFunction") -> np.ndarray
     return values
 
 
-def negate_inputs(f: "BooleanFunction") -> "BooleanFunction":
+def negate_inputs(f: BooleanFunction) -> BooleanFunction:
     """
     Compute g(x) = f(-x) where -x flips all bits.
 
@@ -249,7 +249,7 @@ def negate_inputs(f: "BooleanFunction") -> "BooleanFunction":
     return BooleanFunctionFactory.from_truth_table(BooleanFunction, new_tt, n=n)
 
 
-def odd_part(f: "BooleanFunction") -> np.ndarray:
+def odd_part(f: BooleanFunction) -> np.ndarray:
     """
     Compute the odd part of f: f^odd(x) = (f(x) - f(-x)) / 2.
 
@@ -277,7 +277,7 @@ def odd_part(f: "BooleanFunction") -> np.ndarray:
     return (pm_values - pm_negated) / 2.0
 
 
-def even_part(f: "BooleanFunction") -> np.ndarray:
+def even_part(f: BooleanFunction) -> np.ndarray:
     """
     Compute the even part of f: f^even(x) = (f(x) + f(-x)) / 2.
 
@@ -302,7 +302,7 @@ def even_part(f: "BooleanFunction") -> np.ndarray:
     return (pm_values + pm_negated) / 2.0
 
 
-def tensor_product(f: "BooleanFunction", g: "BooleanFunction") -> "BooleanFunction":
+def tensor_product(f: BooleanFunction, g: BooleanFunction) -> BooleanFunction:
     """
     Compute tensor product: h(x₁, x₂) = f(x₁) · g(x₂).
 
@@ -350,7 +350,7 @@ def tensor_product(f: "BooleanFunction", g: "BooleanFunction") -> "BooleanFuncti
     return BooleanFunctionFactory.from_truth_table(BooleanFunction, new_tt, n=n + m)
 
 
-def restriction(f: "BooleanFunction", fixed_vars: Dict[int, int]) -> "BooleanFunction":
+def restriction(f: BooleanFunction, fixed_vars: dict[int, int]) -> BooleanFunction:
     """
     Compute restriction of f by fixing some variables.
 
@@ -380,7 +380,7 @@ def restriction(f: "BooleanFunction", fixed_vars: Dict[int, int]) -> "BooleanFun
     return result
 
 
-def fourier_degree(f: "BooleanFunction") -> int:
+def fourier_degree(f: BooleanFunction) -> int:
     """
     Compute the Fourier degree (real degree) of f.
 
@@ -408,7 +408,7 @@ def fourier_degree(f: "BooleanFunction") -> int:
     return max_degree
 
 
-def spectral_norm(f: "BooleanFunction", p: int = 2) -> float:
+def spectral_norm(f: BooleanFunction, p: int = 2) -> float:
     """
     Compute the L_p spectral norm of f.
 
@@ -431,7 +431,7 @@ def spectral_norm(f: "BooleanFunction", p: int = 2) -> float:
         return float(np.sum(np.abs(coeffs) ** p) ** (1.0 / p))
 
 
-def fourier_sparsity(f: "BooleanFunction", threshold: float = 1e-10) -> int:
+def fourier_sparsity(f: BooleanFunction, threshold: float = 1e-10) -> int:
     """
     Count the number of non-zero Fourier coefficients.
 
@@ -450,8 +450,8 @@ def fourier_sparsity(f: "BooleanFunction", threshold: float = 1e-10) -> int:
 
 
 def dominant_coefficients(
-    f: "BooleanFunction", top_k: int = 10, threshold: float = 0.01
-) -> List[Tuple[int, float]]:
+    f: BooleanFunction, top_k: int = 10, threshold: float = 0.01
+) -> list[tuple[int, float]]:
     """
     Find the dominant (largest magnitude) Fourier coefficients.
 
@@ -485,7 +485,7 @@ def dominant_coefficients(
 # =============================================================================
 
 
-def correlation(f: "BooleanFunction", g: "BooleanFunction") -> float:
+def correlation(f: BooleanFunction, g: BooleanFunction) -> float:
     """
     Compute the correlation between two Boolean functions.
 
@@ -532,7 +532,7 @@ def correlation(f: "BooleanFunction", g: "BooleanFunction") -> float:
     return float(np.mean(f_pm * g_pm))
 
 
-def truncate_to_degree(f: "BooleanFunction", d: int) -> np.ndarray:
+def truncate_to_degree(f: BooleanFunction, d: int) -> np.ndarray:
     """
     Truncate the Fourier expansion of f to degree at most d.
 
@@ -580,7 +580,7 @@ def truncate_to_degree(f: "BooleanFunction", d: int) -> np.ndarray:
     return result
 
 
-def annealed_influence(f: "BooleanFunction", i: int, rho: float) -> float:
+def annealed_influence(f: BooleanFunction, i: int, rho: float) -> float:
     """
     Compute the annealed (noisy) influence of variable i.
 
@@ -630,7 +630,7 @@ def annealed_influence(f: "BooleanFunction", i: int, rho: float) -> float:
     return total
 
 
-def normalized_influence(f: "BooleanFunction", i: int) -> float:
+def normalized_influence(f: BooleanFunction, i: int) -> float:
     """
     Compute the normalized influence of variable i.
 
@@ -671,7 +671,7 @@ def normalized_influence(f: "BooleanFunction", i: int) -> float:
     return total
 
 
-def fourier_weight_distribution(f: "BooleanFunction") -> Dict[int, float]:
+def fourier_weight_distribution(f: BooleanFunction) -> dict[int, float]:
     """
     Compute the distribution of Fourier weight by degree.
 
@@ -700,7 +700,7 @@ def fourier_weight_distribution(f: "BooleanFunction") -> Dict[int, float]:
     coeffs = _get_fourier_coefficients(f)
     size = 1 << n
 
-    weights: Dict[int, float] = {}
+    weights: dict[int, float] = {}
 
     for s in range(size):
         degree = bin(s).count("1")
@@ -710,7 +710,7 @@ def fourier_weight_distribution(f: "BooleanFunction") -> Dict[int, float]:
     return weights
 
 
-def fourier_level_lp_norm(f: "BooleanFunction", k: int, p: float = 1) -> float:
+def fourier_level_lp_norm(f: BooleanFunction, k: int, p: float = 1) -> float:
     """
     Compute the L_p norm of Fourier coefficients at degree k.
 
@@ -748,7 +748,7 @@ def fourier_level_lp_norm(f: "BooleanFunction", k: int, p: float = 1) -> float:
     return float(total ** (1.0 / p))
 
 
-def fourier_tail_profile(f: "BooleanFunction", p: float = 1) -> Dict[int, float]:
+def fourier_tail_profile(f: BooleanFunction, p: float = 1) -> dict[int, float]:
     """
     Compute the Fourier tail profile: L_{p,k}(f) for all k.
 
@@ -780,7 +780,7 @@ def fourier_tail_profile(f: "BooleanFunction", p: float = 1) -> Dict[int, float]
     coeffs = _get_fourier_coefficients(f)
     size = 1 << n
 
-    profile: Dict[int, float] = {}
+    profile: dict[int, float] = {}
     for s in range(size):
         degree = bin(s).count("1")
         val = abs(coeffs[s]) ** p
@@ -792,7 +792,7 @@ def fourier_tail_profile(f: "BooleanFunction", p: float = 1) -> Dict[int, float]
     return profile
 
 
-def min_fourier_coefficient_size(f: "BooleanFunction", threshold: float = 1e-10) -> int:
+def min_fourier_coefficient_size(f: BooleanFunction, threshold: float = 1e-10) -> int:
     """
     Find the minimum subset size |S| with non-zero f̂(S).
 
@@ -833,7 +833,7 @@ def min_fourier_coefficient_size(f: "BooleanFunction", threshold: float = 1e-10)
 # =============================================================================
 
 
-def compute_mux3_fourier() -> Dict[int, float]:
+def compute_mux3_fourier() -> dict[int, float]:
     """
     Compute Fourier expansion of MUX₃: {-1,1}³ → {-1,1}.
 
@@ -868,7 +868,7 @@ def compute_mux3_fourier() -> Dict[int, float]:
     return result
 
 
-def compute_nae3_fourier() -> Dict[int, float]:
+def compute_nae3_fourier() -> dict[int, float]:
     """
     Compute Fourier expansion of NAE₃: {-1,1}³ → {0,1}.
 
@@ -895,7 +895,7 @@ def compute_nae3_fourier() -> Dict[int, float]:
     return result
 
 
-def compute_and_fourier(n: int) -> Dict[int, float]:
+def compute_and_fourier(n: int) -> dict[int, float]:
     """
     Compute Fourier expansion of AND_n: {-1,1}^n → {-1,1}.
 

@@ -64,7 +64,7 @@ Classical estimation of quantum query complexity bounds for Boolean functions.
 """
 
 import warnings
-from typing import Any, Dict, Optional
+from typing import Any
 
 import numpy as np
 
@@ -134,7 +134,7 @@ class QuantumComplexityAnalyzer:
         # Cache for circuit construction
         self._quantum_circuit = None
 
-    def create_quantum_oracle(self) -> Optional[Any]:
+    def create_quantum_oracle(self) -> Any | None:
         """
         Create a Qiskit quantum oracle circuit for the Boolean function.
 
@@ -173,7 +173,7 @@ class QuantumComplexityAnalyzer:
         self._quantum_circuit = circuit
         return circuit
 
-    def grover_analysis(self) -> Dict[str, Any]:
+    def grover_analysis(self) -> dict[str, Any]:
         """
         Compute Grover's algorithm complexity bounds (closed-form).
 
@@ -226,7 +226,7 @@ class QuantumComplexityAnalyzer:
             "has_solutions": True,
         }
 
-    def grover_amplitude_analysis(self) -> Dict[str, Any]:
+    def grover_amplitude_analysis(self) -> dict[str, Any]:
         """
         Compute Grover amplitude evolution analytically (closed-form).
 
@@ -307,7 +307,7 @@ def create_complexity_analyzer(
     return QuantumComplexityAnalyzer(classical_function)
 
 
-def grover_speedup(f: BooleanFunction) -> Dict[str, Any]:
+def grover_speedup(f: BooleanFunction) -> dict[str, Any]:
     """
     Convenience function: compute Grover speedup bounds for a Boolean function.
 
@@ -316,7 +316,7 @@ def grover_speedup(f: BooleanFunction) -> Dict[str, Any]:
     return QuantumComplexityAnalyzer(f).grover_analysis()
 
 
-def quantum_walk_bounds(f: BooleanFunction) -> Dict[str, Any]:
+def quantum_walk_bounds(f: BooleanFunction) -> dict[str, Any]:
     """
     Compute quantum walk complexity bounds on the Boolean hypercube (closed-form).
 
@@ -380,7 +380,7 @@ def quantum_walk_bounds(f: BooleanFunction) -> Dict[str, Any]:
     }
 
 
-def element_distinctness_analysis(f: BooleanFunction) -> Dict[str, Any]:
+def element_distinctness_analysis(f: BooleanFunction) -> dict[str, Any]:
     """
     Analyze element distinctness structure of a Boolean function.
 
@@ -400,14 +400,14 @@ def element_distinctness_analysis(f: BooleanFunction) -> Dict[str, Any]:
     assert n is not None
     N = 2**n
 
-    value_to_inputs: Dict[int, list[int]] = {}
+    value_to_inputs: dict[int, list[int]] = {}
     for x in range(N):
         val = int(f.evaluate(x))
         if val not in value_to_inputs:
             value_to_inputs[val] = []
         value_to_inputs[val].append(x)
 
-    collisions: list[Dict[str, Any]] = []
+    collisions: list[dict[str, Any]] = []
     for val, inputs in value_to_inputs.items():
         if len(inputs) > 1:
             num_pairs = len(inputs) * (len(inputs) - 1) // 2
@@ -439,8 +439,8 @@ def element_distinctness_analysis(f: BooleanFunction) -> Dict[str, Any]:
 
 
 def quantum_walk_search_bounds(
-    f: BooleanFunction, num_iterations: Optional[int] = None
-) -> Dict[str, Any]:
+    f: BooleanFunction, num_iterations: int | None = None
+) -> dict[str, Any]:
     """
     Compute quantum walk search success probabilities analytically.
 

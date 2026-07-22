@@ -20,7 +20,8 @@ under these transformations, enabling fast equivalence checking.
 from __future__ import annotations
 
 from itertools import permutations
-from typing import TYPE_CHECKING, Any, Dict, Iterator, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
+from collections.abc import Iterator
 
 import numpy as np
 
@@ -38,12 +39,12 @@ __all__ = [
 ]
 
 
-def _generate_permutations(n: int) -> Iterator[Tuple[int, ...]]:
+def _generate_permutations(n: int) -> Iterator[tuple[int, ...]]:
     """Generate all permutations of [0, 1, ..., n-1]."""
     return permutations(range(n))
 
 
-def _apply_perm_to_index(x: int, perm: Tuple[int, ...], n: int) -> int:
+def _apply_perm_to_index(x: int, perm: tuple[int, ...], n: int) -> int:
     """
     Apply permutation to input index x.
 
@@ -56,7 +57,7 @@ def _apply_perm_to_index(x: int, perm: Tuple[int, ...], n: int) -> int:
     return result
 
 
-def apply_permutation(f: "BooleanFunction", perm: Tuple[int, ...]) -> "BooleanFunction":
+def apply_permutation(f: BooleanFunction, perm: tuple[int, ...]) -> BooleanFunction:
     """
     Apply a variable permutation to a Boolean function.
 
@@ -101,8 +102,8 @@ def apply_permutation(f: "BooleanFunction", perm: Tuple[int, ...]) -> "BooleanFu
 
 
 def canonical_form(
-    f: "BooleanFunction", include_shifts: bool = True, include_negation: bool = True
-) -> Tuple[Tuple[int, ...], Optional[Tuple]]:
+    f: BooleanFunction, include_shifts: bool = True, include_negation: bool = True
+) -> tuple[tuple[int, ...], tuple | None]:
     """
     Compute the canonical form of a Boolean function.
 
@@ -171,8 +172,8 @@ def canonical_form(
 
 
 def are_equivalent(
-    f: "BooleanFunction",
-    g: "BooleanFunction",
+    f: BooleanFunction,
+    g: BooleanFunction,
     include_shifts: bool = True,
     include_negation: bool = True,
 ) -> bool:
@@ -200,8 +201,8 @@ def are_equivalent(
 
 
 def automorphisms(
-    f: "BooleanFunction", include_shifts: bool = False, include_negation: bool = False
-) -> List[Any]:
+    f: BooleanFunction, include_shifts: bool = False, include_negation: bool = False
+) -> list[Any]:
     """
     Find all automorphisms (self-symmetries) of a Boolean function.
 
@@ -229,7 +230,7 @@ def automorphisms(
     truth_table = list(f.get_representation("truth_table"))
     size = 1 << n
 
-    autos: List[Any] = []
+    autos: list[Any] = []
 
     for perm in _generate_permutations(n):
         # Apply permutation
@@ -258,7 +259,7 @@ def automorphisms(
     return autos
 
 
-def equivalence_class_size(f: "BooleanFunction") -> int:
+def equivalence_class_size(f: BooleanFunction) -> int:
     """
     Compute the size of the equivalence class of f.
 
@@ -295,16 +296,16 @@ class PermutationEquivalence:
     """
 
     def __init__(self):
-        self._cache: Dict[Any, Any] = {}
+        self._cache: dict[Any, Any] = {}
 
-    def canonical(self, f: "BooleanFunction") -> Tuple[int, ...]:
+    def canonical(self, f: BooleanFunction) -> tuple[int, ...]:
         """Get cached canonical form."""
         key = tuple(f.get_representation("truth_table"))
         if key not in self._cache:
             self._cache[key] = canonical_form(f, include_shifts=False, include_negation=False)[0]
         return self._cache[key]
 
-    def equivalent(self, f: "BooleanFunction", g: "BooleanFunction") -> bool:
+    def equivalent(self, f: BooleanFunction, g: BooleanFunction) -> bool:
         """Test permutation equivalence using cached canonical forms."""
         return self.canonical(f) == self.canonical(g)
 
@@ -322,10 +323,10 @@ class AffineEquivalence:
     """
 
     def __init__(self, include_negation: bool = True):
-        self._cache: Dict[Any, Any] = {}
+        self._cache: dict[Any, Any] = {}
         self.include_negation = include_negation
 
-    def canonical(self, f: "BooleanFunction") -> Tuple[int, ...]:
+    def canonical(self, f: BooleanFunction) -> tuple[int, ...]:
         """Get cached affine canonical form."""
         key = tuple(f.get_representation("truth_table"))
         if key not in self._cache:
@@ -334,7 +335,7 @@ class AffineEquivalence:
             )[0]
         return self._cache[key]
 
-    def equivalent(self, f: "BooleanFunction", g: "BooleanFunction") -> bool:
+    def equivalent(self, f: BooleanFunction, g: BooleanFunction) -> bool:
         """Test affine equivalence using cached canonical forms."""
         return self.canonical(f) == self.canonical(g)
 
@@ -343,7 +344,7 @@ class AffineEquivalence:
         self._cache.clear()
 
 
-def is_symmetric(f: "BooleanFunction") -> bool:
+def is_symmetric(f: BooleanFunction) -> bool:
     """
     Check if a function is symmetric (invariant under all variable permutations).
 
@@ -363,7 +364,7 @@ def is_symmetric(f: "BooleanFunction") -> bool:
     # Check that all inputs of the same Hamming weight give the same output
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=int)
 
-    weight_outputs: Dict[int, int] = {}
+    weight_outputs: dict[int, int] = {}
     for x in range(1 << n):
         weight = bin(x).count("1")
         output = int(truth_table[x])

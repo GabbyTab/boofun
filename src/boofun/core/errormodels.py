@@ -5,9 +5,9 @@ This module provides various error models for handling uncertainty,
 noise, and approximation in Boolean function computations.
 """
 
-import warnings
 from abc import ABC, abstractmethod
-from typing import Any, Callable, Dict, Optional, Union
+from typing import Any
+from collections.abc import Callable
 
 import numpy as np
 
@@ -107,7 +107,7 @@ class PACErrorModel(ErrorModel):
         self.delta = delta
         self.confidence = 1 - delta
 
-    def apply_error(self, result: Any) -> Dict[str, Any]:
+    def apply_error(self, result: Any) -> dict[str, Any]:
         """
         Apply PAC bounds to result.
 
@@ -178,7 +178,7 @@ class NoiseErrorModel(ErrorModel):
     Simulates realistic noise in Boolean function evaluation and analysis.
     """
 
-    def __init__(self, noise_rate: float = 0.01, random_seed: Optional[int] = None):
+    def __init__(self, noise_rate: float = 0.01, random_seed: int | None = None):
         """
         Initialize noise error model.
 
@@ -193,7 +193,7 @@ class NoiseErrorModel(ErrorModel):
         self.rng = np.random.default_rng(random_seed)
         self.reliability = 1 - 2 * noise_rate  # Reliability decreases with noise
 
-    def apply_error(self, result: Union[bool, np.ndarray]) -> Union[bool, np.ndarray]:
+    def apply_error(self, result: bool | np.ndarray) -> bool | np.ndarray:
         """
         Apply bit-flip noise to Boolean results.
 

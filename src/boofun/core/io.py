@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -49,12 +49,12 @@ __all__ = [
 class FileIOError(BooleanFunctionError):
     """Error during file I/O operations."""
 
-    def __init__(self, message: str, path: Optional[str] = None, **kwargs):
+    def __init__(self, message: str, path: str | None = None, **kwargs):
         self.path = path
         super().__init__(message, **kwargs)
 
 
-def detect_format(path: Union[str, Path]) -> str:
+def detect_format(path: str | Path) -> str:
     """
     Detect file format from extension or content.
 
@@ -79,7 +79,7 @@ def detect_format(path: Union[str, Path]) -> str:
 
     # Try to detect from content
     if path.exists():
-        with open(path, "r") as f:
+        with open(path) as f:
             first_line = f.readline().strip()
 
         if first_line.startswith("{"):
@@ -97,10 +97,10 @@ def detect_format(path: Union[str, Path]) -> str:
 
 
 def load(
-    path: Union[str, Path],
-    format: Optional[str] = None,
+    path: str | Path,
+    format: str | None = None,
     **kwargs,
-) -> "BooleanFunction":
+) -> BooleanFunction:
     """
     Load a Boolean function from file.
 
@@ -139,9 +139,9 @@ def load(
 
 
 def save(
-    func: "BooleanFunction",
-    path: Union[str, Path],
-    format: Optional[str] = None,
+    func: BooleanFunction,
+    path: str | Path,
+    format: str | None = None,
     **kwargs,
 ) -> None:
     """
@@ -188,7 +188,7 @@ def save(
 # =============================================================================
 
 
-def load_json(path: Union[str, Path], **kwargs) -> "BooleanFunction":
+def load_json(path: str | Path, **kwargs) -> BooleanFunction:
     """
     Load Boolean function from JSON file.
 
@@ -205,7 +205,7 @@ def load_json(path: Union[str, Path], **kwargs) -> "BooleanFunction":
 
     path = Path(path)
 
-    with open(path, "r") as f:
+    with open(path) as f:
         data = json.load(f)
 
     # Extract representation type and data
@@ -248,8 +248,8 @@ def load_json(path: Union[str, Path], **kwargs) -> "BooleanFunction":
 
 
 def save_json(
-    func: "BooleanFunction",
-    path: Union[str, Path],
+    func: BooleanFunction,
+    path: str | Path,
     representation: str = "truth_table",
     pretty: bool = True,
     **kwargs,
@@ -311,7 +311,7 @@ def _json_serializer(obj):
 # =============================================================================
 
 
-def load_bf(path: Union[str, Path], **kwargs) -> "BooleanFunction":
+def load_bf(path: str | Path, **kwargs) -> BooleanFunction:
     """
     Load Boolean function from .bf file (Aaronson format).
 
@@ -335,7 +335,7 @@ def load_bf(path: Union[str, Path], **kwargs) -> "BooleanFunction":
 
     path = Path(path)
 
-    with open(path, "r") as f:
+    with open(path) as f:
         lines = [line.strip() for line in f if line.strip()]
 
     if not lines:
@@ -394,8 +394,8 @@ def load_bf(path: Union[str, Path], **kwargs) -> "BooleanFunction":
 
 
 def save_bf(
-    func: "BooleanFunction",
-    path: Union[str, Path],
+    func: BooleanFunction,
+    path: str | Path,
     include_inputs: bool = True,
     **kwargs,
 ) -> None:
@@ -431,7 +431,7 @@ def save_bf(
 # =============================================================================
 
 
-def load_dimacs_cnf(path: Union[str, Path], **kwargs) -> "BooleanFunction":
+def load_dimacs_cnf(path: str | Path, **kwargs) -> BooleanFunction:
     """
     Load Boolean function from DIMACS CNF file.
 
@@ -460,7 +460,7 @@ def load_dimacs_cnf(path: Union[str, Path], **kwargs) -> "BooleanFunction":
     clauses = []
     n_vars = None
 
-    with open(path, "r") as f:
+    with open(path) as f:
         for line in f:
             line = line.strip()
 
@@ -513,9 +513,9 @@ def load_dimacs_cnf(path: Union[str, Path], **kwargs) -> "BooleanFunction":
 
 
 def save_dimacs_cnf(
-    func: "BooleanFunction",
-    path: Union[str, Path],
-    comment: Optional[str] = None,
+    func: BooleanFunction,
+    path: str | Path,
+    comment: str | None = None,
     **kwargs,
 ) -> None:
     """

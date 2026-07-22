@@ -17,7 +17,7 @@ functions and can dramatically affect their complexity measures.
 from __future__ import annotations
 
 from itertools import permutations
-from typing import TYPE_CHECKING, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -47,7 +47,7 @@ __all__ = [
 ]
 
 
-def is_monotone(f: "BooleanFunction") -> bool:
+def is_monotone(f: BooleanFunction) -> bool:
     """
     Check if f is monotone.
 
@@ -83,7 +83,7 @@ def is_monotone(f: "BooleanFunction") -> bool:
     return True
 
 
-def is_unate(f: "BooleanFunction") -> Tuple[bool, Optional[List[int]]]:
+def is_unate(f: BooleanFunction) -> tuple[bool, list[int] | None]:
     """
     Check if f is unate (isomorphic to a monotone function).
 
@@ -136,7 +136,7 @@ def is_unate(f: "BooleanFunction") -> Tuple[bool, Optional[List[int]]]:
     return (False, None)
 
 
-def make_unate(f: "BooleanFunction") -> Optional["BooleanFunction"]:
+def make_unate(f: BooleanFunction) -> BooleanFunction | None:
     """
     Transform f to a monotone function by negating variables if possible.
 
@@ -168,7 +168,7 @@ def make_unate(f: "BooleanFunction") -> Optional["BooleanFunction"]:
     return BooleanFunctionFactory.from_truth_table(BFClass, new_tt, n=n)
 
 
-def monotone_closure(f: "BooleanFunction") -> "BooleanFunction":
+def monotone_closure(f: BooleanFunction) -> BooleanFunction:
     """
     Compute the monotone closure of f.
 
@@ -201,7 +201,7 @@ def monotone_closure(f: "BooleanFunction") -> "BooleanFunction":
     return BooleanFunctionFactory.from_truth_table(BFClass, new_tt, n=n)
 
 
-def is_symmetric(f: "BooleanFunction") -> bool:
+def is_symmetric(f: BooleanFunction) -> bool:
     """
     Check if f is symmetric.
 
@@ -234,7 +234,7 @@ def is_symmetric(f: "BooleanFunction") -> bool:
     return True
 
 
-def is_quasisymmetric(f: "BooleanFunction") -> Tuple[bool, Optional[List[int]]]:
+def is_quasisymmetric(f: BooleanFunction) -> tuple[bool, list[int] | None]:
     """
     Check if f is quasisymmetric (isomorphic to a symmetric function).
 
@@ -297,7 +297,7 @@ def is_quasisymmetric(f: "BooleanFunction") -> Tuple[bool, Optional[List[int]]]:
     return (False, None)
 
 
-def symmetry_type(f: "BooleanFunction") -> str:
+def symmetry_type(f: BooleanFunction) -> str:
     """
     Determine the symmetry type of f.
 
@@ -314,7 +314,7 @@ def symmetry_type(f: "BooleanFunction") -> str:
     return "asymmetric"
 
 
-def is_balanced(f: "BooleanFunction") -> bool:
+def is_balanced(f: BooleanFunction) -> bool:
     """
     Check if f is balanced (equal number of 0s and 1s).
 
@@ -336,7 +336,7 @@ def is_balanced(f: "BooleanFunction") -> bool:
     return ones == total // 2
 
 
-def bias(f: "BooleanFunction") -> float:
+def bias(f: BooleanFunction) -> float:
     """
     Compute the bias of f: E[f(x)] = Pr[f(x) = 1].
 
@@ -355,7 +355,7 @@ def bias(f: "BooleanFunction") -> float:
     return float(np.mean(truth_table))
 
 
-def weight(f: "BooleanFunction") -> int:
+def weight(f: BooleanFunction) -> int:
     """
     Compute the weight (number of 1s in truth table) of f.
 
@@ -374,7 +374,7 @@ def weight(f: "BooleanFunction") -> int:
     return int(np.sum(truth_table))
 
 
-def dependent_variables(f: "BooleanFunction") -> List[int]:
+def dependent_variables(f: BooleanFunction) -> list[int]:
     """
     Find variables that f depends on.
 
@@ -407,7 +407,7 @@ def dependent_variables(f: "BooleanFunction") -> List[int]:
     return essential
 
 
-def essential_variables(f: "BooleanFunction") -> int:
+def essential_variables(f: BooleanFunction) -> int:
     """
     Count the number of essential (dependent) variables.
 
@@ -422,7 +422,7 @@ def essential_variables(f: "BooleanFunction") -> int:
     return len(dependent_variables(f))
 
 
-def is_prime(f: "BooleanFunction") -> bool:
+def is_prime(f: BooleanFunction) -> bool:
     """
     Check if f is prime (not decomposable).
 
@@ -469,7 +469,7 @@ def is_prime(f: "BooleanFunction") -> bool:
     return True
 
 
-def find_decomposition(f: "BooleanFunction") -> Optional[Tuple[str, List[int], List[int]]]:
+def find_decomposition(f: BooleanFunction) -> tuple[str, list[int], list[int]] | None:
     """
     Try to find a decomposition of f.
 

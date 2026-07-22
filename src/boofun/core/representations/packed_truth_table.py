@@ -8,7 +8,7 @@ For n=20: standard numpy = 8MB, bitarray = 128KB (64x smaller)
 For n=24: standard numpy = 128MB, bitarray = 2MB (64x smaller)
 """
 
-from typing import Any, Dict, Union
+from typing import Any
 
 import numpy as np
 
@@ -44,7 +44,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
 
     def evaluate(
         self, inputs: np.ndarray, data: Any, space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+    ) -> bool | np.ndarray:
         """
         Evaluate the packed truth table at given inputs.
 
@@ -118,7 +118,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         # LSB-first: binary_vector[i] corresponds to x_i, so index = Σ x_i * 2^i
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector))))
 
-    def dump(self, data: Any, space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: Any, space=None, **kwargs) -> dict[str, Any]:
         """Export packed truth table in serializable format."""
         if HAS_BITARRAY and isinstance(data, dict) and "bitarray" in data:
             ba = data["bitarray"]
@@ -149,7 +149,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         space: Space,
         n_vars: int,
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Convert from any representation to packed truth table."""
         size = 1 << n_vars
 
@@ -189,7 +189,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         """Convert packed truth table to another representation."""
         return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
-    def create_empty(self, n_vars: int, **kwargs) -> Dict[str, Any]:
+    def create_empty(self, n_vars: int, **kwargs) -> dict[str, Any]:
         """Create empty packed truth table."""
         size = 1 << n_vars
 
@@ -221,7 +221,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         else:
             return np.asarray(data, dtype=bool)
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for packed operations."""
         return {
             "evaluation": 1,  # O(1) - bit indexing
@@ -230,7 +230,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
             "space_complexity": n_vars - 3,  # O(2^n / 8) bits
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return storage requirements for packed representation."""
         size = 1 << n_vars
         packed_bytes = size // 8 + (1 if size % 8 else 0)
@@ -247,7 +247,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         }
 
 
-def create_packed_truth_table(truth_table: np.ndarray) -> Dict[str, Any]:
+def create_packed_truth_table(truth_table: np.ndarray) -> dict[str, Any]:
     """
     Create a packed truth table from a numpy array.
 
@@ -267,7 +267,7 @@ def create_packed_truth_table(truth_table: np.ndarray) -> Dict[str, Any]:
         return {"array": np.packbits(truth_table.astype(bool)), "n_vars": n_vars, "size": size}
 
 
-def memory_comparison(n_vars: int) -> Dict[str, Any]:
+def memory_comparison(n_vars: int) -> dict[str, Any]:
     """
     Compare memory usage for different truth table representations.
 

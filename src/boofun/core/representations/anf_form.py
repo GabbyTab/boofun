@@ -35,7 +35,7 @@ Examples:
     >>> one_anf = {frozenset(): 1}   # Always 1
 """
 
-from typing import Any, Dict, FrozenSet, List, Optional, Union
+from typing import Any
 
 import numpy as np
 
@@ -45,7 +45,7 @@ from .registry import register_strategy
 
 
 @register_strategy("anf")
-class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]):
+class ANFRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]):
     """
     Algebraic Normal Form representation of Boolean functions.
 
@@ -58,8 +58,8 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
     """
 
     def evaluate(
-        self, inputs: np.ndarray, data: Dict[FrozenSet[int], int], space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+        self, inputs: np.ndarray, data: dict[frozenset[int], int], space: Space, n_vars: int
+    ) -> bool | np.ndarray:
         """
         Evaluate ANF polynomial at given inputs.
 
@@ -98,7 +98,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _evaluate_single_index(
-        self, x: int, data: Dict[FrozenSet[int], int], n_vars: int, space: Space
+        self, x: int, data: dict[frozenset[int], int], n_vars: int, space: Space
     ) -> bool:
         """Evaluate ANF at single integer input."""
         # Convert integer to binary vector
@@ -106,7 +106,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
         return self._evaluate_single_vector(binary_vec, data, space)
 
     def _evaluate_single_vector(
-        self, x: np.ndarray, data: Dict[FrozenSet[int], int], space: Space
+        self, x: np.ndarray, data: dict[frozenset[int], int], space: Space
     ) -> bool:
         """Evaluate ANF at single binary vector."""
         # Convert space if needed
@@ -133,8 +133,8 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
         return bool(result)
 
     def dump(
-        self, data: Dict[FrozenSet[int], int], space: Optional[Space] = None, **kwargs
-    ) -> Dict[str, Any]:
+        self, data: dict[frozenset[int], int], space: Space | None = None, **kwargs
+    ) -> dict[str, Any]:
         """Export ANF in serializable format."""
         # Convert frozensets to lists for JSON serialization
         serializable_data = {}
@@ -157,7 +157,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
         space: Space,
         n_vars: int,
         **kwargs,
-    ) -> Dict[FrozenSet[int], int]:
+    ) -> dict[frozenset[int], int]:
         """Convert from another representation to ANF."""
         from .truth_table import TruthTableRepresentation
 
@@ -173,7 +173,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
     def convert_to(
         self,
         target_repr: "BooleanFunctionRepresentation",
-        source_data: Dict[FrozenSet[int], int],
+        source_data: dict[frozenset[int], int],
         space: Space,
         n_vars: int,
         **kwargs,
@@ -182,15 +182,15 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
         # Use the target representation's convert_from method
         return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
-    def create_empty(self, n_vars: int, **kwargs) -> Dict[FrozenSet[int], int]:
+    def create_empty(self, n_vars: int, **kwargs) -> dict[frozenset[int], int]:
         """Create empty ANF (zero function)."""
         return {frozenset(): 0}  # Constant zero function
 
-    def is_complete(self, data: Dict[FrozenSet[int], int]) -> bool:
+    def is_complete(self, data: dict[frozenset[int], int]) -> bool:
         """Check if ANF representation is complete."""
         return len(data) > 0
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity estimates for ANF operations."""
         return {
             "evaluation": 2**n_vars,  # Worst case: all monomials present
@@ -199,7 +199,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
             "conversion": 2**n_vars,
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return memory requirements for ANF representation."""
         max_monomials = 2**n_vars
         # Each monomial: frozenset overhead + coefficient
@@ -216,7 +216,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
 
     def _truth_table_to_anf(
         self, truth_table: np.ndarray, n_vars: int
-    ) -> Dict[FrozenSet[int], int]:
+    ) -> dict[frozenset[int], int]:
         """
         Convert truth table to ANF using Möbius transform.
 
@@ -247,29 +247,29 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
 
         return anf_dict
 
-    def _get_degree(self, data: Dict[FrozenSet[int], int]) -> int:
+    def _get_degree(self, data: dict[frozenset[int], int]) -> int:
         """Get the degree of the ANF polynomial."""
         if not data:
             return 0
         return max(len(monomial) for monomial, coeff in data.items() if coeff != 0)
 
-    def get_monomials(self, data: Dict[FrozenSet[int], int]) -> List[FrozenSet[int]]:
+    def get_monomials(self, data: dict[frozenset[int], int]) -> list[frozenset[int]]:
         """Get all monomials with non-zero coefficients."""
         return [monomial for monomial, coeff in data.items() if coeff != 0]
 
     def get_degree_k_terms(
-        self, data: Dict[FrozenSet[int], int], k: int
-    ) -> Dict[FrozenSet[int], int]:
+        self, data: dict[frozenset[int], int], k: int
+    ) -> dict[frozenset[int], int]:
         """Get all terms of exactly degree k."""
         return {
             monomial: coeff for monomial, coeff in data.items() if len(monomial) == k and coeff != 0
         }
 
-    def is_linear(self, data: Dict[FrozenSet[int], int]) -> bool:
+    def is_linear(self, data: dict[frozenset[int], int]) -> bool:
         """Check if the function is linear (degree ≤ 1)."""
         return self._get_degree(data) <= 1
 
-    def is_quadratic(self, data: Dict[FrozenSet[int], int]) -> bool:
+    def is_quadratic(self, data: dict[frozenset[int], int]) -> bool:
         """Check if the function is quadratic (degree ≤ 2)."""
         return self._get_degree(data) <= 2
 
@@ -280,7 +280,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[Dict[FrozenSet[int], int]]
         return "ANFRepresentation()"
 
 
-def create_anf_from_monomials(monomials: List[List[int]], n_vars: int) -> Dict[FrozenSet[int], int]:
+def create_anf_from_monomials(monomials: list[list[int]], n_vars: int) -> dict[frozenset[int], int]:
     """
     Create ANF representation from list of monomials.
 
@@ -291,7 +291,7 @@ def create_anf_from_monomials(monomials: List[List[int]], n_vars: int) -> Dict[F
     Returns:
         ANF dictionary representation
     """
-    anf_dict: Dict[FrozenSet[int], int] = {}
+    anf_dict: dict[frozenset[int], int] = {}
     for monomial_list in monomials:
         monomial = frozenset(monomial_list)
         anf_dict[monomial] = anf_dict.get(monomial, 0) ^ 1  # XOR for GF(2)
@@ -300,7 +300,7 @@ def create_anf_from_monomials(monomials: List[List[int]], n_vars: int) -> Dict[F
 
 
 def anf_to_string(
-    data: Dict[FrozenSet[int], int], variable_names: Optional[List[str]] = None
+    data: dict[frozenset[int], int], variable_names: list[str] | None = None
 ) -> str:
     """
     Convert ANF to human-readable string representation.

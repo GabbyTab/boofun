@@ -23,7 +23,7 @@ References:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, Optional, Tuple
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -42,7 +42,7 @@ __all__ = [
 ]
 
 
-def sensitivity_at(f: "BooleanFunction", x: int) -> int:
+def sensitivity_at(f: BooleanFunction, x: int) -> int:
     """
     Compute sensitivity of f at input x.
 
@@ -70,7 +70,7 @@ def sensitivity_at(f: "BooleanFunction", x: int) -> int:
     return count
 
 
-def max_sensitivity(f: "BooleanFunction") -> int:
+def max_sensitivity(f: BooleanFunction) -> int:
     """
     Compute maximum sensitivity: s(f) = max_x s(f, x).
 
@@ -87,12 +87,12 @@ def max_sensitivity(f: "BooleanFunction") -> int:
     return max(sensitivity_at(f, x) for x in range(2**n))
 
 
-def sensitivity(f: "BooleanFunction") -> int:
+def sensitivity(f: BooleanFunction) -> int:
     """Alias for max_sensitivity."""
     return max_sensitivity(f)
 
 
-def average_sensitivity(f: "BooleanFunction") -> float:
+def average_sensitivity(f: BooleanFunction) -> float:
     """
     Compute average sensitivity: E_x[s(f, x)].
 
@@ -110,7 +110,7 @@ def average_sensitivity(f: "BooleanFunction") -> float:
     return total / (2**n)
 
 
-def block_sensitivity(f: "BooleanFunction") -> int:
+def block_sensitivity(f: BooleanFunction) -> int:
     """
     Compute block sensitivity: bs(f) = max_x bs(f, x).
 
@@ -134,7 +134,7 @@ def block_sensitivity(f: "BooleanFunction") -> int:
     return max_block_sensitivity(f)
 
 
-def verify_huang_theorem(f: "BooleanFunction") -> Dict[str, Any]:
+def verify_huang_theorem(f: BooleanFunction) -> dict[str, Any]:
     """
     Verify Huang's Sensitivity Theorem for function f.
 
@@ -166,7 +166,7 @@ def verify_huang_theorem(f: "BooleanFunction") -> Dict[str, Any]:
     }
 
 
-def sensitivity_vs_degree(f: "BooleanFunction") -> Tuple[int, int, float]:
+def sensitivity_vs_degree(f: BooleanFunction) -> tuple[int, int, float]:
     """
     Compare sensitivity and degree for Huang analysis.
 
@@ -187,13 +187,13 @@ class HuangAnalysis:
     the polynomial relationships established by Huang.
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: BooleanFunction):
         """Initialize analyzer with a Boolean function."""
         self.f = f
         n_vars = f.n_vars
         assert n_vars is not None
         self.n: int = n_vars
-        self._cache: Dict[str, Any] = {}
+        self._cache: dict[str, Any] = {}
 
     def sensitivity(self) -> int:
         """Get maximum sensitivity."""
@@ -217,7 +217,7 @@ class HuangAnalysis:
         """Get sensitivity at each input."""
         return np.array([sensitivity_at(self.f, x) for x in range(2**self.n)])
 
-    def verify_all_bounds(self) -> Dict[str, Any]:
+    def verify_all_bounds(self) -> dict[str, Any]:
         """
         Verify all Huang-related polynomial bounds.
 
@@ -241,7 +241,7 @@ class HuangAnalysis:
 
         D = decision_tree_depth(self.f)
 
-        results: Dict[str, Any] = {
+        results: dict[str, Any] = {
             "sensitivity": s,
             "block_sensitivity": bs,
             "certificate_complexity": cert,

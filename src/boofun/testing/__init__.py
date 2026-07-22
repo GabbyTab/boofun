@@ -5,7 +5,7 @@ This module provides comprehensive testing tools for Boolean function analysis,
 including property validation, representation consistency checks, and performance testing.
 """
 
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 
@@ -32,16 +32,16 @@ class BooleanFunctionValidator:
         """
         self.function = function
         self.verbose = verbose
-        self.validation_results: Dict[str, Any] = {}
+        self.validation_results: dict[str, Any] = {}
 
-    def validate_all(self) -> Dict[str, Any]:
+    def validate_all(self) -> dict[str, Any]:
         """
         Run comprehensive validation suite.
 
         Returns:
             Dictionary with validation results
         """
-        results: Dict[str, Any] = {
+        results: dict[str, Any] = {
             "basic_properties": self.validate_basic_properties(),
             "representation_consistency": self.validate_representation_consistency(),
             "evaluation_correctness": self.validate_evaluation_correctness(),
@@ -55,9 +55,9 @@ class BooleanFunctionValidator:
         self.validation_results = results
         return results
 
-    def validate_basic_properties(self) -> Dict[str, Any]:
+    def validate_basic_properties(self) -> dict[str, Any]:
         """Validate basic Boolean function properties."""
-        results: Dict[str, Any] = {"passed": True, "issues": []}
+        results: dict[str, Any] = {"passed": True, "issues": []}
 
         try:
             # Check n_vars is properly set
@@ -89,9 +89,9 @@ class BooleanFunctionValidator:
 
         return results
 
-    def validate_representation_consistency(self) -> Dict[str, Any]:
+    def validate_representation_consistency(self) -> dict[str, Any]:
         """Validate consistency across different representations."""
-        results: Dict[str, Any] = {"passed": True, "issues": [], "comparisons": {}}
+        results: dict[str, Any] = {"passed": True, "issues": [], "comparisons": {}}
 
         if len(self.function.representations) < 2:
             results["issues"].append("Need at least 2 representations for consistency check")
@@ -118,9 +118,9 @@ class BooleanFunctionValidator:
 
         return results
 
-    def validate_evaluation_correctness(self) -> Dict[str, Any]:
+    def validate_evaluation_correctness(self) -> dict[str, Any]:
         """Validate evaluation correctness."""
-        results: Dict[str, Any] = {"passed": True, "issues": [], "tests": {}}
+        results: dict[str, Any] = {"passed": True, "issues": [], "tests": {}}
 
         try:
             # Test different input formats
@@ -163,9 +163,9 @@ class BooleanFunctionValidator:
 
         return results
 
-    def validate_space_handling(self) -> Dict[str, Any]:
+    def validate_space_handling(self) -> dict[str, Any]:
         """Validate space conversion and handling."""
-        results: Dict[str, Any] = {"passed": True, "issues": [], "space_tests": {}}
+        results: dict[str, Any] = {"passed": True, "issues": [], "space_tests": {}}
 
         # This is a placeholder - full space validation would require more representations
         try:
@@ -185,9 +185,9 @@ class BooleanFunctionValidator:
 
         return results
 
-    def validate_edge_cases(self) -> Dict[str, Any]:
+    def validate_edge_cases(self) -> dict[str, Any]:
         """Validate handling of edge cases."""
-        results: Dict[str, Any] = {"passed": True, "issues": [], "edge_tests": {}}
+        results: dict[str, Any] = {"passed": True, "issues": [], "edge_tests": {}}
 
         edge_cases = [
             ("empty_input", np.array([])),
@@ -213,7 +213,7 @@ class BooleanFunctionValidator:
 
         return results
 
-    def _generate_test_inputs(self) -> List[Any]:
+    def _generate_test_inputs(self) -> list[Any]:
         """Generate test inputs for validation."""
         if self.function.n_vars is None or self.function.n_vars == 0:
             return [0]
@@ -224,8 +224,8 @@ class BooleanFunctionValidator:
         return list(range(max_inputs))
 
     def _compare_representations(
-        self, rep1: str, rep2: str, test_inputs: List[Any]
-    ) -> Dict[str, Any]:
+        self, rep1: str, rep2: str, test_inputs: list[Any]
+    ) -> dict[str, Any]:
         """Compare two representations for consistency."""
         mismatches = 0
         total_tests = len(test_inputs)
@@ -298,9 +298,9 @@ class RepresentationTester:
         """
         self.representation = representation
 
-    def test_interface_compliance(self, n_vars: int = 3) -> Dict[str, Any]:
+    def test_interface_compliance(self, n_vars: int = 3) -> dict[str, Any]:
         """Test that representation implements required interface methods."""
-        results: Dict[str, Any] = {"passed": True, "method_tests": {}}
+        results: dict[str, Any] = {"passed": True, "method_tests": {}}
 
         required_methods = [
             "evaluate",
@@ -328,9 +328,9 @@ class RepresentationTester:
 
         return results
 
-    def test_create_empty(self, n_vars: int = 3) -> Dict[str, Any]:
+    def test_create_empty(self, n_vars: int = 3) -> dict[str, Any]:
         """Test create_empty method."""
-        results: Dict[str, Any] = {"passed": True, "error": None}
+        results: dict[str, Any] = {"passed": True, "error": None}
 
         try:
             empty_data = self.representation.create_empty(n_vars)
@@ -346,9 +346,9 @@ class RepresentationTester:
 
         return results
 
-    def test_storage_requirements(self, n_vars_range: List[int] = [1, 2, 3, 4]) -> Dict[str, Any]:
+    def test_storage_requirements(self, n_vars_range: list[int] = [1, 2, 3, 4]) -> dict[str, Any]:
         """Test storage requirements computation."""
-        results: Dict[str, Any] = {"passed": True, "requirements": {}, "error": None}
+        results: dict[str, Any] = {"passed": True, "requirements": {}, "error": None}
 
         try:
             for n_vars in n_vars_range:
@@ -378,9 +378,9 @@ class PropertyTestSuite:
     def __init__(self):
         """Initialize property test suite."""
 
-    def test_known_functions(self) -> Dict[str, Any]:
+    def test_known_functions(self) -> dict[str, Any]:
         """Test property detection on functions with known properties."""
-        results: Dict[str, Any] = {"tests": {}, "overall_passed": True}
+        results: dict[str, Any] = {"tests": {}, "overall_passed": True}
 
         # Test cases: (function_name, truth_table, expected_properties)
         test_cases = [
@@ -401,7 +401,7 @@ class PropertyTestSuite:
                 detected_props = tester.run_all_tests()
 
                 # Compare with expected properties
-                test_result: Dict[str, Any] = {"passed": True, "mismatches": []}
+                test_result: dict[str, Any] = {"passed": True, "mismatches": []}
                 for prop, expected_value in expected_props.items():
                     if prop in detected_props:
                         detected_value = detected_props[prop]
@@ -436,11 +436,11 @@ class PerformanceProfiler:
     def __init__(self):
         """Initialize performance profiler."""
 
-    def profile_evaluation(self, function: BooleanFunction, n_trials: int = 1000) -> Dict[str, Any]:
+    def profile_evaluation(self, function: BooleanFunction, n_trials: int = 1000) -> dict[str, Any]:
         """Profile evaluation performance."""
         import time
 
-        results: Dict[str, Any] = {"timings": [], "average_time": 0, "error": None}
+        results: dict[str, Any] = {"timings": [], "average_time": 0, "error": None}
 
         try:
             # Generate test inputs
@@ -490,7 +490,7 @@ def quick_validate(function: BooleanFunction, verbose: bool = False) -> bool:
 
 def validate_representation(
     representation: BooleanFunctionRepresentation, n_vars: int = 3
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Quick validation of a representation implementation.
 
@@ -506,7 +506,7 @@ def validate_representation(
     """
     tester = RepresentationTester(representation)
 
-    results: Dict[str, Any] = {
+    results: dict[str, Any] = {
         "interface_compliance": tester.test_interface_compliance(n_vars),
         "create_empty": tester.test_create_empty(n_vars),
         "storage_requirements": tester.test_storage_requirements(),

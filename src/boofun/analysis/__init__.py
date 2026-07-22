@@ -7,7 +7,7 @@ including Fourier analysis, influence computation, and noise stability.
 """
 
 import warnings
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -39,8 +39,8 @@ class SpectralAnalyzer:
         self.n_vars: int = n_vars
 
         # Cache for expensive computations
-        self._fourier_coeffs: Optional[np.ndarray] = None
-        self._influences: Optional[np.ndarray] = None
+        self._fourier_coeffs: np.ndarray | None = None
+        self._influences: np.ndarray | None = None
 
         # Track error model for uncertainty propagation
         self.error_model = function.error_model
@@ -284,7 +284,7 @@ class SpectralAnalyzer:
 
         return low_degree_weight / total_weight if total_weight > 0 else 0.0
 
-    def get_fourier_coefficient(self, subset: Union[int, List[int]]) -> float:
+    def get_fourier_coefficient(self, subset: int | list[int]) -> float:
         """
         Get Fourier coefficient for a specific subset.
 
@@ -312,7 +312,7 @@ class SpectralAnalyzer:
         else:
             raise ValueError(f"Subset index {index} out of range")
 
-    def summary(self) -> Dict[str, Any]:
+    def summary(self) -> dict[str, Any]:
         """
         Compute summary statistics for the Boolean function.
 
@@ -322,7 +322,7 @@ class SpectralAnalyzer:
         influences = self.influences()
 
         # Organize statistics by category
-        summary: Dict[str, Any] = {
+        summary: dict[str, Any] = {
             # Fundamental probabilistic measures
             "expectation": self.function.bias(),  # E[f] = f̂(∅)
             "variance": self.function.variance(),  # Var[f] = 1 - E[f]²
@@ -359,7 +359,7 @@ class PropertyTester:
     if Boolean functions satisfy specific properties.
     """
 
-    def __init__(self, function: "BooleanFunction", random_seed: Optional[int] = None):
+    def __init__(self, function: "BooleanFunction", random_seed: int | None = None):
         self.function = function
         n_vars = function.n_vars
         if n_vars is None:
@@ -628,7 +628,7 @@ class PropertyTester:
 
     def dictator_test(
         self, num_queries: int = 1000, epsilon: float = 0.1
-    ) -> Tuple[bool, Optional[int]]:
+    ) -> tuple[bool, int | None]:
         """
         Test if function is a dictator or anti-dictator.
 
@@ -813,14 +813,14 @@ class PropertyTester:
 
         return corrected
 
-    def run_all_tests(self) -> Dict[str, Any]:
+    def run_all_tests(self) -> dict[str, Any]:
         """
         Run all available property tests.
 
         Returns:
             Dictionary mapping test names to results
         """
-        results: Dict[str, Any] = {}
+        results: dict[str, Any] = {}
 
         try:
             results["constant"] = self.constant_test()

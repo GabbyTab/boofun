@@ -15,7 +15,7 @@ Guidelines:
 - n > 20: Consider sparse Fourier or symbolic
 """
 
-from typing import TYPE_CHECKING, Any, Dict, Optional
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -49,10 +49,10 @@ def estimate_sparsity(truth_table: np.ndarray) -> float:
 
 def recommend_representation(
     n_vars: int,
-    sparsity: Optional[float] = None,
-    memory_limit_mb: Optional[float] = None,
+    sparsity: float | None = None,
+    memory_limit_mb: float | None = None,
     access_pattern: str = "random",
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Recommend the best representation for given constraints.
 
@@ -127,8 +127,8 @@ def recommend_representation(
 
 
 def auto_select_representation(
-    truth_table: np.ndarray, n_vars: Optional[int] = None, memory_limit_mb: Optional[float] = None
-) -> Dict[str, Any]:
+    truth_table: np.ndarray, n_vars: int | None = None, memory_limit_mb: float | None = None
+) -> dict[str, Any]:
     """
     Automatically select the best representation for a truth table.
 
@@ -197,9 +197,9 @@ class AdaptiveFunction:
     def __init__(
         self,
         truth_table: np.ndarray,
-        n_vars: Optional[int] = None,
-        memory_limit_mb: Optional[float] = None,
-        force_representation: Optional[str] = None,
+        n_vars: int | None = None,
+        memory_limit_mb: float | None = None,
+        force_representation: str | None = None,
     ):
         """
         Initialize with automatic representation selection.
@@ -294,7 +294,7 @@ class AdaptiveFunction:
         """Get function sparsity."""
         return self._sparsity
 
-    def memory_usage(self) -> Dict[str, Any]:
+    def memory_usage(self) -> dict[str, Any]:
         """Get memory usage statistics."""
         if self._format == "dense":
             return {
@@ -338,7 +338,7 @@ class AdaptiveFunction:
 
 
 # Convenience function for BooleanFunction integration
-def optimize_representation(f: "BooleanFunction") -> Dict[str, Any]:
+def optimize_representation(f: "BooleanFunction") -> dict[str, Any]:
     """
     Analyze a BooleanFunction and recommend optimal representation.
 

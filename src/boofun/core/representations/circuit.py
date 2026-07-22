@@ -7,7 +7,7 @@ for representing and evaluating Boolean functions efficiently.
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 import numpy as np
 
@@ -42,10 +42,10 @@ class Gate:
 
     gate_id: int
     gate_type: GateType
-    inputs: List[int]
-    output_wire: Optional[int] = None
+    inputs: list[int]
+    output_wire: int | None = None
 
-    def evaluate(self, input_values: Dict[int, bool]) -> bool:
+    def evaluate(self, input_values: dict[int, bool]) -> bool:
         """
         Evaluate gate with given input values.
 
@@ -93,9 +93,9 @@ class BooleanCircuit:
             n_inputs: Number of input variables
         """
         self.n_inputs = n_inputs
-        self.gates: Dict[int, Gate] = {}
-        self.input_gates: List[int] = []
-        self.output_gate: Optional[int] = None
+        self.gates: dict[int, Gate] = {}
+        self.input_gates: list[int] = []
+        self.output_gate: int | None = None
         self.next_gate_id = 0
 
         # Create input gates
@@ -110,7 +110,7 @@ class BooleanCircuit:
         self.next_gate_id += 1
         return gate_id
 
-    def add_gate(self, gate_type: GateType, inputs: List[int]) -> int:
+    def add_gate(self, gate_type: GateType, inputs: list[int]) -> int:
         """
         Add gate to circuit.
 
@@ -131,7 +131,7 @@ class BooleanCircuit:
             raise ValueError(f"Gate {gate_id} not found")
         self.output_gate = gate_id
 
-    def evaluate(self, inputs: Union[List[bool], np.ndarray]) -> bool:
+    def evaluate(self, inputs: list[bool] | np.ndarray) -> bool:
         """
         Evaluate circuit with given inputs.
 
@@ -210,7 +210,7 @@ class BooleanCircuit:
         """Get total number of gates (excluding inputs)."""
         return len([g for g in self.gates.values() if g.gate_type != GateType.INPUT])
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """
         Export circuit to dictionary format.
 
@@ -233,7 +233,7 @@ class BooleanCircuit:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "BooleanCircuit":
+    def from_dict(cls, data: dict[str, Any]) -> "BooleanCircuit":
         """
         Create circuit from dictionary representation.
 
@@ -268,7 +268,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
 
     def evaluate(
         self, inputs: np.ndarray, data: BooleanCircuit, space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+    ) -> bool | np.ndarray:
         """
         Evaluate circuit representation.
 
@@ -310,12 +310,12 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         else:
             raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def _index_to_binary(self, index: int, n_vars: int) -> List[bool]:
+    def _index_to_binary(self, index: int, n_vars: int) -> list[bool]:
         """Convert integer index to binary vector using LSB=x₀ convention."""
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 == 1 for i in range(n_vars)]
 
-    def dump(self, data: BooleanCircuit, space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: BooleanCircuit, space=None, **kwargs) -> dict[str, Any]:
         """Export circuit representation."""
         circuit_dict = data.to_dict()
         circuit_dict["type"] = "circuit"
@@ -345,7 +345,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         # Build circuit from truth table using DNF
         return self._build_dnf_circuit(truth_table, n_vars)
 
-    def _build_dnf_circuit(self, truth_table: List[bool], n_vars: int) -> BooleanCircuit:
+    def _build_dnf_circuit(self, truth_table: list[bool], n_vars: int) -> BooleanCircuit:
         """
         Build circuit from truth table using DNF (Disjunctive Normal Form).
 
@@ -441,7 +441,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         """Check if circuit is complete (has output gate)."""
         return data.output_gate is not None
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for circuit operations."""
         return {
             "evaluation": 1,  # O(circuit_size) - linear in gates
@@ -450,7 +450,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
             "space_complexity": n_vars,  # O(2^n) worst case for DNF
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return storage requirements for circuit representation."""
         # DNF can have exponential size in worst case
         max_gates = 2**n_vars * n_vars  # Worst case: all minterms with n literals each

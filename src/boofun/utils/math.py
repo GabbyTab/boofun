@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from itertools import combinations, permutations, product
 from math import comb
-from typing import Iterator, List, Sequence, Tuple, Union
+from collections.abc import Iterator, Sequence
 
 import numpy as np
 
@@ -47,7 +47,7 @@ def over(n: int, k: int) -> int:
     return comb(n, k)
 
 
-def subsets(a: Sequence[int] | int, k: int | None = None) -> Iterator[Tuple[int, ...]]:
+def subsets(a: Sequence[int] | int, k: int | None = None) -> Iterator[tuple[int, ...]]:
     """Yield subsets of sequence *a* (optionally fixed size)."""
 
     base = tuple(range(a)) if isinstance(a, int) else tuple(a)
@@ -58,25 +58,25 @@ def subsets(a: Sequence[int] | int, k: int | None = None) -> Iterator[Tuple[int,
         yield from combinations(base, k)
 
 
-def cartesian(seqs: Sequence[Sequence]) -> Iterator[Tuple]:
+def cartesian(seqs: Sequence[Sequence]) -> Iterator[tuple]:
     """Yield cartesian product rows from sequences."""
 
     return product(*seqs)
 
 
-def num2bin_list(num: int, n_digits: int) -> List[int]:
+def num2bin_list(num: int, n_digits: int) -> list[int]:
     """Convert *num* to an n-digit binary list (MSB first)."""
 
     return [(num >> i) & 1 for i in range(n_digits - 1, -1, -1)]
 
 
-def bits(i: int, n: int) -> List[int]:
+def bits(i: int, n: int) -> list[int]:
     """Return *n* bits of *i* as a list (MSB first)."""
 
     return list(map(int, bin((1 << n) | (i & ((1 << n) - 1)))[3:]))
 
 
-def tensor_product(A: Union[np.ndarray, Sequence], B: Union[np.ndarray, Sequence]) -> np.ndarray:
+def tensor_product(A: np.ndarray | Sequence, B: np.ndarray | Sequence) -> np.ndarray:
     """Compute the Kronecker product of *A* and *B*."""
 
     return np.kron(np.asarray(A), np.asarray(B))
@@ -110,12 +110,12 @@ def hamming_weight(x: int) -> int:
     return popcnt(x)
 
 
-def generate_permutations(n: int) -> Iterator[Tuple[int, ...]]:
+def generate_permutations(n: int) -> Iterator[tuple[int, ...]]:
     """Generate all permutations of [0, 1, ..., n-1]."""
     return permutations(range(n))
 
 
-def int_to_binary_tuple(x: int, n: int) -> Tuple[int, ...]:
+def int_to_binary_tuple(x: int, n: int) -> tuple[int, ...]:
     """
     Convert integer x to an n-bit binary tuple (LSB first).
 

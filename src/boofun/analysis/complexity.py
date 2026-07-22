@@ -13,7 +13,7 @@ as discussed in O'Donnell's book and related literature.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 
-def decision_tree_depth(f: "BooleanFunction") -> int:
+def decision_tree_depth(f: BooleanFunction) -> int:
     """
     Compute the optimal deterministic decision tree depth for function f.
 
@@ -127,7 +127,7 @@ def decision_tree_depth(f: "BooleanFunction") -> int:
     return result[-1]  # Last entry is the full cube (all variables free)
 
 
-def decision_tree_size(f: "BooleanFunction", minimize_depth_first: bool = False) -> Tuple[int, int]:
+def decision_tree_size(f: BooleanFunction, minimize_depth_first: bool = False) -> tuple[int, int]:
     """
     Compute the optimal decision tree size for function f.
 
@@ -211,7 +211,7 @@ def decision_tree_size(f: "BooleanFunction", minimize_depth_first: bool = False)
     return result[-1]
 
 
-def sensitivity(f: "BooleanFunction", x: int) -> int:
+def sensitivity(f: BooleanFunction, x: int) -> int:
     """
     Compute the sensitivity of f at input x.
 
@@ -239,7 +239,7 @@ def sensitivity(f: "BooleanFunction", x: int) -> int:
     return count
 
 
-def max_sensitivity(f: "BooleanFunction", value: Optional[int] = None) -> int:
+def max_sensitivity(f: BooleanFunction, value: int | None = None) -> int:
     """
     Compute the maximum sensitivity of f.
 
@@ -269,7 +269,7 @@ def max_sensitivity(f: "BooleanFunction", value: Optional[int] = None) -> int:
     return max_sens
 
 
-def min_sensitivity(f: "BooleanFunction", value: Optional[int] = None) -> int:
+def min_sensitivity(f: BooleanFunction, value: int | None = None) -> int:
     """
     Compute the minimum sensitivity of f (over non-trivial inputs).
 
@@ -299,7 +299,7 @@ def min_sensitivity(f: "BooleanFunction", value: Optional[int] = None) -> int:
     return min_sens if min_sens <= n else 0
 
 
-def average_sensitivity(f: "BooleanFunction") -> float:
+def average_sensitivity(f: BooleanFunction) -> float:
     """
     Compute the average sensitivity of f.
 
@@ -324,7 +324,7 @@ def average_sensitivity(f: "BooleanFunction") -> float:
     return total / size
 
 
-def certificate_complexity(f: "BooleanFunction", x: int) -> Tuple[int, List[int]]:
+def certificate_complexity(f: BooleanFunction, x: int) -> tuple[int, list[int]]:
     """
     Compute the certificate complexity at input x.
 
@@ -373,7 +373,7 @@ def certificate_complexity(f: "BooleanFunction", x: int) -> Tuple[int, List[int]
     return (n, list(range(n)))
 
 
-def max_certificate_complexity(f: "BooleanFunction", value: Optional[int] = None) -> int:
+def max_certificate_complexity(f: BooleanFunction, value: int | None = None) -> int:
     """
     Compute the maximum certificate complexity of f.
 
@@ -408,7 +408,7 @@ class ComplexityProfile:
     computing multiple measures and checking known relationships between them.
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: BooleanFunction):
         """
         Initialize and compute complexity profile.
 
@@ -418,9 +418,9 @@ class ComplexityProfile:
         self.function = f
         self.n_vars = f.n_vars
         self._computed = False
-        self._measures: Dict[str, Any] = {}
+        self._measures: dict[str, Any] = {}
 
-    def compute(self) -> Dict[str, Any]:
+    def compute(self) -> dict[str, Any]:
         """
         Compute all complexity measures.
 
@@ -467,7 +467,7 @@ class ComplexityProfile:
         ]
         return "\n".join(lines)
 
-    def check_relations(self) -> Dict[str, bool]:
+    def check_relations(self) -> dict[str, bool]:
         """
         Check known relationships between complexity measures.
 
@@ -498,7 +498,7 @@ class ComplexityProfile:
 # =============================================================================
 
 
-def D(f: "BooleanFunction") -> int:
+def D(f: BooleanFunction) -> int:
     """
     Decision tree depth D(f).
 
@@ -522,7 +522,7 @@ def D(f: "BooleanFunction") -> int:
     return decision_tree_depth(f)
 
 
-def s(f: "BooleanFunction", value: Optional[int] = None) -> int:
+def s(f: BooleanFunction, value: int | None = None) -> int:
     """
     Max sensitivity s(f).
 

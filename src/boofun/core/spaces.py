@@ -14,7 +14,6 @@ These will emit warnings unless explicitly silenced.
 
 import warnings
 from enum import Enum, auto
-from typing import Union
 
 import numpy as np
 
@@ -28,10 +27,10 @@ class Space(Enum):
 
     @staticmethod
     def translate(
-        input: Union[int, float, np.ndarray],
+        input: int | float | np.ndarray,
         source_space: "Space",
         target_space: "Space",
-    ) -> Union[int, float, np.ndarray]:
+    ) -> int | float | np.ndarray:
         """
         Translate a scalar or array from one space to another.
 

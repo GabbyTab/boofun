@@ -248,7 +248,7 @@ def f2_polynomial(n: int, monomials) -> BooleanFunction:
     return BooleanFunctionBuiltins.f2_polynomial(n, monomials)
 
 
-def random(n: int, balanced: bool = False, seed: Optional[int] = None) -> BooleanFunction:
+def random(n: int, balanced: bool = False, seed: int | None = None) -> BooleanFunction:
     """
     Create a random Boolean function on n variables.
 

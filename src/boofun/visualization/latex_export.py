@@ -10,7 +10,7 @@ This module provides comprehensive LaTeX export for:
 """
 
 import logging
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any
 
 # Module logger
 _logger = logging.getLogger("boofun.visualization.latex_export")
@@ -30,7 +30,7 @@ __all__ = [
 
 def export_fourier_tikz(
     f: "BooleanFunction",
-    var_names: Optional[List[str]] = None,
+    var_names: list[str] | None = None,
     width: float = 10,
     height: float = 5,
     highlight_threshold: float = 0.1,
@@ -109,7 +109,7 @@ def export_fourier_tikz(
 
 def export_influences_tikz(
     f: "BooleanFunction",
-    var_names: Optional[List[str]] = None,
+    var_names: list[str] | None = None,
     width: float = 8,
     height: float = 5,
     horizontal: bool = True,
@@ -204,8 +204,8 @@ def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
         "]",
     ]
 
-    positions: Dict[str, Tuple[float, float]] = {}
-    edges: List[Tuple[str, str]] = []
+    positions: dict[str, tuple[float, float]] = {}
+    edges: list[tuple[str, str]] = []
 
     if n == 2:
         # Square
@@ -274,7 +274,7 @@ def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
 
 
 def export_spectrum_table(
-    f: "BooleanFunction", var_names: Optional[List[str]] = None, max_rows: int = 16
+    f: "BooleanFunction", var_names: list[str] | None = None, max_rows: int = 16
 ) -> str:
     """
     Export Fourier spectrum as LaTeX table.
@@ -325,7 +325,7 @@ def export_spectrum_table(
 
 
 def export_comparison_table(
-    functions: Dict[str, "BooleanFunction"], properties: Optional[List[str]] = None
+    functions: dict[str, "BooleanFunction"], properties: list[str] | None = None
 ) -> str:
     """
     Export comparison table of multiple functions.
@@ -408,7 +408,7 @@ class LaTeXExporter:
     Unified LaTeX exporter for Boolean function visualizations.
     """
 
-    def __init__(self, f: "BooleanFunction", var_names: Optional[List[str]] = None):
+    def __init__(self, f: "BooleanFunction", var_names: list[str] | None = None):
         """
         Initialize exporter.
 

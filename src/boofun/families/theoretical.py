@@ -5,7 +5,7 @@ This module provides known theoretical results that can be compared
 against computed values to validate understanding and implementation.
 """
 
-from typing import Callable, Dict, Optional
+from collections.abc import Callable
 
 import numpy as np
 
@@ -41,7 +41,7 @@ class TheoreticalBounds:
         return n * 2 ** (-(n - 1))
 
     @staticmethod
-    def tribes_total_influence(n: int, w: Optional[int] = None) -> float:
+    def tribes_total_influence(n: int, w: int | None = None) -> float:
         """
         Total influence of Tribes.
 
@@ -239,7 +239,7 @@ class TheoreticalBounds:
     # ==========================================================
 
     @classmethod
-    def get_bounds_for_family(cls, family_name: str) -> Dict[str, Callable]:
+    def get_bounds_for_family(cls, family_name: str) -> dict[str, Callable]:
         """
         Get all applicable theoretical bounds for a named family.
 

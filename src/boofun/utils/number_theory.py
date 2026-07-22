@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from functools import lru_cache
 from math import gcd as _gcd
-from typing import Dict, List, Sequence, Tuple
+from collections.abc import Sequence
 
 try:  # pragma: no cover - optional dependency
     import sympy as _sp
@@ -74,7 +74,7 @@ def invmod(a: int, m: int) -> int:
         return t
 
 
-def crt(moduli: Sequence[int], residues: Sequence[int]) -> Tuple[int, int]:
+def crt(moduli: Sequence[int], residues: Sequence[int]) -> tuple[int, int]:
     """Chinese Remainder Theorem solution (value, modulus).
 
     Raises:
@@ -131,7 +131,7 @@ def is_prime(n: int) -> bool:
     return True
 
 
-def prime_sieve(upto: int) -> List[int]:
+def prime_sieve(upto: int) -> list[int]:
     """Return primes <= *upto* via a simple Sieve of Eratosthenes."""
 
     if upto < 2:
@@ -148,7 +148,7 @@ def prime_sieve(upto: int) -> List[int]:
     return [i for i, v in enumerate(sieve) if v]
 
 
-def factor(n: int) -> List[int]:
+def factor(n: int) -> list[int]:
     """
     Return prime factorization of n as a list of prime factors (with multiplicity).
 
@@ -198,7 +198,7 @@ def factor(n: int) -> List[int]:
     return factors
 
 
-def prime_factorization(n: int) -> Dict[int, int]:
+def prime_factorization(n: int) -> dict[int, int]:
     """
     Return prime factorization as a dictionary {prime: exponent}.
 
@@ -218,7 +218,7 @@ def prime_factorization(n: int) -> Dict[int, int]:
     if _HAS_SYMPY:
         return dict(_sp.ntheory.factorint(n))
 
-    result: Dict[int, int] = {}
+    result: dict[int, int] = {}
     for p in factor(n):
         result[p] = result.get(p, 0) + 1
     return result

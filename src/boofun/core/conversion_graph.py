@@ -13,7 +13,8 @@ truth_table is the one representation every other type can convert to/from.
 
 import warnings
 from collections import defaultdict
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any
+from collections.abc import Callable
 
 from .representations.registry import get_strategy
 from .spaces import Space
@@ -107,7 +108,7 @@ class ConversionEdge:
         source: str,
         target: str,
         cost: ConversionCost,
-        converter: Optional[Callable] = None,
+        converter: Callable | None = None,
     ):
         self.source = source
         self.target = target
@@ -121,7 +122,7 @@ class ConversionEdge:
 class ConversionPath:
     """Represents a complete conversion path between representations."""
 
-    def __init__(self, edges: List[ConversionEdge]):
+    def __init__(self, edges: list[ConversionEdge]):
         self.edges = edges
         self.source = edges[0].source if edges else None
         self.target = edges[-1].target if edges else None
@@ -193,7 +194,7 @@ class ConversionPath:
 _HUB = "truth_table"
 
 # (source, target) -> ConversionCost for direct edges only
-_DEFAULT_EDGES: Dict[Tuple[str, str], ConversionCost] = {
+_DEFAULT_EDGES: dict[tuple[str, str], ConversionCost] = {
     # truth_table -> X
     (_HUB, "fourier_expansion"): ConversionCost(100, 50, 0.0, True),
     (_HUB, "anf"): ConversionCost(30, 40, 0.0, True),
@@ -231,8 +232,8 @@ class ConversionGraph:
     """
 
     def __init__(self) -> None:
-        self.edges: Dict[str, List[ConversionEdge]] = defaultdict(list)
-        self.path_cache: Dict[Tuple[str, str], Optional[ConversionPath]] = {}
+        self.edges: dict[str, list[ConversionEdge]] = defaultdict(list)
+        self.path_cache: dict[tuple[str, str], ConversionPath | None] = {}
         self._build_default_graph()
 
     def _build_default_graph(self) -> None:
@@ -244,7 +245,7 @@ class ConversionGraph:
         source: str,
         target: str,
         cost: ConversionCost,
-        converter: Optional[Callable] = None,
+        converter: Callable | None = None,
     ) -> None:
         edge = ConversionEdge(source, target, cost, converter)
         self.edges[source].append(edge)
@@ -254,7 +255,7 @@ class ConversionGraph:
         source: str,
         target: str,
         cost: ConversionCost,
-        converter: Optional[Callable] = None,
+        converter: Callable | None = None,
     ) -> None:
         """Add a conversion edge to the graph."""
         self._add_edge_internal(source, target, cost, converter)
@@ -264,9 +265,9 @@ class ConversionGraph:
     # Path finding: two-level dispatch through truth_table
     # ------------------------------------------------------------------
 
-    def _find_direct_edge(self, source: str, target: str) -> Optional[ConversionEdge]:
+    def _find_direct_edge(self, source: str, target: str) -> ConversionEdge | None:
         """Return the cheapest direct edge from source to target, if any."""
-        best: Optional[ConversionEdge] = None
+        best: ConversionEdge | None = None
         for edge in self.edges.get(source, []):
             if edge.target == target:
                 if best is None or edge.cost < best.cost:
@@ -274,8 +275,8 @@ class ConversionGraph:
         return best
 
     def find_optimal_path(
-        self, source: str, target: str, n_vars: Optional[int] = None
-    ) -> Optional[ConversionPath]:
+        self, source: str, target: str, n_vars: int | None = None
+    ) -> ConversionPath | None:
         """
         Find a conversion path from source to target.
 
@@ -312,10 +313,10 @@ class ConversionGraph:
         return None
 
     def get_conversion_options(
-        self, source: str, max_cost: Optional[float] = None
-    ) -> Dict[str, ConversionPath]:
+        self, source: str, max_cost: float | None = None
+    ) -> dict[str, ConversionPath]:
         """Get all possible conversion targets from a source representation."""
-        options: Dict[str, ConversionPath] = {}
+        options: dict[str, ConversionPath] = {}
         all_targets = self._get_all_nodes() - {source}
 
         for target in all_targets:
@@ -326,14 +327,14 @@ class ConversionGraph:
         return options
 
     def estimate_conversion_cost(
-        self, source: str, target: str, n_vars: Optional[int] = None
-    ) -> Optional[ConversionCost]:
+        self, source: str, target: str, n_vars: int | None = None
+    ) -> ConversionCost | None:
         """Estimate conversion cost without executing the path."""
         path = self.find_optimal_path(source, target, n_vars)
         return path.total_cost if path else None
 
-    def _get_all_nodes(self) -> Set[str]:
-        nodes: Set[str] = set()
+    def _get_all_nodes(self) -> set[str]:
+        nodes: set[str] = set()
         nodes.update(self.edges.keys())
         for edge_list in self.edges.values():
             nodes.update(edge.target for edge in edge_list)
@@ -342,7 +343,7 @@ class ConversionGraph:
     def clear_cache(self) -> None:
         self.path_cache.clear()
 
-    def get_graph_stats(self) -> Dict[str, Any]:
+    def get_graph_stats(self) -> dict[str, Any]:
         all_nodes = self._get_all_nodes()
         total_edges = sum(len(edge_list) for edge_list in self.edges.values())
 
@@ -412,8 +413,8 @@ def get_conversion_graph() -> ConversionGraph:
 
 
 def find_conversion_path(
-    source: str, target: str, n_vars: Optional[int] = None
-) -> Optional[ConversionPath]:
+    source: str, target: str, n_vars: int | None = None
+) -> ConversionPath | None:
     """Find optimal conversion path between representations."""
     return _conversion_graph.find_optimal_path(source, target, n_vars)
 
@@ -426,14 +427,14 @@ def register_custom_conversion(
 
 
 def get_conversion_options(
-    source: str, max_cost: Optional[float] = None
-) -> Dict[str, ConversionPath]:
+    source: str, max_cost: float | None = None
+) -> dict[str, ConversionPath]:
     """Get all conversion options from a source representation."""
     return _conversion_graph.get_conversion_options(source, max_cost)
 
 
 def estimate_conversion_cost(
-    source: str, target: str, n_vars: Optional[int] = None
-) -> Optional[ConversionCost]:
+    source: str, target: str, n_vars: int | None = None
+) -> ConversionCost | None:
     """Estimate the cost of converting between representations."""
     return _conversion_graph.estimate_conversion_cost(source, target, n_vars)

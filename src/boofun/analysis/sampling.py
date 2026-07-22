@@ -26,7 +26,7 @@ References:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Dict, Iterator, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -51,7 +51,7 @@ __all__ = [
 ]
 
 
-def sample_uniform(n: int, n_samples: int, rng: Optional[np.random.Generator] = None) -> np.ndarray:
+def sample_uniform(n: int, n_samples: int, rng: np.random.Generator | None = None) -> np.ndarray:
     """
     Sample uniformly from {0,1}^n.
 
@@ -87,7 +87,7 @@ def sample_uniform(n: int, n_samples: int, rng: Optional[np.random.Generator] = 
 
 
 def sample_uniform_bits(
-    n: int, n_samples: int, rng: Optional[np.random.Generator] = None
+    n: int, n_samples: int, rng: np.random.Generator | None = None
 ) -> np.ndarray:
     """
     Sample uniformly from {0,1}^n, returning bit arrays.
@@ -110,7 +110,7 @@ def sample_uniform_bits(
 
 
 def sample_biased(
-    n: int, p: float, n_samples: int, rng: Optional[np.random.Generator] = None
+    n: int, p: float, n_samples: int, rng: np.random.Generator | None = None
 ) -> np.ndarray:
     """
     Sample from the p-biased distribution μ_p on {0,1}^n.
@@ -141,8 +141,8 @@ def sample_biased(
 
 
 def sample_input_output_pairs(
-    f: "BooleanFunction", n_samples: int, p: float = 0.5, rng: Optional[np.random.Generator] = None
-) -> Tuple[np.ndarray, np.ndarray]:
+    f: BooleanFunction, n_samples: int, p: float = 0.5, rng: np.random.Generator | None = None
+) -> tuple[np.ndarray, np.ndarray]:
     """
     Sample (input, output) pairs from a Boolean function.
 
@@ -176,7 +176,7 @@ def sample_input_output_pairs(
 
 
 def sample_spectral(
-    f: "BooleanFunction", n_samples: int, rng: Optional[np.random.Generator] = None
+    f: BooleanFunction, n_samples: int, rng: np.random.Generator | None = None
 ) -> np.ndarray:
     """
     Sample subsets S with probability proportional to f̂(S)².
@@ -229,13 +229,13 @@ def sample_spectral(
 
 
 def estimate_fourier_coefficient(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     S: int,
     n_samples: int,
     p: float = 0.5,
-    rng: Optional[np.random.Generator] = None,
+    rng: np.random.Generator | None = None,
     return_confidence: bool = False,
-) -> Union[float, Tuple[float, float]]:
+) -> float | tuple[float, float]:
     """
     Estimate Fourier coefficient f̂(S) via Monte Carlo sampling.
 
@@ -288,14 +288,14 @@ def estimate_fourier_coefficient(
 
 
 def estimate_fourier_adaptive(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     S: int,
     target_error: float = 0.01,
     confidence: float = 0.95,
     max_samples: int = 100000,
     batch_size: int = 1000,
-    rng: Optional[np.random.Generator] = None,
-) -> Tuple[float, float, int]:
+    rng: np.random.Generator | None = None,
+) -> tuple[float, float, int]:
     """
     Adaptively estimate f_hat(S) until standard error is below target.
 
@@ -342,12 +342,12 @@ def estimate_fourier_adaptive(
 
 
 def estimate_influence(
-    f: "BooleanFunction",
+    f: BooleanFunction,
     i: int,
     n_samples: int,
-    rng: Optional[np.random.Generator] = None,
+    rng: np.random.Generator | None = None,
     return_confidence: bool = False,
-) -> Union[float, Tuple[float, float]]:
+) -> float | tuple[float, float]:
     """
     Estimate influence of variable i via Monte Carlo sampling.
 
@@ -391,7 +391,7 @@ def estimate_influence(
 
 
 def estimate_expectation(
-    f: "BooleanFunction", n_samples: int, p: float = 0.5, rng: Optional[np.random.Generator] = None
+    f: BooleanFunction, n_samples: int, p: float = 0.5, rng: np.random.Generator | None = None
 ) -> float:
     """
     Estimate E[f] under the (p-biased) distribution.
@@ -416,7 +416,7 @@ def estimate_expectation(
 
 
 def estimate_variance(
-    f: "BooleanFunction", n_samples: int, p: float = 0.5, rng: Optional[np.random.Generator] = None
+    f: BooleanFunction, n_samples: int, p: float = 0.5, rng: np.random.Generator | None = None
 ) -> float:
     """
     Estimate Var[f] under the (p-biased) distribution.
@@ -439,7 +439,7 @@ def estimate_variance(
 
 
 def estimate_total_influence(
-    f: "BooleanFunction", n_samples: int, rng: Optional[np.random.Generator] = None
+    f: BooleanFunction, n_samples: int, rng: np.random.Generator | None = None
 ) -> float:
     """
     Estimate total influence I[f] = Σ_i Inf_i[f] via sampling.
@@ -501,7 +501,7 @@ class SpectralDistribution:
     n_vars: int
 
     @classmethod
-    def from_function(cls, f: "BooleanFunction") -> "SpectralDistribution":
+    def from_function(cls, f: BooleanFunction) -> SpectralDistribution:
         """Create spectral distribution from a Boolean function."""
         from . import SpectralAnalyzer
 
@@ -515,7 +515,7 @@ class SpectralDistribution:
 
         return cls(weights=weights, probabilities=probs, n_vars=n)
 
-    def sample(self, n_samples: int, rng: Optional[np.random.Generator] = None) -> np.ndarray:
+    def sample(self, n_samples: int, rng: np.random.Generator | None = None) -> np.ndarray:
         """Sample subsets from the spectral distribution."""
         if rng is None:
             rng = np.random.default_rng()
@@ -561,7 +561,7 @@ class RandomVariableView:
         p: Bias parameter for sampling (default 0.5 = uniform)
     """
 
-    def __init__(self, f: "BooleanFunction", p: float = 0.5):
+    def __init__(self, f: BooleanFunction, p: float = 0.5):
         """
         Initialize random variable view.
 
@@ -571,10 +571,10 @@ class RandomVariableView:
         """
         self.function = f
         self.p = p
-        self._spectral: Optional[SpectralDistribution] = None
+        self._spectral: SpectralDistribution | None = None
         self._rng = np.random.default_rng()
 
-    def seed(self, seed: int) -> "RandomVariableView":
+    def seed(self, seed: int) -> RandomVariableView:
         """Set random seed for reproducibility."""
         self._rng = np.random.default_rng(seed)
         return self
@@ -644,7 +644,7 @@ class RandomVariableView:
 
     # Sampling methods
 
-    def sample(self, n_samples: int) -> Tuple[np.ndarray, np.ndarray]:
+    def sample(self, n_samples: int) -> tuple[np.ndarray, np.ndarray]:
         """
         Sample (input, output) pairs.
 
@@ -679,7 +679,7 @@ class RandomVariableView:
 
     def estimate_fourier_coefficient(
         self, S: int, n_samples: int, return_confidence: bool = False
-    ) -> Union[float, Tuple[float, float]]:
+    ) -> float | tuple[float, float]:
         """Estimate f̂(S) via sampling."""
         return estimate_fourier_coefficient(
             self.function, S, n_samples, self.p, self._rng, return_confidence
@@ -687,7 +687,7 @@ class RandomVariableView:
 
     def estimate_influence(
         self, i: int, n_samples: int, return_confidence: bool = False
-    ) -> Union[float, Tuple[float, float]]:
+    ) -> float | tuple[float, float]:
         """Estimate Inf_i[f] via sampling."""
         return estimate_influence(self.function, i, n_samples, self._rng, return_confidence)
 
@@ -697,7 +697,7 @@ class RandomVariableView:
 
     # Comparison with exact values
 
-    def validate_estimates(self, n_samples: int = 10000, tolerance: float = 0.1) -> Dict[str, bool]:
+    def validate_estimates(self, n_samples: int = 10000, tolerance: float = 0.1) -> dict[str, bool]:
         """
         Validate that estimates are close to exact values.
 

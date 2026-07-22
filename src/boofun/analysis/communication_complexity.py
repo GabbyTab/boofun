@@ -14,7 +14,7 @@ References:
 - O'Donnell, "Analysis of Boolean Functions", Chapter 6
 """
 
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 from scipy.linalg import svdvals
@@ -67,7 +67,7 @@ def get_communication_matrix(f: "BooleanFunction") -> np.ndarray:
     return M
 
 
-def log_rank_bound(f: "BooleanFunction") -> Tuple[int, float]:
+def log_rank_bound(f: "BooleanFunction") -> tuple[int, float]:
     """
     Compute the log-rank lower bound on communication complexity.
 
@@ -93,7 +93,7 @@ def log_rank_bound(f: "BooleanFunction") -> Tuple[int, float]:
     return rank, lower_bound
 
 
-def fooling_set_bound(f: "BooleanFunction") -> Tuple[int, float]:
+def fooling_set_bound(f: "BooleanFunction") -> tuple[int, float]:
     """
     Compute fooling set lower bound on communication complexity.
 
@@ -123,7 +123,7 @@ def fooling_set_bound(f: "BooleanFunction") -> Tuple[int, float]:
             continue
 
         # Greedy construction of fooling set
-        fooling_set: List[Tuple[int, int]] = []
+        fooling_set: list[tuple[int, int]] = []
 
         for x, y in positions:
             # Check if (x, y) can be added to fooling set
@@ -146,7 +146,7 @@ def fooling_set_bound(f: "BooleanFunction") -> Tuple[int, float]:
 
 def rectangle_partition_bound(
     f: "BooleanFunction", max_iterations: int = 1000
-) -> Tuple[int, float]:
+) -> tuple[int, float]:
     """
     Estimate partition number (number of monochromatic rectangles needed).
 
@@ -265,7 +265,7 @@ def discrepancy(f: "BooleanFunction") -> float:
     return disc
 
 
-def deterministic_cc(f: "BooleanFunction") -> Dict[str, Any]:
+def deterministic_cc(f: "BooleanFunction") -> dict[str, Any]:
     """
     Analyze deterministic communication complexity.
 
@@ -322,9 +322,9 @@ class CommunicationMatrix:
         self.n: int = n_vars
         self.n_alice = self.n // 2
         self.n_bob = self.n - self.n_alice
-        self._matrix: Optional[np.ndarray] = None
-        self._rank: Optional[int] = None
-        self._svd: Optional[np.ndarray] = None
+        self._matrix: np.ndarray | None = None
+        self._rank: int | None = None
+        self._svd: np.ndarray | None = None
 
     @property
     def matrix(self) -> np.ndarray:
@@ -400,9 +400,9 @@ class CommunicationComplexityProfile:
         """
         self.function = f
         self.matrix = CommunicationMatrix(f)
-        self._analysis: Optional[Dict[str, Any]] = None
+        self._analysis: dict[str, Any] | None = None
 
-    def compute(self) -> Dict[str, Any]:
+    def compute(self) -> dict[str, Any]:
         """Compute full analysis."""
         if self._analysis is None:
             self._analysis = deterministic_cc(self.function)
@@ -431,7 +431,7 @@ class CommunicationComplexityProfile:
 
 
 # Standard function communication complexity
-def cc_inner_product(n: int) -> Dict[str, Any]:
+def cc_inner_product(n: int) -> dict[str, Any]:
     """
     Communication complexity of inner product function.
 
@@ -456,7 +456,7 @@ def cc_inner_product(n: int) -> Dict[str, Any]:
     }
 
 
-def cc_equality(n: int) -> Dict[str, Any]:
+def cc_equality(n: int) -> dict[str, Any]:
     """
     Communication complexity of equality function.
 
@@ -480,7 +480,7 @@ def cc_equality(n: int) -> Dict[str, Any]:
     }
 
 
-def cc_disjointness(n: int) -> Dict[str, Any]:
+def cc_disjointness(n: int) -> dict[str, Any]:
     """
     Communication complexity of disjointness function.
 

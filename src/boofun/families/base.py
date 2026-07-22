@@ -7,7 +7,8 @@ indexed by the number of variables n (and possibly other parameters).
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional
+from typing import TYPE_CHECKING, Any, Optional
+from collections.abc import Callable
 
 import numpy as np
 
@@ -21,17 +22,17 @@ class FamilyMetadata:
 
     name: str
     description: str
-    parameters: Dict[str, str] = field(default_factory=dict)
+    parameters: dict[str, str] = field(default_factory=dict)
 
     # Theoretical asymptotic behavior (formulas as strings or callables)
-    asymptotics: Dict[str, Any] = field(default_factory=dict)
+    asymptotics: dict[str, Any] = field(default_factory=dict)
 
     # Known properties that hold for all members
-    universal_properties: List[str] = field(default_factory=list)
+    universal_properties: list[str] = field(default_factory=list)
 
     # Constraints on n
-    n_constraints: Optional[Callable[[int], bool]] = None
-    n_constraint_description: Optional[str] = None
+    n_constraints: Callable[[int], bool] | None = None
+    n_constraint_description: str | None = None
 
 
 class FunctionFamily(ABC):
@@ -77,7 +78,7 @@ class FunctionFamily(ABC):
             return self.metadata.n_constraints(n)
         return n >= 1
 
-    def theoretical_value(self, property_name: str, n: int, **kwargs) -> Optional[float]:
+    def theoretical_value(self, property_name: str, n: int, **kwargs) -> float | None:
         """
         Get theoretical/asymptotic value for a property.
 
@@ -102,7 +103,7 @@ class FunctionFamily(ABC):
         else:
             return formula
 
-    def generate_range(self, n_values: List[int], **kwargs) -> Dict[int, "BooleanFunction"]:
+    def generate_range(self, n_values: list[int], **kwargs) -> dict[int, "BooleanFunction"]:
         """
         Generate functions for a range of n values.
 
@@ -145,8 +146,8 @@ class InductiveFamily(FunctionFamily):
     def __init__(
         self,
         name: str = "InductiveFamily",
-        base_cases: Optional[Dict[int, "BooleanFunction"]] = None,
-        step_function: Optional[Callable] = None,
+        base_cases: dict[int, "BooleanFunction"] | None = None,
+        step_function: Callable | None = None,
         step_size: int = 1,  # How many variables added per step
     ):
         """
@@ -162,7 +163,7 @@ class InductiveFamily(FunctionFamily):
         self._base_cases = base_cases or {}
         self._step_function = step_function
         self._step_size = step_size
-        self._cache: Dict[int, "BooleanFunction"] = {}
+        self._cache: dict[int, BooleanFunction] = {}
 
     @property
     def metadata(self) -> FamilyMetadata:
@@ -263,7 +264,7 @@ class WeightPatternFamily(FunctionFamily):
     def __init__(
         self,
         weight_function: Callable[[int, int], float],
-        threshold_function: Optional[Callable[[int], float]] = None,
+        threshold_function: Callable[[int], float] | None = None,
         name: str = "WeightPatternLTF",
     ):
         """

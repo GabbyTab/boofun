@@ -27,7 +27,8 @@ References:
 from __future__ import annotations
 
 from math import erf, exp, pi, sqrt
-from typing import TYPE_CHECKING, Callable, Dict, Optional, Tuple
+from typing import TYPE_CHECKING
+from collections.abc import Callable
 
 import numpy as np
 
@@ -136,7 +137,7 @@ def majority_noise_stability(n: int, rho: float) -> float:
     return (2 / pi) * np.arcsin(rho)
 
 
-def invariance_distance(f: "BooleanFunction", test_fn: Optional[Callable] = None) -> float:
+def invariance_distance(f: BooleanFunction, test_fn: Callable | None = None) -> float:
     """
     Estimate the invariance distance between Boolean and Gaussian expectations.
 
@@ -173,8 +174,8 @@ def invariance_distance(f: "BooleanFunction", test_fn: Optional[Callable] = None
 
 
 def multilinear_extension_gaussian_expectation(
-    f: "BooleanFunction", num_samples: int = 10000
-) -> Tuple[float, float]:
+    f: BooleanFunction, num_samples: int = 10000
+) -> tuple[float, float]:
     """
     Estimate E[f̃(G)] and E[sign(f̃(G))] via Monte Carlo.
 
@@ -211,7 +212,7 @@ def multilinear_extension_gaussian_expectation(
 
 
 def compute_test_function_expectation(
-    f: "BooleanFunction", test_fn: Callable[[float], float], domain: str = "boolean"
+    f: BooleanFunction, test_fn: Callable[[float], float], domain: str = "boolean"
 ) -> float:
     """
     Compute E[Ψ(f(x))] on either Boolean or Gaussian domain.
@@ -250,7 +251,7 @@ def compute_test_function_expectation(
         return float(np.mean(values))
 
 
-def noise_stability_deficit(f: "BooleanFunction", rho: float) -> float:
+def noise_stability_deficit(f: BooleanFunction, rho: float) -> float:
     """
     Compute how much less stable f is compared to majority at correlation rho.
 
@@ -277,7 +278,7 @@ def noise_stability_deficit(f: "BooleanFunction", rho: float) -> float:
     return maj_stability - f_stability
 
 
-def is_stablest_candidate(f: "BooleanFunction", epsilon: float = 0.01) -> bool:
+def is_stablest_candidate(f: BooleanFunction, epsilon: float = 0.01) -> bool:
     """
     Check if f is a candidate for being "stablest" among its influence class.
 
@@ -336,7 +337,7 @@ def max_cut_approximation_ratio(rho: float) -> float:
     return gw_ratio
 
 
-def unique_games_hardness_bound(f: "BooleanFunction") -> float:
+def unique_games_hardness_bound(f: BooleanFunction) -> float:
     """
     Estimate the UGC-hardness bound implied by f's noise stability.
 
@@ -376,7 +377,7 @@ class InvarianceAnalyzer:
     on the discrete hypercube matches its behavior on Gaussian space.
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: BooleanFunction):
         """
         Initialize invariance analyzer.
 
@@ -402,11 +403,11 @@ class InvarianceAnalyzer:
         """Check if f satisfies conditions for Majority is Stablest."""
         return is_stablest_candidate(self.function, epsilon)
 
-    def gaussian_expectation(self, num_samples: int = 10000) -> Tuple[float, float]:
+    def gaussian_expectation(self, num_samples: int = 10000) -> tuple[float, float]:
         """Estimate E[f̃(G)] via Monte Carlo."""
         return multilinear_extension_gaussian_expectation(self.function, num_samples)
 
-    def compare_domains(self) -> Dict[str, float]:
+    def compare_domains(self) -> dict[str, float]:
         """
         Compare function behavior on Boolean vs Gaussian domains.
 

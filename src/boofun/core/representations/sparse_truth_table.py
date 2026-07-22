@@ -5,7 +5,7 @@ This module implements memory-efficient sparse representations for Boolean funct
 where most outputs are 0 or 1, significantly reducing memory usage for large functions.
 """
 
-from typing import Any, Dict, Union
+from typing import Any
 
 import numpy as np
 
@@ -15,7 +15,7 @@ from .registry import register_strategy
 
 
 @register_strategy("sparse_truth_table")
-class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any]]):
+class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any]]):
     """
     Sparse truth table representation for memory efficiency.
 
@@ -38,8 +38,8 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
         self.compression_threshold = compression_threshold
 
     def evaluate(
-        self, inputs: np.ndarray, data: Dict[str, Any], space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+        self, inputs: np.ndarray, data: dict[str, Any], space: Space, n_vars: int
+    ) -> bool | np.ndarray:
         """
         Evaluate the sparse truth table at given inputs.
 
@@ -97,7 +97,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
         # LSB-first: binary_vector[i] corresponds to x_i, so index = Σ x_i * 2^i
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector))))
 
-    def dump(self, data: Dict[str, Any], space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: dict[str, Any], space=None, **kwargs) -> dict[str, Any]:
         """Export sparse truth table in serializable format."""
         return {
             "type": "sparse_truth_table",
@@ -116,7 +116,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
         space: Space,
         n_vars: int,
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Convert from any representation to sparse truth table."""
         size = 1 << n_vars
 
@@ -165,16 +165,16 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
         """Convert sparse truth table to another representation."""
         return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
-    def create_empty(self, n_vars: int, **kwargs) -> Dict[str, Any]:
+    def create_empty(self, n_vars: int, **kwargs) -> dict[str, Any]:
         """Create empty sparse truth table (all False)."""
         size = 1 << n_vars
         return {"default_value": False, "exceptions": {}, "n_vars": n_vars, "size": size}
 
-    def is_complete(self, data: Dict[str, Any]) -> bool:
+    def is_complete(self, data: dict[str, Any]) -> bool:
         """Check if representation is complete."""
         return "default_value" in data and "size" in data
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for sparse operations."""
         return {
             "evaluation": 1,  # O(1) - dictionary lookup
@@ -183,7 +183,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
             "space_complexity": 0,  # O(k) where k is number of exceptions
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return storage requirements for sparse representation."""
         size = 1 << n_vars
         # Best case: only a few exceptions
@@ -195,7 +195,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
             "space_complexity": "O(k) where k = number of exceptions",
         }
 
-    def get_compression_stats(self, data: Dict[str, Any]) -> Dict[str, float]:
+    def get_compression_stats(self, data: dict[str, Any]) -> dict[str, float]:
         """Get compression statistics."""
         size = data["size"]
         num_exceptions = len(data["exceptions"])
@@ -210,7 +210,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any
 
 
 @register_strategy("adaptive_truth_table")
-class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, Any]]):
+class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any]]):
     """
     Adaptive truth table that automatically chooses between dense and sparse formats.
 
@@ -233,8 +233,8 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, A
         self.dense_repr = TruthTableRepresentation()
 
     def evaluate(
-        self, inputs: np.ndarray, data: Dict[str, Any], space: Space, n_vars: int
-    ) -> Union[bool, np.ndarray]:
+        self, inputs: np.ndarray, data: dict[str, Any], space: Space, n_vars: int
+    ) -> bool | np.ndarray:
         """Evaluate using the appropriate internal representation."""
         if data["format"] == "sparse":
             return self.sparse_repr.evaluate(inputs, data["data"], space, n_vars)
@@ -248,7 +248,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, A
         space: Space,
         n_vars: int,
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Convert and choose optimal format."""
         # Try sparse conversion first
         sparse_data = self.sparse_repr.convert_from(source_repr, source_data, space, n_vars)
@@ -273,7 +273,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, A
         """Convert to another representation."""
         return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
-    def dump(self, data: Dict[str, Any], space=None, **kwargs) -> Dict[str, Any]:
+    def dump(self, data: dict[str, Any], space=None, **kwargs) -> dict[str, Any]:
         """Export adaptive representation."""
         base_info = {
             "type": "adaptive_truth_table",
@@ -288,7 +288,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, A
 
         return base_info
 
-    def create_empty(self, n_vars: int, **kwargs) -> Dict[str, Any]:
+    def create_empty(self, n_vars: int, **kwargs) -> dict[str, Any]:
         """Create empty adaptive representation."""
         return {
             "format": "sparse",  # Empty is always sparse-friendly
@@ -296,11 +296,11 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, A
             "compression_ratio": 0.0,
         }
 
-    def is_complete(self, data: Dict[str, Any]) -> bool:
+    def is_complete(self, data: dict[str, Any]) -> bool:
         """Check if representation is complete."""
         return "format" in data and "data" in data
 
-    def time_complexity_rank(self, n_vars: int) -> Dict[str, int]:
+    def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity (depends on chosen format)."""
         return {
             "evaluation": 1,  # O(1) for both formats
@@ -309,7 +309,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[Dict[str, A
             "space_complexity": 0,  # O(min(2^n, k)) adaptive
         }
 
-    def get_storage_requirements(self, n_vars: int) -> Dict[str, Any]:
+    def get_storage_requirements(self, n_vars: int) -> dict[str, Any]:
         """Return adaptive storage requirements."""
         size = 1 << n_vars
         return {

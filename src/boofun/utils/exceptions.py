@@ -39,7 +39,7 @@ Usage:
 """
 
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class ErrorCode(Enum):
@@ -138,9 +138,9 @@ class BooleanFunctionError(Exception):
     def __init__(
         self,
         message: str,
-        code: Optional[ErrorCode] = None,
-        context: Optional[Dict[str, Any]] = None,
-        suggestion: Optional[str] = None,
+        code: ErrorCode | None = None,
+        context: dict[str, Any] | None = None,
+        suggestion: str | None = None,
     ):
         self.message = message
         self.code = code or self.default_code
@@ -161,7 +161,7 @@ class BooleanFunctionError(Exception):
 
         return " | ".join(parts)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """
         Convert exception to dictionary for logging/serialization.
 
@@ -237,12 +237,12 @@ class InvalidInputError(ValidationError):
     def __init__(
         self,
         message: str,
-        code: Optional[ErrorCode] = None,
-        parameter: Optional[str] = None,
+        code: ErrorCode | None = None,
+        parameter: str | None = None,
         received: Any = None,
-        expected: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
-        suggestion: Optional[str] = None,
+        expected: str | None = None,
+        context: dict[str, Any] | None = None,
+        suggestion: str | None = None,
     ):
         ctx = context or {}
         if parameter:
@@ -278,11 +278,11 @@ class InvalidRepresentationError(ValidationError):
     def __init__(
         self,
         message: str,
-        code: Optional[ErrorCode] = None,
-        representation: Optional[str] = None,
-        available: Optional[List[str]] = None,
-        context: Optional[Dict[str, Any]] = None,
-        suggestion: Optional[str] = None,
+        code: ErrorCode | None = None,
+        representation: str | None = None,
+        available: list[str] | None = None,
+        context: dict[str, Any] | None = None,
+        suggestion: str | None = None,
     ):
         ctx = context or {}
         if representation:
@@ -318,11 +318,11 @@ class InvalidTruthTableError(ValidationError):
     def __init__(
         self,
         message: str,
-        code: Optional[ErrorCode] = None,
-        size: Optional[int] = None,
-        expected_size: Optional[Any] = None,
-        context: Optional[Dict[str, Any]] = None,
-        suggestion: Optional[str] = None,
+        code: ErrorCode | None = None,
+        size: int | None = None,
+        expected_size: Any | None = None,
+        context: dict[str, Any] | None = None,
+        suggestion: str | None = None,
     ):
         ctx = context or {}
         if size is not None:
@@ -365,11 +365,11 @@ class EvaluationError(BooleanFunctionError):
     def __init__(
         self,
         message: str,
-        code: Optional[ErrorCode] = None,
+        code: ErrorCode | None = None,
         input_value: Any = None,
-        representation: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
-        suggestion: Optional[str] = None,
+        representation: str | None = None,
+        context: dict[str, Any] | None = None,
+        suggestion: str | None = None,
     ):
         ctx = context or {}
         if input_value is not None:
@@ -410,11 +410,11 @@ class ConversionError(BooleanFunctionError):
     def __init__(
         self,
         message: str,
-        code: Optional[ErrorCode] = None,
-        source_repr: Optional[str] = None,
-        target_repr: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
-        suggestion: Optional[str] = None,
+        code: ErrorCode | None = None,
+        source_repr: str | None = None,
+        target_repr: str | None = None,
+        context: dict[str, Any] | None = None,
+        suggestion: str | None = None,
     ):
         ctx = context or {}
         if source_repr:
@@ -485,10 +485,10 @@ class ResourceUnavailableError(BooleanFunctionError):
     def __init__(
         self,
         message: str,
-        code: Optional[ErrorCode] = None,
-        resource: Optional[str] = None,
-        install_hint: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
+        code: ErrorCode | None = None,
+        resource: str | None = None,
+        install_hint: str | None = None,
+        context: dict[str, Any] | None = None,
     ):
         ctx = context or {}
         if resource:
@@ -532,8 +532,8 @@ class InvariantViolationError(BooleanFunctionError):
     def __init__(
         self,
         message: str,
-        code: Optional[ErrorCode] = None,
-        context: Optional[Dict[str, Any]] = None,
+        code: ErrorCode | None = None,
+        context: dict[str, Any] | None = None,
     ):
         suggestion = "This is likely a bug in BooFun. Please report it at https://github.com/boofun/boofun/issues"
         super().__init__(message, code, context, suggestion)

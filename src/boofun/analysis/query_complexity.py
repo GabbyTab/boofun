@@ -25,7 +25,7 @@ References:
 from __future__ import annotations
 
 from math import sqrt
-from typing import TYPE_CHECKING, Dict, Optional
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -66,7 +66,7 @@ __all__ = [
 ]
 
 
-def deterministic_query_complexity(f: "BooleanFunction") -> int:
+def deterministic_query_complexity(f: BooleanFunction) -> int:
     """
     Compute D(f), the deterministic query complexity (worst-case).
 
@@ -84,7 +84,7 @@ def deterministic_query_complexity(f: "BooleanFunction") -> int:
     return decision_tree_depth(f)
 
 
-def average_deterministic_complexity(f: "BooleanFunction") -> float:
+def average_deterministic_complexity(f: BooleanFunction) -> float:
     """
     Compute D_avg(f), the average-case deterministic query complexity.
 
@@ -125,7 +125,7 @@ def average_deterministic_complexity(f: "BooleanFunction") -> float:
     return total_queries / size
 
 
-def zero_error_randomized_complexity(f: "BooleanFunction") -> float:
+def zero_error_randomized_complexity(f: BooleanFunction) -> float:
     """
     Compute R0(f), the zero-error randomized query complexity.
 
@@ -169,7 +169,7 @@ def zero_error_randomized_complexity(f: "BooleanFunction") -> float:
     return max(lower_bound, min(approx, upper_bound))
 
 
-def bounded_error_randomized_complexity(f: "BooleanFunction", error: float = 1 / 3) -> float:
+def bounded_error_randomized_complexity(f: BooleanFunction, error: float = 1 / 3) -> float:
     """
     Compute R2(f), the bounded-error randomized query complexity.
 
@@ -209,7 +209,7 @@ def bounded_error_randomized_complexity(f: "BooleanFunction", error: float = 1 /
     return max(lower_bound, min(lower_bound * 1.5, upper_bound))
 
 
-def one_sided_randomized_complexity(f: "BooleanFunction", side: int = 1) -> float:
+def one_sided_randomized_complexity(f: BooleanFunction, side: int = 1) -> float:
     """
     Compute R1(f), the one-sided-error randomized query complexity.
 
@@ -243,7 +243,7 @@ def one_sided_randomized_complexity(f: "BooleanFunction", side: int = 1) -> floa
     return max(lower_bound, min(r0_approx, D))
 
 
-def nondeterministic_complexity(f: "BooleanFunction", side: int = 1) -> float:
+def nondeterministic_complexity(f: BooleanFunction, side: int = 1) -> float:
     """
     Compute NR(f), the nondeterministic query complexity.
 
@@ -276,7 +276,7 @@ def nondeterministic_complexity(f: "BooleanFunction", side: int = 1) -> float:
     return min_cert if min_cert <= n else 0.0
 
 
-def everywhere_sensitivity(f: "BooleanFunction") -> int:
+def everywhere_sensitivity(f: BooleanFunction) -> int:
     """
     Compute es(f), the everywhere sensitivity.
 
@@ -296,7 +296,7 @@ def everywhere_sensitivity(f: "BooleanFunction") -> int:
     return min_sensitivity(f)
 
 
-def average_everywhere_sensitivity(f: "BooleanFunction", value: Optional[int] = None) -> float:
+def average_everywhere_sensitivity(f: BooleanFunction, value: int | None = None) -> float:
     """
     Compute esu(f), the average everywhere sensitivity.
 
@@ -327,7 +327,7 @@ def average_everywhere_sensitivity(f: "BooleanFunction", value: Optional[int] = 
     return float(np.mean(sensitivities)) if sensitivities else 0.0
 
 
-def quantum_query_complexity(f: "BooleanFunction") -> float:
+def quantum_query_complexity(f: BooleanFunction) -> float:
     """
     Estimate Q2(f), the bounded-error quantum query complexity.
 
@@ -367,7 +367,7 @@ def quantum_query_complexity(f: "BooleanFunction") -> float:
     return max(lower_bound, min(sqrt(D), upper_bound))
 
 
-def exact_quantum_complexity(f: "BooleanFunction") -> float:
+def exact_quantum_complexity(f: BooleanFunction) -> float:
     """
     Estimate QE(f), the exact quantum query complexity.
 
@@ -407,7 +407,7 @@ def exact_quantum_complexity(f: "BooleanFunction") -> float:
     return max(lower_bound, min(D, sqrt(D) * 2))
 
 
-def spectral_adversary_bound(f: "BooleanFunction") -> float:
+def spectral_adversary_bound(f: BooleanFunction) -> float:
     """
     Compute the spectral adversary bound for Q2(f).
 
@@ -470,7 +470,7 @@ def spectral_adversary_bound(f: "BooleanFunction") -> float:
     return ambainis_complexity(f)
 
 
-def ambainis_complexity(f: "BooleanFunction") -> float:
+def ambainis_complexity(f: BooleanFunction) -> float:
     """
     Compute the Ambainis adversary bound, a lower bound for Q2(f).
 
@@ -532,7 +532,7 @@ def ambainis_complexity(f: "BooleanFunction") -> float:
     return bound
 
 
-def certificate_lower_bound(f: "BooleanFunction") -> int:
+def certificate_lower_bound(f: BooleanFunction) -> int:
     """
     Compute lower bound on D(f) from certificate complexity.
 
@@ -552,7 +552,7 @@ def certificate_lower_bound(f: "BooleanFunction") -> int:
     return max(C0, C1)
 
 
-def sensitivity_lower_bound(f: "BooleanFunction") -> int:
+def sensitivity_lower_bound(f: BooleanFunction) -> int:
     """
     Compute lower bound on D(f) from sensitivity.
 
@@ -569,7 +569,7 @@ def sensitivity_lower_bound(f: "BooleanFunction") -> int:
     return max_sensitivity(f)
 
 
-def block_sensitivity_lower_bound(f: "BooleanFunction") -> int:
+def block_sensitivity_lower_bound(f: BooleanFunction) -> int:
     """
     Compute lower bound on D(f) from block sensitivity.
 
@@ -588,7 +588,7 @@ def block_sensitivity_lower_bound(f: "BooleanFunction") -> int:
     return max_block_sensitivity(f)
 
 
-def approximate_degree(f: "BooleanFunction", epsilon: float = 1 / 3) -> float:
+def approximate_degree(f: BooleanFunction, epsilon: float = 1 / 3) -> float:
     """
     Estimate the approximate degree deg_epsilon(f).
 
@@ -624,7 +624,7 @@ def approximate_degree(f: "BooleanFunction", epsilon: float = 1 / 3) -> float:
 
 
 def one_sided_approximate_degree(
-    f: "BooleanFunction", side: int = 1, epsilon: float = 1 / 3
+    f: BooleanFunction, side: int = 1, epsilon: float = 1 / 3
 ) -> float:
     """
     Estimate deg1(f), the one-sided approximate degree.
@@ -658,7 +658,7 @@ def one_sided_approximate_degree(
     return max(sqrt(C_side), deg2)
 
 
-def nondeterministic_degree(f: "BooleanFunction", side: int = 1) -> float:
+def nondeterministic_degree(f: BooleanFunction, side: int = 1) -> float:
     """
     Estimate ndeg(f), the nondeterministic degree.
 
@@ -698,7 +698,7 @@ def nondeterministic_degree(f: "BooleanFunction", side: int = 1) -> float:
     return min_cert if min_cert <= n else 0.0
 
 
-def strong_nondeterministic_degree(f: "BooleanFunction") -> float:
+def strong_nondeterministic_degree(f: BooleanFunction) -> float:
     """
     Estimate degs(f), the strong nondeterministic degree.
 
@@ -719,7 +719,7 @@ def strong_nondeterministic_degree(f: "BooleanFunction") -> float:
     return max(ndeg0, ndeg1)
 
 
-def weak_nondeterministic_degree(f: "BooleanFunction") -> float:
+def weak_nondeterministic_degree(f: BooleanFunction) -> float:
     """
     Estimate degw(f), the weak nondeterministic degree.
 
@@ -737,7 +737,7 @@ def weak_nondeterministic_degree(f: "BooleanFunction") -> float:
     return min(ndeg0, ndeg1)
 
 
-def threshold_degree(f: "BooleanFunction") -> int:
+def threshold_degree(f: BooleanFunction) -> int:
     """
     Compute the threshold degree of f (degree as a sign-polynomial).
 
@@ -760,7 +760,7 @@ def threshold_degree(f: "BooleanFunction") -> int:
     return fourier_degree(f)
 
 
-def polynomial_method_bound(f: "BooleanFunction") -> float:
+def polynomial_method_bound(f: BooleanFunction) -> float:
     """
     Compute lower bound on Q2(f) via the polynomial method.
 
@@ -787,7 +787,7 @@ def polynomial_method_bound(f: "BooleanFunction") -> float:
     return approx_deg / 2
 
 
-def general_adversary_bound(f: "BooleanFunction") -> float:
+def general_adversary_bound(f: BooleanFunction) -> float:
     """
     Estimate the general (negative-weight) adversary bound for Q2(f).
 
@@ -834,7 +834,7 @@ class QueryComplexityProfile:
     Boolean Function Wizard.
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: BooleanFunction):
         """
         Initialize query complexity profile.
 
@@ -844,9 +844,9 @@ class QueryComplexityProfile:
         self.function = f
         self.n_vars = f.n_vars
         self._computed = False
-        self._measures: Dict[str, float] = {}
+        self._measures: dict[str, float] = {}
 
-    def compute(self) -> Dict[str, float]:
+    def compute(self) -> dict[str, float]:
         """
         Compute all query complexity measures.
 
@@ -982,7 +982,7 @@ class QueryComplexityProfile:
 
         return "\n".join(lines)
 
-    def check_known_relations(self) -> Dict[str, bool]:
+    def check_known_relations(self) -> dict[str, bool]:
         """
         Verify known relationships between complexity measures.
 

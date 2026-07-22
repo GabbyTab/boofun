@@ -12,7 +12,8 @@ import logging
 import warnings
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any
+from collections.abc import Callable
 
 import numpy as np
 
@@ -53,14 +54,14 @@ class Marker:
     compute_fn: Callable[["BooleanFunction"], Any]
     marker_type: MarkerType = MarkerType.SCALAR
     description: str = ""
-    theoretical_fn: Optional[Callable[[int], Any]] = None
-    params: Dict[str, Any] = field(default_factory=dict)
+    theoretical_fn: Callable[[int], Any] | None = None
+    params: dict[str, Any] = field(default_factory=dict)
 
     def compute(self, f: "BooleanFunction") -> Any:
         """Compute the marked value for a function."""
         return self.compute_fn(f)
 
-    def theoretical(self, n: int) -> Optional[Any]:
+    def theoretical(self, n: int) -> Any | None:
         """Get theoretical value if available."""
         if self.theoretical_fn is not None:
             return self.theoretical_fn(n)
@@ -71,7 +72,7 @@ class PropertyMarker:
     """Factory for common property markers."""
 
     @staticmethod
-    def total_influence(theoretical: Optional[Callable[[int], float]] = None) -> Marker:
+    def total_influence(theoretical: Callable[[int], float] | None = None) -> Marker:
         """Track total influence I[f]."""
 
         def compute(f):
@@ -88,7 +89,7 @@ class PropertyMarker:
         )
 
     @staticmethod
-    def influences(variable: Optional[int] = None) -> Marker:
+    def influences(variable: int | None = None) -> Marker:
         """Track variable influences."""
 
         def compute(f):
@@ -112,7 +113,7 @@ class PropertyMarker:
 
     @staticmethod
     def noise_stability(
-        rho: float = 0.5, theoretical: Optional[Callable[[int, float], float]] = None
+        rho: float = 0.5, theoretical: Callable[[int, float], float] | None = None
     ) -> Marker:
         """Track noise stability Stab_ρ[f]."""
 
@@ -266,7 +267,7 @@ class PropertyMarker:
         compute_fn: Callable[["BooleanFunction"], Any],
         marker_type: MarkerType = MarkerType.SCALAR,
         description: str = "",
-        theoretical_fn: Optional[Callable[[int], Any]] = None,
+        theoretical_fn: Callable[[int], Any] | None = None,
     ) -> Marker:
         """Create a custom marker."""
         return Marker(
@@ -283,12 +284,12 @@ class TrackingResult:
     """Results of tracking a property across n values."""
 
     marker: Marker
-    n_values: List[int]
-    computed_values: List[Any]
-    theoretical_values: Optional[List[Any]] = None
-    computation_times: Optional[List[float]] = None
+    n_values: list[int]
+    computed_values: list[Any]
+    theoretical_values: list[Any] | None = None
+    computation_times: list[float] | None = None
 
-    def to_arrays(self) -> Tuple[np.ndarray, np.ndarray, Optional[np.ndarray]]:
+    def to_arrays(self) -> tuple[np.ndarray, np.ndarray, np.ndarray | None]:
         """Convert to numpy arrays for plotting."""
         n_arr = np.array(self.n_values)
         computed_arr = np.array(self.computed_values)
@@ -319,9 +320,9 @@ class GrowthTracker:
             family: The function family to track
         """
         self.family = family
-        self.markers: Dict[str, Marker] = {}
-        self.results: Dict[str, TrackingResult] = {}
-        self._functions_cache: Dict[int, "BooleanFunction"] = {}
+        self.markers: dict[str, Marker] = {}
+        self.results: dict[str, TrackingResult] = {}
+        self._functions_cache: dict[int, BooleanFunction] = {}
 
     def mark(self, property_name: str, **kwargs) -> "GrowthTracker":
         """
@@ -404,13 +405,13 @@ class GrowthTracker:
 
     def observe(
         self,
-        n_values: Optional[List[int]] = None,
-        n_range: Optional[range] = None,
+        n_values: list[int] | None = None,
+        n_range: range | None = None,
         n_min: int = 3,
         n_max: int = 15,
         step: int = 2,
         verbose: bool = False,
-    ) -> Dict[str, TrackingResult]:
+    ) -> dict[str, TrackingResult]:
         """
         Observe the family over a range of n values.
 
@@ -498,7 +499,7 @@ class GrowthTracker:
 
         return self.results
 
-    def get_result(self, marker_name: str) -> Optional[TrackingResult]:
+    def get_result(self, marker_name: str) -> TrackingResult | None:
         """Get tracking result for a specific marker."""
         return self.results.get(marker_name)
 
@@ -559,7 +560,7 @@ class GrowthTracker:
 
         return ax
 
-    def plot_all(self, show_theory: bool = True, figsize: Tuple[int, int] = (15, 4)):
+    def plot_all(self, show_theory: bool = True, figsize: tuple[int, int] = (15, 4)):
         """Plot all tracked markers in subplots."""
         try:
             import matplotlib.pyplot as plt
