@@ -69,7 +69,6 @@ class BooleanFunction(Evaluable, Representable):
         self,
         space: str = "plus_minus_cube",
         error_model: Any | None = None,
-        storage_manager: Any | None = None,
         **kwargs: Any,
     ) -> None:
         self.space = self._create_space(space)

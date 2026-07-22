@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Minimum supported Python version is now 3.10; Python 3.8 and 3.9 are no longer
   supported because both releases have reached end of life
 
+### Removed
+
+- The unused `storage_manager` parameter of `BooleanFunction.__init__`; it was
+  accepted but never read
+
 ---
 
 ## [1.2.0] - 2026-02-07
