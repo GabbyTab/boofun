@@ -1,0 +1,472 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contributing to BooFun &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="BooFun Style Guide" href="STYLE_GUIDE.html" />
+    <link rel="prev" title="Cross-Validation" href="cross_validation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contributing to BooFun</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#project-structure">Project Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#key-concepts">Key Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bit-ordering-convention">Bit-Ordering Convention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fourier-convention">Fourier Convention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#representations">Representations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#development-workflow">Development Workflow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#before-making-changes">Before Making Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-changes">Making Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-style">Code Style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-tests">Writing Tests</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#test-correctness-not-just-no-exception">Test Correctness, Not Just “No Exception”</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#golden-tests-for-bit-ordering">Golden Tests for Bit-Ordering</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#commit-messages">Commit Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-guidelines">Testing Guidelines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#test-categories">Test Categories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-specific-tests">Running Specific Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#common-tasks">Common Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-new-analysis-function">Adding a New Analysis Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-new-representation">Adding a New Representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debugging-numba-issues">Debugging Numba Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-help">Getting Help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mathematical-references">Mathematical References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Contributing to BooFun</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/CONTRIBUTING.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="contributing-to-boofun">
+<h1>Contributing to BooFun<a class="headerlink" href="#contributing-to-boofun" title="Link to this heading"></a></h1>
+<p>Welcome! This guide helps you set up your development environment and navigate the codebase.</p>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/GabbyTab/boofun.git
+<span class="nb">cd</span><span class="w"> </span>boofun
+
+<span class="c1"># Create virtual environment (recommended)</span>
+python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate<span class="w">  </span><span class="c1"># Linux/macOS</span>
+<span class="c1"># .venv\Scripts\activate   # Windows</span>
+
+<span class="c1"># Install in development mode with all dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev,visualization]&quot;</span>
+
+<span class="c1"># Set up pre-commit hooks</span>
+pre-commit<span class="w"> </span>install
+
+<span class="c1"># Run tests to verify setup</span>
+pytest<span class="w"> </span>tests/<span class="w"> </span>-v<span class="w"> </span>--tb<span class="o">=</span>short
+</pre></div>
+</div>
+<p>Or use Docker:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>up<span class="w"> </span>dev<span class="w">      </span><span class="c1"># Interactive dev shell</span>
+docker-compose<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span><span class="w">    </span><span class="c1"># Run tests</span>
+docker-compose<span class="w"> </span>up<span class="w"> </span>notebook<span class="w"> </span><span class="c1"># Jupyter at localhost:8888</span>
+</pre></div>
+</div>
+</section>
+<section id="project-structure">
+<h2>Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>boofun/
+├── src/boofun/           # Main library code
+│   ├── __init__.py       # Public API exports
+│   ├── api.py            # High-level create() function
+│   ├── core/             # Core Boolean function implementation
+│   │   ├── base.py       # BooleanFunction class
+│   │   ├── builtins.py   # Built-in functions (AND, OR, majority, etc.)
+│   │   ├── optimizations.py  # Numba-accelerated algorithms
+│   │   ├── representations/  # Different function representations
+│   │   └── conversion_graph.py  # Automatic conversions
+│   ├── analysis/         # Analysis modules
+│   │   ├── fourier.py    # Fourier/spectral analysis
+│   │   ├── sensitivity.py    # Sensitivity measures
+│   │   ├── query_complexity.py  # BFW-style complexity
+│   │   └── ...
+│   ├── testing/          # Property testing (BLR, monotonicity, etc.)
+│   ├── families/         # Function families with growth analysis
+│   ├── quantum_complexity/  # Quantum complexity bounds (classical computation)
+│   └── visualization/    # Plotting and visualization
+├── tests/                # Test suite
+│   ├── core/             # Core functionality tests
+│   ├── analysis/         # Analysis module tests
+│   ├── correctness/      # Mathematical correctness tests
+│   └── golden/           # Golden test data
+├── notebooks/            # Educational Jupyter notebooks
+├── examples/             # Example scripts
+└── docs/                 # Documentation
+</pre></div>
+</div>
+</section>
+<section id="key-concepts">
+<h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading"></a></h2>
+<section id="bit-ordering-convention">
+<h3>Bit-Ordering Convention<a class="headerlink" href="#bit-ordering-convention" title="Link to this heading"></a></h3>
+<p>BooFun uses <strong>LSB = x₀</strong> (least significant bit is variable 0):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># For n=3 variables, input index 5 = 0b101 means:</span>
+<span class="c1"># x₀ = 1, x₁ = 0, x₂ = 1</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">index_to_bits</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert integer index to variable assignment.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">idx</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+<span class="c1"># Example: index 5 with n=3 → [1, 0, 1] → x₀=1, x₁=0, x₂=1</span>
+</pre></div>
+</div>
+</section>
+<section id="fourier-convention">
+<h3>Fourier Convention<a class="headerlink" href="#fourier-convention" title="Link to this heading"></a></h3>
+<p>BooFun follows the <strong>O’Donnell convention</strong> (Analysis of Boolean Functions):</p>
+<ul class="simple">
+<li><p>Boolean domain: <code class="docutils literal notranslate"><span class="pre">{0,</span> <span class="pre">1}</span></code> maps to <code class="docutils literal notranslate"><span class="pre">{+1,</span> <span class="pre">-1}</span></code> via <code class="docutils literal notranslate"><span class="pre">(-1)^x</span></code></p></li>
+<li><p>Fourier basis: <code class="docutils literal notranslate"><span class="pre">χ_S(x)</span> <span class="pre">=</span> <span class="pre">∏_{i∈S}</span> <span class="pre">(-1)^{x_i}</span></code></p></li>
+<li><p>Parseval: <code class="docutils literal notranslate"><span class="pre">∑_S</span> <span class="pre">f̂(S)²</span> <span class="pre">=</span> <span class="pre">1</span></code> for balanced functions</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Truth table to ±1 conversion</span>
+<span class="n">pm_values</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">truth_table</span>  <span class="c1"># 0→+1, 1→-1</span>
+
+<span class="c1"># Fourier coefficients satisfy Parseval&#39;s identity</span>
+<span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">coeff</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="n">fourier_coeffs</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span>
+</pre></div>
+</div>
+</section>
+<section id="representations">
+<h3>Representations<a class="headerlink" href="#representations" title="Link to this heading"></a></h3>
+<p>Boolean functions can have multiple representations:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Representation</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Use Case</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">truth_table</span></code></p></td>
+<td><p>Array of 2^n outputs</p></td>
+<td><p>Small n, exact operations</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">anf</span></code></p></td>
+<td><p>Algebraic Normal Form</p></td>
+<td><p>GF(2) analysis</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fourier</span></code></p></td>
+<td><p>Fourier coefficients</p></td>
+<td><p>Spectral analysis</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">function</span></code></p></td>
+<td><p>Python callable</p></td>
+<td><p>Large n, lazy evaluation</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">circuit</span></code></p></td>
+<td><p>Gate-based circuit</p></td>
+<td><p>Complexity analysis</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bdd</span></code></p></td>
+<td><p>Binary Decision Diagram</p></td>
+<td><p>SAT, optimization</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="development-workflow">
+<h2>Development Workflow<a class="headerlink" href="#development-workflow" title="Link to this heading"></a></h2>
+<section id="before-making-changes">
+<h3>Before Making Changes<a class="headerlink" href="#before-making-changes" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Create a feature branch: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-b</span> <span class="pre">feature/my-feature</span></code></p></li>
+<li><p>Ensure pre-commit hooks are installed: <code class="docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">install</span></code></p></li>
+</ol>
+</section>
+<section id="making-changes">
+<h3>Making Changes<a class="headerlink" href="#making-changes" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Write tests first (TDD recommended)</p></li>
+<li><p>Implement your changes</p></li>
+<li><p>Run pre-commit: <code class="docutils literal notranslate"><span class="pre">pre-commit</span> <span class="pre">run</span> <span class="pre">--all-files</span></code></p></li>
+<li><p>Run tests: <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">tests/</span> <span class="pre">-v</span></code></p></li>
+<li><p>Check types: <code class="docutils literal notranslate"><span class="pre">mypy</span> <span class="pre">src/boofun</span> <span class="pre">--ignore-missing-imports</span></code></p></li>
+</ol>
+</section>
+<section id="code-style">
+<h3>Code Style<a class="headerlink" href="#code-style" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Formatting</strong>: Black (line length 100)</p></li>
+<li><p><strong>Imports</strong>: isort (black profile)</p></li>
+<li><p><strong>Linting</strong>: flake8</p></li>
+<li><p><strong>Types</strong>: mypy (strict mode goal)</p></li>
+</ul>
+</section>
+<section id="writing-tests">
+<h3>Writing Tests<a class="headerlink" href="#writing-tests" title="Link to this heading"></a></h3>
+<section id="test-correctness-not-just-no-exception">
+<h4>Test Correctness, Not Just “No Exception”<a class="headerlink" href="#test-correctness-not-just-no-exception" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BAD: Only checks no exception</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_majority_runs</span><span class="p">():</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>  <span class="c1"># No assertion!</span>
+
+<span class="c1"># GOOD: Verifies mathematical correctness</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_majority_fourier_correctness</span><span class="p">():</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">majority</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">fourier</span><span class="p">()</span>
+
+    <span class="c1"># Verify Parseval&#39;s identity</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">coeffs</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span>
+
+    <span class="c1"># Verify known property: majority has specific weight distribution</span>
+    <span class="n">total_influence</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span> <span class="k">if</span> <span class="nb">bin</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">total_influence</span> <span class="o">&lt;</span> <span class="n">f</span><span class="o">.</span><span class="n">n_vars</span>
+</pre></div>
+</div>
+</section>
+<section id="golden-tests-for-bit-ordering">
+<h4>Golden Tests for Bit-Ordering<a class="headerlink" href="#golden-tests-for-bit-ordering" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_bit_ordering_golden</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify bit-ordering matches golden data.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tests/golden/bit_ordering.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">golden</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">golden</span><span class="p">[</span><span class="s1">&#39;cases&#39;</span><span class="p">]:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">bf</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">case</span><span class="p">[</span><span class="s1">&#39;n&#39;</span><span class="p">],</span> <span class="n">truth_table</span><span class="o">=</span><span class="n">case</span><span class="p">[</span><span class="s1">&#39;truth_table&#39;</span><span class="p">])</span>
+        <span class="k">assert</span> <span class="n">f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">case</span><span class="p">[</span><span class="s1">&#39;input&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="n">case</span><span class="p">[</span><span class="s1">&#39;expected_output&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="commit-messages">
+<h3>Commit Messages<a class="headerlink" href="#commit-messages" title="Link to this heading"></a></h3>
+<p>Follow conventional commits:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">feat</span><span class="p">:</span> <span class="n">add</span> <span class="n">noise</span> <span class="n">stability</span> <span class="n">computation</span>
+<span class="n">fix</span><span class="p">:</span> <span class="n">correct</span> <span class="n">bit</span><span class="o">-</span><span class="n">ordering</span> <span class="ow">in</span> <span class="n">ANF</span> <span class="n">conversion</span>
+<span class="n">docs</span><span class="p">:</span> <span class="n">update</span> <span class="n">Fourier</span> <span class="n">convention</span> <span class="n">documentation</span>
+<span class="n">test</span><span class="p">:</span> <span class="n">add</span> <span class="n">golden</span> <span class="n">tests</span> <span class="k">for</span> <span class="n">majority</span> <span class="n">function</span>
+<span class="n">refactor</span><span class="p">:</span> <span class="n">extract</span> <span class="n">WHT</span> <span class="n">to</span> <span class="n">separate</span> <span class="n">module</span>
+<span class="n">perf</span><span class="p">:</span> <span class="n">optimize</span> <span class="n">influence</span> <span class="n">computation</span> <span class="k">with</span> <span class="n">Numba</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing-guidelines">
+<h2>Testing Guidelines<a class="headerlink" href="#testing-guidelines" title="Link to this heading"></a></h2>
+<section id="test-categories">
+<h3>Test Categories<a class="headerlink" href="#test-categories" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p><strong>Unit Tests</strong> (<code class="docutils literal notranslate"><span class="pre">tests/unit/</span></code>): Test individual functions</p></li>
+<li><p><strong>Integration Tests</strong> (<code class="docutils literal notranslate"><span class="pre">tests/integration/</span></code>): Test module interactions</p></li>
+<li><p><strong>Correctness Tests</strong> (<code class="docutils literal notranslate"><span class="pre">tests/correctness/</span></code>): Mathematical verification</p></li>
+<li><p><strong>Golden Tests</strong> (<code class="docutils literal notranslate"><span class="pre">tests/golden/</span></code>): Regression with known-good data</p></li>
+<li><p><strong>Property Tests</strong> (<code class="docutils literal notranslate"><span class="pre">tests/property/</span></code>): Hypothesis-based fuzzing</p></li>
+<li><p><strong>Adversarial Tests</strong> (<code class="docutils literal notranslate"><span class="pre">tests/adversarial/</span></code>): Edge cases and stress tests</p></li>
+</ol>
+</section>
+<section id="running-specific-tests">
+<h3>Running Specific Tests<a class="headerlink" href="#running-specific-tests" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run all tests</span>
+pytest<span class="w"> </span>tests/
+
+<span class="c1"># Run specific category</span>
+pytest<span class="w"> </span>tests/correctness/
+
+<span class="c1"># Run tests matching pattern</span>
+pytest<span class="w"> </span>tests/<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;fourier&quot;</span>
+
+<span class="c1"># Run with coverage</span>
+pytest<span class="w"> </span>tests/<span class="w"> </span>--cov<span class="o">=</span>boofun<span class="w"> </span>--cov-report<span class="o">=</span>html
+
+<span class="c1"># Run mutation testing (slow)</span>
+mutmut<span class="w"> </span>run<span class="w"> </span>--paths-to-mutate<span class="o">=</span>src/boofun/core/optimizations.py
+</pre></div>
+</div>
+</section>
+</section>
+<section id="common-tasks">
+<h2>Common Tasks<a class="headerlink" href="#common-tasks" title="Link to this heading"></a></h2>
+<section id="adding-a-new-analysis-function">
+<h3>Adding a New Analysis Function<a class="headerlink" href="#adding-a-new-analysis-function" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Add implementation to appropriate module in <code class="docutils literal notranslate"><span class="pre">src/boofun/analysis/</span></code></p></li>
+<li><p>Export in <code class="docutils literal notranslate"><span class="pre">src/boofun/analysis/__init__.py</span></code></p></li>
+<li><p>Add method to <code class="docutils literal notranslate"><span class="pre">SpectralAnalyzer</span></code> if appropriate</p></li>
+<li><p>Write tests in <code class="docutils literal notranslate"><span class="pre">tests/analysis/</span></code></p></li>
+<li><p>Add docstring with mathematical definition and example</p></li>
+<li><p>Update documentation if user-facing</p></li>
+</ol>
+</section>
+<section id="adding-a-new-representation">
+<h3>Adding a New Representation<a class="headerlink" href="#adding-a-new-representation" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Create file in <code class="docutils literal notranslate"><span class="pre">src/boofun/core/representations/</span></code></p></li>
+<li><p>Implement <code class="docutils literal notranslate"><span class="pre">BooleanFunctionRepresentation</span></code> protocol</p></li>
+<li><p>Register with <code class="docutils literal notranslate"><span class="pre">&#64;register_strategy</span></code> decorator</p></li>
+<li><p>Add conversion functions to/from other representations</p></li>
+<li><p>Update conversion graph in <code class="docutils literal notranslate"><span class="pre">conversion_graph.py</span></code></p></li>
+<li><p>Write comprehensive tests including round-trip conversions</p></li>
+</ol>
+</section>
+<section id="debugging-numba-issues">
+<h3>Debugging Numba Issues<a class="headerlink" href="#debugging-numba-issues" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Disable Numba for debugging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;NUMBA_DISABLE_JIT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+
+<span class="c1"># Check if Numba is being used</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">boofun.core.optimizations</span><span class="w"> </span><span class="kn">import</span> <span class="n">HAS_NUMBA</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Numba available: </span><span class="si">{</span><span class="n">HAS_NUMBA</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Issues</strong>: Open a GitHub issue for bugs or feature requests</p></li>
+<li><p><strong>Discussions</strong>: Use GitHub Discussions for questions</p></li>
+<li><p><strong>Code Review</strong>: All PRs require review before merging</p></li>
+</ul>
+</section>
+<section id="mathematical-references">
+<h2>Mathematical References<a class="headerlink" href="#mathematical-references" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>O’Donnell, R. (2014). <em>Analysis of Boolean Functions</em>. Cambridge University Press.</p></li>
+<li><p>Buhrman, H., &amp; de Wolf, R. (2002). <em>Complexity measures and decision tree complexity</em>.</p></li>
+<li><p>Blais, E. (2009). <em>Testing juntas nearly optimally</em>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cross_validation.html" class="btn btn-neutral float-left" title="Cross-Validation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="STYLE_GUIDE.html" class="btn btn-neutral float-right" title="BooFun Style Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
