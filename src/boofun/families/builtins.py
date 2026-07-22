@@ -38,8 +38,8 @@ class MajorityFamily(FunctionFamily):
             parameters={},
             asymptotics={
                 "total_influence": lambda n: np.sqrt(2 / np.pi) * np.sqrt(n),
-                "influence_i": lambda n, i=0: np.sqrt(2 / (np.pi * n)),
-                "noise_stability": lambda n, rho=0.5: 0.5 + (1 / np.pi) * np.arcsin(rho),
+                "influence_i": lambda n, _i=0: np.sqrt(2 / (np.pi * n)),
+                "noise_stability": lambda _n, rho=0.5: 0.5 + (1 / np.pi) * np.arcsin(rho),
                 "fourier_degree": lambda n: n,
                 "regularity": lambda n: 1 / np.sqrt(n),  # τ → 0 as n → ∞
             },
@@ -80,10 +80,10 @@ class ParityFamily(FunctionFamily):
             parameters={},
             asymptotics={
                 "total_influence": float,
-                "influence_i": lambda n, i=0: 1.0,
+                "influence_i": lambda _n, _i=0: 1.0,
                 "noise_stability": lambda n, rho=0.5: rho**n,
                 "fourier_degree": lambda n: n,
-                "fourier_sparsity": lambda n: 1,  # Only one non-zero coeff
+                "fourier_sparsity": lambda _n: 1,  # Only one non-zero coeff
             },
             universal_properties=["linear", "balanced", "symmetric"],
         )
@@ -218,7 +218,7 @@ class ANDFamily(FunctionFamily):
             parameters={},
             asymptotics={
                 "total_influence": lambda n: n * 2 ** (-(n - 1)),
-                "influence_i": lambda n, i=0: 2 ** (-(n - 1)),
+                "influence_i": lambda n, _i=0: 2 ** (-(n - 1)),
                 "expectation": lambda n: 2 ** (-n),  # Pr[AND = 1]
             },
             universal_properties=["monotone", "symmetric", "is_ltf"],
@@ -251,7 +251,7 @@ class ORFamily(FunctionFamily):
             parameters={},
             asymptotics={
                 "total_influence": lambda n: n * 2 ** (-(n - 1)),
-                "influence_i": lambda n, i=0: 2 ** (-(n - 1)),
+                "influence_i": lambda n, _i=0: 2 ** (-(n - 1)),
                 "expectation": lambda n: 1 - 2 ** (-n),
             },
             universal_properties=["monotone", "symmetric", "is_ltf"],
@@ -291,10 +291,10 @@ class DictatorFamily(FunctionFamily):
             description=f"DICT_i(x) = x_{self._variable}",
             parameters={"variable": str(self._variable)},
             asymptotics={
-                "total_influence": lambda n: 1.0,
-                "influence_i": lambda n, i=0: 1.0 if i == self._variable else 0.0,
-                "noise_stability": lambda n, rho=0.5: rho,
-                "fourier_degree": lambda n: 1,
+                "total_influence": lambda _n: 1.0,
+                "influence_i": lambda _n, i=0: 1.0 if i == self._variable else 0.0,
+                "noise_stability": lambda _n, rho=0.5: rho,
+                "fourier_degree": lambda _n: 1,
             },
             universal_properties=["is_ltf", "is_junta"],
         )
@@ -318,7 +318,7 @@ class LTFFamily(WeightPatternFamily):
 
     def __init__(
         self,
-        weight_pattern: Callable[[int, int], float] = lambda i, n: 1.0,
+        weight_pattern: Callable[[int, int], float] = lambda _i, _n: 1.0,
         threshold_pattern: Callable[[int], float] | None = None,
         name: str = "LTF",
     ) -> None:
@@ -367,17 +367,17 @@ class LTFFamily(WeightPatternFamily):
     @classmethod
     def uniform(cls, name: str = "UniformLTF") -> "LTFFamily":
         """Create LTF with uniform weights (= Majority)."""
-        return cls(lambda i, n: 1.0, name=name)
+        return cls(lambda _i, _n: 1.0, name=name)
 
     @classmethod
     def geometric(cls, ratio: float = 0.5, name: str = "GeometricLTF") -> "LTFFamily":
         """Create LTF with geometrically decaying weights."""
-        return cls(lambda i, n: ratio**i, name=name)
+        return cls(lambda i, _n: ratio**i, name=name)
 
     @classmethod
     def harmonic(cls, name: str = "HarmonicLTF") -> "LTFFamily":
         """Create LTF with harmonic weights 1/(i+1)."""
-        return cls(lambda i, n: 1.0 / (i + 1), name=name)
+        return cls(lambda i, _n: 1.0 / (i + 1), name=name)
 
     @classmethod
     def power_law(cls, power: float = 2.0, name: str = "PowerLTF") -> "LTFFamily":

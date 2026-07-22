@@ -55,13 +55,13 @@ def register_partial_strategy(
     # Dynamically build subclass
     methods = {
         "evaluate": evaluate,
-        "dump": dump or (lambda self, data, **kw: {"data": data}),
-        "convert_from": convert_from or (lambda self, src, data, **kw: NotImplementedError()),
-        "convert_to": convert_to or (lambda self, tgt, data, **kw: NotImplementedError()),
-        "create_empty": create_empty or (lambda self, n, **kw: NotImplementedError()),
-        "is_complete": is_complete or (lambda self, data: True),
-        "get_storage_requirements": get_storage_requirements or (lambda self, n: {}),
-        "time_complexity_rank": time_complexity_rank or (lambda self, n: {}),
+        "dump": dump or (lambda _self, data, **kw: {"data": data}),
+        "convert_from": convert_from or (lambda _self, _src, _data, **kw: NotImplementedError()),
+        "convert_to": convert_to or (lambda _self, _tgt, _data, **kw: NotImplementedError()),
+        "create_empty": create_empty or (lambda _self, _n, **kw: NotImplementedError()),
+        "is_complete": is_complete or (lambda _self, _data: True),
+        "get_storage_requirements": get_storage_requirements or (lambda _self, _n: {}),
+        "time_complexity_rank": time_complexity_rank or (lambda _self, _n: {}),
     }
     # Create new class
     NewStrategy = type(f"{key.title()}Strategy", (BooleanFunctionRepresentation,), methods)
@@ -181,7 +181,7 @@ def _function_convert_to(
 
 def _function_create_empty(self: typing.Any, n_vars: int, **kwargs: typing.Any) -> typing.Any:
     """Create empty function representation."""
-    return lambda x: False
+    return lambda _x: False
 
 
 def _function_is_complete(self: typing.Any, data: typing.Any) -> typing.Any:

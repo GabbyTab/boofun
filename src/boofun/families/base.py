@@ -277,7 +277,7 @@ class WeightPatternFamily(FunctionFamily):
             name: Family name
         """
         self._weight_fn = weight_function
-        self._threshold_fn = threshold_function or (lambda n: 0)
+        self._threshold_fn = threshold_function or (lambda _n: 0)
         self._name = name
 
     @property
@@ -309,17 +309,17 @@ class WeightPatternFamily(FunctionFamily):
 # Convenience constructors for common patterns
 def uniform_ltf_family(name: str = "UniformLTF") -> WeightPatternFamily:
     """Create LTF family with uniform weights (equivalent to Majority)."""
-    return WeightPatternFamily(lambda i, n: 1.0, name=name)
+    return WeightPatternFamily(lambda _i, _n: 1.0, name=name)
 
 
 def geometric_ltf_family(ratio: float = 0.5, name: str = "GeometricLTF") -> WeightPatternFamily:
     """Create LTF family with geometrically decaying weights."""
-    return WeightPatternFamily(lambda i, n: ratio**i, name=name)
+    return WeightPatternFamily(lambda i, _n: ratio**i, name=name)
 
 
 def harmonic_ltf_family(name: str = "HarmonicLTF") -> WeightPatternFamily:
     """Create LTF family with harmonic weights 1/(i+1)."""
-    return WeightPatternFamily(lambda i, n: 1.0 / (i + 1), name=name)
+    return WeightPatternFamily(lambda i, _n: 1.0 / (i + 1), name=name)
 
 
 def power_ltf_family(power: float = 2.0, name: str = "PowerLTF") -> WeightPatternFamily:

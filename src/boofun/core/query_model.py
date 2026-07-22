@@ -71,54 +71,62 @@ class ExplicitEnumerationError(RuntimeError):
 # Total queries ≈ base_queries * scaling(n)
 QUERY_COMPLEXITY: dict[str, dict[str, Any]] = {
     # SAFE operations - O(k) queries where k is user-specified
-    "is_linear": {"safe": True, "queries": lambda n, k: 3 * k, "description": "BLR test"},
-    "is_monotone": {"safe": True, "queries": lambda n, k: 2 * k, "description": "Edge test"},
+    "is_linear": {"safe": True, "queries": lambda _n, k: 3 * k, "description": "BLR test"},
+    "is_monotone": {"safe": True, "queries": lambda _n, k: 2 * k, "description": "Edge test"},
     "is_symmetric": {
         "safe": True,
-        "queries": lambda n, k: 2 * k,
+        "queries": lambda _n, k: 2 * k,
         "description": "Permutation test",
     },
-    "is_balanced_approx": {"safe": True, "queries": lambda n, k: k, "description": "Sample mean"},
-    "evaluate": {"safe": True, "queries": lambda n, k: 1, "description": "Single query"},
+    "is_balanced_approx": {"safe": True, "queries": lambda _n, k: k, "description": "Sample mean"},
+    "evaluate": {"safe": True, "queries": lambda _n, _k: 1, "description": "Single query"},
     "estimate_fourier": {
         "safe": True,
-        "queries": lambda n, k: k,
+        "queries": lambda _n, k: k,
         "description": "Sample estimator",
     },
-    "goldreich_levin": {"safe": True, "queries": lambda n, k: k, "description": "GL algorithm"},
+    "goldreich_levin": {"safe": True, "queries": lambda _n, k: k, "description": "GL algorithm"},
     # UNSAFE operations - O(2^n) or worse
-    "fourier": {"safe": False, "queries": lambda n, k: 2**n, "description": "Full WHT"},
+    "fourier": {"safe": False, "queries": lambda n, _k: 2**n, "description": "Full WHT"},
     "influences": {
         "safe": False,
-        "queries": lambda n, k: n * 2**n,
+        "queries": lambda n, _k: n * 2**n,
         "description": "All inputs, all flips",
     },
-    "degree": {"safe": False, "queries": lambda n, k: 2**n, "description": "Uses fourier"},
+    "degree": {"safe": False, "queries": lambda n, _k: 2**n, "description": "Uses fourier"},
     "total_influence": {
         "safe": False,
-        "queries": lambda n, k: n * 2**n,
+        "queries": lambda n, _k: n * 2**n,
         "description": "Uses influences",
     },
-    "W": {"safe": False, "queries": lambda n, k: 2**n, "description": "Uses fourier"},
-    "W_leq": {"safe": False, "queries": lambda n, k: 2**n, "description": "Uses fourier"},
-    "sparsity": {"safe": False, "queries": lambda n, k: 2**n, "description": "Uses fourier"},
-    "is_balanced": {"safe": False, "queries": lambda n, k: 2**n, "description": "Count all"},
-    "is_junta": {"safe": False, "queries": lambda n, k: n * 2**n, "description": "Uses influences"},
-    "fix": {"safe": False, "queries": lambda n, k: 2 ** (n - 1), "description": "Builds new table"},
-    "derivative": {"safe": False, "queries": lambda n, k: 2**n, "description": "Builds new table"},
+    "W": {"safe": False, "queries": lambda n, _k: 2**n, "description": "Uses fourier"},
+    "W_leq": {"safe": False, "queries": lambda n, _k: 2**n, "description": "Uses fourier"},
+    "sparsity": {"safe": False, "queries": lambda n, _k: 2**n, "description": "Uses fourier"},
+    "is_balanced": {"safe": False, "queries": lambda n, _k: 2**n, "description": "Count all"},
+    "is_junta": {
+        "safe": False,
+        "queries": lambda n, _k: n * 2**n,
+        "description": "Uses influences",
+    },
+    "fix": {
+        "safe": False,
+        "queries": lambda n, _k: 2 ** (n - 1),
+        "description": "Builds new table",
+    },
+    "derivative": {"safe": False, "queries": lambda n, _k: 2**n, "description": "Builds new table"},
     "constant_test": {
         "safe": False,
-        "queries": lambda n, k: 2**n,
+        "queries": lambda n, _k: 2**n,
         "description": "Exhaustive check",
     },
     "decision_tree_depth": {
         "safe": False,
-        "queries": lambda n, k: 3**n,
+        "queries": lambda n, _k: 3**n,
         "description": "DP over subcubes",
     },
     "get_representation:truth_table": {
         "safe": False,
-        "queries": lambda n, k: 2**n,
+        "queries": lambda n, _k: 2**n,
         "description": "Materialize",
     },
 }
@@ -191,7 +199,7 @@ def check_query_safety(
     access_type = get_access_type(f)
 
     # Get operation info
-    op_info = QUERY_COMPLEXITY.get(operation, {"safe": False, "queries": lambda n, k: 2**n})
+    op_info = QUERY_COMPLEXITY.get(operation, {"safe": False, "queries": lambda n, _k: 2**n})
     is_safe = op_info["safe"]
     query_count = op_info["queries"](n, num_queries)
 
@@ -279,7 +287,8 @@ class QueryModel:
                 - description: Human-readable description
         """
         op_info = QUERY_COMPLEXITY.get(
-            operation, {"safe": False, "queries": lambda n, k: 2**self.n, "description": "Unknown"}
+            operation,
+            {"safe": False, "queries": lambda _n, _k: 2**self.n, "description": "Unknown"},
         )
 
         queries = op_info["queries"](self.n, num_queries)

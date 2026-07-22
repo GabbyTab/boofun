@@ -252,7 +252,7 @@ class TheoreticalBounds:
             return {
                 "total_influence": cls.majority_total_influence,
                 "influence_i": cls.majority_influence_i,
-                "noise_stability": lambda n, rho=0.5: cls.majority_noise_stability(rho),
+                "noise_stability": lambda _n, rho=0.5: cls.majority_noise_stability(rho),
             }
 
         if family_name == "parity":
@@ -276,14 +276,14 @@ class TheoreticalBounds:
 
         if family_name == "dictator":
             return {
-                "total_influence": lambda n: 1.0,
-                "noise_stability": lambda n, rho=0.5: cls.dictator_noise_stability(rho),
+                "total_influence": lambda _n: 1.0,
+                "noise_stability": lambda _n, rho=0.5: cls.dictator_noise_stability(rho),
             }
 
         if family_name == "ltf":
             return {
                 "total_influence": cls.ltf_total_influence,
-                "noise_stability": lambda n, rho=0.5, tau=0: cls.ltf_noise_stability(rho, tau),
+                "noise_stability": lambda _n, rho=0.5, tau=0: cls.ltf_noise_stability(rho, tau),
             }
 
         return {}
