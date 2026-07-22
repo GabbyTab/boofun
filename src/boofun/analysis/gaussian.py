@@ -317,16 +317,16 @@ def berry_esseen_bound(f: BooleanFunction) -> float:
     return float(C * sum_inf_cubed / (var**1.5))
 
 
-def clt_approximation(f: BooleanFunction, num_samples: int = 10000) -> tuple[float, float]:
+def clt_approximation(f: BooleanFunction, num_samples: int = 10000) -> tuple[float, float]:  # noqa: ARG001
     """
-    Estimate how well f's distribution is approximated by a Gaussian.
+    Compute the mean and variance of f's ±1-valued distribution.
 
-    Uses Monte Carlo sampling to estimate the mean and variance of f,
-    then computes the Kolmogorov-Smirnov distance to a Gaussian.
+    The statistics are computed exactly from the truth table; num_samples
+    is kept for compatibility with the sampling-based estimator API.
 
     Args:
         f: BooleanFunction to analyze
-        num_samples: Number of random samples
+        num_samples: Unused; retained for API compatibility
 
     Returns:
         Tuple of (mean, variance) of f's distribution

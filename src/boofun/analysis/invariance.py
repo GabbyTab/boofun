@@ -139,7 +139,9 @@ def majority_noise_stability(n: int, rho: float) -> float:
 
 
 def invariance_distance(
-    f: BooleanFunction, test_fn: Callable[..., typing.Any] | None = None
+    f: BooleanFunction,
+    # Only the default sign test function is currently supported.
+    test_fn: Callable[..., typing.Any] | None = None,  # noqa: ARG001
 ) -> float:
     """
     Estimate the invariance distance between Boolean and Gaussian expectations.
@@ -310,7 +312,7 @@ def is_stablest_candidate(f: BooleanFunction, epsilon: float = 0.01) -> bool:
     return abs(mean) < epsilon
 
 
-def max_cut_approximation_ratio(rho: float) -> float:
+def max_cut_approximation_ratio(rho: float) -> float:  # noqa: ARG001
     """
     Compute the Goemans-Williamson MAX-CUT approximation ratio.
 

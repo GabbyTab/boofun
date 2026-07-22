@@ -217,7 +217,7 @@ def plot_decision_tree(
     figsize: tuple[int, int] = (12, 8),
     save_path: str | None = None,
     show: bool = True,
-    node_size: int = 2000,
+    node_size: int = 2000,  # noqa: ARG001  # reserved: nodes use fixed-radius patches
     font_size: int = 10,
 ) -> Any:
     """

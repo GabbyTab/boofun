@@ -104,7 +104,7 @@ class TheoreticalBounds:
     # ==========================================================
 
     @staticmethod
-    def majority_influence_i(n: int, i: int = 0) -> float:
+    def majority_influence_i(n: int, i: int = 0) -> float:  # noqa: ARG004
         """
         Influence of variable i in Majority_n.
 
@@ -113,12 +113,12 @@ class TheoreticalBounds:
         return float(np.sqrt(2 / (np.pi * n)))
 
     @staticmethod
-    def parity_influence_i(n: int, i: int = 0) -> float:
+    def parity_influence_i(n: int, i: int = 0) -> float:  # noqa: ARG004
         """Each variable has influence 1 in Parity."""
         return 1.0
 
     @staticmethod
-    def and_influence_i(n: int, i: int = 0) -> float:
+    def and_influence_i(n: int, i: int = 0) -> float:  # noqa: ARG004
         """Influence of each variable in AND_n = 2^{-(n-1)}."""
         return float(2 ** (-(n - 1)))
 

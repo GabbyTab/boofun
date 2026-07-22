@@ -438,7 +438,8 @@ class PropertyTester:
         error_rate = violations / num_queries
         return error_rate < epsilon
 
-    def junta_test(self, k: int, num_queries: int = 1000, confidence: float = 0.9) -> bool:
+    # Standard property-testing signature; this implementation is exact, not query-based.
+    def junta_test(self, k: int, num_queries: int = 1000, confidence: float = 0.9) -> bool:  # noqa: ARG002
         """
         Test if function is a k-junta (depends on at most k variables).
 

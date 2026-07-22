@@ -274,7 +274,11 @@ class ConversionGraph:
         return best
 
     def find_optimal_path(
-        self, source: str, target: str, n_vars: int | None = None
+        self,
+        source: str,
+        target: str,
+        # Routing is size-independent today; n_vars is part of the stable lookup API.
+        n_vars: int | None = None,  # noqa: ARG002
     ) -> ConversionPath | None:
         """
         Find a conversion path from source to target.

@@ -88,7 +88,7 @@ class GrowthVisualizer:
         tracker: "GrowthTracker",
         marker_name: str,
         show_theory: bool = True,
-        show_error: bool = True,
+        show_error: bool = True,  # noqa: ARG002  # reserved: error ribbons not implemented yet
         log_x: bool = False,
         log_y: bool = False,
         figsize: tuple[int, int] = (10, 6),

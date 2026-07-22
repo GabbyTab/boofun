@@ -289,7 +289,7 @@ def estimate_fourier_adaptive(
     f: BooleanFunction,
     S: int,
     target_error: float = 0.01,
-    confidence: float = 0.95,
+    confidence: float = 0.95,  # noqa: ARG001
     max_samples: int = 100000,
     batch_size: int = 1000,
     rng: np.random.Generator | None = None,

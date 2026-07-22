@@ -930,7 +930,8 @@ class SboxFamily(FunctionFamily):
             n_constraint_description=f"n must equal S-box input bits ({self._n_bits})",
         )
 
-    def generate(self, n: int | None = None, **kwargs: typing.Any) -> "BooleanFunction":
+    # FunctionFamily interface; the S-box fixes n, so the parameter is ignored.
+    def generate(self, n: int | None = None, **kwargs: typing.Any) -> "BooleanFunction":  # noqa: ARG002
         import boofun as bf
 
         bit = kwargs.get("bit", self._bit)

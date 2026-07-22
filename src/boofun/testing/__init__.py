@@ -299,7 +299,8 @@ class RepresentationTester:
         """
         self.representation = representation
 
-    def test_interface_compliance(self, n_vars: int = 3) -> dict[str, Any]:
+    # Uniform tester signature shared with the other test_* methods.
+    def test_interface_compliance(self, n_vars: int = 3) -> dict[str, Any]:  # noqa: ARG002
         """Test that representation implements required interface methods."""
         results: dict[str, Any] = {"passed": True, "method_tests": {}}
 

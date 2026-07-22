@@ -718,7 +718,11 @@ class BooleanFunctionFactory:
 
     @classmethod
     def from_file(
-        cls, boolean_function_cls: type[typing.Any], path: typing.Any, **kwargs: typing.Any
+        cls,
+        # Uniform from_* factory signature; the loader instantiates the class itself.
+        boolean_function_cls: type[typing.Any],  # noqa: ARG003
+        path: typing.Any,
+        **kwargs: typing.Any,
     ) -> typing.Any:
         """Create from file (JSON, .bf, or DIMACS CNF).
 

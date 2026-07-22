@@ -154,7 +154,7 @@ if HAS_NUMBA:
         return _vectorized_influences_numba(fourier_coeffs.astype(np.float64), n_vars)
 
 
-def vectorized_total_influence_from_fourier(fourier_coeffs: np.ndarray, n_vars: int) -> float:
+def vectorized_total_influence_from_fourier(fourier_coeffs: np.ndarray, n_vars: int) -> float:  # noqa: ARG001
     """
     Compute total influence from Fourier coefficients.
 

@@ -45,7 +45,7 @@ def _check_plotly() -> None:
 
 def interactive_fourier_spectrum(
     f: "BooleanFunction",
-    show_labels: bool = True,
+    show_labels: bool = True,  # noqa: ARG001  # reserved: hover labels are always shown
     highlight_threshold: float = 0.1,
     color_by_degree: bool = True,
     height: int = 600,

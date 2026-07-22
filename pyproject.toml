@@ -129,13 +129,6 @@ ignore = [
     # formulas, and user-facing strings that cannot be safely reformatted.
     "E501",
     "PLC0415",
-    # Public interfaces, protocols, callbacks, and mathematical APIs often
-    # require arguments that a particular implementation does not consume.
-    "ARG001",
-    "ARG002",
-    "ARG003",
-    "ARG004",
-    "ARG005",
     # Mathematical algorithms naturally contain many branches, parameters,
     # return points, statements, and comparisons against named constants.
     "PLR0911",
@@ -167,8 +160,20 @@ ignore-variadic-names = true
 
 [tool.ruff.lint.per-file-ignores]
 "**/__init__.py" = ["F401"]
-"tests/**/*.py" = ["E402", "E712", "RUF059", "SIM105"]
+# ARG: test doubles and stub families implement interfaces without consuming
+# every argument; that is the point of a stub.
+"tests/**/*.py" = ["E402", "E712", "RUF059", "SIM105", "ARG"]
 "tests/**/conftest.py" = ["F401"]
+# RepresentationStrategy implementations must match the interface signature
+# (evaluate/convert_to/from_data take space and n_vars) even when a given
+# representation does not consume every argument.
+"src/boofun/core/representations/*.py" = ["ARG001", "ARG002"]
+# BatchProcessor.process_batch interface: every processor receives space and
+# n_vars regardless of whether its strategy needs them.
+"src/boofun/core/batch_processing.py" = ["ARG002"]
+# ErrorModel interface methods receive the computation result even when the
+# model (exact, no-op) does not inspect it.
+"src/boofun/core/errormodels.py" = ["ARG002"]
 
 [tool.mypy]
 python_version = "3.10"
