@@ -253,7 +253,7 @@ class QuantumComplexityAnalyzer:
                 solutions.append(x)
 
         M = len(solutions)
-        if M == 0 or M == N:
+        if M in (0, N):
             return {
                 "num_solutions": M,
                 "evolution": [],
@@ -463,7 +463,7 @@ def quantum_walk_search_bounds(
     assert n is not None
     N = 2**n
 
-    marked = set(x for x in range(N) if f.evaluate(x))
+    marked = {x for x in range(N) if f.evaluate(x)}
     M = len(marked)
 
     if M == 0:
@@ -528,16 +528,16 @@ quantum_walk_search = quantum_walk_search_bounds
 
 
 __all__ = [
+    # Deprecated aliases (backwards compatibility)
+    "QuantumBooleanFunction",
     # New names (preferred)
     "QuantumComplexityAnalyzer",
     "create_complexity_analyzer",
-    "grover_speedup",
-    "quantum_walk_bounds",
-    "element_distinctness_analysis",
-    "quantum_walk_search_bounds",
-    # Deprecated aliases (backwards compatibility)
-    "QuantumBooleanFunction",
     "create_quantum_boolean_function",
+    "element_distinctness_analysis",
+    "grover_speedup",
     "quantum_walk_analysis",
+    "quantum_walk_bounds",
     "quantum_walk_search",
+    "quantum_walk_search_bounds",
 ]

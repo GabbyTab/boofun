@@ -382,124 +382,124 @@ __author__ = "Gabriel Taboada"
 
 # Core exports for typical usage
 __all__ = [
-    # =====================================================
-    # PRIMARY API (mathematician-friendly)
-    # =====================================================
-    # Creation
-    "create",
-    "BooleanFunction",
-    # Partial functions (streaming/incremental)
-    "partial",
-    "PartialBooleanFunction",
-    # Hex string I/O (thomasarmel-compatible)
-    "from_hex",
-    "to_hex",
-    # File I/O
-    "load",
-    "save",
-    # Built-in functions (short names)
-    "majority",
-    "parity",
-    "tribes",
-    "dictator",
-    "constant",
     "AND",
     "OR",
-    "threshold",
-    "weighted_majority",
-    "random",  # Random function generator
-    "from_weights",  # Alias for weighted_majority
-    # Analysis (use directly or via function methods)
-    "SpectralAnalyzer",
-    "PropertyTester",
-    # =====================================================
-    # EXCEPTIONS (structured error handling)
-    # =====================================================
-    "ErrorCode",  # Machine-readable error codes
-    "BooleanFunctionError",  # Base exception
-    "ValidationError",  # User input validation failures
-    "InvalidInputError",  # Invalid function arguments
-    "InvalidRepresentationError",  # Unsupported representation
-    "InvalidTruthTableError",  # Malformed truth table
-    "EvaluationError",  # Function evaluation failures
-    "ConversionError",  # Representation conversion failures
-    "ConfigurationError",  # Setup/configuration errors
-    "ResourceUnavailableError",  # Optional deps unavailable
-    "InvariantViolationError",  # Internal library bugs
+    "BooleanFunction",
     # =====================================================
     # SECONDARY API (advanced users)
     # =====================================================
     # Full builtins class
     "BooleanFunctionBuiltins",
-    # Analysis submodules
-    "analysis_sensitivity",
-    "analysis_block_sensitivity",
-    "analysis_certificates",
-    "analysis_symmetry",
-    # Fourier analysis (Chapter 1 O'Donnell)
-    "parseval_verify",
-    "plancherel_inner_product",
-    "convolution",
-    "negate_inputs",
-    "odd_part",
-    "even_part",
-    "tensor_product",
-    "restriction",
-    "fourier_degree",
-    "spectral_norm",
-    "fourier_sparsity",
-    "dominant_coefficients",
-    # GF(2) analysis
-    "gf2_fourier_transform",
-    "gf2_degree",
-    "gf2_monomials",
-    "gf2_to_string",
-    "is_linear_over_gf2",
-    "correlation_with_parity",
-    # Hypercontractivity (Chapter 9 O'Donnell)
-    "noise_operator",
-    "lq_norm",
-    "bonami_lemma_bound",
-    "kkl_lower_bound",
-    "max_influence_bound",
-    "friedgut_junta_bound",
-    "junta_approximation_error",
-    "level_d_inequality",
-    "hypercontractive_inequality",
+    "BooleanFunctionError",  # Base exception
+    # Testing and validation
+    "BooleanFunctionValidator",
+    # Adapters for external integration
+    "CallableAdapter",
+    "ConfigurationError",  # Setup/configuration errors
+    "ConversionError",  # Representation conversion failures
+    # =====================================================
+    # EXCEPTIONS (structured error handling)
+    # =====================================================
+    "ErrorCode",  # Machine-readable error codes
+    "EvaluationError",  # Function evaluation failures
+    "ExactErrorModel",
+    "GFField",
     # Global Hypercontractivity (Keevash et al.)
     "GlobalHypercontractivityAnalyzer",
+    "InvalidInputError",  # Invalid function arguments
+    "InvalidRepresentationError",  # Unsupported representation
+    "InvalidTruthTableError",  # Malformed truth table
+    "InvariantViolationError",  # Internal library bugs
+    "LegacyAdapter",
+    "Measure",
+    "NoiseErrorModel",
+    "NumPyAdapter",
+    "PACErrorModel",
+    "PartialBooleanFunction",
+    "Property",
+    "PropertyTester",
+    "ResourceUnavailableError",  # Optional deps unavailable
+    # Core utilities
+    "Space",
+    # Analysis (use directly or via function methods)
+    "SpectralAnalyzer",
+    "SymPyAdapter",
+    "ValidationError",  # User input validation failures
+    # Version info
+    "__version__",
+    "adapt_callable",
+    "adapt_numpy_function",
+    "adapt_sympy_expr",
+    "analysis_block_sensitivity",
+    "analysis_certificates",
+    # Analysis submodules
+    "analysis_sensitivity",
+    "analysis_symmetry",
+    "bonami_lemma_bound",
+    "constant",
+    "convolution",
+    "correlation_with_parity",
+    # =====================================================
+    # PRIMARY API (mathematician-friendly)
+    # =====================================================
+    # Creation
+    "create",
+    "dictator",
+    "dominant_coefficients",
+    "even_part",
+    "find_critical_p",
+    "fourier_degree",
+    "fourier_sparsity",
+    "friedgut_junta_bound",
+    # Hex string I/O (thomasarmel-compatible)
+    "from_hex",
+    "from_weights",  # Alias for weighted_majority
     "generalized_influence",
+    "get_gf_field",
+    "gf2_degree",
+    # GF(2) analysis
+    "gf2_fourier_transform",
+    "gf2_monomials",
+    "gf2_to_string",
+    "hypercontractive_inequality",
+    "hypercontractivity_bound",
     "is_alpha_global",
+    "is_linear_over_gf2",
+    "junta_approximation_error",
+    "kkl_lower_bound",
+    "level_d_inequality",
+    # File I/O
+    "load",
+    "lq_norm",
+    # Built-in functions (short names)
+    "majority",
+    "max_influence_bound",
+    "negate_inputs",
+    # Hypercontractivity (Chapter 9 O'Donnell)
+    "noise_operator",
+    "noise_stability_p_biased",
+    "odd_part",
     "p_biased_expectation",
     "p_biased_influence",
     "p_biased_total_influence",
-    "noise_stability_p_biased",
-    "threshold_curve",
-    "find_critical_p",
-    "hypercontractivity_bound",
-    # Testing and validation
-    "BooleanFunctionValidator",
+    "parity",
+    # Fourier analysis (Chapter 1 O'Donnell)
+    "parseval_verify",
+    # Partial functions (streaming/incremental)
+    "partial",
+    "plancherel_inner_product",
     "quick_validate",
+    "random",  # Random function generator
+    "restriction",
+    "save",
+    "spectral_norm",
+    "tensor_product",
+    "threshold",
+    "threshold_curve",
+    "to_hex",
+    "tribes",
     "validate_representation",
-    # Adapters for external integration
-    "CallableAdapter",
-    "LegacyAdapter",
-    "SymPyAdapter",
-    "NumPyAdapter",
-    "adapt_callable",
-    "adapt_sympy_expr",
-    "adapt_numpy_function",
-    # Core utilities
-    "Space",
-    "Measure",
-    "Property",
-    "ExactErrorModel",
-    "PACErrorModel",
-    "NoiseErrorModel",
-    "get_gf_field",
-    "GFField",
-    # Version info
-    "__version__",
+    "weighted_majority",
 ]
 
 # Add optional exports if available

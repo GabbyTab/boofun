@@ -34,30 +34,30 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Core cryptographic measures
-    "walsh_transform",
-    "walsh_spectrum",
-    "nonlinearity",
-    "is_bent",
-    "is_balanced",
-    # Algebraic properties
-    "algebraic_degree",
-    "algebraic_normal_form",
-    "anf_monomials",
-    "algebraic_immunity",
-    # Additional measures
-    "correlation_immunity",
-    "resiliency",
-    "propagation_criterion",
-    "strict_avalanche_criterion",
-    # S-box analysis (LAT/DDT)
-    "linear_approximation_table",
-    "difference_distribution_table",
-    "differential_uniformity",
-    "linearity",
     # Analysis class
     "CryptographicAnalyzer",
     "SBoxAnalyzer",
+    # Algebraic properties
+    "algebraic_degree",
+    "algebraic_immunity",
+    "algebraic_normal_form",
+    "anf_monomials",
+    # Additional measures
+    "correlation_immunity",
+    "difference_distribution_table",
+    "differential_uniformity",
+    "is_balanced",
+    "is_bent",
+    # S-box analysis (LAT/DDT)
+    "linear_approximation_table",
+    "linearity",
+    "nonlinearity",
+    "propagation_criterion",
+    "resiliency",
+    "strict_avalanche_criterion",
+    "walsh_spectrum",
+    # Core cryptographic measures
+    "walsh_transform",
 ]
 
 

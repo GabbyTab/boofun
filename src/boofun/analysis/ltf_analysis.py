@@ -257,9 +257,8 @@ def ltf_influence_from_weights(weights: np.ndarray) -> np.ndarray:
 
     # Approximate influence using Gaussian formula
     # Inf_i ≈ (2/π) * w_i² / Σw_j²
-    influences = (2 / np.pi) * (weights**2) / norm_sq
+    return (2 / np.pi) * (weights**2) / norm_sq
 
-    return influences
 
 
 def ltf_noise_stability_gaussian(rho: float) -> float:
@@ -580,26 +579,26 @@ def find_closest_ltf(f: "BooleanFunction") -> tuple["BooleanFunction", float]:
 __all__ = [
     # Analysis dataclass
     "LTFAnalysis",
+    "analyze_ltf",
+    # Chow parameters
+    "chow_distance",
     # Core functions
     "chow_parameters",
-    "is_ltf",
-    "find_ltf_weights",
-    "normalize_ltf_weights",
-    "analyze_ltf",
+    "create_threshold_function",
+    # Constructors
+    "create_weighted_majority",
     # LTF properties
     "critical_index",
-    "regularity",
+    "dummy_voters",
+    "find_closest_ltf",
+    "find_ltf_weights",
+    "is_ltf",
+    "is_regular_ltf",
+    # Tests
+    "is_symmetric_ltf",
     "ltf_influence_from_weights",
     "ltf_noise_stability_gaussian",
     "ltf_total_influence_estimate",
-    # Constructors
-    "create_weighted_majority",
-    "create_threshold_function",
-    # Tests
-    "is_symmetric_ltf",
-    "is_regular_ltf",
-    "dummy_voters",
-    # Chow parameters
-    "chow_distance",
-    "find_closest_ltf",
+    "normalize_ltf_weights",
+    "regularity",
 ]

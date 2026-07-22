@@ -55,7 +55,7 @@ class TestFamilyMetadata:
             name="AsymptoticFamily",
             description="A family with known asymptotics",
             asymptotics={
-                "total_influence": lambda n: np.sqrt(n),
+                "total_influence": np.sqrt,
                 "noise_stability": "1 - O(1/sqrt(n))",
             },
         )
@@ -254,7 +254,7 @@ class TestFunctionFamilyBase:
         family._metadata = FamilyMetadata(
             name="WithAsymptotics",
             description="Test",
-            asymptotics={"total_influence": lambda n: np.sqrt(n)},
+            asymptotics={"total_influence": np.sqrt},
         )
 
         # Override metadata property for testing

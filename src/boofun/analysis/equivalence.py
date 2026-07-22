@@ -159,10 +159,7 @@ def canonical_form(
             negations_to_try = [False, True] if include_negation else [False]
 
             for negate in negations_to_try:
-                if negate:
-                    final_f = tuple(1 - v for v in shifted_f)
-                else:
-                    final_f = tuple(shifted_f)
+                final_f = tuple(1 - v for v in shifted_f) if negate else tuple(shifted_f)
 
                 if final_f < best:
                     best = final_f

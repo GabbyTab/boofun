@@ -314,8 +314,7 @@ def compute_nonlinearity(f):
     max_walsh = max(abs(fourier[s]) for s in range(1, 2**n))
 
     # Nonlinearity formula
-    nonlinearity = 2 ** (n - 1) - int(max_walsh * 2 ** (n - 1))
-    return nonlinearity
+    return 2 ** (n - 1) - int(max_walsh * 2 ** (n - 1))
 
 
 class TestSboxBasics:

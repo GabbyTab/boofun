@@ -268,9 +268,8 @@ class ConversionGraph:
         """Return the cheapest direct edge from source to target, if any."""
         best: ConversionEdge | None = None
         for edge in self.edges.get(source, []):
-            if edge.target == target:
-                if best is None or edge.cost < best.cost:
-                    best = edge
+            if edge.target == target and (best is None or edge.cost < best.cost):
+                best = edge
         return best
 
     def find_optimal_path(
@@ -299,7 +298,7 @@ class ConversionGraph:
             return path
 
         # Route through truth_table hub
-        if source != _HUB and target != _HUB:
+        if _HUB not in (source, target):
             to_hub = self._find_direct_edge(source, _HUB)
             from_hub = self._find_direct_edge(_HUB, target)
             if to_hub is not None and from_hub is not None:

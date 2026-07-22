@@ -36,6 +36,10 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
+    # Tree representation
+    "DecisionTree",
+    "compute_randomized_complexity",
+    "count_decision_trees",
     # Core algorithms
     "decision_tree_depth_dp",
     "decision_tree_depth_uniform_dp",
@@ -43,12 +47,8 @@ __all__ = [
     "decision_tree_size_dp",
     # Tree enumeration
     "enumerate_decision_trees",
-    "count_decision_trees",
     # Randomized complexity
     "randomized_complexity_matrix",
-    "compute_randomized_complexity",
-    # Tree representation
-    "DecisionTree",
     "reconstruct_tree",
     # Utilities
     "tree_depth",
@@ -790,8 +790,8 @@ def count_decision_trees(f: BooleanFunction) -> int:
         total = 0
         for var in influential:
             if var not in fixed:
-                fixed_0 = tuple(sorted(list(fixed_tuple) + [(var, 0)]))
-                fixed_1 = tuple(sorted(list(fixed_tuple) + [(var, 1)]))
+                fixed_0 = tuple(sorted([*list(fixed_tuple), (var, 0)]))
+                fixed_1 = tuple(sorted([*list(fixed_tuple), (var, 1)]))
                 total += count_for_subcube(fixed_0) * count_for_subcube(fixed_1)
 
         return total

@@ -325,9 +325,8 @@ def parallel_batch_influences(
     ExecutorClass = ThreadPoolExecutor if use_threads else ProcessPoolExecutor
 
     with ExecutorClass(max_workers=max_workers) as executor:
-        results = list(executor.map(compute_influences, functions))
+        return list(executor.map(compute_influences, functions))
 
-    return results
 
 
 def parallel_batch_fourier(functions: list, max_workers: int | None = None) -> list:
@@ -351,9 +350,8 @@ def parallel_batch_fourier(functions: list, max_workers: int | None = None) -> l
         return f.fourier()
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        results = list(executor.map(compute_fourier, functions))
+        return list(executor.map(compute_fourier, functions))
 
-    return results
 
 
 if HAS_NUMBA:

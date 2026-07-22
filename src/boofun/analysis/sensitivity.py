@@ -30,21 +30,21 @@ import numpy as np
 from ..core.base import BooleanFunction
 
 __all__ = [
-    # Basic sensitivity
-    "sensitivity_at",
-    "sensitive_coordinates",
-    "sensitivity_profile",
-    # Aggregate measures
-    "max_sensitivity",
-    "min_sensitivity",
-    "average_sensitivity",
-    "total_influence_via_sensitivity",
-    # Moments (from Tal's library)
-    "average_sensitivity_moment",
-    "sensitivity_histogram",
     # Utility
     "arg_max_sensitivity",
     "arg_min_sensitivity",
+    "average_sensitivity",
+    # Moments (from Tal's library)
+    "average_sensitivity_moment",
+    # Aggregate measures
+    "max_sensitivity",
+    "min_sensitivity",
+    "sensitive_coordinates",
+    # Basic sensitivity
+    "sensitivity_at",
+    "sensitivity_histogram",
+    "sensitivity_profile",
+    "total_influence_via_sensitivity",
 ]
 
 

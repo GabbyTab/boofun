@@ -310,9 +310,8 @@ class BooleanFunction(Evaluable, Representable):
     def get_representation(self, rep_type: str):
         """Retrieve or compute representation"""
         self._compute_representation(rep_type)
-        rep_data = self.representations[rep_type]
+        return self.representations[rep_type]
 
-        return rep_data
 
     def add_representation(self, data, rep_type=None):
         """Add a representation to this boolean function"""
@@ -442,8 +441,7 @@ class BooleanFunction(Evaluable, Representable):
 
         # Standard evaluation for small inputs or fallback
         strategy = get_strategy(rep_type)
-        result = strategy.evaluate(inputs, data, self.space, self._n)
-        return result
+        return strategy.evaluate(inputs, data, self.space, self._n)
 
     def _setup_probabilistic_interface(self):
         """Configure as scipy.stats-like random variable"""
@@ -515,9 +513,7 @@ class BooleanFunction(Evaluable, Representable):
 
     # get methods
     def has_rep(self, rep_type):
-        if rep_type in self.representations:
-            return True
-        return False
+        return rep_type in self.representations
 
     def get_conversion_options(self, max_cost: float | None = None) -> dict[str, Any]:
         """
@@ -535,7 +531,7 @@ class BooleanFunction(Evaluable, Representable):
             return {}
 
         all_options: dict[str, Any] = {}
-        for source_rep in self.representations.keys():
+        for source_rep in self.representations:
             options = get_conversion_options(source_rep, max_cost)
             for target, path in options.items():
                 if target not in all_options or path.total_cost < all_options[target]["cost"]:
@@ -564,7 +560,7 @@ class BooleanFunction(Evaluable, Representable):
             return None  # Already available
 
         best_cost = None
-        for source_rep in self.representations.keys():
+        for source_rep in self.representations:
             cost = estimate_conversion_cost(source_rep, target_rep, self.n_vars)
             if cost and (best_cost is None or cost < best_cost):  # type: ignore[unreachable]
                 best_cost = cost

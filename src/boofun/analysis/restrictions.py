@@ -458,9 +458,8 @@ def min_fixing_to_constant(
             if bit != val:
                 consistent = False
                 break
-        if consistent:
-            if bool(f.evaluate(x)) != target_value:
-                return None
+        if consistent and bool(f.evaluate(x)) != target_value:
+            return None
 
     return fixed
 

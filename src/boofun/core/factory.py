@@ -155,7 +155,7 @@ class BooleanFunctionFactory:
             return cls.from_input_invariant_truth_table(boolean_function_cls, data, **kwargs)
         if rep_type == "polynomial":
             return cls.from_polynomial(boolean_function_cls, data, **kwargs)
-        if rep_type == "fourier_expansion" or rep_type == "fourier":
+        if rep_type in {"fourier_expansion", "fourier"}:
             return cls.from_multilinear(boolean_function_cls, data, **kwargs)
         if rep_type == "symbolic":
             return cls.from_symbolic(boolean_function_cls, data, **kwargs)
@@ -208,8 +208,8 @@ class BooleanFunctionFactory:
             # Find the closest powers of 2
             import math
 
-            lower_power = 2 ** int(math.floor(math.log2(size)))
-            upper_power = 2 ** int(math.ceil(math.log2(size + 1)))
+            lower_power = 2 ** math.floor(math.log2(size))
+            upper_power = 2 ** math.ceil(math.log2(size + 1))
             raise InvalidTruthTableError(
                 f"Truth table size must be a power of 2, got {size}",
                 size=size,
@@ -373,7 +373,7 @@ class BooleanFunctionFactory:
                     # Exclude Python keywords and operators
                     keywords = {"and", "or", "not", "True", "False", "None", "in", "is"}
                     word_pattern = re.findall(r"\b([a-zA-Z_]\w*)\b", expression)
-                    variables = sorted(set(v for v in word_pattern if v not in keywords))
+                    variables = sorted({v for v in word_pattern if v not in keywords})
 
         # Set n_vars if not already set
         if instance.n_vars is None and variables:
@@ -544,10 +544,7 @@ class BooleanFunctionFactory:
             kwargs["n_vars"] = result_n_vars
 
         if right_func is None:
-            if operator == "~":
-                expression = f"not {left_sym}"
-            else:
-                expression = f"{operator}{left_sym}"
+            expression = f"not {left_sym}" if operator == "~" else f"{operator}{left_sym}"
         else:
             expression = f"({left_sym} {operator} {right_sym})"
 

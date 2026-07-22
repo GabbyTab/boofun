@@ -27,24 +27,24 @@ except Exception:  # pragma: no cover
     _HAS_SYMPY = False
 
 __all__ = [
-    # Basic operations
-    "gcd",
-    "invmod",
-    "crt",
-    # Prime testing and factorization
-    "is_prime",
-    "prime_sieve",
-    "factor",
-    "prime_factorization",
-    # Euler's totient
-    "euler_phi",
-    "totient",
     # Binomial coefficients
     "binomial",
     "binomial_sum",
+    "crt",
+    # Euler's totient
+    "euler_phi",
+    "factor",
+    # Basic operations
+    "gcd",
+    "invmod",
+    # Prime testing and factorization
+    "is_prime",
     # Utility functions
     "lcm",
     "mobius",
+    "prime_factorization",
+    "prime_sieve",
+    "totient",
 ]
 
 
@@ -282,7 +282,7 @@ def binomial(n: int, k: int) -> int:
     """
     if k < 0 or k > n:
         return 0
-    if k == 0 or k == n:
+    if k in (0, n):
         return 1
 
     # Use symmetry: C(n,k) = C(n, n-k)

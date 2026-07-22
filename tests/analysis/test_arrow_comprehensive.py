@@ -133,7 +133,7 @@ class TestArrowAnalysis:
         # Check for any key related to dictatorship analysis
         has_relevant_key = any(
             "dictator" in key.lower() or "unanimous" in key.lower() or "arrow" in key.lower()
-            for key in analysis.keys()
+            for key in analysis
         )
         assert has_relevant_key or len(analysis) > 0
 

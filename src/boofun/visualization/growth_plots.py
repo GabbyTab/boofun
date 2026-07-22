@@ -231,8 +231,8 @@ class GrowthVisualizer:
                 y=computed_arr,
                 mode="lines+markers",
                 name=f"{marker_name} (computed)",
-                line=dict(width=3),
-                marker=dict(size=10),
+                line={"width": 3},
+                marker={"size": 10},
             )
         )
 
@@ -246,7 +246,7 @@ class GrowthVisualizer:
                         y=theory_arr[valid_theory],
                         mode="lines",
                         name=f"{marker_name} (theory)",
-                        line=dict(dash="dash", color="gray"),
+                        line={"dash": "dash", "color": "gray"},
                     )
                 )
 
@@ -354,8 +354,8 @@ class GrowthVisualizer:
                     y=computed_arr,
                     mode="lines+markers",
                     name=name,
-                    line=dict(color=color, width=2),
-                    marker=dict(size=8),
+                    line={"color": color, "width": 2},
+                    marker={"size": 8},
                 )
             )
 
@@ -369,7 +369,7 @@ class GrowthVisualizer:
                             y=theory_arr[valid],
                             mode="lines",
                             name=f"{name} (theory)",
-                            line=dict(color=color, dash="dash", width=1),
+                            line={"color": color, "dash": "dash", "width": 1},
                             opacity=0.5,
                         )
                     )

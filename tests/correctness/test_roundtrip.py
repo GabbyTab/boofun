@@ -71,9 +71,8 @@ class TestRepresentationRoundTrips:
             for x in range(size):
                 val = 0
                 for s in range(size):
-                    if anf[s]:
-                        if (x & s) == s:
-                            val ^= 1
+                    if anf[s] and (x & s) == s:
+                        val ^= 1
                 reconstructed[x] = val
 
             assert list(reconstructed) == original_tt, f"{name}: ANF round-trip failed"

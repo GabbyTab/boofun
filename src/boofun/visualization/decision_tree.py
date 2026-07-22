@@ -140,7 +140,7 @@ def build_optimal_decision_tree(
             if not vals:
                 return 0
             p1 = sum(vals) / len(vals)
-            if p1 == 0 or p1 == 1:
+            if p1 in {0, 1}:
                 return 0
             return -p1 * np.log2(p1) - (1 - p1) * np.log2(1 - p1)
 

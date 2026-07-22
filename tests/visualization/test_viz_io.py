@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 
 import boofun as bf
 from boofun.visualization import BooleanFunctionVisualizer
+import contextlib
 
 
 @pytest.fixture(autouse=True)
@@ -50,10 +51,8 @@ class TestVisualizerAllMethods:
         funcs = [bf.OR(3), bf.majority(3), bf.parity(3)]
 
         if hasattr(viz, "compare_functions"):
-            try:
+            with contextlib.suppress(TypeError, ValueError):
                 fig = viz.compare_functions(funcs, show=False)
-            except (TypeError, ValueError):
-                pass
 
     @pytest.mark.parametrize("n", [2, 3, 4, 5, 6])
     def test_different_sizes(self, n):

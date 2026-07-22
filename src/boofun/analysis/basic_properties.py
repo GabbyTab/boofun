@@ -25,25 +25,25 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Monotonicity and unateness
-    "is_monotone",
-    "is_unate",
-    "make_unate",
-    "monotone_closure",
-    # Symmetry
-    "is_symmetric",
-    "is_quasisymmetric",
-    "symmetry_type",
-    # Balancedness
-    "is_balanced",
     "bias",
-    "weight",
     # Dependence
     "dependent_variables",
     "essential_variables",
+    "find_decomposition",
+    # Balancedness
+    "is_balanced",
+    # Monotonicity and unateness
+    "is_monotone",
     # Primality / Decomposition
     "is_prime",
-    "find_decomposition",
+    "is_quasisymmetric",
+    # Symmetry
+    "is_symmetric",
+    "is_unate",
+    "make_unate",
+    "monotone_closure",
+    "symmetry_type",
+    "weight",
 ]
 
 
@@ -463,10 +463,7 @@ def is_prime(f: BooleanFunction) -> bool:
     min_inf: float = float(np.min(influences))
 
     # If one variable dominates, might be decomposable
-    if max_inf > 2 * min_inf and min_inf < 0.1:
-        return False
-
-    return True
+    return not (max_inf > 2 * min_inf and min_inf < 0.1)
 
 
 def find_decomposition(f: BooleanFunction) -> tuple[str, list[int], list[int]] | None:

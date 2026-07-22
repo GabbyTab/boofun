@@ -34,20 +34,20 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Sampling functions
-    "sample_uniform",
-    "sample_biased",
-    "sample_spectral",
-    "sample_input_output_pairs",
-    # Estimation functions
-    "estimate_fourier_coefficient",
-    "estimate_influence",
-    "estimate_expectation",
-    "estimate_variance",
-    "estimate_total_influence",
     # Random variable view
     "RandomVariableView",
     "SpectralDistribution",
+    "estimate_expectation",
+    # Estimation functions
+    "estimate_fourier_coefficient",
+    "estimate_influence",
+    "estimate_total_influence",
+    "estimate_variance",
+    "sample_biased",
+    "sample_input_output_pairs",
+    "sample_spectral",
+    # Sampling functions
+    "sample_uniform",
 ]
 
 
@@ -164,10 +164,7 @@ def sample_input_output_pairs(
         val = int(f.evaluate(0))
         return np.zeros(n_samples, dtype=np.int64), np.full(n_samples, val, dtype=np.int8)
 
-    if p == 0.5:
-        inputs = sample_uniform(n, n_samples, rng)
-    else:
-        inputs = sample_biased(n, p, n_samples, rng)
+    inputs = sample_uniform(n, n_samples, rng) if p == 0.5 else sample_biased(n, p, n_samples, rng)
 
     # Evaluate function at each input
     outputs = np.array([int(f.evaluate(int(x))) for x in inputs], dtype=np.int8)

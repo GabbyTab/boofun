@@ -319,7 +319,7 @@ class NumbaOptimizer:
 
         for monomial, coeff in anf_data.items():
             if coeff != 0:
-                monomials.append(sorted(list(monomial)))
+                monomials.append(sorted(monomial))
                 coeffs.append(coeff)
 
         if not monomials:

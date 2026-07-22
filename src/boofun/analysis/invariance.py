@@ -36,22 +36,22 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Core invariance
-    "invariance_distance",
-    "multilinear_extension_gaussian_expectation",
-    "compute_test_function_expectation",
-    # Majority is Stablest
-    "majority_noise_stability",
-    "noise_stability_deficit",
-    "is_stablest_candidate",
-    # Bounds and approximations
-    "max_cut_approximation_ratio",
-    "unique_games_hardness_bound",
     # Utility
     "InvarianceAnalyzer",
+    "bivariate_gaussian_cdf",
+    "compute_test_function_expectation",
     # Gaussian utilities
     "gaussian_cdf",
-    "bivariate_gaussian_cdf",
+    # Core invariance
+    "invariance_distance",
+    "is_stablest_candidate",
+    # Majority is Stablest
+    "majority_noise_stability",
+    # Bounds and approximations
+    "max_cut_approximation_ratio",
+    "multilinear_extension_gaussian_expectation",
+    "noise_stability_deficit",
+    "unique_games_hardness_bound",
 ]
 
 
@@ -165,12 +165,8 @@ def invariance_distance(f: BooleanFunction, test_fn: Callable | None = None) -> 
     # Bound from invariance principle
     # Distance is O(max_i Inf_i[f]^{1/4}) for C^3 test functions
 
-    if max_inf > 0:
-        theoretical_bound = max_inf**0.25
-    else:
-        theoretical_bound = 0.0
+    return max_inf ** 0.25 if max_inf > 0 else 0.0
 
-    return theoretical_bound
 
 
 def multilinear_extension_gaussian_expectation(
@@ -330,11 +326,10 @@ def max_cut_approximation_ratio(rho: float) -> float:
         Approximation ratio
     """
     # GW ratio is approximately 0.87856
-    gw_ratio = 0.87856
+    return 0.87856
 
     # For ρ-correlated rounding:
     # Approximation depends on the stability function
-    return gw_ratio
 
 
 def unique_games_hardness_bound(f: BooleanFunction) -> float:

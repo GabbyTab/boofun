@@ -21,18 +21,18 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Full names
-    "decision_tree_depth",
-    "decision_tree_size",
-    "sensitivity",
-    "max_sensitivity",
-    "min_sensitivity",
-    "average_sensitivity",
-    "certificate_complexity",
     "ComplexityProfile",
     # Standard notation aliases
     "D",  # Decision tree depth D(f)
+    "average_sensitivity",
+    "certificate_complexity",
+    # Full names
+    "decision_tree_depth",
+    "decision_tree_size",
+    "max_sensitivity",
+    "min_sensitivity",
     "s",  # Max sensitivity s(f)
+    "sensitivity",
 ]
 
 

@@ -40,7 +40,7 @@ class TestANFRepresentation:
         assert len(anf_data) > 0
 
         # XOR should have linear terms
-        linear_terms = [mono for mono in anf_data.keys() if len(mono) == 1 and anf_data[mono] != 0]
+        linear_terms = [mono for mono in anf_data if len(mono) == 1 and anf_data[mono] != 0]
         assert len(linear_terms) == 2  # x0 and x1
 
     def test_anf_evaluation(self):

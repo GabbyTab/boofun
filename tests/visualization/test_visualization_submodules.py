@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 
 import boofun as bf
 from boofun.visualization import animation, decision_tree, growth_plots, widgets
+import contextlib
 
 
 @pytest.fixture(autouse=True)
@@ -72,10 +73,8 @@ class TestDecisionTreeModule:
             if "plot" in name.lower() or "draw" in name.lower() or "visual" in name.lower():
                 obj = getattr(decision_tree, name)
                 if callable(obj):
-                    try:
+                    with contextlib.suppress(TypeError, ValueError):
                         obj(f)
-                    except (TypeError, ValueError):
-                        pass
 
 
 class TestGrowthPlotsModule:

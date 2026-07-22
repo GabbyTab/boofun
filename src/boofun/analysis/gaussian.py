@@ -38,23 +38,23 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Hermite polynomials
-    "hermite_polynomial",
-    "hermite_coefficients",
-    "probabilists_hermite",
-    "physicists_hermite",
-    # Gaussian noise
-    "gaussian_noise_stability",
-    "ornstein_uhlenbeck_operator",
-    "gaussian_noise_sensitivity",
+    # Utility
+    "GaussianAnalyzer",
     # Central Limit Theorems
     "berry_esseen_bound",
     "clt_approximation",
     # Gaussian correlations
     "gaussian_inner_product",
+    "gaussian_noise_sensitivity",
+    # Gaussian noise
+    "gaussian_noise_stability",
+    "hermite_coefficients",
+    # Hermite polynomials
+    "hermite_polynomial",
     "multilinear_extension",
-    # Utility
-    "GaussianAnalyzer",
+    "ornstein_uhlenbeck_operator",
+    "physicists_hermite",
+    "probabilists_hermite",
 ]
 
 
@@ -313,9 +313,8 @@ def berry_esseen_bound(f: BooleanFunction) -> float:
     # Berry-Esseen constant (sharp constant is about 0.4748)
     C = 0.5
 
-    bound = C * sum_inf_cubed / (var**1.5)
+    return C * sum_inf_cubed / (var**1.5)
 
-    return bound
 
 
 def clt_approximation(f: BooleanFunction, num_samples: int = 10000) -> tuple[float, float]:

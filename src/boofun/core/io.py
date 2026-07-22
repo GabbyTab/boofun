@@ -531,10 +531,7 @@ def save_dimacs_cnf(
     path = Path(path)
 
     # Get or convert to CNF
-    if func.has_rep("cnf"):
-        cnf = func.representations["cnf"]
-    else:
-        cnf = func.get_representation("cnf")
+    cnf = func.representations["cnf"] if func.has_rep("cnf") else func.get_representation("cnf")
 
     if not isinstance(cnf, CNFFormula):
         raise FileIOError(

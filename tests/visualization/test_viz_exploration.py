@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 
 import boofun as bf
 from boofun.visualization import BooleanFunctionVisualizer
+import contextlib
 
 
 @pytest.fixture(autouse=True)
@@ -134,10 +135,8 @@ def _exercise_module_for_coverage(module, f=None):
                 else:
                     obj()
             except (TypeError, ValueError, AttributeError):
-                try:
+                with contextlib.suppress(Exception):
                     obj()
-                except Exception:
-                    pass
             except Exception:
                 pass
         elif callable(obj):
@@ -170,10 +169,8 @@ class TestGrowthPlotsMore:
                 continue
             obj = getattr(growth_plots, name)
             if isinstance(obj, type):
-                try:
+                with contextlib.suppress(TypeError):
                     obj()
-                except TypeError:
-                    pass
 
     def test_all_functions(self):
         """Test all functions in growth_plots."""
@@ -195,10 +192,8 @@ class TestAnimationMore:
                 continue
             obj = getattr(animation, name)
             if isinstance(obj, type):
-                try:
+                with contextlib.suppress(TypeError):
                     obj()
-                except TypeError:
-                    pass
 
     def test_all_functions(self):
         """Test all animation functions."""

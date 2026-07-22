@@ -96,7 +96,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
         monomials = []
         for subset, coeff in data.items():
             if coeff % 2 == 1:  # Only non-zero coefficients in GF(2)
-                monomials.append({"variables": sorted(list(subset)), "coefficient": coeff % 2})
+                monomials.append({"variables": sorted(subset), "coefficient": coeff % 2})
 
         return {"type": "polynomial", "monomials": monomials, "field": "GF(2)"}
 

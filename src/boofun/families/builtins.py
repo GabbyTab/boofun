@@ -78,7 +78,7 @@ class ParityFamily(FunctionFamily):
             description="XOR_n(x) = x_1 ⊕ x_2 ⊕ ... ⊕ x_n",
             parameters={},
             asymptotics={
-                "total_influence": lambda n: float(n),
+                "total_influence": float,
                 "influence_i": lambda n, i=0: 1.0,
                 "noise_stability": lambda n, rho=0.5: rho**n,
                 "fourier_degree": lambda n: n,
@@ -412,7 +412,7 @@ class RecursiveMajority3Family(FunctionFamily):
                 "noise_stability": lambda n, rho=0.5: self._noise_stability_approx(n, rho),
             },
             universal_properties=["monotone", "balanced"],
-            n_constraints=lambda n: self._is_power_of_3(n),
+            n_constraints=self._is_power_of_3,
             n_constraint_description="n must be a power of 3 (3, 9, 27, 81, ...)",
         )
 
@@ -510,7 +510,7 @@ class IteratedMajorityFamily(FunctionFamily):
                 "depth": lambda n: int(np.log(n) / np.log(k)) + 1,
             },
             universal_properties=["monotone", "balanced"],
-            n_constraints=lambda n: self._is_valid_n(n),
+            n_constraints=self._is_valid_n,
             n_constraint_description=f"n must be {k}^depth for integer depth",
         )
 

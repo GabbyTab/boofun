@@ -57,8 +57,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                     f"Some indices out of range for truth table of size {len(data)}"
                 )
             # Convert to Python list to avoid numpy indexing issues, then back to array
-            result = np.array([bool(data[idx]) for idx in indices])
-            return result
+            return np.array([bool(data[idx]) for idx in indices])
 
         if inputs.ndim == 2:
             # Batch of binary vectors (batch_size, n_vars)
@@ -139,7 +138,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                 value = source_repr.evaluate(idx, source_data, space, n_vars)  # type: ignore[arg-type]
 
                 # Handle different return types and spaces
-                if isinstance(value, (bool, np.bool_)) or isinstance(value, (int, np.integer)):
+                if isinstance(value, (bool, np.bool_, int, np.integer)):
                     truth_table[idx] = bool(value)
                 elif isinstance(value, (float, np.floating)):
                     # For real-valued outputs, convert to boolean

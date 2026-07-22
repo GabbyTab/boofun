@@ -9,7 +9,7 @@ import gc
 import time
 import warnings
 from collections.abc import Callable
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from typing import Any
 
 import numpy as np
@@ -79,10 +79,8 @@ class PerformanceBenchmark:
         """
         # Warmup runs
         for _ in range(self.warmup_runs):
-            try:
+            with suppress(Exception):
                 func(*args, **kwargs)
-            except Exception:
-                pass
 
         # Benchmark runs
         durations = []

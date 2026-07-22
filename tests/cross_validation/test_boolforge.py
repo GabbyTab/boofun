@@ -106,7 +106,7 @@ class TestBoolForgeCrossValidation:
         assert len(boolforge_groups) == 1, "BoolForge should have one symmetry group"
 
         # Convert to comparable format
-        bf_group_size = len(list(bf_groups)[0])
+        bf_group_size = len(next(iter(bf_groups)))
         boolforge_group_size = len(boolforge_groups[0])
 
         assert bf_group_size == 3, f"BooFun group size: {bf_group_size}"

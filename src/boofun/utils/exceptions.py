@@ -544,23 +544,23 @@ class InvariantViolationError(BooleanFunctionError):
 # =============================================================================
 
 __all__ = [
-    # Error codes
-    "ErrorCode",
     # Base
     "BooleanFunctionError",
-    # Validation
-    "ValidationError",
+    # Configuration
+    "ConfigurationError",
+    # Conversion
+    "ConversionError",
+    # Error codes
+    "ErrorCode",
+    # Evaluation
+    "EvaluationError",
     "InvalidInputError",
     "InvalidRepresentationError",
     "InvalidTruthTableError",
-    # Evaluation
-    "EvaluationError",
-    # Conversion
-    "ConversionError",
-    # Configuration
-    "ConfigurationError",
-    # Resources
-    "ResourceUnavailableError",
     # Internal
     "InvariantViolationError",
+    # Resources
+    "ResourceUnavailableError",
+    # Validation
+    "ValidationError",
 ]

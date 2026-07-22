@@ -314,7 +314,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
 
         # Vectorized evaluation
         for i, x in enumerate(inputs):
-            if isinstance(x, np.integer) or isinstance(x, int):
+            if isinstance(x, (np.integer, int)):
                 # Convert integer to binary
                 binary = [(int(x) >> bit) & 1 for bit in range(n_vars)]
             else:
@@ -342,7 +342,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
         for monomial, coeff in anf_dict.items():
             if coeff != 0:
                 # Convert frozenset to sorted list
-                mono_array = np.array(sorted(list(monomial)), dtype=np.int32)
+                mono_array = np.array(sorted(monomial), dtype=np.int32)
                 monomials_list.append(mono_array)
                 coeffs_list.append(coeff)
 

@@ -33,36 +33,36 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Core complexity measures
-    "deterministic_query_complexity",
-    "average_deterministic_complexity",
-    "zero_error_randomized_complexity",
-    "bounded_error_randomized_complexity",
-    "one_sided_randomized_complexity",
-    "nondeterministic_complexity",
-    # Quantum complexity
-    "quantum_query_complexity",
-    "exact_quantum_complexity",
-    # Sensitivity variants
-    "everywhere_sensitivity",
-    "average_everywhere_sensitivity",
-    # Lower bounds
-    "ambainis_complexity",
-    "spectral_adversary_bound",
-    "polynomial_method_bound",
-    "general_adversary_bound",
-    "certificate_lower_bound",
-    "sensitivity_lower_bound",
-    "block_sensitivity_lower_bound",
-    # Degree measures
-    "approximate_degree",
-    "one_sided_approximate_degree",
-    "nondeterministic_degree",
-    "strong_nondeterministic_degree",
-    "weak_nondeterministic_degree",
-    "threshold_degree",
     # Utility
     "QueryComplexityProfile",
+    # Lower bounds
+    "ambainis_complexity",
+    # Degree measures
+    "approximate_degree",
+    "average_deterministic_complexity",
+    "average_everywhere_sensitivity",
+    "block_sensitivity_lower_bound",
+    "bounded_error_randomized_complexity",
+    "certificate_lower_bound",
+    # Core complexity measures
+    "deterministic_query_complexity",
+    # Sensitivity variants
+    "everywhere_sensitivity",
+    "exact_quantum_complexity",
+    "general_adversary_bound",
+    "nondeterministic_complexity",
+    "nondeterministic_degree",
+    "one_sided_approximate_degree",
+    "one_sided_randomized_complexity",
+    "polynomial_method_bound",
+    # Quantum complexity
+    "quantum_query_complexity",
+    "sensitivity_lower_bound",
+    "spectral_adversary_bound",
+    "strong_nondeterministic_degree",
+    "threshold_degree",
+    "weak_nondeterministic_degree",
+    "zero_error_randomized_complexity",
 ]
 
 
@@ -527,9 +527,8 @@ def ambainis_complexity(f: BooleanFunction) -> float:
 
     # Ambainis bound approximation
     # sqrt(|zeros| * |ones|) / min_hamming
-    bound = sqrt(len(zeros) * len(ones)) / min_hamming
+    return sqrt(len(zeros) * len(ones)) / min_hamming
 
-    return bound
 
 
 def certificate_lower_bound(f: BooleanFunction) -> int:

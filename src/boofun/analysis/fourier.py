@@ -32,32 +32,32 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Fundamental identities
-    "parseval_verify",
-    "plancherel_inner_product",
-    "convolution",
-    "convolution_values",
-    # Function transformations (from HW1)
-    "negate_inputs",
-    "odd_part",
-    "even_part",
-    "tensor_product",
-    "restriction",
-    # Fourier utilities
-    "fourier_degree",
-    "spectral_norm",
-    "fourier_sparsity",
-    "dominant_coefficients",
-    # From Tal's library
-    "correlation",
-    "truncate_to_degree",
     "annealed_influence",
-    "fourier_weight_distribution",
-    "min_fourier_coefficient_size",
+    "compute_and_fourier",
     # Examples from O'Donnell
     "compute_mux3_fourier",
     "compute_nae3_fourier",
-    "compute_and_fourier",
+    "convolution",
+    "convolution_values",
+    # From Tal's library
+    "correlation",
+    "dominant_coefficients",
+    "even_part",
+    # Fourier utilities
+    "fourier_degree",
+    "fourier_sparsity",
+    "fourier_weight_distribution",
+    "min_fourier_coefficient_size",
+    # Function transformations (from HW1)
+    "negate_inputs",
+    "odd_part",
+    # Fundamental identities
+    "parseval_verify",
+    "plancherel_inner_product",
+    "restriction",
+    "spectral_norm",
+    "tensor_product",
+    "truncate_to_degree",
 ]
 
 

@@ -126,7 +126,7 @@ def generalized_influence(f: "BooleanFunction", S: set[int], p: float = 0.5) -> 
     # Sum over all T ⊇ S
     total = 0.0
     for T_idx in range(2**n):
-        T = set(i for i in range(n) if (T_idx >> i) & 1)
+        T = {i for i in range(n) if (T_idx >> i) & 1}
         if S.issubset(T):
             total += fourier[T_idx] ** 2
 

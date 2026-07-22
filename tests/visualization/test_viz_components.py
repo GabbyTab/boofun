@@ -16,6 +16,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 import boofun as bf
+import contextlib
 
 
 @pytest.fixture(autouse=True)
@@ -41,10 +42,8 @@ class TestLatexExportDetailed:
                     try:
                         obj(f)
                     except (TypeError, ValueError):
-                        try:
+                        with contextlib.suppress(TypeError, ValueError):
                             obj()
-                        except (TypeError, ValueError):
-                            pass
 
     def test_to_latex_functions(self):
         """Test to_latex type functions."""
@@ -110,10 +109,8 @@ class TestDecisionTreeExportDetailed:
             if "export" in name.lower() or "to_" in name.lower():
                 obj = getattr(decision_tree_export, name)
                 if callable(obj):
-                    try:
+                    with contextlib.suppress(TypeError, ValueError, AttributeError):
                         obj(f)
-                    except (TypeError, ValueError, AttributeError):
-                        pass
 
 
 class TestGrowthPlotsDetailed:
@@ -128,10 +125,8 @@ class TestGrowthPlotsDetailed:
 
             # Try plotting methods
             if hasattr(plotter, "plot"):
-                try:
+                with contextlib.suppress(TypeError, ValueError):
                     fig = plotter.plot(show=False)
-                except (TypeError, ValueError):
-                    pass
 
     def test_growth_tracker_visualization(self):
         """Test growth tracker visualization."""
@@ -142,10 +137,8 @@ class TestGrowthPlotsDetailed:
             if "track" in name.lower() or "growth" in name.lower():
                 obj = getattr(growth_plots, name)
                 if callable(obj):
-                    try:
+                    with contextlib.suppress(TypeError, ValueError):
                         obj()
-                    except (TypeError, ValueError):
-                        pass
 
 
 class TestAnimationDetailed:
@@ -162,10 +155,8 @@ class TestAnimationDetailed:
             if "anim" in name.lower() or "builder" in name.lower():
                 obj = getattr(animation, name)
                 if isinstance(obj, type):
-                    try:
+                    with contextlib.suppress(TypeError):
                         obj()
-                    except TypeError:
-                        pass
 
 
 class TestInteractiveDetailed:
@@ -182,10 +173,8 @@ class TestInteractiveDetailed:
                 continue
             obj = getattr(interactive, name)
             if callable(obj):
-                try:
+                with contextlib.suppress(TypeError, ValueError, ImportError, AttributeError):
                     obj(f)
-                except (TypeError, ValueError, ImportError, AttributeError):
-                    pass
 
 
 class TestVisualizationEdgeCases:

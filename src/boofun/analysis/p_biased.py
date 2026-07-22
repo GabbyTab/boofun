@@ -39,23 +39,23 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Core p-biased analysis
-    "p_biased_fourier_coefficients",
-    "p_biased_fourier_coefficient",
-    "p_biased_influence",
-    "p_biased_total_influence",
-    "p_biased_noise_stability",
-    "p_biased_expectation",
-    "p_biased_variance",
-    "biased_measure_mass",
-    # Sensitivity under μ_p (from Tal's library)
-    "p_biased_sensitivity",
-    "p_biased_average_sensitivity",
-    "p_biased_total_influence_fourier",
-    # Utility functions
-    "parity_biased_coefficient",
     # Analyzer class
     "PBiasedAnalyzer",
+    "biased_measure_mass",
+    "p_biased_average_sensitivity",
+    "p_biased_expectation",
+    "p_biased_fourier_coefficient",
+    # Core p-biased analysis
+    "p_biased_fourier_coefficients",
+    "p_biased_influence",
+    "p_biased_noise_stability",
+    # Sensitivity under μ_p (from Tal's library)
+    "p_biased_sensitivity",
+    "p_biased_total_influence",
+    "p_biased_total_influence_fourier",
+    "p_biased_variance",
+    # Utility functions
+    "parity_biased_coefficient",
 ]
 
 

@@ -141,7 +141,7 @@ class TestMinimalSensitiveBlocks:
                 sub = b
                 while sub > 0:
                     sub = (sub - 1) & b
-                    if sub != 0 and sub != b:
+                    if sub not in (0, b):
                         # This proper subset should NOT be sensitive
                         # (unless it's a different minimal block, which is fine
                         #  but it must not be a subset of b)

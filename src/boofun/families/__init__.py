@@ -45,22 +45,22 @@ from .theoretical import TheoreticalBounds
 from .tracker import GrowthTracker, Marker, PropertyMarker
 
 __all__ = [
+    "ANDFamily",
+    "DictatorFamily",
     # Base classes
     "FunctionFamily",
-    "InductiveFamily",
-    # Built-in families
-    "MajorityFamily",
-    "ParityFamily",
-    "TribesFamily",
-    "ThresholdFamily",
-    "ANDFamily",
-    "ORFamily",
-    "DictatorFamily",
-    "LTFFamily",
     # Tracking
     "GrowthTracker",
+    "InductiveFamily",
+    "LTFFamily",
+    # Built-in families
+    "MajorityFamily",
     "Marker",
+    "ORFamily",
+    "ParityFamily",
     "PropertyMarker",
     # Theory
     "TheoreticalBounds",
+    "ThresholdFamily",
+    "TribesFamily",
 ]

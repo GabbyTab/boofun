@@ -893,36 +893,36 @@ from . import (  # noqa: E402
 )
 
 __all__ = [
-    "SpectralAnalyzer",
     "PropertyTester",
-    "sensitivity",
+    "SpectralAnalyzer",
+    "basic_properties",
     "block_sensitivity",
     "certificates",
-    "symmetry",
     "complexity",
-    "gf2",
-    "equivalence",
-    "p_biased",
-    "learning",
-    "fourier",
-    "restrictions",
-    "hypercontractivity",
-    # BFW-style analysis (Scott Aaronson's Boolean Function Wizard)
-    "query_complexity",
-    "basic_properties",
-    # Decision tree analysis (Tal's algorithms)
-    "decision_trees",
-    # Fourier sparsity analysis (Tal's algorithms)
-    "sparsity",
-    # Boolean functions as random variables (O'Donnell Chapters 1-3)
-    "sampling",
     # Cryptographic analysis (nonlinearity, bent functions, SAC)
     "cryptographic",
+    # Decision tree analysis (Tal's algorithms)
+    "decision_trees",
+    "equivalence",
+    "fourier",
     # O'Donnell Chapters 10-11: Gaussian analysis and Invariance Principle
     "gaussian",
-    "invariance",
-    # O'Donnell Chapter 5: Linear Threshold Functions
-    "ltf_analysis",
+    "gf2",
     # Keevash et al.: Global Hypercontractivity
     "global_hypercontractivity",
+    "hypercontractivity",
+    "invariance",
+    "learning",
+    # O'Donnell Chapter 5: Linear Threshold Functions
+    "ltf_analysis",
+    "p_biased",
+    # BFW-style analysis (Scott Aaronson's Boolean Function Wizard)
+    "query_complexity",
+    "restrictions",
+    # Boolean functions as random variables (O'Donnell Chapters 1-3)
+    "sampling",
+    "sensitivity",
+    # Fourier sparsity analysis (Tal's algorithms)
+    "sparsity",
+    "symmetry",
 ]

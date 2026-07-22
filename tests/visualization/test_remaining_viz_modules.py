@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 
 import boofun as bf
 from boofun.families import MajorityFamily
+import contextlib
 
 
 @pytest.fixture(autouse=True)
@@ -89,10 +90,8 @@ class TestDecisionTreeExport:
                 continue
             obj = getattr(decision_tree_export, name)
             if callable(obj):
-                try:
+                with contextlib.suppress(TypeError, ValueError, AttributeError):
                     obj(f)
-                except (TypeError, ValueError, AttributeError):
-                    pass
 
 
 class TestLatexExport:
@@ -122,10 +121,8 @@ class TestLatexExport:
                 continue
             obj = getattr(latex_export, name)
             if callable(obj):
-                try:
+                with contextlib.suppress(TypeError, ValueError, AttributeError):
                     obj(f)
-                except (TypeError, ValueError, AttributeError):
-                    pass
 
 
 class TestAnimationDetailed:

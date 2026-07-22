@@ -35,24 +35,24 @@ from .symbolic import SymbolicRepresentation
 from .truth_table import TruthTableRepresentation
 
 __all__ = [
-    "BooleanFunctionRepresentation",
-    # Truth table variants
-    "TruthTableRepresentation",
-    "PackedTruthTableRepresentation",
-    "SparseTruthTableRepresentation",
-    "AdaptiveTruthTableRepresentation",
-    # Spectral/algebraic
-    "FourierExpansionRepresentation",
     "ANFRepresentation",
-    "PolynomialRepresentation",
+    "AdaptiveTruthTableRepresentation",
+    "BDDRepresentation",
+    "BooleanFunctionRepresentation",
+    "CNFRepresentation",
+    "CircuitRepresentation",
     # Normal forms
     "DNFRepresentation",
-    "CNFRepresentation",
-    # Symbolic/structural
-    "SymbolicRepresentation",
-    "BDDRepresentation",
-    "CircuitRepresentation",
+    "DistributionRepresentation",
+    # Spectral/algebraic
+    "FourierExpansionRepresentation",
     # Special forms
     "LTFRepresentation",
-    "DistributionRepresentation",
+    "PackedTruthTableRepresentation",
+    "PolynomialRepresentation",
+    "SparseTruthTableRepresentation",
+    # Symbolic/structural
+    "SymbolicRepresentation",
+    # Truth table variants
+    "TruthTableRepresentation",
 ]

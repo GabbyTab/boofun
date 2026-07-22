@@ -223,7 +223,7 @@ class TestTribesFamily:
         family = TribesFamily()
         f = family.generate(6)
 
-        outputs = set(f.evaluate(x) for x in range(2**6))
+        outputs = {f.evaluate(x) for x in range(2**6)}
         assert outputs == {0, 1}, "Tribes should output both 0 and 1"
 
 

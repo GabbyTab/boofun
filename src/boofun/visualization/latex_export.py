@@ -353,7 +353,7 @@ def export_comparison_table(
     names = list(functions.keys())
 
     # Header
-    header = " & ".join(["Property"] + names) + " \\\\"
+    header = " & ".join(["Property", *names]) + " \\\\"
 
     lines = [
         "\\begin{tabular}{|l|" + "c|" * len(names) + "}",
@@ -394,7 +394,7 @@ def export_comparison_table(
                 _logger.debug(f"Property '{prop}' computation failed: {e}")
                 values.append("--")
 
-        row = " & ".join([label] + values) + " \\\\"
+        row = " & ".join([label, *values]) + " \\\\"
         lines.append(row)
 
     lines.append("\\hline")
@@ -472,10 +472,7 @@ class LaTeXExporter:
             *contents: Content strings
             full_doc: Wrap in complete document
         """
-        if full_doc:
-            output = self.full_document(*contents)
-        else:
-            output = "\n\n".join(contents)
+        output = self.full_document(*contents) if full_doc else "\n\n".join(contents)
 
         with open(filename, "w") as f:
             f.write(output)

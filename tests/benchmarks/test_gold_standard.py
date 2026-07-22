@@ -509,7 +509,7 @@ class TestKnownComplexityValues:
 
         # All influences should be equal (by symmetry within tribes)
         # Variables in same position across tribes have same influence
-        assert len(set(round(inf, 6) for inf in influences)) <= 2  # At most 2 distinct values
+        assert len({round(inf, 6) for inf in influences}) <= 2  # At most 2 distinct values
 
 
 # =============================================================================

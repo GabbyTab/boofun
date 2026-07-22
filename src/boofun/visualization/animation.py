@@ -246,7 +246,7 @@ class GrowthAnimator:
                 f"Total Influence: {total_inf:.3f}"
             )
 
-            return list(self.bars) + [self.title]
+            return [*list(self.bars), self.title]
 
         self.anim = animation.FuncAnimation(
             self.fig,
@@ -394,13 +394,12 @@ def animate_fourier_spectrum(
             f'Max degree with weight: {data["max_degree"]}'
         )
 
-        return list(bars) + [title]
+        return [*list(bars), title]
 
-    anim = animation.FuncAnimation(
+    return animation.FuncAnimation(
         fig, update, frames=len(frames_data), interval=interval, repeat=True, blit=False
     )
 
-    return anim
 
 
 def create_growth_animation(

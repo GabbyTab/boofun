@@ -29,19 +29,19 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    # Core hypercontractivity
-    "noise_operator",
-    "lq_norm",
     "bonami_lemma_bound",
-    # KKL-type theorems
-    "kkl_lower_bound",
-    "max_influence_bound",
     # Junta theorems
     "friedgut_junta_bound",
+    "hypercontractive_inequality",
     "junta_approximation_error",
+    # KKL-type theorems
+    "kkl_lower_bound",
     # Utilities
     "level_d_inequality",
-    "hypercontractive_inequality",
+    "lq_norm",
+    "max_influence_bound",
+    # Core hypercontractivity
+    "noise_operator",
 ]
 
 

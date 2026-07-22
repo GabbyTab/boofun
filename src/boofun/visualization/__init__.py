@@ -137,7 +137,7 @@ class BooleanFunctionVisualizer:
             transform=ax.transAxes,
             horizontalalignment="right",
             verticalalignment="bottom",
-            bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.8),
+            bbox={"boxstyle": "round", "facecolor": "wheat", "alpha": 0.8},
         )
 
         plt.tight_layout()
@@ -415,7 +415,7 @@ class BooleanFunctionVisualizer:
             # Create table
             table_data = []
             for i, (inp, out) in enumerate(zip(inputs, outputs)):
-                row = list(inp) + [str(out)]
+                row = [*list(inp), str(out)]
                 table_data.append(row)
 
             headers = [f"x_{i}" for i in range(self.n_vars)] + ["f(x)"]
@@ -498,10 +498,10 @@ class BooleanFunctionVisualizer:
             fig = go.Figure(
                 data=[
                     go.Table(
-                        header=dict(values=headers, fill_color="paleturquoise", align="center"),
-                        cells=dict(
-                            values=[table_data[:, i] for i in range(table_data.shape[1])],
-                            fill_color=[
+                        header={"values": headers, "fill_color": "paleturquoise", "align": "center"},
+                        cells={
+                            "values": [table_data[:, i] for i in range(table_data.shape[1])],
+                            "fill_color": [
                                 (
                                     [
                                         "white" if val == "0" else "lightgreen"
@@ -512,8 +512,8 @@ class BooleanFunctionVisualizer:
                                 )
                                 for i in range(len(headers))
                             ],
-                            align="center",
-                        ),
+                            "align": "center",
+                        },
                     )
                 ]
             )
@@ -616,7 +616,7 @@ class BooleanFunctionVisualizer:
 
         fig.add_trace(
             go.Scatter(
-                x=rho_range, y=stabilities, mode="lines", name="Noise Stability", line=dict(width=3)
+                x=rho_range, y=stabilities, mode="lines", name="Noise Stability", line={"width": 3}
             )
         )
 

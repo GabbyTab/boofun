@@ -69,7 +69,7 @@ class TestGF2Degree:
         f = bf.constant(True, 3)
         deg = gf2_degree(f)
 
-        assert deg == 0 or deg == -1  # Constant might be 0 or have no terms
+        assert deg in (0, -1)  # Constant might be 0 or have no terms
 
     def test_parity_degree_one(self):
         """Parity (XOR) has degree 1."""

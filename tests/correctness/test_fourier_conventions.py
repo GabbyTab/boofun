@@ -183,7 +183,7 @@ class TestFourierEdgeCases:
                             chi *= 1 - 2 * ((x >> i) & 1)
                     val += coeffs[s] * chi
                 # Convert from ±1 to {0,1}
-                reconstructed.append(int(round((1 - val) / 2)))
+                reconstructed.append(round((1 - val) / 2))
 
             assert reconstructed == tt, f"n={n}: inverse failed"
 

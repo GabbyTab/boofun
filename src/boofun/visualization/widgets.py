@@ -451,7 +451,7 @@ class PropertyDashboard:
         """Compare properties in a table."""
         print("=" * 60)
         print(f"{'Property':<20}", end="")
-        for name in self.functions.keys():
+        for name in self.functions:
             print(f"{name:<15}", end="")
         print()
         print("=" * 60)

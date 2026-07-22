@@ -119,12 +119,12 @@ def interactive_fourier_spectrum(
         go.Bar(
             x=indices,
             y=coefficients,
-            marker=dict(
-                color=colors,
-                colorscale=colorscale,
-                colorbar=dict(title=colorbar_title),
-                line=dict(width=0.5, color="black"),
-            ),
+            marker={
+                "color": colors,
+                "colorscale": colorscale,
+                "colorbar": {"title": colorbar_title},
+                "line": {"width": 0.5, "color": "black"},
+            },
             hovertext=hover_text,
             hoverinfo="text",
             name="Fourier coefficients",
@@ -139,9 +139,9 @@ def interactive_fourier_spectrum(
                 x=large_indices,
                 y=[coefficients[i] for i in large_indices],
                 mode="markers",
-                marker=dict(
-                    size=15, color="red", symbol="star", line=dict(width=2, color="darkred")
-                ),
+                marker={
+                    "size": 15, "color": "red", "symbol": "star", "line": {"width": 2, "color": "darkred"}
+                },
                 hoverinfo="skip",
                 name=f"|f̂(S)| ≥ {highlight_threshold}",
             )
@@ -152,21 +152,21 @@ def interactive_fourier_spectrum(
 
     # Layout
     fig.update_layout(
-        title=dict(text=f"Fourier Spectrum (n={n})", font=dict(size=18)),
-        xaxis=dict(
-            title="Subset index",
-            tickmode="array" if n <= 4 else "auto",
-            tickvals=indices if n <= 4 else None,
-            ticktext=subset_labels if n <= 4 else None,
-        ),
-        yaxis=dict(
-            title="Fourier coefficient f̂(S)",
-            zeroline=True,
-        ),
+        title={"text": f"Fourier Spectrum (n={n})", "font": {"size": 18}},
+        xaxis={
+            "title": "Subset index",
+            "tickmode": "array" if n <= 4 else "auto",
+            "tickvals": indices if n <= 4 else None,
+            "ticktext": subset_labels if n <= 4 else None,
+        },
+        yaxis={
+            "title": "Fourier coefficient f̂(S)",
+            "zeroline": True,
+        },
         height=height,
         width=width,
         showlegend=True,
-        legend=dict(yanchor="top", y=0.99, xanchor="right", x=0.99),
+        legend={"yanchor": "top", "y": 0.99, "xanchor": "right", "x": 0.99},
         hovermode="closest",
     )
 
@@ -181,7 +181,7 @@ def interactive_fourier_spectrum(
         y=0.98,
         text=f"Var[f] = {variance:.4f}<br>I[f] = {total_inf:.4f}",
         showarrow=False,
-        font=dict(size=12),
+        font={"size": 12},
         align="left",
         bgcolor="rgba(255,255,255,0.8)",
         bordercolor="gray",
@@ -221,7 +221,7 @@ def interactive_influence_heatmap(
             y=["Influence"],
             colorscale="Reds",
             hovertemplate="Variable: %{x}<br>Influence: %{z:.4f}<extra></extra>",
-            colorbar=dict(title="Inf_i[f]"),
+            colorbar={"title": "Inf_i[f]"},
         )
     )
 
@@ -232,7 +232,7 @@ def interactive_influence_heatmap(
             y="Influence",
             text=f"{inf:.3f}",
             showarrow=False,
-            font=dict(color="white" if inf > 0.3 else "black", size=12),
+            font={"color": "white" if inf > 0.3 else "black", "size": 12},
         )
 
     fig.update_layout(
@@ -300,19 +300,19 @@ def interactive_complexity_comparison(
     )
 
     fig.update_layout(
-        polar=dict(
-            radialaxis=dict(
-                visible=True,
-                range=[0, 1],
-                tickvals=[0.25, 0.5, 0.75, 1.0],
-                ticktext=[
+        polar={
+            "radialaxis": {
+                "visible": True,
+                "range": [0, 1],
+                "tickvals": [0.25, 0.5, 0.75, 1.0],
+                "ticktext": [
                     f"{int(max_val*0.25)}",
                     f"{int(max_val*0.5)}",
                     f"{int(max_val*0.75)}",
                     f"{int(max_val)}",
                 ],
-            )
-        ),
+            }
+        },
         title=f"Query Complexity Profile (n={n})",
         height=height,
         width=width,
@@ -532,7 +532,7 @@ class FourierExplorer:
             yaxis_title="f̂(S)",
             height=height,
             width=width,
-            xaxis=dict(tickmode="linear", tick0=0, dtick=1),
+            xaxis={"tickmode": "linear", "tick0": 0, "dtick": 1},
         )
 
         return fig

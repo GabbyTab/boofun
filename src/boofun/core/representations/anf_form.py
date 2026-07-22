@@ -137,7 +137,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]
         # Convert frozensets to lists for JSON serialization
         serializable_data = {}
         for monomial, coeff in data.items():
-            key = sorted(list(monomial)) if monomial else []
+            key = sorted(monomial) if monomial else []
             serializable_data[str(key)] = coeff
 
         return {
