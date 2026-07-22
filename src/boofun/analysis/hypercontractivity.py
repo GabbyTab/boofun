@@ -150,9 +150,6 @@ def bonami_lemma_bound(f: BooleanFunction, q: float, rho: float) -> tuple[float,
     Note:
         For Boolean functions, ‖f‖_2 = 1 always.
     """
-    n = f.n_vars or 0
-    1 << n
-
     # Compute T_ρ f values
     noisy_values = noise_operator(f, rho)
 
@@ -168,7 +165,7 @@ def bonami_lemma_bound(f: BooleanFunction, q: float, rho: float) -> tuple[float,
     return (lq_noisy, l2_f)
 
 
-def kkl_lower_bound(total_influence: float, n: int) -> float:
+def kkl_lower_bound(total_influence: float, n: int) -> float:  # noqa: ARG001
     r"""
     KKL theorem lower bound on maximum influence.
 

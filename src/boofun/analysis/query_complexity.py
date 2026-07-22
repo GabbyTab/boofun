@@ -169,7 +169,7 @@ def zero_error_randomized_complexity(f: BooleanFunction) -> float:
     return max(lower_bound, min(approx, upper_bound))
 
 
-def bounded_error_randomized_complexity(f: BooleanFunction, error: float = 1 / 3) -> float:
+def bounded_error_randomized_complexity(f: BooleanFunction, error: float = 1 / 3) -> float:  # noqa: ARG001
     """
     Compute R2(f), the bounded-error randomized query complexity.
 
@@ -586,7 +586,7 @@ def block_sensitivity_lower_bound(f: BooleanFunction) -> int:
     return max_block_sensitivity(f)
 
 
-def approximate_degree(f: BooleanFunction, epsilon: float = 1 / 3) -> float:
+def approximate_degree(f: BooleanFunction, epsilon: float = 1 / 3) -> float:  # noqa: ARG001
     """
     Estimate the approximate degree deg_epsilon(f).
 
@@ -606,14 +606,12 @@ def approximate_degree(f: BooleanFunction, epsilon: float = 1 / 3) -> float:
         Exact computation requires linear programming. This uses bounds.
     """
     from .block_sensitivity import max_block_sensitivity
-    from .complexity import max_sensitivity
 
     n = f.n_vars
     if n is None or n == 0:
         return 0.0
 
     bs = max_block_sensitivity(f)
-    max_sensitivity(f)
 
     # Lower bound: Omega(sqrt(bs(f)))
     # For AND/OR: deg_1/3 = Theta(sqrt(n))
