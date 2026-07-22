@@ -346,6 +346,20 @@ def restriction_to_inputs(rho: Restriction, num_inputs: int | None = None) -> li
     return result
 
 
+def _outputs_under_fixing(f: BooleanFunction, n: int, fixed: dict[int, int]) -> set[bool]:
+    """Distinct outputs of f over all inputs consistent with a partial fixing.
+
+    Stops early once both outputs have been seen.
+    """
+    outputs: set[bool] = set()
+    for x in range(1 << n):
+        if all(((x >> var) & 1) == val for var, val in fixed.items()):
+            outputs.add(bool(f.evaluate(x)))
+            if len(outputs) == 2:
+                break
+    return outputs
+
+
 def min_fixing_to_constant(
     f: BooleanFunction,
     target_value: int = 1,
@@ -381,87 +395,43 @@ def min_fixing_to_constant(
 
     # Greedy approach: try to fix variables one at a time
     # This doesn't guarantee minimum but is efficient
+    target = bool(target_value)
     fixed: dict[int, int] = {}
     remaining = set(range(n))
 
     while remaining:
-        # Check if already constant
-        is_constant = True
-        first_val: bool | None = None
-
-        for x in range(1 << n):
-            # Check if x is consistent with current fixing
-            consistent = True
-            for var, val in fixed.items():
-                bit = (x >> var) & 1
-                if bit != val:
-                    consistent = False
-                    break
-
-            if consistent:
-                fval = bool(f.evaluate(x))
-                if first_val is None:
-                    first_val = fval
-                elif fval != first_val:
-                    is_constant = False
-                    break
-
-        if is_constant and first_val == target_value:
+        # Already constant at the target under the current fixing?
+        if _outputs_under_fixing(f, n, fixed) == {target}:
             return fixed
 
-        if not remaining:
-            break
-
-        # Try fixing each remaining variable
+        # Try fixing each remaining variable, keeping the fix that minimizes
+        # the diversity of reachable outputs.
         best_var = None
         best_val = None
         best_remaining_diversity = float("inf")
 
         for var in remaining:
-            for val in [0, 1]:
-                test_fixed = dict(fixed)
-                test_fixed[var] = val
+            for val in (0, 1):
+                outputs = _outputs_under_fixing(f, n, {**fixed, var: val})
 
-                # Count diversity of outputs under this fixing
-                outputs = set()
-                for x in range(1 << n):
-                    consistent = True
-                    for v, vval in test_fixed.items():
-                        bit = (x >> v) & 1
-                        if bit != vval:
-                            consistent = False
-                            break
-                    if consistent:
-                        outputs.add(bool(f.evaluate(x)))
-
-                if len(outputs) == 1 and target_value in outputs:
+                if outputs == {target}:
                     # This single fix achieves the target!
                     fixed[var] = val
                     return fixed
 
-                diversity = len(outputs)
-                if diversity < best_remaining_diversity:
-                    best_remaining_diversity = diversity
+                if len(outputs) < best_remaining_diversity:
+                    best_remaining_diversity = len(outputs)
                     best_var = var
                     best_val = val
 
-        if best_var is not None and best_val is not None:
-            fixed[best_var] = best_val
-            remaining.remove(best_var)
-        else:
+        if best_var is None or best_val is None:
             break
+        fixed[best_var] = best_val
+        remaining.remove(best_var)
 
-    # Final check
-    for x in range(1 << n):
-        consistent = True
-        for var, val in fixed.items():
-            bit = (x >> var) & 1
-            if bit != val:
-                consistent = False
-                break
-        if consistent and bool(f.evaluate(x)) != target_value:
-            return None
-
+    # Final check: every input consistent with the fixing must hit the target
+    if _outputs_under_fixing(f, n, fixed) != {target}:
+        return None
     return fixed
 
 
