@@ -12,8 +12,10 @@
   <a href="https://github.com/GabbyTab/boofun/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+"></a>
   <a href="https://github.com/GabbyTab/boofun/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT License"></a>
   <a href="https://gabbytab.github.io/boofun/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue.svg" alt="Documentation"></a>
+  <a href="https://github.com/GabbyTab/boofun/actions/workflows/ci.yml"><img src="https://github.com/GabbyTab/boofun/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
   <a href="https://codecov.io/gh/GabbyTab/boofun"><img src="https://codecov.io/gh/GabbyTab/boofun/branch/main/graph/badge.svg" alt="codecov"></a>
-  <a href="https://github.com/GabbyTab/boofun"><img src="https://img.shields.io/badge/typed-mypy-blue.svg" alt="Typed"></a>
+  <a href="https://github.com/GabbyTab/boofun"><img src="https://img.shields.io/badge/mypy-strict-blue.svg" alt="mypy strict"></a>
+  <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
 </p>
 
 ## What This Is
@@ -202,7 +204,9 @@ pytest tests/
 pytest --cov=boofun tests/
 ```
 
-3770+ tests with 72% coverage. Cross-validation against known results in `tests/test_cross_validation.py`.
+3,800+ tests with ~79% line-and-branch coverage, enforced as a CI gate alongside
+strict mypy (zero errors, no baseline) and a zero-warning Ruff profile.
+Cross-validation against known results in `tests/test_cross_validation.py`.
 
 ## Convention
 
@@ -210,7 +214,10 @@ O'Donnell standard: Boolean 0 → +1, Boolean 1 → −1. This ensures f̂(∅) 
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especially valuable.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Bug reports and test cases are especially
+valuable, and issues labeled [good first issue](https://github.com/GabbyTab/boofun/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+are a good place to start. The roadmap lives on the
+[issue tracker](https://github.com/GabbyTab/boofun/issues).
 
 ## Acknowledgments
 
