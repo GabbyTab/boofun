@@ -201,15 +201,13 @@ def _gl_tree_search(
             new_mask = prefix_mask | (1 << next_var)
 
             # Branch where variable is 0 (not in S)
-            est0, _ = _estimate_subtree_weight(
-                f, new_mask, prefix_value, threshold, num_samples, rng
-            )
+            est0, _ = _estimate_subtree_weight(f, new_mask, prefix_value, num_samples, rng)
             if est0 >= threshold**2 / 4:  # Could contain heavy coefficient
                 queue.append((new_mask, prefix_value))
 
             # Branch where variable is 1 (in S)
             est1, _ = _estimate_subtree_weight(
-                f, new_mask, prefix_value | (1 << next_var), threshold, num_samples, rng
+                f, new_mask, prefix_value | (1 << next_var), num_samples, rng
             )
             if est1 >= threshold**2 / 4:
                 queue.append((new_mask, prefix_value | (1 << next_var)))
@@ -221,7 +219,6 @@ def _estimate_subtree_weight(
     f: BooleanFunction,
     mask: int,
     value: int,
-    threshold: float,
     num_samples: int,
     rng: np.random.Generator,
 ) -> tuple[float, float]:

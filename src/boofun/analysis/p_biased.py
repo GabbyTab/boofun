@@ -59,7 +59,7 @@ __all__ = [
 ]
 
 
-def _p_biased_basis(p: float, n: int) -> tuple[float, float]:
+def _p_biased_basis(p: float) -> tuple[float, float]:
     """
     Compute p-biased basis transformation parameters.
 
@@ -178,7 +178,7 @@ def p_biased_fourier_coefficients(f: BooleanFunction, p: float = 0.5) -> dict[in
     if n == 0:
         return {0: float(f.evaluate(0))}
 
-    mu, sigma = _p_biased_basis(p, n)
+    mu, sigma = _p_biased_basis(p)
 
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=float)
     truth_table_pm = 1.0 - 2.0 * truth_table
@@ -376,7 +376,7 @@ def p_biased_fourier_coefficient(f: BooleanFunction, p: float, S: int) -> float:
     return val
 
 
-def p_biased_sensitivity(f: BooleanFunction, x: int, p: float = 0.5) -> int:
+def p_biased_sensitivity(f: BooleanFunction, x: int, p: float = 0.5) -> int:  # noqa: ARG001
     """
     Compute the sensitivity of f at input x.
 
