@@ -289,7 +289,7 @@ class OptimizedFourierProcessor(VectorizedBatchProcessor):
         if not HAS_NUMBA:
             return self._numpy_fourier_batch(inputs, coeffs, n_vars)
 
-        return _numba_fourier_batch_impl(inputs.astype(np.int32), coeffs, n_vars)
+        return _numba_fourier_batch_impl(inputs.astype(np.int32), coeffs)
 
 
 class OptimizedANFProcessor(VectorizedBatchProcessor):
@@ -376,9 +376,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
 if HAS_NUMBA:
 
     @jit(nopython=True, parallel=True)
-    def _numba_fourier_batch_impl(
-        inputs: np.ndarray, coeffs: np.ndarray, n_vars: int
-    ) -> np.ndarray:
+    def _numba_fourier_batch_impl(inputs: np.ndarray, coeffs: np.ndarray) -> np.ndarray:
         """Numba-compiled batch Fourier evaluation."""
         results = np.zeros(len(inputs), dtype=np.bool_)
 
