@@ -212,7 +212,7 @@ class Measure:
         """True if this is the uniform measure (p = 0.5)."""
         return self._p == 0.5
 
-    def sample(self, n: int, rng=None) -> np.ndarray:
+    def sample(self, n: int, rng: np.random.Generator | None = None) -> np.ndarray:
         """Sample a random input from this measure.
 
         Args:
@@ -226,7 +226,9 @@ class Measure:
             rng = np.random.default_rng()
         return (rng.random(n) < self._p).astype(int)
 
-    def sample_batch(self, n: int, n_samples: int, rng=None) -> np.ndarray:
+    def sample_batch(
+        self, n: int, n_samples: int, rng: np.random.Generator | None = None
+    ) -> np.ndarray:
         """Sample multiple inputs from this measure.
 
         Args:
