@@ -164,9 +164,10 @@ class SpectralAnalyzer:
         if is_numba_available() and self.function.has_rep("truth_table"):
             try:
                 truth_table = self.function.get_representation("truth_table")
-                influences = numba_optimize("influences", truth_table, self.n_vars)
+                # Annotated because numba_optimize is untyped (returns Any).
+                influences: np.ndarray = numba_optimize("influences", truth_table, self.n_vars)
                 self._influences = influences
-                return typing.cast("np.ndarray", influences)
+                return influences
             except Exception as e:
                 warnings.warn(f"Numba optimization failed, using fallback: {e}", stacklevel=2)
 
