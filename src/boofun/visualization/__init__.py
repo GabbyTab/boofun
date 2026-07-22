@@ -1022,7 +1022,7 @@ def plot_hypercube(
 
         if n <= 3:
             # Direct embedding
-            coords[x, :n] = bits[:3] if n == 3 else bits + [0] * (3 - n)
+            coords[x, :] = bits[:3] if n == 3 else bits + [0] * (3 - n)
         else:
             # Project higher dimensions using a simple scheme
             # Use trigonometric projection for dims > 3
