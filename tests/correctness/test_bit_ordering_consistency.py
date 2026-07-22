@@ -11,7 +11,6 @@ These tests verify that all modules agree on this convention.
 
 import sys
 
-import numpy as np
 import pytest
 
 sys.path.insert(0, "src")

@@ -7,7 +7,6 @@ These tests verify that:
 3. Numba JIT compilation doesn't change mathematical results
 """
 
-import os
 
 import numpy as np
 import pytest

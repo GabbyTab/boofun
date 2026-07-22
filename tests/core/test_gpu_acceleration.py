@@ -17,7 +17,6 @@ from boofun.core.gpu import (
     get_gpu_info,
     gpu_accelerate,
     is_gpu_available,
-    is_gpu_enabled,
     should_use_gpu,
 )
 

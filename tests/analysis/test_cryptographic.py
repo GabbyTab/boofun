@@ -19,7 +19,6 @@ These tests use known values that can be verified against:
 """
 
 import numpy as np
-import pytest
 
 import boofun as bf
 from boofun.analysis.cryptographic import (
@@ -27,7 +26,6 @@ from boofun.analysis.cryptographic import (
     SBoxAnalyzer,
     algebraic_degree,
     algebraic_immunity,
-    algebraic_normal_form,
     anf_monomials,
     correlation_immunity,
     difference_distribution_table,

@@ -171,7 +171,7 @@ def demo_numba_optimization():
     print("\n[JIT] Numba JIT Optimization Demo")
     print("=" * 50)
 
-    from boofun.core.numba_optimizations import get_numba_stats, is_numba_available
+    from boofun.core.numba_optimizations import get_numba_stats
 
     stats = get_numba_stats()
     print(f"Numba Available: {stats['numba_available']}")
@@ -228,7 +228,6 @@ def demo_testing_framework():
 
     # Test representation
     print("\nRepresentation Testing:")
-    from boofun.core.representations.truth_table import TruthTableRepresentation
 
     # Use validate_representation for representation testing
     f = bf.AND(3)

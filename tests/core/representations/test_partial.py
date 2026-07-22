@@ -12,7 +12,6 @@ Tests cover:
 """
 
 import numpy as np
-import pytest
 
 from boofun.core.representations.base import PartialRepresentation
 from boofun.core.spaces import Space

@@ -11,12 +11,10 @@ Tests cover:
 """
 
 import numpy as np
-import pytest
 
 import boofun as bf
 from boofun.families.base import (
     FamilyMetadata,
-    FunctionFamily,
     InductiveFamily,
     WeightPatternFamily,
     geometric_ltf_family,

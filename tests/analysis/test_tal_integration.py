@@ -10,7 +10,6 @@ These tests verify the correctness of:
 """
 
 import numpy as np
-import pytest
 
 import boofun as bf
 

@@ -272,7 +272,6 @@ class TestMajorityTotalInfluenceFormula:
 
     def test_asymptotic_formula_sqrt_2n_over_pi(self):
         """I[Maj_n] / sqrt(2n/pi) → 1 as n → ∞."""
-        from math import comb
 
         for n in [11, 15, 21]:
             f = bf.majority(n)

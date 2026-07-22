@@ -22,7 +22,6 @@ from boofun.analysis.decision_trees import (
     decision_tree_size_dp,
     enumerate_decision_trees,
     randomized_complexity_matrix,
-    reconstruct_tree,
     tree_depth,
     tree_size,
 )

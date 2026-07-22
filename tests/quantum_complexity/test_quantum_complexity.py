@@ -7,7 +7,6 @@ Verifies both API existence AND mathematical correctness.
 
 import sys
 
-import numpy as np
 import pytest
 
 sys.path.insert(0, "src")

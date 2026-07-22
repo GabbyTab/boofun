@@ -26,7 +26,6 @@ import numpy as np
 
 import boofun as bf
 from boofun.quantum_complexity import (
-    element_distinctness_analysis,
     grover_speedup,
     quantum_walk_bounds,
 )

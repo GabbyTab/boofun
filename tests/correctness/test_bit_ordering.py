@@ -14,7 +14,6 @@ These tests verify this convention is consistent across:
 """
 
 import json
-import os
 from pathlib import Path
 
 import numpy as np

@@ -27,7 +27,6 @@ from boofun.analysis.canalization import (
     get_essential_variables,
     get_symmetry_groups,
     is_canalizing,
-    is_nested_canalizing,
 )
 
 

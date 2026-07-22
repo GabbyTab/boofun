@@ -19,7 +19,6 @@ from boofun.analysis.complexity import decision_tree_depth, max_certificate_comp
 from boofun.analysis.decision_trees import (
     compute_randomized_complexity,
     count_decision_trees,
-    decision_tree_depth_dp,
 )
 from boofun.analysis.sensitivity import (
     arg_max_sensitivity,
@@ -27,7 +26,6 @@ from boofun.analysis.sensitivity import (
     average_sensitivity,
     average_sensitivity_moment,
     max_sensitivity,
-    min_sensitivity,
     sensitive_coordinates,
     sensitivity_at,
     sensitivity_histogram,

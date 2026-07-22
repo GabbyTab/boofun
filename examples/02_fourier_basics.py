@@ -13,7 +13,6 @@ References:
 - O'Donnell, "Analysis of Boolean Functions", Chapters 1-2
 """
 
-import numpy as np
 
 import boofun as bf
 

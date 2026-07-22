@@ -7,12 +7,10 @@ Tests verify both structure AND mathematical correctness.
 
 import sys
 
-import numpy as np
 import pytest
 
 sys.path.insert(0, "src")
 
-import boofun as bf
 from boofun.families.builtins import (
     ANDFamily,
     DictatorFamily,

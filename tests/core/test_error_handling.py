@@ -202,7 +202,6 @@ class TestTruthTableConversionStrictMode:
 
         # Getting truth table should fail in strict mode
         from boofun.core.representations.registry import get_strategy
-        from boofun.core.representations.truth_table import TruthTableRepresentation
 
         tt_strategy = get_strategy("truth_table")
         func_strategy = get_strategy("function")
@@ -225,7 +224,6 @@ class TestTruthTableConversionStrictMode:
             return x % 2
 
         from boofun.core.representations.registry import get_strategy
-        from boofun.core.representations.truth_table import TruthTableRepresentation
 
         tt_strategy = get_strategy("truth_table")
         func_strategy = get_strategy("function")

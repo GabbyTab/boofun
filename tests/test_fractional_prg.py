@@ -15,7 +15,7 @@ import pytest
 sys.path.insert(0, "src")
 
 import boofun as bf
-from boofun.analysis.fourier import fourier_level_lp_norm, fourier_tail_profile
+from boofun.analysis.fourier import fourier_level_lp_norm
 from boofun.analysis.gaussian import multilinear_extension
 
 

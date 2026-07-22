@@ -12,10 +12,8 @@ Reference: https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/b
 """
 
 import sys
-from math import comb
 
 import numpy as np
-import pytest
 
 sys.path.insert(0, "src")
 

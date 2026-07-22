@@ -17,12 +17,7 @@ import numpy as np
 
 import boofun as bf
 from boofun.families.builtins import (
-    ANDFamily,
-    DictatorFamily,
     MajorityFamily,
-    ORFamily,
-    ParityFamily,
-    TribesFamily,
 )
 
 

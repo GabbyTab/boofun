@@ -10,7 +10,6 @@ Tests cover:
 """
 
 import numpy as np
-import pytest
 
 import boofun as bf
 from boofun.analysis.sparsity import (

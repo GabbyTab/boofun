@@ -13,7 +13,6 @@ Features covered:
 - Confidence-based evaluation
 """
 
-import numpy as np
 
 import boofun as bf
 

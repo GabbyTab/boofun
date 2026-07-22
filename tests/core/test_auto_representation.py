@@ -20,7 +20,6 @@ import boofun as bf
 from boofun.core.auto_representation import (
     DENSE_THRESHOLD,
     PACKED_THRESHOLD,
-    SPARSE_RATIO_THRESHOLD,
     AdaptiveFunction,
     auto_select_representation,
     estimate_sparsity,

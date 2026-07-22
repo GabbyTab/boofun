@@ -14,7 +14,6 @@ sys.path.insert(0, "src")
 import boofun as bf
 from boofun.core.representations.circuit import (
     BooleanCircuit,
-    CircuitRepresentation,
     Gate,
     GateType,
     build_majority_circuit,

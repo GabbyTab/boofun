@@ -8,8 +8,7 @@ using matplotlib and saves it as both PNG and SVG formats.
 
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
-import numpy as np
-from matplotlib.patches import ConnectionPatch, FancyBboxPatch
+from matplotlib.patches import FancyBboxPatch
 
 
 def create_architecture_diagram():

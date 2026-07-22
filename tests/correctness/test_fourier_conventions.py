@@ -10,7 +10,6 @@ These tests verify mathematical correctness and edge cases.
 """
 
 import numpy as np
-import pytest
 
 import boofun as bf
 

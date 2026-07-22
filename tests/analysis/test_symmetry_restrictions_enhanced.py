@@ -6,7 +6,6 @@ Tests cover the new functions added from Tal's library:
 - Restrictions: min_fixing_to_constant, shift_by_mask
 """
 
-import numpy as np
 import pytest
 
 import boofun as bf
@@ -25,7 +24,6 @@ from boofun.analysis.symmetry import (
     sens_sym_by_weight,
     shift_function,
     symmetric_representation,
-    symmetrize,
     symmetrize_profile,
 )
 
