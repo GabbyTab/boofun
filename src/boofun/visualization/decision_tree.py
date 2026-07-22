@@ -238,7 +238,7 @@ def plot_decision_tree(
         import matplotlib.patches as mpatches
         import matplotlib.pyplot as plt
     except ImportError:
-        raise ImportError("Matplotlib required for decision tree visualization")
+        raise ImportError("Matplotlib required for decision tree visualization") from None
 
     # Build tree if not provided
     if tree is None:

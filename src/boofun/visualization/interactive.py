@@ -38,7 +38,7 @@ def _check_plotly():
     """Ensure Plotly is available."""
     if not HAS_PLOTLY:
         raise ImportError(
-            "Plotly required for interactive visualizations. " "Install with: pip install plotly"
+            "Plotly required for interactive visualizations. Install with: pip install plotly"
         )
 
 
@@ -97,7 +97,7 @@ def interactive_fourier_spectrum(
         f"Binary: {labels[i]}<br>"
         f"Degree: {degrees[i]}<br>"
         f"f̂(S) = {coefficients[i]:.4f}<br>"
-        f"|f̂(S)|² = {coefficients[i]**2:.4f}"
+        f"|f̂(S)|² = {coefficients[i] ** 2:.4f}"
         for i in range(len(indices))
     ]
 
@@ -140,7 +140,10 @@ def interactive_fourier_spectrum(
                 y=[coefficients[i] for i in large_indices],
                 mode="markers",
                 marker={
-                    "size": 15, "color": "red", "symbol": "star", "line": {"width": 2, "color": "darkred"}
+                    "size": 15,
+                    "color": "red",
+                    "symbol": "star",
+                    "line": {"width": 2, "color": "darkred"},
                 },
                 hoverinfo="skip",
                 name=f"|f̂(S)| ≥ {highlight_threshold}",
@@ -280,7 +283,7 @@ def interactive_complexity_comparison(
     # Normalize to [0, n] for visualization
     n = f.n_vars
     assert n is not None
-    max_val = max(max(radar_measures.values()), n)
+    max_val = max(*radar_measures.values(), n)
 
     categories = list(radar_measures.keys())
     values = [float(v) / max_val for v in radar_measures.values()]
@@ -306,9 +309,9 @@ def interactive_complexity_comparison(
                 "range": [0, 1],
                 "tickvals": [0.25, 0.5, 0.75, 1.0],
                 "ticktext": [
-                    f"{int(max_val*0.25)}",
-                    f"{int(max_val*0.5)}",
-                    f"{int(max_val*0.75)}",
+                    f"{int(max_val * 0.25)}",
+                    f"{int(max_val * 0.5)}",
+                    f"{int(max_val * 0.75)}",
                     f"{int(max_val)}",
                 ],
             }

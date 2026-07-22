@@ -363,8 +363,10 @@ class TestAdapters:
 
     def test_callable_adapter(self):
         """Test adapting Python callables."""
+
         # Define XOR as lambda
-        xor_lambda = lambda x: x[0] ^ x[1]
+        def xor_lambda(x):
+            return x[0] ^ x[1]
 
         # Adapt to BooleanFunction
         adapted = bf.adapt_callable(xor_lambda, n_vars=2)

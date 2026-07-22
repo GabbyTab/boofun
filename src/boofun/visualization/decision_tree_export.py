@@ -188,9 +188,7 @@ def export_decision_tree_dot(
 
     node_id = [0]  # Mutable counter
 
-    def add_node(
-        node: DecisionTreeNode, parent_id: int | None = None, edge_label: str = ""
-    ) -> int:
+    def add_node(node: DecisionTreeNode, parent_id: int | None = None, edge_label: str = "") -> int:
         current_id = node_id[0]
         node_id[0] += 1
 

@@ -220,8 +220,7 @@ class InductiveFamily(FunctionFamily):
 
         if n_prev <= 0:
             raise ValueError(
-                f"Cannot generate n={n}: no base case found. "
-                f"Searched step sizes: {self._step_size}"
+                f"Cannot generate n={n}: no base case found. Searched step sizes: {self._step_size}"
             )
 
         # Build up from base

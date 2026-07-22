@@ -51,7 +51,7 @@ def _check_widgets():
     """Ensure ipywidgets is available."""
     if not HAS_WIDGETS:
         raise ImportError(
-            "ipywidgets required for interactive widgets. " "Install with: pip install ipywidgets"
+            "ipywidgets required for interactive widgets. Install with: pip install ipywidgets"
         )
 
 

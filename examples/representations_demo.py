@@ -166,7 +166,7 @@ def representation_conversions():
             try:
                 result = original_func.evaluate(inputs, rep_type=rep_name)
                 results.append(bool(result))
-            except:
+            except Exception:
                 pass
 
         if len(set(results)) <= 1:  # All results are the same
@@ -228,7 +228,7 @@ def advanced_function_analysis():
                 is_symmetric = tester.symmetry_test()
                 symmetric_functions.append((name, is_symmetric))
                 print(f"   {name}: Symmetric = {is_symmetric}")
-            except:
+            except Exception:
                 print(f"   {name}: Symmetry test not implemented")
 
     print("\n3. Influence distribution analysis:")

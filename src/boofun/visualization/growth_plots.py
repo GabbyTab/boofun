@@ -457,16 +457,12 @@ class GrowthVisualizer:
         pfig: Any = go.Figure()
 
         pfig.add_trace(
-            go.Scatter(
-                x=n_arr, y=ratio, mode="lines+markers", name=f"{marker_name} / {ref_label}"
-            )
+            go.Scatter(x=n_arr, y=ratio, mode="lines+markers", name=f"{marker_name} / {ref_label}")
         )
 
         if len(ratio) > 2:
             mean_ratio = float(np.mean(ratio[-3:]))
-            pfig.add_hline(
-                y=mean_ratio, line_dash="dash", annotation_text=f"≈ {mean_ratio:.4f}"
-            )
+            pfig.add_hline(y=mean_ratio, line_dash="dash", annotation_text=f"≈ {mean_ratio:.4f}")
 
         pfig.update_layout(
             title=f"Convergence: {marker_name} / {ref_label}",
@@ -722,7 +718,7 @@ class ComplexityVisualizer:
 # Convenience function to quickly visualize growth
 def quick_growth_plot(
     family_name: str,
-    properties: list[str] = ["total_influence"],
+    properties: list[str] | None = None,
     n_values: list[int] | None = None,
     **kwargs,
 ):
@@ -737,6 +733,9 @@ def quick_growth_plot(
     Returns:
         Figure
     """
+    if properties is None:
+        properties = ["total_influence"]
+
     from ..families import (
         ANDFamily,
         DictatorFamily,

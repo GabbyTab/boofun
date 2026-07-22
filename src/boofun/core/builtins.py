@@ -66,7 +66,7 @@ class BooleanFunctionBuiltins:
         if n <= 0:
             raise ValueError("Number of variables must be positive")
         if i < 0 or i >= n:
-            raise ValueError(f"Dictator index {i} must be in range [0, {n-1}]")
+            raise ValueError(f"Dictator index {i} must be in range [0, {n - 1}]")
 
         from .base import BooleanFunction
         from .factory import BooleanFunctionFactory

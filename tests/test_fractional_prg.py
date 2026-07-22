@@ -35,9 +35,9 @@ class TestMultilinearExtension:
             p = multilinear_extension(f)
             origin_val = p(np.zeros(f.n_vars))
             fourier_empty = f.fourier()[0]
-            assert (
-                abs(origin_val - fourier_empty) < 1e-10
-            ), f"{name}: f_tilde(0)={origin_val}, f_hat(empty)={fourier_empty}"
+            assert abs(origin_val - fourier_empty) < 1e-10, (
+                f"{name}: f_tilde(0)={origin_val}, f_hat(empty)={fourier_empty}"
+            )
 
     def test_agrees_on_vertices(self):
         """f_tilde agrees with f on {-1,+1}^n vertices."""
@@ -51,9 +51,9 @@ class TestMultilinearExtension:
             vertex = np.array([1.0 - 2.0 * ((idx >> j) & 1) for j in range(n)])
             pm_val = 1.0 - 2.0 * tt[idx]  # Convert {0,1} to {+1,-1}
             ext_val = p(vertex)
-            assert (
-                abs(ext_val - pm_val) < 1e-10
-            ), f"Vertex {idx}: extension={ext_val}, boolean={pm_val}"
+            assert abs(ext_val - pm_val) < 1e-10, (
+                f"Vertex {idx}: extension={ext_val}, boolean={pm_val}"
+            )
 
     def test_bounded_on_cube(self):
         """f_tilde maps [-1,1]^n to [-1,1] for +-1 valued f.
@@ -91,7 +91,7 @@ class TestFourierTails:
             nk = comb(n, k)  # Number of subsets of size k
             # Cauchy-Schwarz: L_{1,k}^2 <= C(n,k) * W^k
             assert l1k**2 <= nk * wk + 1e-10, (
-                f"Cauchy-Schwarz violated at k={k}: " f"L1k^2={l1k**2}, C(n,k)*Wk={nk * wk}"
+                f"Cauchy-Schwarz violated at k={k}: L1k^2={l1k**2}, C(n,k)*Wk={nk * wk}"
             )
 
     def test_parity_L1_profile(self):
@@ -100,9 +100,9 @@ class TestFourierTails:
             f = bf.parity(n)
             for k in range(n):
                 assert fourier_level_lp_norm(f, k) < 1e-10, f"Parity({n}): L_{{1,{k}}} should be 0"
-            assert (
-                abs(fourier_level_lp_norm(f, n) - 1.0) < 1e-10
-            ), f"Parity({n}): L_{{1,{n}}} should be 1"
+            assert abs(fourier_level_lp_norm(f, n) - 1.0) < 1e-10, (
+                f"Parity({n}): L_{{1,{n}}} should be 1"
+            )
 
     def test_dictator_L1_profile(self):
         """Dictator: f_hat({i})=1, all others 0. So L_{1,1}=1, L_{1,k}=0 for k!=1."""

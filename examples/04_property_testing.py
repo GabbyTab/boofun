@@ -15,7 +15,6 @@ Topics covered:
 - Symmetry and balance testing
 """
 
-
 import boofun as bf
 from boofun.testing import PropertyTester
 

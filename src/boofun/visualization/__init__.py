@@ -223,6 +223,7 @@ class BooleanFunctionVisualizer:
             )
         if self.backend == "plotly":
             return self._plot_fourier_plotly(fourier_coeffs, max_degree, save_path, show)
+        return None
 
     def _plot_fourier_matplotlib(self, fourier_coeffs, max_degree, figsize, save_path, show):
         """Plot Fourier spectrum using matplotlib."""
@@ -382,7 +383,9 @@ class BooleanFunctionVisualizer:
             Figure object
         """
         if self.n_vars > 6:
-            warnings.warn("Truth table visualization not recommended for >6 variables", stacklevel=2)
+            warnings.warn(
+                "Truth table visualization not recommended for >6 variables", stacklevel=2
+            )
 
         # Get truth table
         truth_table = self.function.get_representation("truth_table")
@@ -392,6 +395,7 @@ class BooleanFunctionVisualizer:
             return self._plot_truth_table_matplotlib(truth_table, figsize, save_path, show)
         if self.backend == "plotly":
             return self._plot_truth_table_plotly(truth_table, save_path, show)
+        return None
 
     def _plot_truth_table_matplotlib(self, truth_table, figsize, save_path, show):
         """Plot truth table using matplotlib."""
@@ -498,7 +502,11 @@ class BooleanFunctionVisualizer:
             fig = go.Figure(
                 data=[
                     go.Table(
-                        header={"values": headers, "fill_color": "paleturquoise", "align": "center"},
+                        header={
+                            "values": headers,
+                            "fill_color": "paleturquoise",
+                            "align": "center",
+                        },
                         cells={
                             "values": [table_data[:, i] for i in range(table_data.shape[1])],
                             "fill_color": [
@@ -578,6 +586,7 @@ class BooleanFunctionVisualizer:
             )
         if self.backend == "plotly":
             return self._plot_noise_stability_plotly(rho_range, stabilities, save_path, show)
+        return None
 
     def _plot_noise_stability_matplotlib(self, rho_range, stabilities, figsize, save_path, show):
         """Plot noise stability using matplotlib."""
@@ -653,6 +662,7 @@ class BooleanFunctionVisualizer:
             return self._create_matplotlib_dashboard(save_path, show)
         if self.backend == "plotly":
             return self._create_plotly_dashboard(save_path, show)
+        return None
 
     def _create_matplotlib_dashboard(self, save_path, show):
         """Create matplotlib dashboard."""

@@ -63,7 +63,7 @@ def profile_fourier_transform():
 
         print(
             f"n={n:2d} (2^{n}={2**n:>8d} points): "
-            f"{timing['mean']*1000:>8.2f} ms ± {timing['std']*1000:>6.2f} ms"
+            f"{timing['mean'] * 1000:>8.2f} ms ± {timing['std'] * 1000:>6.2f} ms"
         )
 
     # Check scaling
@@ -72,7 +72,7 @@ def profile_fourier_transform():
         ratio = results[i]["mean_time"] / results[i - 1]["mean_time"]
         size_ratio = results[i]["size"] / results[i - 1]["size"]
         print(
-            f"  n={results[i-1]['n']}→{results[i]['n']}: "
+            f"  n={results[i - 1]['n']}→{results[i]['n']}: "
             f"time ratio={ratio:.2f}x (size ratio={size_ratio:.0f}x)"
         )
 
@@ -90,11 +90,11 @@ def profile_influences():
 
         # Individual influences
         timing = time_operation(f.influences, iterations=5)
-        print(f"n={n:2d}: f.influences()    = {timing['mean']*1000:>8.2f} ms")
+        print(f"n={n:2d}: f.influences()    = {timing['mean'] * 1000:>8.2f} ms")
 
         # Total influence
         timing = time_operation(f.total_influence, iterations=5)
-        print(f"n={n:2d}: f.total_influence() = {timing['mean']*1000:>8.2f} ms")
+        print(f"n={n:2d}: f.total_influence() = {timing['mean'] * 1000:>8.2f} ms")
         print()
 
 
@@ -110,7 +110,7 @@ def profile_noise_stability():
         f = bf.majority(n)
 
         timing = time_operation(f.noise_stability, rho, iterations=5)
-        print(f"n={n:2d}: f.noise_stability({rho}) = {timing['mean']*1000:>8.2f} ms")
+        print(f"n={n:2d}: f.noise_stability({rho}) = {timing['mean'] * 1000:>8.2f} ms")
 
 
 def profile_function_creation():
@@ -122,15 +122,15 @@ def profile_function_creation():
     for n in [8, 10, 12, 14, 16]:
         # Majority
         timing = time_operation(bf.majority, n, iterations=10)
-        print(f"n={n:2d}: bf.majority({n})  = {timing['mean']*1000:>6.2f} ms")
+        print(f"n={n:2d}: bf.majority({n})  = {timing['mean'] * 1000:>6.2f} ms")
 
         # Parity
         timing = time_operation(bf.parity, n, iterations=10)
-        print(f"n={n:2d}: bf.parity({n})    = {timing['mean']*1000:>6.2f} ms")
+        print(f"n={n:2d}: bf.parity({n})    = {timing['mean'] * 1000:>6.2f} ms")
 
         # AND
         timing = time_operation(bf.AND, n, iterations=10)
-        print(f"n={n:2d}: bf.AND({n})       = {timing['mean']*1000:>6.2f} ms")
+        print(f"n={n:2d}: bf.AND({n})       = {timing['mean'] * 1000:>6.2f} ms")
         print()
 
 
@@ -177,8 +177,8 @@ def memory_profile():
         fourier_bytes = tt_size * 8  # Float64 array
 
         print(
-            f"n={n:2d}: Truth table = {tt_bytes/1024/1024:>8.2f} MB, "
-            f"Fourier = {fourier_bytes/1024/1024:>8.2f} MB"
+            f"n={n:2d}: Truth table = {tt_bytes / 1024 / 1024:>8.2f} MB, "
+            f"Fourier = {fourier_bytes / 1024 / 1024:>8.2f} MB"
         )
 
 

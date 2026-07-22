@@ -463,8 +463,8 @@ def estimate_total_influence(
 
     # Compute sensitivity at each input
     sensitivities = []
-    for x in inputs:
-        x = int(x)
+    for sample in inputs:
+        x = int(sample)
         f_x = int(f.evaluate(x))
         sens = 0
         for i in range(n):

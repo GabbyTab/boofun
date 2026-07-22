@@ -81,9 +81,9 @@ class TestInfluenceConsistency:
         for i in range(n):
             # Fourier identity: Inf_i = sum_{S: i in S} f_hat(S)^2
             inf_fourier = sum(fourier[S] ** 2 for S in range(1 << n) if (S >> i) & 1)
-            assert (
-                abs(influences[i] - inf_fourier) < TOL
-            ), f"{name}: Inf_{i} mismatch: SA={influences[i]}, Fourier={inf_fourier}"
+            assert abs(influences[i] - inf_fourier) < TOL, (
+                f"{name}: Inf_{i} mismatch: SA={influences[i]}, Fourier={inf_fourier}"
+            )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_bf_influences(self, name):
@@ -94,9 +94,9 @@ class TestInfluenceConsistency:
         bf_infs = f.influences()
 
         for i in range(f.n_vars):
-            assert (
-                abs(sa_infs[i] - bf_infs[i]) < TOL
-            ), f"{name}: Inf_{i} mismatch: SA={sa_infs[i]}, BF={bf_infs[i]}"
+            assert abs(sa_infs[i] - bf_infs[i]) < TOL, (
+                f"{name}: Inf_{i} mismatch: SA={sa_infs[i]}, BF={bf_infs[i]}"
+            )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_p_biased_at_half(self, name):
@@ -109,9 +109,9 @@ class TestInfluenceConsistency:
 
         for i in range(f.n_vars):
             inf_pb = p_biased_influence(f, i, p=0.5)
-            assert (
-                abs(influences[i] - inf_pb) < TOL
-            ), f"{name}: Inf_{i} mismatch: SA={influences[i]}, p-biased={inf_pb}"
+            assert abs(influences[i] - inf_pb) < TOL, (
+                f"{name}: Inf_{i} mismatch: SA={influences[i]}, p-biased={inf_pb}"
+            )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_annealed_influence_at_rho_one(self, name):
@@ -124,9 +124,9 @@ class TestInfluenceConsistency:
 
         for i in range(f.n_vars):
             inf_ann = annealed_influence(f, i, rho=1.0)
-            assert (
-                abs(influences[i] - inf_ann) < TOL
-            ), f"{name}: Inf_{i} mismatch: SA={influences[i]}, annealed={inf_ann}"
+            assert abs(influences[i] - inf_ann) < TOL, (
+                f"{name}: Inf_{i} mismatch: SA={influences[i]}, annealed={inf_ann}"
+            )
 
 
 # ===========================================================================
@@ -148,9 +148,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_sens = average_sensitivity(f)
-        assert (
-            abs(ti_spectral - ti_sens) < TOL
-        ), f"{name}: TI mismatch: spectral={ti_spectral}, sensitivity={ti_sens}"
+        assert abs(ti_spectral - ti_sens) < TOL, (
+            f"{name}: TI mismatch: spectral={ti_spectral}, sensitivity={ti_sens}"
+        )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_complexity_average(self, name):
@@ -160,9 +160,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_comp = average_sensitivity(f)
-        assert (
-            abs(ti_spectral - ti_comp) < TOL
-        ), f"{name}: TI mismatch: spectral={ti_spectral}, complexity={ti_comp}"
+        assert abs(ti_spectral - ti_comp) < TOL, (
+            f"{name}: TI mismatch: spectral={ti_spectral}, complexity={ti_comp}"
+        )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_huang_average(self, name):
@@ -172,9 +172,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_huang = average_sensitivity(f)
-        assert (
-            abs(ti_spectral - ti_huang) < TOL
-        ), f"{name}: TI mismatch: spectral={ti_spectral}, huang={ti_huang}"
+        assert abs(ti_spectral - ti_huang) < TOL, (
+            f"{name}: TI mismatch: spectral={ti_spectral}, huang={ti_huang}"
+        )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_fourier_identity(self, name):
@@ -184,9 +184,9 @@ class TestTotalInfluenceConsistency:
         ti_spectral = SpectralAnalyzer(f).total_influence()
         fourier = np.asarray(f.fourier())
         ti_fourier = sum(bin(S).count("1") * fourier[S] ** 2 for S in range(1 << n))
-        assert (
-            abs(ti_spectral - ti_fourier) < TOL
-        ), f"{name}: TI mismatch: spectral={ti_spectral}, Fourier={ti_fourier}"
+        assert abs(ti_spectral - ti_fourier) < TOL, (
+            f"{name}: TI mismatch: spectral={ti_spectral}, Fourier={ti_fourier}"
+        )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_spectral_vs_sum_of_influences(self, name):
@@ -205,9 +205,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_pb = p_biased_total_influence(f, p=0.5)
-        assert (
-            abs(ti_spectral - ti_pb) < TOL
-        ), f"{name}: TI mismatch: spectral={ti_spectral}, p-biased={ti_pb}"
+        assert abs(ti_spectral - ti_pb) < TOL, (
+            f"{name}: TI mismatch: spectral={ti_spectral}, p-biased={ti_pb}"
+        )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_p_biased_fourier_total_at_half(self, name):
@@ -217,9 +217,9 @@ class TestTotalInfluenceConsistency:
         f = FUNCTIONS_3[name]
         ti_spectral = SpectralAnalyzer(f).total_influence()
         ti_pb_fourier = p_biased_total_influence_fourier(f, p=0.5)
-        assert (
-            abs(ti_spectral - ti_pb_fourier) < TOL
-        ), f"{name}: TI mismatch: spectral={ti_spectral}, p-biased-fourier={ti_pb_fourier}"
+        assert abs(ti_spectral - ti_pb_fourier) < TOL, (
+            f"{name}: TI mismatch: spectral={ti_spectral}, p-biased-fourier={ti_pb_fourier}"
+        )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_bf_method_matches_spectral(self, name):
@@ -526,9 +526,9 @@ class TestExpectationBiasConsistency:
         # BooleanFunction.bias() = E[f] in +-1 = 1 - 2*Pr[f=1]
         # basic_properties.bias(f) = Pr[f=1]
         expected = 1 - 2 * bp_val
-        assert (
-            abs(bf_bias - expected) < TOL
-        ), f"{name}: bf.bias={bf_bias}, expected 1-2*{bp_val}={expected}"
+        assert abs(bf_bias - expected) < TOL, (
+            f"{name}: bf.bias={bf_bias}, expected 1-2*{bp_val}={expected}"
+        )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_weight_vs_bias(self, name):
@@ -608,9 +608,9 @@ class TestCertificateComplexityConsistency:
         for x in range(1 << f.n_vars):
             size_comp, _ = certificate_complexity(f, x)
             size_cert, _ = certificate(f, x)
-            assert (
-                size_comp == size_cert
-            ), f"{name} at x={x}: complexity={size_comp}, certificates={size_cert}"
+            assert size_comp == size_cert, (
+                f"{name} at x={x}: complexity={size_comp}, certificates={size_cert}"
+            )
 
 
 # ===========================================================================
@@ -699,9 +699,9 @@ class TestIsBalancedConsistency:
         from boofun.analysis.basic_properties import is_balanced
 
         f = FUNCTIONS_3[name]
-        assert f.is_balanced() == is_balanced(
-            f
-        ), f"{name}: BF={f.is_balanced()}, basic_props={is_balanced(f)}"
+        assert f.is_balanced() == is_balanced(f), (
+            f"{name}: BF={f.is_balanced()}, basic_props={is_balanced(f)}"
+        )
 
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_balanced_iff_zero_bias(self, name):
@@ -801,9 +801,9 @@ class TestANFConsistency:
         gf2_coeffs = gf2_fourier_transform(f)
         anf_coeffs = algebraic_normal_form(f)
 
-        assert np.array_equal(
-            np.asarray(gf2_coeffs), np.asarray(anf_coeffs)
-        ), f"{name}: GF2 transform != cryptographic ANF"
+        assert np.array_equal(np.asarray(gf2_coeffs), np.asarray(anf_coeffs)), (
+            f"{name}: GF2 transform != cryptographic ANF"
+        )
 
 
 if __name__ == "__main__":

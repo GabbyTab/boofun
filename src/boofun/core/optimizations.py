@@ -328,7 +328,6 @@ def parallel_batch_influences(
         return list(executor.map(compute_influences, functions))
 
 
-
 def parallel_batch_fourier(functions: list, max_workers: int | None = None) -> list:
     """
     Compute Fourier coefficients for multiple Boolean functions in parallel.
@@ -351,7 +350,6 @@ def parallel_batch_fourier(functions: list, max_workers: int | None = None) -> l
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         return list(executor.map(compute_fourier, functions))
-
 
 
 if HAS_NUMBA:

@@ -242,7 +242,7 @@ class GrowthAnimator:
 
             total_inf = sum(data["influences"][: data["actual_n"]])
             self.title.set_text(
-                f'{self.family.metadata.name}: Influences (n={data["n"]})\n'
+                f"{self.family.metadata.name}: Influences (n={data['n']})\n"
                 f"Total Influence: {total_inf:.3f}"
             )
 
@@ -390,8 +390,8 @@ def animate_fourier_spectrum(
             bar.set_height(h)
 
         title.set_text(
-            f'{family.metadata.name}: Spectral Weight by Degree (n={data["n"]})\n'
-            f'Max degree with weight: {data["max_degree"]}'
+            f"{family.metadata.name}: Spectral Weight by Degree (n={data['n']})\n"
+            f"Max degree with weight: {data['max_degree']}"
         )
 
         return [*list(bars), title]
@@ -399,7 +399,6 @@ def animate_fourier_spectrum(
     return animation.FuncAnimation(
         fig, update, frames=len(frames_data), interval=interval, repeat=True, blit=False
     )
-
 
 
 def create_growth_animation(

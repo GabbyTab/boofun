@@ -121,9 +121,9 @@ class TestCommunicationMatrix:
             for y in range(2**n_bob):
                 combined = (x << n_bob) | y
                 expected = int(f.evaluate(combined))
-                assert (
-                    M[x, y] == expected
-                ), f"Matrix mismatch at ({x}, {y}): expected {expected}, got {M[x, y]}"
+                assert M[x, y] == expected, (
+                    f"Matrix mismatch at ({x}, {y}): expected {expected}, got {M[x, y]}"
+                )
 
 
 class TestCommunicationProfile:

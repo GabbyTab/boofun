@@ -223,7 +223,7 @@ class LegacyWrapper:
         return self._func
 
     def __str__(self) -> str:
-        return f"LegacyWrapper(k={self.k}, f={self.f[:min(8, len(self.f))]}...)"
+        return f"LegacyWrapper(k={self.k}, f={self.f[: min(8, len(self.f))]}...)"
 
     def __repr__(self) -> str:
         return f"LegacyWrapper({self._func!r})"

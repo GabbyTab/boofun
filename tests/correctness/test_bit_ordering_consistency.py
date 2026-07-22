@@ -38,9 +38,9 @@ class TestDictatorBitOrdering:
         f = bf.dictator(n, i=i)
         for x in range(2**n):
             expected = (x >> i) & 1
-            assert (
-                f.evaluate(x) == expected
-            ), f"dictator(n={n}, i={i}): f({x}) = {f.evaluate(x)}, expected {expected}"
+            assert f.evaluate(x) == expected, (
+                f"dictator(n={n}, i={i}): f({x}) = {f.evaluate(x)}, expected {expected}"
+            )
 
     @pytest.mark.parametrize("n", [3, 4])
     @pytest.mark.parametrize("i", [0, 1, 2])
@@ -78,13 +78,13 @@ class TestDictatorBitOrdering:
         for j in range(n):
             inf_j = f.influence(j)
             if j == i:
-                assert (
-                    abs(inf_j - 1.0) < 1e-10
-                ), f"dictator(n={n}, i={i}): Inf_{j} = {inf_j}, expected 1.0"
+                assert abs(inf_j - 1.0) < 1e-10, (
+                    f"dictator(n={n}, i={i}): Inf_{j} = {inf_j}, expected 1.0"
+                )
             else:
-                assert (
-                    abs(inf_j) < 1e-10
-                ), f"dictator(n={n}, i={i}): Inf_{j} = {inf_j}, expected 0.0"
+                assert abs(inf_j) < 1e-10, (
+                    f"dictator(n={n}, i={i}): Inf_{j} = {inf_j}, expected 0.0"
+                )
 
 
 # ---------------------------------------------------------------------------

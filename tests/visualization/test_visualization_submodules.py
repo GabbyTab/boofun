@@ -13,11 +13,12 @@ sys.path.insert(0, "src")
 import matplotlib
 
 matplotlib.use("Agg")
+import contextlib
+
 import matplotlib.pyplot as plt
 
 import boofun as bf
 from boofun.visualization import animation, decision_tree, growth_plots, widgets
-import contextlib
 
 
 @pytest.fixture(autouse=True)

@@ -110,9 +110,9 @@ class TestKnownCertificateComplexity:
             C_f = max_certificate_size(f)
             expected = ceil(n / 2) + 1
             # Allow some slack for boundary cases
-            assert C_f <= expected + 1 and C_f >= ceil(
-                n / 2
-            ), f"C(MAJ_{n}) should be ~{expected}, got {C_f}"
+            assert C_f <= expected + 1 and C_f >= ceil(n / 2), (
+                f"C(MAJ_{n}) should be ~{expected}, got {C_f}"
+            )
 
 
 class TestCertificateEdgeCases:
@@ -159,7 +159,7 @@ class TestCertificateBounds:
             s_f = max_sensitivity(func)
             bs_f = max_block_sensitivity(func)
 
-            assert C_f <= s_f * bs_f, f"C(f)={C_f} > s(f)*bs(f)={s_f}*{bs_f}={s_f*bs_f}"
+            assert C_f <= s_f * bs_f, f"C(f)={C_f} > s(f)*bs(f)={s_f}*{bs_f}={s_f * bs_f}"
 
 
 if __name__ == "__main__":

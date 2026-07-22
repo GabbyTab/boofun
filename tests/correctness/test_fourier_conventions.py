@@ -206,9 +206,9 @@ class TestInfluenceFourierRelation:
                 influence_from_fourier = sum(
                     coeffs[s] ** 2 for s in range(len(coeffs)) if (s >> i) & 1
                 )
-                assert (
-                    abs(influences[i] - influence_from_fourier) < 1e-10
-                ), f"n={n}, i={i}: {influences[i]} vs {influence_from_fourier}"
+                assert abs(influences[i] - influence_from_fourier) < 1e-10, (
+                    f"n={n}, i={i}: {influences[i]} vs {influence_from_fourier}"
+                )
 
     def test_total_influence_spectral(self):
         """Total influence = Σ_i Inf_i = Σ_S |S| f̂(S)²."""
@@ -236,9 +236,9 @@ class TestNoiseStability:
 
                 for rho in [0.0, 0.5, 0.9, 1.0]:
                     stab = f.noise_stability(rho)
-                    assert (
-                        -1.0 - 1e-10 <= stab <= 1.0 + 1e-10
-                    ), f"Noise stability {stab} out of bounds for rho={rho}"
+                    assert -1.0 - 1e-10 <= stab <= 1.0 + 1e-10, (
+                        f"Noise stability {stab} out of bounds for rho={rho}"
+                    )
 
     def test_noise_stability_rho_0(self):
         """At ρ=0, noise stability = 𝔼[f]² = f̂(∅)²."""

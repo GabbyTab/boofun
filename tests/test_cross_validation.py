@@ -129,9 +129,9 @@ class TestTheoreticalBounds:
             bs_f = max_block_sensitivity(func)
 
             # s(f) ≥ √bs(f)
-            assert (
-                s_f >= sqrt(bs_f) - 0.01
-            ), f"Huang violated: s(f)={s_f}, bs(f)={bs_f}, √bs(f)={sqrt(bs_f):.2f}"
+            assert s_f >= sqrt(bs_f) - 0.01, (
+                f"Huang violated: s(f)={s_f}, bs(f)={bs_f}, √bs(f)={sqrt(bs_f):.2f}"
+            )
 
     def test_nisan_szegedy_bound(self):
         """
@@ -203,9 +203,9 @@ class TestTheoreticalBounds:
             C_f = max_certificate_size(func)
             D_f = deterministic_query_complexity(func)
 
-            assert (
-                s_f <= bs_f <= C_f <= D_f
-            ), f"Chain violated: s={s_f}, bs={bs_f}, C={C_f}, D={D_f}"
+            assert s_f <= bs_f <= C_f <= D_f, (
+                f"Chain violated: s={s_f}, bs={bs_f}, C={C_f}, D={D_f}"
+            )
 
 
 # =============================================================================
@@ -334,7 +334,7 @@ class TestBoolForgeCompatibility:
     def boolforge_available(self):
         """Check if BoolForge is installed."""
         try:
-            import boolforge  # noqa: F401
+            import boolforge  # noqa: F401 -- importing verifies optional test dependency
 
             return True
         except ImportError:
@@ -382,7 +382,7 @@ class TestSageMathCompatibility:
     def sage_available(self):
         """Check if SageMath is installed."""
         try:
-            import sage.crypto.boolean_function  # noqa: F401
+            import sage.crypto.boolean_function  # noqa: F401 -- optional dependency probe
 
             return True
         except ImportError:

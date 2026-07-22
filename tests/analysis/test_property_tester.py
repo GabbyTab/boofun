@@ -135,9 +135,9 @@ class TestBLRLinearityTest:
             exact_acceptance = accepts / total
 
             # Both should match theoretical formula
-            assert np.isclose(
-                theoretical_acceptance, exact_acceptance
-            ), f"{name}: theoretical={(1+sum_cubed)/2:.4f} != exact={exact_acceptance:.4f}"
+            assert np.isclose(theoretical_acceptance, exact_acceptance), (
+                f"{name}: theoretical={(1 + sum_cubed) / 2:.4f} != exact={exact_acceptance:.4f}"
+            )
 
     def test_blr_acceptance_probability_is_valid(self):
         """Verify BLR acceptance probability is always in [0, 1].
@@ -170,9 +170,9 @@ class TestBLRLinearityTest:
 
             # Σf̂³ can be outside [-1, 1] in theory, but for Boolean functions
             # it must be in [-1, 1] (since it's an expectation of ±1 values)
-            assert (
-                -1 <= sum_cubed <= 1
-            ), f"Σf̂³ = {sum_cubed:.4f} is not in [-1,1] for Boolean function"
+            assert -1 <= sum_cubed <= 1, (
+                f"Σf̂³ = {sum_cubed:.4f} is not in [-1,1] for Boolean function"
+            )
 
 
 class TestMonotonicityTest:

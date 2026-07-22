@@ -243,7 +243,9 @@ class OptimizedFourierProcessor(VectorizedBatchProcessor):
             try:
                 return gpu_accelerate("fourier_batch", inputs, function_data)
             except Exception as e:
-                warnings.warn(f"GPU Fourier acceleration failed, falling back to CPU: {e}", stacklevel=2)
+                warnings.warn(
+                    f"GPU Fourier acceleration failed, falling back to CPU: {e}", stacklevel=2
+                )
 
         # CPU implementations
         if HAS_NUMBA:
@@ -440,7 +442,9 @@ class BatchProcessorManager:
         try:
             return processor.process_batch(inputs, function_data, space, n_vars)
         except Exception as e:
-            warnings.warn(f"Batch processing failed with {type(processor).__name__}: {e}", stacklevel=2)
+            warnings.warn(
+                f"Batch processing failed with {type(processor).__name__}: {e}", stacklevel=2
+            )
             # Fallback to sequential processing
             return self._sequential_fallback(inputs, function_data, representation, space, n_vars)
 

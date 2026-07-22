@@ -125,9 +125,7 @@ class TestFKNTheoremBound:
         for func in [bf.AND(3), bf.OR(3), bf.majority(3)]:
             result = fkn_theorem_bound(func)
 
-            (
-                result["degree_0_weight"] + result["degree_1_weight"] + result["high_degree_weight"]
-            )
+            (result["degree_0_weight"] + result["degree_1_weight"] + result["high_degree_weight"])
             # Note: high_degree_weight = 1 - low_degree_weight = 1 - (w0 + w1)
             # So total should be close to 1
             assert abs(result["low_degree_weight"] + result["high_degree_weight"] - 1.0) < 1e-10

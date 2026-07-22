@@ -260,7 +260,6 @@ def ltf_influence_from_weights(weights: np.ndarray) -> np.ndarray:
     return (2 / np.pi) * (weights**2) / norm_sq
 
 
-
 def ltf_noise_stability_gaussian(rho: float) -> float:
     """
     Gaussian noise stability for regular LTFs (Sheppard's formula).

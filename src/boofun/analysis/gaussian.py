@@ -316,7 +316,6 @@ def berry_esseen_bound(f: BooleanFunction) -> float:
     return C * sum_inf_cubed / (var**1.5)
 
 
-
 def clt_approximation(f: BooleanFunction, num_samples: int = 10000) -> tuple[float, float]:
     """
     Estimate how well f's distribution is approximated by a Gaussian.

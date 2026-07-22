@@ -13,10 +13,11 @@ sys.path.insert(0, "src")
 import matplotlib
 
 matplotlib.use("Agg")
+import contextlib
+
 import matplotlib.pyplot as plt
 
 import boofun as bf
-import contextlib
 
 
 @pytest.fixture(autouse=True)

@@ -70,7 +70,7 @@ class TestCNFClauseEdgeCases:
         # BUG: This crashes because max() is called on empty set
         # The code has early return for empty literals but var_names
         # computation happens first
-        with pytest.raises(ValueError, match="max.*empty"):
+        with pytest.raises(ValueError, match=r"max.*empty"):
             clause.to_string()
 
     def test_clause_serialization_roundtrip(self):
@@ -293,7 +293,7 @@ class TestDNFTermEdgeCases:
 
         # BUG: This crashes because max() is called on empty set
         # Same bug as CNFClause.to_string()
-        with pytest.raises(ValueError, match="max.*empty"):
+        with pytest.raises(ValueError, match=r"max.*empty"):
             term.to_string()
 
     def test_term_serialization_roundtrip(self):

@@ -60,23 +60,23 @@ def run_mutation_tests(modules=None, quick=False):
     print(f"Running mutation tests on: {paths}")
     print("This may take a while...\n")
 
-    result = subprocess.run(cmd, capture_output=False)
+    result = subprocess.run(cmd, capture_output=False, check=False)
 
     # Show results
     print("\n" + "=" * 60)
-    subprocess.run(["mutmut", "results"])
+    subprocess.run(["mutmut", "results"], check=False)
 
     return result.returncode
 
 
 def show_summary():
     """Show mutation testing summary."""
-    subprocess.run(["mutmut", "results"])
+    subprocess.run(["mutmut", "results"], check=False)
 
 
 def generate_report():
     """Generate HTML report."""
-    subprocess.run(["mutmut", "html"])
+    subprocess.run(["mutmut", "html"], check=False)
     print("\nHTML report generated in htmlcov/")
 
 

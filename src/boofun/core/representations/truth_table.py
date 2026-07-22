@@ -53,9 +53,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             # Array of integer indices
             indices: np.ndarray = inputs.astype(int)
             if np.any((indices < 0) | (indices >= len(data))):
-                raise IndexError(
-                    f"Some indices out of range for truth table of size {len(data)}"
-                )
+                raise IndexError(f"Some indices out of range for truth table of size {len(data)}")
             # Convert to Python list to avoid numpy indexing issues, then back to array
             return np.array([bool(data[idx]) for idx in indices])
 
@@ -175,7 +173,8 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                 f"Truth table conversion: {len(failed_indices)} evaluations failed "
                 f"(substituted False). First failure at index {failed_indices[0][0]}: "
                 f"{failed_indices[0][1]}",
-                UserWarning, stacklevel=2,
+                UserWarning,
+                stacklevel=2,
             )
 
         return truth_table

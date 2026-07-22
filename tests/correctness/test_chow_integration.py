@@ -79,7 +79,7 @@ class TestWeightedMajorityChowIntegration:
         light = max(abs(chow[5]), abs(chow[6]))  # weights 2, 2
 
         assert heavy > light, (
-            f"|Chow| for heavy districts ({heavy}) should exceed " f"light districts ({light})"
+            f"|Chow| for heavy districts ({heavy}) should exceed light districts ({light})"
         )
 
     def test_single_weight_dominant_is_almost_dictator(self):
@@ -94,10 +94,10 @@ class TestWeightedMajorityChowIntegration:
 
         # Variable 0 should dominate
         assert abs(chow[1]) > 5 * abs(chow[2]), (
-            f"|chow[1]|={abs(chow[1]):.4f} should dominate " f"|chow[2]|={abs(chow[2]):.4f}"
+            f"|chow[1]|={abs(chow[1]):.4f} should dominate |chow[2]|={abs(chow[2]):.4f}"
         )
         assert abs(chow[1]) > 5 * abs(chow[3]), (
-            f"|chow[1]|={abs(chow[1]):.4f} should dominate " f"|chow[3]|={abs(chow[3]):.4f}"
+            f"|chow[1]|={abs(chow[1]):.4f} should dominate |chow[3]|={abs(chow[3]):.4f}"
         )
 
     def test_equal_weights_equal_chow(self):
@@ -109,7 +109,7 @@ class TestWeightedMajorityChowIntegration:
         degree1 = [chow[i + 1] for i in range(5)]
         for i in range(1, 5):
             assert abs(degree1[i] - degree1[0]) < 1e-10, (
-                f"chow[{i + 1}]={degree1[i]} != chow[1]={degree1[0]} " f"for equal-weight majority"
+                f"chow[{i + 1}]={degree1[i]} != chow[1]={degree1[0]} for equal-weight majority"
             )
 
     def test_chow_roundtrip_with_analyze_ltf(self):

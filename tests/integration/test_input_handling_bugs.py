@@ -42,8 +42,10 @@ class TestLambdaCallableHandling:
 
     def test_lambda_with_list_input_basic_xor(self):
         """Lambda that expects list input and returns XOR."""
+
         # User expectation: lambda receives [x0, x1] as a list
-        xor_lambda = lambda x: x[0] ^ x[1]
+        def xor_lambda(x):
+            return x[0] ^ x[1]
 
         f = bf.create(xor_lambda, n=2)
 
@@ -60,8 +62,10 @@ class TestLambdaCallableHandling:
 
     def test_lambda_with_sum_threshold(self):
         """Lambda that uses sum() - common pattern that fails."""
+
         # This is a common pattern users write
-        threshold_lambda = lambda x: sum(x) >= 3
+        def threshold_lambda(x):
+            return sum(x) >= 3
 
         f = bf.create(threshold_lambda, n=5)
 
@@ -72,7 +76,9 @@ class TestLambdaCallableHandling:
 
     def test_lambda_with_len_access(self):
         """Lambda that accesses len(x)."""
-        majority_lambda = lambda x: sum(x) > len(x) / 2
+
+        def majority_lambda(x):
+            return sum(x) > len(x) / 2
 
         f = bf.create(majority_lambda, n=5)
 
@@ -82,7 +88,9 @@ class TestLambdaCallableHandling:
 
     def test_lambda_with_all_builtin(self):
         """Lambda using all() - requires iterable."""
-        and_lambda = lambda x: all(x[:3])  # AND of first 3 vars
+
+        def and_lambda(x):
+            return all(x[:3])  # AND of first 3 vars
 
         f = bf.create(and_lambda, n=5)
 
@@ -91,7 +99,9 @@ class TestLambdaCallableHandling:
 
     def test_lambda_with_any_builtin(self):
         """Lambda using any() - requires iterable."""
-        or_lambda = lambda x: any(x[:2])  # OR of first 2 vars
+
+        def or_lambda(x):
+            return any(x[:2])  # OR of first 2 vars
 
         f = bf.create(or_lambda, n=3)
 
@@ -101,7 +111,10 @@ class TestLambdaCallableHandling:
 
     def test_lambda_created_function_can_get_truth_table(self):
         """Verify lambda functions can be converted to truth table."""
-        xor_lambda = lambda x: x[0] ^ x[1]
+
+        def xor_lambda(x):
+            return x[0] ^ x[1]
+
         f = bf.create(xor_lambda, n=2)
 
         # This should work - convert to truth table
@@ -113,7 +126,10 @@ class TestLambdaCallableHandling:
 
     def test_lambda_created_function_fourier(self):
         """Verify lambda functions can compute Fourier coefficients."""
-        xor_lambda = lambda x: x[0] ^ x[1]
+
+        def xor_lambda(x):
+            return x[0] ^ x[1]
+
         f = bf.create(xor_lambda, n=2)
 
         # Get Fourier coefficients
@@ -350,7 +366,10 @@ class TestRepresentationConversions:
 
     def test_function_to_truth_table_conversion(self):
         """Lambda function -> truth table conversion."""
-        xor = lambda x: x[0] ^ x[1]
+
+        def xor(x):
+            return x[0] ^ x[1]
+
         f = bf.create(xor, n=2)
 
         # Convert to truth table

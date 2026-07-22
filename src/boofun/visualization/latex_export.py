@@ -99,7 +99,7 @@ def export_fourier_tikz(
     lines.append(f"\\addplot[fill=blue!50] coordinates {{{' '.join(coords)}}};")
 
     # Add zero line
-    lines.append(f"\\draw[dashed, gray] (axis cs:0,0) -- (axis cs:{max_show-1},0);")
+    lines.append(f"\\draw[dashed, gray] (axis cs:0,0) -- (axis cs:{max_show - 1},0);")
 
     lines.append("\\end{axis}")
     lines.append("\\end{tikzpicture}")

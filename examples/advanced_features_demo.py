@@ -244,7 +244,10 @@ def demo_adapter_system():
 
     # Example 1: Adapt a Python lambda
     print("1. Python Lambda Adapter:")
-    xor_lambda = lambda x: x[0] ^ x[1] if len(x) >= 2 else False
+
+    def xor_lambda(x):
+        return x[0] ^ x[1] if len(x) >= 2 else False
+
     adapted_xor = bf.adapt_callable(xor_lambda, n_vars=2)
 
     test_inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]
@@ -373,7 +376,7 @@ def demo_quantum_complexity():
     amp = analyzer.grover_amplitude_analysis()
     print(f"  Optimal iterations: {amp['optimal_iterations']}")
     for step in amp["evolution"][:5]:
-        print(f"    k={step['iteration']}: " f"P(success) = {step['success_probability']:.4f}")
+        print(f"    k={step['iteration']}: P(success) = {step['success_probability']:.4f}")
 
 
 def demo_comprehensive_analysis():

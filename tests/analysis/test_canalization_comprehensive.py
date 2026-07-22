@@ -168,9 +168,9 @@ class TestEssentialVariables:
         for n in [3, 4, 5]:
             f = bf.dictator(n, 0)  # Test with dictator on variable 0
             essential = get_essential_variables(f)
-            assert (
-                len(essential) == 1
-            ), f"Dictator should have 1 essential var, got {len(essential)}"
+            assert len(essential) == 1, (
+                f"Dictator should have 1 essential var, got {len(essential)}"
+            )
 
     def test_dummy_variable_not_essential(self):
         """Variables that don't affect output are not essential."""

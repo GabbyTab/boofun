@@ -156,10 +156,12 @@ class TestSpectralAnalysisComprehensive:
             influences = analyzer.influences()
 
             assert len(influences) == len(expected_influences), f"{name} influence count wrong"
-            for i, (actual, expected) in enumerate(zip(influences, expected_influences, strict=False)):
-                assert (
-                    abs(actual - expected) < 1e-10
-                ), f"{name} influence {i} wrong: {actual} vs {expected}"
+            for i, (actual, expected) in enumerate(
+                zip(influences, expected_influences, strict=False)
+            ):
+                assert abs(actual - expected) < 1e-10, (
+                    f"{name} influence {i} wrong: {actual} vs {expected}"
+                )
 
     def test_total_influence_properties(self):
         """Test total influence satisfies mathematical properties."""
@@ -173,9 +175,9 @@ class TestSpectralAnalysisComprehensive:
         for func, expected_total, name in functions:
             analyzer = bf.SpectralAnalyzer(func)
             total_inf = analyzer.total_influence()
-            assert (
-                abs(total_inf - expected_total) < 1e-10
-            ), f"{name} total influence wrong: {total_inf} vs {expected_total}"
+            assert abs(total_inf - expected_total) < 1e-10, (
+                f"{name} total influence wrong: {total_inf} vs {expected_total}"
+            )
 
     def test_noise_stability_properties(self):
         """Test noise stability satisfies mathematical properties."""
@@ -228,9 +230,9 @@ class TestSpectralAnalysisComprehensive:
             function_norm_squared = np.sum(np.array(function_values) ** 2) / size
 
             # Parseval's identity
-            assert (
-                abs(fourier_norm_squared - function_norm_squared) < 1e-10
-            ), "Parseval's identity violated"
+            assert abs(fourier_norm_squared - function_norm_squared) < 1e-10, (
+                "Parseval's identity violated"
+            )
 
 
 class TestPropertyTestingComprehensive:

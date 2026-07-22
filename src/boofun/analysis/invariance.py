@@ -165,8 +165,7 @@ def invariance_distance(f: BooleanFunction, test_fn: Callable | None = None) -> 
     # Bound from invariance principle
     # Distance is O(max_i Inf_i[f]^{1/4}) for C^3 test functions
 
-    return max_inf ** 0.25 if max_inf > 0 else 0.0
-
+    return max_inf**0.25 if max_inf > 0 else 0.0
 
 
 def multilinear_extension_gaussian_expectation(

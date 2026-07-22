@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 # Check Numba availability (optional optimization)
 try:
-    import numba  # noqa: F401
+    import numba  # noqa: F401 -- importing verifies the optional runtime dependency
 
     USE_NUMBA = True
 except ImportError:
@@ -25,7 +25,8 @@ except ImportError:
     warnings.warn(
         "Numba not installed - using pure Python mode. "
         "Install numba for 10-100x faster computations: pip install numba",
-        UserWarning, stacklevel=2,
+        UserWarning,
+        stacklevel=2,
     )
 
 
@@ -287,7 +288,7 @@ class BooleanFunction(Evaluable, Representable):
                     target_repr=rep_type,
                     context={"available_representations": available_reps},
                     suggestion=f"Available representations: {', '.join(available_reps)}",
-                )
+                ) from None
             except Exception as e:
                 raise ConversionError(
                     f"Conversion from '{source_rep_type}' to '{rep_type}' failed: {e}",
@@ -311,7 +312,6 @@ class BooleanFunction(Evaluable, Representable):
         """Retrieve or compute representation"""
         self._compute_representation(rep_type)
         return self.representations[rep_type]
-
 
     def add_representation(self, data, rep_type=None):
         """Add a representation to this boolean function"""
@@ -395,7 +395,8 @@ class BooleanFunction(Evaluable, Representable):
                     warnings.warn(
                         f"Error model {type(self.error_model).__name__} failed: {e}. "
                         f"Using unadjusted result.",
-                        UserWarning, stacklevel=2,
+                        UserWarning,
+                        stacklevel=2,
                     )
 
         return result
@@ -436,7 +437,8 @@ class BooleanFunction(Evaluable, Representable):
                     f"Batch processing failed ({type(e).__name__}: {e}), "
                     f"falling back to sequential evaluation. "
                     f"This may be slower for large inputs.",
-                    UserWarning, stacklevel=2,
+                    UserWarning,
+                    stacklevel=2,
                 )
 
         # Standard evaluation for small inputs or fallback
@@ -622,7 +624,7 @@ class BooleanFunction(Evaluable, Representable):
         if val not in (0, 1):
             raise ValueError(f"Value must be 0 or 1, got {val}")
         if var < 0 or var >= self._n:
-            raise ValueError(f"Variable index {var} out of range [0, {self._n-1}]")
+            raise ValueError(f"Variable index {var} out of range [0, {self._n - 1}]")
 
         n = self._n
         new_n = n - 1
@@ -706,7 +708,7 @@ class BooleanFunction(Evaluable, Representable):
             The influence of variable i equals E[D_i f] = Pr[D_i f(x) = 1]
         """
         if var < 0 or var >= self._n:
-            raise ValueError(f"Variable index {var} out of range [0, {self._n-1}]")
+            raise ValueError(f"Variable index {var} out of range [0, {self._n - 1}]")
 
         n = self._n
         size = 1 << n

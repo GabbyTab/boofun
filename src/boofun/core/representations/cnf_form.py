@@ -145,11 +145,7 @@ class CNFFormula:
             return True
 
         # AND of all clauses
-        for clause in self.clauses:
-            if not clause.evaluate(x):
-                return False
-
-        return True
+        return all(clause.evaluate(x) for clause in self.clauses)
 
     def add_clause(self, clause: CNFClause) -> None:
         """Add a clause to the CNF formula."""

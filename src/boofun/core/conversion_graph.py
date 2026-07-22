@@ -392,7 +392,7 @@ class ConversionGraph:
                 cost = edge.cost.total_cost
                 color = "green" if edge.cost.is_exact else "orange"
                 lines.append(
-                    f'  "{source}" -> "{edge.target}" ' f'[label="{cost:.1f}", color={color}];'
+                    f'  "{source}" -> "{edge.target}" [label="{cost:.1f}", color={color}];'
                 )
         lines.append("}")
         return "\n".join(lines)
@@ -424,9 +424,7 @@ def register_custom_conversion(
     _conversion_graph.add_edge(source, target, cost, converter)
 
 
-def get_conversion_options(
-    source: str, max_cost: float | None = None
-) -> dict[str, ConversionPath]:
+def get_conversion_options(source: str, max_cost: float | None = None) -> dict[str, ConversionPath]:
     """Get all conversion options from a source representation."""
     return _conversion_graph.get_conversion_options(source, max_cost)
 

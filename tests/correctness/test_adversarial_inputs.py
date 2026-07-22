@@ -210,9 +210,9 @@ class TestNumericalStability:
                 coeffs = f.fourier()
 
                 sum_sq = sum(c**2 for c in coeffs)
-                assert (
-                    abs(sum_sq - 1.0) < 1e-12
-                ), f"Parseval deviation: {abs(sum_sq - 1.0)} for n={n}"
+                assert abs(sum_sq - 1.0) < 1e-12, (
+                    f"Parseval deviation: {abs(sum_sq - 1.0)} for n={n}"
+                )
 
     def test_influence_non_negative(self):
         """Influences must be non-negative."""
@@ -225,9 +225,9 @@ class TestNumericalStability:
                 influences = f.influences()
 
                 # Allow tiny negative values due to floating point
-                assert all(
-                    i >= -1e-14 for i in influences
-                ), f"Negative influence: {min(influences)}"
+                assert all(i >= -1e-14 for i in influences), (
+                    f"Negative influence: {min(influences)}"
+                )
 
     def test_noise_stability_bounds(self):
         """Noise stability must be in [-1, 1]."""

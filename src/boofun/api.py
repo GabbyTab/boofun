@@ -68,8 +68,7 @@ def create(data=None, storage: str = "auto", **kwargs):
     """
     if storage not in STORAGE_HINTS:
         raise ValueError(
-            f"Invalid storage hint '{storage}'. "
-            f"Valid options: {', '.join(sorted(STORAGE_HINTS))}"
+            f"Invalid storage hint '{storage}'. Valid options: {', '.join(sorted(STORAGE_HINTS))}"
         )
 
     # Handle lazy storage for callable functions

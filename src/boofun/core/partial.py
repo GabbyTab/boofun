@@ -218,8 +218,7 @@ class PartialBooleanFunction:
 
         if len(inputs) != len(outputs):
             raise ValueError(
-                f"inputs and outputs must have same length, "
-                f"got {len(inputs)} and {len(outputs)}"
+                f"inputs and outputs must have same length, got {len(inputs)} and {len(outputs)}"
             )
 
         for inp, out in zip(inputs, outputs, strict=False):

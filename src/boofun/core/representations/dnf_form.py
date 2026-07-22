@@ -54,11 +54,7 @@ class DNFTerm:
                 return False
 
         # All negative variables must be 0
-        for var in self.negative_vars:
-            if var < len(x) and x[var]:
-                return False
-
-        return True
+        return all(not (var < len(x) and x[var]) for var in self.negative_vars)
 
     def get_variables(self) -> set[int]:
         """Get all variables in this term."""
@@ -140,11 +136,7 @@ class DNFFormula:
             return False
 
         # OR of all terms
-        for term in self.terms:
-            if term.evaluate(x):
-                return True
-
-        return False
+        return any(term.evaluate(x) for term in self.terms)
 
     def add_term(self, term: DNFTerm) -> None:
         """Add a term to the DNF formula."""

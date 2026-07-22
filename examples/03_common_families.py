@@ -136,7 +136,7 @@ for n in [4, 8, 16]:
     try:
         f = bf.tribes(2, n)  # width 2 tribes
         print(f"TRIBES(w=2, n={n}): E[f]={expectation(f):.3f}, I[f]={f.total_influence():.3f}")
-    except:
+    except Exception:
         print(f"TRIBES(w=2, n={n}): n not divisible by w")
 
 

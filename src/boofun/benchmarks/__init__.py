@@ -345,7 +345,7 @@ class PerformanceBenchmark:
             for method in ["majority", "parity"]:
                 if method in creation and creation[method]["times"]:
                     avg_time = np.mean(creation[method]["times"])
-                    print(f"  {method.capitalize()}: {avg_time*1000:.2f}ms average")
+                    print(f"  {method.capitalize()}: {avg_time * 1000:.2f}ms average")
 
         # Evaluation results
         if "evaluation" in results:
@@ -354,7 +354,9 @@ class PerformanceBenchmark:
             for eval_type in ["single_eval", "batch_eval"]:
                 if eval_type in evaluation and evaluation[eval_type]["times"]:
                     avg_time = np.mean(evaluation[eval_type]["times"])
-                    print(f"  {eval_type.replace('_', ' ').title()}: {avg_time*1000:.2f}ms average")
+                    print(
+                        f"  {eval_type.replace('_', ' ').title()}: {avg_time * 1000:.2f}ms average"
+                    )
 
         # Spectral analysis results
         if "spectral" in results:
@@ -364,7 +366,7 @@ class PerformanceBenchmark:
                 if analysis_type in spectral and spectral[analysis_type]["times"]:
                     avg_time = np.mean(spectral[analysis_type]["times"])
                     print(
-                        f"  {analysis_type.replace('_', ' ').title()}: {avg_time*1000:.2f}ms average"
+                        f"  {analysis_type.replace('_', ' ').title()}: {avg_time * 1000:.2f}ms average"
                     )
 
     def plot_results(self, results: dict[str, Any], save_path: str | None = None) -> None:

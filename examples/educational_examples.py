@@ -183,7 +183,7 @@ def cryptographic_properties():
         elif total_inf == 0:
             nonlinearity = "Constant"
         else:
-            nonlinearity = f"~{2**(func.n_vars-1) - int(total_inf * 2**(func.n_vars-2))}"
+            nonlinearity = f"~{2 ** (func.n_vars - 1) - int(total_inf * 2 ** (func.n_vars - 2))}"
 
         # Correlation immunity (simplified)
         max_inf = np.max(influences)

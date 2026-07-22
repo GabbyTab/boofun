@@ -95,7 +95,9 @@ def _function_evaluate(self, inputs, data, space, n_vars):
         binary_inputs = (
             inputs
             if not isinstance(inputs, np.ndarray)
-            else inputs.tolist() if inputs.ndim > 0 else int(inputs)
+            else inputs.tolist()
+            if inputs.ndim > 0
+            else int(inputs)
         )
     elif isinstance(inputs, (int, np.integer)):
         # Integer index - convert to binary array for user lambdas
@@ -143,7 +145,7 @@ def _function_evaluate(self, inputs, data, space, n_vars):
                 )
             except Exception:
                 pass  # Fall through to error
-        raise ValueError(f"Function evaluation failed: {e}")
+        raise ValueError(f"Function evaluation failed: {e}") from e
 
 
 def _function_convert_from(self, source_repr, source_data, space, n_vars, **kwargs):

@@ -262,9 +262,9 @@ class TestFamilyConsistency:
             f2 = family.generate(3)
 
             for x in range(8):
-                assert f1.evaluate(x) == f2.evaluate(
-                    x
-                ), f"{family.__class__.__name__} not consistent"
+                assert f1.evaluate(x) == f2.evaluate(x), (
+                    f"{family.__class__.__name__} not consistent"
+                )
 
     def test_families_have_metadata(self):
         """All families should expose metadata."""

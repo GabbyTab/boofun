@@ -289,11 +289,11 @@ class QueryModel:
         if time_us < 1000:
             time_str = f"{time_us}µs"
         elif time_us < 1_000_000:
-            time_str = f"{time_us/1000:.1f}ms"
+            time_str = f"{time_us / 1000:.1f}ms"
         elif time_us < 1_000_000_000:
-            time_str = f"{time_us/1_000_000:.1f}s"
+            time_str = f"{time_us / 1_000_000:.1f}s"
         else:
-            time_str = f"{time_us/1_000_000_000:.1f}ks (hours+)"
+            time_str = f"{time_us / 1_000_000_000:.1f}ks (hours+)"
 
         return {
             "queries": queries,

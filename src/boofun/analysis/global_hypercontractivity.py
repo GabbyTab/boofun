@@ -469,9 +469,7 @@ class GlobalHypercontractivityAnalyzer:
         """Compute the hypercontractivity bound."""
         return hypercontractivity_bound(self.f, self.p)
 
-    def threshold_curve(
-        self, p_range: np.ndarray | None = None, samples: int = 1000
-    ) -> np.ndarray:
+    def threshold_curve(self, p_range: np.ndarray | None = None, samples: int = 1000) -> np.ndarray:
         """
         Compute the threshold curve μ_p(f) over a range of p.
 

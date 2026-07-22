@@ -167,9 +167,9 @@ class TestBooleanFunctionMethods:
         for x in range(8):
             result = f(x)
             # Accept various boolean representations
-            assert result in [0, 1, True, False] or isinstance(
-                result, (bool, np.bool_)
-            ), f"Unexpected result type: {type(result)}"
+            assert result in [0, 1, True, False] or isinstance(result, (bool, np.bool_)), (
+                f"Unexpected result type: {type(result)}"
+            )
 
     def test_truth_table_has_correct_size(self):
         """Truth table should have 2^n entries."""

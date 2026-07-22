@@ -799,9 +799,7 @@ def count_decision_trees(f: BooleanFunction) -> int:
     return count_for_subcube(())
 
 
-def randomized_complexity_matrix(
-    f: BooleanFunction, output_value: int | None = None
-) -> np.ndarray:
+def randomized_complexity_matrix(f: BooleanFunction, output_value: int | None = None) -> np.ndarray:
     """
     Build the game matrix for randomized decision tree complexity.
 
@@ -840,9 +838,7 @@ def randomized_complexity_matrix(
     return matrix
 
 
-def compute_randomized_complexity(
-    f: BooleanFunction, output_value: int | None = None
-) -> float:
+def compute_randomized_complexity(f: BooleanFunction, output_value: int | None = None) -> float:
     """
     Compute the randomized decision tree complexity R(f).
 
@@ -867,7 +863,7 @@ def compute_randomized_complexity(
     try:
         from scipy.optimize import linprog
     except ImportError:
-        raise ImportError("scipy is required for compute_randomized_complexity")
+        raise ImportError("scipy is required for compute_randomized_complexity") from None
 
     matrix = randomized_complexity_matrix(f, output_value)
     m, n_trees = matrix.shape

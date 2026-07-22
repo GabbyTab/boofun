@@ -119,9 +119,9 @@ class TestFindLTFWeights:
 
         # All weights should be exactly equal for majority
         abs_weights = np.abs(weights)
-        assert np.allclose(
-            abs_weights, abs_weights[0], rtol=1e-10
-        ), f"Majority weights should be equal, got: {abs_weights}"
+        assert np.allclose(abs_weights, abs_weights[0], rtol=1e-10), (
+            f"Majority weights should be equal, got: {abs_weights}"
+        )
         # Weights should be positive for unweighted majority
         assert np.all(weights > 0), f"Majority weights should be positive, got: {weights}"
 

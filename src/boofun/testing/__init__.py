@@ -346,8 +346,11 @@ class RepresentationTester:
 
         return results
 
-    def test_storage_requirements(self, n_vars_range: list[int] = [1, 2, 3, 4]) -> dict[str, Any]:
+    def test_storage_requirements(self, n_vars_range: list[int] | None = None) -> dict[str, Any]:
         """Test storage requirements computation."""
+        if n_vars_range is None:
+            n_vars_range = [1, 2, 3, 4]
+
         results: dict[str, Any] = {"passed": True, "requirements": {}, "error": None}
 
         try:

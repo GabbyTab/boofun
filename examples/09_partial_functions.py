@@ -13,7 +13,6 @@ Features covered:
 - Confidence-based evaluation
 """
 
-
 import boofun as bf
 
 

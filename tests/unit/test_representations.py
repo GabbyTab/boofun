@@ -271,9 +271,9 @@ def test_convert_from_length_always_2n(tt_rep, fourier_rep):
         for _ in range(5):
             tt = np.random.randint(0, 2, size=size)
             coeffs = fourier_rep.convert_from(tt_rep, tt, space=Space.BOOLEAN_CUBE, n_vars=n_vars)
-            assert (
-                len(coeffs) == size
-            ), f"n={n_vars}: expected {size} coefficients, got {len(coeffs)}"
+            assert len(coeffs) == size, (
+                f"n={n_vars}: expected {size} coefficients, got {len(coeffs)}"
+            )
 
 
 def test_convert_from_dictator_has_zero_coefficients(tt_rep, fourier_rep):

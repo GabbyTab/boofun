@@ -236,9 +236,7 @@ def load_json(path: str | Path, **kwargs) -> BooleanFunction:
         return BooleanFunctionFactory.from_cnf(BooleanFunction, cnf, n=n_vars)
     # Try truth table as fallback
     if "values" in data:
-        return BooleanFunctionFactory.from_truth_table(
-            BooleanFunction, data["values"], n=n_vars
-        )
+        return BooleanFunctionFactory.from_truth_table(BooleanFunction, data["values"], n=n_vars)
     raise FileIOError(
         f"Unknown representation type in JSON: '{rep_type}'",
         path=str(path),
@@ -346,7 +344,7 @@ def load_bf(path: str | Path, **kwargs) -> BooleanFunction:
         raise FileIOError(
             f"First line must be number of variables, got: '{lines[0]}'",
             path=str(path),
-        )
+        ) from None
 
     size = 1 << n_vars
     truth_table = np.zeros(size, dtype=bool)
@@ -459,8 +457,8 @@ def load_dimacs_cnf(path: str | Path, **kwargs) -> BooleanFunction:
     n_vars = None
 
     with open(path) as f:
-        for line in f:
-            line = line.strip()
+        for raw_line in f:
+            line = raw_line.strip()
 
             if not line or line.startswith("c"):
                 # Comment or empty line

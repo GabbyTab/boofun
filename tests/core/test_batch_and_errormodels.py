@@ -700,8 +700,7 @@ class TestIntegration:
                 bits = bin(i).count("1")
                 expected = 1 if bits > 2 else 0
                 assert results[i] == expected, (
-                    f"Majority(4) at input {i} (bits={bits}): "
-                    f"expected {expected}, got {results[i]}"
+                    f"Majority(4) at input {i} (bits={bits}): expected {expected}, got {results[i]}"
                 )
 
     def test_error_model_with_analysis(self):

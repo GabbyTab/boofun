@@ -297,9 +297,7 @@ def create_anf_from_monomials(monomials: list[list[int]], n_vars: int) -> dict[f
     return anf_dict
 
 
-def anf_to_string(
-    data: dict[frozenset[int], int], variable_names: list[str] | None = None
-) -> str:
+def anf_to_string(data: dict[frozenset[int], int], variable_names: list[str] | None = None) -> str:
     """
     Convert ANF to human-readable string representation.
 

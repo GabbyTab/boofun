@@ -295,9 +295,9 @@ class TestGECCOPropertySuite:
             tt = [bin(x & mask).count("1") % 2 for x in range(1 << n)]
             f = bf.create(tt)
             tester = PropertyTester(f, random_seed=42)
-            assert (
-                tester.blr_linearity_test() == True
-            ), f"Parity with mask {bin(mask)} should be linear"
+            assert tester.blr_linearity_test() == True, (
+                f"Parity with mask {bin(mask)} should be linear"
+            )
 
     def test_balanced_functions(self):
         """
@@ -538,9 +538,9 @@ class TestCrossValidation:
 
             # All influences should be equal and match formula
             for inf in influences:
-                assert (
-                    abs(inf - expected_inf) < 1e-10
-                ), f"MAJ_{n} influence: got {inf}, expected {expected_inf}"
+                assert abs(inf - expected_inf) < 1e-10, (
+                    f"MAJ_{n} influence: got {inf}, expected {expected_inf}"
+                )
 
     def test_and_influence_formula(self):
         """
@@ -554,9 +554,9 @@ class TestCrossValidation:
             expected_inf = 1 / (2 ** (n - 1))
 
             for inf in influences:
-                assert (
-                    abs(inf - expected_inf) < 1e-10
-                ), f"AND_{n} influence: got {inf}, expected {expected_inf}"
+                assert abs(inf - expected_inf) < 1e-10, (
+                    f"AND_{n} influence: got {inf}, expected {expected_inf}"
+                )
 
     def test_noise_stability_dictator(self):
         """

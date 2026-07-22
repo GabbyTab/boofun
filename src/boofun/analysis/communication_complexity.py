@@ -263,7 +263,6 @@ def discrepancy(f: "BooleanFunction") -> float:
     return spectral_norm / N
 
 
-
 def deterministic_cc(f: "BooleanFunction") -> dict[str, Any]:
     """
     Analyze deterministic communication complexity.
@@ -415,7 +414,7 @@ class CommunicationComplexityProfile:
         a = self.compute()
         return (
             f"Communication Complexity Profile (n={a['n_vars']})\n"
-            f"{'='*50}\n"
+            f"{'=' * 50}\n"
             f"Alice: {a['n_alice']} vars, Bob: {a['n_bob']} vars\n"
             f"\nLower Bounds:\n"
             f"  Log-rank: {a['log_rank_lower_bound']:.2f} (rank={a['rank']})\n"

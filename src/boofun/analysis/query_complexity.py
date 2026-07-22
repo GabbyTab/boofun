@@ -530,7 +530,6 @@ def ambainis_complexity(f: BooleanFunction) -> float:
     return sqrt(len(zeros) * len(ones)) / min_hamming
 
 
-
 def certificate_lower_bound(f: BooleanFunction) -> int:
     """
     Compute lower bound on D(f) from certificate complexity.

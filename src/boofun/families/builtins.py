@@ -8,7 +8,7 @@ Each family has:
 """
 
 from collections.abc import Callable
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 import numpy as np
 
@@ -644,7 +644,7 @@ class SboxFamily(FunctionFamily):
     """
 
     # AES S-box (first 32 values, full box has 256)
-    AES_SBOX = [
+    AES_SBOX: ClassVar[list[int]] = [
         0x63,
         0x7C,
         0x77,

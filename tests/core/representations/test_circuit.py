@@ -62,7 +62,7 @@ class TestBooleanCircuit:
 
     def test_circuit_has_evaluation_method(self):
         """BooleanCircuit should have evaluate method."""
-        assert hasattr(BooleanCircuit, "evaluate") or hasattr(BooleanCircuit, "__call__")
+        assert hasattr(BooleanCircuit, "evaluate") or callable(BooleanCircuit)
 
     def test_circuit_has_size_property(self):
         """BooleanCircuit should track circuit size."""

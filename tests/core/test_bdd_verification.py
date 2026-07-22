@@ -134,7 +134,7 @@ class TestBDDNodeCount:
 
             node_count = self._count_nodes(bdd_data)
             # AND should have at most n+2 nodes (n decision nodes + 2 terminals)
-            assert node_count <= n + 2 + 2, f"AND_{n} has {node_count} nodes, expected ≤ {n+4}"
+            assert node_count <= n + 2 + 2, f"AND_{n} has {node_count} nodes, expected ≤ {n + 4}"
 
     def test_or_node_count_bound(self):
         """
@@ -151,7 +151,7 @@ class TestBDDNodeCount:
 
             node_count = self._count_nodes(bdd_data)
             # OR should have at most n+2 nodes
-            assert node_count <= n + 2 + 2, f"OR_{n} has {node_count} nodes, expected ≤ {n+4}"
+            assert node_count <= n + 2 + 2, f"OR_{n} has {node_count} nodes, expected ≤ {n + 4}"
 
     def test_parity_node_count_bound(self):
         """
@@ -168,7 +168,9 @@ class TestBDDNodeCount:
 
             node_count = self._count_nodes(bdd_data)
             # Parity should have at most 2n+2 nodes
-            assert node_count <= 2 * n + 4, f"PARITY_{n} has {node_count} nodes, expected ≤ {2*n+4}"
+            assert node_count <= 2 * n + 4, (
+                f"PARITY_{n} has {node_count} nodes, expected ≤ {2 * n + 4}"
+            )
 
     def test_symmetric_node_count_bound(self):
         """
@@ -185,9 +187,9 @@ class TestBDDNodeCount:
 
             node_count = self._count_nodes(bdd_data)
             # Symmetric functions have O(n²) nodes
-            assert (
-                node_count <= n * n + 2 * n + 2
-            ), f"MAJ_{n} has {node_count} nodes, expected O(n²)"
+            assert node_count <= n * n + 2 * n + 2, (
+                f"MAJ_{n} has {node_count} nodes, expected O(n²)"
+            )
 
 
 class TestBDDReduction:
@@ -249,9 +251,9 @@ class TestBDDConsistency:
                 for x in range(1 << n):
                     expected = tt_data[x]
                     actual = bdd_repr.evaluate(x, bdd_data, Space.BOOLEAN_CUBE, n)
-                    assert (
-                        actual == expected
-                    ), f"Random function mismatch at x={x}: expected {expected}, got {actual}"
+                    assert actual == expected, (
+                        f"Random function mismatch at x={x}: expected {expected}, got {actual}"
+                    )
 
 
 if __name__ == "__main__":

@@ -68,7 +68,7 @@ def invmod(a: int, m: int) -> int:
             t, new_t = new_t, t - q * new_t
             r, new_r = new_r, r - q * new_r
         if r != 1:
-            raise ValueError("inverse does not exist")
+            raise ValueError("inverse does not exist") from None
         if t < 0:
             t += m
         return t

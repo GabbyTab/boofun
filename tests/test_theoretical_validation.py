@@ -44,14 +44,14 @@ class TestFourierKnownCoefficients:
             for s in range(1 << n):
                 if s == all_vars_idx:
                     # f̂([n]) = ±1 for parity
-                    assert (
-                        abs(abs(fourier[s]) - 1.0) < 1e-10
-                    ), f"Parity n={n}: f̂([n]) should be ±1, got {fourier[s]}"
+                    assert abs(abs(fourier[s]) - 1.0) < 1e-10, (
+                        f"Parity n={n}: f̂([n]) should be ±1, got {fourier[s]}"
+                    )
                 else:
                     # All other coefficients should be 0
-                    assert (
-                        abs(fourier[s]) < 1e-10
-                    ), f"Parity n={n}: f̂({bin(s)}) should be 0, got {fourier[s]}"
+                    assert abs(fourier[s]) < 1e-10, (
+                        f"Parity n={n}: f̂({bin(s)}) should be 0, got {fourier[s]}"
+                    )
 
     def test_dictator_fourier_exact(self):
         """
@@ -128,9 +128,9 @@ class TestFourierKnownCoefficients:
             # E[f] = (1/2^n) * (+1) + ((2^n - 1)/2^n) * (-1) = -1 + 2/2^n
             # For n >= 2, this is negative
             expected = -1 + 2 / (2**n)
-            assert (
-                abs(fourier[0] - expected) < 1e-10
-            ), f"OR_{n}: E[f] should be {expected}, got {fourier[0]}"
+            assert abs(fourier[0] - expected) < 1e-10, (
+                f"OR_{n}: E[f] should be {expected}, got {fourier[0]}"
+            )
 
 
 class TestParseval:
@@ -184,9 +184,9 @@ class TestInfluenceKnownValues:
             influences = f.influences()
 
             for i in range(n):
-                assert (
-                    abs(influences[i] - 1.0) < 1e-10
-                ), f"Parity_{n}: Inf_{i} should be 1, got {influences[i]}"
+                assert abs(influences[i] - 1.0) < 1e-10, (
+                    f"Parity_{n}: Inf_{i} should be 1, got {influences[i]}"
+                )
 
     def test_dictator_influence_single_variable(self):
         """
@@ -201,9 +201,9 @@ class TestInfluenceKnownValues:
 
             for j in range(n):
                 if j == i:
-                    assert (
-                        abs(influences[j] - 1.0) < 1e-10
-                    ), f"Dictator on x_{i}: Inf_{i} should be 1"
+                    assert abs(influences[j] - 1.0) < 1e-10, (
+                        f"Dictator on x_{i}: Inf_{i} should be 1"
+                    )
                 else:
                     assert abs(influences[j]) < 1e-10, f"Dictator on x_{i}: Inf_{j} should be 0"
 
@@ -219,9 +219,9 @@ class TestInfluenceKnownValues:
             expected = 2 ** (1 - n)
 
             for i in range(n):
-                assert (
-                    abs(influences[i] - expected) < 1e-10
-                ), f"AND_{n}: Inf_{i} should be {expected}, got {influences[i]}"
+                assert abs(influences[i] - expected) < 1e-10, (
+                    f"AND_{n}: Inf_{i} should be {expected}, got {influences[i]}"
+                )
 
     def test_majority_influences_symmetric(self):
         """
@@ -236,9 +236,9 @@ class TestInfluenceKnownValues:
             # All should be equal
             avg = np.mean(influences)
             for i in range(n):
-                assert (
-                    abs(influences[i] - avg) < 1e-10
-                ), f"Majority_{n}: influences should be symmetric"
+                assert abs(influences[i] - avg) < 1e-10, (
+                    f"Majority_{n}: influences should be symmetric"
+                )
 
     def test_majority_influence_asymptotics(self):
         """
@@ -257,9 +257,9 @@ class TestInfluenceKnownValues:
 
             # Allow 15% relative error for finite n
             rel_error = abs(actual - expected_approx) / expected_approx
-            assert (
-                rel_error < 0.15
-            ), f"Majority_{n}: Inf ≈ {expected_approx:.4f}, got {actual:.4f} (error {rel_error:.1%})"
+            assert rel_error < 0.15, (
+                f"Majority_{n}: Inf ≈ {expected_approx:.4f}, got {actual:.4f} (error {rel_error:.1%})"
+            )
 
 
 class TestTotalInfluence:
@@ -345,9 +345,9 @@ class TestNoiseStability:
             f = bf.parity(n)
             stab = f.noise_stability(rho)
             expected = rho**n
-            assert (
-                abs(stab - expected) < 1e-10
-            ), f"Parity_{n}: Stab_{rho} should be {expected}, got {stab}"
+            assert abs(stab - expected) < 1e-10, (
+                f"Parity_{n}: Stab_{rho} should be {expected}, got {stab}"
+            )
 
     def test_majority_noise_stability_sheppard(self):
         """
@@ -380,9 +380,9 @@ class TestNoiseStability:
 
                 # Should match within 3% for moderate n
                 rel_error = abs(pr_agree - expected) / expected
-                assert (
-                    rel_error < 0.03
-                ), f"Majority_{n}: Pr[f(x)=f(y)] ≈ {expected:.4f}, got {pr_agree:.4f} (error {rel_error:.1%})"
+                assert rel_error < 0.03, (
+                    f"Majority_{n}: Pr[f(x)=f(y)] ≈ {expected:.4f}, got {pr_agree:.4f} (error {rel_error:.1%})"
+                )
 
         # Verify convergence: error decreases with n
         rho = 0.5
@@ -519,9 +519,9 @@ class TestKKLTheorem:
                 # KKL bound (with conservative constant c ≈ 0.1)
                 kkl_bound = 0.1 * variance * log(n) / total_inf
 
-                assert (
-                    max_inf >= kkl_bound * 0.5
-                ), f"KKL: max Inf = {max_inf:.4f} should be ≥ {kkl_bound:.4f}"
+                assert max_inf >= kkl_bound * 0.5, (
+                    f"KKL: max Inf = {max_inf:.4f} should be ≥ {kkl_bound:.4f}"
+                )
 
 
 class TestPoincare:
@@ -540,9 +540,9 @@ class TestPoincare:
         variance = 1 - fourier[0] ** 2
         total_inf = f.total_influence()
 
-        assert (
-            variance <= total_inf + 1e-10
-        ), f"Poincaré: Var={variance:.4f} should be ≤ I[f]={total_inf:.4f}"
+        assert variance <= total_inf + 1e-10, (
+            f"Poincaré: Var={variance:.4f} should be ≤ I[f]={total_inf:.4f}"
+        )
 
     @pytest.mark.parametrize("n", [4, 6, 8])
     def test_poincare_and(self, n):
@@ -585,9 +585,9 @@ class TestExpectation:
             # O'Donnell convention: AND outputs +1 on 2^n - 1 inputs, -1 on 1 input
             # E[f] = ((2^n - 1)/2^n) * (+1) + (1/2^n) * (-1) = 1 - 2/2^n
             expected = 1 - 2 / (2**n)
-            assert (
-                abs(fourier[0] - expected) < 1e-10
-            ), f"AND_{n}: E[f] should be {expected}, got {fourier[0]}"
+            assert abs(fourier[0] - expected) < 1e-10, (
+                f"AND_{n}: E[f] should be {expected}, got {fourier[0]}"
+            )
 
 
 # Run validation summary if executed directly

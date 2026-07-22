@@ -119,7 +119,8 @@ class TestCallableAdapter:
         adapter = CallableAdapter(n_vars=2, input_type="binary_vector")
 
         # XOR function
-        xor_func = lambda x: x[0] ^ x[1]
+        def xor_func(x):
+            return x[0] ^ x[1]
 
         f = adapter.adapt(xor_func)
         assert f is not None
@@ -128,7 +129,8 @@ class TestCallableAdapter:
         """Call with binary vector input type."""
         adapter = CallableAdapter(n_vars=2, input_type="binary_vector")
 
-        xor_func = lambda x: x[0] ^ x[1]
+        def xor_func(x):
+            return x[0] ^ x[1]
 
         result = adapter._call_with_adapted_inputs(xor_func, np.array([0, 1]))
         assert result == True
@@ -137,7 +139,8 @@ class TestCallableAdapter:
         """Call with individual arguments."""
         adapter = CallableAdapter(n_vars=2, input_type="individual_args")
 
-        xor_func = lambda a, b: a ^ b
+        def xor_func(a, b):
+            return a ^ b
 
         result = adapter._call_with_adapted_inputs(xor_func, np.array([0, 1]))
         assert result == True
@@ -146,7 +149,8 @@ class TestCallableAdapter:
         """Call with integer input type."""
         adapter = CallableAdapter(n_vars=2, input_type="integer")
 
-        parity = lambda x: bin(x).count("1") % 2
+        def parity(x):
+            return bin(x).count("1") % 2
 
         result = adapter._call_with_adapted_inputs(parity, np.array(3))
         assert result == False  # 3 = 11 in binary, 2 ones -> even
@@ -166,7 +170,8 @@ class TestNumPyAdapter:
         adapter = NumPyAdapter(vectorized=True)
 
         # Simple parity
-        np_func = lambda x: np.sum(x, axis=-1) % 2
+        def np_func(x):
+            return np.sum(x, axis=-1) % 2
 
         f = adapter.adapt(np_func, n_vars=3)
         assert f is not None
@@ -176,7 +181,8 @@ class TestNumPyAdapter:
         adapter = NumPyAdapter(vectorized=False)
 
         # Simple function
-        np_func = lambda x: np.sum(x) % 2
+        def np_func(x):
+            return np.sum(x) % 2
 
         f = adapter.adapt(np_func, n_vars=3)
         assert f is not None
@@ -214,7 +220,9 @@ class TestConvenienceFunctions:
 
     def test_adapt_callable_function(self):
         """adapt_callable convenience function."""
-        xor = lambda x: x[0] ^ x[1]
+
+        def xor(x):
+            return x[0] ^ x[1]
 
         f = adapt_callable(xor, n_vars=2)
 
@@ -222,7 +230,9 @@ class TestConvenienceFunctions:
 
     def test_adapt_numpy_function(self):
         """adapt_numpy_function convenience function."""
-        np_parity = lambda x: np.sum(x) % 2
+
+        def np_parity(x):
+            return np.sum(x) % 2
 
         f = adapt_numpy_function(np_parity, n_vars=3, vectorized=False)
 

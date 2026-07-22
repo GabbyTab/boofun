@@ -175,7 +175,7 @@ class TestPBiasedExpectationConvention:
                 expected_prob = (1 - exact_pm1) / 2
                 assert abs(mc_prob - expected_prob) < 0.03, (
                     f"{name} p={p}: MC={mc_prob:.4f}, "
-                    f"expected={(1-exact_pm1)/2:.4f} "
+                    f"expected={(1 - exact_pm1) / 2:.4f} "
                     f"(exact ±1={exact_pm1:.4f})"
                 )
 
@@ -218,9 +218,7 @@ class TestTribesCorrectness:
         for x in range(16):
             x0, x1, x2, x3 = [(x >> j) & 1 for j in range(4)]
             expected = int((x0 or x1) and (x2 or x3))
-            assert tt[x] == expected, (
-                f"tribes(2,4) at x={x:04b}: got {tt[x]}, " f"expected {expected}"
-            )
+            assert tt[x] == expected, f"tribes(2,4) at x={x:04b}: got {tt[x]}, expected {expected}"
 
     def test_tribes_single_tribe_is_or(self):
         """tribes(n, n) = single tribe = OR_n."""
@@ -266,9 +264,9 @@ class TestMajorityTotalInfluenceFormula:
             exact = f.total_influence()
             # Closed form: n * C(n-1, (n-1)/2) / 2^(n-1)
             expected = n * comb(n - 1, (n - 1) // 2) / (2 ** (n - 1))
-            assert (
-                abs(exact - expected) < 1e-10
-            ), f"Majority({n}): I[f]={exact}, expected={expected}"
+            assert abs(exact - expected) < 1e-10, (
+                f"Majority({n}): I[f]={exact}, expected={expected}"
+            )
 
     def test_asymptotic_formula_sqrt_2n_over_pi(self):
         """I[Maj_n] / sqrt(2n/pi) → 1 as n → ∞."""
@@ -279,7 +277,7 @@ class TestMajorityTotalInfluenceFormula:
             asymptotic = sqrt(2 * n / pi)
             ratio = exact / asymptotic
             assert abs(ratio - 1.0) < 0.1, (
-                f"Majority({n}): I[f]/sqrt(2n/pi) = {ratio:.4f} " f"(should be ≈1.0)"
+                f"Majority({n}): I[f]/sqrt(2n/pi) = {ratio:.4f} (should be ≈1.0)"
             )
 
     def test_wrong_formula_sqrt_n_over_pi_fails(self):
@@ -291,8 +289,7 @@ class TestMajorityTotalInfluenceFormula:
             ratio = exact / wrong_asymptotic
             # This ratio should be ≈ sqrt(2) ≈ 1.414, NOT ≈ 1.0
             assert ratio > 1.3, (
-                f"Majority({n}): I[f]/sqrt(n/pi) = {ratio:.4f} "
-                f"(should be ≈sqrt(2)=1.414, not ≈1.0)"
+                f"Majority({n}): I[f]/sqrt(n/pi) = {ratio:.4f} (should be ≈sqrt(2)=1.414, not ≈1.0)"
             )
 
 
@@ -315,9 +312,9 @@ class TestBatchProcessingListData:
             warnings.simplefilter("always")
             f.evaluate(inputs)
             batch_warnings = [x for x in w if "Batch processing failed" in str(x.message)]
-            assert (
-                len(batch_warnings) == 0
-            ), f"Batch processing warning: {batch_warnings[0].message}"
+            assert len(batch_warnings) == 0, (
+                f"Batch processing warning: {batch_warnings[0].message}"
+            )
 
     def test_batch_evaluate_correctness(self):
         """Batch evaluate should match sequential evaluate."""

@@ -302,9 +302,9 @@ class TestNumericStability:
 
             # The non-zero coefficient should be at index 2^n - 1 (all variables)
             all_ones_idx = (1 << n) - 1
-            assert (
-                abs(abs(coeffs[all_ones_idx]) - 1.0) < 1e-8
-            ), f"Parity_{n} full coefficient should be ±1"
+            assert abs(abs(coeffs[all_ones_idx]) - 1.0) < 1e-8, (
+                f"Parity_{n} full coefficient should be ±1"
+            )
 
     def test_dictator_fourier_exact(self):
         """
@@ -368,9 +368,9 @@ class TestNumericStability:
             # Direct variance computation
             var_direct = f.variance()
 
-            assert (
-                abs(var_fourier - var_direct) < 1e-10
-            ), f"Variance mismatch for n={n}: Fourier={var_fourier}, direct={var_direct}"
+            assert abs(var_fourier - var_direct) < 1e-10, (
+                f"Variance mismatch for n={n}: Fourier={var_fourier}, direct={var_direct}"
+            )
 
     @pytest.mark.parametrize("n", [13, 14, 15])
     def test_parseval_stress(self, n):
@@ -384,7 +384,7 @@ class TestNumericStability:
         f = bf.AND(n)
         passes, lhs, rhs = fourier.parseval_verify(f, tolerance=1e-6)
 
-        assert passes, f"Parseval failed at n={n}: error={abs(lhs-rhs)}"
+        assert passes, f"Parseval failed at n={n}: error={abs(lhs - rhs)}"
 
         # Also verify the sum of squared coefficients
         # For AND_n: Σf̂(S)² = 1 (Parseval)

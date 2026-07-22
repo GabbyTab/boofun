@@ -73,8 +73,8 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
                 return exceptions.get(index, default_value)
             # Array of indices
             results = []
-            for idx in inputs:
-                idx = int(idx)
+            for raw_idx in inputs:
+                idx = int(raw_idx)
                 if idx < 0 or idx >= size:
                     raise IndexError(f"Index {idx} out of range for size {size}")
                 results.append(exceptions.get(idx, default_value))

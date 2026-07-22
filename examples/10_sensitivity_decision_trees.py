@@ -74,7 +74,7 @@ def demo_aggregate_sensitivity():
     print("\n1. Basic sensitivity measures")
     print("-" * 50)
     print(f"   {'Function':<15} {'s(f)':<8} {'as(f)':<10}")
-    print(f"   {'-'*15} {'-'*8} {'-'*10}")
+    print(f"   {'-' * 15} {'-' * 8} {'-' * 10}")
     for name, f in functions.items():
         s = max_sensitivity(f)
         avg_s = average_sensitivity(f)
@@ -123,7 +123,7 @@ def demo_decision_trees():
     print("\n1. Decision tree depth D(f)")
     print("-" * 50)
     print(f"   {'Function':<15} {'D(f)':<8} {'C₀(f)':<8} {'C₁(f)':<8}")
-    print(f"   {'-'*15} {'-'*8} {'-'*8} {'-'*8}")
+    print(f"   {'-' * 15} {'-' * 8} {'-' * 8} {'-' * 8}")
     for name, f in functions.items():
         d = decision_tree_depth(f)
         c0 = max_certificate_complexity(f, value=0)
