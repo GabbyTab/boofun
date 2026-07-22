@@ -544,7 +544,12 @@ class GrowthTracker:
         ax.plot(n_arr, computed_arr, "o-", label=label, **plot_kwargs)
 
         # Plot theoretical values
-        if show_theory and theory_arr is not None and not np.any(np.isnan(theory_arr)):
+        if (
+            show_theory
+            and theory_arr is not None
+            and not np.any([value is None for value in theory_arr])
+            and not np.any(np.isnan(theory_arr.astype(float)))
+        ):
             ax.plot(
                 n_arr, theory_arr, "--", color="gray", label=f"{marker_name} (theory)", alpha=0.7
             )
@@ -597,8 +602,17 @@ class GrowthTracker:
             lines.append(f"  n range: {n_arr[0]} to {n_arr[-1]}")
 
             if result.marker.marker_type == MarkerType.SCALAR:
-                lines.append(f"  Computed: {computed_arr[0]:.4f} → {computed_arr[-1]:.4f}")
-                if theory_arr is not None and not np.any([t is None for t in theory_arr]):
+                first, last = computed_arr[0], computed_arr[-1]
+                if first is None or last is None:
+                    lines.append(f"  Computed: {first!s} → {last!s}")
+                else:
+                    lines.append(f"  Computed: {first:.4f} → {last:.4f}")
+                if (
+                    first is not None
+                    and last is not None
+                    and theory_arr is not None
+                    and not np.any([t is None for t in theory_arr])
+                ):
                     lines.append(f"  Theory:   {theory_arr[0]:.4f} → {theory_arr[-1]:.4f}")
                     # Compute relative error
                     rel_errors = np.abs(computed_arr - theory_arr) / (np.abs(theory_arr) + 1e-10)
