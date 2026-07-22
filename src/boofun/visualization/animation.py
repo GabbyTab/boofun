@@ -71,7 +71,7 @@ class GrowthAnimator:
         _check_matplotlib()
         self.family = family
         self.fig: Any = None
-        self.anim: Any = None
+        self.anim: animation.FuncAnimation | None = None
         self._frames_data: list[dict[str, Any]] = []
 
     def animate(
