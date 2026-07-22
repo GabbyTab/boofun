@@ -40,6 +40,42 @@ _SUPPORTED_REP_TYPES = [
 class BooleanFunctionFactory:
     """Factory for creating BooleanFunction instances from various representations."""
 
+    @staticmethod
+    def _file_rep_type(data: Any) -> str | None:
+        """Return "file" when data is a path to a loadable file, else None."""
+        from pathlib import Path
+
+        if not isinstance(data, (str, Path)):
+            return None
+        path = Path(data)
+        if path.suffix.lower() in (".json", ".bf", ".cnf", ".dimacs"):
+            return "file"
+        # If it looks like a file path but doesn't have a known extension, check if it exists
+        if path.exists() and path.is_file():
+            return "file"
+        return None
+
+    @staticmethod
+    def _formula_rep_type(data: Any) -> str | None:
+        """Return "dnf"/"cnf" for formula objects, else None."""
+        if _DNF_CNF_AVAILABLE:
+            if isinstance(data, DNFFormula):
+                return "dnf"
+            if isinstance(data, CNFFormula):
+                return "cnf"
+        return None
+
+    @staticmethod
+    def _array_rep_type(data: np.ndarray) -> str:
+        """Map an ndarray dtype to a representation type."""
+        if data.dtype == bool or np.issubdtype(data.dtype, np.bool_):
+            return "truth_table"
+        if np.issubdtype(data.dtype, np.floating):
+            return "fourier_expansion"
+        # For integer arrays, assume truth table (most common case)
+        # Polynomial coefficients should be passed as dict
+        return "truth_table"
+
     @classmethod
     def _determine_rep_type(cls, data: Any) -> str:
         """
@@ -54,35 +90,18 @@ class BooleanFunctionFactory:
         Raises:
             InvalidRepresentationError: If data type cannot be mapped to a representation
         """
-        # Check for file path (string ending with known extensions or Path object)
-        from pathlib import Path
+        rep_type = cls._file_rep_type(data)
+        if rep_type is None and callable(data):
+            rep_type = "function"
+        if rep_type is None and hasattr(data, "rvs"):
+            rep_type = "distribution"
+        if rep_type is None:
+            rep_type = cls._formula_rep_type(data)
+        if rep_type is not None:
+            return rep_type
 
-        if isinstance(data, (str, Path)):
-            path = Path(data)
-            if path.suffix.lower() in (".json", ".bf", ".cnf", ".dimacs"):
-                return "file"
-            # If it looks like a file path but doesn't have known extension, check if it exists
-            if path.exists() and path.is_file():
-                return "file"
-
-        if callable(data):
-            return "function"
-        if hasattr(data, "rvs"):
-            return "distribution"
-        # Check for DNF/CNF formulas
-        if _DNF_CNF_AVAILABLE:
-            if isinstance(data, DNFFormula):
-                return "dnf"
-            if isinstance(data, CNFFormula):
-                return "cnf"
         if isinstance(data, np.ndarray):
-            if data.dtype == bool or np.issubdtype(data.dtype, np.bool_):
-                return "truth_table"
-            if np.issubdtype(data.dtype, np.floating):
-                return "fourier_expansion"
-            # For integer arrays, assume truth table (most common case)
-            # Polynomial coefficients should be passed as dict
-            return "truth_table"
+            return cls._array_rep_type(data)
         if isinstance(data, list):
             if len(data) == 0:
                 raise InvalidTruthTableError(
@@ -91,14 +110,15 @@ class BooleanFunctionFactory:
                     suggestion="Provide a non-empty truth table or other representation",
                 )
             return cls._determine_rep_type(np.array(data))
-        if isinstance(data, dict):
-            return "polynomial"
-        if isinstance(data, str):
-            return "symbolic"
-        if isinstance(data, set):
-            return "invariant_truth_table"
-        if isinstance(data, Iterable):
-            return "iterable_rep"
+        # Note: order matters — str/set are Iterable, so they are matched first.
+        for candidate_type, name in (
+            (dict, "polynomial"),
+            (str, "symbolic"),
+            (set, "invariant_truth_table"),
+            (Iterable, "iterable_rep"),
+        ):
+            if isinstance(data, candidate_type):
+                return name
 
         raise InvalidRepresentationError(
             f"Cannot determine representation type for data of type '{type(data).__name__}'",
@@ -141,41 +161,36 @@ class BooleanFunctionFactory:
         if rep_type is None:
             rep_type = cls._determine_rep_type(data)
 
-        if rep_type == "function":
-            return cls.from_function(boolean_function_cls, data, **kwargs)
-        if rep_type == "distribution":
-            return cls.from_scipy_distribution(boolean_function_cls, data, **kwargs)
-        if rep_type == "truth_table":
-            return cls.from_truth_table(boolean_function_cls, data, **kwargs)
         if rep_type in ("packed_truth_table", "sparse_truth_table", "adaptive_truth_table"):
-            # These are specialized truth table representations
-            # Remove rep_type from kwargs if present to avoid duplicate
+            # Specialized truth table representations: rep_type is forwarded
+            # explicitly, so drop it from kwargs to avoid a duplicate argument.
             kwargs_clean = {k: v for k, v in kwargs.items() if k != "rep_type"}
             return cls.from_truth_table(
                 boolean_function_cls, data, rep_type=rep_type, **kwargs_clean
             )
-        if rep_type == "invariant_truth_table":
-            return cls.from_input_invariant_truth_table(boolean_function_cls, data, **kwargs)
-        if rep_type == "polynomial":
-            return cls.from_polynomial(boolean_function_cls, data, **kwargs)
-        if rep_type in {"fourier_expansion", "fourier"}:
-            return cls.from_multilinear(boolean_function_cls, data, **kwargs)
-        if rep_type == "symbolic":
-            return cls.from_symbolic(boolean_function_cls, data, **kwargs)
-        if rep_type == "iterable_rep":
-            return cls.from_iterable(boolean_function_cls, data, **kwargs)
-        if rep_type == "dnf":
-            return cls.from_dnf(boolean_function_cls, data, **kwargs)
-        if rep_type == "cnf":
-            return cls.from_cnf(boolean_function_cls, data, **kwargs)
-        if rep_type == "file":
-            return cls.from_file(boolean_function_cls, data, **kwargs)
 
-        raise InvalidRepresentationError(
-            f"Unknown representation type '{rep_type}'",
-            representation=rep_type,
-            available=_SUPPORTED_REP_TYPES,
-        )
+        creators: dict[str, typing.Any] = {
+            "function": cls.from_function,
+            "distribution": cls.from_scipy_distribution,
+            "truth_table": cls.from_truth_table,
+            "invariant_truth_table": cls.from_input_invariant_truth_table,
+            "polynomial": cls.from_polynomial,
+            "fourier_expansion": cls.from_multilinear,
+            "fourier": cls.from_multilinear,
+            "symbolic": cls.from_symbolic,
+            "iterable_rep": cls.from_iterable,
+            "dnf": cls.from_dnf,
+            "cnf": cls.from_cnf,
+            "file": cls.from_file,
+        }
+        creator = creators.get(rep_type)
+        if creator is None:
+            raise InvalidRepresentationError(
+                f"Unknown representation type '{rep_type}'",
+                representation=rep_type,
+                available=_SUPPORTED_REP_TYPES,
+            )
+        return creator(boolean_function_cls, data, **kwargs)
 
     @classmethod
     def from_truth_table(
@@ -451,6 +466,80 @@ class BooleanFunctionFactory:
         instance.add_representation(truth_table, rep_type)
         return instance
 
+    @staticmethod
+    def _is_boolean_function(obj: typing.Any) -> bool:
+        return hasattr(obj, "get_representation") and hasattr(obj, "n_vars")
+
+    @classmethod
+    def _composite_operands(
+        cls, left_func: typing.Any, right_func: typing.Any
+    ) -> tuple[str, int, str, int, list[typing.Any]]:
+        """Resolve symbolic names, arities, and collected operands for a composite."""
+        variables: list[typing.Any] = []
+
+        if isinstance(left_func, numbers.Number):
+            left_sym, left_n_vars = str(left_func), 0
+        else:
+            left_sym = "x0"
+            if cls._is_boolean_function(left_func):
+                variables.append(left_func)
+                left_n_vars = left_func.get_n_vars() or 0
+            else:
+                left_n_vars = 0
+
+        if right_func is None:
+            right_sym, right_n_vars = "", 0
+        elif isinstance(right_func, numbers.Number):
+            right_sym, right_n_vars = str(right_func), 0
+        elif cls._is_boolean_function(right_func):
+            right_sym = f"x{len(variables)}"
+            variables.append(right_func)
+            right_n_vars = right_func.get_n_vars() or 0
+        else:
+            raise TypeError(
+                f"Invalid operand type: {type(right_func)}. Expected BooleanFunction or number."
+            )
+
+        return left_sym, left_n_vars, right_sym, right_n_vars, variables
+
+    @staticmethod
+    def _unary_truth_table(func: typing.Any) -> typing.Any:
+        """Truth table of ~func, or None when unavailable."""
+        try:
+            table = np.asarray(func.get_representation("truth_table"), dtype=bool)
+        except Exception:
+            return None
+        return np.logical_not(table)
+
+    @staticmethod
+    def _binary_truth_table(
+        operator: typing.Any, left: typing.Any, right: typing.Any
+    ) -> typing.Any:
+        """Pointwise-combined truth table, or None when unavailable."""
+        try:
+            left_tt = np.asarray(left.get_representation("truth_table"), dtype=bool)
+            right_tt = np.asarray(right.get_representation("truth_table"), dtype=bool)
+        except Exception:
+            return None
+        if left_tt.shape != right_tt.shape:
+            return None
+        pointwise_ops = {
+            "+": np.logical_xor,
+            "-": np.logical_xor,
+            "^": np.logical_xor,
+            "*": np.logical_and,
+            "&": np.logical_and,
+            "|": np.logical_or,
+        }
+        op_fn = pointwise_ops.get(operator)
+        return op_fn(left_tt, right_tt) if op_fn is not None else None
+
+    @staticmethod
+    def _composite_expression(operator: typing.Any, left_sym: str, right_sym: str) -> str:
+        if not right_sym:
+            return f"not {left_sym}" if operator == "~" else f"{operator}{left_sym}"
+        return f"({left_sym} {operator} {right_sym})"
+
     @classmethod
     def create_composite(
         cls,
@@ -471,11 +560,8 @@ class BooleanFunctionFactory:
 
         kwargs = kwargs.copy()
 
-        def _is_boolean_function(obj: typing.Any) -> typing.Any:
-            return hasattr(obj, "get_representation") and hasattr(obj, "n_vars")
-
-        left_is_func = _is_boolean_function(left_func)
-        right_is_func = _is_boolean_function(right_func) if right_func is not None else False
+        left_is_func = cls._is_boolean_function(left_func)
+        right_is_func = cls._is_boolean_function(right_func) if right_func is not None else False
 
         if left_is_func and "space" not in kwargs and getattr(left_func, "space", None) is not None:
             kwargs["space"] = left_func.space
@@ -486,32 +572,9 @@ class BooleanFunctionFactory:
         ):
             kwargs["space"] = right_func.space
 
-        variables = []
-        if isinstance(left_func, numbers.Number):
-            left_sym = str(left_func)
-            left_n_vars = 0
-        else:
-            left_sym = "x0"
-            if left_is_func:
-                variables.append(left_func)
-                left_n_vars = left_func.get_n_vars() or 0
-            else:
-                left_n_vars = 0
-
-        if right_func is None:
-            right_sym = ""
-            right_n_vars = 0
-        elif isinstance(right_func, numbers.Number):
-            right_sym = str(right_func)
-            right_n_vars = 0
-        elif right_is_func:
-            right_sym = f"x{len(variables)}"
-            variables.append(right_func)
-            right_n_vars = right_func.get_n_vars() or 0
-        else:
-            raise TypeError(
-                f"Invalid operand type: {type(right_func)}. Expected BooleanFunction or number."
-            )
+        left_sym, left_n_vars, right_sym, right_n_vars, variables = cls._composite_operands(
+            left_func, right_func
+        )
 
         same_domain = (
             left_is_func
@@ -532,59 +595,21 @@ class BooleanFunctionFactory:
         else:
             result_n_vars = left_n_vars + right_n_vars
 
-        def _truth_table_unary(op: typing.Any, func: typing.Any) -> typing.Any:
-            if not left_is_func:
-                return None
-            try:
-                table = np.asarray(func.get_representation("truth_table"), dtype=bool)
-            except Exception:
-                return None
-            if op == "~":
-                return np.logical_not(table)
-            return None
-
-        def _truth_table_binary(op: typing.Any, left: typing.Any, right: typing.Any) -> typing.Any:
-            if not (same_domain and same_space):
-                return None
-            try:
-                left_tt = np.asarray(left.get_representation("truth_table"), dtype=bool)
-                right_tt = np.asarray(right.get_representation("truth_table"), dtype=bool)
-            except Exception:
-                return None
-            if left_tt.shape != right_tt.shape:
-                return None
-            if op in {"+", "-", "^"}:
-                return np.logical_xor(left_tt, right_tt)
-            if op in {"*", "&"}:
-                return np.logical_and(left_tt, right_tt)
-            if op == "|":
-                return np.logical_or(left_tt, right_tt)
-            return None
-
         if operator == "~":
-            truth_table = _truth_table_unary(operator, left_func)
+            truth_table = cls._unary_truth_table(left_func) if left_is_func else None
+        elif same_domain and same_space:
+            truth_table = cls._binary_truth_table(operator, left_func, right_func)
         else:
-            truth_table = _truth_table_binary(operator, left_func, right_func)
+            truth_table = None
+
+        expression = cls._composite_expression(operator, left_sym, right_sym)
 
         if truth_table is not None:
             if result_n_vars is None:
                 raise ValueError("Cannot infer number of variables for composite function")
             kwargs.setdefault("n_vars", result_n_vars)
-            if (
-                left_is_func
-                and "space" not in kwargs
-                and getattr(left_func, "space", None) is not None
-            ):
-                kwargs["space"] = left_func.space
-
             instance = boolean_function_cls(**kwargs)
             instance.add_representation(truth_table.astype(bool), "truth_table")
-
-            if right_func is None:
-                expression = f"not {left_sym}" if operator == "~" else f"{operator}{left_sym}"
-            else:
-                expression = f"({left_sym} {operator} {right_sym})"
-
             if variables:
                 instance.add_representation((expression, variables), rep_type)
             return instance
@@ -592,11 +617,6 @@ class BooleanFunctionFactory:
         # Fallback to symbolic composition
         if result_n_vars is not None:
             kwargs["n_vars"] = result_n_vars
-
-        if right_func is None:
-            expression = f"not {left_sym}" if operator == "~" else f"{operator}{left_sym}"
-        else:
-            expression = f"({left_sym} {operator} {right_sym})"
 
         instance = boolean_function_cls(**kwargs)
         instance.add_representation((expression, variables), rep_type)
