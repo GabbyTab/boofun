@@ -45,7 +45,7 @@ __all__ = [
 ]
 
 
-def _check_matplotlib():
+def _check_matplotlib() -> None:
     """Ensure matplotlib is available."""
     if not HAS_MATPLOTLIB:
         raise ImportError("Matplotlib required for animations")
@@ -144,12 +144,12 @@ class GrowthAnimator:
         self.ax.set_ylabel(property_name.replace("_", " ").title())
         self.ax.grid(True, alpha=0.3)
 
-        def init():
+        def init() -> tuple[typing.Any, ...]:
             self.line.set_data([], [])
             self.point.set_data([], [])
             return self.line, self.point
 
-        def update(frame):
+        def update(frame: int) -> tuple[typing.Any, ...]:
             # Show all points up to current frame
             ns = [d["n"] for d in self._frames_data[: frame + 1]]
             vals = [d["value"] for d in self._frames_data[: frame + 1]]
@@ -230,7 +230,7 @@ class GrowthAnimator:
         self.ax.set_xticks(x)
         self.ax.set_xticklabels([f"x_{i}" for i in range(max_n)])
 
-        def update(frame):
+        def update(frame: int) -> list[typing.Any]:
             data = self._frames_data[frame]
 
             for bar, h in zip(self.bars, data["influences"], strict=False):
@@ -260,7 +260,7 @@ class GrowthAnimator:
 
         return typing.cast("animation.FuncAnimation", self.anim)
 
-    def save(self, filename: str, fps: int = 2, **kwargs):
+    def save(self, filename: str, fps: int = 2, **kwargs: typing.Any) -> None:
         """
         Save animation to file.
 
@@ -290,7 +290,7 @@ def animate_growth(
     family: FunctionFamily,
     property_name: str = "total_influence",
     n_range: tuple[int, int, int] = (3, 15, 2),
-    **kwargs,
+    **kwargs: typing.Any,
 ) -> animation.FuncAnimation:
     """
     Convenience function to create a growth animation.
@@ -309,7 +309,7 @@ def animate_growth(
 
 
 def animate_influences(
-    family: FunctionFamily, n_range: tuple[int, int, int] = (3, 15, 2), **kwargs
+    family: FunctionFamily, n_range: tuple[int, int, int] = (3, 15, 2), **kwargs: typing.Any
 ) -> animation.FuncAnimation:
     """
     Convenience function to animate influence distribution.
@@ -384,7 +384,7 @@ def animate_fourier_spectrum(
     ax.set_ylabel("Spectral Weight")
     ax.set_xticks(x)
 
-    def update(frame):
+    def update(frame: int) -> list[typing.Any]:
         data = frames_data[frame]
 
         for bar, h in zip(bars, data["weights"], strict=False):
@@ -478,7 +478,7 @@ def create_growth_animation(
 
     fig.suptitle(f"{family.metadata.name} Growth", fontsize=14)
 
-    def update(frame):
+    def update(frame: int) -> typing.Any:
         for line, point, prop in zip(lines, points, properties, strict=False):
             ns = [d["n"] for d in frames_data[: frame + 1]]
             vals = [d[prop] for d in frames_data[: frame + 1]]

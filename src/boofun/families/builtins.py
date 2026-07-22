@@ -48,7 +48,7 @@ class MajorityFamily(FunctionFamily):
             n_constraint_description="n must be odd for unambiguous majority",
         )
 
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         import boofun as bf
 
         return bf.majority(n)
@@ -88,7 +88,7 @@ class ParityFamily(FunctionFamily):
             universal_properties=["linear", "balanced", "symmetric"],
         )
 
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         import boofun as bf
 
         return bf.parity(n)
@@ -125,7 +125,7 @@ class TribesFamily(FunctionFamily):
         )
 
     def generate(
-        self, n: int, k: int | None = None, w: int | None = None, **kwargs
+        self, n: int, k: int | None = None, w: int | None = None, **kwargs: typing.Any
     ) -> "BooleanFunction":
         """
         Generate tribes function.
@@ -189,7 +189,7 @@ class ThresholdFamily(FunctionFamily):
             universal_properties=["monotone", "symmetric", "is_ltf"],
         )
 
-    def generate(self, n: int, k: int | None = None, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, k: int | None = None, **kwargs: typing.Any) -> "BooleanFunction":
         import boofun as bf
 
         if k is None:
@@ -224,7 +224,7 @@ class ANDFamily(FunctionFamily):
             universal_properties=["monotone", "symmetric", "is_ltf"],
         )
 
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         import boofun as bf
 
         return bf.AND(n)
@@ -257,7 +257,7 @@ class ORFamily(FunctionFamily):
             universal_properties=["monotone", "symmetric", "is_ltf"],
         )
 
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         import boofun as bf
 
         return bf.OR(n)
@@ -299,7 +299,7 @@ class DictatorFamily(FunctionFamily):
             universal_properties=["is_ltf", "is_junta"],
         )
 
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         import boofun as bf
 
         var = kwargs.get("variable", self._variable)
@@ -438,7 +438,7 @@ class RecursiveMajority3Family(FunctionFamily):
         # For ρ = 0.5, this gives ≈ 0.5
         return float(0.5 + 0.3 * rho * np.exp(-0.5 * k))
 
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         """Generate recursive majority of 3 function."""
         import boofun as bf
 
@@ -526,7 +526,7 @@ class IteratedMajorityFamily(FunctionFamily):
             n //= k
         return True
 
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         import boofun as bf
 
         k = self._group_size
@@ -592,7 +592,7 @@ class RandomDNFFamily(FunctionFamily):
             universal_properties=[],  # Properties vary by instance
         )
 
-    def generate(self, n: int, seed: int | None = None, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, seed: int | None = None, **kwargs: typing.Any) -> "BooleanFunction":
         import boofun as bf
 
         rng = np.random.RandomState(seed)
@@ -930,7 +930,7 @@ class SboxFamily(FunctionFamily):
             n_constraint_description=f"n must equal S-box input bits ({self._n_bits})",
         )
 
-    def generate(self, n: int | None = None, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int | None = None, **kwargs: typing.Any) -> "BooleanFunction":
         import boofun as bf
 
         bit = kwargs.get("bit", self._bit)

@@ -28,7 +28,7 @@ class LegacyBooleanFunction(Protocol):
 class ExternalLibraryFunction(Protocol):
     """Protocol for external library Boolean functions."""
 
-    def __call__(self, *args) -> Any:
+    def __call__(self, *args: typing.Any) -> Any:
         """External function call interface."""
         ...
 
@@ -88,7 +88,7 @@ class LegacyAdapter(BooleanFunctionAdapter):
         eval_method = getattr(legacy_function, self.evaluation_method)
 
         # Create wrapper function
-        def wrapper_function(inputs):
+        def wrapper_function(inputs: typing.Any) -> typing.Any:
             return self._adapt_evaluation(eval_method, inputs)
 
         # Create BooleanFunction with the wrapper
@@ -109,7 +109,7 @@ class LegacyAdapter(BooleanFunctionAdapter):
         # Convert output to expected format
         return self._adapt_output(result)
 
-    def _adapt_inputs(self, inputs) -> Any:
+    def _adapt_inputs(self, inputs: typing.Any) -> Any:
         """Convert inputs to legacy format.
 
         Args:
@@ -189,7 +189,7 @@ class CallableAdapter(BooleanFunctionAdapter):
     def adapt(self, callable_function: Callable[..., typing.Any]) -> BooleanFunction:
         """Adapt callable to BooleanFunction."""
 
-        def wrapper_function(inputs):
+        def wrapper_function(inputs: typing.Any) -> typing.Any:
             return self._call_with_adapted_inputs(callable_function, inputs)
 
         return typing.cast(
@@ -197,7 +197,9 @@ class CallableAdapter(BooleanFunctionAdapter):
             BooleanFunctionFactory.from_function(BooleanFunction, wrapper_function, n=self.n_vars),
         )
 
-    def _call_with_adapted_inputs(self, func: Callable[..., typing.Any], inputs) -> bool:
+    def _call_with_adapted_inputs(
+        self, func: Callable[..., typing.Any], inputs: typing.Any
+    ) -> bool:
         """Call function with properly formatted inputs.
 
         Args:
@@ -256,7 +258,9 @@ class SymPyAdapter(BooleanFunctionAdapter):
             warnings.warn("SymPy not available - SymPyAdapter disabled", stacklevel=2)
             self.available = False
 
-    def adapt(self, sympy_expr, variables: list[typing.Any] | None = None) -> BooleanFunction:
+    def adapt(
+        self, sympy_expr: typing.Any, variables: list[typing.Any] | None = None
+    ) -> BooleanFunction:
         """
         Adapt SymPy Boolean expression to BooleanFunction.
 
@@ -276,7 +280,7 @@ class SymPyAdapter(BooleanFunctionAdapter):
 
         n_vars = len(variables)
 
-        def evaluation_function(inputs):
+        def evaluation_function(inputs: typing.Any) -> typing.Any:
             if isinstance(inputs, np.ndarray) and inputs.ndim == 0:
                 # Convert integer to binary
                 x = int(inputs)
@@ -327,12 +331,12 @@ class NumPyAdapter(BooleanFunctionAdapter):
 
         if self.vectorized:
             # Function supports batch evaluation
-            def wrapper_function(inputs):
+            def wrapper_function(inputs: typing.Any) -> typing.Any:
                 return numpy_function(inputs).astype(bool)
 
         else:
             # Function needs individual evaluation
-            def wrapper_function(inputs):
+            def wrapper_function(inputs: typing.Any) -> typing.Any:
                 if isinstance(inputs, np.ndarray) and inputs.ndim > 1:
                     # Batch evaluation
                     return np.array([bool(numpy_function(x)) for x in inputs])
@@ -345,7 +349,7 @@ class NumPyAdapter(BooleanFunctionAdapter):
 
 
 # Factory function for creating appropriate adapters
-def create_adapter(adapter_type: str, **kwargs) -> BooleanFunctionAdapter:
+def create_adapter(adapter_type: str, **kwargs: typing.Any) -> BooleanFunctionAdapter:
     """
     Factory function for creating adapters.
 
@@ -368,19 +372,23 @@ def create_adapter(adapter_type: str, **kwargs) -> BooleanFunctionAdapter:
 
 
 # Convenience functions for common use cases
-def adapt_legacy_function(legacy_func, **kwargs) -> BooleanFunction:
+def adapt_legacy_function(legacy_func: typing.Any, **kwargs: typing.Any) -> BooleanFunction:
     """Adapt legacy Boolean function."""
     adapter = LegacyAdapter(**kwargs)
     return adapter.adapt(legacy_func)
 
 
-def adapt_callable(func: Callable[..., typing.Any], n_vars: int, **kwargs) -> BooleanFunction:
+def adapt_callable(
+    func: Callable[..., typing.Any], n_vars: int, **kwargs: typing.Any
+) -> BooleanFunction:
     """Adapt simple callable to BooleanFunction."""
     adapter = CallableAdapter(n_vars=n_vars, **kwargs)
     return adapter.adapt(func)
 
 
-def adapt_sympy_expr(expr, variables: list[typing.Any] | None = None) -> BooleanFunction:
+def adapt_sympy_expr(
+    expr: typing.Any, variables: list[typing.Any] | None = None
+) -> BooleanFunction:
     """Adapt SymPy Boolean expression."""
     adapter = SymPyAdapter()
     return adapter.adapt(expr, variables)

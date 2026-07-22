@@ -7,6 +7,7 @@ and interactive analysis tools.
 """
 
 import logging
+import typing
 import warnings
 from typing import Any
 
@@ -98,7 +99,9 @@ class BooleanFunctionVisualizer:
             return self._plot_influences_plotly(influences, save_path, show)
         raise ValueError(f"Unknown backend: {self.backend}")
 
-    def _plot_influences_matplotlib(self, influences, figsize, save_path, show):
+    def _plot_influences_matplotlib(
+        self, influences: typing.Any, figsize: tuple[int, int], save_path: typing.Any, show: bool
+    ) -> typing.Any:
         """Plot influences using matplotlib."""
         if not HAS_MATPLOTLIB:
             raise ImportError("Matplotlib not available")
@@ -149,7 +152,9 @@ class BooleanFunctionVisualizer:
 
         return fig
 
-    def _plot_influences_plotly(self, influences, save_path, show):
+    def _plot_influences_plotly(
+        self, influences: typing.Any, save_path: typing.Any, show: bool
+    ) -> typing.Any:
         """Plot influences using plotly."""
         if not HAS_PLOTLY:
             raise ImportError("Plotly not available")
@@ -225,7 +230,14 @@ class BooleanFunctionVisualizer:
             return self._plot_fourier_plotly(fourier_coeffs, max_degree, save_path, show)
         return None
 
-    def _plot_fourier_matplotlib(self, fourier_coeffs, max_degree, figsize, save_path, show):
+    def _plot_fourier_matplotlib(
+        self,
+        fourier_coeffs: np.ndarray,
+        max_degree: typing.Any,
+        figsize: tuple[int, int],
+        save_path: typing.Any,
+        show: bool,
+    ) -> typing.Any:
         """Plot Fourier spectrum using matplotlib."""
         if not HAS_MATPLOTLIB:
             raise ImportError("Matplotlib not available")
@@ -296,7 +308,9 @@ class BooleanFunctionVisualizer:
 
         return fig
 
-    def _plot_fourier_plotly(self, fourier_coeffs, max_degree, save_path, show):
+    def _plot_fourier_plotly(
+        self, fourier_coeffs: np.ndarray, max_degree: typing.Any, save_path: typing.Any, show: bool
+    ) -> typing.Any:
         """Plot Fourier spectrum using plotly."""
         if not HAS_PLOTLY:
             raise ImportError("Plotly not available")
@@ -397,7 +411,9 @@ class BooleanFunctionVisualizer:
             return self._plot_truth_table_plotly(truth_table, save_path, show)
         return None
 
-    def _plot_truth_table_matplotlib(self, truth_table, figsize, save_path, show):
+    def _plot_truth_table_matplotlib(
+        self, truth_table: typing.Any, figsize: tuple[int, int], save_path: typing.Any, show: bool
+    ) -> typing.Any:
         """Plot truth table using matplotlib."""
         if not HAS_MATPLOTLIB:
             raise ImportError("Matplotlib not available")
@@ -479,7 +495,9 @@ class BooleanFunctionVisualizer:
 
         return fig
 
-    def _plot_truth_table_plotly(self, truth_table, save_path, show):
+    def _plot_truth_table_plotly(
+        self, truth_table: typing.Any, save_path: typing.Any, show: bool
+    ) -> typing.Any:
         """Plot truth table using plotly."""
         if not HAS_PLOTLY:
             raise ImportError("Plotly not available")
@@ -588,7 +606,14 @@ class BooleanFunctionVisualizer:
             return self._plot_noise_stability_plotly(rho_range, stabilities, save_path, show)
         return None
 
-    def _plot_noise_stability_matplotlib(self, rho_range, stabilities, figsize, save_path, show):
+    def _plot_noise_stability_matplotlib(
+        self,
+        rho_range: typing.Any,
+        stabilities: typing.Any,
+        figsize: tuple[int, int],
+        save_path: typing.Any,
+        show: bool,
+    ) -> typing.Any:
         """Plot noise stability using matplotlib."""
         if not HAS_MATPLOTLIB:
             raise ImportError("Matplotlib not available")
@@ -616,7 +641,9 @@ class BooleanFunctionVisualizer:
 
         return fig
 
-    def _plot_noise_stability_plotly(self, rho_range, stabilities, save_path, show):
+    def _plot_noise_stability_plotly(
+        self, rho_range: typing.Any, stabilities: typing.Any, save_path: typing.Any, show: bool
+    ) -> typing.Any:
         """Plot noise stability using plotly."""
         if not HAS_PLOTLY:
             raise ImportError("Plotly not available")
@@ -664,7 +691,7 @@ class BooleanFunctionVisualizer:
             return self._create_plotly_dashboard(save_path, show)
         return None
 
-    def _create_matplotlib_dashboard(self, save_path, show):
+    def _create_matplotlib_dashboard(self, save_path: typing.Any, show: bool) -> typing.Any:
         """Create matplotlib dashboard."""
         if not HAS_MATPLOTLIB:
             raise ImportError("Matplotlib not available")
@@ -762,7 +789,7 @@ class BooleanFunctionVisualizer:
 
         return fig
 
-    def _create_plotly_dashboard(self, save_path, show):
+    def _create_plotly_dashboard(self, save_path: typing.Any, show: bool) -> typing.Any:
         """Create plotly dashboard."""
         if not HAS_PLOTLY:
             raise ImportError("Plotly not available")
@@ -862,7 +889,7 @@ def plot_function_comparison(
     functions: dict[str, BooleanFunction],
     metric: str = "influences",
     backend: str = "matplotlib",
-    **kwargs,
+    **kwargs: typing.Any,
 ) -> Any:
     """
     Compare multiple Boolean functions side by side.
@@ -886,7 +913,9 @@ def plot_function_comparison(
     raise ValueError(f"Unknown metric: {metric}")
 
 
-def _compare_influences_matplotlib(functions, figsize=(12, 6), **kwargs):
+def _compare_influences_matplotlib(
+    functions: typing.Any, figsize: tuple[int, int] = (12, 6), **kwargs: typing.Any
+) -> typing.Any:
     """Compare influences using matplotlib."""
     fig, ax = plt.subplots(figsize=figsize)
 
@@ -918,7 +947,9 @@ def _compare_influences_matplotlib(functions, figsize=(12, 6), **kwargs):
     return fig
 
 
-def _compare_fourier_matplotlib(functions, figsize=(12, 6), **kwargs):
+def _compare_fourier_matplotlib(
+    functions: typing.Any, figsize: tuple[int, int] = (12, 6), **kwargs: typing.Any
+) -> typing.Any:
     """Compare Fourier spectra using matplotlib."""
     fig, ax = plt.subplots(figsize=figsize)
 

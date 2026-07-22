@@ -48,7 +48,9 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             results[idx] = self._evaluate_single(x, coeffs)
         return results
 
-    def dump(self, data: np.ndarray, space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: np.ndarray, space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """Export Fourier coefficients in serializable format"""
         return {
             "coefficients": data.tolist(),
@@ -65,7 +67,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """
         Compute Fourier coefficients from any evaluable Boolean representation.
@@ -110,7 +112,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert to another representation from Fourier expansion"""
         # Placeholder: Actual conversion requires inverse transform
@@ -118,7 +120,7 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> np.ndarray:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> np.ndarray:
         """Create zero-initialized Fourier coefficients array"""
         return np.zeros(2**n_vars, dtype=float)
 

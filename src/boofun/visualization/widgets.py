@@ -48,7 +48,7 @@ __all__ = [
 ]
 
 
-def _check_widgets():
+def _check_widgets() -> None:
     """Ensure ipywidgets is available."""
     if not HAS_WIDGETS:
         raise ImportError(

@@ -7,6 +7,7 @@ Boolean functions, including optimal trees and user-specified trees.
 
 from __future__ import annotations
 
+import typing
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
@@ -136,7 +137,7 @@ def build_optimal_decision_tree(
         right_vals = [f.evaluate(x) for x in right_inputs] if right_inputs else []
 
         # Entropy reduction
-        def entropy(vals):
+        def entropy(vals: typing.Any) -> typing.Any:
             if not vals:
                 return 0
             p1 = sum(vals) / len(vals)

@@ -87,7 +87,9 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset[int]
         # LSB-first: binary_vector[i] corresponds to x_i, so index = Σ x_i * 2^i
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector))))
 
-    def dump(self, data: dict[frozenset[int], int], space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: dict[frozenset[int], int], space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """
         Export polynomial in serializable format.
 
@@ -107,7 +109,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset[int]
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> dict[frozenset[int], int]:
         """
         Convert from any representation to polynomial using truth table method.
@@ -160,14 +162,14 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset[int]
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert from polynomial to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> dict[frozenset[int], int]:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> dict[frozenset[int], int]:
         """Create empty polynomial (constant 0)."""
         return {}
 

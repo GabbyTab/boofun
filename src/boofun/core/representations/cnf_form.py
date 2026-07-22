@@ -271,7 +271,9 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 for i in range(n_vars)]
 
-    def dump(self, data: CNFFormula, space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: CNFFormula, space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """Export CNF representation."""
         result = data.to_dict()
         result["type"] = "cnf"
@@ -283,7 +285,7 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> CNFFormula:
         """
         Convert from another representation to CNF.
@@ -340,14 +342,14 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert CNF to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> CNFFormula:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> CNFFormula:
         """Create empty CNF (constant True)."""
         return CNFFormula(clauses=[], n_vars=n_vars)
 

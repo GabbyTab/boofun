@@ -50,7 +50,7 @@ class PerformanceBenchmark:
         self.results: dict[str, Any] = {}
 
     @contextmanager
-    def timer(self):
+    def timer(self) -> typing.Iterator[typing.Any]:
         """Context manager for high-precision timing."""
         gc.collect()  # Clean up before timing
         start_time = time.perf_counter()
@@ -68,7 +68,7 @@ class PerformanceBenchmark:
         }
 
     def benchmark_function(
-        self, func: Callable[..., typing.Any], *args, **kwargs
+        self, func: Callable[..., typing.Any], *args: typing.Any, **kwargs: typing.Any
     ) -> dict[str, Any]:
         """
         Benchmark a single function with multiple runs.

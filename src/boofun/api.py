@@ -24,7 +24,7 @@ from boofun.core.partial import partial as _partial_func
 STORAGE_HINTS = frozenset({"auto", "dense", "packed", "sparse", "lazy"})
 
 
-def create(data=None, storage: str = "auto", **kwargs):
+def create(data: typing.Any = None, storage: str = "auto", **kwargs: typing.Any) -> typing.Any:
     """
     Create a Boolean function from various data sources.
 
@@ -100,7 +100,9 @@ def create(data=None, storage: str = "auto", **kwargs):
     return BooleanFunctionFactory.create(BooleanFunction, data, **kwargs)
 
 
-def _create_lazy_function(oracle: Callable[..., typing.Any], **kwargs) -> BooleanFunction:
+def _create_lazy_function(
+    oracle: Callable[..., typing.Any], **kwargs: typing.Any
+) -> BooleanFunction:
     """
     Create a lazy Boolean function that computes values on demand.
 
@@ -180,7 +182,7 @@ def from_hex(
     n: int,
     *,
     storage: str = "auto",
-    **kwargs,
+    **kwargs: typing.Any,
 ) -> BooleanFunction:
     """
     Create a Boolean function from a hexadecimal truth table string.

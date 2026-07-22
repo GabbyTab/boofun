@@ -96,7 +96,9 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
         # LSB-first: binary_vector[i] corresponds to x_i, so index = Σ x_i * 2^i
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector))))
 
-    def dump(self, data: dict[str, Any], space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: dict[str, Any], space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """Export sparse truth table in serializable format."""
         return {
             "type": "sparse_truth_table",
@@ -114,7 +116,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> dict[str, Any]:
         """Convert from any representation to sparse truth table."""
         size = 1 << n_vars
@@ -159,14 +161,14 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert sparse truth table to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> dict[str, Any]:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> dict[str, Any]:
         """Create empty sparse truth table (all False)."""
         size = 1 << n_vars
         return {"default_value": False, "exceptions": {}, "n_vars": n_vars, "size": size}
@@ -248,7 +250,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, A
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> dict[str, Any]:
         """Convert and choose optimal format."""
         # Try sparse conversion first
@@ -268,14 +270,16 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, A
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def dump(self, data: dict[str, Any], space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: dict[str, Any], space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """Export adaptive representation."""
         base_info = {
             "type": "adaptive_truth_table",
@@ -290,7 +294,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, A
 
         return base_info
 
-    def create_empty(self, n_vars: int, **kwargs) -> dict[str, Any]:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> dict[str, Any]:
         """Create empty adaptive representation."""
         return {
             "format": "sparse",  # Empty is always sparse-friendly

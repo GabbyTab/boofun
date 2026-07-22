@@ -9,6 +9,7 @@ This module provides specialized plotting tools for:
 """
 
 import logging
+import typing
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
@@ -92,9 +93,9 @@ class GrowthVisualizer:
         log_y: bool = False,
         figsize: tuple[int, int] = (10, 6),
         title: str | None = None,
-        ax=None,
-        **kwargs,
-    ):
+        ax: typing.Any = None,
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """
         Plot a single tracked property vs n.
 
@@ -147,19 +148,19 @@ class GrowthVisualizer:
 
     def _plot_growth_matplotlib(
         self,
-        n_arr,
-        computed_arr,
-        theory_arr,
-        marker_name,
-        family_name,
-        show_theory,
-        log_x,
-        log_y,
-        figsize,
-        title,
-        ax,
-        **kwargs,
-    ):
+        n_arr: np.ndarray,
+        computed_arr: np.ndarray,
+        theory_arr: np.ndarray | None,
+        marker_name: str,
+        family_name: str,
+        show_theory: bool,
+        log_x: bool,
+        log_y: bool,
+        figsize: tuple[int, int],
+        title: str | None,
+        ax: typing.Any,
+        **kwargs: typing.Any,
+    ) -> tuple[typing.Any, ...]:
         """Plot growth using matplotlib."""
         if ax is None:
             fig, ax = plt.subplots(figsize=figsize)
@@ -210,17 +211,17 @@ class GrowthVisualizer:
 
     def _plot_growth_plotly(
         self,
-        n_arr,
-        computed_arr,
-        theory_arr,
-        marker_name,
-        family_name,
-        show_theory,
-        log_x,
-        log_y,
-        title,
-        **kwargs,
-    ):
+        n_arr: np.ndarray,
+        computed_arr: np.ndarray,
+        theory_arr: np.ndarray | None,
+        marker_name: str,
+        family_name: str,
+        show_theory: bool,
+        log_x: bool,
+        log_y: bool,
+        title: str | None,
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Plot growth using plotly."""
         fig = go.Figure()
 
@@ -269,7 +270,7 @@ class GrowthVisualizer:
         log_y: bool = False,
         figsize: tuple[int, int] = (12, 6),
         title: str | None = None,
-    ):
+    ) -> typing.Any:
         """
         Compare a property across multiple function families.
 
@@ -293,8 +294,15 @@ class GrowthVisualizer:
         )
 
     def _compare_families_matplotlib(
-        self, trackers, marker_name, show_theory, log_x, log_y, figsize, title
-    ):
+        self,
+        trackers: typing.Any,
+        marker_name: str,
+        show_theory: bool,
+        log_x: bool,
+        log_y: bool,
+        figsize: tuple[int, int],
+        title: str | None,
+    ) -> typing.Any:
         """Compare families using matplotlib."""
         fig, ax = plt.subplots(figsize=figsize)
 
@@ -332,7 +340,15 @@ class GrowthVisualizer:
         plt.tight_layout()
         return fig
 
-    def _compare_families_plotly(self, trackers, marker_name, show_theory, log_x, log_y, title):
+    def _compare_families_plotly(
+        self,
+        trackers: typing.Any,
+        marker_name: str,
+        show_theory: bool,
+        log_x: bool,
+        log_y: bool,
+        title: str | None,
+    ) -> typing.Any:
         """Compare families using plotly."""
         fig = go.Figure()
 
@@ -390,7 +406,7 @@ class GrowthVisualizer:
         marker_name: str,
         reference: str = "sqrt_n",
         figsize: tuple[int, int] = (10, 6),
-    ):
+    ) -> typing.Any:
         """
         Plot ratio of computed value to theoretical reference.
 
@@ -477,7 +493,7 @@ class GrowthVisualizer:
         tracker: "GrowthTracker",
         marker_names: list[str] | None = None,
         figsize: tuple[int, int] = (14, 4),
-    ):
+    ) -> typing.Any:
         """
         Plot multiple properties side by side.
 
@@ -539,7 +555,7 @@ class LTFVisualizer:
         weights: np.ndarray,
         figsize: tuple[int, int] = (10, 6),
         title: str | None = None,
-    ):
+    ) -> typing.Any:
         """
         Plot weight distribution of an LTF.
 
@@ -585,7 +601,7 @@ class LTFVisualizer:
         self,
         f: "BooleanFunction",
         figsize: tuple[int, int] = (8, 8),
-    ):
+    ) -> typing.Any:
         """
         Scatter plot comparing |weight| vs influence.
 
@@ -646,7 +662,7 @@ class ComplexityVisualizer:
         self,
         f: "BooleanFunction",
         figsize: tuple[int, int] = (12, 5),
-    ):
+    ) -> typing.Any:
         """
         Plot relationships between different complexity measures.
 
@@ -720,8 +736,8 @@ def quick_growth_plot(
     family_name: str,
     properties: list[str] | None = None,
     n_values: list[int] | None = None,
-    **kwargs,
-):
+    **kwargs: typing.Any,
+) -> typing.Any:
     """
     Quick way to visualize asymptotic behavior of a built-in family.
 

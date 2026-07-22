@@ -10,6 +10,7 @@ This module provides comprehensive LaTeX export for:
 """
 
 import logging
+import typing
 from typing import TYPE_CHECKING, Any
 
 # Module logger
@@ -421,15 +422,15 @@ class LaTeXExporter:
         assert n is not None
         self.var_names = var_names or [str(i) for i in range(n)]
 
-    def fourier_spectrum(self, **kwargs) -> str:
+    def fourier_spectrum(self, **kwargs: typing.Any) -> str:
         """Export Fourier spectrum as TikZ."""
         return export_fourier_tikz(self.function, self.var_names, **kwargs)
 
-    def influences(self, **kwargs) -> str:
+    def influences(self, **kwargs: typing.Any) -> str:
         """Export influences as TikZ."""
         return export_influences_tikz(self.function, self.var_names, **kwargs)
 
-    def spectrum_table(self, **kwargs) -> str:
+    def spectrum_table(self, **kwargs: typing.Any) -> str:
         """Export spectrum as LaTeX table."""
         return export_spectrum_table(self.function, self.var_names, **kwargs)
 

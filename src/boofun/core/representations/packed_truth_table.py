@@ -114,7 +114,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         # LSB-first: binary_vector[i] corresponds to x_i, so index = Σ x_i * 2^i
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector))))
 
-    def dump(self, data: Any, space=None, **kwargs) -> dict[str, Any]:
+    def dump(self, data: Any, space: typing.Any = None, **kwargs: typing.Any) -> dict[str, Any]:
         """Export packed truth table in serializable format."""
         if HAS_BITARRAY and isinstance(data, dict) and "bitarray" in data:
             ba = data["bitarray"]
@@ -143,7 +143,7 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> dict[str, Any]:
         """Convert from any representation to packed truth table."""
         size = 1 << n_vars
@@ -178,14 +178,14 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert packed truth table to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> dict[str, Any]:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> dict[str, Any]:
         """Create empty packed truth table."""
         size = 1 << n_vars
 

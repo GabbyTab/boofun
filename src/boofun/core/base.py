@@ -32,7 +32,13 @@ except ImportError:
 
 
 class Property:
-    def __init__(self, name, test_func=None, doc=None, closed_under=None) -> None:
+    def __init__(
+        self,
+        name: str,
+        test_func: typing.Any = None,
+        doc: typing.Any = None,
+        closed_under: typing.Any = None,
+    ) -> None:
         self.name = name
         self.test_func = test_func
         self.doc = doc
@@ -43,15 +49,15 @@ class PropertyStore:
     def __init__(self) -> None:
         self._properties: dict[str, dict[str, Any]] = {}
 
-    def add(self, prop: Property, status="user") -> None:
+    def add(self, prop: Property, status: typing.Any = "user") -> None:
         self._properties[prop.name] = {"property": prop, "status": status}
 
-    def has(self, name) -> bool:
+    def has(self, name: str) -> bool:
         return name in self._properties
 
 
 class Evaluable(Protocol):
-    def evaluate(self, inputs) -> Any: ...
+    def evaluate(self, inputs: typing.Any) -> Any: ...
 
 
 class Representable(Protocol):
@@ -94,7 +100,7 @@ class BooleanFunction(Evaluable, Representable):
             arr = arr.copy()
         return arr
 
-    def __add__(self, other):
+    def __add__(self, other: typing.Any) -> typing.Any:
         """Addition operator - creates composite function with + operation"""
         return BooleanFunctionFactory.create_composite(
             boolean_function_cls=type(self),
@@ -103,7 +109,7 @@ class BooleanFunction(Evaluable, Representable):
             right_func=other,
         )
 
-    def __sub__(self, other):
+    def __sub__(self, other: typing.Any) -> typing.Any:
         """Subtraction operator - creates composite function with - operation"""
         return BooleanFunctionFactory.create_composite(
             boolean_function_cls=type(self),
@@ -112,7 +118,7 @@ class BooleanFunction(Evaluable, Representable):
             right_func=other,
         )
 
-    def __mul__(self, other):
+    def __mul__(self, other: typing.Any) -> typing.Any:
         """Multiplication operator - creates composite function with * operation"""
         return BooleanFunctionFactory.create_composite(
             boolean_function_cls=type(self),
@@ -121,7 +127,7 @@ class BooleanFunction(Evaluable, Representable):
             right_func=other,
         )
 
-    def __and__(self, other):
+    def __and__(self, other: typing.Any) -> typing.Any:
         """Bitwise AND operator - creates composite function with & operation"""
         return BooleanFunctionFactory.create_composite(
             boolean_function_cls=type(self),
@@ -130,7 +136,7 @@ class BooleanFunction(Evaluable, Representable):
             right_func=other,
         )
 
-    def __or__(self, other):
+    def __or__(self, other: typing.Any) -> typing.Any:
         """Bitwise OR operator - creates composite function with | operation"""
         return BooleanFunctionFactory.create_composite(
             boolean_function_cls=type(self),
@@ -139,7 +145,7 @@ class BooleanFunction(Evaluable, Representable):
             right_func=other,
         )
 
-    def __xor__(self, other):
+    def __xor__(self, other: typing.Any) -> typing.Any:
         """Bitwise XOR operator - creates composite function with ^ operation"""
         return BooleanFunctionFactory.create_composite(
             boolean_function_cls=type(self),
@@ -148,7 +154,7 @@ class BooleanFunction(Evaluable, Representable):
             right_func=other,
         )
 
-    def __invert__(self):
+    def __invert__(self) -> typing.Any:
         """Bitwise NOT operator - creates composite function with ~ operation"""
         return BooleanFunctionFactory.create_composite(
             boolean_function_cls=type(self),
@@ -157,7 +163,7 @@ class BooleanFunction(Evaluable, Representable):
             right_func=None,
         )
 
-    def __pow__(self, exponent):
+    def __pow__(self, exponent: int) -> typing.Any:
         """Power operator - creates composite function with ** operation"""
         return BooleanFunctionFactory.create_composite(
             boolean_function_cls=type(self),
@@ -184,10 +190,10 @@ class BooleanFunction(Evaluable, Representable):
             ),
         )
 
-    def __call__(self, inputs):
+    def __call__(self, inputs: typing.Any) -> typing.Any:
         return self.evaluate(inputs)
 
-    def __eq__(self, other):
+    def __eq__(self, other: typing.Any) -> typing.Any:
         """Two BooleanFunctions are equal if they have the same truth table."""
         if not isinstance(other, BooleanFunction):
             return NotImplemented
@@ -200,7 +206,7 @@ class BooleanFunction(Evaluable, Representable):
         except Exception:
             return NotImplemented
 
-    def __hash__(self):
+    def __hash__(self) -> typing.Any:
         """Hash based on truth table content."""
         try:
             tt = tuple(self.get_representation("truth_table"))
@@ -229,7 +235,7 @@ class BooleanFunction(Evaluable, Representable):
         label = f'"{name}" ' if name and name != "x_0" else ""
         return f"BooleanFunction({label}n={n}, tt={tt_str})"
 
-    def _create_space(self, space_type):
+    def _create_space(self, space_type: typing.Any) -> typing.Any:
         # Handle both string and Space enum inputs
         if isinstance(space_type, Space):
             return space_type
@@ -245,7 +251,7 @@ class BooleanFunction(Evaluable, Representable):
             return Space.GAUSSIAN
         raise ValueError(f"Unknown space type: {space_type}")
 
-    def _compute_representation(self, rep_type: str):
+    def _compute_representation(self, rep_type: str) -> None:
         """
         Compute representation using intelligent conversion graph.
 
@@ -312,12 +318,12 @@ class BooleanFunction(Evaluable, Representable):
         self.add_representation(result, rep_type)
         return
 
-    def get_representation(self, rep_type: str):
+    def get_representation(self, rep_type: str) -> typing.Any:
         """Retrieve or compute representation"""
         self._compute_representation(rep_type)
         return self.representations[rep_type]
 
-    def add_representation(self, data, rep_type=None):
+    def add_representation(self, data: typing.Any, rep_type: str | None = None) -> typing.Any:
         """Add a representation to this boolean function"""
         if rep_type is None:
             factory = BooleanFunctionFactory()
@@ -326,7 +332,9 @@ class BooleanFunction(Evaluable, Representable):
         self.representations[rep_type] = data
         return self
 
-    def evaluate(self, inputs, rep_type=None, **kwargs):
+    def evaluate(
+        self, inputs: typing.Any, rep_type: str | None = None, **kwargs: typing.Any
+    ) -> typing.Any:
         """
         Evaluate function with automatic input type detection and representation selection.
 
@@ -414,7 +422,9 @@ class BooleanFunction(Evaluable, Representable):
         bits = np.asarray(bits, dtype=int)
         return int(sum(int(b) << i for i, b in enumerate(bits)))
 
-    def _evaluate_deterministic(self, inputs, rep_type=None):
+    def _evaluate_deterministic(
+        self, inputs: typing.Any, rep_type: str | None = None
+    ) -> typing.Any:
         """
         Evaluate using the specified or first available representation.
 
@@ -454,7 +464,9 @@ class BooleanFunction(Evaluable, Representable):
         # Add methods that make this behave like rv_discrete/rv_continuous
         # self._configure_sampling_methods()
 
-    def _evaluate_stochastic(self, rv_inputs, n_samples=1000, **kwargs):
+    def _evaluate_stochastic(
+        self, rv_inputs: typing.Any, n_samples: int = 1000, **kwargs: typing.Any
+    ) -> typing.Any:
         """Handle random variable inputs using Monte Carlo."""
         samples = rv_inputs.rvs(size=n_samples)
         results = [self._evaluate_deterministic(sample) for sample in samples]
@@ -463,14 +475,14 @@ class BooleanFunction(Evaluable, Representable):
     def evaluate_range(self, inputs: Any) -> None:
         pass
 
-    def rvs(self, size=1, rng=None):
+    def rvs(self, size: int = 1, rng: typing.Any = None) -> typing.Any:
         """Generate random samples (like scipy.stats)"""
         if "distribution" in self.representations:
             return self.representations["distribution"].rvs(size=size, random_state=rng)
         # Fallback: uniform sampling from truth table
         return self._uniform_sample(size, rng)
 
-    def _uniform_sample(self, size, rng=None):
+    def _uniform_sample(self, size: int, rng: typing.Any = None) -> typing.Any:
         """Generate uniform random samples from the function's domain."""
         if rng is None:
             rng = np.random.default_rng()
@@ -487,13 +499,13 @@ class BooleanFunction(Evaluable, Representable):
 
         return results
 
-    def pmf(self, x):
+    def pmf(self, x: typing.Any) -> typing.Any:
         """Probability mass function"""
         if hasattr(self, "_pmf_cache"):
             return self._pmf_cache.get(tuple(x), 0.0)
         return self._compute_pmf(x)
 
-    def _compute_pmf(self, x):
+    def _compute_pmf(self, x: typing.Any) -> typing.Any:
         """Compute probability mass function for input x."""
         # For Boolean functions, PMF is just the function value
         return float(self.evaluate(x))
@@ -503,7 +515,7 @@ class BooleanFunction(Evaluable, Representable):
         # return self._compute_cdf(x)
 
     # get methods
-    def get_n_vars(self):
+    def get_n_vars(self) -> typing.Any:
         return self.n_vars
 
     # Backwards-compatible property aliases
@@ -573,7 +585,7 @@ class BooleanFunction(Evaluable, Representable):
 
         return best_cost
 
-    def to(self, representation_type: str):
+    def to(self, representation_type: str) -> typing.Any:
         """
         Convert to specified representation (convenience method).
 
@@ -590,7 +602,9 @@ class BooleanFunction(Evaluable, Representable):
     # Restriction Operations (ported from legacy BooleanFunc)
     # =========================================================================
 
-    def fix(self, var, val):
+    def fix(
+        self, var: int | list[int] | tuple[int, ...], val: int | list[int] | tuple[int, ...]
+    ) -> typing.Any:
         """
         Fix variable(s) to specific value(s), returning a new function on fewer variables.
 
@@ -611,8 +625,8 @@ class BooleanFunction(Evaluable, Representable):
             >>> g = f.fix(0, 1)  # Fix x_0 = 1, get function on x_1 only
         """
         if isinstance(var, (list, tuple)):
-            return self._fix_multi(list(var), val)
-        return self._fix_single(var, val)
+            return self._fix_multi(list(var), typing.cast("list[Any]", val))
+        return self._fix_single(var, typing.cast("int", val))
 
     def _fix_single(self, var: int, val: int) -> "BooleanFunction":
         """
@@ -1551,7 +1565,7 @@ class BooleanFunction(Evaluable, Representable):
         self.nickname = name
         return self
 
-    def pipe(self, func, *args, **kwargs):
+    def pipe(self, func: typing.Any, *args: typing.Any, **kwargs: typing.Any) -> typing.Any:
         """
         Apply an arbitrary function to self (for maximum fluency).
 

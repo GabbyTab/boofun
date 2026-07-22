@@ -44,7 +44,7 @@ class BDDNode:
         if self.is_terminal and value is None:
             self.value = False
 
-    def __eq__(self, other):
+    def __eq__(self, other: typing.Any) -> typing.Any:
         if not isinstance(other, BDDNode):
             return False
         if self.is_terminal != other.is_terminal:
@@ -53,7 +53,7 @@ class BDDNode:
             return self.value == other.value
         return self.var == other.var and self.low == other.low and self.high == other.high
 
-    def __hash__(self):
+    def __hash__(self) -> typing.Any:
         if self.is_terminal:
             return hash((None, self.value))
         return hash((self.var, id(self.low), id(self.high)))
@@ -212,7 +212,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 == 1 for i in range(n_vars)]
 
-    def dump(self, data: BDD, space=None, **kwargs) -> dict[str, Any]:
+    def dump(self, data: BDD, space: typing.Any = None, **kwargs: typing.Any) -> dict[str, Any]:
         """Export BDD representation."""
         return {"type": "bdd", "n_vars": data.n_vars, "node_count": data.get_node_count()}
 
@@ -222,7 +222,7 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> BDD:
         """
         Convert from another representation to BDD.
@@ -300,14 +300,14 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert BDD to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> BDD:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> BDD:
         """Create empty BDD (constant False)."""
         bdd = BDD(n_vars)
         bdd.root = bdd.create_terminal(False)

@@ -223,7 +223,7 @@ class AdaptiveFunction:
             self._recommendation = selection["recommendation"]
             self._sparsity = selection["sparsity"]
 
-    def _setup_forced(self, truth_table: np.ndarray, repr_type: str):
+    def _setup_forced(self, truth_table: np.ndarray, repr_type: str) -> None:
         """Set up with forced representation type."""
         if repr_type == "dense":
             self._data = truth_table.astype(bool)

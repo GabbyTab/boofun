@@ -52,7 +52,7 @@ class FunctionFamily(ABC):
     """
 
     @abstractmethod
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         """
         Generate the function for n variables.
 
@@ -69,7 +69,7 @@ class FunctionFamily(ABC):
     def metadata(self) -> FamilyMetadata:
         """Return metadata about this family."""
 
-    def __call__(self, n: int, **kwargs) -> "BooleanFunction":
+    def __call__(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         """Shorthand for generate(n)."""
         return self.generate(n, **kwargs)
 
@@ -79,7 +79,7 @@ class FunctionFamily(ABC):
             return self.metadata.n_constraints(n)
         return n >= 1
 
-    def theoretical_value(self, property_name: str, n: int, **kwargs) -> float | None:
+    def theoretical_value(self, property_name: str, n: int, **kwargs: typing.Any) -> float | None:
         """
         Get theoretical/asymptotic value for a property.
 
@@ -103,7 +103,9 @@ class FunctionFamily(ABC):
             return None
         return typing.cast("float | None", formula)
 
-    def generate_range(self, n_values: list[int], **kwargs) -> dict[int, "BooleanFunction"]:
+    def generate_range(
+        self, n_values: list[int], **kwargs: typing.Any
+    ) -> dict[int, "BooleanFunction"]:
         """
         Generate functions for a range of n values.
 
@@ -200,7 +202,7 @@ class InductiveFamily(FunctionFamily):
 
         raise NotImplementedError("Must either override step() or provide step_function")
 
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         """Generate function for n variables using induction."""
         # Check cache
         if n in self._cache:
@@ -294,7 +296,7 @@ class WeightPatternFamily(FunctionFamily):
         """Get threshold for n variables."""
         return self._threshold_fn(n)
 
-    def generate(self, n: int, **kwargs) -> "BooleanFunction":
+    def generate(self, n: int, **kwargs: typing.Any) -> "BooleanFunction":
         """Generate LTF with pattern weights."""
         from ..analysis.ltf_analysis import create_weighted_majority
 

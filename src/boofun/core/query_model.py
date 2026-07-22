@@ -25,6 +25,7 @@ Design Philosophy:
 
 from __future__ import annotations
 
+import typing
 import warnings
 from enum import Enum, auto
 from typing import TYPE_CHECKING, Any
@@ -261,7 +262,7 @@ class QueryModel:
         self.max_queries = max_queries
         self.access_type = get_access_type(f)
 
-    def can_compute(self, operation: str, **kwargs) -> bool:
+    def can_compute(self, operation: str, **kwargs: typing.Any) -> bool:
         """Check if operation is computationally feasible."""
         cost = self.estimate_cost(operation, **kwargs)
         return bool(cost["feasible"])

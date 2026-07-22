@@ -247,7 +247,7 @@ class LazyFourierCoefficients:
         self._computed = False
 
 
-def get_best_wht_implementation():
+def get_best_wht_implementation() -> tuple[typing.Any, ...]:
     """
     Get the best available Walsh-Hadamard Transform implementation.
 
@@ -258,7 +258,7 @@ def get_best_wht_implementation():
     try:
         from pyfwht import fwht
 
-        def pyfwht_wrapper(values):
+        def pyfwht_wrapper(values: typing.Any) -> typing.Any:
             return fwht(values.astype(np.float64)) / len(values)
 
         return pyfwht_wrapper, "pyfwht (GPU-accelerated)"
@@ -320,7 +320,7 @@ def parallel_batch_influences(
     if not HAS_PARALLEL or len(functions) <= 1:
         return [f.influences() for f in functions]
 
-    def compute_influences(f):
+    def compute_influences(f: typing.Any) -> typing.Any:
         return f.influences()
 
     ExecutorClass = ThreadPoolExecutor if use_threads else ProcessPoolExecutor
@@ -348,7 +348,7 @@ def parallel_batch_fourier(
     if not HAS_PARALLEL or len(functions) <= 1:
         return [f.fourier() for f in functions]
 
-    def compute_fourier(f):
+    def compute_fourier(f: typing.Any) -> typing.Any:
         return f.fourier()
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -414,12 +414,12 @@ class ComputeCache:
         self._hits = 0
         self._misses = 0
 
-    def _make_key(self, func_hash: str, computation: str, *args) -> str:
+    def _make_key(self, func_hash: str, computation: str, *args: typing.Any) -> str:
         """Create cache key from function hash and computation."""
         args_str = "_".join(str(a) for a in args)
         return f"{func_hash}_{computation}_{args_str}"
 
-    def get(self, func_hash: str, computation: str, *args) -> tuple[bool, Any]:
+    def get(self, func_hash: str, computation: str, *args: typing.Any) -> tuple[bool, Any]:
         """Try to get cached result. Returns (found, value)."""
         key = self._make_key(func_hash, computation, *args)
 
@@ -431,7 +431,7 @@ class ComputeCache:
         self._misses += 1
         return (False, None)
 
-    def put(self, func_hash: str, computation: str, value: Any, *args) -> None:
+    def put(self, func_hash: str, computation: str, value: Any, *args: typing.Any) -> None:
         """Store result in cache, evicting LRU if full."""
         key = self._make_key(func_hash, computation, *args)
 
@@ -466,7 +466,7 @@ def get_global_cache() -> ComputeCache:
     return _GLOBAL_CACHE
 
 
-def cached_computation(computation_name: str):
+def cached_computation(computation_name: str) -> typing.Any:
     """
     Decorator for caching expensive computations on BooleanFunction.
 
@@ -476,9 +476,9 @@ def cached_computation(computation_name: str):
             ...
     """
 
-    def decorator(func):
+    def decorator(func: typing.Any) -> typing.Any:
         @functools.wraps(func)
-        def wrapper(self, *args, **kwargs):
+        def wrapper(self: typing.Any, *args: typing.Any, **kwargs: typing.Any) -> typing.Any:
             # Get function hash
             func_hash = getattr(self, "_cache_hash", None)
             if func_hash is None:
@@ -502,7 +502,7 @@ def cached_computation(computation_name: str):
     return decorator
 
 
-def memoize_method(func):
+def memoize_method(func: typing.Any) -> typing.Any:
     """
     Simple memoization for instance methods.
 
@@ -511,7 +511,7 @@ def memoize_method(func):
     cache_name = f"_memo_{func.__name__}"
 
     @functools.wraps(func)
-    def wrapper(self, *args, **kwargs):
+    def wrapper(self: typing.Any, *args: typing.Any, **kwargs: typing.Any) -> typing.Any:
         # Create cache if needed
         if not hasattr(self, cache_name):
             setattr(self, cache_name, {})
@@ -534,7 +534,7 @@ def memoize_method(func):
 # =============================================================================
 
 
-def batch_evaluate(f, inputs: np.ndarray) -> np.ndarray:
+def batch_evaluate(f: typing.Any, inputs: np.ndarray) -> np.ndarray:
     """
     Efficiently evaluate a Boolean function on a batch of inputs.
 

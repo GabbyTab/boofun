@@ -313,7 +313,7 @@ class LinearErrorModel(ErrorModel):
 
 
 # Factory function for creating error models
-def create_error_model(model_type: str, **kwargs) -> ErrorModel:
+def create_error_model(model_type: str, **kwargs: typing.Any) -> ErrorModel:
     """
     Factory function to create error models.
 

@@ -9,6 +9,7 @@ as n grows, enabling:
 """
 
 import logging
+import typing
 import warnings
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -75,7 +76,7 @@ class PropertyMarker:
     def total_influence(theoretical: Callable[[int], float] | None = None) -> Marker:
         """Track total influence I[f]."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             from ..analysis import SpectralAnalyzer
 
             return SpectralAnalyzer(f).total_influence()
@@ -92,7 +93,7 @@ class PropertyMarker:
     def influences(variable: int | None = None) -> Marker:
         """Track variable influences."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             from ..analysis import SpectralAnalyzer
 
             infs = SpectralAnalyzer(f).influences()
@@ -117,12 +118,12 @@ class PropertyMarker:
     ) -> Marker:
         """Track noise stability Stab_ρ[f]."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             from ..analysis import SpectralAnalyzer
 
             return SpectralAnalyzer(f).noise_stability(rho)
 
-        def theory(n):
+        def theory(n: int) -> typing.Any:
             if theoretical:
                 return theoretical(n, rho)
             return None
@@ -140,7 +141,7 @@ class PropertyMarker:
     def fourier_degree() -> Marker:
         """Track Fourier degree."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             from ..analysis.fourier import fourier_degree
 
             return fourier_degree(f)
@@ -156,7 +157,7 @@ class PropertyMarker:
     def spectral_concentration(k: int) -> Marker:
         """Track weight on coefficients of degree ≤ k."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             from ..analysis import SpectralAnalyzer
 
             return SpectralAnalyzer(f).spectral_concentration(k)
@@ -173,7 +174,7 @@ class PropertyMarker:
     def expectation() -> Marker:
         """Track E[f] = f̂(∅)."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             from ..analysis import SpectralAnalyzer
 
             fourier = SpectralAnalyzer(f).fourier_expansion()
@@ -190,7 +191,7 @@ class PropertyMarker:
     def variance() -> Marker:
         """Track Var[f] = 1 - f̂(∅)²."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             from ..analysis import SpectralAnalyzer
 
             fourier = SpectralAnalyzer(f).fourier_expansion()
@@ -207,7 +208,7 @@ class PropertyMarker:
     def is_property(property_name: str) -> Marker:
         """Track whether a property holds."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             method = getattr(f, f"is_{property_name}", None)
             if method is not None:
                 return method()
@@ -233,7 +234,7 @@ class PropertyMarker:
     def sensitivity() -> Marker:
         """Track sensitivity s(f)."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             from ..analysis.sensitivity import max_sensitivity
 
             return max_sensitivity(f)
@@ -249,7 +250,7 @@ class PropertyMarker:
     def block_sensitivity() -> Marker:
         """Track block sensitivity bs(f)."""
 
-        def compute(f):
+        def compute(f: typing.Any) -> typing.Any:
             from ..analysis.block_sensitivity import max_block_sensitivity
 
             return max_block_sensitivity(f)
@@ -324,7 +325,7 @@ class GrowthTracker:
         self.results: dict[str, TrackingResult] = {}
         self._functions_cache: dict[int, BooleanFunction] = {}
 
-    def mark(self, property_name: str, **kwargs) -> "GrowthTracker":
+    def mark(self, property_name: str, **kwargs: typing.Any) -> "GrowthTracker":
         """
         Add a property to track.
 
@@ -507,9 +508,9 @@ class GrowthTracker:
         marker_name: str,
         show_theory: bool = True,
         log_scale: bool = False,
-        ax=None,
-        **plot_kwargs,
-    ):
+        ax: typing.Any = None,
+        **plot_kwargs: typing.Any,
+    ) -> typing.Any:
         """
         Plot a tracked property vs n.
 
@@ -559,7 +560,7 @@ class GrowthTracker:
 
         return ax
 
-    def plot_all(self, show_theory: bool = True, figsize: tuple[int, int] = (15, 4)):
+    def plot_all(self, show_theory: bool = True, figsize: tuple[int, int] = (15, 4)) -> typing.Any:
         """Plot all tracked markers in subplots."""
         try:
             import matplotlib.pyplot as plt

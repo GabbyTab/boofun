@@ -111,7 +111,9 @@ class BooleanFunctionFactory:
         )
 
     @classmethod
-    def create(cls, boolean_function_cls: type, data: Any = None, **kwargs):
+    def create(
+        cls, boolean_function_cls: type, data: Any = None, **kwargs: typing.Any
+    ) -> typing.Any:
         """
         Main factory method that dispatches to specialized creators based on input data type.
 
@@ -176,7 +178,13 @@ class BooleanFunctionFactory:
         )
 
     @classmethod
-    def from_truth_table(cls, boolean_function_cls, truth_table, rep_type="truth_table", **kwargs):
+    def from_truth_table(
+        cls,
+        boolean_function_cls: type[typing.Any],
+        truth_table: typing.Any,
+        rep_type: str = "truth_table",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """
         Create from truth table data.
 
@@ -293,8 +301,13 @@ class BooleanFunctionFactory:
 
     @classmethod
     def from_function(
-        cls, boolean_function_cls, func, rep_type="function", domain_size=None, **kwargs
-    ):
+        cls,
+        boolean_function_cls: type[typing.Any],
+        func: typing.Any,
+        rep_type: str = "function",
+        domain_size: typing.Any = None,
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create from callable function"""
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(func, rep_type)
@@ -304,8 +317,12 @@ class BooleanFunctionFactory:
 
     @classmethod
     def from_scipy_distribution(
-        cls, boolean_function_cls, distribution, rep_type="distribution", **kwargs
-    ):
+        cls,
+        boolean_function_cls: type[typing.Any],
+        distribution: typing.Any,
+        rep_type: str = "distribution",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create from scipy.stats distribution"""
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(distribution, rep_type)
@@ -313,14 +330,26 @@ class BooleanFunctionFactory:
         return instance
 
     @classmethod
-    def from_polynomial(cls, boolean_function_cls, coeffs, rep_type="polynomial", **kwargs):
+    def from_polynomial(
+        cls,
+        boolean_function_cls: type[typing.Any],
+        coeffs: typing.Any,
+        rep_type: str = "polynomial",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create from polynomial coefficients"""
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(coeffs, rep_type)
         return instance
 
     @classmethod
-    def from_multilinear(cls, boolean_function_cls, coeffs, rep_type="fourier_expansion", **kwargs):
+    def from_multilinear(
+        cls,
+        boolean_function_cls: type[typing.Any],
+        coeffs: typing.Any,
+        rep_type: str = "fourier_expansion",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create from multilinear polynomial coefficients"""
         n_vars = kwargs.get("n")
         if n_vars is None:
@@ -332,14 +361,26 @@ class BooleanFunctionFactory:
         return instance
 
     @classmethod
-    def from_iterable(cls, boolean_function_cls, data, rep_type="iterable_rep", **kwargs):
+    def from_iterable(
+        cls,
+        boolean_function_cls: type[typing.Any],
+        data: typing.Any,
+        rep_type: str = "iterable_rep",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create from streaming truth table"""
         instance = boolean_function_cls(**kwargs)
         instance.add_representation(list(data), rep_type)
         return instance
 
     @classmethod
-    def from_symbolic(cls, boolean_function_cls, expression, rep_type="symbolic", **kwargs):
+    def from_symbolic(
+        cls,
+        boolean_function_cls: type[typing.Any],
+        expression: str,
+        rep_type: str = "symbolic",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create from symbolic expression string.
 
         Args:
@@ -389,8 +430,12 @@ class BooleanFunctionFactory:
 
     @classmethod
     def from_input_invariant_truth_table(
-        cls, boolean_function_cls, true_inputs, rep_type="truth_table", **kwargs
-    ):
+        cls,
+        boolean_function_cls: type[typing.Any],
+        true_inputs: typing.Any,
+        rep_type: str = "truth_table",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create from set of true input vectors"""
         n_vars = len(next(iter(true_inputs))) if true_inputs else kwargs.get("n_vars", 0)
         size = 1 << n_vars
@@ -409,13 +454,13 @@ class BooleanFunctionFactory:
     @classmethod
     def create_composite(
         cls,
-        boolean_function_cls,
-        operator,
-        left_func,
-        right_func,
-        rep_type="symbolic",
-        **kwargs,
-    ):
+        boolean_function_cls: type[typing.Any],
+        operator: typing.Any,
+        left_func: typing.Any,
+        right_func: typing.Any,
+        rep_type: str = "symbolic",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create composite function from BooleanFunctions or scalars.
 
         Prefers truth-table composition when both operands are BooleanFunction
@@ -426,7 +471,7 @@ class BooleanFunctionFactory:
 
         kwargs = kwargs.copy()
 
-        def _is_boolean_function(obj):
+        def _is_boolean_function(obj: typing.Any) -> typing.Any:
             return hasattr(obj, "get_representation") and hasattr(obj, "n_vars")
 
         left_is_func = _is_boolean_function(left_func)
@@ -487,7 +532,7 @@ class BooleanFunctionFactory:
         else:
             result_n_vars = left_n_vars + right_n_vars
 
-        def _truth_table_unary(op, func):
+        def _truth_table_unary(op: typing.Any, func: typing.Any) -> typing.Any:
             if not left_is_func:
                 return None
             try:
@@ -498,7 +543,7 @@ class BooleanFunctionFactory:
                 return np.logical_not(table)
             return None
 
-        def _truth_table_binary(op, left, right):
+        def _truth_table_binary(op: typing.Any, left: typing.Any, right: typing.Any) -> typing.Any:
             if not (same_domain and same_space):
                 return None
             try:
@@ -560,12 +605,12 @@ class BooleanFunctionFactory:
     @classmethod
     def compose_truth_tables(
         cls,
-        boolean_function_cls,
-        outer_func,
-        inner_func,
+        boolean_function_cls: type[typing.Any],
+        outer_func: typing.Any,
+        inner_func: typing.Any,
         rep_type: str = "truth_table",
-        **kwargs,
-    ):
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Compose two BooleanFunction instances via truth tables.
 
         Mirrors the legacy ``BooleanFunc.compose`` semantics: if ``outer`` has
@@ -612,7 +657,13 @@ class BooleanFunctionFactory:
         return instance
 
     @classmethod
-    def from_dnf(cls, boolean_function_cls, dnf_formula, rep_type="dnf", **kwargs):
+    def from_dnf(
+        cls,
+        boolean_function_cls: type[typing.Any],
+        dnf_formula: typing.Any,
+        rep_type: str = "dnf",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create from DNF (Disjunctive Normal Form) formula.
 
         Args:
@@ -636,7 +687,13 @@ class BooleanFunctionFactory:
         return instance
 
     @classmethod
-    def from_cnf(cls, boolean_function_cls, cnf_formula, rep_type="cnf", **kwargs):
+    def from_cnf(
+        cls,
+        boolean_function_cls: type[typing.Any],
+        cnf_formula: typing.Any,
+        rep_type: str = "cnf",
+        **kwargs: typing.Any,
+    ) -> typing.Any:
         """Create from CNF (Conjunctive Normal Form) formula.
 
         Args:
@@ -660,7 +717,9 @@ class BooleanFunctionFactory:
         return instance
 
     @classmethod
-    def from_file(cls, boolean_function_cls, path, **kwargs):
+    def from_file(
+        cls, boolean_function_cls: type[typing.Any], path: typing.Any, **kwargs: typing.Any
+    ) -> typing.Any:
         """Create from file (JSON, .bf, or DIMACS CNF).
 
         Args:

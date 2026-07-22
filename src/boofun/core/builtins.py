@@ -216,7 +216,7 @@ class BooleanFunctionBuiltins:
         )
 
     @classmethod
-    def f2_polynomial(cls, n: int, monomials) -> "BooleanFunction":
+    def f2_polynomial(cls, n: int, monomials: typing.Any) -> "BooleanFunction":
         """
         Create f(x) = (-1)^{p(x)} where p is a polynomial over GF(2).
 

@@ -26,7 +26,9 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         """
 
     @abstractmethod
-    def dump(self, data: DataType, space: Space | None = None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: DataType, space: Space | None = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """
         Export the representation data in a serializable format.
 
@@ -46,7 +48,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> Any:
         """
         Convert from another representation to this representation.
@@ -67,7 +69,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> Any:
         """
         Convert from this representation to target representation.
@@ -82,7 +84,7 @@ class BooleanFunctionRepresentation(ABC, Generic[DataType]):
         """
 
     @abstractmethod
-    def create_empty(self, n_vars: int, **kwargs) -> DataType:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> DataType:
         """Create empty representation data structure for n variables."""
 
     @abstractmethod

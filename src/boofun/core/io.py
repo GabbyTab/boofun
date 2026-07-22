@@ -50,7 +50,7 @@ __all__ = [
 class FileIOError(BooleanFunctionError):
     """Error during file I/O operations."""
 
-    def __init__(self, message: str, path: str | None = None, **kwargs) -> None:
+    def __init__(self, message: str, path: str | None = None, **kwargs: typing.Any) -> None:
         self.path = path
         super().__init__(message, **kwargs)
 
@@ -100,7 +100,7 @@ def detect_format(path: str | Path) -> str:
 def load(
     path: str | Path,
     format: str | None = None,
-    **kwargs,
+    **kwargs: typing.Any,
 ) -> BooleanFunction:
     """
     Load a Boolean function from file.
@@ -142,7 +142,7 @@ def save(
     func: BooleanFunction,
     path: str | Path,
     format: str | None = None,
-    **kwargs,
+    **kwargs: typing.Any,
 ) -> None:
     """
     Save a Boolean function to file.
@@ -188,7 +188,7 @@ def save(
 # =============================================================================
 
 
-def load_json(path: str | Path, **kwargs) -> BooleanFunction:
+def load_json(path: str | Path, **kwargs: typing.Any) -> BooleanFunction:
     """
     Load Boolean function from JSON file.
 
@@ -265,7 +265,7 @@ def save_json(
     path: str | Path,
     representation: str = "truth_table",
     pretty: bool = True,
-    **kwargs,
+    **kwargs: typing.Any,
 ) -> None:
     """
     Save Boolean function to JSON file.
@@ -306,7 +306,7 @@ def save_json(
             json.dump(export_data, f, default=_json_serializer)
 
 
-def _json_serializer(obj):
+def _json_serializer(obj: typing.Any) -> typing.Any:
     """Custom JSON serializer for numpy types."""
     if isinstance(obj, (np.integer, np.floating)):
         return obj.item()
@@ -324,7 +324,7 @@ def _json_serializer(obj):
 # =============================================================================
 
 
-def load_bf(path: str | Path, **kwargs) -> BooleanFunction:
+def load_bf(path: str | Path, **kwargs: typing.Any) -> BooleanFunction:
     """
     Load Boolean function from .bf file (Aaronson format).
 
@@ -410,7 +410,7 @@ def save_bf(
     func: BooleanFunction,
     path: str | Path,
     include_inputs: bool = True,
-    **kwargs,
+    **kwargs: typing.Any,
 ) -> None:
     """
     Save Boolean function to .bf file (Aaronson format).
@@ -444,7 +444,7 @@ def save_bf(
 # =============================================================================
 
 
-def load_dimacs_cnf(path: str | Path, **kwargs) -> BooleanFunction:
+def load_dimacs_cnf(path: str | Path, **kwargs: typing.Any) -> BooleanFunction:
     """
     Load Boolean function from DIMACS CNF file.
 
@@ -531,7 +531,7 @@ def save_dimacs_cnf(
     func: BooleanFunction,
     path: str | Path,
     comment: str | None = None,
-    **kwargs,
+    **kwargs: typing.Any,
 ) -> None:
     """
     Save Boolean function to DIMACS CNF file.

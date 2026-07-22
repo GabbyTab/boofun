@@ -244,7 +244,7 @@ class Measure:
             rng = np.random.default_rng()
         return (rng.random((n_samples, n)) < self._p).astype(int)
 
-    def weight(self, x) -> float:
+    def weight(self, x: typing.Any) -> float:
         """Probability of a specific input under this measure.
 
         Args:
@@ -267,7 +267,7 @@ class Measure:
             return "Measure.uniform()"
         return f"Measure.p_biased({self._p})"
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: typing.Any) -> bool:
         if not isinstance(other, Measure):
             return NotImplemented
         return self._p == other._p

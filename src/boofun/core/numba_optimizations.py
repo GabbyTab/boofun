@@ -24,7 +24,7 @@ except ImportError:
 if HAS_NUMBA:
 
     @njit
-    def popcount(x):
+    def popcount(x: typing.Any) -> typing.Any:
         """Count number of set bits in integer (population count)."""
         count = 0
         while x:
@@ -33,7 +33,7 @@ if HAS_NUMBA:
         return count
 
     @njit
-    def binary_to_index(binary_vec):
+    def binary_to_index(binary_vec: typing.Any) -> typing.Any:
         """Convert binary vector to integer index (LSB convention: vec[i] = x_i)."""
         result = 0
         for i in range(len(binary_vec)):
@@ -42,7 +42,7 @@ if HAS_NUMBA:
         return result
 
     @njit(parallel=True)
-    def batch_binary_to_indices(binary_matrix):
+    def batch_binary_to_indices(binary_matrix: typing.Any) -> typing.Any:
         """Convert batch of binary vectors to indices (LSB convention)."""
         n_inputs, n_vars = binary_matrix.shape
         indices = np.zeros(n_inputs, dtype=np.int32)
@@ -57,7 +57,7 @@ if HAS_NUMBA:
         return indices
 
     @njit(parallel=True)
-    def truth_table_batch_eval(inputs, truth_table):
+    def truth_table_batch_eval(inputs: typing.Any, truth_table: typing.Any) -> typing.Any:
         """JIT-compiled batch truth table evaluation."""
         results = np.zeros(len(inputs), dtype=np.bool_)
 
@@ -69,7 +69,7 @@ if HAS_NUMBA:
         return results
 
     @njit(parallel=True)
-    def fourier_batch_eval(inputs, coefficients):
+    def fourier_batch_eval(inputs: typing.Any, coefficients: np.ndarray) -> typing.Any:
         """JIT-compiled batch Fourier expansion evaluation."""
         results = np.zeros(len(inputs), dtype=np.bool_)
 
@@ -88,7 +88,7 @@ if HAS_NUMBA:
         return results
 
     @njit
-    def walsh_hadamard_transform_inplace(values) -> None:
+    def walsh_hadamard_transform_inplace(values: typing.Any) -> None:
         """In-place Walsh-Hadamard transform."""
         n = len(values)
         n_vars = 0
@@ -113,7 +113,12 @@ if HAS_NUMBA:
             values[i] /= n
 
     @njit(parallel=True)
-    def anf_batch_eval(inputs, monomial_arrays, monomial_lengths, coefficients):
+    def anf_batch_eval(
+        inputs: typing.Any,
+        monomial_arrays: typing.Any,
+        monomial_lengths: typing.Any,
+        coefficients: np.ndarray,
+    ) -> typing.Any:
         """JIT-compiled batch ANF evaluation."""
         results = np.zeros(len(inputs), dtype=np.bool_)
 
@@ -148,7 +153,7 @@ if HAS_NUMBA:
         return results
 
     @njit
-    def influences_computation(truth_table, n_vars):
+    def influences_computation(truth_table: typing.Any, n_vars: int) -> typing.Any:
         """JIT-compiled influence computation."""
         influences = np.zeros(n_vars, dtype=np.float64)
         size = len(truth_table)
@@ -169,7 +174,7 @@ if HAS_NUMBA:
         return influences
 
     @njit
-    def noise_stability_computation(fourier_coeffs, rho):
+    def noise_stability_computation(fourier_coeffs: np.ndarray, rho: float) -> typing.Any:
         """JIT-compiled noise stability computation."""
         stability = 0.0
 
@@ -181,7 +186,9 @@ if HAS_NUMBA:
         return stability
 
     @njit(parallel=True)
-    def polynomial_batch_eval(inputs, monomial_powers, coefficients):
+    def polynomial_batch_eval(
+        inputs: typing.Any, monomial_powers: typing.Any, coefficients: np.ndarray
+    ) -> typing.Any:
         """JIT-compiled polynomial evaluation."""
         results = np.zeros(len(inputs), dtype=np.float64)
 
@@ -215,7 +222,7 @@ if HAS_NUMBA:
         return results
 
     @njit
-    def degree_computation(monomial_powers):
+    def degree_computation(monomial_powers: typing.Any) -> typing.Any:
         """Compute degree of polynomial representation."""
         max_degree = 0
 

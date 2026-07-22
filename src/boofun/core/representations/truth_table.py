@@ -82,7 +82,9 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         """Optimized bit packing using NumPy"""
         return int(np.packbits(bits.astype(np.uint8), bitorder="big")[0])
 
-    def dump(self, data: np.ndarray, space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: np.ndarray, space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """
         Export the truth table.
 
@@ -103,7 +105,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """
         Convert from any representation by evaluating all possible inputs.
@@ -186,14 +188,14 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert truth table to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> np.ndarray:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> np.ndarray:
         """Create an empty (all-False) truth table for n variables."""
         size = 1 << n_vars
         return np.zeros(size, dtype=bool)

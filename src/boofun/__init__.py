@@ -230,7 +230,7 @@ def OR(n: int) -> BooleanFunction:
     return typing.cast("BooleanFunction", create(truth_table))
 
 
-def f2_polynomial(n: int, monomials) -> BooleanFunction:
+def f2_polynomial(n: int, monomials: typing.Any) -> BooleanFunction:
     """
     Create f(x) = (-1)^{p(x)} where p is a polynomial over GF(2).
 
@@ -282,7 +282,7 @@ def random(n: int, balanced: bool = False, seed: int | None = None) -> BooleanFu
     return typing.cast("BooleanFunction", create(truth_table.tolist()))
 
 
-def from_weights(weights, threshold_value=None) -> BooleanFunction:
+def from_weights(weights: typing.Any, threshold_value: typing.Any = None) -> BooleanFunction:
     """
     Create LTF (Linear Threshold Function) from weight vector.
 
@@ -323,7 +323,7 @@ def threshold(n: int, k: int) -> BooleanFunction:
     return create_threshold_function(n, k)
 
 
-def weighted_majority(weights, threshold_value=None) -> BooleanFunction:
+def weighted_majority(weights: typing.Any, threshold_value: typing.Any = None) -> BooleanFunction:
     """
     Create a weighted majority (LTF) function.
 

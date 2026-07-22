@@ -26,10 +26,10 @@ def get_strategy(rep_key: str) -> BooleanFunctionRepresentation[typing.Any]:
     return strategy_cls()
 
 
-def register_strategy(key: str):
+def register_strategy(key: str) -> typing.Any:
     """Decorator to register representation classes"""
 
-    def decorator(cls: type[BooleanFunctionRepresentation[typing.Any]]):
+    def decorator(cls: type[BooleanFunctionRepresentation[typing.Any]]) -> typing.Any:
         STRATEGY_REGISTRY[key] = cls
         return cls
 
@@ -70,7 +70,9 @@ def register_partial_strategy(
 
 
 # Register a simple function representation for adapted external functions
-def _function_evaluate(self, inputs, data, space, n_vars):
+def _function_evaluate(
+    self: typing.Any, inputs: typing.Any, data: typing.Any, space: typing.Any, n_vars: int | None
+) -> typing.Any:
     """
     Evaluate the function directly.
 
@@ -85,7 +87,7 @@ def _function_evaluate(self, inputs, data, space, n_vars):
     """
     import numpy as np
 
-    def index_to_binary(idx, n):
+    def index_to_binary(idx: int, n: int) -> typing.Any:
         """Convert integer index to binary array (LSB convention: bit i at position i)."""
         return [(idx >> i) & 1 for i in range(n)]
 
@@ -149,31 +151,45 @@ def _function_evaluate(self, inputs, data, space, n_vars):
         raise ValueError(f"Function evaluation failed: {e}") from e
 
 
-def _function_convert_from(self, source_repr, source_data, space, n_vars, **kwargs):
+def _function_convert_from(
+    self: typing.Any,
+    source_repr: typing.Any,
+    source_data: typing.Any,
+    space: typing.Any,
+    n_vars: int,
+    **kwargs: typing.Any,
+) -> typing.Any:
     """Convert from another representation to function."""
 
-    def func(inputs):
+    def func(inputs: typing.Any) -> typing.Any:
         return source_repr.evaluate(inputs, source_data, space, n_vars)
 
     return func
 
 
-def _function_convert_to(self, target_repr, source_data, space, n_vars, **kwargs):
+def _function_convert_to(
+    self: typing.Any,
+    target_repr: typing.Any,
+    source_data: typing.Any,
+    space: typing.Any,
+    n_vars: int,
+    **kwargs: typing.Any,
+) -> typing.Any:
     """Convert function to another representation."""
     return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
 
-def _function_create_empty(self, n_vars, **kwargs):
+def _function_create_empty(self: typing.Any, n_vars: int, **kwargs: typing.Any) -> typing.Any:
     """Create empty function representation."""
     return lambda x: False
 
 
-def _function_is_complete(self, data):
+def _function_is_complete(self: typing.Any, data: typing.Any) -> typing.Any:
     """Check if function representation is complete."""
     return callable(data)
 
 
-def _function_time_complexity_rank(self, n_vars):
+def _function_time_complexity_rank(self: typing.Any, n_vars: int) -> dict[typing.Any, typing.Any]:
     """Time complexity for function operations."""
     return {
         "evaluation": 1,  # O(1) function call
@@ -181,7 +197,9 @@ def _function_time_complexity_rank(self, n_vars):
     }
 
 
-def _function_get_storage_requirements(self, n_vars):
+def _function_get_storage_requirements(
+    self: typing.Any, n_vars: int
+) -> dict[typing.Any, typing.Any]:
     """Storage requirements for function representation."""
     return {
         "memory_bytes": 64,  # Just a function reference

@@ -34,7 +34,7 @@ class DNFTerm:
     positive_vars: set[int]
     negative_vars: set[int]
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate that positive and negative variables don't overlap."""
         if self.positive_vars & self.negative_vars:
             raise ValueError("Variable cannot be both positive and negative in same term")
@@ -255,7 +255,9 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 for i in range(n_vars)]
 
-    def dump(self, data: DNFFormula, space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: DNFFormula, space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """Export DNF representation."""
         result = data.to_dict()
         result["type"] = "dnf"
@@ -267,7 +269,7 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> DNFFormula:
         """
         Convert from another representation to DNF.
@@ -324,14 +326,14 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert DNF to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> DNFFormula:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> DNFFormula:
         """Create empty DNF (constant False)."""
         return DNFFormula(terms=[], n_vars=n_vars)
 

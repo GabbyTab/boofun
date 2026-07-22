@@ -132,7 +132,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]
         return bool(result)
 
     def dump(
-        self, data: dict[frozenset[int], int], space: Space | None = None, **kwargs
+        self, data: dict[frozenset[int], int], space: Space | None = None, **kwargs: typing.Any
     ) -> dict[str, Any]:
         """Export ANF in serializable format."""
         # Convert frozensets to lists for JSON serialization
@@ -155,7 +155,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> dict[frozenset[int], int]:
         """Convert from another representation to ANF."""
         from .truth_table import TruthTableRepresentation
@@ -175,13 +175,13 @@ class ANFRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]
         source_data: dict[frozenset[int], int],
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> Any:
         """Convert from ANF to another representation."""
         # Use the target representation's convert_from method
         return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
 
-    def create_empty(self, n_vars: int, **kwargs) -> dict[frozenset[int], int]:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> dict[frozenset[int], int]:
         """Create empty ANF (zero function)."""
         return {frozenset(): 0}  # Constant zero function
 

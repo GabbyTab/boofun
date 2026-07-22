@@ -33,7 +33,7 @@ class LTFParameters:
     threshold: float
     n_vars: int
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate parameters after initialization."""
         if len(self.weights) != self.n_vars:
             raise ValueError(
@@ -123,7 +123,9 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 for i in range(n_vars)]
 
-    def dump(self, data: LTFParameters, space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: LTFParameters, space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """Export LTF representation."""
         result = data.to_dict()
         result["type"] = "ltf"
@@ -135,7 +137,7 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> LTFParameters:
         """
         Convert from another representation to LTF.
@@ -280,14 +282,14 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert LTF to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> LTFParameters:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> LTFParameters:
         """Create empty LTF (constant False)."""
         # Constant False: all weights = 0, threshold = 1
         weights = np.zeros(n_vars)

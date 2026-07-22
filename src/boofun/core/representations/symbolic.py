@@ -84,7 +84,14 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
                 results.append(eval_point(int(v)))
         return np.array(results)
 
-    def _evaluate_variable_expression(self, inputs, expr, variables, space, n_vars):
+    def _evaluate_variable_expression(
+        self,
+        inputs: typing.Any,
+        expr: typing.Any,
+        variables: typing.Any,
+        space: typing.Any,
+        n_vars: int,
+    ) -> typing.Any:
         """Evaluate symbolic expression with variable names.
 
         Handles different input formats:
@@ -94,7 +101,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
         """
         inputs_array = np.atleast_1d(inputs)
 
-        def evaluate_single_point(inp):
+        def evaluate_single_point(inp: typing.Any) -> typing.Any:
             """Evaluate at a single input point (integer or bit vector)."""
             if isinstance(inp, (int, np.integer)) or (
                 isinstance(inp, np.ndarray) and inp.ndim == 0
@@ -136,7 +143,9 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
 
         return np.array(results)
 
-    def dump(self, data: tuple[str, list[str]], space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: tuple[str, list[str]], space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """
         Export the symbolic representation as a dictionary.
 
@@ -155,7 +164,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> tuple[str, list[Any]]:
         """
         Convert from another representation to symbolic form.
@@ -185,7 +194,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert to another representation from Fourier expansion"""
         # Placeholder: Actual conversion requires inverse transform
@@ -193,7 +202,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> tuple[str, list[str]]:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> tuple[str, list[str]]:
         """
         Create an empty symbolic representation:
         - Empty expression string

@@ -313,7 +313,9 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         # LSB-first: result[i] = x_i = (index >> i) & 1
         return [(index >> i) & 1 == 1 for i in range(n_vars)]
 
-    def dump(self, data: BooleanCircuit, space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: BooleanCircuit, space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """Export circuit representation."""
         circuit_dict = data.to_dict()
         circuit_dict["type"] = "circuit"
@@ -325,7 +327,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> BooleanCircuit:
         """
         Convert from another representation to circuit.
@@ -421,14 +423,14 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert circuit to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> BooleanCircuit:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> BooleanCircuit:
         """Create empty circuit (constant False)."""
         circuit = BooleanCircuit(n_vars)
         # Create constant False: x AND NOT x

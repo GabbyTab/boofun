@@ -46,7 +46,7 @@ class BooleanDistribution:
     n_vars: int
     domain_size: int
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate distribution parameters."""
         if len(self.truth_table) != self.domain_size:
             raise ValueError(
@@ -419,7 +419,9 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
             return np.array(results, dtype=bool)
         raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def dump(self, data: BooleanDistribution, space=None, **kwargs) -> dict[str, Any]:
+    def dump(
+        self, data: BooleanDistribution, space: typing.Any = None, **kwargs: typing.Any
+    ) -> dict[str, Any]:
         """Export distribution representation."""
         result = data.to_dict()
         result["type"] = "distribution"
@@ -431,7 +433,7 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> BooleanDistribution:
         """
         Convert from another representation to distribution.
@@ -470,14 +472,14 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
         source_data: Any,
         space: Space,
         n_vars: int,
-        **kwargs,
+        **kwargs: typing.Any,
     ) -> np.ndarray:
         """Convert distribution to another representation."""
         return typing.cast(
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> BooleanDistribution:
+    def create_empty(self, n_vars: int, **kwargs: typing.Any) -> BooleanDistribution:
         """Create empty distribution (constant False with uniform input)."""
         domain_size = 2**n_vars
         truth_table = np.zeros(domain_size, dtype=bool)

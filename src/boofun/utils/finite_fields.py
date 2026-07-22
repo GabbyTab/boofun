@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 
 __all__ = ["HAS_GALOIS", "GFField", "get_field"]
@@ -26,7 +27,7 @@ class GFField:
     def order(self) -> int:
         return int(self.p**self.m)
 
-    def element_type(self):  # pragma: no cover - runtime dispatch
+    def element_type(self) -> typing.Any:  # pragma: no cover - runtime dispatch
         if HAS_GALOIS:
             return _galois.GF(self.order)
         if self.p == 2 and self.m == 1:

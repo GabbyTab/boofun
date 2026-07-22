@@ -6,6 +6,7 @@ including Fourier spectrum exploration, influence heatmaps, and comparison tools
 """
 
 import logging
+import typing
 from typing import TYPE_CHECKING, Any
 
 # Module logger
@@ -34,7 +35,7 @@ __all__ = [
 ]
 
 
-def _check_plotly():
+def _check_plotly() -> None:
     """Ensure Plotly is available."""
     if not HAS_PLOTLY:
         raise ImportError(
@@ -435,15 +436,15 @@ class FourierExplorer:
         self.fourier = f.fourier()
         self._cache: dict[str, Any] = {}
 
-    def spectrum_plot(self, **kwargs) -> "go.Figure":
+    def spectrum_plot(self, **kwargs: typing.Any) -> "go.Figure":
         """Get interactive spectrum plot."""
         return interactive_fourier_spectrum(self.function, **kwargs)
 
-    def influence_plot(self, **kwargs) -> "go.Figure":
+    def influence_plot(self, **kwargs: typing.Any) -> "go.Figure":
         """Get interactive influence heatmap."""
         return interactive_influence_heatmap(self.function, **kwargs)
 
-    def complexity_plot(self, **kwargs) -> "go.Figure":
+    def complexity_plot(self, **kwargs: typing.Any) -> "go.Figure":
         """Get interactive complexity comparison."""
         return interactive_complexity_comparison(self.function, **kwargs)
 
