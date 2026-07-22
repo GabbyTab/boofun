@@ -173,7 +173,7 @@ def tree_depth(tree: DecisionTree | list | tuple) -> int:
     if not tree or tree == []:
         return 0
     if isinstance(tree, (list, tuple)) and len(tree) == 3:
-        var, left, right = tree
+        _var, left, right = tree
         return 1 + max(tree_depth(left), tree_depth(right))
     return 0
 
@@ -194,7 +194,7 @@ def tree_size(tree: DecisionTree | list | tuple) -> int:
     if not tree or tree == []:
         return 1
     if isinstance(tree, (list, tuple)) and len(tree) == 3:
-        var, left, right = tree
+        _var, left, right = tree
         return tree_size(left) + tree_size(right)
     return 1
 

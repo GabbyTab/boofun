@@ -21,7 +21,7 @@ try:
     HAS_MATPLOTLIB = True
 except ImportError:
     HAS_MATPLOTLIB = False
-    warnings.warn("Matplotlib not available - plotting disabled")
+    warnings.warn("Matplotlib not available - plotting disabled", stacklevel=2)
 
 from ..analysis import SpectralAnalyzer
 from ..core.base import BooleanFunction

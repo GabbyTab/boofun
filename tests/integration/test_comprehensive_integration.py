@@ -156,7 +156,7 @@ class TestSpectralAnalysisComprehensive:
             influences = analyzer.influences()
 
             assert len(influences) == len(expected_influences), f"{name} influence count wrong"
-            for i, (actual, expected) in enumerate(zip(influences, expected_influences)):
+            for i, (actual, expected) in enumerate(zip(influences, expected_influences, strict=False)):
                 assert (
                     abs(actual - expected) < 1e-10
                 ), f"{name} influence {i} wrong: {actual} vs {expected}"
@@ -198,7 +198,7 @@ class TestSpectralAnalysisComprehensive:
         assert stabilities[-1] >= stabilities[0], f"Noise stability not monotonic: {stabilities}"
 
         # Test that all stability values are in valid range [0, 1]
-        for rho, stability in zip(rho_values, stabilities):
+        for rho, stability in zip(rho_values, stabilities, strict=False):
             assert 0 <= stability <= 1, f"Invalid stability {stability} at ρ={rho}"
 
     def test_fourier_expansion_properties(self):
@@ -409,7 +409,7 @@ class TestRepresentationIntegration:
         test_inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]
         expected = [False, False, False, True]
 
-        for inputs, expected_output in zip(test_inputs, expected):
+        for inputs, expected_output in zip(test_inputs, expected, strict=False):
             result = func.evaluate(inputs)
             assert result == expected_output
 

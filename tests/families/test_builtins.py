@@ -233,7 +233,7 @@ class TestThresholdFamily:
     def test_threshold_k_equals_1_is_or(self):
         """Threshold with k=1 is OR."""
         threshold_fam = ThresholdFamily()
-        or_fam = ORFamily()
+        ORFamily()
 
         # ThresholdFamily.generate might use default k
         # Just verify it produces a valid function
@@ -246,7 +246,7 @@ class TestThresholdFamily:
                 # If x ≤ y pointwise, f(x) ≤ f(y) for monotone functions
                 x_bits = [(x >> i) & 1 for i in range(3)]
                 y_bits = [(y >> i) & 1 for i in range(3)]
-                if all(xb <= yb for xb, yb in zip(x_bits, y_bits)):
+                if all(xb <= yb for xb, yb in zip(x_bits, y_bits, strict=False)):
                     assert f.evaluate(x) <= f.evaluate(y), "Threshold should be monotone"
 
 

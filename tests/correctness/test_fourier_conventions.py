@@ -66,7 +66,7 @@ class TestParsevalsIdentity:
 
                 # E[f²] = E[f] for Boolean functions
                 expected = sum(tt) / len(tt)
-                expected_pm = 1 - 2 * expected  # Map to ±1 convention
+                1 - 2 * expected  # Map to ±1 convention
                 # In ±1 domain, E[f²] = 1 always
                 assert abs(sum_sq - 1.0) < 1e-10, f"Parseval for random n={n}: {sum_sq}"
 

@@ -25,7 +25,7 @@ except ImportError:
     warnings.warn(
         "Numba not installed - using pure Python mode. "
         "Install numba for 10-100x faster computations: pip install numba",
-        UserWarning,
+        UserWarning, stacklevel=2,
     )
 
 
@@ -395,7 +395,7 @@ class BooleanFunction(Evaluable, Representable):
                     warnings.warn(
                         f"Error model {type(self.error_model).__name__} failed: {e}. "
                         f"Using unadjusted result.",
-                        UserWarning,
+                        UserWarning, stacklevel=2,
                     )
 
         return result
@@ -436,7 +436,7 @@ class BooleanFunction(Evaluable, Representable):
                     f"Batch processing failed ({type(e).__name__}: {e}), "
                     f"falling back to sequential evaluation. "
                     f"This may be slower for large inputs.",
-                    UserWarning,
+                    UserWarning, stacklevel=2,
                 )
 
         # Standard evaluation for small inputs or fallback
@@ -670,7 +670,7 @@ class BooleanFunction(Evaluable, Representable):
 
         # Sort by variable index descending to fix from right to left
         # This ensures indices stay valid as we remove variables
-        pairs = sorted(zip(vars, vals), reverse=True)
+        pairs = sorted(zip(vars, vals, strict=False), reverse=True)
 
         result = self
         for var, val in pairs:

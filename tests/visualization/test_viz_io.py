@@ -52,7 +52,7 @@ class TestVisualizerAllMethods:
 
         if hasattr(viz, "compare_functions"):
             with contextlib.suppress(TypeError, ValueError):
-                fig = viz.compare_functions(funcs, show=False)
+                viz.compare_functions(funcs, show=False)
 
     @pytest.mark.parametrize("n", [2, 3, 4, 5, 6])
     def test_different_sizes(self, n):

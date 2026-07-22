@@ -140,7 +140,7 @@ class InteractiveFunctionExplorer:
         fourier = self.f.fourier()
         weights = self.f.spectral_weight_by_degree()
 
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+        _fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
 
         # Coefficient magnitudes
         ax1.bar(range(len(fourier)), np.abs(fourier), alpha=0.7)
@@ -169,7 +169,7 @@ class InteractiveFunctionExplorer:
 
         influences = self.f.influences()
 
-        fig, ax = plt.subplots(figsize=(8, 4))
+        _fig, ax = plt.subplots(figsize=(8, 4))
         bars = ax.bar(range(len(influences)), influences, alpha=0.7, color="steelblue")
         ax.set_xlabel("Variable")
         ax.set_ylabel("Influence")
@@ -178,7 +178,7 @@ class InteractiveFunctionExplorer:
         ax.set_xticklabels([f"x_{i}" for i in range(len(influences))])
 
         # Add value labels
-        for bar, inf in zip(bars, influences):
+        for bar, inf in zip(bars, influences, strict=False):
             ax.text(
                 bar.get_x() + bar.get_width() / 2,
                 bar.get_height() + 0.01,
@@ -200,7 +200,7 @@ class InteractiveFunctionExplorer:
         rho_values = np.linspace(0, 1, 20)
         stabilities = [self.f.noise_stability(rho) for rho in rho_values]
 
-        fig, ax = plt.subplots(figsize=(8, 4))
+        _fig, ax = plt.subplots(figsize=(8, 4))
         ax.plot(rho_values, stabilities, "b-", linewidth=2)
         ax.axhline(y=0.5, color="red", linestyle="--", alpha=0.5, label="Random")
         ax.set_xlabel("Correlation ρ")
@@ -333,7 +333,7 @@ class GrowthExplorer:
                     prop_values.append(np.nan)
 
             if HAS_MATPLOTLIB:
-                fig, ax = plt.subplots(figsize=(10, 5))
+                _fig, ax = plt.subplots(figsize=(10, 5))
                 ax.plot(n_values, prop_values, "bo-", markersize=8, linewidth=2)
                 ax.set_xlabel("n (number of variables)")
                 ax.set_ylabel(prop)
@@ -413,11 +413,11 @@ class PropertyDashboard:
             return
 
         num_funcs = len(self.functions)
-        fig, axes = plt.subplots(1, num_funcs, figsize=(4 * num_funcs, 4))
+        _fig, axes = plt.subplots(1, num_funcs, figsize=(4 * num_funcs, 4))
         if num_funcs == 1:
             axes = [axes]
 
-        for ax, (name, f) in zip(axes, self.functions.items()):
+        for ax, (name, f) in zip(axes, self.functions.items(), strict=False):
             influences = f.influences()
             ax.bar(range(len(influences)), influences, alpha=0.7)
             ax.set_title(f"{name}")
@@ -433,11 +433,11 @@ class PropertyDashboard:
             return
 
         num_funcs = len(self.functions)
-        fig, axes = plt.subplots(1, num_funcs, figsize=(4 * num_funcs, 4))
+        _fig, axes = plt.subplots(1, num_funcs, figsize=(4 * num_funcs, 4))
         if num_funcs == 1:
             axes = [axes]
 
-        for ax, (name, f) in zip(axes, self.functions.items()):
+        for ax, (name, f) in zip(axes, self.functions.items(), strict=False):
             weights = f.spectral_weight_by_degree()
             ax.bar(weights.keys(), weights.values(), alpha=0.7)
             ax.set_title(f"{name}")

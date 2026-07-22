@@ -208,7 +208,7 @@ class TestKnownComplexities:
         for i in range(1 << n):
             x_bits = [(i >> j) & 1 for j in range(n // 2)]
             y_bits = [(i >> (n // 2 + j)) & 1 for j in range(n // 2)]
-            ip = sum(x * y for x, y in zip(x_bits, y_bits)) % 2
+            ip = sum(x * y for x, y in zip(x_bits, y_bits, strict=False)) % 2
             tt.append(ip)
 
         f = bf.create(tt)

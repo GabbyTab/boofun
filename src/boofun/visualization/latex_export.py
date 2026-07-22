@@ -366,7 +366,7 @@ def export_comparison_table(
         label = prop_labels.get(prop, prop)
         values = []
 
-        for name, f in functions.items():
+        for _name, f in functions.items():
             try:
                 val: Any
                 if prop == "n_vars":

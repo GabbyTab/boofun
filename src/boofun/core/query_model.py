@@ -208,7 +208,7 @@ def check_query_safety(
         )
         if strict:
             raise ExplicitEnumerationError(msg)
-        warnings.warn(msg, QuerySafetyWarning)
+        warnings.warn(msg, QuerySafetyWarning, stacklevel=2)
         return True  # Still allow but warn
 
     # Query-access function with unsafe operation
@@ -222,7 +222,7 @@ def check_query_safety(
             )
             if strict:
                 raise ExplicitEnumerationError(msg)
-            warnings.warn(msg, QuerySafetyWarning)
+            warnings.warn(msg, QuerySafetyWarning, stacklevel=2)
             return False  # Don't allow
         # Small n, we can convert to truth table
         return True

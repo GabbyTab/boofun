@@ -222,7 +222,7 @@ class PartialBooleanFunction:
                 f"got {len(inputs)} and {len(outputs)}"
             )
 
-        for inp, out in zip(inputs, outputs):
+        for inp, out in zip(inputs, outputs, strict=False):
             if isinstance(inp, np.ndarray) and inp.ndim == 1:
                 # Binary vector - convert to index
                 idx = int(np.dot(inp, 2 ** np.arange(len(inp) - 1, -1, -1)))

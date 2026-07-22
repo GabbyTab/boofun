@@ -313,7 +313,7 @@ class TestBatchProcessingListData:
 
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
-            result = f.evaluate(inputs)
+            f.evaluate(inputs)
             batch_warnings = [x for x in w if "Batch processing failed" in str(x.message)]
             assert (
                 len(batch_warnings) == 0

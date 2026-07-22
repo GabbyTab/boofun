@@ -442,8 +442,8 @@ class TestReproducibility:
 
         # Run tests multiple times
         for _ in range(3):
-            r1 = tester1.blr_linearity_test(num_queries=50)
-            r2 = tester2.blr_linearity_test(num_queries=50)
+            tester1.blr_linearity_test(num_queries=50)
+            tester2.blr_linearity_test(num_queries=50)
             # Note: Can't compare directly as RNG state advances
 
     def test_different_seeds_may_differ(self):
@@ -493,7 +493,6 @@ class TestLocalCorrect:
     def test_noisy_linear_function_mostly_correct(self):
         """Noisy linear function should be mostly corrected."""
         # Create parity with ~10% noise
-        n = 4
         true_parity = [bin(x).count("1") % 2 for x in range(16)]
         noisy_tt = true_parity.copy()
         # Flip bit at index 5 (10% noise)

@@ -44,7 +44,7 @@ def distance_to_dictator(f: "BooleanFunction", i: int) -> float:
     Returns:
         Fraction of inputs where f differs from dictator on x_i
     """
-    n = _require_n_vars(f)
+    _require_n_vars(f)
     fourier = f.fourier()
 
     subset_i = 1 << i
@@ -71,7 +71,7 @@ def distance_to_negated_dictator(f: "BooleanFunction", i: int) -> float:
     Returns:
         Fraction of inputs where f differs from NOT(x_i)
     """
-    n = _require_n_vars(f)
+    _require_n_vars(f)
     fourier = f.fourier()
 
     subset_i = 1 << i
@@ -142,7 +142,7 @@ def fkn_theorem_bound(f: "BooleanFunction") -> dict[str, Any]:
     # Compute spectral weights
     w0: float = float(fourier[0] ** 2)  # Constant term
     w1: float = float(sum(fourier[1 << i] ** 2 for i in range(n)))  # Degree 1
-    total_weight = sum(c**2 for c in fourier)  # Should be 1 for ±1 valued
+    sum(c**2 for c in fourier)  # Should be 1 for ±1 valued
 
     # Total influence
     total_inf = f.total_influence()

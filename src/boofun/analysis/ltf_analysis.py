@@ -328,7 +328,7 @@ def analyze_ltf(f: "BooleanFunction") -> LTFAnalysis:
         return LTFAnalysis(is_ltf=False)
 
     # Normalize weights
-    weights_norm, threshold_norm = normalize_ltf_weights(weights, threshold)
+    _weights_norm, _threshold_norm = normalize_ltf_weights(weights, threshold)
 
     # Compute Chow parameters
     chow = chow_parameters(f)
@@ -543,7 +543,6 @@ def find_closest_ltf(f: "BooleanFunction") -> tuple["BooleanFunction", float]:
         Tuple of (closest LTF, distance)
     """
     chow = chow_parameters(f)
-    f.n_vars
 
     # The degree-1 Chow parameters suggest weights
     # Weight_i ∝ Chow_{i+1}

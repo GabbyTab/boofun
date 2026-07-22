@@ -235,7 +235,6 @@ def variable_degree(f: BooleanFunction, var: int) -> int:
         Maximum degree of monomials containing var (0 if var is irrelevant)
     """
     coeffs = gf2_fourier_transform(f)
-    f.n_vars or 0
 
     max_deg = 0
     for mask, coeff in enumerate(coeffs):

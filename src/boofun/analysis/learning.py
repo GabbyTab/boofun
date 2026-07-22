@@ -287,7 +287,7 @@ def find_heavy_coefficients(
     heavy = {}
 
     for S in range(1 << n):
-        est, stderr = estimate_fourier_coefficient(f, S, num_samples, rng)
+        est, _stderr = estimate_fourier_coefficient(f, S, num_samples, rng)
         if abs(est) >= threshold:
             heavy[S] = est
 

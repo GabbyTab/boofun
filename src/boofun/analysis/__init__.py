@@ -167,7 +167,7 @@ class SpectralAnalyzer:
                 self._influences = influences
                 return influences
             except Exception as e:
-                warnings.warn(f"Numba optimization failed, using fallback: {e}")
+                warnings.warn(f"Numba optimization failed, using fallback: {e}", stacklevel=2)
 
         # Vectorized truth-table path (fast even without Numba)
         if self.function.has_rep("truth_table"):
@@ -185,7 +185,7 @@ class SpectralAnalyzer:
                 self._influences = influences
                 return influences
             except Exception as e:
-                warnings.warn(f"Vectorized influence computation failed, using fallback: {e}")
+                warnings.warn(f"Vectorized influence computation failed, using fallback: {e}", stacklevel=2)
 
         # Brute-force fallback (no truth table available)
         influences = np.zeros(self.n_vars)
@@ -246,7 +246,7 @@ class SpectralAnalyzer:
             try:
                 return numba_optimize("noise_stability", fourier_coeffs, rho)
             except Exception as e:
-                warnings.warn(f"Numba noise stability optimization failed: {e}")
+                warnings.warn(f"Numba noise stability optimization failed: {e}", stacklevel=2)
 
         # Fallback: Noise stability = Σ_S f̂(S)² * ρ^|S|
         stability = 0.0

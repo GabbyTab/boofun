@@ -67,7 +67,7 @@ def enable_gpu(enable: bool = True) -> None:
     """Enable or disable GPU acceleration at runtime."""
     global _GPU_ENABLED
     if enable and not CUPY_AVAILABLE:
-        warnings.warn("CuPy not available -- GPU acceleration cannot be enabled")
+        warnings.warn("CuPy not available -- GPU acceleration cannot be enabled", stacklevel=2)
         return
     _GPU_ENABLED = enable
 
@@ -391,4 +391,4 @@ if CUPY_AVAILABLE:
     except Exception as e:
         CUPY_AVAILABLE = False
         _GPU_ENABLED = False
-        warnings.warn(f"CuPy installed but GPU not accessible: {e}")
+        warnings.warn(f"CuPy installed but GPU not accessible: {e}", stacklevel=2)

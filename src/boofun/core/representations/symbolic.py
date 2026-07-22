@@ -62,7 +62,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
         # swap to matrix operations in future
         def eval_point(val: int) -> bool:
             context = {}
-            for j, (f, (offset, mask)) in enumerate(zip(funcs, bit_slices)):
+            for j, (f, (offset, mask)) in enumerate(zip(funcs, bit_slices, strict=False)):
                 sub_input = (val >> (n_vars - offset - func_lengths[j])) & mask
                 context[f"x{j}"] = f.evaluate(np.array(sub_input), None, space=space)
             return eval(expr, {}, context)

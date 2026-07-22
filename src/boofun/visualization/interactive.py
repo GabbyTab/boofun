@@ -500,7 +500,7 @@ class FourierExplorer:
         indexed = [(i, self.fourier[i]) for i in range(len(self.fourier))]
         sorted_by_mag = sorted(indexed, key=lambda x: abs(x[1]), reverse=True)[:k]
 
-        indices, values = zip(*sorted_by_mag)
+        indices, values = zip(*sorted_by_mag, strict=False)
 
         # Create labels
         labels = []

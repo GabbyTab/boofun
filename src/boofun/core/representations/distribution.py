@@ -22,7 +22,7 @@ try:
     HAS_SCIPY = True
 except ImportError:
     HAS_SCIPY = False
-    warnings.warn("SciPy not available - some distribution features limited")
+    warnings.warn("SciPy not available - some distribution features limited", stacklevel=2)
 
 
 @dataclass

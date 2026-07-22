@@ -144,7 +144,7 @@ class TestCoreFunctionality:
 
         # Test evaluation with wrong number of inputs
         try:
-            result = f.evaluate([0, 1, 1])  # Too many inputs
+            f.evaluate([0, 1, 1])  # Too many inputs
             # If it doesn't raise an error, that's also acceptable
         except (ValueError, IndexError):
             pass  # Expected behavior

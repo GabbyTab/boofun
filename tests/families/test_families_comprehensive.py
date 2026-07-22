@@ -213,7 +213,7 @@ class TestInductiveFamily:
             base_cases={1: bf.create([0, 0])},
         )
 
-        f1 = family.generate(1)
+        family.generate(1)
         assert 1 in family._cache
 
         family.clear_cache()
@@ -258,7 +258,6 @@ class TestFunctionFamilyBase:
         )
 
         # Override metadata property for testing
-        original_metadata = family.metadata
 
         # Since we can't easily modify metadata, test with a concrete family
         # that has asymptotics defined
@@ -312,7 +311,7 @@ class TestFamiliesIntegration:
             "Power": power_ltf_family(2.0),
         }
 
-        for name, family in families.items():
+        for _name, family in families.items():
             f = family(n)
             assert f.n_vars == n
 

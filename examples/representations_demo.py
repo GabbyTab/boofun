@@ -28,7 +28,7 @@ def basic_representations():
     test_cases = [[0, 0], [0, 1], [1, 0], [1, 1]]
     expected = [False, False, False, True]
 
-    for inputs, exp in zip(test_cases, expected):
+    for inputs, exp in zip(test_cases, expected, strict=False):
         result = and_func.evaluate(inputs)
         status = "[ok]" if result == exp else "[fail]"
         print(f"   AND{inputs} = {result} {status}")
@@ -64,7 +64,7 @@ def circuit_representations():
         test_cases = [[0, 0], [0, 1], [1, 0], [1, 1]]
         expected = [False, True, True, False]
 
-        for inputs, exp in zip(test_cases, expected):
+        for inputs, exp in zip(test_cases, expected, strict=False):
             result = circuit.evaluate(inputs)
             status = "[ok]" if result == exp else "[fail]"
             print(f"   XOR_circuit{inputs} = {result} {status}")
@@ -103,7 +103,7 @@ def bdd_representations():
         test_cases = [[0, 0], [0, 1], [1, 0], [1, 1]]
         expected = [False, False, True, True]  # x0 function
 
-        for inputs, exp in zip(test_cases, expected):
+        for inputs, exp in zip(test_cases, expected, strict=False):
             result = bdd.evaluate(inputs)
             status = "[ok]" if result == exp else "[fail]"
             print(f"   BDD(x0){inputs} = {result} {status}")

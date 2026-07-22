@@ -183,7 +183,7 @@ class TestSampleInputOutputPairs:
         f = bf.create([0, 1, 1, 0])  # XOR
         inputs, outputs = sample_input_output_pairs(f, n_samples=100)
 
-        for x, y in zip(inputs, outputs):
+        for x, y in zip(inputs, outputs, strict=False):
             expected = int(f.evaluate(int(x)))
             assert y == expected
 

@@ -34,7 +34,7 @@ def boolean_logic_basics():
         inputs = [int(b) for b in bits]
 
         results = []
-        for op_name, truth_table in operations.items():
+        for _op_name, truth_table in operations.items():
             func = bf.create(truth_table)
             result = int(func.evaluate(inputs))
             results.append(result)

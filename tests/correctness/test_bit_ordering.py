@@ -200,7 +200,7 @@ class TestGoldenBitOrdering:
     def test_all_golden_truth_tables(self, golden_data):
         """Verify all golden truth tables match."""
         for case in golden_data["cases"]:
-            n = case["n"]
+            case["n"]
             expected_tt = case["truth_table"]
 
             # Create function from truth table and verify round-trip
@@ -229,7 +229,7 @@ class TestGoldenBitOrdering:
             f = bf.create(case["truth_table"])
 
             for ev in case["evaluations"]:
-                index = ev["index"]
+                ev["index"]
                 bits = np.array(ev["bits"])
                 expected_output = ev["output"]
 

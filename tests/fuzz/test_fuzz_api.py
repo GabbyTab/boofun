@@ -454,8 +454,8 @@ class TestRepresentationChainFuzz:
         """Multiple representation conversions should preserve function."""
         # Get various representations
         tt = f.get_representation("truth_table")
-        fourier = f.get_representation("fourier_expansion")
-        anf = f.get_representation("anf")
+        f.get_representation("fourier_expansion")
+        f.get_representation("anf")
 
         # Verify all representations agree on evaluation
         n = f.n_vars

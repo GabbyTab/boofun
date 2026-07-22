@@ -438,7 +438,7 @@ def p_biased_average_sensitivity(f: BooleanFunction, p: float = 0.5) -> float:
         return 0.0
 
     q = 1.0 - p
-    truth_table = np.asarray(f.get_representation("truth_table"), dtype=int)
+    np.asarray(f.get_representation("truth_table"), dtype=int)
 
     total = 0.0
     size = 1 << n

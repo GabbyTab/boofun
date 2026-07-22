@@ -274,5 +274,5 @@ class TestGetBoundsForFamily:
         """All returned bounds are callable."""
         bounds = TheoreticalBounds.get_bounds_for_family("majority")
 
-        for name, fn in bounds.items():
+        for _name, fn in bounds.items():
             assert callable(fn)

@@ -232,7 +232,7 @@ class GrowthAnimator:
         def update(frame):
             data = self._frames_data[frame]
 
-            for bar, h in zip(self.bars, data["influences"]):
+            for bar, h in zip(self.bars, data["influences"], strict=False):
                 bar.set_height(h)
                 # Fade out unused bars
                 if bar.get_x() >= data["actual_n"]:
@@ -386,7 +386,7 @@ def animate_fourier_spectrum(
     def update(frame):
         data = frames_data[frame]
 
-        for bar, h in zip(bars, data["weights"]):
+        for bar, h in zip(bars, data["weights"], strict=False):
             bar.set_height(h)
 
         title.set_text(
@@ -461,7 +461,7 @@ def create_growth_animation(
     lines = []
     points = []
 
-    for ax, prop in zip(axes, properties):
+    for ax, prop in zip(axes, properties, strict=False):
         (line,) = ax.plot([], [], "bo-", markersize=8, linewidth=2)
         (point,) = ax.plot([], [], "ro", markersize=12)
         lines.append(line)
@@ -479,7 +479,7 @@ def create_growth_animation(
     fig.suptitle(f"{family.metadata.name} Growth", fontsize=14)
 
     def update(frame):
-        for line, point, prop in zip(lines, points, properties):
+        for line, point, prop in zip(lines, points, properties, strict=False):
             ns = [d["n"] for d in frames_data[: frame + 1]]
             vals = [d[prop] for d in frames_data[: frame + 1]]
 

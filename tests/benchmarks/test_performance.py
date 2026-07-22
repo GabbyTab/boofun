@@ -103,7 +103,7 @@ class TestQuerySafety:
         f = bf.create(counting_parity, n=30)  # Large n
         query_counter.reset()
 
-        result = f.is_linear(num_tests=100)
+        f.is_linear(num_tests=100)
 
         # Should use ~300 queries (3 per test), definitely not 2^30
         assert query_counter.calls < 500

@@ -19,7 +19,7 @@ try:
     HAS_NUMBA = True
 except ImportError:
     HAS_NUMBA = False
-    warnings.warn("Numba not available - batch processing will use pure NumPy")
+    warnings.warn("Numba not available - batch processing will use pure NumPy", stacklevel=2)
 
 from .gpu import gpu_accelerate, should_use_gpu
 from .spaces import Space
@@ -148,7 +148,7 @@ class ParallelBatchProcessor(BatchProcessor):
                     chunk_result = future.result(timeout=30)  # 30 second timeout
                     results.append(chunk_result)
                 except Exception as e:
-                    warnings.warn(f"Parallel processing failed: {e}")
+                    warnings.warn(f"Parallel processing failed: {e}", stacklevel=2)
                     # Fallback to sequential processing
                     return self._process_sequential(inputs, function_data, space, n_vars)
 
@@ -202,7 +202,7 @@ class OptimizedTruthTableProcessor(VectorizedBatchProcessor):
             try:
                 return gpu_accelerate("truth_table_batch", inputs, function_data)
             except Exception as e:
-                warnings.warn(f"GPU acceleration failed, falling back to CPU: {e}")
+                warnings.warn(f"GPU acceleration failed, falling back to CPU: {e}", stacklevel=2)
 
         # CPU implementation
         if inputs.ndim == 1 and inputs.dtype != np.bool_:
@@ -243,7 +243,7 @@ class OptimizedFourierProcessor(VectorizedBatchProcessor):
             try:
                 return gpu_accelerate("fourier_batch", inputs, function_data)
             except Exception as e:
-                warnings.warn(f"GPU Fourier acceleration failed, falling back to CPU: {e}")
+                warnings.warn(f"GPU Fourier acceleration failed, falling back to CPU: {e}", stacklevel=2)
 
         # CPU implementations
         if HAS_NUMBA:
@@ -321,7 +321,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
                 binary = x
 
             result = 0
-            for monomial, coeff in zip(monomials, coeffs):
+            for monomial, coeff in zip(monomials, coeffs, strict=False):
                 # Compute monomial value
                 monomial_val = 1
                 for var_idx in monomial:
@@ -440,7 +440,7 @@ class BatchProcessorManager:
         try:
             return processor.process_batch(inputs, function_data, space, n_vars)
         except Exception as e:
-            warnings.warn(f"Batch processing failed with {type(processor).__name__}: {e}")
+            warnings.warn(f"Batch processing failed with {type(processor).__name__}: {e}", stacklevel=2)
             # Fallback to sequential processing
             return self._sequential_fallback(inputs, function_data, representation, space, n_vars)
 

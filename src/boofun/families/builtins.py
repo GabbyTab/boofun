@@ -610,7 +610,7 @@ class RandomDNFFamily(FunctionFamily):
             vars_in_term = rng.choice(n, size=width, replace=False)
             # Choose polarities (True = positive literal)
             polarities = rng.randint(0, 2, size=width).astype(bool)
-            terms.append(list(zip(vars_in_term, polarities)))
+            terms.append(list(zip(vars_in_term, polarities, strict=False)))
 
         # Build truth table
         def evaluate_dnf(x: int) -> bool:

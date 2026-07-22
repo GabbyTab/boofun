@@ -437,7 +437,7 @@ class GrowthTracker:
         ns = [n for n in ns if self.family.validate_n(n)]
 
         if not ns:
-            warnings.warn("No valid n values for this family")
+            warnings.warn("No valid n values for this family", stacklevel=2)
             return {}
 
         # Initialize results
@@ -526,7 +526,7 @@ class GrowthTracker:
         try:
             import matplotlib.pyplot as plt
         except ImportError:
-            warnings.warn("matplotlib not available for plotting")
+            warnings.warn("matplotlib not available for plotting", stacklevel=2)
             return None
 
         if marker_name not in self.results:
@@ -536,7 +536,7 @@ class GrowthTracker:
         n_arr, computed_arr, theory_arr = result.to_arrays()
 
         if ax is None:
-            fig, ax = plt.subplots(figsize=(10, 6))
+            _fig, ax = plt.subplots(figsize=(10, 6))
 
         # Plot computed values
         label = plot_kwargs.pop("label", f"{marker_name} (computed)")
@@ -564,19 +564,19 @@ class GrowthTracker:
         try:
             import matplotlib.pyplot as plt
         except ImportError:
-            warnings.warn("matplotlib not available for plotting")
+            warnings.warn("matplotlib not available for plotting", stacklevel=2)
             return None
 
         n_markers = len(self.results)
         if n_markers == 0:
-            warnings.warn("No results to plot")
+            warnings.warn("No results to plot", stacklevel=2)
             return None
 
         fig, axes = plt.subplots(1, n_markers, figsize=(figsize[0], figsize[1]))
         if n_markers == 1:
             axes = [axes]
 
-        for ax, marker_name in zip(axes, self.results.keys()):
+        for ax, marker_name in zip(axes, self.results.keys(), strict=False):
             self.plot(marker_name, show_theory=show_theory, ax=ax)
 
         plt.tight_layout()

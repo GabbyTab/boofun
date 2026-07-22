@@ -241,7 +241,7 @@ class TestNewFamilies:
 
         # Check rough scaling (allowing tolerance)
         ratio = inf9 / inf3
-        expected_ratio = (9 / 3) ** (np.log(2) / np.log(3))  # ≈ 1.89
+        (9 / 3) ** (np.log(2) / np.log(3))  # ≈ 1.89
         assert 1.4 <= ratio <= 2.5
 
     def test_random_dnf(self):

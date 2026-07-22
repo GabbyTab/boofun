@@ -223,7 +223,7 @@ class TestVisualizationExport:
         viz = BooleanFunctionVisualizer(f)
 
         save_file = tmp_path / "test.png"
-        fig = viz.plot_influences(save_path=str(save_file), show=False)
+        viz.plot_influences(save_path=str(save_file), show=False)
 
         assert save_file.exists()
 

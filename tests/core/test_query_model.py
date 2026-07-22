@@ -55,7 +55,7 @@ class TestQueryComplexity:
 
     def test_query_functions_callable(self):
         """Query count functions are callable."""
-        for op, info in QUERY_COMPLEXITY.items():
+        for _op, info in QUERY_COMPLEXITY.items():
             query_fn = info["queries"]
             result = query_fn(5, 100)
             assert isinstance(result, (int, float))
@@ -105,7 +105,7 @@ class TestCheckQuerySafety:
         """Large n warns for unsafe operations."""
         f = bf.majority(5)
 
-        with warnings.catch_warnings(record=True) as w:
+        with warnings.catch_warnings(record=True):
             warnings.simplefilter("always")
             result = check_query_safety(f, "fourier", max_safe_n=3)
 

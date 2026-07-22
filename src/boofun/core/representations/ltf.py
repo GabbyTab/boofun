@@ -244,7 +244,7 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
 
         size = len(truth_table)
 
-        for iteration in range(max_iterations):
+        for _iteration in range(max_iterations):
             errors = 0
 
             for i in range(size):

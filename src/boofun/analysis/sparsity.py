@@ -188,7 +188,6 @@ def sparsity_by_degree(f: BooleanFunction, threshold: float = 1e-10) -> dict[int
         Dictionary mapping degree to count of non-zero coefficients at that degree
     """
     coeffs = _get_fourier_coefficients(f)
-    n = f.n_vars or 0
 
     counts: dict[int, int] = {}
 

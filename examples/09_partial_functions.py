@@ -109,12 +109,12 @@ def demo_storage_hints():
     print("\n1. Dense storage (default)")
     print("-" * 50)
     tt = [0, 1, 1, 0, 1, 0, 0, 1]
-    f_dense = bf.create(tt, storage="dense")
+    bf.create(tt, storage="dense")
     print("   Dense: standard array storage")
 
     print("\n2. Packed storage (1 bit per entry)")
     print("-" * 50)
-    f_packed = bf.create(tt, storage="packed")
+    bf.create(tt, storage="packed")
     print("   Packed: 8x memory reduction for large n")
 
     print("\n3. Sparse storage (for mostly-0 or mostly-1)")
@@ -123,12 +123,12 @@ def demo_storage_hints():
     sparse_tt = [0] * 256
     sparse_tt[42] = 1
     sparse_tt[137] = 1
-    f_sparse = bf.create(sparse_tt, storage="sparse")
+    bf.create(sparse_tt, storage="sparse")
     print("   Sparse: only stores exceptions")
 
     print("\n4. Auto storage (selects best)")
     print("-" * 50)
-    f_auto = bf.create(tt, storage="auto")
+    bf.create(tt, storage="auto")
     print("   Auto: picks based on size and sparsity")
 
     print("\n5. Lazy/oracle storage (compute on demand)")

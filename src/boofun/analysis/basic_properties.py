@@ -485,7 +485,7 @@ def find_decomposition(f: BooleanFunction) -> tuple[str, list[int], list[int]] |
     if n is None or n <= 2:
         return None
 
-    truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
+    np.asarray(f.get_representation("truth_table"), dtype=bool)
 
     # Try partitioning variables
     for k in range(1, n):

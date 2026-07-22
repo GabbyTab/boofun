@@ -148,7 +148,7 @@ class TestNoiseStabilityPrecision:
         stabs = [f.noise_stability(rho) for rho in rhos]
 
         # All values should be in [-1, 1]
-        for rho, stab in zip(rhos, stabs):
+        for rho, stab in zip(rhos, stabs, strict=False):
             assert -1.0 - 1e-14 <= stab <= 1.0 + 1e-14, f"Stab_{rho} = {stab} out of range"
 
         # Should be monotonically increasing (for most functions)

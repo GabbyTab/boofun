@@ -103,7 +103,7 @@ def average_deterministic_complexity(f: BooleanFunction) -> float:
         return 0.0
 
     # Get truth table
-    truth_table = np.asarray(f.get_representation("truth_table"), dtype=float)
+    np.asarray(f.get_representation("truth_table"), dtype=float)
 
     # We compute this via the optimal decision tree
     # For now, we use a greedy approximation based on maximum information gain

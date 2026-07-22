@@ -175,7 +175,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                 f"Truth table conversion: {len(failed_indices)} evaluations failed "
                 f"(substituted False). First failure at index {failed_indices[0][0]}: "
                 f"{failed_indices[0][1]}",
-                UserWarning,
+                UserWarning, stacklevel=2,
             )
 
         return truth_table

@@ -23,7 +23,7 @@ try:
     HAS_MATPLOTLIB = True
 except ImportError:
     HAS_MATPLOTLIB = False
-    warnings.warn("Matplotlib not available - plotting disabled")
+    warnings.warn("Matplotlib not available - plotting disabled", stacklevel=2)
 
 try:
     import plotly.express as px
@@ -118,7 +118,7 @@ class BooleanFunctionVisualizer:
         ax.grid(True, alpha=0.3)
 
         # Add value labels on bars
-        for bar, influence in zip(bars, influences):
+        for bar, influence in zip(bars, influences, strict=False):
             height = bar.get_height()
             ax.text(
                 bar.get_x() + bar.get_width() / 2.0,
@@ -254,7 +254,7 @@ class BooleanFunctionVisualizer:
 
             # Color boxes
             colors = plt.get_cmap("viridis")(np.linspace(0, 1, len(bp["boxes"])))
-            for patch, color in zip(bp["boxes"], colors):
+            for patch, color in zip(bp["boxes"], colors, strict=False):
                 patch.set_facecolor(color)
                 patch.set_alpha(0.7)
 
@@ -382,7 +382,7 @@ class BooleanFunctionVisualizer:
             Figure object
         """
         if self.n_vars > 6:
-            warnings.warn("Truth table visualization not recommended for >6 variables")
+            warnings.warn("Truth table visualization not recommended for >6 variables", stacklevel=2)
 
         # Get truth table
         truth_table = self.function.get_representation("truth_table")
@@ -414,7 +414,7 @@ class BooleanFunctionVisualizer:
 
             # Create table
             table_data = []
-            for i, (inp, out) in enumerate(zip(inputs, outputs)):
+            for inp, out in zip(inputs, outputs, strict=False):
                 row = [*list(inp), str(out)]
                 table_data.append(row)
 
@@ -1088,7 +1088,7 @@ def plot_sensitivity_heatmap(
         # Color by sensitivity
         cmap = plt.get_cmap("YlOrRd")
         max_sens = max(sensitivities)
-        for bar, sens in zip(bars, sensitivities):
+        for bar, sens in zip(bars, sensitivities, strict=False):
             bar.set_color(cmap(sens / max_sens if max_sens > 0 else 0))
 
         ax.set_xticks(range(num_inputs))

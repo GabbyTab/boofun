@@ -250,7 +250,7 @@ class SymPyAdapter(BooleanFunctionAdapter):
             self.sp = sp
             self.available = True
         except ImportError:
-            warnings.warn("SymPy not available - SymPyAdapter disabled")
+            warnings.warn("SymPy not available - SymPyAdapter disabled", stacklevel=2)
             self.available = False
 
     def adapt(self, sympy_expr, variables: list | None = None) -> BooleanFunction:

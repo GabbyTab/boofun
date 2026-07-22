@@ -16,7 +16,7 @@ try:
     HAS_NUMBA = True
 except ImportError:
     HAS_NUMBA = False
-    warnings.warn("Numba not available - optimizations disabled")
+    warnings.warn("Numba not available - optimizations disabled", stacklevel=2)
 
 
 # JIT-compiled utility functions
@@ -263,7 +263,7 @@ class NumbaOptimizer:
             self.compiled_functions["walsh_hadamard"] = walsh_hadamard_transform_inplace
 
         except Exception as e:
-            warnings.warn(f"Numba warm-up failed: {e}")
+            warnings.warn(f"Numba warm-up failed: {e}", stacklevel=2)
             self.available = False
 
     def is_available(self) -> bool:

@@ -503,7 +503,7 @@ class GrowthVisualizer:
             if n_markers == 1:
                 axes = [axes]
 
-            for ax, marker_name in zip(axes, marker_names):
+            for ax, marker_name in zip(axes, marker_names, strict=False):
                 self.plot_growth(tracker, marker_name, ax=ax, show_theory=True, title=marker_name)
 
             fig.suptitle(f"{tracker.family.metadata.name} Family Properties", fontsize=14)
@@ -515,7 +515,7 @@ class GrowthVisualizer:
         for i, marker_name in enumerate(marker_names, 1):
             if marker_name in tracker.results:
                 result = tracker.results[marker_name]
-                n_arr, computed_arr, theory_arr = result.to_arrays()
+                n_arr, computed_arr, _theory_arr = result.to_arrays()
 
                 pfig.add_trace(
                     go.Scatter(x=n_arr, y=computed_arr, mode="lines+markers", name=marker_name),
@@ -618,7 +618,7 @@ class LTFVisualizer:
         ax.scatter(np.abs(weights), influences, s=100, alpha=0.7)
 
         # Add variable labels
-        for i, (w, inf) in enumerate(zip(np.abs(weights), influences)):
+        for i, (w, inf) in enumerate(zip(np.abs(weights), influences, strict=False)):
             ax.annotate(f"x_{i}", (w, inf), xytext=(5, 5), textcoords="offset points")
 
         # Fit line (influence should scale with |weight|)

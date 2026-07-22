@@ -124,7 +124,7 @@ def walsh_spectrum(f: BooleanFunction) -> dict[int, int]:
     """
     W = walsh_transform(f)
     unique, counts = np.unique(W, return_counts=True)
-    return dict(zip(unique.tolist(), counts.tolist()))
+    return dict(zip(unique.tolist(), counts.tolist(), strict=False))
 
 
 def nonlinearity(f: BooleanFunction) -> int:
@@ -494,7 +494,7 @@ class CryptographicAnalyzer:
     def walsh_spectrum(self) -> dict[int, int]:
         """Get Walsh spectrum."""
         unique, counts = np.unique(self.walsh, return_counts=True)
-        return dict(zip(unique.tolist(), counts.tolist()))
+        return dict(zip(unique.tolist(), counts.tolist(), strict=False))
 
     def summary(self) -> str:
         """Return human-readable summary."""

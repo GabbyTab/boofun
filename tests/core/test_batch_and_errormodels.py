@@ -726,7 +726,7 @@ class TestIntegration:
         for n in [3, 5]:
             f = family.generate(n)
             # Batch evaluate
-            inputs = np.arange(2**n)
+            np.arange(2**n)
             tt = list(f.get_representation("truth_table"))
             assert len(tt) == 2**n
 

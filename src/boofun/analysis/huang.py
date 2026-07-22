@@ -299,7 +299,7 @@ class HuangAnalysis:
             "Polynomial Bounds:",
         ]
 
-        for name, bound in verification["bounds"].items():
+        for _name, bound in verification["bounds"].items():
             status = "✓" if bound["satisfied"] else "✗"
             lines.append(f"  {status} {bound['inequality']}: {bound['lhs']} vs {bound['rhs']:.2f}")
 

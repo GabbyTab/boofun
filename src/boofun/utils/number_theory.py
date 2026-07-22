@@ -91,7 +91,7 @@ def crt(moduli: Sequence[int], residues: Sequence[int]) -> tuple[int, int]:
         return int(x % M), int(M)
 
     x, M = 0, 1
-    for m, r in zip(moduli, residues):
+    for m, r in zip(moduli, residues, strict=False):
         d = _gcd(M, m)
         if (r - x) % d != 0:
             raise ValueError("no solution")

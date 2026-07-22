@@ -121,7 +121,7 @@ def demo_batch_processing():
 
         # Time the evaluation
         start_time = time.time()
-        results = xor.evaluate(inputs)
+        xor.evaluate(inputs)
         end_time = time.time()
 
         duration = (end_time - start_time) * 1000  # Convert to milliseconds
@@ -452,7 +452,7 @@ def demo_comprehensive_analysis():
     # Batch evaluation performance
     large_batch = np.random.randint(0, 16, 1000)
     start_time = time.time()
-    batch_results = tribes.evaluate(large_batch)
+    tribes.evaluate(large_batch)
     batch_time = (time.time() - start_time) * 1000
 
     print(f"  Batch evaluation (1000 inputs): {batch_time:.2f}ms")
@@ -476,7 +476,7 @@ def create_visualization_examples():
             "OR": bf.create([False, True, True, True]),
         }
 
-        fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+        _fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
         for i, (name, func) in enumerate(functions.items()):
             analyzer = bf.SpectralAnalyzer(func)

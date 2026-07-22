@@ -150,7 +150,7 @@ class QuantumComplexityAnalyzer:
         """
         assert self.n_vars is not None
         if not HAS_QISKIT:
-            warnings.warn("Qiskit not available - cannot create quantum oracle")
+            warnings.warn("Qiskit not available - cannot create quantum oracle", stacklevel=2)
             return None
 
         qreg = QuantumRegister(self.n_vars, "input")

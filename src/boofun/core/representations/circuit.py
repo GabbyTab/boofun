@@ -98,7 +98,7 @@ class BooleanCircuit:
         self.next_gate_id = 0
 
         # Create input gates
-        for i in range(n_inputs):
+        for _i in range(n_inputs):
             gate_id = self._get_next_id()
             self.gates[gate_id] = Gate(gate_id, GateType.INPUT, [])
             self.input_gates.append(gate_id)

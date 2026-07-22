@@ -178,7 +178,7 @@ def arrow_analysis(f: BooleanFunction) -> dict[str, Any]:
     # Distance to dictator (from FKN analysis)
     from .fkn import closest_dictator
 
-    closest_idx, closest_dist, closest_neg = closest_dictator(f)
+    closest_idx, closest_dist, _closest_neg = closest_dictator(f)
 
     # Arrow's characterization
     if dictator_info is not None:
@@ -221,8 +221,6 @@ def social_welfare_properties(f: BooleanFunction) -> dict[str, Any]:
     - Monotonicity: Does voting "yes" never hurt outcome?
     - Neutrality: Is the function balanced?
     """
-    f.n_vars
-
     # Symmetry: all influences equal
     influences = f.influences()
     is_symmetric = np.allclose(influences, influences[0], rtol=0.01)

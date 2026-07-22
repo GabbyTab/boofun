@@ -126,7 +126,7 @@ class TestGrowthPlotsDetailed:
             # Try plotting methods
             if hasattr(plotter, "plot"):
                 with contextlib.suppress(TypeError, ValueError):
-                    fig = plotter.plot(show=False)
+                    plotter.plot(show=False)
 
     def test_growth_tracker_visualization(self):
         """Test growth tracker visualization."""
