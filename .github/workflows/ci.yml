@@ -73,7 +73,9 @@ jobs:
         pip install -e ".[dev]"
 
     - name: Run type checking (mypy)
-      run: mypy src/boofun --ignore-missing-imports
+      run: |
+        { mypy src/boofun --no-color-output 2>&1 || true; } |
+          mypy-baseline filter
 
   test:
     runs-on: ${{ matrix.os }}

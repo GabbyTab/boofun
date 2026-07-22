@@ -56,6 +56,7 @@ dev = [
     "pytest-cov>=4.0.0",
     "pytest-benchmark>=4.0.0",
     "mypy>=1.13,<2.4",  # Pin minor version; bump in v1.3 and fix new var-annotated errors
+    "mypy-baseline>=0.7.4",
     "pre-commit>=3.0.0",
     "ruff>=0.15.22",
     "mutmut>=2.4.0",  # Mutation testing
@@ -165,18 +166,11 @@ ignore = [
 
 [tool.mypy]
 python_version = "3.10"
-warn_return_any = false  # Too many false positives with numpy
+strict = true
 warn_unused_configs = true
-disallow_untyped_defs = false  # Gradual typing for large codebase
-disallow_incomplete_defs = false
-check_untyped_defs = true
-disallow_untyped_decorators = false  # Numba decorators are untyped
-no_implicit_optional = true
-warn_redundant_casts = true
-warn_unused_ignores = false  # Allow proactive ignores
-warn_no_return = true
 warn_unreachable = true
-strict_equality = true
+# Third-party packages without stubs are isolated during the migration. This
+# global escape is removed once package-specific overrides are in place.
 ignore_missing_imports = true
 show_error_codes = true
 
@@ -190,6 +184,11 @@ warn_return_any = false
 module = "boofun.core.numba_optimizations"
 disallow_untyped_decorators = false  # Numba decorators
 warn_return_any = false
+
+[tool.mypy-baseline]
+baseline_path = "mypy-baseline.txt"
+sort_baseline = true
+no_colors = true
 
 [tool.coverage.run]
 source = ["src/boofun"]
