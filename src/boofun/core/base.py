@@ -278,7 +278,7 @@ class BooleanFunction(Evaluable, Representable):
 
         for source_rep_type, source_data in self.representations.items():
             path = find_conversion_path(source_rep_type, rep_type, self.n_vars)
-            if path and (best_path is None or path.total_cost < best_path.total_cost):  # type: ignore[unreachable]
+            if path and (best_path is None or path.total_cost < best_path.total_cost):
                 best_path = path
                 best_source_data = source_data
 
@@ -580,7 +580,7 @@ class BooleanFunction(Evaluable, Representable):
         best_cost = None
         for source_rep in self.representations:
             cost = estimate_conversion_cost(source_rep, target_rep, self.n_vars)
-            if cost and (best_cost is None or cost < best_cost):  # type: ignore[unreachable]
+            if cost and (best_cost is None or cost < best_cost):
                 best_cost = cost
 
         return best_cost

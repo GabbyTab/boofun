@@ -186,7 +186,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
 
         # Create a single BooleanFunction instance representing the whole function
 
-        return ("", [])  # type: ignore[return-value]
+        return ("", [])
 
     def convert_to(
         self,

@@ -309,7 +309,7 @@ def plot_decision_tree(
         if node.is_leaf:
             # Leaf: circle with output value
             color = "lightgreen" if node.value else "lightcoral"
-            circle = plt.Circle(pos, 0.3, color=color, ec="black", linewidth=2, zorder=5)
+            circle = mpatches.Circle(pos, 0.3, color=color, ec="black", linewidth=2, zorder=5)
             ax.add_patch(circle)
             ax.text(
                 pos[0],

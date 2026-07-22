@@ -224,7 +224,7 @@ class BooleanDistribution:
         marginal_f = [self.output_probability(False), self.output_probability(True)]
         marginal_var = [p_var_0, p_var_1]
 
-        for i, (f_val, var_val) in enumerate([(0, 0), (0, 1), (1, 0), (1, 1)]):  # type: ignore[assignment]
+        for i, (f_val, var_val) in enumerate([(0, 0), (0, 1), (1, 0), (1, 1)]):
             joint_prob = joint_probs[i]
             if joint_prob > 0:
                 marginal_prod = marginal_f[f_val] * marginal_var[var_val]

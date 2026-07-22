@@ -42,7 +42,7 @@ try:
 
     CUPY_AVAILABLE = cp.cuda.is_available()
 except ImportError:
-    cp = None  # type: ignore[assignment]
+    cp = None
     CUPY_AVAILABLE = False
 
 # Runtime toggle

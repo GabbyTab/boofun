@@ -27,6 +27,8 @@ try:
     import ipywidgets as widgets
     from IPython.display import clear_output, display
 
+    _clear_output = typing.cast("Callable[..., None]", clear_output)
+    _display: Callable[..., Any] = display
     HAS_WIDGETS = True
 except ImportError:
     HAS_WIDGETS = False
@@ -105,7 +107,7 @@ class InteractiveFunctionExplorer:
     def _update_display(self) -> None:
         """Update the output based on selected view."""
         with self.output:
-            clear_output(wait=True)
+            _clear_output(wait=True)
             view = self.view_dropdown.value
 
             if view == "Truth Table":
@@ -235,7 +237,7 @@ class InteractiveFunctionExplorer:
 
     def display(self) -> None:
         """Show the interactive widget."""
-        display(widgets.VBox([self.view_dropdown, self.output]))
+        _display(widgets.VBox([self.view_dropdown, self.output]))
 
 
 class GrowthExplorer:
@@ -306,7 +308,7 @@ class GrowthExplorer:
     def _update_display(self) -> None:
         """Update the display."""
         with self.output:
-            clear_output(wait=True)
+            _clear_output(wait=True)
 
             n = self.n_slider.value
             prop = self.property_dropdown.value
@@ -355,7 +357,7 @@ class GrowthExplorer:
     def display(self) -> None:
         """Show the interactive widget."""
         controls = widgets.HBox([self.n_slider, self.property_dropdown])
-        display(widgets.VBox([controls, self.output]))
+        _display(widgets.VBox([controls, self.output]))
 
 
 class PropertyDashboard:
@@ -397,7 +399,7 @@ class PropertyDashboard:
     def _update_display(self) -> None:
         """Update the display."""
         with self.output:
-            clear_output(wait=True)
+            _clear_output(wait=True)
 
             view = self.property_dropdown.value
 
@@ -457,7 +459,7 @@ class PropertyDashboard:
         print()
         print("=" * 60)
 
-        properties = [
+        properties: list[tuple[str, Callable[[Any], Any]]] = [
             ("n", lambda f: f.n_vars),
             ("Balanced", lambda f: f.is_balanced()),
             ("Degree", lambda f: f.degree()),
@@ -480,7 +482,7 @@ class PropertyDashboard:
 
     def display(self) -> None:
         """Show the dashboard."""
-        display(widgets.VBox([self.property_dropdown, self.output]))
+        _display(widgets.VBox([self.property_dropdown, self.output]))
 
 
 def create_function_explorer(f: BooleanFunction) -> InteractiveFunctionExplorer:

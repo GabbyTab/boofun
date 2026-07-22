@@ -103,7 +103,7 @@ class PerformanceBenchmark:
             "max_time": float(np.max(durations)),
             "mean_memory": float(np.mean(memory_deltas)),
             "std_memory": float(np.std(memory_deltas)),
-            "result": result if "result" in locals() else None,  # type: ignore[possibly-undefined]
+            "result": result if "result" in locals() else None,
         }
 
     def benchmark_creation(self, n_vars_range: list[int]) -> dict[str, Any]:

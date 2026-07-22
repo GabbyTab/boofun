@@ -121,7 +121,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]
             monomial_value = 1
             for var_idx in monomial:
                 if var_idx < len(x):
-                    monomial_value *= x[var_idx]  # type: ignore[assignment]
+                    monomial_value *= x[var_idx]
                 else:
                     monomial_value = 0  # Variable not present
                     break

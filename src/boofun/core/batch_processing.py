@@ -370,7 +370,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
 # Numba JIT compiled functions (if available)
 if HAS_NUMBA:
 
-    @jit(nopython=True, parallel=True)
+    @jit(nopython=True, parallel=True)  # type: ignore[untyped-decorator]  # Numba is untyped.
     def _numba_fourier_batch_impl(
         inputs: np.ndarray, coeffs: np.ndarray, n_vars: int
     ) -> np.ndarray:
@@ -396,7 +396,7 @@ if HAS_NUMBA:
 
         return results
 
-    @jit(nopython=True, parallel=True)
+    @jit(nopython=True, parallel=True)  # type: ignore[untyped-decorator]  # Numba is untyped.
     def _numba_truth_table_batch_impl(inputs: np.ndarray, truth_table: np.ndarray) -> np.ndarray:
         """Numba-compiled batch truth table evaluation."""
         results = np.zeros(len(inputs), dtype=np.bool_)
