@@ -172,7 +172,7 @@ class GrowthAnimator:
             repeat=True,
         )
 
-        return typing.cast("animation.FuncAnimation", self.anim)
+        return self.anim
 
     def animate_influences(
         self,
@@ -258,7 +258,7 @@ class GrowthAnimator:
             blit=False,
         )
 
-        return typing.cast("animation.FuncAnimation", self.anim)
+        return self.anim
 
     def save(self, filename: str, fps: int = 2, **kwargs: typing.Any) -> None:
         """
