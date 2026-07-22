@@ -14,8 +14,15 @@ from typing import Any
 
 import numpy as np
 
+_F = typing.TypeVar("_F", bound=typing.Callable[..., typing.Any])
+
 try:
-    from numba import jit, prange
+    from numba import jit as _numba_jit
+    from numba import prange
+
+    # Numba callables are untyped; alias jit as a signature-preserving
+    # decorator factory so the @jit functions below stay typed under strict mypy.
+    jit: typing.Callable[..., typing.Callable[[_F], _F]] = _numba_jit
 
     HAS_NUMBA = True
 except ImportError:
@@ -282,9 +289,7 @@ class OptimizedFourierProcessor(VectorizedBatchProcessor):
         if not HAS_NUMBA:
             return self._numpy_fourier_batch(inputs, coeffs, n_vars)
 
-        return typing.cast(
-            "np.ndarray", _numba_fourier_batch_impl(inputs.astype(np.int32), coeffs, n_vars)
-        )
+        return _numba_fourier_batch_impl(inputs.astype(np.int32), coeffs, n_vars)
 
 
 class OptimizedANFProcessor(VectorizedBatchProcessor):
@@ -370,7 +375,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
 # Numba JIT compiled functions (if available)
 if HAS_NUMBA:
 
-    @jit(nopython=True, parallel=True)  # type: ignore[untyped-decorator]  # Numba is untyped.
+    @jit(nopython=True, parallel=True)
     def _numba_fourier_batch_impl(
         inputs: np.ndarray, coeffs: np.ndarray, n_vars: int
     ) -> np.ndarray:
@@ -396,7 +401,7 @@ if HAS_NUMBA:
 
         return results
 
-    @jit(nopython=True, parallel=True)  # type: ignore[untyped-decorator]  # Numba is untyped.
+    @jit(nopython=True, parallel=True)
     def _numba_truth_table_batch_impl(inputs: np.ndarray, truth_table: np.ndarray) -> np.ndarray:
         """Numba-compiled batch truth table evaluation."""
         results = np.zeros(len(inputs), dtype=np.bool_)
