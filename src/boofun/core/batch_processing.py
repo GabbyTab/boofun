@@ -46,7 +46,7 @@ class VectorizedBatchProcessor(BatchProcessor):
     Optimized for representations that can leverage NumPy's vectorization.
     """
 
-    def __init__(self, chunk_size: int = 10000):
+    def __init__(self, chunk_size: int = 10000) -> None:
         """
         Initialize vectorized processor.
 
@@ -104,7 +104,7 @@ class ParallelBatchProcessor(BatchProcessor):
     Distributes work across multiple CPU cores for compute-intensive operations.
     """
 
-    def __init__(self, n_workers: int | None = None, use_processes: bool = True):
+    def __init__(self, n_workers: int | None = None, use_processes: bool = True) -> None:
         """
         Initialize parallel processor.
 
@@ -186,7 +186,7 @@ class ParallelBatchProcessor(BatchProcessor):
 class OptimizedTruthTableProcessor(VectorizedBatchProcessor):
     """Optimized batch processor for truth table representations."""
 
-    def __init__(self, chunk_size: int = 100000):
+    def __init__(self, chunk_size: int = 100000) -> None:
         super().__init__(chunk_size)
         self.supported_representations = {"truth_table"}
 
@@ -229,7 +229,7 @@ class OptimizedTruthTableProcessor(VectorizedBatchProcessor):
 class OptimizedFourierProcessor(VectorizedBatchProcessor):
     """Optimized batch processor for Fourier expansion representations."""
 
-    def __init__(self, chunk_size: int = 50000):
+    def __init__(self, chunk_size: int = 50000) -> None:
         super().__init__(chunk_size)
         self.supported_representations = {"fourier_expansion"}
 
@@ -287,7 +287,7 @@ class OptimizedFourierProcessor(VectorizedBatchProcessor):
 class OptimizedANFProcessor(VectorizedBatchProcessor):
     """Optimized batch processor for ANF representations."""
 
-    def __init__(self, chunk_size: int = 50000):
+    def __init__(self, chunk_size: int = 50000) -> None:
         super().__init__(chunk_size)
         self.supported_representations = {"anf"}
 
@@ -406,7 +406,7 @@ class BatchProcessorManager:
     input size, and available hardware.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize batch processor manager."""
         self.processors = {
             "truth_table": OptimizedTruthTableProcessor(),
@@ -520,7 +520,7 @@ def get_batch_processor_stats() -> dict[str, Any]:
     return _batch_manager.get_processor_stats()
 
 
-def set_batch_thresholds(vectorized_threshold: int = 1000, parallel_threshold: int = 10000):
+def set_batch_thresholds(vectorized_threshold: int = 1000, parallel_threshold: int = 10000) -> None:
     """
     Set thresholds for batch processing strategies.
 

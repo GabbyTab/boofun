@@ -307,7 +307,7 @@ class CommunicationMatrix:
     Represents and analyzes the communication matrix of a Boolean function.
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: "BooleanFunction") -> None:
         """
         Initialize with Boolean function.
 
@@ -389,7 +389,7 @@ class CommunicationComplexityProfile:
     Complete communication complexity analysis.
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: "BooleanFunction") -> None:
         """
         Initialize profile.
 

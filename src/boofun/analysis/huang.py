@@ -187,7 +187,7 @@ class HuangAnalysis:
     the polynomial relationships established by Huang.
     """
 
-    def __init__(self, f: BooleanFunction):
+    def __init__(self, f: BooleanFunction) -> None:
         """Initialize analyzer with a Boolean function."""
         self.f = f
         n_vars = f.n_vars

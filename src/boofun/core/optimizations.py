@@ -219,7 +219,7 @@ class LazyFourierCoefficients:
     and caches the result.
     """
 
-    def __init__(self, compute_func: Callable[[], np.ndarray]):
+    def __init__(self, compute_func: Callable[[], np.ndarray]) -> None:
         """
         Args:
             compute_func: Function that computes the Fourier coefficients
@@ -240,7 +240,7 @@ class LazyFourierCoefficients:
         """Check if coefficients have been computed."""
         return self._computed
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear cached coefficients."""
         self._coeffs = None
         self._computed = False
@@ -405,7 +405,7 @@ class ComputeCache:
     hand-rolled list with O(n) remove.
     """
 
-    def __init__(self, max_size: int = 1000):
+    def __init__(self, max_size: int = 1000) -> None:
         self.max_size = max_size
         self._cache: OrderedDict = OrderedDict()
         self._hits = 0
@@ -428,7 +428,7 @@ class ComputeCache:
         self._misses += 1
         return (False, None)
 
-    def put(self, func_hash: str, computation: str, value: Any, *args):
+    def put(self, func_hash: str, computation: str, value: Any, *args) -> None:
         """Store result in cache, evicting LRU if full."""
         key = self._make_key(func_hash, computation, *args)
 
@@ -438,7 +438,7 @@ class ComputeCache:
             self._cache.popitem(last=False)  # O(1) LRU eviction
         self._cache[key] = value
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear all cached entries."""
         self._cache.clear()
 

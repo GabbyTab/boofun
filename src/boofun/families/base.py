@@ -148,7 +148,7 @@ class InductiveFamily(FunctionFamily):
         base_cases: dict[int, "BooleanFunction"] | None = None,
         step_function: Callable | None = None,
         step_size: int = 1,  # How many variables added per step
-    ):
+    ) -> None:
         """
         Initialize an inductive family.
 
@@ -236,7 +236,7 @@ class InductiveFamily(FunctionFamily):
 
         return f_prev
 
-    def clear_cache(self):
+    def clear_cache(self) -> None:
         """Clear the cached functions."""
         self._cache.clear()
 
@@ -264,7 +264,7 @@ class WeightPatternFamily(FunctionFamily):
         weight_function: Callable[[int, int], float],
         threshold_function: Callable[[int], float] | None = None,
         name: str = "WeightPatternLTF",
-    ):
+    ) -> None:
         """
         Initialize weight pattern family.
 

@@ -46,7 +46,7 @@ def register_partial_strategy(
     is_complete: Callable | None = None,
     get_storage_requirements: Callable | None = None,
     time_complexity_rank: Callable | None = None,
-):
+) -> None:
     """
     Register a strategy by supplying only the key methods.
     Missing methods raise NotImplementedError by default.

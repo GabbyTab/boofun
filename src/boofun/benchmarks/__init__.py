@@ -36,7 +36,7 @@ class PerformanceBenchmark:
     representations and algorithms.
     """
 
-    def __init__(self, warmup_runs: int = 3, benchmark_runs: int = 10):
+    def __init__(self, warmup_runs: int = 3, benchmark_runs: int = 10) -> None:
         """
         Initialize benchmark suite.
 

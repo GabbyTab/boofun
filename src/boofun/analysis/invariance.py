@@ -371,7 +371,7 @@ class InvarianceAnalyzer:
     on the discrete hypercube matches its behavior on Gaussian space.
     """
 
-    def __init__(self, f: BooleanFunction):
+    def __init__(self, f: BooleanFunction) -> None:
         """
         Initialize invariance analyzer.
 

@@ -422,7 +422,7 @@ class CryptographicAnalyzer:
         >>> print(analyzer.summary())
     """
 
-    def __init__(self, f: BooleanFunction):
+    def __init__(self, f: BooleanFunction) -> None:
         """
         Initialize analyzer with a Boolean function.
 
@@ -837,7 +837,7 @@ class SBoxAnalyzer:
         >>> print(analyzer.summary())
     """
 
-    def __init__(self, sbox: list[int]):
+    def __init__(self, sbox: list[int]) -> None:
         """
         Initialize S-box analyzer.
 

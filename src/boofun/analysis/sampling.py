@@ -558,7 +558,7 @@ class RandomVariableView:
         p: Bias parameter for sampling (default 0.5 = uniform)
     """
 
-    def __init__(self, f: BooleanFunction, p: float = 0.5):
+    def __init__(self, f: BooleanFunction, p: float = 0.5) -> None:
         """
         Initialize random variable view.
 

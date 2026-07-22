@@ -413,7 +413,7 @@ class GaussianAnalyzer:
     Gaussian space and central limit theorems.
     """
 
-    def __init__(self, f: BooleanFunction):
+    def __init__(self, f: BooleanFunction) -> None:
         """
         Initialize Gaussian analyzer.
 

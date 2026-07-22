@@ -84,7 +84,7 @@ class BooleanCircuit:
     with standard gates (AND, OR, NOT, XOR, NAND, NOR).
     """
 
-    def __init__(self, n_inputs: int):
+    def __init__(self, n_inputs: int) -> None:
         """
         Initialize Boolean circuit.
 

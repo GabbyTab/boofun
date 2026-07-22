@@ -408,7 +408,7 @@ class LaTeXExporter:
     Unified LaTeX exporter for Boolean function visualizations.
     """
 
-    def __init__(self, f: "BooleanFunction", var_names: list[str] | None = None):
+    def __init__(self, f: "BooleanFunction", var_names: list[str] | None = None) -> None:
         """
         Initialize exporter.
 
@@ -463,7 +463,7 @@ class LaTeXExporter:
 \\end{{document}}
 """
 
-    def save(self, filename: str, *contents: str, full_doc: bool = True):
+    def save(self, filename: str, *contents: str, full_doc: bool = True) -> None:
         """
         Save LaTeX to file.
 

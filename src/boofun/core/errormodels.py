@@ -90,7 +90,7 @@ class PACErrorModel(ErrorModel):
     Provides probabilistic guarantees with specified error and confidence bounds.
     """
 
-    def __init__(self, epsilon: float = 0.1, delta: float = 0.1):
+    def __init__(self, epsilon: float = 0.1, delta: float = 0.1) -> None:
         """
         Initialize PAC error model.
 
@@ -177,7 +177,7 @@ class NoiseErrorModel(ErrorModel):
     Simulates realistic noise in Boolean function evaluation and analysis.
     """
 
-    def __init__(self, noise_rate: float = 0.01, random_seed: int | None = None):
+    def __init__(self, noise_rate: float = 0.01, random_seed: int | None = None) -> None:
         """
         Initialize noise error model.
 
@@ -247,7 +247,7 @@ class LinearErrorModel(ErrorModel):
                  when no per-call value is given.
     """
 
-    def __init__(self, std_dev: float = 0.01):
+    def __init__(self, std_dev: float = 0.01) -> None:
         """Initialize linear error model."""
         if not HAS_UNCERTAINTIES:
             raise ImportError(

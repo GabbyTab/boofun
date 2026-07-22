@@ -292,7 +292,7 @@ class PermutationEquivalence:
     Provides caching and optimizations for repeated equivalence checks.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._cache: dict[Any, Any] = {}
 
     def canonical(self, f: BooleanFunction) -> tuple[int, ...]:
@@ -306,7 +306,7 @@ class PermutationEquivalence:
         """Test permutation equivalence using cached canonical forms."""
         return self.canonical(f) == self.canonical(g)
 
-    def clear_cache(self):
+    def clear_cache(self) -> None:
         """Clear the canonical form cache."""
         self._cache.clear()
 
@@ -319,7 +319,7 @@ class AffineEquivalence:
     and output negation.
     """
 
-    def __init__(self, include_negation: bool = True):
+    def __init__(self, include_negation: bool = True) -> None:
         self._cache: dict[Any, Any] = {}
         self.include_negation = include_negation
 
@@ -336,7 +336,7 @@ class AffineEquivalence:
         """Test affine equivalence using cached canonical forms."""
         return self.canonical(f) == self.canonical(g)
 
-    def clear_cache(self):
+    def clear_cache(self) -> None:
         """Clear the canonical form cache."""
         self._cache.clear()
 

@@ -60,7 +60,7 @@ class GrowthAnimator:
         >>> animator.save("majority_growth.gif")
     """
 
-    def __init__(self, family: FunctionFamily):
+    def __init__(self, family: FunctionFamily) -> None:
         """
         Initialize animator with a function family.
 
@@ -280,7 +280,7 @@ class GrowthAnimator:
 
         self.anim.save(filename, writer=writer, fps=fps, **kwargs)
 
-    def show(self):
+    def show(self) -> None:
         """Display the animation."""
         plt.show()
 

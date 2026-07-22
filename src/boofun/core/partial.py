@@ -89,7 +89,7 @@ class PartialBooleanFunction:
         n_vars: int,
         known_values: dict[int, bool] | None = None,
         name: str | None = None,
-    ):
+    ) -> None:
         """
         Initialize a partial Boolean function.
 
@@ -156,7 +156,7 @@ class PartialBooleanFunction:
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: str) -> None:
         """Set the function name."""
         self._name = value
 

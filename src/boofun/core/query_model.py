@@ -248,7 +248,7 @@ class QueryModel:
         {'queries': 32212254720, 'feasible': False}
     """
 
-    def __init__(self, f: BooleanFunction, max_queries: int = 10_000_000):
+    def __init__(self, f: BooleanFunction, max_queries: int = 10_000_000) -> None:
         """
         Initialize query model for a function.
 
@@ -308,7 +308,7 @@ class QueryModel:
         """Get cost summary for all operations."""
         return {op: self.estimate_cost(op) for op in QUERY_COMPLEXITY}
 
-    def print_summary(self):
+    def print_summary(self) -> None:
         """Print human-readable cost summary."""
         print(f"Query Model Summary for n={self.n}")
         print(f"Access type: {self.access_type.name}")

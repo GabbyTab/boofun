@@ -141,7 +141,7 @@ class BooleanFunctionError(Exception):
         code: ErrorCode | None = None,
         context: dict[str, Any] | None = None,
         suggestion: str | None = None,
-    ):
+    ) -> None:
         self.message = message
         self.code = code or self.default_code
         self.context = context or {}
@@ -243,7 +243,7 @@ class InvalidInputError(ValidationError):
         expected: str | None = None,
         context: dict[str, Any] | None = None,
         suggestion: str | None = None,
-    ):
+    ) -> None:
         ctx = context or {}
         if parameter:
             ctx["parameter"] = parameter
@@ -283,7 +283,7 @@ class InvalidRepresentationError(ValidationError):
         available: list[str] | None = None,
         context: dict[str, Any] | None = None,
         suggestion: str | None = None,
-    ):
+    ) -> None:
         ctx = context or {}
         if representation:
             ctx["representation"] = representation
@@ -323,7 +323,7 @@ class InvalidTruthTableError(ValidationError):
         expected_size: Any | None = None,
         context: dict[str, Any] | None = None,
         suggestion: str | None = None,
-    ):
+    ) -> None:
         ctx = context or {}
         if size is not None:
             ctx["size"] = size
@@ -370,7 +370,7 @@ class EvaluationError(BooleanFunctionError):
         representation: str | None = None,
         context: dict[str, Any] | None = None,
         suggestion: str | None = None,
-    ):
+    ) -> None:
         ctx = context or {}
         if input_value is not None:
             ctx["input"] = input_value
@@ -415,7 +415,7 @@ class ConversionError(BooleanFunctionError):
         target_repr: str | None = None,
         context: dict[str, Any] | None = None,
         suggestion: str | None = None,
-    ):
+    ) -> None:
         ctx = context or {}
         if source_repr:
             ctx["source"] = source_repr
@@ -489,7 +489,7 @@ class ResourceUnavailableError(BooleanFunctionError):
         resource: str | None = None,
         install_hint: str | None = None,
         context: dict[str, Any] | None = None,
-    ):
+    ) -> None:
         ctx = context or {}
         if resource:
             ctx["resource"] = resource
@@ -534,7 +534,7 @@ class InvariantViolationError(BooleanFunctionError):
         message: str,
         code: ErrorCode | None = None,
         context: dict[str, Any] | None = None,
-    ):
+    ) -> None:
         suggestion = "This is likely a bug in BooFun. Please report it at https://github.com/boofun/boofun/issues"
         super().__init__(message, code, context, suggestion)
 

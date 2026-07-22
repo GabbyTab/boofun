@@ -200,7 +200,7 @@ class AdaptiveFunction:
         n_vars: int | None = None,
         memory_limit_mb: float | None = None,
         force_representation: str | None = None,
-    ):
+    ) -> None:
         """
         Initialize with automatic representation selection.
 

@@ -832,7 +832,7 @@ class QueryComplexityProfile:
     Boolean Function Wizard.
     """
 
-    def __init__(self, f: BooleanFunction):
+    def __init__(self, f: BooleanFunction) -> None:
         """
         Initialize query complexity profile.
 

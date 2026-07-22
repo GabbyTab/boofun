@@ -552,7 +552,7 @@ class PBiasedAnalyzer:
     Boolean functions under p-biased distributions.
     """
 
-    def __init__(self, f: BooleanFunction, p: float = 0.5):
+    def __init__(self, f: BooleanFunction, p: float = 0.5) -> None:
         """
         Initialize p-biased analyzer.
 

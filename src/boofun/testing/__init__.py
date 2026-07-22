@@ -22,7 +22,7 @@ class BooleanFunctionValidator:
     across different representations and operations.
     """
 
-    def __init__(self, function: BooleanFunction, verbose: bool = False):
+    def __init__(self, function: BooleanFunction, verbose: bool = False) -> None:
         """
         Initialize validator.
 
@@ -289,7 +289,7 @@ class RepresentationTester:
     with the representation interface.
     """
 
-    def __init__(self, representation: BooleanFunctionRepresentation):
+    def __init__(self, representation: BooleanFunctionRepresentation) -> None:
         """
         Initialize representation tester.
 
@@ -378,7 +378,7 @@ class PropertyTestSuite:
     Tests various mathematical properties and their detection algorithms.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize property test suite."""
 
     def test_known_functions(self) -> dict[str, Any]:
@@ -436,7 +436,7 @@ class PerformanceProfiler:
     Measures timing and memory usage of various operations.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize performance profiler."""
 
     def profile_evaluation(self, function: BooleanFunction, n_trials: int = 1000) -> dict[str, Any]:

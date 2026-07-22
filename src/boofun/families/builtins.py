@@ -169,7 +169,7 @@ class ThresholdFamily(FunctionFamily):
     - k = (n+1)/2: Majority (for odd n)
     """
 
-    def __init__(self, k_function: Callable[[int], int] | None = None):
+    def __init__(self, k_function: Callable[[int], int] | None = None) -> None:
         """
         Initialize threshold family.
 
@@ -274,7 +274,7 @@ class DictatorFamily(FunctionFamily):
     - Noise stability: Stab_ρ[DICT] = ρ
     """
 
-    def __init__(self, variable: int = 0):
+    def __init__(self, variable: int = 0) -> None:
         """
         Initialize dictator family.
 
@@ -320,7 +320,7 @@ class LTFFamily(WeightPatternFamily):
         weight_pattern: Callable[[int, int], float] = lambda i, n: 1.0,
         threshold_pattern: Callable[[int], float] | None = None,
         name: str = "LTF",
-    ):
+    ) -> None:
         """
         Initialize LTF family.
 
@@ -487,7 +487,7 @@ class IteratedMajorityFamily(FunctionFamily):
     This allows general group sizes.
     """
 
-    def __init__(self, group_size: int = 3):
+    def __init__(self, group_size: int = 3) -> None:
         """
         Initialize iterated majority.
 
@@ -565,7 +565,7 @@ class RandomDNFFamily(FunctionFamily):
     A k-DNF is an OR of terms, where each term is an AND of at most k literals.
     """
 
-    def __init__(self, term_width: int = 3, num_terms: int | None = None):
+    def __init__(self, term_width: int = 3, num_terms: int | None = None) -> None:
         """
         Initialize random DNF family.
 
@@ -903,7 +903,7 @@ class SboxFamily(FunctionFamily):
         0x16,
     ]
 
-    def __init__(self, sbox: list[int] | None = None, bit: int = 0):
+    def __init__(self, sbox: list[int] | None = None, bit: int = 0) -> None:
         """
         Initialize S-box family.
 

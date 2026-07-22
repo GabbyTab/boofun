@@ -33,7 +33,7 @@ class DecisionTreeNode:
         low: Optional["DecisionTreeNode"] = None,
         high: Optional["DecisionTreeNode"] = None,
         depth: int = 0,
-    ):
+    ) -> None:
         self.variable = variable  # None for leaf nodes
         self.value = value  # Boolean value for leaf nodes
         self.low = low  # Child for variable = 0
@@ -41,7 +41,7 @@ class DecisionTreeNode:
         self.depth = depth
         self.is_leaf = variable is None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.is_leaf:
             return f"Leaf({self.value})"
         return f"Node(x_{self.variable})"
@@ -129,7 +129,7 @@ def export_decision_tree_text(
 
     def print_tree(
         node: DecisionTreeNode, prefix: str = "", is_left: bool = True, edge_label: str = ""
-    ):
+    ) -> None:
         pass  # node is always DecisionTreeNode
 
         connector = "├── " if is_left else "└── "
@@ -328,7 +328,7 @@ class DecisionTreeExporter:
         f: "BooleanFunction",
         var_names: list[str] | None = None,
         max_depth: int | None = None,
-    ):
+    ) -> None:
         """
         Initialize exporter.
 

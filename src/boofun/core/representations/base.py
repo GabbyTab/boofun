@@ -135,7 +135,7 @@ class PartialRepresentation(Generic[DataType]):
         data: DataType,
         known_mask: np.ndarray | None = None,
         n_vars: int | None = None,
-    ):
+    ) -> None:
         """
         Initialize partial representation.
 

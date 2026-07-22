@@ -393,7 +393,7 @@ class PACLearner:
         epsilon: float = 0.1,
         delta: float = 0.05,
         rng: np.random.Generator | None = None,
-    ):
+    ) -> None:
         """
         Initialize PAC learner.
 

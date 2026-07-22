@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Callable
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -66,7 +66,7 @@ class InteractiveFunctionExplorer:
     - Noise stability curve
     """
 
-    def __init__(self, f: BooleanFunction):
+    def __init__(self, f: BooleanFunction) -> None:
         """
         Create explorer for a Boolean function.
 
@@ -80,7 +80,7 @@ class InteractiveFunctionExplorer:
         self.n: int = n
         self._create_widgets()
 
-    def _create_widgets(self):
+    def _create_widgets(self) -> None:
         """Build the widget interface."""
         # View selector
         self.view_dropdown = widgets.Dropdown(
@@ -97,11 +97,11 @@ class InteractiveFunctionExplorer:
         # Initial display
         self._update_display()
 
-    def _on_view_change(self, change):
+    def _on_view_change(self, change: Any) -> None:
         """Handle view change."""
         self._update_display()
 
-    def _update_display(self):
+    def _update_display(self) -> None:
         """Update the output based on selected view."""
         with self.output:
             clear_output(wait=True)
@@ -118,7 +118,7 @@ class InteractiveFunctionExplorer:
             elif view == "Summary":
                 self._show_summary()
 
-    def _show_truth_table(self):
+    def _show_truth_table(self) -> None:
         """Display truth table."""
         if self.n > 6:
             print(f"Truth table too large to display (n={self.n})")
@@ -131,7 +131,7 @@ class InteractiveFunctionExplorer:
             val = self.f.evaluate(x)
             print(f"  {bits} → {val}")
 
-    def _show_fourier(self):
+    def _show_fourier(self) -> None:
         """Display Fourier spectrum."""
         if not HAS_MATPLOTLIB:
             print("Matplotlib required for Fourier plot")
@@ -159,7 +159,7 @@ class InteractiveFunctionExplorer:
         plt.tight_layout()
         plt.show()
 
-    def _show_influences(self):
+    def _show_influences(self) -> None:
         """Display influences."""
         if not HAS_MATPLOTLIB:
             influences = self.f.influences()
@@ -191,7 +191,7 @@ class InteractiveFunctionExplorer:
         plt.tight_layout()
         plt.show()
 
-    def _show_noise_stability(self):
+    def _show_noise_stability(self) -> None:
         """Display noise stability curve."""
         if not HAS_MATPLOTLIB:
             print("Matplotlib required for noise stability plot")
@@ -212,7 +212,7 @@ class InteractiveFunctionExplorer:
         plt.tight_layout()
         plt.show()
 
-    def _show_summary(self):
+    def _show_summary(self) -> None:
         """Display function summary."""
         print("=== Boolean Function Summary ===")
         print(f"Variables: n = {self.n}")
@@ -232,7 +232,7 @@ class InteractiveFunctionExplorer:
         print(f"  Sensitivity: {self.f.sensitivity()}")
         print(f"  Support Size: {self.f.hamming_weight()}")
 
-    def display(self):
+    def display(self) -> None:
         """Show the interactive widget."""
         display(widgets.VBox([self.view_dropdown, self.output]))
 
@@ -252,7 +252,7 @@ class GrowthExplorer:
         family_func: Callable[[int], BooleanFunction],
         name: str = "Function",
         n_range: tuple = (1, 12),
-    ):
+    ) -> None:
         """
         Create growth explorer.
 
@@ -267,7 +267,7 @@ class GrowthExplorer:
         self.n_range = n_range
         self._create_widgets()
 
-    def _create_widgets(self):
+    def _create_widgets(self) -> None:
         """Build the widget interface."""
         # N slider
         self.n_slider = widgets.IntSlider(
@@ -294,15 +294,15 @@ class GrowthExplorer:
         # Initial display
         self._update_display()
 
-    def _on_n_change(self, change):
+    def _on_n_change(self, change: Any) -> None:
         """Handle n change."""
         self._update_display()
 
-    def _on_property_change(self, change):
+    def _on_property_change(self, change: Any) -> None:
         """Handle property change."""
         self._update_display()
 
-    def _update_display(self):
+    def _update_display(self) -> None:
         """Update the display."""
         with self.output:
             clear_output(wait=True)
@@ -351,7 +351,7 @@ class GrowthExplorer:
             print(f"\n{self.name}(n={n}):")
             print(f"  {prop}: {prop_values[-1]:.4f}" if prop_values else "  Error computing")
 
-    def display(self):
+    def display(self) -> None:
         """Show the interactive widget."""
         controls = widgets.HBox([self.n_slider, self.property_dropdown])
         display(widgets.VBox([controls, self.output]))
@@ -362,7 +362,7 @@ class PropertyDashboard:
     Dashboard comparing multiple functions side by side.
     """
 
-    def __init__(self, functions: dict[str, BooleanFunction]):
+    def __init__(self, functions: dict[str, BooleanFunction]) -> None:
         """
         Create dashboard for multiple functions.
 
@@ -373,7 +373,7 @@ class PropertyDashboard:
         self.functions = functions
         self._create_widgets()
 
-    def _create_widgets(self):
+    def _create_widgets(self) -> None:
         """Build the widget interface."""
         # Property selector
         self.property_dropdown = widgets.Dropdown(
@@ -389,11 +389,11 @@ class PropertyDashboard:
         # Initial display
         self._update_display()
 
-    def _on_change(self, change):
+    def _on_change(self, change: Any) -> None:
         """Handle change."""
         self._update_display()
 
-    def _update_display(self):
+    def _update_display(self) -> None:
         """Update the display."""
         with self.output:
             clear_output(wait=True)
@@ -407,7 +407,7 @@ class PropertyDashboard:
             elif view == "Properties":
                 self._compare_properties()
 
-    def _compare_influences(self):
+    def _compare_influences(self) -> None:
         """Compare influences across functions."""
         if not HAS_MATPLOTLIB:
             return
@@ -427,7 +427,7 @@ class PropertyDashboard:
         plt.tight_layout()
         plt.show()
 
-    def _compare_fourier(self):
+    def _compare_fourier(self) -> None:
         """Compare Fourier spectra."""
         if not HAS_MATPLOTLIB:
             return
@@ -447,7 +447,7 @@ class PropertyDashboard:
         plt.tight_layout()
         plt.show()
 
-    def _compare_properties(self):
+    def _compare_properties(self) -> None:
         """Compare properties in a table."""
         print("=" * 60)
         print(f"{'Property':<20}", end="")
@@ -477,7 +477,7 @@ class PropertyDashboard:
                     print(f"{'N/A':<15}", end="")
             print()
 
-    def display(self):
+    def display(self) -> None:
         """Show the dashboard."""
         display(widgets.VBox([self.property_dropdown, self.output]))
 

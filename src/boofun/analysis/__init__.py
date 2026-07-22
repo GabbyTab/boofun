@@ -25,7 +25,7 @@ class SpectralAnalyzer:
     total influence, noise stability, and other spectral properties.
     """
 
-    def __init__(self, function: "BooleanFunction"):
+    def __init__(self, function: "BooleanFunction") -> None:
         """
         Initialize analyzer with a Boolean function.
 
@@ -360,7 +360,7 @@ class PropertyTester:
     if Boolean functions satisfy specific properties.
     """
 
-    def __init__(self, function: "BooleanFunction", random_seed: int | None = None):
+    def __init__(self, function: "BooleanFunction", random_seed: int | None = None) -> None:
         self.function = function
         n_vars = function.n_vars
         if n_vars is None:

@@ -31,7 +31,7 @@ except ImportError:
 
 
 class Property:
-    def __init__(self, name, test_func=None, doc=None, closed_under=None):
+    def __init__(self, name, test_func=None, doc=None, closed_under=None) -> None:
         self.name = name
         self.test_func = test_func
         self.doc = doc
@@ -39,22 +39,22 @@ class Property:
 
 
 class PropertyStore:
-    def __init__(self):
-        self._properties = {}
+    def __init__(self) -> None:
+        self._properties: dict[str, dict[str, Any]] = {}
 
-    def add(self, prop: Property, status="user"):
+    def add(self, prop: Property, status="user") -> None:
         self._properties[prop.name] = {"property": prop, "status": status}
 
-    def has(self, name):
+    def has(self, name) -> bool:
         return name in self._properties
 
 
 class Evaluable(Protocol):
-    def evaluate(self, inputs): ...
+    def evaluate(self, inputs) -> Any: ...
 
 
 class Representable(Protocol):
-    def to_representation(self, rep_type: str): ...
+    def to_representation(self, rep_type: str) -> Any: ...
 
 
 class BooleanFunction(Evaluable, Representable):
@@ -62,9 +62,9 @@ class BooleanFunction(Evaluable, Representable):
         self,
         space: str = "plus_minus_cube",
         error_model: Any | None = None,
-        storage_manager=None,
-        **kwargs,
-    ):
+        storage_manager: Any | None = None,
+        **kwargs: Any,
+    ) -> None:
         self.space = self._create_space(space)
         self.representations: dict[str, Any] = {}
         self.properties = PropertyStore()
@@ -82,7 +82,7 @@ class BooleanFunction(Evaluable, Representable):
         """n_vars as int. Returns 0 if not set (for adapted/partial functions)."""
         return self.n_vars if self.n_vars is not None else 0
 
-    def __array__(self, dtype=None, copy=None) -> np.ndarray:
+    def __array__(self, dtype: Any = None, copy: bool | None = None) -> np.ndarray:
         """Return the truth table as a NumPy array for NumPy compatibility.
 
         Note: The 'copy' parameter is for NumPy 2.0 compatibility.
@@ -204,14 +204,14 @@ class BooleanFunction(Evaluable, Representable):
         except Exception:
             return id(self)
 
-    def __str__(self):
+    def __str__(self) -> str:
         n = self.n_vars or 0
         name = getattr(self, "nickname", None)
         if name and name != "x_0":
             return f"{name} (n={n})"
         return f"BooleanFunction(n={n})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         n = self.n_vars or 0
         name = getattr(self, "nickname", None)
         try:
@@ -401,7 +401,7 @@ class BooleanFunction(Evaluable, Representable):
 
         return result
 
-    def _compute_index(self, bits) -> int:
+    def _compute_index(self, bits: Any) -> int:
         """Convert boolean vector to integer index.
 
         Uses positional summation instead of np.packbits, which only
@@ -445,7 +445,7 @@ class BooleanFunction(Evaluable, Representable):
         strategy = get_strategy(rep_type)
         return strategy.evaluate(inputs, data, self.space, self._n)
 
-    def _setup_probabilistic_interface(self):
+    def _setup_probabilistic_interface(self) -> None:
         """Configure as scipy.stats-like random variable"""
         # Add methods that make this behave like rv_discrete/rv_continuous
         # self._configure_sampling_methods()
@@ -456,7 +456,7 @@ class BooleanFunction(Evaluable, Representable):
         results = [self._evaluate_deterministic(sample) for sample in samples]
         return np.array(results)
 
-    def evaluate_range(self, inputs):
+    def evaluate_range(self, inputs: Any) -> None:
         pass
 
     def rvs(self, size=1, rng=None):
@@ -494,7 +494,7 @@ class BooleanFunction(Evaluable, Representable):
         # For Boolean functions, PMF is just the function value
         return float(self.evaluate(x))
 
-    def cdf(self, x):
+    def cdf(self, x: Any) -> None:
         """Cumulative distribution function"""
         # return self._compute_cdf(x)
 
@@ -514,7 +514,7 @@ class BooleanFunction(Evaluable, Representable):
         return self._n
 
     # get methods
-    def has_rep(self, rep_type):
+    def has_rep(self, rep_type: str) -> bool:
         return rep_type in self.representations
 
     def get_conversion_options(self, max_cost: float | None = None) -> dict[str, Any]:

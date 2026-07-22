@@ -62,7 +62,7 @@ class LegacyAdapter(BooleanFunctionAdapter):
         input_format: str = "auto",
         output_format: str = "auto",
         n_vars: int | None = None,
-    ):
+    ) -> None:
         """
         Initialize legacy adapter.
 
@@ -173,7 +173,7 @@ class CallableAdapter(BooleanFunctionAdapter):
     Wraps Python functions or lambdas to work with BooFun system.
     """
 
-    def __init__(self, n_vars: int | None = None, input_type: str = "binary_vector"):
+    def __init__(self, n_vars: int | None = None, input_type: str = "binary_vector") -> None:
         """
         Initialize callable adapter.
 
@@ -242,7 +242,7 @@ class SymPyAdapter(BooleanFunctionAdapter):
     Integrates SymPy symbolic Boolean functions with BooFun.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize SymPy adapter."""
         try:
             import sympy as sp
@@ -298,7 +298,7 @@ class NumPyAdapter(BooleanFunctionAdapter):
     Handles vectorized NumPy functions and makes them compatible with BooFun.
     """
 
-    def __init__(self, vectorized: bool = True):
+    def __init__(self, vectorized: bool = True) -> None:
         """
         Initialize NumPy adapter.
 

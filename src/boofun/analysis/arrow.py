@@ -327,7 +327,7 @@ class ArrowAnalyzer:
     Combines all social choice analysis tools.
     """
 
-    def __init__(self, f: BooleanFunction):
+    def __init__(self, f: BooleanFunction) -> None:
         """
         Initialize with a voting function.
 

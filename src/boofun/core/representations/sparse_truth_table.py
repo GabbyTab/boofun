@@ -28,7 +28,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
     }
     """
 
-    def __init__(self, compression_threshold: float = 0.1):
+    def __init__(self, compression_threshold: float = 0.1) -> None:
         """
         Initialize sparse representation.
 
@@ -215,7 +215,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, A
     Dynamically selects the most memory-efficient representation based on the data.
     """
 
-    def __init__(self, sparse_threshold: float = 0.3):
+    def __init__(self, sparse_threshold: float = 0.3) -> None:
         """
         Initialize adaptive representation.
 

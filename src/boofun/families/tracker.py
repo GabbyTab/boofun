@@ -312,7 +312,7 @@ class GrowthTracker:
         tracker.plot("total_influence", show_theory=True)
     """
 
-    def __init__(self, family: "FunctionFamily"):
+    def __init__(self, family: "FunctionFamily") -> None:
         """
         Initialize tracker for a function family.
 
@@ -605,7 +605,7 @@ class GrowthTracker:
 
         return "\n".join(lines)
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear all tracking data."""
         self.results.clear()
         self._functions_cache.clear()

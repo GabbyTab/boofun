@@ -396,7 +396,7 @@ class GlobalHypercontractivityAnalyzer:
     under p-biased measures, following the framework of Keevash et al.
     """
 
-    def __init__(self, f: "BooleanFunction", p: float = 0.5):
+    def __init__(self, f: "BooleanFunction", p: float = 0.5) -> None:
         """
         Initialize the analyzer.
 

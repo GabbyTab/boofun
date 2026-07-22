@@ -53,7 +53,7 @@ class BooleanFunctionVisualizer:
     including influences, Fourier spectra, truth tables, and more.
     """
 
-    def __init__(self, function: BooleanFunction, backend: str = "matplotlib"):
+    def __init__(self, function: BooleanFunction, backend: str = "matplotlib") -> None:
         """
         Initialize visualizer.
 

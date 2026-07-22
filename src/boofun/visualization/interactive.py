@@ -421,7 +421,7 @@ class FourierExplorer:
     structure of Boolean functions.
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: "BooleanFunction") -> None:
         """
         Initialize explorer with a Boolean function.
 

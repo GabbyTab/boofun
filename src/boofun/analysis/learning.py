@@ -332,7 +332,7 @@ class GoldreichLevinLearner:
     interactive exploration of heavy Fourier coefficients.
     """
 
-    def __init__(self, f: BooleanFunction, rng: np.random.Generator | None = None):
+    def __init__(self, f: BooleanFunction, rng: np.random.Generator | None = None) -> None:
         """
         Initialize the learner.
 
@@ -369,7 +369,7 @@ class GoldreichLevinLearner:
         """Find heavy coefficients using Goldreich-Levin."""
         return goldreich_levin(self.function, threshold, rng=self.rng)
 
-    def reset_queries(self):
+    def reset_queries(self) -> None:
         """Reset the query counter and cache."""
         self.query_count = 0
         self._cache.clear()

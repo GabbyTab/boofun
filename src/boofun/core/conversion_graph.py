@@ -75,7 +75,7 @@ class ConversionCost:
         space_complexity: float,
         accuracy_loss: float = 0.0,
         is_exact: bool = True,
-    ):
+    ) -> None:
         self.time_complexity = time_complexity
         self.space_complexity = space_complexity
         self.accuracy_loss = accuracy_loss
@@ -109,7 +109,7 @@ class ConversionEdge:
         target: str,
         cost: ConversionCost,
         converter: Callable | None = None,
-    ):
+    ) -> None:
         self.source = source
         self.target = target
         self.cost = cost
@@ -122,7 +122,7 @@ class ConversionEdge:
 class ConversionPath:
     """Represents a complete conversion path between representations."""
 
-    def __init__(self, edges: list[ConversionEdge]):
+    def __init__(self, edges: list[ConversionEdge]) -> None:
         self.edges = edges
         self.source = edges[0].source if edges else None
         self.target = edges[-1].target if edges else None

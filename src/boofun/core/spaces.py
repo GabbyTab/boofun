@@ -182,7 +182,7 @@ class Measure:
         >>> biased.sigma    # sqrt(0.3 * 0.7)
     """
 
-    def __init__(self, p: float = 0.5):
+    def __init__(self, p: float = 0.5) -> None:
         if not 0 < p < 1:
             raise ValueError(f"Bias p must be in (0, 1), got {p}")
         self._p = p

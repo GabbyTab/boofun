@@ -445,12 +445,12 @@ def get_symmetry_groups(f: "BooleanFunction") -> list[set[int]]:
     # Build groups via union-find
     parent = list(range(n))
 
-    def find(x):
+    def find(x: int) -> int:
         if parent[x] != x:
             parent[x] = find(parent[x])
         return parent[x]
 
-    def union(x, y):
+    def union(x: int, y: int) -> None:
         px, py = find(x), find(y)
         if px != py:
             parent[px] = py
@@ -547,7 +547,7 @@ class CanalizationAnalyzer:
         >>> analyzer.summary()
     """
 
-    def __init__(self, f: "BooleanFunction"):
+    def __init__(self, f: "BooleanFunction") -> None:
         """
         Initialize analyzer.
 

@@ -39,7 +39,7 @@ class DecisionTreeNode:
         left: DecisionTreeNode | None = None,
         right: DecisionTreeNode | None = None,
         depth: int = 0,
-    ):
+    ) -> None:
         """
         Create a decision tree node.
 
@@ -253,11 +253,18 @@ def plot_decision_tree(
     # Position nodes using BFS
     positions = {}
 
-    def assign_positions(node, x, y, x_offset, level=0):
+    def assign_positions(
+        node: DecisionTreeNode,
+        x: float,
+        y: float,
+        x_offset: float,
+        level: int = 0,
+    ) -> None:
         """Recursively assign positions to nodes."""
         positions[id(node)] = (x, y)
 
         if not node.is_leaf:
+            assert node.left is not None and node.right is not None
             new_offset = x_offset / 2
             assign_positions(node.left, x - x_offset, y - 1, new_offset, level + 1)
             assign_positions(node.right, x + x_offset, y - 1, new_offset, level + 1)
@@ -267,10 +274,11 @@ def plot_decision_tree(
     assign_positions(tree, 0, 0, initial_offset)
 
     # Draw edges
-    def draw_edges(node):
+    def draw_edges(node: DecisionTreeNode) -> None:
         if node.is_leaf:
             return
 
+        assert node.left is not None and node.right is not None
         pos = positions[id(node)]
         left_pos = positions[id(node.left)]
         right_pos = positions[id(node.right)]
@@ -294,7 +302,7 @@ def plot_decision_tree(
     draw_edges(tree)
 
     # Draw nodes
-    def draw_nodes(node):
+    def draw_nodes(node: DecisionTreeNode) -> None:
         pos = positions[id(node)]
 
         if node.is_leaf:
@@ -337,6 +345,7 @@ def plot_decision_tree(
             )
 
         if not node.is_leaf:
+            assert node.left is not None and node.right is not None
             draw_nodes(node.left)
             draw_nodes(node.right)
 

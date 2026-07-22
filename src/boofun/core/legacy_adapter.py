@@ -148,7 +148,7 @@ class LegacyWrapper:
         >>> wrapped.fix(0, 1)  # Legacy method, returns wrapped result
     """
 
-    def __init__(self, func: BooleanFunction):
+    def __init__(self, func: BooleanFunction) -> None:
         """
         Wrap a modern BooleanFunction with legacy-compatible interface.
 

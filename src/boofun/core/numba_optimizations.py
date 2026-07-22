@@ -87,7 +87,7 @@ if HAS_NUMBA:
         return results
 
     @njit
-    def walsh_hadamard_transform_inplace(values):
+    def walsh_hadamard_transform_inplace(values) -> None:
         """In-place Walsh-Hadamard transform."""
         n = len(values)
         n_vars = 0
@@ -235,15 +235,15 @@ class NumbaOptimizer:
     with automatic fallback to pure Python/NumPy implementations.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize Numba optimizer."""
         self.available = HAS_NUMBA
-        self.compiled_functions = {}
+        self.compiled_functions: dict[str, Any] = {}
 
         if self.available:
             self._warm_up_functions()
 
-    def _warm_up_functions(self):
+    def _warm_up_functions(self) -> None:
         """Warm up JIT-compiled functions with small test cases."""
         try:
             # Test data for warm-up
@@ -360,7 +360,7 @@ def is_numba_available() -> bool:
     return _numba_optimizer.is_available()
 
 
-def numba_optimize(operation: str, *args, **kwargs) -> Any:
+def numba_optimize(operation: str, *args: Any, **kwargs: Any) -> Any:
     """
     Apply Numba optimization to an operation.
 

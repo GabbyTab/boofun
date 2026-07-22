@@ -119,7 +119,7 @@ class QuantumComplexityAnalyzer:
         print(f"Grover speedup: {result['speedup']:.1f}x")
     """
 
-    def __init__(self, boolean_function: BooleanFunction):
+    def __init__(self, boolean_function: BooleanFunction) -> None:
         """
         Initialize the analyzer.
 

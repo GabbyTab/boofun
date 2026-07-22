@@ -50,7 +50,7 @@ class GrowthVisualizer:
     - Show phase transitions
     """
 
-    def __init__(self, backend: str = "matplotlib"):
+    def __init__(self, backend: str = "matplotlib") -> None:
         """
         Initialize growth visualizer.
 
@@ -531,7 +531,7 @@ class LTFVisualizer:
     Specialized visualizations for Linear Threshold Functions.
     """
 
-    def __init__(self, backend: str = "matplotlib"):
+    def __init__(self, backend: str = "matplotlib") -> None:
         self.backend = backend
 
     def plot_weight_distribution(
@@ -639,7 +639,7 @@ class ComplexityVisualizer:
     Visualize query complexity measures and their relationships.
     """
 
-    def __init__(self, backend: str = "matplotlib"):
+    def __init__(self, backend: str = "matplotlib") -> None:
         self.backend = backend
 
     def plot_complexity_relations(

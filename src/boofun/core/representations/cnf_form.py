@@ -33,7 +33,7 @@ class CNFClause:
     positive_vars: set[int]
     negative_vars: set[int]
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate clause."""
         # Note: Unlike DNF terms, CNF clauses can have the same variable positive and negative
         # This would make the clause always true (tautology)

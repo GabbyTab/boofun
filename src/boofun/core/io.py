@@ -49,7 +49,7 @@ __all__ = [
 class FileIOError(BooleanFunctionError):
     """Error during file I/O operations."""
 
-    def __init__(self, message: str, path: str | None = None, **kwargs):
+    def __init__(self, message: str, path: str | None = None, **kwargs) -> None:
         self.path = path
         super().__init__(message, **kwargs)
 

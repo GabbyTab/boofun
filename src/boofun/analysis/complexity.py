@@ -405,7 +405,7 @@ class ComplexityProfile:
     computing multiple measures and checking known relationships between them.
     """
 
-    def __init__(self, f: BooleanFunction):
+    def __init__(self, f: BooleanFunction) -> None:
         """
         Initialize and compute complexity profile.
 

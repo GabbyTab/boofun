@@ -32,7 +32,7 @@ class BDDNode:
         low: Optional["BDDNode"] = None,
         high: Optional["BDDNode"] = None,
         value: bool | None = None,
-    ):
+    ) -> None:
         self.var = var
         self.low = low
         self.high = high
@@ -66,7 +66,7 @@ class BDD:
     with efficient operations for evaluation, manipulation, and analysis.
     """
 
-    def __init__(self, n_vars: int):
+    def __init__(self, n_vars: int) -> None:
         """
         Initialize BDD.
 
