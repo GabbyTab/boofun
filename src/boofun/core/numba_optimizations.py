@@ -5,6 +5,7 @@ This module provides JIT-compiled versions of critical operations for
 significant performance improvements in compute-intensive scenarios.
 """
 
+import typing
 import warnings
 from typing import Any
 
@@ -308,7 +309,9 @@ class NumbaOptimizer:
         walsh_hadamard_transform_inplace(result)
         return result
 
-    def optimize_anf_batch(self, inputs: np.ndarray, anf_data: dict) -> np.ndarray:
+    def optimize_anf_batch(
+        self, inputs: np.ndarray, anf_data: dict[typing.Any, typing.Any]
+    ) -> np.ndarray:
         """Optimized batch ANF evaluation."""
         if not self.available:
             raise RuntimeError("Numba not available")

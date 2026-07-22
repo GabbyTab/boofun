@@ -321,7 +321,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
 
     def convert_from(
         self,
-        source_repr: BooleanFunctionRepresentation,
+        source_repr: BooleanFunctionRepresentation[typing.Any],
         source_data: Any,
         space: Space,
         n_vars: int,
@@ -417,7 +417,7 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
 
     def convert_to(
         self,
-        target_repr: BooleanFunctionRepresentation,
+        target_repr: BooleanFunctionRepresentation[typing.Any],
         source_data: Any,
         space: Space,
         n_vars: int,

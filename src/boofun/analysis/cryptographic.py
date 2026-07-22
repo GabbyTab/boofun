@@ -26,6 +26,7 @@ References:
 
 from __future__ import annotations
 
+import typing
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -522,7 +523,7 @@ class CryptographicAnalyzer:
 
         return "\n".join(lines)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[typing.Any, typing.Any]:
         """Export all measures as dictionary (for cross-validation)."""
         return {
             "n_vars": self.n_vars,
@@ -920,7 +921,7 @@ class SBoxAnalyzer:
         ]
         return "\n".join(lines)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[typing.Any, typing.Any]:
         """Export measures as dictionary."""
         return {
             "n_inputs": self.n_inputs,

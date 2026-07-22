@@ -1,4 +1,5 @@
 import numbers
+import typing
 from collections.abc import Iterable
 from typing import Any
 
@@ -243,7 +244,9 @@ class BooleanFunctionFactory:
         return instance
 
     @staticmethod
-    def _convert_to_sparse_format(tt_array: np.ndarray, n_vars: int) -> dict:
+    def _convert_to_sparse_format(
+        tt_array: np.ndarray, n_vars: int
+    ) -> dict[typing.Any, typing.Any]:
         """Convert truth table array to sparse format dictionary."""
         size = len(tt_array)
         tt_bool = np.asarray(tt_array, dtype=bool)
@@ -266,7 +269,9 @@ class BooleanFunctionFactory:
         }
 
     @staticmethod
-    def _convert_to_packed_format(tt_array: np.ndarray, n_vars: int) -> dict:
+    def _convert_to_packed_format(
+        tt_array: np.ndarray, n_vars: int
+    ) -> dict[typing.Any, typing.Any]:
         """Convert truth table array to packed format dictionary."""
         size = len(tt_array)
         tt_bool = np.asarray(tt_array, dtype=bool)

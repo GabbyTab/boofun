@@ -26,6 +26,7 @@ References:
 
 from __future__ import annotations
 
+import typing
 from collections import Counter
 from typing import TYPE_CHECKING
 
@@ -144,7 +145,7 @@ def granularity(f: BooleanFunction, threshold: float = 1e-10) -> dict[float, int
     # Round to threshold precision for grouping
     rounded = np.round(coeffs / threshold) * threshold
 
-    counter: Counter = Counter(rounded)
+    counter: Counter[typing.Any] = Counter(rounded)
     return dict(counter)
 
 

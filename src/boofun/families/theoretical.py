@@ -5,6 +5,7 @@ This module provides known theoretical results that can be compared
 against computed values to validate understanding and implementation.
 """
 
+import typing
 from collections.abc import Callable
 
 import numpy as np
@@ -239,7 +240,7 @@ class TheoreticalBounds:
     # ==========================================================
 
     @classmethod
-    def get_bounds_for_family(cls, family_name: str) -> dict[str, Callable]:
+    def get_bounds_for_family(cls, family_name: str) -> dict[str, Callable[..., typing.Any]]:
         """
         Get all applicable theoretical bounds for a named family.
 

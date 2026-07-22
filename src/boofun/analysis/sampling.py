@@ -318,7 +318,7 @@ def estimate_fourier_adaptive(
     if rng is None:
         rng = np.random.default_rng()
 
-    all_products: list = []
+    all_products: list[typing.Any] = []
     total = 0
 
     while total < max_samples:

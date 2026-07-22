@@ -28,6 +28,7 @@ References:
 
 from __future__ import annotations
 
+import typing
 from collections.abc import Callable
 from functools import lru_cache
 from typing import TYPE_CHECKING
@@ -422,7 +423,7 @@ class GaussianAnalyzer:
         """
         self.function = f
         self.n_vars = f.n_vars
-        self._hermite_coeffs: dict | None = None
+        self._hermite_coeffs: dict[typing.Any, typing.Any] | None = None
 
     @property
     def hermite_coefficients(self) -> dict[tuple[int, ...], float]:

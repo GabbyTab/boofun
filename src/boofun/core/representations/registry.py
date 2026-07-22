@@ -1,12 +1,13 @@
 # representations/registry.py
+import typing
 from collections.abc import Callable
 
 from .base import BooleanFunctionRepresentation
 
-STRATEGY_REGISTRY: dict[str, type[BooleanFunctionRepresentation]] = {}
+STRATEGY_REGISTRY: dict[str, type[BooleanFunctionRepresentation[typing.Any]]] = {}
 
 
-def get_strategy(rep_key: str) -> BooleanFunctionRepresentation:
+def get_strategy(rep_key: str) -> BooleanFunctionRepresentation[typing.Any]:
     """
     Retrieve and instantiate the strategy class for the given representation key.
 
@@ -28,7 +29,7 @@ def get_strategy(rep_key: str) -> BooleanFunctionRepresentation:
 def register_strategy(key: str):
     """Decorator to register representation classes"""
 
-    def decorator(cls: type[BooleanFunctionRepresentation]):
+    def decorator(cls: type[BooleanFunctionRepresentation[typing.Any]]):
         STRATEGY_REGISTRY[key] = cls
         return cls
 
@@ -38,14 +39,14 @@ def register_strategy(key: str):
 def register_partial_strategy(
     key: str,
     *,
-    evaluate: Callable,
-    dump: Callable | None = None,
-    convert_from: Callable | None = None,
-    convert_to: Callable | None = None,
-    create_empty: Callable | None = None,
-    is_complete: Callable | None = None,
-    get_storage_requirements: Callable | None = None,
-    time_complexity_rank: Callable | None = None,
+    evaluate: Callable[..., typing.Any],
+    dump: Callable[..., typing.Any] | None = None,
+    convert_from: Callable[..., typing.Any] | None = None,
+    convert_to: Callable[..., typing.Any] | None = None,
+    create_empty: Callable[..., typing.Any] | None = None,
+    is_complete: Callable[..., typing.Any] | None = None,
+    get_storage_requirements: Callable[..., typing.Any] | None = None,
+    time_complexity_rank: Callable[..., typing.Any] | None = None,
 ) -> None:
     """
     Register a strategy by supplying only the key methods.

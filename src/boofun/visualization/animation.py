@@ -80,7 +80,7 @@ class GrowthAnimator:
         n_range: tuple[int, int, int] = (3, 15, 2),
         figsize: tuple[int, int] = (10, 6),
         interval: int = 500,
-        property_func: Callable | None = None,
+        property_func: Callable[..., typing.Any] | None = None,
     ) -> animation.FuncAnimation:
         """
         Create animation of property growth.

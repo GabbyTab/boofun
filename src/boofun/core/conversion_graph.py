@@ -11,6 +11,7 @@ pathfinding (removed in v1.3.0), with no loss of functionality since
 truth_table is the one representation every other type can convert to/from.
 """
 
+import typing
 import warnings
 from collections import defaultdict
 from collections.abc import Callable
@@ -108,7 +109,7 @@ class ConversionEdge:
         source: str,
         target: str,
         cost: ConversionCost,
-        converter: Callable | None = None,
+        converter: Callable[..., typing.Any] | None = None,
     ) -> None:
         self.source = source
         self.target = target
@@ -244,7 +245,7 @@ class ConversionGraph:
         source: str,
         target: str,
         cost: ConversionCost,
-        converter: Callable | None = None,
+        converter: Callable[..., typing.Any] | None = None,
     ) -> None:
         edge = ConversionEdge(source, target, cost, converter)
         self.edges[source].append(edge)
@@ -254,7 +255,7 @@ class ConversionGraph:
         source: str,
         target: str,
         cost: ConversionCost,
-        converter: Callable | None = None,
+        converter: Callable[..., typing.Any] | None = None,
     ) -> None:
         """Add a conversion edge to the graph."""
         self._add_edge_internal(source, target, cost, converter)
@@ -418,7 +419,7 @@ def find_conversion_path(
 
 
 def register_custom_conversion(
-    source: str, target: str, cost: ConversionCost, converter: Callable
+    source: str, target: str, cost: ConversionCost, converter: Callable[..., typing.Any]
 ) -> None:
     """Register a custom conversion between representations."""
     _conversion_graph.add_edge(source, target, cost, converter)

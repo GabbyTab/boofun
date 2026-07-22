@@ -97,7 +97,7 @@ class LegacyAdapter(BooleanFunctionAdapter):
             BooleanFunctionFactory.from_function(BooleanFunction, wrapper_function, n=self.n_vars),
         )
 
-    def _adapt_evaluation(self, eval_method: Callable, inputs: np.ndarray) -> Any:
+    def _adapt_evaluation(self, eval_method: Callable[..., typing.Any], inputs: np.ndarray) -> Any:
         """Adapt evaluation call between different interfaces."""
 
         # Convert inputs to expected format
@@ -186,7 +186,7 @@ class CallableAdapter(BooleanFunctionAdapter):
         self.n_vars = n_vars
         self.input_type = input_type
 
-    def adapt(self, callable_function: Callable) -> BooleanFunction:
+    def adapt(self, callable_function: Callable[..., typing.Any]) -> BooleanFunction:
         """Adapt callable to BooleanFunction."""
 
         def wrapper_function(inputs):
@@ -197,7 +197,7 @@ class CallableAdapter(BooleanFunctionAdapter):
             BooleanFunctionFactory.from_function(BooleanFunction, wrapper_function, n=self.n_vars),
         )
 
-    def _call_with_adapted_inputs(self, func: Callable, inputs) -> bool:
+    def _call_with_adapted_inputs(self, func: Callable[..., typing.Any], inputs) -> bool:
         """Call function with properly formatted inputs.
 
         Args:
@@ -256,7 +256,7 @@ class SymPyAdapter(BooleanFunctionAdapter):
             warnings.warn("SymPy not available - SymPyAdapter disabled", stacklevel=2)
             self.available = False
 
-    def adapt(self, sympy_expr, variables: list | None = None) -> BooleanFunction:
+    def adapt(self, sympy_expr, variables: list[typing.Any] | None = None) -> BooleanFunction:
         """
         Adapt SymPy Boolean expression to BooleanFunction.
 
@@ -313,7 +313,7 @@ class NumPyAdapter(BooleanFunctionAdapter):
         """
         self.vectorized = vectorized
 
-    def adapt(self, numpy_function: Callable, n_vars: int) -> BooleanFunction:  # type: ignore[override]
+    def adapt(self, numpy_function: Callable[..., typing.Any], n_vars: int) -> BooleanFunction:  # type: ignore[override]
         """
         Adapt NumPy function to BooleanFunction.
 
@@ -374,19 +374,21 @@ def adapt_legacy_function(legacy_func, **kwargs) -> BooleanFunction:
     return adapter.adapt(legacy_func)
 
 
-def adapt_callable(func: Callable, n_vars: int, **kwargs) -> BooleanFunction:
+def adapt_callable(func: Callable[..., typing.Any], n_vars: int, **kwargs) -> BooleanFunction:
     """Adapt simple callable to BooleanFunction."""
     adapter = CallableAdapter(n_vars=n_vars, **kwargs)
     return adapter.adapt(func)
 
 
-def adapt_sympy_expr(expr, variables: list | None = None) -> BooleanFunction:
+def adapt_sympy_expr(expr, variables: list[typing.Any] | None = None) -> BooleanFunction:
     """Adapt SymPy Boolean expression."""
     adapter = SymPyAdapter()
     return adapter.adapt(expr, variables)
 
 
-def adapt_numpy_function(func: Callable, n_vars: int, vectorized: bool = True) -> BooleanFunction:
+def adapt_numpy_function(
+    func: Callable[..., typing.Any], n_vars: int, vectorized: bool = True
+) -> BooleanFunction:
     """Adapt NumPy-based Boolean function."""
     adapter = NumPyAdapter(vectorized=vectorized)
     return adapter.adapt(func, n_vars)

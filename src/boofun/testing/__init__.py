@@ -5,6 +5,7 @@ This module provides comprehensive testing tools for Boolean function analysis,
 including property validation, representation consistency checks, and performance testing.
 """
 
+import typing
 from typing import Any
 
 import numpy as np
@@ -289,7 +290,7 @@ class RepresentationTester:
     with the representation interface.
     """
 
-    def __init__(self, representation: BooleanFunctionRepresentation) -> None:
+    def __init__(self, representation: BooleanFunctionRepresentation[typing.Any]) -> None:
         """
         Initialize representation tester.
 
@@ -492,7 +493,7 @@ def quick_validate(function: BooleanFunction, verbose: bool = False) -> bool:
 
 
 def validate_representation(
-    representation: BooleanFunctionRepresentation, n_vars: int = 3
+    representation: BooleanFunctionRepresentation[typing.Any], n_vars: int = 3
 ) -> dict[str, Any]:
     """
     Quick validation of a representation implementation.

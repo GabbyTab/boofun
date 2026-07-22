@@ -110,7 +110,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
 
     def convert_from(
         self,
-        source_repr: BooleanFunctionRepresentation,
+        source_repr: BooleanFunctionRepresentation[typing.Any],
         source_data: Any,
         space: Space,
         n_vars: int,
@@ -155,7 +155,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
 
     def convert_to(
         self,
-        target_repr: BooleanFunctionRepresentation,
+        target_repr: BooleanFunctionRepresentation[typing.Any],
         source_data: Any,
         space: Space,
         n_vars: int,
@@ -244,7 +244,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, A
 
     def convert_from(
         self,
-        source_repr: BooleanFunctionRepresentation,
+        source_repr: BooleanFunctionRepresentation[typing.Any],
         source_data: Any,
         space: Space,
         n_vars: int,
@@ -264,7 +264,7 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, A
 
     def convert_to(
         self,
-        target_repr: BooleanFunctionRepresentation,
+        target_repr: BooleanFunctionRepresentation[typing.Any],
         source_data: Any,
         space: Space,
         n_vars: int,

@@ -23,6 +23,7 @@ References:
 
 from __future__ import annotations
 
+import typing
 from collections import defaultdict
 from typing import TYPE_CHECKING, Any
 
@@ -200,7 +201,7 @@ def pac_learn_junta(
     num_verify_samples = max(num_verify_samples, 2 ** (k + 2))
 
     # Sample and majority vote for each setting of relevant variables
-    vote_counts: dict[int, list] = defaultdict(lambda: [0, 0])
+    vote_counts: dict[int, list[typing.Any]] = defaultdict(lambda: [0, 0])
 
     for _ in range(num_verify_samples):
         x = int(rng.integers(0, 2**n))

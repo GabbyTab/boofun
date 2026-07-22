@@ -663,7 +663,7 @@ class BooleanFunction(Evaluable, Representable):
             BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=new_n),
         )
 
-    def _fix_multi(self, vars: list, vals: list) -> "BooleanFunction":
+    def _fix_multi(self, vars: list[typing.Any], vals: list[typing.Any]) -> "BooleanFunction":
         """
         Fix multiple variables to specific values.
 
@@ -1016,7 +1016,7 @@ class BooleanFunction(Evaluable, Representable):
 
         return fourier_sparsity(self, threshold)
 
-    def spectral_weight_by_degree(self) -> dict:
+    def spectral_weight_by_degree(self) -> dict[typing.Any, typing.Any]:
         """
         Compute spectral weight at each degree level.
 
@@ -1035,7 +1035,7 @@ class BooleanFunction(Evaluable, Representable):
             weights[deg] = weights.get(deg, 0) + c * c
         return dict(sorted(weights.items()))
 
-    def heavy_coefficients(self, tau: float = 0.1) -> list:
+    def heavy_coefficients(self, tau: float = 0.1) -> list[typing.Any]:
         """
         Find Fourier coefficients with |f̂(S)| ≥ τ.
 
@@ -1080,7 +1080,7 @@ class BooleanFunction(Evaluable, Representable):
         """
         return float(max(self.influences()))
 
-    def analyze(self) -> dict:
+    def analyze(self) -> dict[typing.Any, typing.Any]:
         """
         Quick analysis returning common metrics.
 
@@ -1212,7 +1212,7 @@ class BooleanFunction(Evaluable, Representable):
         except Exception:
             return int(sum(self.evaluate(x) for x in range(2**self._n)))
 
-    def support(self) -> list:
+    def support(self) -> list[typing.Any]:
         """
         Return all inputs where f(x) = 1.
 
@@ -1231,7 +1231,7 @@ class BooleanFunction(Evaluable, Representable):
         except Exception:
             return [x for x in range(2**self._n) if self.evaluate(x) == 1]
 
-    def restriction(self, fixed_vars: dict) -> "BooleanFunction":
+    def restriction(self, fixed_vars: dict[typing.Any, typing.Any]) -> "BooleanFunction":
         """
         Create restriction of f by fixing some variables.
 
@@ -1435,7 +1435,7 @@ class BooleanFunction(Evaluable, Representable):
 
         return fast_walsh_hadamard(new_fourier.copy())
 
-    def permute(self, perm: list) -> "BooleanFunction":
+    def permute(self, perm: list[typing.Any]) -> "BooleanFunction":
         """
         Permute variables according to given permutation.
 

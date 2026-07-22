@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing
 from collections.abc import Iterator, Sequence
 from itertools import combinations, permutations, product
 from math import comb
@@ -58,7 +59,7 @@ def subsets(a: Sequence[int] | int, k: int | None = None) -> Iterator[tuple[int,
         yield from combinations(base, k)
 
 
-def cartesian(seqs: Sequence[Sequence]) -> Iterator[tuple]:
+def cartesian(seqs: Sequence[Sequence[typing.Any]]) -> Iterator[tuple[typing.Any, ...]]:
     """Yield cartesian product rows from sequences."""
 
     return product(*seqs)
@@ -76,7 +77,9 @@ def bits(i: int, n: int) -> list[int]:
     return list(map(int, bin((1 << n) | (i & ((1 << n) - 1)))[3:]))
 
 
-def tensor_product(A: np.ndarray | Sequence, B: np.ndarray | Sequence) -> np.ndarray:
+def tensor_product(
+    A: np.ndarray | Sequence[typing.Any], B: np.ndarray | Sequence[typing.Any]
+) -> np.ndarray:
     """Compute the Kronecker product of *A* and *B*."""
 
     return np.kron(np.asarray(A), np.asarray(B))

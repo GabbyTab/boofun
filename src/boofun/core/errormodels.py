@@ -275,7 +275,9 @@ class LinearErrorModel(ErrorModel):
             return unp.uarray(result, np.full_like(result, sd))
         return result
 
-    def propagate_binary_op(self, left_error: Any, right_error: Any, operation: Callable) -> Any:
+    def propagate_binary_op(
+        self, left_error: Any, right_error: Any, operation: Callable[..., typing.Any]
+    ) -> Any:
         """
         Automatic error propagation for binary operations.
 

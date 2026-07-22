@@ -10,6 +10,7 @@ Requires: ipywidgets (pip install ipywidgets)
 from __future__ import annotations
 
 import logging
+import typing
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
@@ -251,7 +252,7 @@ class GrowthExplorer:
         self,
         family_func: Callable[[int], BooleanFunction],
         name: str = "Function",
-        n_range: tuple = (1, 12),
+        n_range: tuple[typing.Any, ...] = (1, 12),
     ) -> None:
         """
         Create growth explorer.
@@ -500,7 +501,7 @@ def create_function_explorer(f: BooleanFunction) -> InteractiveFunctionExplorer:
 def create_growth_explorer(
     family_func: Callable[[int], BooleanFunction],
     name: str = "Function",
-    n_range: tuple = (1, 12),
+    n_range: tuple[typing.Any, ...] = (1, 12),
 ) -> GrowthExplorer:
     """
     Convenience function to create and display a growth explorer.

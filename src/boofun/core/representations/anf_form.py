@@ -35,6 +35,7 @@ Examples:
     >>> one_anf = {frozenset(): 1}   # Always 1
 """
 
+import typing
 from typing import Any
 
 import numpy as np
@@ -150,7 +151,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]
 
     def convert_from(
         self,
-        source_repr: "BooleanFunctionRepresentation",
+        source_repr: "BooleanFunctionRepresentation[typing.Any]",
         source_data: Any,
         space: Space,
         n_vars: int,
@@ -170,7 +171,7 @@ class ANFRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]
 
     def convert_to(
         self,
-        target_repr: "BooleanFunctionRepresentation",
+        target_repr: "BooleanFunctionRepresentation[typing.Any]",
         source_data: dict[frozenset[int], int],
         space: Space,
         n_vars: int,

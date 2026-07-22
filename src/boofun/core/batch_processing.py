@@ -295,14 +295,20 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
         self.supported_representations = {"anf"}
 
     def _process_chunk(
-        self, inputs: np.ndarray, function_data: dict, space: Space, n_vars: int
+        self,
+        inputs: np.ndarray,
+        function_data: dict[typing.Any, typing.Any],
+        space: Space,
+        n_vars: int,
     ) -> np.ndarray:
         """Optimized ANF batch processing."""
         if HAS_NUMBA:
             return self._numba_anf_batch(inputs, function_data, n_vars)
         return self._numpy_anf_batch(inputs, function_data, n_vars)
 
-    def _numpy_anf_batch(self, inputs: np.ndarray, anf_dict: dict, n_vars: int) -> np.ndarray:
+    def _numpy_anf_batch(
+        self, inputs: np.ndarray, anf_dict: dict[typing.Any, typing.Any], n_vars: int
+    ) -> np.ndarray:
         """NumPy-based batch ANF evaluation."""
         results = np.zeros(len(inputs), dtype=bool)
 
@@ -338,7 +344,9 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
 
         return results
 
-    def _numba_anf_batch(self, inputs: np.ndarray, anf_dict: dict, n_vars: int) -> np.ndarray:
+    def _numba_anf_batch(
+        self, inputs: np.ndarray, anf_dict: dict[typing.Any, typing.Any], n_vars: int
+    ) -> np.ndarray:
         """Numba-accelerated batch ANF evaluation."""
         # Convert to format suitable for Numba
         monomials_list = []

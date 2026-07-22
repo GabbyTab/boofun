@@ -9,6 +9,7 @@ This module provides optimized implementations of critical operations:
 These optimizations are automatically used when available.
 """
 
+import typing
 from collections import OrderedDict
 from collections.abc import Callable
 from typing import Any
@@ -300,8 +301,8 @@ except ImportError:
 
 
 def parallel_batch_influences(
-    functions: list, max_workers: int | None = None, use_threads: bool = True
-) -> list:
+    functions: list[typing.Any], max_workers: int | None = None, use_threads: bool = True
+) -> list[typing.Any]:
     """
     Compute influences for multiple Boolean functions in parallel.
 
@@ -328,7 +329,9 @@ def parallel_batch_influences(
         return list(executor.map(compute_influences, functions))
 
 
-def parallel_batch_fourier(functions: list, max_workers: int | None = None) -> list:
+def parallel_batch_fourier(
+    functions: list[typing.Any], max_workers: int | None = None
+) -> list[typing.Any]:
     """
     Compute Fourier coefficients for multiple Boolean functions in parallel.
 
@@ -407,7 +410,7 @@ class ComputeCache:
 
     def __init__(self, max_size: int = 1000) -> None:
         self.max_size = max_size
-        self._cache: OrderedDict = OrderedDict()
+        self._cache: OrderedDict[typing.Any, typing.Any] = OrderedDict()
         self._hits = 0
         self._misses = 0
 

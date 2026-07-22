@@ -27,6 +27,7 @@ References:
 from __future__ import annotations
 
 import functools
+import typing
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
@@ -153,7 +154,7 @@ class DecisionTree:
         return f"Node(x{self.var}, {self.left}, {self.right})"
 
 
-def tree_depth(tree: DecisionTree | list | tuple) -> int:
+def tree_depth(tree: DecisionTree | list[typing.Any] | tuple[typing.Any, ...]) -> int:
     """
     Compute the depth of a decision tree.
 
@@ -178,7 +179,7 @@ def tree_depth(tree: DecisionTree | list | tuple) -> int:
     return 0
 
 
-def tree_size(tree: DecisionTree | list | tuple) -> int:
+def tree_size(tree: DecisionTree | list[typing.Any] | tuple[typing.Any, ...]) -> int:
     """
     Compute the size (number of leaves) of a decision tree.
 

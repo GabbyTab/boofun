@@ -147,7 +147,7 @@ class InductiveFamily(FunctionFamily):
         self,
         name: str = "InductiveFamily",
         base_cases: dict[int, "BooleanFunction"] | None = None,
-        step_function: Callable | None = None,
+        step_function: Callable[..., typing.Any] | None = None,
         step_size: int = 1,  # How many variables added per step
     ) -> None:
         """

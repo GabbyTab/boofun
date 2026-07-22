@@ -139,7 +139,7 @@ def generalized_influence(f: "BooleanFunction", S: set[int], p: float = 0.5) -> 
 
 def is_alpha_global(
     f: "BooleanFunction", alpha: float, max_set_size: int = 3, p: float = 0.5
-) -> tuple[bool, dict]:
+) -> tuple[bool, dict[typing.Any, typing.Any]]:
     """
     Check if f has α-small generalized influences (Definition I.1.2).
 
@@ -356,7 +356,7 @@ def find_critical_p(f: "BooleanFunction", samples: int = 3000, tolerance: float 
     return (lo + hi) / 2
 
 
-def hypercontractivity_bound(f: "BooleanFunction", p: float = 0.5) -> dict:
+def hypercontractivity_bound(f: "BooleanFunction", p: float = 0.5) -> dict[typing.Any, typing.Any]:
     """
     Compute the hypercontractivity bound for a function.
 
@@ -423,7 +423,9 @@ class GlobalHypercontractivityAnalyzer:
         """Return λ(p) for the current bias."""
         return lambda_p(self.p)
 
-    def is_global(self, alpha: float = 0.5, max_set_size: int = 3) -> tuple[bool, dict]:
+    def is_global(
+        self, alpha: float = 0.5, max_set_size: int = 3
+    ) -> tuple[bool, dict[typing.Any, typing.Any]]:
         """
         Check if the function is α-global.
 
@@ -466,7 +468,7 @@ class GlobalHypercontractivityAnalyzer:
         """Estimate S_ρ(f) under μp."""
         return noise_stability_p_biased(self.f, rho, self.p, samples)
 
-    def hypercontractive_bound(self) -> dict:
+    def hypercontractive_bound(self) -> dict[typing.Any, typing.Any]:
         """Compute the hypercontractivity bound."""
         return hypercontractivity_bound(self.f, self.p)
 
@@ -485,7 +487,7 @@ class GlobalHypercontractivityAnalyzer:
             p_range = np.linspace(0.01, 0.99, 50)
         return threshold_curve(self.f, p_range, samples)
 
-    def summary(self, samples: int = 1000) -> dict:
+    def summary(self, samples: int = 1000) -> dict[typing.Any, typing.Any]:
         """
         Comprehensive summary of the function's global hypercontractivity properties.
 

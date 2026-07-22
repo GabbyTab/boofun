@@ -100,7 +100,7 @@ def create(data=None, storage: str = "auto", **kwargs):
     return BooleanFunctionFactory.create(BooleanFunction, data, **kwargs)
 
 
-def _create_lazy_function(oracle: Callable, **kwargs) -> BooleanFunction:
+def _create_lazy_function(oracle: Callable[..., typing.Any], **kwargs) -> BooleanFunction:
     """
     Create a lazy Boolean function that computes values on demand.
 

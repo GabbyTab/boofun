@@ -16,7 +16,7 @@ from .registry import register_strategy
 
 
 @register_strategy("polynomial")
-class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int]]):
+class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]):
     """
     Polynomial (ANF) representation using coefficient dictionaries.
 
@@ -27,7 +27,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
     """
 
     def evaluate(
-        self, inputs: np.ndarray, data: dict[frozenset, int], space: Space, n_vars: int
+        self, inputs: np.ndarray, data: dict[frozenset[int], int], space: Space, n_vars: int
     ) -> bool | np.ndarray:
         """
         Evaluate the polynomial at given inputs.
@@ -60,7 +60,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
             return np.array([self._evaluate_single(idx, data, n_vars) for idx in indices])
         raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
-    def _evaluate_single(self, x: int, coeffs: dict[frozenset, int], n_vars: int) -> bool:
+    def _evaluate_single(self, x: int, coeffs: dict[frozenset[int], int], n_vars: int) -> bool:
         """Evaluate polynomial at single input x (as integer)."""
         result = 0
 
@@ -87,7 +87,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
         # LSB-first: binary_vector[i] corresponds to x_i, so index = Σ x_i * 2^i
         return int(np.dot(binary_vector, 2 ** np.arange(len(binary_vector))))
 
-    def dump(self, data: dict[frozenset, int], space=None, **kwargs) -> dict[str, Any]:
+    def dump(self, data: dict[frozenset[int], int], space=None, **kwargs) -> dict[str, Any]:
         """
         Export polynomial in serializable format.
 
@@ -103,12 +103,12 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
 
     def convert_from(
         self,
-        source_repr: BooleanFunctionRepresentation,
+        source_repr: BooleanFunctionRepresentation[typing.Any],
         source_data: Any,
         space: Space,
         n_vars: int,
         **kwargs,
-    ) -> dict[frozenset, int]:
+    ) -> dict[frozenset[int], int]:
         """
         Convert from any representation to polynomial using truth table method.
 
@@ -125,7 +125,9 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
         # Apply Möbius transform to get ANF coefficients
         return self._truth_table_to_anf(truth_table, n_vars)
 
-    def _truth_table_to_anf(self, truth_table: np.ndarray, n_vars: int) -> dict[frozenset, int]:
+    def _truth_table_to_anf(
+        self, truth_table: np.ndarray, n_vars: int
+    ) -> dict[frozenset[int], int]:
         """
         Convert truth table to ANF using Möbius transform.
 
@@ -154,7 +156,7 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
 
     def convert_to(
         self,
-        target_repr: BooleanFunctionRepresentation,
+        target_repr: BooleanFunctionRepresentation[typing.Any],
         source_data: Any,
         space: Space,
         n_vars: int,
@@ -165,11 +167,11 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
             "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
         )
 
-    def create_empty(self, n_vars: int, **kwargs) -> dict[frozenset, int]:
+    def create_empty(self, n_vars: int, **kwargs) -> dict[frozenset[int], int]:
         """Create empty polynomial (constant 0)."""
         return {}
 
-    def is_complete(self, data: dict[frozenset, int]) -> bool:
+    def is_complete(self, data: dict[frozenset[int], int]) -> bool:
         """Check if polynomial has any non-zero coefficients."""
         return any(coeff % 2 == 1 for coeff in data.values())
 
@@ -192,19 +194,19 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
             "space_complexity": "O(2^n)",
         }
 
-    def get_degree(self, data: dict[frozenset, int]) -> int:
+    def get_degree(self, data: dict[frozenset[int], int]) -> int:
         """Get the degree of the polynomial (size of largest monomial)."""
         if not data:
             return 0
         return max(len(subset) for subset, coeff in data.items() if coeff % 2 == 1)
 
-    def get_monomials(self, data: dict[frozenset, int]) -> list[frozenset]:
+    def get_monomials(self, data: dict[frozenset[int], int]) -> list[frozenset[int]]:
         """Get all monomials with non-zero coefficients."""
         return [subset for subset, coeff in data.items() if coeff % 2 == 1]
 
     def add_polynomials(
-        self, poly1: dict[frozenset, int], poly2: dict[frozenset, int]
-    ) -> dict[frozenset, int]:
+        self, poly1: dict[frozenset[int], int], poly2: dict[frozenset[int], int]
+    ) -> dict[frozenset[int], int]:
         """Add two polynomials in GF(2) (XOR operation)."""
         result = poly1.copy()
 
@@ -219,10 +221,10 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
         return result
 
     def multiply_polynomials(
-        self, poly1: dict[frozenset, int], poly2: dict[frozenset, int]
-    ) -> dict[frozenset, int]:
+        self, poly1: dict[frozenset[int], int], poly2: dict[frozenset[int], int]
+    ) -> dict[frozenset[int], int]:
         """Multiply two polynomials in GF(2)."""
-        result: dict[frozenset, int] = {}
+        result: dict[frozenset[int], int] = {}
 
         for subset1, coeff1 in poly1.items():
             for subset2, coeff2 in poly2.items():
@@ -242,18 +244,18 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
 
 
 # Utility functions for polynomial operations
-def create_monomial(variables: list[int]) -> dict[frozenset, int]:
+def create_monomial(variables: list[int]) -> dict[frozenset[int], int]:
     """Create a single monomial from list of variable indices."""
     return {frozenset(variables): 1}
 
 
-def create_constant(value: bool) -> dict[frozenset, int]:
+def create_constant(value: bool) -> dict[frozenset[int], int]:
     """Create constant polynomial."""
     if value:
         return {frozenset(): 1}  # Constant 1
     return {}  # Constant 0
 
 
-def create_variable(var_index: int) -> dict[frozenset, int]:
+def create_variable(var_index: int) -> dict[frozenset[int], int]:
     """Create polynomial for single variable."""
     return {frozenset([var_index]): 1}

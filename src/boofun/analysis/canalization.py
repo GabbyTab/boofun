@@ -71,7 +71,7 @@ def is_canalizing(f: "BooleanFunction") -> bool:
     return False
 
 
-def get_canalizing_variables(f: "BooleanFunction") -> list[dict]:
+def get_canalizing_variables(f: "BooleanFunction") -> list[dict[typing.Any, typing.Any]]:
     """
     Find all canalizing variables and their canalizing inputs/outputs.
 
@@ -234,7 +234,9 @@ def _compute_canalizing_depth_simple(f: "BooleanFunction") -> int:
     return 0
 
 
-def _build_subfunction_tt(tt: list, n: int, var: int, keep_val: int) -> list:
+def _build_subfunction_tt(
+    tt: list[typing.Any], n: int, var: int, keep_val: int
+) -> list[typing.Any]:
     """Build truth table for subfunction after fixing one variable."""
     sub_tt = []
 
@@ -570,7 +572,7 @@ class CanalizationAnalyzer:
             self._cache["depth"] = _compute_canalizing_depth_simple(self.f)
         return int(self._cache["depth"])
 
-    def canalizing_variables(self) -> list[dict]:
+    def canalizing_variables(self) -> list[dict[typing.Any, typing.Any]]:
         """Get all canalizing variables."""
         if "can_vars" not in self._cache:
             self._cache["can_vars"] = get_canalizing_variables(self.f)
@@ -602,7 +604,7 @@ class CanalizationAnalyzer:
         """Get input redundancy."""
         return input_redundancy(self.f)
 
-    def summary(self) -> dict:
+    def summary(self) -> dict[typing.Any, typing.Any]:
         """
         Get comprehensive canalization summary.
 

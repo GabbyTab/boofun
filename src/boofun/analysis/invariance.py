@@ -26,6 +26,7 @@ References:
 
 from __future__ import annotations
 
+import typing
 from collections.abc import Callable
 from math import erf, exp, pi, sqrt
 from typing import TYPE_CHECKING
@@ -137,7 +138,9 @@ def majority_noise_stability(n: int, rho: float) -> float:
     return float((2 / pi) * np.arcsin(rho))
 
 
-def invariance_distance(f: BooleanFunction, test_fn: Callable | None = None) -> float:
+def invariance_distance(
+    f: BooleanFunction, test_fn: Callable[..., typing.Any] | None = None
+) -> float:
     """
     Estimate the invariance distance between Boolean and Gaussian expectations.
 

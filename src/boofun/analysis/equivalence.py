@@ -106,7 +106,7 @@ def apply_permutation(f: BooleanFunction, perm: tuple[int, ...]) -> BooleanFunct
 
 def canonical_form(
     f: BooleanFunction, include_shifts: bool = True, include_negation: bool = True
-) -> tuple[tuple[int, ...], tuple | None]:
+) -> tuple[tuple[int, ...], tuple[typing.Any, ...] | None]:
     """
     Compute the canonical form of a Boolean function.
 

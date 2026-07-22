@@ -446,7 +446,7 @@ class RecursiveMajority3Family(FunctionFamily):
             raise ValueError(f"n must be a power of 3, got {n}")
 
         # Build truth table recursively
-        def rec_maj3(bits: tuple) -> int:
+        def rec_maj3(bits: tuple[typing.Any, ...]) -> int:
             """Recursive majority on a tuple of bits."""
             if len(bits) == 3:
                 return int(sum(bits) >= 2)
@@ -463,7 +463,7 @@ class RecursiveMajority3Family(FunctionFamily):
 
         return typing.cast("BooleanFunction", bf.create(truth_table))
 
-    def theoretical_properties(self, n: int) -> dict:
+    def theoretical_properties(self, n: int) -> dict[typing.Any, typing.Any]:
         """Return known theoretical properties."""
         k = int(np.log(n) / np.log(3))
         return {
@@ -531,7 +531,7 @@ class IteratedMajorityFamily(FunctionFamily):
 
         k = self._group_size
 
-        def iterated_maj(bits: tuple) -> int:
+        def iterated_maj(bits: tuple[typing.Any, ...]) -> int:
             if len(bits) <= k:
                 return int(sum(bits) >= (len(bits) + 1) // 2)
 

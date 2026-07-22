@@ -7,6 +7,7 @@ the performance of different Boolean function representations and algorithms.
 
 import gc
 import time
+import typing
 import warnings
 from collections.abc import Callable
 from contextlib import contextmanager, suppress
@@ -66,7 +67,9 @@ class PerformanceBenchmark:
             "peak_memory": max(start_memory, end_memory),
         }
 
-    def benchmark_function(self, func: Callable, *args, **kwargs) -> dict[str, Any]:
+    def benchmark_function(
+        self, func: Callable[..., typing.Any], *args, **kwargs
+    ) -> dict[str, Any]:
         """
         Benchmark a single function with multiple runs.
 
