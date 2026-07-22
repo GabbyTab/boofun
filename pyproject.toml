@@ -168,6 +168,12 @@ ignore-variadic-names = true
 
 [tool.ruff.lint.per-file-ignores]
 "**/__init__.py" = ["F401"]
+# demo.py is a linear feature walkthrough; splitting it into helpers would
+# hurt readability for the audience it targets.
+"demo.py" = ["PLR0915"]
+# mutmut calls these hooks with a fixed signature; the arguments cannot be
+# renamed or dropped.
+"mutmut_config.py" = ["ARG001"]
 # ARG: test doubles and stub families implement interfaces without consuming
 # every argument; that is the point of a stub.
 "tests/**/*.py" = ["E402", "E712", "RUF059", "SIM105", "ARG"]
@@ -199,6 +205,7 @@ module = [
     "cirq",
     "cupy",
     "galois",
+    "IPython.*",
     "ipywidgets",
     "mpl_toolkits.*",
     "numba",

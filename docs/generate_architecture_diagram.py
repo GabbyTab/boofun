@@ -55,7 +55,7 @@ def create_architecture_diagram():
         return box
 
     # Helper function to create connections
-    def create_connection(box1_x, box1_y, box1_w, box1_h, box2_x, box2_y, box2_w, box2_h):
+    def create_connection(box1_x, box1_y, box1_w, _box1_h, box2_x, box2_y, box2_w, box2_h):
         # Connect bottom of box1 to top of box2
         start_x = box1_x + box1_w / 2
         start_y = box1_y
