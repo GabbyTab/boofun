@@ -276,11 +276,13 @@ class BooleanFunction(Evaluable, Representable):
         best_source_data = None
         available_reps = list(self.representations.keys())
 
-        for source_rep_type, source_data in self.representations.items():
-            path = find_conversion_path(source_rep_type, rep_type, self.n_vars)
-            if path and (best_path is None or path.total_cost < best_path.total_cost):
-                best_path = path
-                best_source_data = source_data
+        candidates = [
+            (path, source_data)
+            for source_rep_type, source_data in self.representations.items()
+            if (path := find_conversion_path(source_rep_type, rep_type, self.n_vars)) is not None
+        ]
+        if candidates:
+            best_path, best_source_data = min(candidates, key=lambda item: item[0].total_cost)
 
         if best_path is None:
             # Fallback to direct conversion from first available representation
@@ -577,13 +579,12 @@ class BooleanFunction(Evaluable, Representable):
         if target_rep in self.representations:
             return None  # Already available
 
-        best_cost = None
-        for source_rep in self.representations:
-            cost = estimate_conversion_cost(source_rep, target_rep, self.n_vars)
-            if cost and (best_cost is None or cost < best_cost):
-                best_cost = cost
-
-        return best_cost
+        costs = [
+            cost
+            for source_rep in self.representations
+            if (cost := estimate_conversion_cost(source_rep, target_rep, self.n_vars))
+        ]
+        return min(costs) if costs else None
 
     def to(self, representation_type: str) -> typing.Any:
         """
