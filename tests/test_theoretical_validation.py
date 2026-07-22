@@ -70,8 +70,8 @@ class TestFourierKnownCoefficients:
                 large_coeffs = [abs(c) for c in fourier if abs(c) > 0.5]
 
                 # Should have exactly 1 large coefficient (the dictator variable)
-                assert len(large_coeffs) == 1, f"Dictator should have exactly 1 large coefficient"
-                assert abs(large_coeffs[0] - 1.0) < 1e-10, f"Dictator coefficient should be ±1"
+                assert len(large_coeffs) == 1, "Dictator should have exactly 1 large coefficient"
+                assert abs(large_coeffs[0] - 1.0) < 1e-10, "Dictator coefficient should be ±1"
 
     def test_and_fourier_structure(self):
         """
@@ -569,7 +569,7 @@ class TestExpectation:
 
         for f in balanced:
             fourier = f.fourier()
-            assert abs(fourier[0]) < 1e-10, f"Balanced function should have f̂(∅) = 0"
+            assert abs(fourier[0]) < 1e-10, "Balanced function should have f̂(∅) = 0"
 
     def test_and_expectation(self):
         """

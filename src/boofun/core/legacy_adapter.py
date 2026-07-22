@@ -31,10 +31,10 @@ if TYPE_CHECKING:
     from .base import BooleanFunction
 
 __all__ = [
-    "from_legacy",
-    "to_legacy",
     "LegacyWrapper",
+    "from_legacy",
     "is_legacy_object",
+    "to_legacy",
 ]
 
 

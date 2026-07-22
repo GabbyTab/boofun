@@ -26,11 +26,11 @@ References:
 
 from __future__ import annotations
 
+import functools
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
-import functools
 
 if TYPE_CHECKING:
     from ..core.base import BooleanFunction
@@ -115,8 +115,7 @@ class DecisionTree:
         bit = (x >> self.var) & 1
         if bit == 0:
             return self.left.evaluate(x, n_vars) if self.left else 0
-        else:
-            return self.right.evaluate(x, n_vars) if self.right else 0
+        return self.right.evaluate(x, n_vars) if self.right else 0
 
     def query_depth(self, x: int, n_vars: int) -> int:
         """
@@ -135,8 +134,7 @@ class DecisionTree:
         bit = (x >> self.var) & 1
         if bit == 0:
             return 1 + (self.left.query_depth(x, n_vars) if self.left else 0)
-        else:
-            return 1 + (self.right.query_depth(x, n_vars) if self.right else 0)
+        return 1 + (self.right.query_depth(x, n_vars) if self.right else 0)
 
     def to_dict(self) -> dict[str, Any]:
         """Convert tree to dictionary representation."""
@@ -278,8 +276,7 @@ def decision_tree_depth_dp(f: BooleanFunction) -> int:
 
                     # Worst-case depth after querying variable i
                     candidate = max(dt0, dt1) + 1
-                    if candidate < results[j]:
-                        results[j] = candidate
+                    results[j] = min(results[j], candidate)
 
     return results[-1]
 
@@ -556,9 +553,8 @@ def decision_tree_size_dp(
                     if optimize_size_first:
                         if (sz, d) < (current_size, current_depth):
                             results[j] = (sz, d, tree)
-                    else:
-                        if (d, sz) < (current_depth, current_size):
-                            results[j] = (sz, d, tree)
+                    elif (d, sz) < (current_depth, current_size):
+                        results[j] = (sz, d, tree)
 
     size, depth, tree = results[-1]
     return size, depth, tree
@@ -911,6 +907,5 @@ def compute_randomized_complexity(
 
     if result.success:
         return -result.fun  # Negate because we minimized -v
-    else:
-        # Fallback: return deterministic complexity
-        return float(np.max(np.min(matrix, axis=1)))
+    # Fallback: return deterministic complexity
+    return float(np.max(np.min(matrix, axis=1)))

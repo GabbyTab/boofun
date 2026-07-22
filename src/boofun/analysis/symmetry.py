@@ -26,15 +26,15 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    "symmetrize",
-    "symmetrize_profile",
-    "is_symmetric",
     "degree_sym",
+    "find_monotone_shift",
+    "is_symmetric",
     "sens_sym",
     "sens_sym_by_weight",
     "shift_function",
-    "find_monotone_shift",
     "symmetric_representation",
+    "symmetrize",
+    "symmetrize_profile",
 ]
 
 

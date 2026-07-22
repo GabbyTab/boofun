@@ -75,7 +75,7 @@ for name, f in functions:
     expected = "parity" in name.lower()
 
     status = "[ok]" if blr_result == expected else "[fail]"
-    print(f"{name:<15} {str(expected):<15} {blr_result} {status}")
+    print(f"{name:<15} {expected!s:<15} {blr_result} {status}")
 
 # =============================================================================
 # 3. Junta Testing
@@ -145,7 +145,7 @@ for name, f, expected in test_functions:
     result = tester.monotonicity_test()
 
     status = "[ok]" if result == expected else "[fail]"
-    print(f"{name:<15} {str(expected):<12} {result} {status}")
+    print(f"{name:<15} {expected!s:<12} {result} {status}")
 
 # =============================================================================
 # 5. Symmetry Testing
@@ -178,7 +178,7 @@ for name, f, expected in test_functions:
     result = tester.symmetry_test()
 
     status = "[ok]" if result == expected else "[fail]"
-    print(f"{name:<15} {str(expected):<12} {result} {status}")
+    print(f"{name:<15} {expected!s:<12} {result} {status}")
 
 # =============================================================================
 # 6. Balance Testing
@@ -213,7 +213,7 @@ for name, f in test_functions:
     tester = PropertyTester(f)
     test_result = tester.balanced_test()
 
-    print(f"{name:<15} {str(is_balanced):<12} {bias:.3f}")
+    print(f"{name:<15} {is_balanced!s:<12} {bias:.3f}")
 
 # =============================================================================
 # 7. Dictator and Anti-Dictator Testing

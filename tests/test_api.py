@@ -92,7 +92,7 @@ class TestCreate:
     def test_all_storage_hints_valid(self):
         """All documented storage hints are in STORAGE_HINTS."""
         expected = {"auto", "dense", "packed", "sparse", "lazy"}
-        assert STORAGE_HINTS == expected
+        assert expected == STORAGE_HINTS
 
     def test_create_preserves_truth_table(self):
         """Created function evaluates correctly at all inputs."""

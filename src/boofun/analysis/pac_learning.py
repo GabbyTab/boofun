@@ -32,13 +32,13 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    "pac_learn_low_degree",
-    "pac_learn_junta",
-    "pac_learn_sparse_fourier",
-    "pac_learn_decision_tree",
-    "pac_learn_monotone",
-    "lmn_algorithm",
     "PACLearner",
+    "lmn_algorithm",
+    "pac_learn_decision_tree",
+    "pac_learn_junta",
+    "pac_learn_low_degree",
+    "pac_learn_monotone",
+    "pac_learn_sparse_fourier",
     "sample_function",
 ]
 

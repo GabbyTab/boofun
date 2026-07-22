@@ -10,8 +10,8 @@ These optimizations are automatically used when available.
 """
 
 from collections import OrderedDict
-from typing import Any
 from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 
@@ -387,8 +387,7 @@ if HAS_NUMBA:
                     neighbor = x ^ (1 << i)
                     if truth_tables[f_idx, x] != truth_tables[f_idx, neighbor]:
                         sens += 1
-                if sens > max_sens:
-                    max_sens = sens
+                max_sens = max(max_sens, sens)
             sensitivities[f_idx] = max_sens
 
         return sensitivities
@@ -439,9 +438,8 @@ class ComputeCache:
 
         if key in self._cache:
             self._cache.move_to_end(key)
-        else:
-            if len(self._cache) >= self.max_size:
-                self._cache.popitem(last=False)  # O(1) LRU eviction
+        elif len(self._cache) >= self.max_size:
+            self._cache.popitem(last=False)  # O(1) LRU eviction
         self._cache[key] = value
 
     def clear(self):
@@ -552,14 +550,13 @@ def batch_evaluate(f, inputs: np.ndarray) -> np.ndarray:
         # Array of indices
         tt = f.get_representation("truth_table")
         return tt[inputs].astype(bool)
-    else:
-        # Array of bit vectors
-        n = f.n_vars
-        # Convert each row to index
-        powers = 2 ** np.arange(n - 1, -1, -1)
-        indices = np.dot(inputs.astype(int), powers)
-        tt = f.get_representation("truth_table")
-        return tt[indices].astype(bool)
+    # Array of bit vectors
+    n = f.n_vars
+    # Convert each row to index
+    powers = 2 ** np.arange(n - 1, -1, -1)
+    indices = np.dot(inputs.astype(int), powers)
+    tt = f.get_representation("truth_table")
+    return tt[indices].astype(bool)
 
 
 if HAS_NUMBA:

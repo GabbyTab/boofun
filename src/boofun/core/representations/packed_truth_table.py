@@ -71,47 +71,42 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
                     raise IndexError(f"Index {index} out of range")
                 return bool(ba[index])
 
-            elif inputs.ndim == 1:
+            if inputs.ndim == 1:
                 if len(inputs) == n_vars:
                     index = self._binary_to_index(inputs)
                     return bool(ba[index])
-                else:
-                    return np.array([bool(ba[int(idx)]) for idx in inputs], dtype=bool)
+                return np.array([bool(ba[int(idx)]) for idx in inputs], dtype=bool)
 
-            elif inputs.ndim == 2:
+            if inputs.ndim == 2:
                 results = []
                 for row in inputs:
                     index = self._binary_to_index(row)
                     results.append(bool(ba[index]))
                 return np.array(results, dtype=bool)
-            else:
-                raise ValueError(f"Unsupported input shape: {inputs.shape}")
-        else:
-            # Fallback to numpy packed bytes array
-            arr = data["array"] if isinstance(data, dict) else data
-            size = data.get("size", len(arr) * 8) if isinstance(data, dict) else len(arr) * 8
+            raise ValueError(f"Unsupported input shape: {inputs.shape}")
+        # Fallback to numpy packed bytes array
+        arr = data["array"] if isinstance(data, dict) else data
+        size = data.get("size", len(arr) * 8) if isinstance(data, dict) else len(arr) * 8
 
-            # Helper to get bit at index from packed array
-            def get_bit(idx: int) -> bool:
-                if idx < 0 or idx >= size:
-                    raise IndexError(f"Index {idx} out of range for size {size}")
-                byte_idx = idx // 8
-                bit_idx = 7 - (idx % 8)  # np.packbits uses MSB first
-                return bool((arr[byte_idx] >> bit_idx) & 1)
+        # Helper to get bit at index from packed array
+        def get_bit(idx: int) -> bool:
+            if idx < 0 or idx >= size:
+                raise IndexError(f"Index {idx} out of range for size {size}")
+            byte_idx = idx // 8
+            bit_idx = 7 - (idx % 8)  # np.packbits uses MSB first
+            return bool((arr[byte_idx] >> bit_idx) & 1)
 
-            if inputs.ndim == 0:
-                return get_bit(int(inputs))
-            elif inputs.ndim == 1:
-                if len(inputs) == n_vars:
-                    index = self._binary_to_index(inputs)
-                    return get_bit(index)
-                else:
-                    return np.array([get_bit(int(idx)) for idx in inputs], dtype=bool)
-            elif inputs.ndim == 2:
-                indices = [self._binary_to_index(row) for row in inputs]
-                return np.array([get_bit(i) for i in indices], dtype=bool)
-            else:
-                raise ValueError(f"Unsupported input shape: {inputs.shape}")
+        if inputs.ndim == 0:
+            return get_bit(int(inputs))
+        if inputs.ndim == 1:
+            if len(inputs) == n_vars:
+                index = self._binary_to_index(inputs)
+                return get_bit(index)
+            return np.array([get_bit(int(idx)) for idx in inputs], dtype=bool)
+        if inputs.ndim == 2:
+            indices = [self._binary_to_index(row) for row in inputs]
+            return np.array([get_bit(i) for i in indices], dtype=bool)
+        raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _binary_to_index(self, binary_vector: np.ndarray) -> int:
         """Convert binary vector to integer index using LSB=x₀ convention."""
@@ -131,16 +126,15 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
                 # Serialize as base64 for compactness
                 "values": ba.tobytes().hex(),
             }
-        else:
-            arr = data["array"] if isinstance(data, dict) else data
-            return {
-                "type": "packed_truth_table",
-                "n_vars": data.get("n_vars", int(np.log2(len(arr)))),
-                "size": len(arr),
-                "format": "numpy_fallback",
-                "memory_bytes": arr.nbytes,
-                "values": arr.tolist(),
-            }
+        arr = data["array"] if isinstance(data, dict) else data
+        return {
+            "type": "packed_truth_table",
+            "n_vars": data.get("n_vars", int(np.log2(len(arr)))),
+            "size": len(arr),
+            "format": "numpy_fallback",
+            "memory_bytes": arr.nbytes,
+            "values": arr.tolist(),
+        }
 
     def convert_from(
         self,
@@ -163,20 +157,19 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
                 ba[idx] = bool(val)
 
             return {"bitarray": ba, "n_vars": n_vars, "size": size}
-        else:
-            # Fallback to numpy packed bits
-            arr = np.zeros(size, dtype=bool)
+        # Fallback to numpy packed bits
+        arr = np.zeros(size, dtype=bool)
 
-            for idx in range(size):
-                val = source_repr.evaluate(idx, source_data, space, n_vars)  # type: ignore[arg-type]
-                arr[idx] = bool(val)
+        for idx in range(size):
+            val = source_repr.evaluate(idx, source_data, space, n_vars)  # type: ignore[arg-type]
+            arr[idx] = bool(val)
 
-            return {
-                "array": np.packbits(arr),  # Pack into bytes
-                "n_vars": n_vars,
-                "size": size,
-                "original_dtype": "packed_uint8",
-            }
+        return {
+            "array": np.packbits(arr),  # Pack into bytes
+            "n_vars": n_vars,
+            "size": size,
+            "original_dtype": "packed_uint8",
+        }
 
     def convert_to(
         self,
@@ -197,12 +190,11 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
             ba = bitarray(size)
             ba.setall(False)
             return {"bitarray": ba, "n_vars": n_vars, "size": size}
-        else:
-            return {
-                "array": np.packbits(np.zeros(size, dtype=bool)),
-                "n_vars": n_vars,
-                "size": size,
-            }
+        return {
+            "array": np.packbits(np.zeros(size, dtype=bool)),
+            "n_vars": n_vars,
+            "size": size,
+        }
 
     def is_complete(self, data: Any) -> bool:
         """Check if representation is complete."""
@@ -214,12 +206,11 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         """Convert to numpy boolean array."""
         if HAS_BITARRAY and isinstance(data, dict) and "bitarray" in data:
             return np.array(data["bitarray"].tolist(), dtype=bool)
-        elif isinstance(data, dict) and "array" in data:
+        if isinstance(data, dict) and "array" in data:
             size = data["size"]
             unpacked = np.unpackbits(data["array"])[:size]
             return unpacked.astype(bool)
-        else:
-            return np.asarray(data, dtype=bool)
+        return np.asarray(data, dtype=bool)
 
     def time_complexity_rank(self, n_vars: int) -> dict[str, int]:
         """Return time complexity for packed operations."""
@@ -263,8 +254,7 @@ def create_packed_truth_table(truth_table: np.ndarray) -> dict[str, Any]:
     if HAS_BITARRAY:
         ba = bitarray(truth_table.tolist())
         return {"bitarray": ba, "n_vars": n_vars, "size": size}
-    else:
-        return {"array": np.packbits(truth_table.astype(bool)), "n_vars": n_vars, "size": size}
+    return {"array": np.packbits(truth_table.astype(bool)), "n_vars": n_vars, "size": size}
 
 
 def memory_comparison(n_vars: int) -> dict[str, Any]:

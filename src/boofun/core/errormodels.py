@@ -6,8 +6,8 @@ noise, and approximation in Boolean function computations.
 """
 
 from abc import ABC, abstractmethod
-from typing import Any
 from collections.abc import Callable
+from typing import Any
 
 import numpy as np
 
@@ -123,14 +123,13 @@ class PACErrorModel(ErrorModel):
                 "epsilon": self.epsilon,
                 "delta": self.delta,
             }
-        else:
-            # For complex results, wrap with metadata
-            return {
-                "value": result,
-                "confidence": self.confidence,
-                "epsilon": self.epsilon,
-                "delta": self.delta,
-            }
+        # For complex results, wrap with metadata
+        return {
+            "value": result,
+            "confidence": self.confidence,
+            "epsilon": self.epsilon,
+            "delta": self.delta,
+        }
 
     def get_confidence(self, result: Any) -> float:
         """Return PAC confidence level."""
@@ -211,20 +210,19 @@ class NoiseErrorModel(ErrorModel):
             if self.rng.random() < self.noise_rate:
                 return not result
             return result
-        elif isinstance(result, np.ndarray):
+        if isinstance(result, np.ndarray):
             # Array of booleans
             noise_mask = self.rng.random(result.shape) < self.noise_rate
             noisy_result = result.copy()
             noisy_result[noise_mask] = ~noisy_result[noise_mask]
             return noisy_result
-        else:
-            # For other types, add noise metadata
-            return {  # type: ignore[unreachable]
-                "value": result,
-                "noise_applied": True,
-                "noise_rate": self.noise_rate,
-                "reliability": self.reliability,
-            }
+        # For other types, add noise metadata
+        return {  # type: ignore[unreachable]
+            "value": result,
+            "noise_applied": True,
+            "noise_rate": self.noise_rate,
+            "reliability": self.reliability,
+        }
 
     def get_confidence(self, result: Any) -> float:
         """Return confidence based on noise level."""
@@ -272,10 +270,9 @@ class LinearErrorModel(ErrorModel):
         sd = kwargs.get("std_dev", self.std_dev)
         if isinstance(result, (int, float)):
             return ufloat(result, sd)
-        elif isinstance(result, np.ndarray):
+        if isinstance(result, np.ndarray):
             return unp.uarray(result, np.full_like(result, sd))
-        else:
-            return result
+        return result
 
     def propagate_binary_op(self, left_error: Any, right_error: Any, operation: Callable) -> Any:
         """
@@ -291,9 +288,8 @@ class LinearErrorModel(ErrorModel):
         """
         if HAS_UNCERTAINTIES:
             return operation(left_error, right_error)
-        else:
-            # Fallback without uncertainty propagation
-            return operation(left_error, right_error)
+        # Fallback without uncertainty propagation
+        return operation(left_error, right_error)
 
     def get_confidence(self, result: Any) -> float:
         """Return confidence based on relative error."""
@@ -329,22 +325,21 @@ def create_error_model(model_type: str, **kwargs) -> ErrorModel:
     """
     if model_type.lower() == "exact":
         return ExactErrorModel()
-    elif model_type.lower() == "pac":
+    if model_type.lower() == "pac":
         return PACErrorModel(**kwargs)
-    elif model_type.lower() == "noise":
+    if model_type.lower() == "noise":
         return NoiseErrorModel(**kwargs)
-    elif model_type.lower() == "linear":
+    if model_type.lower() == "linear":
         return LinearErrorModel(**kwargs)
-    else:
-        raise ValueError(f"Unknown error model type: {model_type}")
+    raise ValueError(f"Unknown error model type: {model_type}")
 
 
 # Export main classes
 __all__ = [
     "ErrorModel",
     "ExactErrorModel",
-    "PACErrorModel",
-    "NoiseErrorModel",
     "LinearErrorModel",
+    "NoiseErrorModel",
+    "PACErrorModel",
     "create_error_model",
 ]

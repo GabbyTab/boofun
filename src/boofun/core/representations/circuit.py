@@ -63,18 +63,17 @@ class Gate:
 
         if self.gate_type == GateType.AND:
             return all(in_vals)
-        elif self.gate_type == GateType.OR:
+        if self.gate_type == GateType.OR:
             return any(in_vals)
-        elif self.gate_type == GateType.NOT:
+        if self.gate_type == GateType.NOT:
             return not in_vals[0] if in_vals else True
-        elif self.gate_type == GateType.XOR:
+        if self.gate_type == GateType.XOR:
             return sum(in_vals) % 2 == 1
-        elif self.gate_type == GateType.NAND:
+        if self.gate_type == GateType.NAND:
             return not all(in_vals)
-        elif self.gate_type == GateType.NOR:
+        if self.gate_type == GateType.NOR:
             return not any(in_vals)
-        else:
-            raise ValueError(f"Unknown gate type: {self.gate_type}")
+        raise ValueError(f"Unknown gate type: {self.gate_type}")
 
 
 class BooleanCircuit:
@@ -288,27 +287,25 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
             # Single integer index
             binary_input = self._index_to_binary(int(inputs), n_vars)
             return data.evaluate(binary_input)
-        elif inputs.ndim == 1:
+        if inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
                 binary_input = inputs.astype(bool)  # type: ignore[assignment]
                 return data.evaluate(binary_input)
-            else:
-                # Array of integer indices
-                results = []
-                for idx in inputs:
-                    binary_input = self._index_to_binary(int(idx), n_vars)
-                    results.append(data.evaluate(binary_input))
-                return np.array(results, dtype=bool)
-        elif inputs.ndim == 2:
+            # Array of integer indices
+            results = []
+            for idx in inputs:
+                binary_input = self._index_to_binary(int(idx), n_vars)
+                results.append(data.evaluate(binary_input))
+            return np.array(results, dtype=bool)
+        if inputs.ndim == 2:
             # Batch of binary vectors
             results = []
             for row in inputs:
                 binary_input = row.astype(bool)
                 results.append(data.evaluate(binary_input))
             return np.array(results, dtype=bool)
-        else:
-            raise ValueError(f"Unsupported input shape: {inputs.shape}")
+        raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _index_to_binary(self, index: int, n_vars: int) -> list[bool]:
         """Convert integer index to binary vector using LSB=x₀ convention."""
@@ -555,10 +552,10 @@ def build_parity_circuit(n_vars: int) -> BooleanCircuit:
 
 # Export main classes and functions
 __all__ = [
-    "GateType",
-    "Gate",
     "BooleanCircuit",
     "CircuitRepresentation",
+    "Gate",
+    "GateType",
     "build_majority_circuit",
     "build_parity_circuit",
 ]

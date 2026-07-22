@@ -309,8 +309,7 @@ class SpectralAnalyzer:
 
         if 0 <= index < len(fourier_coeffs):
             return float(fourier_coeffs[index])
-        else:
-            raise ValueError(f"Subset index {index} out of range")
+        raise ValueError(f"Subset index {index} out of range")
 
     def summary(self) -> dict[str, Any]:
         """
@@ -552,12 +551,11 @@ class PropertyTester:
                         saw_increase = True
                     elif f_x_prime < f_x:
                         saw_decrease = True
-                else:
-                    # x has 1 in position i, x' has 0
-                    if f_x > f_x_prime:
-                        saw_increase = True
-                    elif f_x < f_x_prime:
-                        saw_decrease = True
+                # x has 1 in position i, x' has 0
+                elif f_x > f_x_prime:
+                    saw_increase = True
+                elif f_x < f_x_prime:
+                    saw_decrease = True
 
                 # If both directions seen, not unate in this variable
                 if saw_increase and saw_decrease:

@@ -26,9 +26,9 @@ References:
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from math import erf, exp, pi, sqrt
 from typing import TYPE_CHECKING
-from collections.abc import Callable
 
 import numpy as np
 
@@ -237,18 +237,18 @@ def compute_test_function_expectation(
         expectations = [test_fn(v) for v in pm_values]
         return float(np.mean(expectations))
 
-    else:  # gaussian
-        from .gaussian import multilinear_extension
+    # gaussian
+    from .gaussian import multilinear_extension
 
-        mle = multilinear_extension(f)
+    mle = multilinear_extension(f)
 
-        # Monte Carlo
-        rng = np.random.default_rng(42)
-        num_samples = 10000
-        G = rng.standard_normal((num_samples, n))
+    # Monte Carlo
+    rng = np.random.default_rng(42)
+    num_samples = 10000
+    G = rng.standard_normal((num_samples, n))
 
-        values = [test_fn(mle(G[i])) for i in range(num_samples)]
-        return float(np.mean(values))
+    values = [test_fn(mle(G[i])) for i in range(num_samples)]
+    return float(np.mean(values))
 
 
 def noise_stability_deficit(f: BooleanFunction, rho: float) -> float:

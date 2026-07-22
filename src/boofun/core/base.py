@@ -228,18 +228,17 @@ class BooleanFunction(Evaluable, Representable):
         # Handle both string and Space enum inputs
         if isinstance(space_type, Space):
             return space_type
-        elif space_type == "boolean_cube":
+        if space_type == "boolean_cube":
             return Space.BOOLEAN_CUBE
-        elif space_type == "plus_minus_cube":
+        if space_type == "plus_minus_cube":
             return Space.PLUS_MINUS_CUBE
-        elif space_type == "real":
+        if space_type == "real":
             return Space.REAL
-        elif space_type == "log":
+        if space_type == "log":
             return Space.LOG
-        elif space_type == "gaussian":
+        if space_type == "gaussian":
             return Space.GAUSSIAN
-        else:
-            raise ValueError(f"Unknown space type: {space_type}")
+        raise ValueError(f"Unknown space type: {space_type}")
 
     def _compute_representation(self, rep_type: str):
         """
@@ -252,7 +251,7 @@ class BooleanFunction(Evaluable, Representable):
             ConversionError: If no conversion path exists or conversion fails
         """
         if rep_type in self.representations:
-            return None
+            return
 
         if not self.representations:
             raise ConversionError(
@@ -306,7 +305,7 @@ class BooleanFunction(Evaluable, Representable):
                 ) from e
 
         self.add_representation(result, rep_type)
-        return None
+        return
 
     def get_representation(self, rep_type: str):
         """Retrieve or compute representation"""
@@ -359,7 +358,7 @@ class BooleanFunction(Evaluable, Representable):
                     received=[],
                     expected="non-empty list of inputs",
                 )
-            elif isinstance(inputs, np.ndarray) and inputs.ndim > 0 and inputs.size == 0:
+            if isinstance(inputs, np.ndarray) and inputs.ndim > 0 and inputs.size == 0:
                 raise InvalidInputError(
                     "Cannot evaluate empty input array",
                     parameter="inputs",
@@ -381,7 +380,7 @@ class BooleanFunction(Evaluable, Representable):
                     result = result[0]
         else:
             raise InvalidInputError(
-                f"Unsupported input type for evaluation",
+                "Unsupported input type for evaluation",
                 parameter="inputs",
                 received=type(inputs).__name__,
                 expected="list, tuple, np.ndarray, int, float, or scipy random variable",
@@ -611,8 +610,7 @@ class BooleanFunction(Evaluable, Representable):
         """
         if isinstance(var, (list, tuple)):
             return self._fix_multi(list(var), val)
-        else:
-            return self._fix_single(var, val)
+        return self._fix_single(var, val)
 
     def _fix_single(self, var: int, val: int) -> "BooleanFunction":
         """
@@ -892,10 +890,9 @@ class BooleanFunction(Evaluable, Representable):
             from ..analysis.gf2 import gf2_degree
 
             return gf2_degree(self)
-        else:
-            from ..analysis.fourier import fourier_degree
+        from ..analysis.fourier import fourier_degree
 
-            return fourier_degree(self)
+        return fourier_degree(self)
 
     def influences(self, force_recompute: bool = False) -> np.ndarray:
         """

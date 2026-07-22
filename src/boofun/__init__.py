@@ -65,7 +65,7 @@ from .utils.exceptions import (
 # Legacy adapter for migrating from old BooleanFunc class (kept for backwards compatibility)
 # Import on demand: from boofun.core.legacy_adapter import from_legacy, to_legacy
 try:
-    from .core.legacy_adapter import LegacyWrapper, from_legacy, to_legacy  # noqa: F401
+    from .core.legacy_adapter import LegacyWrapper, from_legacy, to_legacy
 
     _HAS_LEGACY = True
 except ImportError:
@@ -345,7 +345,7 @@ def weighted_majority(weights, threshold_value=None) -> BooleanFunction:
 
 # Function families for growth analysis
 try:
-    from .families import (  # noqa: F401
+    from .families import (
         ANDFamily,
         DictatorFamily,
         FunctionFamily,
@@ -365,7 +365,7 @@ except ImportError:
 
 # Optional imports with graceful fallback
 try:
-    from .visualization import BooleanFunctionVisualizer  # noqa: F401
+    from .visualization import BooleanFunctionVisualizer
 
     HAS_VISUALIZATION = True
 except ImportError:
@@ -506,17 +506,17 @@ __all__ = [
 if HAS_FAMILIES:
     __all__.extend(
         [
-            "MajorityFamily",
-            "ParityFamily",
-            "TribesFamily",
-            "ThresholdFamily",
             "ANDFamily",
-            "ORFamily",
             "DictatorFamily",
-            "LTFFamily",
-            "GrowthTracker",
             "FunctionFamily",
+            "GrowthTracker",
             "InductiveFamily",
+            "LTFFamily",
+            "MajorityFamily",
+            "ORFamily",
+            "ParityFamily",
+            "ThresholdFamily",
+            "TribesFamily",
         ]
     )
 

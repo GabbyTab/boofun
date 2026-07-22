@@ -249,27 +249,25 @@ class CNFRepresentation(BooleanFunctionRepresentation[CNFFormula]):
             # Single integer index
             binary_input = self._index_to_binary(int(inputs), n_vars)
             return data.evaluate(binary_input)
-        elif inputs.ndim == 1:
+        if inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
                 binary_input = inputs.astype(int)  # type: ignore[assignment]
                 return data.evaluate(binary_input)
-            else:
-                # Array of integer indices
-                results = []
-                for idx in inputs:
-                    binary_input = self._index_to_binary(int(idx), n_vars)
-                    results.append(data.evaluate(binary_input))
-                return np.array(results, dtype=bool)
-        elif inputs.ndim == 2:
+            # Array of integer indices
+            results = []
+            for idx in inputs:
+                binary_input = self._index_to_binary(int(idx), n_vars)
+                results.append(data.evaluate(binary_input))
+            return np.array(results, dtype=bool)
+        if inputs.ndim == 2:
             # Batch of binary vectors
             results = []
             for row in inputs:
                 binary_input = row.astype(int)
                 results.append(data.evaluate(binary_input))
             return np.array(results, dtype=bool)
-        else:
-            raise ValueError(f"Unsupported input shape: {inputs.shape}")
+        raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _index_to_binary(self, index: int, n_vars: int) -> list[int]:
         """Convert integer index to binary vector using LSB=x₀ convention."""

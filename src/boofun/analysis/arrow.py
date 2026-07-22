@@ -42,14 +42,14 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    "is_unanimous",
+    "ArrowAnalyzer",
+    "arrow_analysis",
+    "find_dictator",
     "is_dictatorial",
     "is_non_dictatorial",
-    "find_dictator",
-    "arrow_analysis",
+    "is_unanimous",
     "social_welfare_properties",
     "voting_power_analysis",
-    "ArrowAnalyzer",
 ]
 
 

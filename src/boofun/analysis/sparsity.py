@@ -35,12 +35,12 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
+    "effective_sparsity",
     "fourier_sparsity",
     "fourier_sparsity_up_to_constants",
-    "granularity",
     "fourier_support",
+    "granularity",
     "sparsity_by_degree",
-    "effective_sparsity",
 ]
 
 

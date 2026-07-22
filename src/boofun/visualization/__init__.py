@@ -16,8 +16,8 @@ import numpy as np
 _logger = logging.getLogger("boofun.visualization")
 
 try:
-    import matplotlib.patches as patches
     import matplotlib.pyplot as plt
+    from matplotlib import patches
     from matplotlib.colors import LinearSegmentedColormap
 
     HAS_MATPLOTLIB = True
@@ -73,7 +73,7 @@ class BooleanFunctionVisualizer:
         # Validate backend availability
         if self.backend == "matplotlib" and not HAS_MATPLOTLIB:
             raise ImportError("Matplotlib not available")
-        elif self.backend == "plotly" and not HAS_PLOTLY:
+        if self.backend == "plotly" and not HAS_PLOTLY:
             raise ImportError("Plotly not available")
 
     def plot_influences(
@@ -94,10 +94,9 @@ class BooleanFunctionVisualizer:
 
         if self.backend == "matplotlib":
             return self._plot_influences_matplotlib(influences, figsize, save_path, show)
-        elif self.backend == "plotly":
+        if self.backend == "plotly":
             return self._plot_influences_plotly(influences, save_path, show)
-        else:
-            raise ValueError(f"Unknown backend: {self.backend}")
+        raise ValueError(f"Unknown backend: {self.backend}")
 
     def _plot_influences_matplotlib(self, influences, figsize, save_path, show):
         """Plot influences using matplotlib."""
@@ -222,7 +221,7 @@ class BooleanFunctionVisualizer:
             return self._plot_fourier_matplotlib(
                 fourier_coeffs, max_degree, figsize, save_path, show
             )
-        elif self.backend == "plotly":
+        if self.backend == "plotly":
             return self._plot_fourier_plotly(fourier_coeffs, max_degree, save_path, show)
 
     def _plot_fourier_matplotlib(self, fourier_coeffs, max_degree, figsize, save_path, show):
@@ -391,7 +390,7 @@ class BooleanFunctionVisualizer:
 
         if self.backend == "matplotlib":
             return self._plot_truth_table_matplotlib(truth_table, figsize, save_path, show)
-        elif self.backend == "plotly":
+        if self.backend == "plotly":
             return self._plot_truth_table_plotly(truth_table, save_path, show)
 
     def _plot_truth_table_matplotlib(self, truth_table, figsize, save_path, show):
@@ -577,7 +576,7 @@ class BooleanFunctionVisualizer:
             return self._plot_noise_stability_matplotlib(
                 rho_range, stabilities, figsize, save_path, show
             )
-        elif self.backend == "plotly":
+        if self.backend == "plotly":
             return self._plot_noise_stability_plotly(rho_range, stabilities, save_path, show)
 
     def _plot_noise_stability_matplotlib(self, rho_range, stabilities, figsize, save_path, show):
@@ -652,7 +651,7 @@ class BooleanFunctionVisualizer:
         """
         if self.backend == "matplotlib":
             return self._create_matplotlib_dashboard(save_path, show)
-        elif self.backend == "plotly":
+        if self.backend == "plotly":
             return self._create_plotly_dashboard(save_path, show)
 
     def _create_matplotlib_dashboard(self, save_path, show):
@@ -872,10 +871,9 @@ def plot_function_comparison(
 
     if metric == "influences":
         return _compare_influences_matplotlib(functions, **kwargs)
-    elif metric == "fourier":
+    if metric == "fourier":
         return _compare_fourier_matplotlib(functions, **kwargs)
-    else:
-        raise ValueError(f"Unknown metric: {metric}")
+    raise ValueError(f"Unknown metric: {metric}")
 
 
 def _compare_influences_matplotlib(functions, figsize=(12, 6), **kwargs):
@@ -1163,9 +1161,9 @@ __all__ = [
 if HAS_GROWTH_VIZ:
     __all__.extend(
         [
+            "ComplexityVisualizer",
             "GrowthVisualizer",
             "LTFVisualizer",
-            "ComplexityVisualizer",
             "quick_growth_plot",
         ]
     )
@@ -1175,8 +1173,8 @@ if HAS_DECISION_TREE_VIZ:
         [
             "DecisionTreeNode",
             "build_optimal_decision_tree",
-            "plot_decision_tree",
             "decision_tree_to_dict",
+            "plot_decision_tree",
         ]
     )
 
@@ -1193,8 +1191,8 @@ try:
 
     __all__.extend(
         [
-            "InteractiveFunctionExplorer",
             "GrowthExplorer",
+            "InteractiveFunctionExplorer",
             "PropertyDashboard",
             "create_function_explorer",
             "create_growth_explorer",
@@ -1217,9 +1215,9 @@ try:
     __all__.extend(
         [
             "GrowthAnimator",
+            "animate_fourier_spectrum",
             "animate_growth",
             "animate_influences",
-            "animate_fourier_spectrum",
             "create_growth_animation",
         ]
     )

@@ -158,7 +158,7 @@ Properties:
 )
 
 f = bf.dictator(5, 0)  # Returns x_0
-print(f"Dictator_0 on 5 variables:")
+print("Dictator_0 on 5 variables:")
 print(f"  Influences: {f.influences()}")
 print(f"  Total influence: {f.total_influence()}")
 print(f"  Noise stability (ρ=0.9): {f.noise_stability(0.9):.3f}")
@@ -198,7 +198,7 @@ print("\n--- 7. Using Family Classes for Analysis ---\n")
 print("Families provide theoretical asymptotics for comparison:")
 
 majority_family = MajorityFamily()
-print(f"\nMajority family metadata:")
+print("\nMajority family metadata:")
 print(f"  Name: {majority_family.metadata.name}")
 print(f"  Properties: {majority_family.metadata.universal_properties}")
 print(

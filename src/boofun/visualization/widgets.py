@@ -10,8 +10,8 @@ Requires: ipywidgets (pip install ipywidgets)
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
 from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -38,12 +38,12 @@ except ImportError:
     HAS_MATPLOTLIB = False
 
 __all__ = [
-    "InteractiveFunctionExplorer",
+    "HAS_WIDGETS",
     "GrowthExplorer",
+    "InteractiveFunctionExplorer",
     "PropertyDashboard",
     "create_function_explorer",
     "create_growth_explorer",
-    "HAS_WIDGETS",
 ]
 
 
@@ -214,21 +214,21 @@ class InteractiveFunctionExplorer:
 
     def _show_summary(self):
         """Display function summary."""
-        print(f"=== Boolean Function Summary ===")
+        print("=== Boolean Function Summary ===")
         print(f"Variables: n = {self.n}")
-        print(f"")
-        print(f"Properties:")
+        print("")
+        print("Properties:")
         print(f"  Balanced: {self.f.is_balanced()}")
         print(f"  Monotone: {self.f.is_monotone(50)}")
         print(f"  Degree: {self.f.degree()}")
-        print(f"")
-        print(f"Spectral:")
+        print("")
+        print("Spectral:")
         print(f"  Total Influence: {self.f.total_influence():.4f}")
         print(f"  Max Influence: {self.f.max_influence():.4f}")
         print(f"  Expectation: {self.f.fourier()[0]:.4f}")
         print(f"  Variance: {self.f.variance():.4f}")
-        print(f"")
-        print(f"Complexity:")
+        print("")
+        print("Complexity:")
         print(f"  Sensitivity: {self.f.sensitivity()}")
         print(f"  Support Size: {self.f.hamming_weight()}")
 
@@ -471,7 +471,7 @@ class PropertyDashboard:
             for f in self.functions.values():
                 try:
                     val = prop_func(f)
-                    print(f"{str(val):<15}", end="")
+                    print(f"{val!s:<15}", end="")
                 except Exception as e:
                     _logger.debug(f"Property '{prop_name}' computation failed: {e}")
                     print(f"{'N/A':<15}", end="")

@@ -34,15 +34,15 @@ if TYPE_CHECKING:
     from .base import BooleanFunction
 
 __all__ = [
-    "load",
-    "save",
-    "load_json",
-    "save_json",
-    "load_bf",
-    "save_bf",
-    "load_dimacs_cnf",
-    "save_dimacs_cnf",
     "detect_format",
+    "load",
+    "load_bf",
+    "load_dimacs_cnf",
+    "load_json",
+    "save",
+    "save_bf",
+    "save_dimacs_cnf",
+    "save_json",
 ]
 
 
@@ -72,9 +72,9 @@ def detect_format(path: str | Path) -> str:
 
     if suffix == ".json":
         return "json"
-    elif suffix == ".bf":
+    if suffix == ".bf":
         return "bf"
-    elif suffix in (".cnf", ".dimacs"):
+    if suffix in (".cnf", ".dimacs"):
         return "dimacs_cnf"
 
     # Try to detect from content
@@ -84,9 +84,9 @@ def detect_format(path: str | Path) -> str:
 
         if first_line.startswith("{"):
             return "json"
-        elif first_line.startswith("p cnf") or first_line.startswith("c "):
+        if first_line.startswith("p cnf") or first_line.startswith("c "):
             return "dimacs_cnf"
-        elif first_line.isdigit():
+        if first_line.isdigit():
             return "bf"
 
     raise FileIOError(
@@ -126,16 +126,15 @@ def load(
 
     if format == "json":
         return load_json(path, **kwargs)
-    elif format == "bf":
+    if format == "bf":
         return load_bf(path, **kwargs)
-    elif format == "dimacs_cnf":
+    if format == "dimacs_cnf":
         return load_dimacs_cnf(path, **kwargs)
-    else:
-        raise FileIOError(
-            f"Unknown format: '{format}'",
-            path=str(path),
-            suggestion="Supported formats: json, bf, dimacs_cnf",
-        )
+    raise FileIOError(
+        f"Unknown format: '{format}'",
+        path=str(path),
+        suggestion="Supported formats: json, bf, dimacs_cnf",
+    )
 
 
 def save(
@@ -215,36 +214,35 @@ def load_json(path: str | Path, **kwargs) -> BooleanFunction:
     if rep_type == "truth_table":
         values = data.get("values", data.get("table", []))
         return BooleanFunctionFactory.from_truth_table(BooleanFunction, values, n=n_vars)
-    elif rep_type == "fourier_expansion":
+    if rep_type == "fourier_expansion":
         coeffs = np.array(data.get("coefficients", []))
         return BooleanFunctionFactory.from_multilinear(BooleanFunction, coeffs, n=n_vars)
-    elif rep_type == "anf":
+    if rep_type == "anf":
         # Reconstruct monomials
         monomials = {}
         for term in data.get("monomials", []):
             key = frozenset(term.get("variables", []))
             monomials[key] = term.get("coefficient", 1)
         return BooleanFunctionFactory.from_polynomial(BooleanFunction, monomials, n=n_vars)
-    elif rep_type == "dnf":
+    if rep_type == "dnf":
         from .representations.dnf_form import DNFFormula
 
         dnf = DNFFormula.from_dict(data)
         return BooleanFunctionFactory.from_dnf(BooleanFunction, dnf, n=n_vars)
-    elif rep_type == "cnf":
+    if rep_type == "cnf":
         from .representations.cnf_form import CNFFormula
 
         cnf = CNFFormula.from_dict(data)
         return BooleanFunctionFactory.from_cnf(BooleanFunction, cnf, n=n_vars)
-    else:
-        # Try truth table as fallback
-        if "values" in data:
-            return BooleanFunctionFactory.from_truth_table(
-                BooleanFunction, data["values"], n=n_vars
-            )
-        raise FileIOError(
-            f"Unknown representation type in JSON: '{rep_type}'",
-            path=str(path),
+    # Try truth table as fallback
+    if "values" in data:
+        return BooleanFunctionFactory.from_truth_table(
+            BooleanFunction, data["values"], n=n_vars
         )
+    raise FileIOError(
+        f"Unknown representation type in JSON: '{rep_type}'",
+        path=str(path),
+    )
 
 
 def save_json(
@@ -297,11 +295,11 @@ def _json_serializer(obj):
     """Custom JSON serializer for numpy types."""
     if isinstance(obj, (np.integer, np.floating)):
         return obj.item()
-    elif isinstance(obj, np.ndarray):
+    if isinstance(obj, np.ndarray):
         return obj.tolist()
-    elif isinstance(obj, (set, frozenset)):
+    if isinstance(obj, (set, frozenset)):
         return list(obj)
-    elif isinstance(obj, np.bool_):
+    if isinstance(obj, np.bool_):
         return bool(obj)
     raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
 

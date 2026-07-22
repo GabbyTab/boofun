@@ -14,9 +14,9 @@ particularly for analyzing function structure and cryptographic properties.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from functools import lru_cache
 from math import gcd as _gcd
-from collections.abc import Sequence
 
 try:  # pragma: no cover - optional dependency
     import sympy as _sp
@@ -286,8 +286,7 @@ def binomial(n: int, k: int) -> int:
         return 1
 
     # Use symmetry: C(n,k) = C(n, n-k)
-    if k > n - k:
-        k = n - k
+    k = min(k, n - k)
 
     result = 1
     for i in range(k):

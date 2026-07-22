@@ -516,17 +516,17 @@ class GlobalHypercontractivityAnalyzer:
 
 # Module exports
 __all__ = [
-    "sigma",
-    "lambda_p",
-    "p_biased_character",
+    "GlobalHypercontractivityAnalyzer",
+    "find_critical_p",
     "generalized_influence",
+    "hypercontractivity_bound",
     "is_alpha_global",
+    "lambda_p",
+    "noise_stability_p_biased",
+    "p_biased_character",
     "p_biased_expectation",
     "p_biased_influence",
     "p_biased_total_influence",
-    "noise_stability_p_biased",
+    "sigma",
     "threshold_curve",
-    "find_critical_p",
-    "hypercontractivity_bound",
-    "GlobalHypercontractivityAnalyzer",
 ]

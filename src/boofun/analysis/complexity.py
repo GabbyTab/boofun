@@ -121,8 +121,7 @@ def decision_tree_depth(f: BooleanFunction) -> int:
                     # Depth is max of depths of children + 1
                     depth = max(result[idx_0], result[idx_1]) + 1
 
-                    if depth < result[j]:
-                        result[j] = depth
+                    result[j] = min(result[j], depth)
 
     return result[-1]  # Last entry is the full cube (all variables free)
 
@@ -179,9 +178,7 @@ def decision_tree_size(f: BooleanFunction, minimize_depth_first: bool = False) -
     for j in range(len(new_layer)):
         avg = new_layer[j]
 
-        if avg < 1e-7:  # Constant 0
-            result[j] = (1, 0)
-        elif avg > 1 - 1e-7:  # Constant 1
+        if avg < 1e-7 or avg > 1 - 1e-7:  # Constant 0
             result[j] = (1, 0)
         else:
             trits = [(j // (3**i)) % 3 for i in range(n)]

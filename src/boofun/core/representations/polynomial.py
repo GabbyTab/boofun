@@ -46,20 +46,18 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
         if inputs.ndim == 0:
             # Single input
             return self._evaluate_single(int(inputs), data, n_vars)
-        elif inputs.ndim == 1:
+        if inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
                 index = self._binary_to_index(inputs)
                 return self._evaluate_single(index, data, n_vars)
-            else:
-                # Array of indices
-                return np.array([self._evaluate_single(int(x), data, n_vars) for x in inputs])
-        elif inputs.ndim == 2:
+            # Array of indices
+            return np.array([self._evaluate_single(int(x), data, n_vars) for x in inputs])
+        if inputs.ndim == 2:
             # Batch of binary vectors
             indices = [self._binary_to_index(row) for row in inputs]
             return np.array([self._evaluate_single(idx, data, n_vars) for idx in indices])
-        else:
-            raise ValueError(f"Unsupported input shape: {inputs.shape}")
+        raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _evaluate_single(self, x: int, coeffs: dict[frozenset, int], n_vars: int) -> bool:
         """Evaluate polynomial at single input x (as integer)."""
@@ -250,8 +248,7 @@ def create_constant(value: bool) -> dict[frozenset, int]:
     """Create constant polynomial."""
     if value:
         return {frozenset(): 1}  # Constant 1
-    else:
-        return {}  # Constant 0
+    return {}  # Constant 0
 
 
 def create_variable(var_index: int) -> dict[frozenset, int]:

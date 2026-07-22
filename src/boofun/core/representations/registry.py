@@ -130,10 +130,8 @@ def _function_evaluate(self, inputs, data, space, n_vars):
         if isinstance(result, (list, np.ndarray)):
             if len(result) == 1:
                 return bool(result[0])
-            else:
-                return bool(result[0])
-        else:
-            return bool(result)
+            return bool(result[0])
+        return bool(result)
     except (IndexError, TypeError, ValueError) as e:
         # If array call fails, try with original inputs (integer)
         # This supports functions that expect integer indices

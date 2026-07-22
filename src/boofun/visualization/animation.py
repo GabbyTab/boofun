@@ -11,8 +11,8 @@ Supports:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
 from collections.abc import Callable
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -21,8 +21,8 @@ if TYPE_CHECKING:
 
 # Check for dependencies
 try:
-    import matplotlib.animation as animation
     import matplotlib.pyplot as plt
+    from matplotlib import animation
 
     HAS_MATPLOTLIB = True
 except ImportError:
@@ -36,11 +36,11 @@ except ImportError:
     HAS_PLOTLY = False
 
 __all__ = [
+    "GrowthAnimator",
+    "animate_fourier_spectrum",
     "animate_growth",
     "animate_influences",
-    "animate_fourier_spectrum",
     "create_growth_animation",
-    "GrowthAnimator",
 ]
 
 

@@ -423,12 +423,11 @@ def spectral_norm(f: BooleanFunction, p: int = 2) -> float:
 
     if p == 1:
         return float(np.sum(np.abs(coeffs)))
-    elif p == 2:
+    if p == 2:
         return float(np.sqrt(np.sum(coeffs**2)))
-    elif p == np.inf:
+    if p == np.inf:
         return float(np.max(np.abs(coeffs)))
-    else:
-        return float(np.sum(np.abs(coeffs) ** p) ** (1.0 / p))
+    return float(np.sum(np.abs(coeffs) ** p) ** (1.0 / p))
 
 
 def fourier_sparsity(f: BooleanFunction, threshold: float = 1e-10) -> int:

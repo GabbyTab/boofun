@@ -29,15 +29,15 @@ if TYPE_CHECKING:
 
 __all__ = [
     "Restriction",
-    "random_restriction",
     "apply_restriction",
-    "restriction_shrinkage",
     "average_restricted_decision_tree_depth",
-    "switching_lemma_probability",
     "batch_random_restrictions",
-    "restriction_to_inputs",
     "min_fixing_to_constant",
+    "random_restriction",
+    "restriction_shrinkage",
+    "restriction_to_inputs",
     "shift_by_mask",
+    "switching_lemma_probability",
 ]
 
 

@@ -26,11 +26,11 @@ if TYPE_CHECKING:
     from ..families.base import FunctionFamily
 
 __all__ = [
-    "interactive_fourier_spectrum",
-    "interactive_influence_heatmap",
-    "interactive_complexity_comparison",
-    "interactive_growth_explorer",
     "FourierExplorer",
+    "interactive_complexity_comparison",
+    "interactive_fourier_spectrum",
+    "interactive_growth_explorer",
+    "interactive_influence_heatmap",
 ]
 
 

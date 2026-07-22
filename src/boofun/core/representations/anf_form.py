@@ -79,23 +79,21 @@ class ANFRepresentation(BooleanFunctionRepresentation[dict[frozenset[int], int]]
         if inputs.ndim == 0:
             # Single integer index
             return self._evaluate_single_index(int(inputs), data, n_vars, space)
-        elif inputs.ndim == 1:
+        if inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
                 return self._evaluate_single_vector(inputs, data, space)
-            else:
-                # Batch of integer indices
-                return np.array(
-                    [self._evaluate_single_index(int(x), data, n_vars, space) for x in inputs],
-                    dtype=bool,
-                )
-        elif inputs.ndim == 2:
+            # Batch of integer indices
+            return np.array(
+                [self._evaluate_single_index(int(x), data, n_vars, space) for x in inputs],
+                dtype=bool,
+            )
+        if inputs.ndim == 2:
             # Batch of binary vectors
             return np.array(
                 [self._evaluate_single_vector(x, data, space) for x in inputs], dtype=bool
             )
-        else:
-            raise ValueError(f"Unsupported input shape: {inputs.shape}")
+        raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _evaluate_single_index(
         self, x: int, data: dict[frozenset[int], int], n_vars: int, space: Space

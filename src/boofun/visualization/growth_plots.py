@@ -9,8 +9,8 @@ This module provides specialized plotting tools for:
 """
 
 import logging
-from typing import TYPE_CHECKING, Any
 from collections.abc import Callable
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
@@ -132,19 +132,18 @@ class GrowthVisualizer:
                 ax,
                 **kwargs,
             )
-        else:
-            return self._plot_growth_plotly(
-                n_arr,
-                computed_arr,
-                theory_arr,
-                marker_name,
-                tracker.family.metadata.name,
-                show_theory,
-                log_x,
-                log_y,
-                title,
-                **kwargs,
-            )
+        return self._plot_growth_plotly(
+            n_arr,
+            computed_arr,
+            theory_arr,
+            marker_name,
+            tracker.family.metadata.name,
+            show_theory,
+            log_x,
+            log_y,
+            title,
+            **kwargs,
+        )
 
     def _plot_growth_matplotlib(
         self,
@@ -289,10 +288,9 @@ class GrowthVisualizer:
             return self._compare_families_matplotlib(
                 trackers, marker_name, show_theory, log_x, log_y, figsize, title
             )
-        else:
-            return self._compare_families_plotly(
-                trackers, marker_name, show_theory, log_x, log_y, title
-            )
+        return self._compare_families_plotly(
+            trackers, marker_name, show_theory, log_x, log_y, title
+        )
 
     def _compare_families_matplotlib(
         self, trackers, marker_name, show_theory, log_x, log_y, figsize, title
@@ -456,28 +454,27 @@ class GrowthVisualizer:
             plt.tight_layout()
             return fig
 
-        else:
-            pfig: Any = go.Figure()
+        pfig: Any = go.Figure()
 
-            pfig.add_trace(
-                go.Scatter(
-                    x=n_arr, y=ratio, mode="lines+markers", name=f"{marker_name} / {ref_label}"
-                )
+        pfig.add_trace(
+            go.Scatter(
+                x=n_arr, y=ratio, mode="lines+markers", name=f"{marker_name} / {ref_label}"
+            )
+        )
+
+        if len(ratio) > 2:
+            mean_ratio = float(np.mean(ratio[-3:]))
+            pfig.add_hline(
+                y=mean_ratio, line_dash="dash", annotation_text=f"≈ {mean_ratio:.4f}"
             )
 
-            if len(ratio) > 2:
-                mean_ratio = float(np.mean(ratio[-3:]))
-                pfig.add_hline(
-                    y=mean_ratio, line_dash="dash", annotation_text=f"≈ {mean_ratio:.4f}"
-                )
+        pfig.update_layout(
+            title=f"Convergence: {marker_name} / {ref_label}",
+            xaxis_title="n",
+            yaxis_title=f"{marker_name} / {ref_label}",
+        )
 
-            pfig.update_layout(
-                title=f"Convergence: {marker_name} / {ref_label}",
-                xaxis_title="n",
-                yaxis_title=f"{marker_name} / {ref_label}",
-            )
-
-            return pfig
+        return pfig
 
     def plot_multi_property_growth(
         self,
@@ -513,25 +510,24 @@ class GrowthVisualizer:
             plt.tight_layout()
             return fig
 
-        else:
-            pfig: Any = make_subplots(rows=1, cols=n_markers, subplot_titles=marker_names)
+        pfig: Any = make_subplots(rows=1, cols=n_markers, subplot_titles=marker_names)
 
-            for i, marker_name in enumerate(marker_names, 1):
-                if marker_name in tracker.results:
-                    result = tracker.results[marker_name]
-                    n_arr, computed_arr, theory_arr = result.to_arrays()
+        for i, marker_name in enumerate(marker_names, 1):
+            if marker_name in tracker.results:
+                result = tracker.results[marker_name]
+                n_arr, computed_arr, theory_arr = result.to_arrays()
 
-                    pfig.add_trace(
-                        go.Scatter(x=n_arr, y=computed_arr, mode="lines+markers", name=marker_name),
-                        row=1,
-                        col=i,
-                    )
+                pfig.add_trace(
+                    go.Scatter(x=n_arr, y=computed_arr, mode="lines+markers", name=marker_name),
+                    row=1,
+                    col=i,
+                )
 
-            pfig.update_layout(
-                title=f"{tracker.family.metadata.name} Family Properties", showlegend=False
-            )
+        pfig.update_layout(
+            title=f"{tracker.family.metadata.name} Family Properties", showlegend=False
+        )
 
-            return pfig
+        return pfig
 
 
 class LTFVisualizer:
@@ -630,7 +626,7 @@ class LTFVisualizer:
             z = np.polyfit(np.abs(weights), influences, 1)
             p = np.poly1d(z)
             x_line = np.linspace(0, max(np.abs(weights)), 100)
-            ax.plot(x_line, p(x_line), "--", color="red", alpha=0.7, label=f"Linear fit")
+            ax.plot(x_line, p(x_line), "--", color="red", alpha=0.7, label="Linear fit")
 
         ax.set_xlabel("|Weight|", fontsize=12)
         ax.set_ylabel("Influence", fontsize=12)
@@ -784,8 +780,8 @@ def quick_growth_plot(
 
 
 __all__ = [
+    "ComplexityVisualizer",
     "GrowthVisualizer",
     "LTFVisualizer",
-    "ComplexityVisualizer",
     "quick_growth_plot",
 ]

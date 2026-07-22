@@ -66,22 +66,21 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
                 raise IndexError(f"Index {index} out of range for size {size}")
             return exceptions.get(index, default_value)
 
-        elif inputs.ndim == 1:
+        if inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
                 index = self._binary_to_index(inputs)
                 return exceptions.get(index, default_value)
-            else:
-                # Array of indices
-                results = []
-                for idx in inputs:
-                    idx = int(idx)
-                    if idx < 0 or idx >= size:
-                        raise IndexError(f"Index {idx} out of range for size {size}")
-                    results.append(exceptions.get(idx, default_value))
-                return np.array(results, dtype=bool)
+            # Array of indices
+            results = []
+            for idx in inputs:
+                idx = int(idx)
+                if idx < 0 or idx >= size:
+                    raise IndexError(f"Index {idx} out of range for size {size}")
+                results.append(exceptions.get(idx, default_value))
+            return np.array(results, dtype=bool)
 
-        elif inputs.ndim == 2:
+        if inputs.ndim == 2:
             # Batch of binary vectors
             results = []
             for row in inputs:
@@ -89,8 +88,7 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
                 results.append(exceptions.get(index, default_value))
             return np.array(results, dtype=bool)
 
-        else:
-            raise ValueError(f"Unsupported input shape: {inputs.shape}")
+        raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _binary_to_index(self, binary_vector: np.ndarray) -> int:
         """Convert binary vector to integer index using LSB=x₀ convention."""
@@ -238,8 +236,8 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, A
         """Evaluate using the appropriate internal representation."""
         if data["format"] == "sparse":
             return self.sparse_repr.evaluate(inputs, data["data"], space, n_vars)
-        else:  # dense
-            return self.dense_repr.evaluate(inputs, data["data"], space, n_vars)
+        # dense
+        return self.dense_repr.evaluate(inputs, data["data"], space, n_vars)
 
     def convert_from(
         self,
@@ -257,10 +255,9 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, A
         if compression_ratio < self.sparse_threshold:
             # Use sparse format
             return {"format": "sparse", "data": sparse_data, "compression_ratio": compression_ratio}
-        else:
-            # Use dense format
-            dense_data = self.dense_repr.convert_from(source_repr, source_data, space, n_vars)
-            return {"format": "dense", "data": dense_data, "compression_ratio": 1.0}
+        # Use dense format
+        dense_data = self.dense_repr.convert_from(source_repr, source_data, space, n_vars)
+        return {"format": "dense", "data": dense_data, "compression_ratio": 1.0}
 
     def convert_to(
         self,

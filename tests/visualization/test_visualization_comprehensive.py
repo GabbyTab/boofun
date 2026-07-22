@@ -63,10 +63,9 @@ class TestVisualizerMethods:
         f = bf.majority(3)
         if HAS_MATPLOTLIB:
             return BooleanFunctionVisualizer(f, backend="matplotlib")
-        elif HAS_PLOTLY:
+        if HAS_PLOTLY:
             return BooleanFunctionVisualizer(f, backend="plotly")
-        else:
-            pytest.skip("No plotting backend available")
+        pytest.skip("No plotting backend available")
 
     def test_has_plot_influences(self, visualizer):
         """Visualizer should have plot_influences method."""
@@ -163,10 +162,9 @@ class TestVisualizationWithDifferentFunctions:
     def backend(self):
         if HAS_MATPLOTLIB:
             return "matplotlib"
-        elif HAS_PLOTLY:
+        if HAS_PLOTLY:
             return "plotly"
-        else:
-            pytest.skip("No plotting backend available")
+        pytest.skip("No plotting backend available")
 
     @pytest.mark.parametrize(
         "func_factory,n",

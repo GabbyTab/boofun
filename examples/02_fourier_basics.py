@@ -98,7 +98,7 @@ fourier = f.fourier()
 # Compute sum of squared coefficients
 sum_squared = sum(c**2 for c in fourier)
 
-print(f"Majority_5:")
+print("Majority_5:")
 print(f"  Σ f̂(S)² = {sum_squared:.4f}")
 print(f"  Should equal 1.0: {abs(sum_squared - 1.0) < 0.01}")
 
@@ -122,7 +122,7 @@ fourier = f.fourier()
 f_hat_empty = fourier[0]  # Index 0 = empty set
 variance = sum(c**2 for c in fourier[1:])  # Exclude empty set
 
-print(f"Majority_5:")
+print("Majority_5:")
 print(f"  f̂(∅) = {f_hat_empty:.4f}")
 print(f"  E[f]  = {get_expectation(f):.4f}")
 print(f"  Var   = {variance:.4f} (from Fourier)")

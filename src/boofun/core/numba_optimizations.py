@@ -376,18 +376,17 @@ def numba_optimize(operation: str, *args, **kwargs) -> Any:
 
     if operation == "truth_table_batch":
         return _numba_optimizer.optimize_truth_table_batch(*args)
-    elif operation == "fourier_batch":
+    if operation == "fourier_batch":
         return _numba_optimizer.optimize_fourier_batch(*args)
-    elif operation == "influences":
+    if operation == "influences":
         return _numba_optimizer.optimize_influences(*args)
-    elif operation == "noise_stability":
+    if operation == "noise_stability":
         return _numba_optimizer.optimize_noise_stability(*args)
-    elif operation == "walsh_hadamard":
+    if operation == "walsh_hadamard":
         return _numba_optimizer.optimize_walsh_hadamard(*args)
-    elif operation == "anf_batch":
+    if operation == "anf_batch":
         return _numba_optimizer.optimize_anf_batch(*args)
-    else:
-        raise ValueError(f"Unknown optimization: {operation}")
+    raise ValueError(f"Unknown optimization: {operation}")
 
 
 def get_numba_stats() -> dict[str, Any]:

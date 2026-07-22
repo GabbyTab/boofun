@@ -2,28 +2,28 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator, Sequence
 from itertools import combinations, permutations, product
 from math import comb
-from collections.abc import Iterator, Sequence
 
 import numpy as np
 
 __all__ = [
-    "popcnt",
-    "poppar",
-    "over",
-    "subsets",
-    "cartesian",
-    "num2bin_list",
+    "binary_tuple_to_int",
     "bits",
-    "tensor_product",
-    "krawchouk",
-    "krawchouk2",
+    "cartesian",
+    "generate_permutations",
     "hamming_distance",
     "hamming_weight",
-    "generate_permutations",
     "int_to_binary_tuple",
-    "binary_tuple_to_int",
+    "krawchouk",
+    "krawchouk2",
+    "num2bin_list",
+    "over",
+    "popcnt",
+    "poppar",
+    "subsets",
+    "tensor_product",
 ]
 
 

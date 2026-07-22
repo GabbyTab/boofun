@@ -17,8 +17,8 @@ if TYPE_CHECKING:
 __all__ = [
     "DecisionTreeNode",
     "build_optimal_decision_tree",
-    "plot_decision_tree",
     "decision_tree_to_dict",
+    "plot_decision_tree",
 ]
 
 
@@ -69,9 +69,8 @@ class DecisionTreeNode:
         if bit == 0:
             assert self.left is not None
             return self.left.evaluate(x)
-        else:
-            assert self.right is not None
-            return self.right.evaluate(x)
+        assert self.right is not None
+        return self.right.evaluate(x)
 
     def __repr__(self) -> str:
         if self.is_leaf:

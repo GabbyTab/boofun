@@ -31,14 +31,14 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    "sensitivity",
-    "sensitivity_at",
-    "max_sensitivity",
+    "HuangAnalysis",
     "average_sensitivity",
     "block_sensitivity",
-    "verify_huang_theorem",
+    "max_sensitivity",
+    "sensitivity",
+    "sensitivity_at",
     "sensitivity_vs_degree",
-    "HuangAnalysis",
+    "verify_huang_theorem",
 ]
 
 
@@ -270,7 +270,7 @@ class HuangAnalysis:
                     "inequality": "D(f) <= s(f)⁴",
                     "lhs": D,
                     "rhs": s**4,
-                    "satisfied": D <= s**4,
+                    "satisfied": s**4 >= D,
                 },
             },
             "all_satisfied": True,  # Will update below
@@ -286,17 +286,17 @@ class HuangAnalysis:
         verification = self.verify_all_bounds()
 
         lines = [
-            f"=== Huang's Sensitivity Analysis ===",
+            "=== Huang's Sensitivity Analysis ===",
             f"n = {self.n} variables",
-            f"",
-            f"Measures:",
+            "",
+            "Measures:",
             f"  s(f)  = {verification['sensitivity']} (sensitivity)",
             f"  bs(f) = {verification['block_sensitivity']} (block sensitivity)",
             f"  C(f)  = {verification['certificate_complexity']} (certificate complexity)",
             f"  D(f)  = {verification['deterministic_complexity']} (deterministic complexity)",
             f"  deg(f)= {verification['fourier_degree']} (Fourier degree)",
-            f"",
-            f"Polynomial Bounds:",
+            "",
+            "Polynomial Bounds:",
         ]
 
         for name, bound in verification["bounds"].items():

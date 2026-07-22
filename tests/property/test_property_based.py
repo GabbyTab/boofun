@@ -57,12 +57,11 @@ def builtin_function(draw):
         if n % 2 == 0:
             n = n + 1
         return bf.majority(n)
-    elif fn_type == "parity":
+    if fn_type == "parity":
         return bf.parity(n)
-    elif fn_type == "and":
+    if fn_type == "and":
         return bf.AND(n)
-    else:
-        return bf.OR(n)
+    return bf.OR(n)
 
 
 # ============================================================================

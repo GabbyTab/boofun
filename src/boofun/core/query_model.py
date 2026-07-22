@@ -33,13 +33,13 @@ if TYPE_CHECKING:
     from .base import BooleanFunction
 
 __all__ = [
-    "QueryModel",
-    "AccessType",
-    "get_access_type",
-    "check_query_safety",
-    "QuerySafetyWarning",
-    "ExplicitEnumerationError",
     "QUERY_COMPLEXITY",
+    "AccessType",
+    "ExplicitEnumerationError",
+    "QueryModel",
+    "QuerySafetyWarning",
+    "check_query_safety",
+    "get_access_type",
 ]
 
 
@@ -202,15 +202,14 @@ def check_query_safety(
     if access_type == AccessType.EXPLICIT:
         if n <= max_safe_n:
             return True
-        else:
-            msg = (
-                f"Operation '{operation}' requires {query_count:,} queries for n={n}. "
-                f"This may be slow. Use query-based alternatives or reduce n."
-            )
-            if strict:
-                raise ExplicitEnumerationError(msg)
-            warnings.warn(msg, QuerySafetyWarning)
-            return True  # Still allow but warn
+        msg = (
+            f"Operation '{operation}' requires {query_count:,} queries for n={n}. "
+            f"This may be slow. Use query-based alternatives or reduce n."
+        )
+        if strict:
+            raise ExplicitEnumerationError(msg)
+        warnings.warn(msg, QuerySafetyWarning)
+        return True  # Still allow but warn
 
     # Query-access function with unsafe operation
     if access_type == AccessType.QUERY:
@@ -225,9 +224,8 @@ def check_query_safety(
                 raise ExplicitEnumerationError(msg)
             warnings.warn(msg, QuerySafetyWarning)
             return False  # Don't allow
-        else:
-            # Small n, we can convert to truth table
-            return True
+        # Small n, we can convert to truth table
+        return True
 
     return True
 

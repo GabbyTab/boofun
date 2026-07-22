@@ -120,7 +120,7 @@ print("\n--- 3. Grover Complexity Details ---\n")
 f = bf.AND(4)
 grover_result = grover_speedup(f)
 
-print(f"AND_4 Grover Complexity Bounds:")
+print("AND_4 Grover Complexity Bounds:")
 print(f"  Function: AND with {f.n_vars} variables")
 print(f"  Solutions: {grover_result['num_solutions']}")
 print(f"  Classical queries: {grover_result['classical_queries']:.1f}")

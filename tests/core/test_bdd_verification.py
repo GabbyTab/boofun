@@ -95,9 +95,9 @@ class TestBDDNodeCount:
         """Count nodes in a BDD."""
         if isinstance(bdd_data, BDD):
             return self._count_bdd_nodes(bdd_data.root, set())
-        elif isinstance(bdd_data, BDDNode):
+        if isinstance(bdd_data, BDDNode):
             return self._count_bdd_nodes(bdd_data, set())
-        elif isinstance(bdd_data, dict):
+        if isinstance(bdd_data, dict):
             if "root" in bdd_data:
                 return self._count_bdd_nodes(bdd_data["root"], set())
         return 0

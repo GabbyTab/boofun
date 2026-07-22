@@ -13,8 +13,8 @@ truth_table is the one representation every other type can convert to/from.
 
 import warnings
 from collections import defaultdict
-from typing import Any
 from collections.abc import Callable
+from typing import Any
 
 from .representations.registry import get_strategy
 from .spaces import Space
@@ -163,8 +163,7 @@ class ConversionPath:
                 )
                 if _LARGE_N_POLICY == "raise":
                     raise ValueError(msg)
-                else:
-                    warnings.warn(msg, stacklevel=2)
+                warnings.warn(msg, stacklevel=2)
         current_data = data
         for edge in self.edges:
             if edge.converter:

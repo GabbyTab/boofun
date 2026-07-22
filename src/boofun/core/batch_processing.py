@@ -62,14 +62,13 @@ class VectorizedBatchProcessor(BatchProcessor):
         """Process batch using vectorized operations."""
         if inputs.size <= self.chunk_size:
             return self._process_chunk(inputs, function_data, space, n_vars)
-        else:
-            # Process in chunks to manage memory
-            results = []
-            for i in range(0, inputs.size, self.chunk_size):
-                chunk = inputs[i : i + self.chunk_size]
-                chunk_results = self._process_chunk(chunk, function_data, space, n_vars)
-                results.append(chunk_results)
-            return np.concatenate(results)
+        # Process in chunks to manage memory
+        results = []
+        for i in range(0, inputs.size, self.chunk_size):
+            chunk = inputs[i : i + self.chunk_size]
+            chunk_results = self._process_chunk(chunk, function_data, space, n_vars)
+            results.append(chunk_results)
+        return np.concatenate(results)
 
     def _process_chunk(
         self, inputs: np.ndarray, function_data: Any, space: Space, n_vars: int
@@ -214,12 +213,11 @@ class OptimizedTruthTableProcessor(VectorizedBatchProcessor):
             results = np.zeros(len(indices), dtype=bool)
             results[valid_mask] = function_data[indices[valid_mask]]
             return results
-        elif inputs.ndim == 2:
+        if inputs.ndim == 2:
             # Binary vectors - convert to indices
             indices = self._binary_vectors_to_indices(inputs)
             return function_data[indices].astype(bool)
-        else:
-            return super()._process_chunk(inputs, function_data, space, n_vars)
+        return super()._process_chunk(inputs, function_data, space, n_vars)
 
     def _binary_vectors_to_indices(self, binary_vectors: np.ndarray) -> np.ndarray:
         """Convert batch of binary vectors to indices efficiently."""
@@ -250,8 +248,7 @@ class OptimizedFourierProcessor(VectorizedBatchProcessor):
         # CPU implementations
         if HAS_NUMBA:
             return self._numba_fourier_batch(inputs, function_data, n_vars)
-        else:
-            return self._numpy_fourier_batch(inputs, function_data, n_vars)
+        return self._numpy_fourier_batch(inputs, function_data, n_vars)
 
     def _numpy_fourier_batch(
         self, inputs: np.ndarray, coeffs: np.ndarray, n_vars: int
@@ -263,9 +260,8 @@ class OptimizedFourierProcessor(VectorizedBatchProcessor):
             for i, x in enumerate(inputs):
                 results[i] = self._evaluate_fourier_single(int(x), coeffs)
             return results > 0  # Convert to boolean
-        else:
-            # Fallback to sequential
-            return super()._process_chunk(inputs, coeffs, Space.BOOLEAN_CUBE, n_vars)
+        # Fallback to sequential
+        return super()._process_chunk(inputs, coeffs, Space.BOOLEAN_CUBE, n_vars)
 
     def _evaluate_fourier_single(self, x: int, coeffs: np.ndarray) -> float:
         """Evaluate single Fourier expansion."""
@@ -299,8 +295,7 @@ class OptimizedANFProcessor(VectorizedBatchProcessor):
         """Optimized ANF batch processing."""
         if HAS_NUMBA:
             return self._numba_anf_batch(inputs, function_data, n_vars)
-        else:
-            return self._numpy_anf_batch(inputs, function_data, n_vars)
+        return self._numpy_anf_batch(inputs, function_data, n_vars)
 
     def _numpy_anf_batch(self, inputs: np.ndarray, anf_dict: dict, n_vars: int) -> np.ndarray:
         """NumPy-based batch ANF evaluation."""
@@ -459,10 +454,9 @@ class BatchProcessorManager:
         # Fall back to general strategies based on input size
         if input_size >= self.parallel_threshold:
             return self.processors["parallel"]
-        elif input_size >= self.vectorized_threshold:
+        if input_size >= self.vectorized_threshold:
             return self.processors["vectorized"]
-        else:
-            return self.processors["vectorized"]  # Default choice
+        return self.processors["vectorized"]  # Default choice
 
     def _sequential_fallback(
         self, inputs: np.ndarray, function_data: Any, representation: str, space: Space, n_vars: int

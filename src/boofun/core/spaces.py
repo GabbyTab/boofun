@@ -158,12 +158,11 @@ class Space(Enum):
         """Get default threshold for converting continuous to discrete."""
         if space == Space.REAL:
             return 0.5
-        elif space == Space.LOG:
+        if space == Space.LOG:
             return 0.0  # log(0.5) ≈ -0.693, but 0.0 is simpler
-        elif space == Space.GAUSSIAN:
+        if space == Space.GAUSSIAN:
             return 0.0  # Standard normal median
-        else:
-            return 0.5
+        return 0.5
 
 
 class Measure:

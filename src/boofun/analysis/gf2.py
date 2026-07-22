@@ -31,12 +31,12 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    "gf2_fourier_transform",
+    "correlation_with_parity",
     "gf2_degree",
+    "gf2_fourier_transform",
     "gf2_monomials",
     "gf2_to_string",
     "is_linear_over_gf2",
-    "correlation_with_parity",
 ]
 
 

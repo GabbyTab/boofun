@@ -26,11 +26,11 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    "goldreich_levin",
+    "GoldreichLevinLearner",
     "estimate_fourier_coefficient",
     "find_heavy_coefficients",
+    "goldreich_levin",
     "learn_sparse_fourier",
-    "GoldreichLevinLearner",
 ]
 
 

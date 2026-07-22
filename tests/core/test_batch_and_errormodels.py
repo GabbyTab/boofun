@@ -121,9 +121,9 @@ class TestOptimizedTruthTableProcessor:
 
         results = proc._process_chunk(inputs, truth_table, Space.BOOLEAN_CUBE, 3)
         assert len(results) == 3
-        assert results[0] == False  # noqa: E712
-        assert results[1] == True  # noqa: E712
-        assert results[2] == True  # noqa: E712
+        assert results[0] == False
+        assert results[1] == True
+        assert results[2] == True
 
     def test_process_binary_vectors(self):
         """Test processing binary vectors."""
@@ -147,8 +147,8 @@ class TestOptimizedTruthTableProcessor:
         results = proc._process_chunk(inputs, truth_table, Space.BOOLEAN_CUBE, 2)
         assert len(results) == 4
         # Invalid indices should return False (default)
-        assert results[2] == False  # noqa: E712
-        assert results[3] == False  # noqa: E712
+        assert results[2] == False
+        assert results[3] == False
 
 
 class TestOptimizedFourierProcessor:
@@ -214,7 +214,7 @@ class TestOptimizedANFProcessor:
         inputs = np.array([0, 1, 2, 3])
 
         results = proc._numpy_anf_batch(inputs, anf_dict, 2)
-        assert all(r == False for r in results)  # noqa: E712
+        assert all(r == False for r in results)
 
 
 class TestBatchProcessorManager:

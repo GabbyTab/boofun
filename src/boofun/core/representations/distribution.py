@@ -6,9 +6,9 @@ enabling probabilistic analysis, sampling, and statistical properties.
 """
 
 import warnings
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
-from collections.abc import Callable
 
 import numpy as np
 
@@ -401,24 +401,22 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
         if inputs.ndim == 0:
             # Single integer index
             return data.evaluate(int(inputs))
-        elif inputs.ndim == 1:
+        if inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
                 return data.evaluate(inputs.tolist())
-            else:
-                # Array of integer indices
-                results = []
-                for idx in inputs:
-                    results.append(data.evaluate(int(idx)))
-                return np.array(results, dtype=bool)
-        elif inputs.ndim == 2:
+            # Array of integer indices
+            results = []
+            for idx in inputs:
+                results.append(data.evaluate(int(idx)))
+            return np.array(results, dtype=bool)
+        if inputs.ndim == 2:
             # Batch of binary vectors
             results = []
             for row in inputs:
                 results.append(data.evaluate(row.tolist()))
             return np.array(results, dtype=bool)
-        else:
-            raise ValueError(f"Unsupported input shape: {inputs.shape}")
+        raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def dump(self, data: BooleanDistribution, space=None, **kwargs) -> dict[str, Any]:
         """Export distribution representation."""
@@ -460,11 +458,10 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
 
         if distribution_type == "uniform":
             return BooleanDistribution.uniform(truth_table, n_vars)
-        elif distribution_type == "biased":
+        if distribution_type == "biased":
             bias = kwargs.get("bias", 0.5)
             return BooleanDistribution.biased(truth_table, n_vars, bias)
-        else:
-            raise ValueError(f"Unknown distribution type: {distribution_type}")
+        raise ValueError(f"Unknown distribution type: {distribution_type}")
 
     def convert_to(
         self,

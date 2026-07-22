@@ -194,7 +194,7 @@ def cryptographic_properties():
         else:
             corr_immunity = "Low"
 
-        print(f"   {name:9} | {str(is_balanced):8} | {nonlinearity:13} | {corr_immunity}")
+        print(f"   {name:9} | {is_balanced!s:8} | {nonlinearity:13} | {corr_immunity}")
 
     print("\n   *Simplified approximations for educational purposes")
 

@@ -28,9 +28,9 @@ References:
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import lru_cache
 from typing import TYPE_CHECKING
-from collections.abc import Callable
 
 import numpy as np
 
@@ -81,8 +81,7 @@ def hermite_polynomial(n: int, variant: str = "probabilist") -> Callable[[float]
     """
     if variant == "probabilist":
         return lambda x: probabilists_hermite(n, x)
-    else:
-        return lambda x: physicists_hermite(n, x)
+    return lambda x: physicists_hermite(n, x)
 
 
 def probabilists_hermite(n: int, x: float) -> float:
@@ -103,7 +102,7 @@ def probabilists_hermite(n: int, x: float) -> float:
     """
     if n == 0:
         return 1.0
-    elif n == 1:
+    if n == 1:
         return x
 
     he_prev2 = 1.0  # He_0
@@ -135,7 +134,7 @@ def physicists_hermite(n: int, x: float) -> float:
     """
     if n == 0:
         return 1.0
-    elif n == 1:
+    if n == 1:
         return 2 * x
 
     h_prev2 = 1.0  # H_0

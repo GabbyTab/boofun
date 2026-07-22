@@ -10,10 +10,10 @@ as n grows, enabling:
 
 import logging
 import warnings
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING, Any
-from collections.abc import Callable
 
 import numpy as np
 
@@ -393,12 +393,11 @@ class GrowthTracker:
         elif property_name == "custom":
             marker = PropertyMarker.custom(**kwargs)
 
+        # Try as a custom callable
+        elif "compute_fn" in kwargs:
+            marker = PropertyMarker.custom(property_name, **kwargs)
         else:
-            # Try as a custom callable
-            if "compute_fn" in kwargs:
-                marker = PropertyMarker.custom(property_name, **kwargs)
-            else:
-                raise ValueError(f"Unknown property: {property_name}")
+            raise ValueError(f"Unknown property: {property_name}")
 
         self.markers[marker.name] = marker
         return self
@@ -613,9 +612,9 @@ class GrowthTracker:
 
 
 __all__ = [
-    "MarkerType",
+    "GrowthTracker",
     "Marker",
+    "MarkerType",
     "PropertyMarker",
     "TrackingResult",
-    "GrowthTracker",
 ]

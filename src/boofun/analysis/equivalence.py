@@ -19,9 +19,9 @@ under these transformations, enabling fast equivalence checking.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from itertools import permutations
 from typing import TYPE_CHECKING, Any
-from collections.abc import Iterator
 
 import numpy as np
 
@@ -29,13 +29,13 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    "canonical_form",
-    "are_equivalent",
-    "apply_permutation",
-    "automorphisms",
-    "equivalence_class_size",
-    "PermutationEquivalence",
     "AffineEquivalence",
+    "PermutationEquivalence",
+    "apply_permutation",
+    "are_equivalent",
+    "automorphisms",
+    "canonical_form",
+    "equivalence_class_size",
 ]
 
 

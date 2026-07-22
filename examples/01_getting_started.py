@@ -134,7 +134,7 @@ functions = {
 print(f"{'Function':<15} {'n_vars':<8} {'Balanced':<10} {'Var[f]':<10}")
 print("-" * 45)
 for name, f in functions.items():
-    print(f"{name:<15} {f.n_vars:<8} {str(f.is_balanced()):<10} {f.variance():<10.3f}")
+    print(f"{name:<15} {f.n_vars:<8} {f.is_balanced()!s:<10} {f.variance():<10.3f}")
 
 
 # =============================================================================

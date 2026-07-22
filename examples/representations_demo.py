@@ -19,7 +19,7 @@ def basic_representations():
     and_func = bf.create([0, 0, 0, 1])  # 2-variable AND
 
     print("1. Basic representation information:")
-    print(f"   Function: 2-variable AND")
+    print("   Function: 2-variable AND")
     print(f"   Truth table: {list(and_func.get_representation('truth_table'))}")
     print(f"   Number of variables: {and_func.n_vars}")
     print(f"   Available representations: {list(and_func.representations.keys())}")
@@ -111,7 +111,7 @@ def bdd_representations():
         print("\n3. BDD properties:")
         print(f"   Number of variables: {bdd.n_vars}")
         print(f"   Has root node: {bdd.root is not None}")
-        print(f"   Terminal nodes: True and False")
+        print("   Terminal nodes: True and False")
 
         return True
 
@@ -126,7 +126,7 @@ def representation_conversions():
 
     print("1. Starting with truth table representation:")
     original_func = bf.create([0, 1, 1, 0])  # XOR
-    print(f"   Original function: XOR")
+    print("   Original function: XOR")
     print(f"   Truth table: {list(original_func.get_representation('truth_table'))}")
 
     print("\n2. Available representation types:")

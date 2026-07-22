@@ -140,32 +140,32 @@ class BooleanFunctionFactory:
 
         if rep_type == "function":
             return cls.from_function(boolean_function_cls, data, **kwargs)
-        elif rep_type == "distribution":
+        if rep_type == "distribution":
             return cls.from_scipy_distribution(boolean_function_cls, data, **kwargs)
-        elif rep_type == "truth_table":
+        if rep_type == "truth_table":
             return cls.from_truth_table(boolean_function_cls, data, **kwargs)
-        elif rep_type in ("packed_truth_table", "sparse_truth_table", "adaptive_truth_table"):
+        if rep_type in ("packed_truth_table", "sparse_truth_table", "adaptive_truth_table"):
             # These are specialized truth table representations
             # Remove rep_type from kwargs if present to avoid duplicate
             kwargs_clean = {k: v for k, v in kwargs.items() if k != "rep_type"}
             return cls.from_truth_table(
                 boolean_function_cls, data, rep_type=rep_type, **kwargs_clean
             )
-        elif rep_type == "invariant_truth_table":
+        if rep_type == "invariant_truth_table":
             return cls.from_input_invariant_truth_table(boolean_function_cls, data, **kwargs)
-        elif rep_type == "polynomial":
+        if rep_type == "polynomial":
             return cls.from_polynomial(boolean_function_cls, data, **kwargs)
-        elif rep_type == "fourier_expansion" or rep_type == "fourier":
+        if rep_type == "fourier_expansion" or rep_type == "fourier":
             return cls.from_multilinear(boolean_function_cls, data, **kwargs)
-        elif rep_type == "symbolic":
+        if rep_type == "symbolic":
             return cls.from_symbolic(boolean_function_cls, data, **kwargs)
-        elif rep_type == "iterable_rep":
+        if rep_type == "iterable_rep":
             return cls.from_iterable(boolean_function_cls, data, **kwargs)
-        elif rep_type == "dnf":
+        if rep_type == "dnf":
             return cls.from_dnf(boolean_function_cls, data, **kwargs)
-        elif rep_type == "cnf":
+        if rep_type == "cnf":
             return cls.from_cnf(boolean_function_cls, data, **kwargs)
-        elif rep_type == "file":
+        if rep_type == "file":
             return cls.from_file(boolean_function_cls, data, **kwargs)
 
         raise InvalidRepresentationError(

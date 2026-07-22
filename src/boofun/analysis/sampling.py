@@ -612,11 +612,10 @@ class RandomVariableView:
 
             analyzer = SpectralAnalyzer(self.function)
             coeffs = analyzer.fourier_expansion()
-            return float(coeffs[S]) if S < len(coeffs) else 0.0
-        else:
-            from .p_biased import p_biased_fourier_coefficient
+            return float(coeffs[S]) if len(coeffs) > S else 0.0
+        from .p_biased import p_biased_fourier_coefficient
 
-            return p_biased_fourier_coefficient(self.function, self.p, S)
+        return p_biased_fourier_coefficient(self.function, self.p, S)
 
     def influence(self, i: int) -> float:
         """Get exact influence of variable i."""
@@ -625,10 +624,9 @@ class RandomVariableView:
 
             analyzer = SpectralAnalyzer(self.function)
             return float(analyzer.influences()[i])
-        else:
-            from .p_biased import p_biased_influence
+        from .p_biased import p_biased_influence
 
-            return p_biased_influence(self.function, i, self.p)
+        return p_biased_influence(self.function, i, self.p)
 
     def total_influence(self) -> float:
         """Get exact total influence."""
@@ -637,10 +635,9 @@ class RandomVariableView:
 
             analyzer = SpectralAnalyzer(self.function)
             return float(analyzer.total_influence())
-        else:
-            from .p_biased import p_biased_total_influence
+        from .p_biased import p_biased_total_influence
 
-            return p_biased_total_influence(self.function, self.p)
+        return p_biased_total_influence(self.function, self.p)
 
     # Sampling methods
 
@@ -660,8 +657,7 @@ class RandomVariableView:
         """Sample inputs from the (p-biased) distribution."""
         if self.p == 0.5:
             return sample_uniform(self.n_vars, n_samples, self._rng)
-        else:
-            return sample_biased(self.n_vars, self.p, n_samples, self._rng)
+        return sample_biased(self.n_vars, self.p, n_samples, self._rng)
 
     def sample_spectral(self, n_samples: int) -> np.ndarray:
         """Sample subsets from the Fourier weight distribution."""

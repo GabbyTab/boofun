@@ -23,13 +23,13 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    "deterministic_cc",
-    "log_rank_bound",
-    "fooling_set_bound",
-    "rectangle_partition_bound",
-    "discrepancy",
-    "CommunicationMatrix",
     "CommunicationComplexityProfile",
+    "CommunicationMatrix",
+    "deterministic_cc",
+    "discrepancy",
+    "fooling_set_bound",
+    "log_rank_bound",
+    "rectangle_partition_bound",
 ]
 
 

@@ -7,8 +7,8 @@ Each family has:
 - Universal properties that always hold
 """
 
-from typing import TYPE_CHECKING
 from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -152,8 +152,7 @@ class TribesFamily(FunctionFamily):
         w = max(2, int(log_n - np.log2(max(1, log_n))))
         # Make sure n is divisible by w
         actual_n = (n // w) * w
-        if actual_n < w:
-            actual_n = w
+        actual_n = max(actual_n, w)
 
         return bf.tribes(w, actual_n)
 
@@ -624,10 +623,9 @@ class RandomDNFFamily(FunctionFamily):
                         if not bits[var]:
                             satisfied = False
                             break
-                    else:  # Negative literal
-                        if bits[var]:
-                            satisfied = False
-                            break
+                    elif bits[var]:
+                        satisfied = False
+                        break
                 if satisfied:
                     return True
             return False
@@ -962,16 +960,16 @@ class SboxFamily(FunctionFamily):
 
 
 __all__ = [
-    "MajorityFamily",
-    "ParityFamily",
-    "TribesFamily",
-    "ThresholdFamily",
     "ANDFamily",
-    "ORFamily",
     "DictatorFamily",
-    "LTFFamily",
-    "RecursiveMajority3Family",
     "IteratedMajorityFamily",
+    "LTFFamily",
+    "MajorityFamily",
+    "ORFamily",
+    "ParityFamily",
     "RandomDNFFamily",
+    "RecursiveMajority3Family",
     "SboxFamily",
+    "ThresholdFamily",
+    "TribesFamily",
 ]

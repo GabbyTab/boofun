@@ -73,7 +73,7 @@ def demo_conversion_graph():
 
     # Show available conversions
     options = majority.get_conversion_options(max_cost=1000)
-    print(f"Available conversions from current representations:")
+    print("Available conversions from current representations:")
 
     for target, info in options.items():
         cost = info["cost"]
@@ -81,7 +81,7 @@ def demo_conversion_graph():
         print(f"  -> {target}: cost={cost.total_cost:.2f}, exact={exact}")
 
     # Demonstrate intelligent conversion
-    print(f"\nConversion cost estimates:")
+    print("\nConversion cost estimates:")
     targets = ["anf", "fourier_expansion", "polynomial"]
 
     for target in targets:
@@ -97,7 +97,7 @@ def demo_conversion_graph():
     graph = get_conversion_graph()
     stats = graph.get_graph_stats()
 
-    print(f"\nConversion Graph Statistics:")
+    print("\nConversion Graph Statistics:")
     print(f"  Nodes: {stats['num_nodes']}")
     print(f"  Edges: {stats['num_edges']}")
     print(f"  Connectivity: {stats['connectivity']:.2%}")
@@ -134,7 +134,7 @@ def demo_batch_processing():
 
     stats = get_batch_processor_stats()
 
-    print(f"\nBatch Processor Info:")
+    print("\nBatch Processor Info:")
     print(f"  Available processors: {stats['available_processors']}")
     print(f"  Numba available: {stats['numba_available']}")
     print(f"  CPU count: {stats['cpu_count']}")
@@ -153,7 +153,7 @@ def demo_gpu_acceleration():
     print(f"Backend: {gpu_info['backend']}")
 
     if gpu_info["devices"]:
-        print(f"GPU Devices:")
+        print("GPU Devices:")
         for device in gpu_info["devices"]:
             print(f"  {device}")
     else:
@@ -188,7 +188,7 @@ def demo_numba_optimization():
         majority = bf.create([False, False, False, True, False, True, True, True])
         analyzer = bf.SpectralAnalyzer(majority)
 
-        print(f"\nOptimized Analysis Results:")
+        print("\nOptimized Analysis Results:")
         start_time = time.time()
         influences = analyzer.influences()
         influence_time = (time.time() - start_time) * 1000
@@ -322,7 +322,7 @@ def demo_error_models():
 
     true_count = sum(results)
     print(f"  XOR(1) over 10 evaluations: {true_count}/10 True")
-    print(f"  Expected ~9/10 due to 5% noise rate")
+    print("  Expected ~9/10 due to 5% noise rate")
 
 
 def demo_quantum_complexity():
@@ -354,7 +354,7 @@ def demo_quantum_complexity():
     print("\n2. Quantum Walk Complexity Bounds (Szegedy 2004):")
     f = bf.AND(4)
     walk = quantum_walk_bounds(f)
-    print(f"  AND_4 on hypercube:")
+    print("  AND_4 on hypercube:")
     print(f"    Classical hitting time: {walk['classical_hitting_time']:.1f}")
     print(f"    Quantum hitting time:  {walk['quantum_hitting_time']:.1f}")
     print(f"    Speedup: {walk['speedup_over_classical']:.2f}x")
@@ -492,7 +492,7 @@ def create_visualization_examples():
         plt.savefig(os.path.join(output_dir, "influence_comparison.png"), dpi=300)
         plt.close()
 
-        print(f"  [PASS] Influence comparison saved to generated/influence_comparison.png")
+        print("  [PASS] Influence comparison saved to generated/influence_comparison.png")
 
         # Example 2: Noise stability curves
         majority = bf.create([False, False, False, True, False, True, True, True])
@@ -512,7 +512,7 @@ def create_visualization_examples():
         plt.savefig(os.path.join(output_dir, "noise_stability.png"), dpi=300)
         plt.close()
 
-        print(f"  [PASS] Noise stability curve saved to generated/noise_stability.png")
+        print("  [PASS] Noise stability curve saved to generated/noise_stability.png")
 
     except Exception as e:
         print(f"  [WARN]  Visualization examples require matplotlib: {e}")

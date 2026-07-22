@@ -94,7 +94,7 @@ class TestBLRLinearityTest:
         for f in linear_funcs:
             tester = PropertyTester(f, random_seed=42)
             blr_result = tester.blr_linearity_test(num_queries=100)
-            assert blr_result is True, f"BLR failed on linear function"
+            assert blr_result is True, "BLR failed on linear function"
 
     def test_blr_acceptance_probability_formula(self):
         """Verify BLR acceptance probability matches the formula.

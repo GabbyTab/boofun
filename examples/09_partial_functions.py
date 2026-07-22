@@ -27,7 +27,7 @@ def demo_partial_creation():
     print("-" * 50)
     # Create a partial function with some known outputs
     p = bf.partial(n=4, known_values={0: False, 1: True, 15: True})
-    print(f"   Created partial function with n=4")
+    print("   Created partial function with n=4")
     print(f"   Known values: {p.num_known} / {2**4}")
     print(f"   Completeness: {p.completeness:.2%}")
 
@@ -110,12 +110,12 @@ def demo_storage_hints():
     print("-" * 50)
     tt = [0, 1, 1, 0, 1, 0, 0, 1]
     f_dense = bf.create(tt, storage="dense")
-    print(f"   Dense: standard array storage")
+    print("   Dense: standard array storage")
 
     print("\n2. Packed storage (1 bit per entry)")
     print("-" * 50)
     f_packed = bf.create(tt, storage="packed")
-    print(f"   Packed: 8x memory reduction for large n")
+    print("   Packed: 8x memory reduction for large n")
 
     print("\n3. Sparse storage (for mostly-0 or mostly-1)")
     print("-" * 50)
@@ -124,12 +124,12 @@ def demo_storage_hints():
     sparse_tt[42] = 1
     sparse_tt[137] = 1
     f_sparse = bf.create(sparse_tt, storage="sparse")
-    print(f"   Sparse: only stores exceptions")
+    print("   Sparse: only stores exceptions")
 
     print("\n4. Auto storage (selects best)")
     print("-" * 50)
     f_auto = bf.create(tt, storage="auto")
-    print(f"   Auto: picks based on size and sparsity")
+    print("   Auto: picks based on size and sparsity")
 
     print("\n5. Lazy/oracle storage (compute on demand)")
     print("-" * 50)
@@ -141,7 +141,7 @@ def demo_storage_hints():
         return sum(x) % 2
 
     f_lazy = bf.create(my_oracle, n=20, storage="lazy")
-    print(f"   Lazy: n=20 would need 1M entries, but oracle computes on demand")
+    print("   Lazy: n=20 would need 1M entries, but oracle computes on demand")
     print(f"   f_lazy(0) = {f_lazy.evaluate(0)}")
     print(f"   f_lazy(1) = {f_lazy.evaluate(1)}")
 

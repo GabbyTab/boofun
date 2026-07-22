@@ -6,9 +6,9 @@ indexed by the number of variables n (and possibly other parameters).
 """
 
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Optional
-from collections.abc import Callable
 
 import numpy as np
 
@@ -97,11 +97,10 @@ class FunctionFamily(ABC):
 
         if callable(formula):
             return formula(n, **kwargs)
-        elif isinstance(formula, str):
+        if isinstance(formula, str):
             # Could parse string formulas if needed
             return None
-        else:
-            return formula
+        return formula
 
     def generate_range(self, n_values: list[int], **kwargs) -> dict[int, "BooleanFunction"]:
         """
@@ -331,8 +330,8 @@ __all__ = [
     "FunctionFamily",
     "InductiveFamily",
     "WeightPatternFamily",
-    "uniform_ltf_family",
     "geometric_ltf_family",
     "harmonic_ltf_family",
     "power_ltf_family",
+    "uniform_ltf_family",
 ]

@@ -274,7 +274,7 @@ class BooleanFunctionValidator:
                 icon = "✅" if passed else "❌"
                 print(f"  {icon} Status: {'PASSED' if passed else 'FAILED'}")
 
-                if "issues" in results and results["issues"]:
+                if results.get("issues"):
                     print("  Issues:")
                     for issue in results["issues"]:
                         print(f"    - {issue}")
@@ -520,9 +520,9 @@ def validate_representation(
 # Export main classes and functions
 __all__ = [
     "BooleanFunctionValidator",
-    "RepresentationTester",
-    "PropertyTestSuite",
     "PerformanceProfiler",
+    "PropertyTestSuite",
+    "RepresentationTester",
     "quick_validate",
     "validate_representation",
 ]

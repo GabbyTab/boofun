@@ -15,11 +15,11 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
-    "export_decision_tree_text",
+    "DecisionTreeExporter",
     "export_decision_tree_dot",
     "export_decision_tree_json",
+    "export_decision_tree_text",
     "export_decision_tree_tikz",
-    "DecisionTreeExporter",
 ]
 
 
@@ -144,17 +144,16 @@ def export_decision_tree_text(
                 lines.append(f"{var_names[node.variable]}?")
                 print_tree(node.low, "", True, "=0")
                 print_tree(node.high, "", False, "=1")
+        elif node.is_leaf:
+            lines.append(f"{prefix}{connector}{edge_label} → [{1 if node.value else 0}]")
         else:
-            if node.is_leaf:
-                lines.append(f"{prefix}{connector}{edge_label} → [{1 if node.value else 0}]")
-            else:
-                assert node.variable is not None
-                assert node.low is not None
-                assert node.high is not None
-                lines.append(f"{prefix}{connector}{edge_label} → {var_names[node.variable]}?")
-                new_prefix = prefix + ("│   " if is_left else "    ")
-                print_tree(node.low, new_prefix, True, "=0")
-                print_tree(node.high, new_prefix, False, "=1")
+            assert node.variable is not None
+            assert node.low is not None
+            assert node.high is not None
+            lines.append(f"{prefix}{connector}{edge_label} → {var_names[node.variable]}?")
+            new_prefix = prefix + ("│   " if is_left else "    ")
+            print_tree(node.low, new_prefix, True, "=0")
+            print_tree(node.high, new_prefix, False, "=1")
 
     print_tree(tree)
     return "\n".join(lines)
@@ -248,18 +247,17 @@ def export_decision_tree_json(
     def node_to_dict(node: DecisionTreeNode) -> dict[str, Any]:
         if node.is_leaf:
             return {"type": "leaf", "value": node.value, "depth": node.depth}
-        else:
-            assert node.variable is not None
-            assert node.low is not None
-            assert node.high is not None
-            return {
-                "type": "internal",
-                "variable": node.variable,
-                "variable_name": var_names[node.variable],
-                "depth": node.depth,
-                "low": node_to_dict(node.low),
-                "high": node_to_dict(node.high),
-            }
+        assert node.variable is not None
+        assert node.low is not None
+        assert node.high is not None
+        return {
+            "type": "internal",
+            "variable": node.variable,
+            "variable_name": var_names[node.variable],
+            "depth": node.depth,
+            "low": node_to_dict(node.low),
+            "high": node_to_dict(node.high),
+        }
 
     return {"function": {"n_vars": n, "variable_names": var_names}, "tree": node_to_dict(tree)}
 
@@ -300,19 +298,18 @@ def export_decision_tree_tikz(
         if node.is_leaf:
             val = "1" if node.value else "0"
             return f"node[leaf] {{{val}}}"
-        else:
-            assert node.variable is not None
-            assert node.low is not None
-            assert node.high is not None
-            label = var_names[node.variable]
-            low_tikz = node_to_tikz(node.low, indent + "    ")
-            high_tikz = node_to_tikz(node.high, indent + "    ")
+        assert node.variable is not None
+        assert node.low is not None
+        assert node.high is not None
+        label = var_names[node.variable]
+        low_tikz = node_to_tikz(node.low, indent + "    ")
+        high_tikz = node_to_tikz(node.high, indent + "    ")
 
-            return (
-                f"node {{{label}}}\n"
-                f"{indent}child {{ {low_tikz} edge from parent node[left] {{0}} }}\n"
-                f"{indent}child {{ {high_tikz} edge from parent node[right] {{1}} }}"
-            )
+        return (
+            f"node {{{label}}}\n"
+            f"{indent}child {{ {low_tikz} edge from parent node[left] {{0}} }}\n"
+            f"{indent}child {{ {high_tikz} edge from parent node[right] {{1}} }}"
+        )
 
     lines.append(f"\\{node_to_tikz(tree)};")
     lines.append("\\end{tikzpicture}")

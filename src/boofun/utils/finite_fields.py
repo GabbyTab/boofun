@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-__all__ = ["get_field", "GFField", "HAS_GALOIS"]
+__all__ = ["HAS_GALOIS", "GFField", "get_field"]
 
 try:  # pragma: no cover - optional dependency
     import galois as _galois

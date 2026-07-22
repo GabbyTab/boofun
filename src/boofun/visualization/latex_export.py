@@ -19,12 +19,12 @@ if TYPE_CHECKING:
     from ..core.base import BooleanFunction
 
 __all__ = [
+    "LaTeXExporter",
+    "export_comparison_table",
+    "export_cube_tikz",
     "export_fourier_tikz",
     "export_influences_tikz",
-    "export_cube_tikz",
-    "export_comparison_table",
     "export_spectrum_table",
-    "LaTeXExporter",
 ]
 
 
@@ -62,15 +62,15 @@ def export_fourier_tikz(
 
     lines = [
         "\\begin{tikzpicture}",
-        f"\\begin{{axis}}[",
+        "\\begin{axis}[",
         f"    width={width}cm,",
         f"    height={height}cm,",
-        f"    ybar,",
-        f"    bar width=0.5,",
-        f"    xlabel={{Subset $S$}},",
-        f"    ylabel={{$\\hat{{f}}(S)$}},",
-        f"    ymin=-1, ymax=1,",
-        f"    xtick=data,",
+        "    ybar,",
+        "    bar width=0.5,",
+        "    xlabel={Subset $S$},",
+        "    ylabel={$\\hat{f}(S)$},",
+        "    ymin=-1, ymax=1,",
+        "    xtick=data,",
     ]
 
     if show_labels and n is not None and n <= 4:
@@ -83,9 +83,9 @@ def export_fourier_tikz(
                 bits = [var_names[j] for j in range(n) if (i >> j) & 1]
                 labels.append("$\\{" + ",".join(bits) + "\\}$")
         lines.append(f"    xticklabels={{{', '.join(labels)}}},")
-        lines.append(f"    x tick label style={{rotate=45, anchor=east}},")
+        lines.append("    x tick label style={rotate=45, anchor=east},")
     else:
-        lines.append(f"    xticklabels={{}},")
+        lines.append("    xticklabels={},")
 
     lines.append("]")
 
@@ -138,29 +138,29 @@ def export_influences_tikz(
 
     lines = [
         "\\begin{tikzpicture}",
-        f"\\begin{{axis}}[",
+        "\\begin{axis}[",
         f"    width={width}cm,",
         f"    height={height}cm,",
         f"    {bar_type},",
-        f"    bar width=0.4cm,",
+        "    bar width=0.4cm,",
     ]
 
     if horizontal:
         lines.extend(
             [
-                f"    xlabel={{Influence $\\mathrm{{Inf}}_i[f]$}},",
+                "    xlabel={Influence $\\mathrm{Inf}_i[f]$},",
                 f"    symbolic y coords={{{', '.join(var_names)}}},",
-                f"    ytick=data,",
-                f"    xmin=0,",
+                "    ytick=data,",
+                "    xmin=0,",
             ]
         )
     else:
         lines.extend(
             [
-                f"    ylabel={{Influence $\\mathrm{{Inf}}_i[f]$}},",
+                "    ylabel={Influence $\\mathrm{Inf}_i[f]$},",
                 f"    symbolic x coords={{{', '.join(var_names)}}},",
-                f"    xtick=data,",
-                f"    ymin=0,",
+                "    xtick=data,",
+                "    ymin=0,",
             ]
         )
 
@@ -215,7 +215,7 @@ def export_cube_tikz(n: int = 3, labels: bool = True) -> str:
             "10": (0, 1),
             "11": (1, 1),
         }
-        edges = [("00", "01"), ("00", "10"), ("01", "11"), ("10", "11")]  # noqa: E501
+        edges = [("00", "01"), ("00", "10"), ("01", "11"), ("10", "11")]
     elif n == 3:
         # Cube
         positions = {

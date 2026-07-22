@@ -295,11 +295,11 @@ class TestLTFParameters:
         params = LTFParameters(weights=np.ones(3), threshold=2.0, n_vars=3)
 
         # 0+0+0 = 0 < 2 -> False
-        assert params.evaluate([0, 0, 0]) == False  # noqa: E712
+        assert params.evaluate([0, 0, 0]) == False
         # 1+1+0 = 2 >= 2 -> True
-        assert params.evaluate([1, 1, 0]) == True  # noqa: E712
+        assert params.evaluate([1, 1, 0]) == True
         # 1+1+1 = 3 >= 2 -> True
-        assert params.evaluate([1, 1, 1]) == True  # noqa: E712
+        assert params.evaluate([1, 1, 1]) == True
 
     def test_evaluate_wrong_length(self):
         """Test evaluate with wrong input length."""
@@ -346,11 +346,11 @@ class TestLTFRepresentationEvaluation:
 
         # Index 0 = [0,0,0] -> False
         result = repr_obj.evaluate(np.array(0), params, space, 3)
-        assert result == False  # noqa: E712
+        assert result == False
 
         # Index 7 = [1,1,1] -> True
         result = repr_obj.evaluate(np.array(7), params, space, 3)
-        assert result == True  # noqa: E712
+        assert result == True
 
     def test_evaluate_binary_vector(self):
         """Test evaluation with binary vector."""
@@ -361,7 +361,7 @@ class TestLTFRepresentationEvaluation:
         space = Space.BOOLEAN_CUBE
 
         result = repr_obj.evaluate(np.array([1, 1, 0]), params, space, 3)
-        assert result == True  # noqa: E712
+        assert result == True
 
     def test_evaluate_array_of_indices(self):
         """Test evaluation with array of indices."""
@@ -386,8 +386,8 @@ class TestLTFRepresentationEvaluation:
         batch = np.array([[0, 0, 0], [1, 1, 0], [1, 1, 1]])
         results = repr_obj.evaluate(batch, params, space, 3)
         assert len(results) == 3
-        assert results[0] == False  # noqa: E712
-        assert results[1] == True  # noqa: E712
+        assert results[0] == False
+        assert results[1] == True
 
     def test_evaluate_unsupported_shape(self):
         """Test that unsupported shape raises error."""
@@ -459,7 +459,7 @@ class TestLTFRepresentationUtilities:
 
         assert empty.n_vars == 4
         # Empty is constant False: all weights=0, threshold=1
-        assert empty.evaluate([0, 0, 0, 0]) == False  # noqa: E712
+        assert empty.evaluate([0, 0, 0, 0]) == False
 
     def test_is_complete(self):
         """Test is_complete method."""
@@ -773,7 +773,7 @@ class TestSparseTruthTableRepresentation:
         # Create a mostly-zero function
         empty = repr_obj.create_empty(3)
         assert empty is not None
-        assert empty["default_value"] == False  # noqa: E712
+        assert empty["default_value"] == False
         assert empty["exceptions"] == {}
 
     def test_sparse_evaluate_scalar(self):
@@ -792,8 +792,8 @@ class TestSparseTruthTableRepresentation:
         }
 
         # Test evaluation
-        assert repr_obj.evaluate(np.array(0), sparse_data, space, 3) == False  # noqa
-        assert repr_obj.evaluate(np.array(7), sparse_data, space, 3) == True  # noqa
+        assert repr_obj.evaluate(np.array(0), sparse_data, space, 3) == False
+        assert repr_obj.evaluate(np.array(7), sparse_data, space, 3) == True
 
     def test_sparse_evaluate_binary_vector(self):
         """Test evaluating sparse representation at binary vector."""
@@ -811,7 +811,7 @@ class TestSparseTruthTableRepresentation:
 
         # [1,1,1] -> index 7
         result = repr_obj.evaluate(np.array([1, 1, 1]), sparse_data, space, 3)
-        assert result == True  # noqa: E712
+        assert result == True
 
     def test_sparse_evaluate_array_indices(self):
         """Test evaluating sparse representation at array of indices."""
@@ -831,7 +831,7 @@ class TestSparseTruthTableRepresentation:
         indices = np.array([0, 3, 7, 5])
         results = repr_obj.evaluate(indices, sparse_data, space, 3)
         assert len(results) == 4
-        assert results[2] == True  # noqa: E712
+        assert results[2] == True
 
     def test_sparse_evaluate_batch_binary(self):
         """Test evaluating sparse representation at batch of binary vectors."""

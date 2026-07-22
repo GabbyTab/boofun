@@ -42,7 +42,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                 raise IndexError(f"Index {index} out of range for truth table of size {len(data)}")
             return bool(data[index])
 
-        elif inputs.ndim == 1:
+        if inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector - convert to index
                 if space == Space.PLUS_MINUS_CUBE:
@@ -50,18 +50,17 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                     inputs = ((inputs + 1) // 2).astype(int)
                 index = self._binary_to_index(inputs)
                 return bool(data[index])
-            else:
-                # Array of integer indices
-                indices: np.ndarray = inputs.astype(int)
-                if np.any((indices < 0) | (indices >= len(data))):
-                    raise IndexError(
-                        f"Some indices out of range for truth table of size {len(data)}"
-                    )
-                # Convert to Python list to avoid numpy indexing issues, then back to array
-                result = np.array([bool(data[idx]) for idx in indices])
-                return result
+            # Array of integer indices
+            indices: np.ndarray = inputs.astype(int)
+            if np.any((indices < 0) | (indices >= len(data))):
+                raise IndexError(
+                    f"Some indices out of range for truth table of size {len(data)}"
+                )
+            # Convert to Python list to avoid numpy indexing issues, then back to array
+            result = np.array([bool(data[idx]) for idx in indices])
+            return result
 
-        elif inputs.ndim == 2:
+        if inputs.ndim == 2:
             # Batch of binary vectors (batch_size, n_vars)
             if inputs.shape[1] != n_vars:
                 raise ValueError(f"Expected {n_vars} variables, got {inputs.shape[1]}")
@@ -74,8 +73,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
             indices = np.array([self._binary_to_index(row) for row in inputs])
             return data[indices].astype(bool)
 
-        else:
-            raise ValueError(f"Unsupported input shape: {inputs.shape}")
+        raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
     def _binary_to_index(self, binary_vector: np.ndarray) -> int:
         """Convert binary vector to integer index using LSB=x₀ convention."""
@@ -141,9 +139,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
                 value = source_repr.evaluate(idx, source_data, space, n_vars)  # type: ignore[arg-type]
 
                 # Handle different return types and spaces
-                if isinstance(value, (bool, np.bool_)):
-                    truth_table[idx] = bool(value)
-                elif isinstance(value, (int, np.integer)):
+                if isinstance(value, (bool, np.bool_)) or isinstance(value, (int, np.integer)):
                     truth_table[idx] = bool(value)
                 elif isinstance(value, (float, np.floating)):
                     # For real-valued outputs, convert to boolean

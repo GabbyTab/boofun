@@ -109,7 +109,7 @@ class TestF2Polynomial:
         """f = (-1)^0 = constant 0 (always +1 in ±1)."""
         f = bf.f2_polynomial(3, [])
         for x in range(8):
-            assert f.evaluate(x) == False  # noqa: E712
+            assert f.evaluate(x) == False
 
 
 class TestIsGlobal:

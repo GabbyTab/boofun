@@ -22,10 +22,10 @@ if TYPE_CHECKING:
 
 __all__ = [
     "block_sensitivity_at",
+    "block_sensitivity_profile",
     "max_block_sensitivity",
     "minimal_sensitive_blocks",
     "sensitive_coordinates",
-    "block_sensitivity_profile",
 ]
 
 
@@ -220,8 +220,7 @@ def max_block_sensitivity(
             sens = len(sensitive_coordinates(f, x))
 
             # Block sensitivity is at least sensitivity
-            if sens > best:
-                best = sens
+            best = max(best, sens)
 
             # If sensitivity equals n, block sensitivity is also n
             if sens == n:
@@ -230,8 +229,7 @@ def max_block_sensitivity(
         # Compute full block sensitivity
         bs = block_sensitivity_at(f, x)
 
-        if bs > best:
-            best = bs
+        best = max(best, bs)
 
         # Early termination
         if best == n:

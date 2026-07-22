@@ -84,7 +84,7 @@ def recommend_representation(
 
         if packed_bytes > limit_bytes:
             recommendation["representation"] = "sparse_truth_table"
-            recommendation["reason"] = f"Memory limit exceeded even with packing"
+            recommendation["reason"] = "Memory limit exceeded even with packing"
             recommendation["required_mb"] = packed_bytes / (1024 * 1024)
             return recommendation
 
@@ -116,7 +116,7 @@ def recommend_representation(
     # Large n: use packed or sparse depending on access pattern
     if access_pattern == "sparse_queries":
         recommendation["representation"] = "sparse_truth_table"
-        recommendation["reason"] = f"Large n with sparse queries"
+        recommendation["reason"] = "Large n with sparse queries"
     else:
         recommendation["representation"] = "packed_truth_table"
         recommendation["reason"] = f"Large n={n_vars}: packed is most efficient"
@@ -253,36 +253,33 @@ class AdaptiveFunction:
         """Evaluate the function at x."""
         if self._format == "dense":
             return bool(self._data[x])
-        elif self._format == "packed":
+        if self._format == "packed":
             from .representations.packed_truth_table import HAS_BITARRAY
 
             if HAS_BITARRAY and "bitarray" in self._data:
                 return bool(self._data["bitarray"][x])
-            else:
-                byte_idx = x // 8
-                bit_idx = 7 - (x % 8)  # MSB first
-                return bool((self._data["array"][byte_idx] >> bit_idx) & 1)
-        elif self._format == "sparse":
+            byte_idx = x // 8
+            bit_idx = 7 - (x % 8)  # MSB first
+            return bool((self._data["array"][byte_idx] >> bit_idx) & 1)
+        if self._format == "sparse":
             return self._data["exceptions"].get(x, self._data["default_value"])
-        else:
-            raise ValueError(f"Unknown format: {self._format}")
+        raise ValueError(f"Unknown format: {self._format}")
 
     def to_dense(self) -> np.ndarray:
         """Convert to dense numpy array."""
         if self._format == "dense":
             return self._data
-        elif self._format == "packed":
+        if self._format == "packed":
             from .representations.packed_truth_table import PackedTruthTableRepresentation
 
             repr_obj = PackedTruthTableRepresentation()
             return repr_obj.to_numpy(self._data)
-        elif self._format == "sparse":
+        if self._format == "sparse":
             result = np.full(self.size, self._data["default_value"], dtype=bool)
             for idx, val in self._data["exceptions"].items():
                 result[idx] = val
             return result
-        else:
-            raise ValueError(f"Unknown format: {self._format}")
+        raise ValueError(f"Unknown format: {self._format}")
 
     @property
     def format(self) -> str:
@@ -302,7 +299,7 @@ class AdaptiveFunction:
                 "bytes": self._data.nbytes,
                 "per_entry": f"{self._data.nbytes / self.size:.1f} bytes",
             }
-        elif self._format == "packed":
+        if self._format == "packed":
             if "bitarray" in self._data:
                 bytes_used = len(self._data["bitarray"]) // 8
             else:
@@ -312,7 +309,7 @@ class AdaptiveFunction:
                 "bytes": bytes_used,
                 "per_entry": f"{bytes_used / self.size:.3f} bytes (1 bit)",
             }
-        elif self._format == "sparse":
+        if self._format == "sparse":
             # Approximate: each exception needs ~12 bytes (int key + bool value + overhead)
             bytes_used = 32 + len(self._data["exceptions"]) * 12
             return {

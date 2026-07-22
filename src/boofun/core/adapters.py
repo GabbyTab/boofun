@@ -7,8 +7,8 @@ compatible with the BooFun library's representation system.
 
 import warnings
 from abc import ABC, abstractmethod
-from typing import Any, Protocol
 from collections.abc import Callable
+from typing import Any, Protocol
 
 import numpy as np
 
@@ -124,27 +124,24 @@ class LegacyAdapter(BooleanFunctionAdapter):
             # Try to detect format
             if is_scalar:
                 return int(inputs) if not is_numpy else int(inputs.item())
-            elif is_1d_array:
+            if is_1d_array:
                 return list(inputs) if not is_numpy else inputs.tolist()
-            else:
-                return inputs  # Keep as-is
+            return inputs  # Keep as-is
 
-        elif self.input_format == "integer":
+        if self.input_format == "integer":
             if is_scalar:
                 return int(inputs) if not is_numpy else int(inputs.item())
-            elif is_1d_array and len(inputs) == self.n_vars:
+            if is_1d_array and len(inputs) == self.n_vars:
                 # Convert binary vector to integer
                 return sum(int(inputs[i]) * (2**i) for i in range(len(inputs)))
-            else:
-                return inputs
+            return inputs
 
-        elif self.input_format == "binary":
+        if self.input_format == "binary":
             if is_scalar:
                 # Convert integer to binary vector
                 x = int(inputs) if not is_numpy else int(inputs.item())
                 return [(x >> i) & 1 for i in range(self.n_vars or 8)]
-            else:
-                return list(inputs) if not is_numpy else inputs.tolist()
+            return list(inputs) if not is_numpy else inputs.tolist()
 
         return inputs
 
@@ -154,17 +151,16 @@ class LegacyAdapter(BooleanFunctionAdapter):
             # Try to detect and convert
             if isinstance(result, bool):
                 return result
-            elif isinstance(result, (int, np.integer)):
+            if isinstance(result, (int, np.integer)):
                 return bool(result)
-            elif isinstance(result, (float, np.floating)):
+            if isinstance(result, (float, np.floating)):
                 return bool(result > 0.5)
-            else:
-                return bool(result)
-
-        elif self.output_format == "boolean":
             return bool(result)
 
-        elif self.output_format == "integer":
+        if self.output_format == "boolean":
+            return bool(result)
+
+        if self.output_format == "integer":
             return bool(int(result))
 
         return bool(result)
@@ -217,27 +213,24 @@ class CallableAdapter(BooleanFunctionAdapter):
                 x = int(inputs) if not isinstance(inputs, np.ndarray) else int(inputs.item())
                 binary_vec = [(x >> i) & 1 for i in range(self.n_vars or 8)]
                 return bool(func(binary_vec))
-            else:
-                return bool(func(list(inputs) if not isinstance(inputs, np.ndarray) else inputs))
+            return bool(func(list(inputs) if not isinstance(inputs, np.ndarray) else inputs))
 
-        elif self.input_type == "individual_args":
+        if self.input_type == "individual_args":
             # Pass each bit as separate argument
             if is_scalar:
                 x = int(inputs) if not isinstance(inputs, np.ndarray) else int(inputs.item())
                 args = [(x >> i) & 1 for i in range(self.n_vars or 8)]
                 return bool(func(*args))
-            else:
-                return bool(func(*inputs))
+            return bool(func(*inputs))
 
-        elif self.input_type == "integer":
+        if self.input_type == "integer":
             # Pass as single integer
             if is_scalar:
                 x = int(inputs) if not isinstance(inputs, np.ndarray) else int(inputs.item())
                 return bool(func(x))
-            else:
-                # Convert binary vector to integer
-                x = sum(int(inputs[i]) * (2**i) for i in range(len(inputs)))
-                return bool(func(x))
+            # Convert binary vector to integer
+            x = sum(int(inputs[i]) * (2**i) for i in range(len(inputs)))
+            return bool(func(x))
 
         return bool(func(inputs))
 
@@ -337,8 +330,7 @@ class NumPyAdapter(BooleanFunctionAdapter):
                 if isinstance(inputs, np.ndarray) and inputs.ndim > 1:
                     # Batch evaluation
                     return np.array([bool(numpy_function(x)) for x in inputs])
-                else:
-                    return bool(numpy_function(inputs))
+                return bool(numpy_function(inputs))
 
         return BooleanFunctionFactory.from_function(BooleanFunction, wrapper_function, n=n_vars)
 
@@ -357,14 +349,13 @@ def create_adapter(adapter_type: str, **kwargs) -> BooleanFunctionAdapter:
     """
     if adapter_type.lower() == "legacy":
         return LegacyAdapter(**kwargs)
-    elif adapter_type.lower() == "callable":
+    if adapter_type.lower() == "callable":
         return CallableAdapter(**kwargs)
-    elif adapter_type.lower() == "sympy":
+    if adapter_type.lower() == "sympy":
         return SymPyAdapter(**kwargs)
-    elif adapter_type.lower() == "numpy":
+    if adapter_type.lower() == "numpy":
         return NumPyAdapter(**kwargs)
-    else:
-        raise ValueError(f"Unknown adapter type: {adapter_type}")
+    raise ValueError(f"Unknown adapter type: {adapter_type}")
 
 
 # Convenience functions for common use cases
