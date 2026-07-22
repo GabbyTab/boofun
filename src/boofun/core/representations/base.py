@@ -149,6 +149,7 @@ class PartialRepresentation(Generic[DataType]):
         self.data = data
         self.n_vars = n_vars
         self._confidence_cache: Dict[int, "tuple[bool, float]"] = {}
+        self.known_mask: Optional[np.ndarray]
 
         # Initialize or validate known_mask
         if known_mask is None:
@@ -170,7 +171,7 @@ class PartialRepresentation(Generic[DataType]):
         n_vars: int,
         known_values: Dict[int, bool],
         strategy_name: str = "truth_table",
-    ) -> "PartialRepresentation":
+    ) -> "PartialRepresentation[np.ndarray]":
         """
         Create partial representation from sparse known values.
 
@@ -196,7 +197,7 @@ class PartialRepresentation(Generic[DataType]):
                 data[idx] = value
                 known_mask[idx] = True
 
-        return cls(strategy, data, known_mask, n_vars)
+        return PartialRepresentation(strategy, data, known_mask, n_vars)
 
     @property
     def completeness(self) -> float:
