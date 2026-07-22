@@ -70,7 +70,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -e ".[dev]"
+        pip install -e ".[dev,visualization]"
 
     - name: Run type checking (mypy)
       run: mypy src/boofun --no-color-output
