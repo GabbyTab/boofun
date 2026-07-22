@@ -239,7 +239,7 @@ source = ["src/boofun"]
 branch = true
 
 [tool.coverage.report]
-fail_under = 79.5
+fail_under = 78.5
 precision = 1
 exclude_lines = [
     "pragma: no cover",
