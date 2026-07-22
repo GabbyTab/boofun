@@ -57,7 +57,6 @@ dev = [
     "pytest-benchmark>=4.0.0",
     "autotyping>=24.9.0",
     "mypy>=1.13,<2.4",  # Pin minor version; bump in v1.3 and fix new var-annotated errors
-    "mypy-baseline>=0.7.4",
     "MonkeyType>=23.3.0",
     "pre-commit>=3.0.0",
     "ruff>=0.15.22",
@@ -187,16 +186,13 @@ module = "boofun.core.numba_optimizations"
 disallow_untyped_decorators = false  # Numba decorators
 warn_return_any = false
 
-[tool.mypy-baseline]
-baseline_path = "mypy-baseline.txt"
-sort_baseline = true
-no_colors = true
-
 [tool.coverage.run]
 source = ["src/boofun"]
 branch = true
 
 [tool.coverage.report]
+fail_under = 79.5
+precision = 1
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",
