@@ -160,6 +160,11 @@ ignore = [
     "SIM108",
 ]
 
+[tool.ruff.lint.flake8-unused-arguments]
+# Interface methods and IO/plotting wrappers accept **kwargs for signature
+# compatibility; an unconsumed variadic is intentional API surface.
+ignore-variadic-names = true
+
 [tool.ruff.lint.per-file-ignores]
 "**/__init__.py" = ["F401"]
 "tests/**/*.py" = ["E402", "E712", "RUF059", "SIM105"]
