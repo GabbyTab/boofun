@@ -16,6 +16,7 @@ functions and can dramatically affect their complexity measures.
 
 from __future__ import annotations
 
+import typing
 from itertools import permutations
 from typing import TYPE_CHECKING
 
@@ -165,7 +166,9 @@ def make_unate(f: BooleanFunction) -> BooleanFunction | None:
     polarity_mask = sum((1 << i) for i in range(n) if polarities[i] == -1)
     new_tt = np.array([truth_table[x ^ polarity_mask] for x in range(1 << n)], dtype=bool)
 
-    return BooleanFunctionFactory.from_truth_table(BFClass, new_tt, n=n)
+    return typing.cast(
+        "BooleanFunction | None", BooleanFunctionFactory.from_truth_table(BFClass, new_tt, n=n)
+    )
 
 
 def monotone_closure(f: BooleanFunction) -> BooleanFunction:
@@ -198,7 +201,9 @@ def monotone_closure(f: BooleanFunction) -> BooleanFunction:
                 if not ((x >> i) & 1):  # Bit i is 0
                     new_tt[x | (1 << i)] = True
 
-    return BooleanFunctionFactory.from_truth_table(BFClass, new_tt, n=n)
+    return typing.cast(
+        "BooleanFunction", BooleanFunctionFactory.from_truth_table(BFClass, new_tt, n=n)
+    )
 
 
 def is_symmetric(f: BooleanFunction) -> bool:

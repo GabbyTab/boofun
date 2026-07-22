@@ -107,7 +107,7 @@ def average_sensitivity(f: BooleanFunction) -> float:
     n = f.n_vars
     assert n is not None
     total = sum(sensitivity_at(f, x) for x in range(2**n))
-    return total / (2**n)
+    return float(total / (2**n))
 
 
 def block_sensitivity(f: BooleanFunction) -> int:
@@ -199,19 +199,19 @@ class HuangAnalysis:
         """Get maximum sensitivity."""
         if "sensitivity" not in self._cache:
             self._cache["sensitivity"] = max_sensitivity(self.f)
-        return self._cache["sensitivity"]
+        return int(self._cache["sensitivity"])
 
     def block_sensitivity(self) -> int:
         """Get block sensitivity."""
         if "block_sensitivity" not in self._cache:
             self._cache["block_sensitivity"] = block_sensitivity(self.f)
-        return self._cache["block_sensitivity"]
+        return int(self._cache["block_sensitivity"])
 
     def degree(self) -> int:
         """Get Fourier degree."""
         if "degree" not in self._cache:
             self._cache["degree"] = self.f.degree()
-        return self._cache["degree"]
+        return int(self._cache["degree"])
 
     def sensitivity_profile(self) -> np.ndarray:
         """Get sensitivity at each input."""

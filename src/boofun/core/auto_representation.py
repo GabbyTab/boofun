@@ -15,6 +15,7 @@ Guidelines:
 - n > 20: Consider sparse Fourier or symbolic
 """
 
+import typing
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
@@ -262,13 +263,13 @@ class AdaptiveFunction:
             bit_idx = 7 - (x % 8)  # MSB first
             return bool((self._data["array"][byte_idx] >> bit_idx) & 1)
         if self._format == "sparse":
-            return self._data["exceptions"].get(x, self._data["default_value"])
+            return bool(self._data["exceptions"].get(x, self._data["default_value"]))
         raise ValueError(f"Unknown format: {self._format}")
 
     def to_dense(self) -> np.ndarray:
         """Convert to dense numpy array."""
         if self._format == "dense":
-            return self._data
+            return typing.cast("np.ndarray", self._data)
         if self._format == "packed":
             from .representations.packed_truth_table import PackedTruthTableRepresentation
 
@@ -284,12 +285,12 @@ class AdaptiveFunction:
     @property
     def format(self) -> str:
         """Get current storage format."""
-        return self._format
+        return str(self._format)
 
     @property
     def sparsity(self) -> float:
         """Get function sparsity."""
-        return self._sparsity
+        return float(self._sparsity)
 
     def memory_usage(self) -> dict[str, Any]:
         """Get memory usage statistics."""

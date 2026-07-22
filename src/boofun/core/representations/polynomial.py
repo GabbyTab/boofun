@@ -5,6 +5,7 @@ This module implements the Algebraic Normal Form (ANF) representation,
 where Boolean functions are represented as multivariate polynomials over GF(2).
 """
 
+import typing
 from typing import Any
 
 import numpy as np
@@ -160,7 +161,9 @@ class PolynomialRepresentation(BooleanFunctionRepresentation[dict[frozenset, int
         **kwargs,
     ) -> np.ndarray:
         """Convert from polynomial to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> dict[frozenset, int]:
         """Create empty polynomial (constant 0)."""

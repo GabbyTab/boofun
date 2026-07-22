@@ -23,6 +23,7 @@ Relationships (from O'Donnell Chapter 1):
 
 from __future__ import annotations
 
+import typing
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -82,7 +83,7 @@ def gf2_fourier_transform(f: BooleanFunction) -> np.ndarray:
             if mask & step:
                 coeffs[mask] ^= coeffs[mask ^ step]
 
-    return coeffs
+    return typing.cast("np.ndarray", coeffs)
 
 
 def gf2_degree(f: BooleanFunction) -> int:

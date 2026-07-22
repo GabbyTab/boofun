@@ -91,7 +91,7 @@ def bivariate_gaussian_cdf(x: float, y: float, rho: float) -> float:
 
         cov = [[1, rho], [rho, 1]]
         rv = multivariate_normal(mean=[0, 0], cov=cov)
-        return rv.cdf([x, y])
+        return float(rv.cdf([x, y]))
     except ImportError:
         # Fallback: product of marginals (exact when rho=0)
         # Use Owen's T function approximation for rho != 0
@@ -134,7 +134,7 @@ def majority_noise_stability(n: int, rho: float) -> float:
         return gaussian_noise_stability(maj, rho)
 
     # For large n, use Sheppard's formula
-    return (2 / pi) * np.arcsin(rho)
+    return float((2 / pi) * np.arcsin(rho))
 
 
 def invariance_distance(f: BooleanFunction, test_fn: Callable | None = None) -> float:

@@ -7,6 +7,7 @@ of literals (variables or their negations).
 Example: f(x₁,x₂,x₃) = (x₁ ∧ ¬x₂) ∨ (¬x₁ ∧ x₂ ∧ x₃)
 """
 
+import typing
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
@@ -326,7 +327,9 @@ class DNFRepresentation(BooleanFunctionRepresentation[DNFFormula]):
         **kwargs,
     ) -> np.ndarray:
         """Convert DNF to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> DNFFormula:
         """Create empty DNF (constant False)."""

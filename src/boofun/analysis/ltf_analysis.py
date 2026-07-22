@@ -15,6 +15,7 @@ Theory:
 - LTFs are exactly the "halfspace" functions
 """
 
+import typing
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -209,7 +210,7 @@ def critical_index(weights: np.ndarray) -> int:
     cumsum = np.cumsum(sorted_sq)
     idx = np.searchsorted(cumsum, total / 2)
 
-    return min(idx + 1, len(weights))
+    return int(min(idx + 1, len(weights)))
 
 
 def regularity(weights: np.ndarray) -> float:
@@ -275,7 +276,7 @@ def ltf_noise_stability_gaussian(rho: float) -> float:
     Returns:
         Noise stability estimate
     """
-    return 0.5 + (1 / np.pi) * np.arcsin(rho)
+    return float(0.5 + (1 / np.pi) * np.arcsin(rho))
 
 
 def ltf_total_influence_estimate(n: int, regularity_tau: float = 0.0) -> float:
@@ -298,9 +299,9 @@ def ltf_total_influence_estimate(n: int, regularity_tau: float = 0.0) -> float:
     # Adjust for non-regularity (more concentrated → lower total influence)
     if regularity_tau > 0:
         # Interpolate toward dictator (I[f] = 1) as τ → 1
-        return regular_estimate * (1 - regularity_tau) + 1 * regularity_tau
+        return float(regular_estimate * (1 - regularity_tau) + 1 * regularity_tau)
 
-    return regular_estimate
+    return float(regular_estimate)
 
 
 def analyze_ltf(f: "BooleanFunction") -> LTFAnalysis:
@@ -399,7 +400,7 @@ def create_weighted_majority(
         val = 1 if np.dot(weight_arr, x_pm) >= threshold else 0
         truth_table.append(val)
 
-    return bf.create(truth_table)
+    return typing.cast("BooleanFunction", bf.create(truth_table))
 
 
 def create_threshold_function(n: int, k: int) -> "BooleanFunction":
@@ -431,7 +432,7 @@ def create_threshold_function(n: int, k: int) -> "BooleanFunction":
         val = 1 if bin(i).count("1") >= k else 0
         truth_table.append(val)
 
-    return bf.create(truth_table)
+    return typing.cast("BooleanFunction", bf.create(truth_table))
 
 
 # ============================================================

@@ -5,6 +5,7 @@ This module treats Boolean functions as random variables over the Boolean cube,
 enabling probabilistic analysis, sampling, and statistical properties.
 """
 
+import typing
 import warnings
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -126,7 +127,7 @@ class BooleanDistribution:
             Probability P(f(X) = value)
         """
         mask = self.truth_table == value
-        return np.sum(self.input_distribution[mask])
+        return float(np.sum(self.input_distribution[mask]))
 
     def conditional_probability(
         self, output: bool, input_condition: Callable[[int], bool]
@@ -266,7 +267,7 @@ class BooleanDistribution:
         if var_f == 0 or var_var == 0:
             return 0.0
 
-        return cov / np.sqrt(var_f * var_var)
+        return float(cov / np.sqrt(var_f * var_var))
 
     def moments(self, order: int = 4) -> list[float]:
         """
@@ -472,7 +473,9 @@ class DistributionRepresentation(BooleanFunctionRepresentation[BooleanDistributi
         **kwargs,
     ) -> np.ndarray:
         """Convert distribution to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> BooleanDistribution:
         """Create empty distribution (constant False with uniform input)."""

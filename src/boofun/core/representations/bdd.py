@@ -5,6 +5,7 @@ This module implements Reduced Ordered Binary Decision Diagrams (ROBDDs)
 for efficient representation and manipulation of Boolean functions.
 """
 
+import typing
 from typing import Any, Optional
 
 import numpy as np
@@ -302,7 +303,9 @@ class BDDRepresentation(BooleanFunctionRepresentation[BDD]):
         **kwargs,
     ) -> np.ndarray:
         """Convert BDD to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> BDD:
         """Create empty BDD (constant False)."""

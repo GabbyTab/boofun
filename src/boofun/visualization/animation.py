@@ -11,6 +11,7 @@ Supports:
 
 from __future__ import annotations
 
+import typing
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Any
 
@@ -171,7 +172,7 @@ class GrowthAnimator:
             repeat=True,
         )
 
-        return self.anim
+        return typing.cast("animation.FuncAnimation", self.anim)
 
     def animate_influences(
         self,
@@ -257,7 +258,7 @@ class GrowthAnimator:
             blit=False,
         )
 
-        return self.anim
+        return typing.cast("animation.FuncAnimation", self.anim)
 
     def save(self, filename: str, fps: int = 2, **kwargs):
         """

@@ -34,6 +34,7 @@ References:
 
 from __future__ import annotations
 
+import typing
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
@@ -77,7 +78,7 @@ def is_unanimous(f: BooleanFunction) -> bool:
     f_all_ones = f.evaluate(all_ones)
     f_all_zeros = f.evaluate(all_zeros)
 
-    return f_all_ones == 1 and f_all_zeros == 0
+    return bool(f_all_ones == 1 and f_all_zeros == 0)
 
 
 def is_dictatorial(f: BooleanFunction) -> bool:
@@ -342,19 +343,19 @@ class ArrowAnalyzer:
         """Get Arrow's theorem analysis."""
         if "arrow" not in self._cache:
             self._cache["arrow"] = arrow_analysis(self.f)
-        return self._cache["arrow"]
+        return typing.cast("dict[str, Any]", self._cache["arrow"])
 
     def welfare_properties(self) -> dict[str, Any]:
         """Get social welfare properties."""
         if "welfare" not in self._cache:
             self._cache["welfare"] = social_welfare_properties(self.f)
-        return self._cache["welfare"]
+        return typing.cast("dict[str, Any]", self._cache["welfare"])
 
     def voting_power(self) -> dict[str, Any]:
         """Get voting power analysis."""
         if "power" not in self._cache:
             self._cache["power"] = voting_power_analysis(self.f)
-        return self._cache["power"]
+        return typing.cast("dict[str, Any]", self._cache["power"])
 
     def full_analysis(self) -> dict[str, Any]:
         """Get complete social choice analysis."""

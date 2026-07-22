@@ -18,6 +18,7 @@ References:
   Advances in Applied Mathematics.
 """
 
+import typing
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
@@ -561,19 +562,19 @@ class CanalizationAnalyzer:
         """Check if function is canalizing."""
         if "is_canalizing" not in self._cache:
             self._cache["is_canalizing"] = is_canalizing(self.f)
-        return self._cache["is_canalizing"]
+        return bool(self._cache["is_canalizing"])
 
     def canalizing_depth(self) -> int:
         """Get canalizing depth."""
         if "depth" not in self._cache:
             self._cache["depth"] = _compute_canalizing_depth_simple(self.f)
-        return self._cache["depth"]
+        return int(self._cache["depth"])
 
     def canalizing_variables(self) -> list[dict]:
         """Get all canalizing variables."""
         if "can_vars" not in self._cache:
             self._cache["can_vars"] = get_canalizing_variables(self.f)
-        return self._cache["can_vars"]
+        return typing.cast("list[dict[Any, Any]]", self._cache["can_vars"])
 
     def is_nested_canalizing(self) -> bool:
         """Check if function is nested canalizing."""
@@ -583,19 +584,19 @@ class CanalizationAnalyzer:
         """Get essential variables."""
         if "essential" not in self._cache:
             self._cache["essential"] = get_essential_variables(self.f)
-        return self._cache["essential"]
+        return typing.cast("list[int]", self._cache["essential"])
 
     def input_types(self) -> dict[int, str]:
         """Get input type classification."""
         if "types" not in self._cache:
             self._cache["types"] = get_input_types(self.f)
-        return self._cache["types"]
+        return typing.cast("dict[int, str]", self._cache["types"])
 
     def symmetry_groups(self) -> list[set[int]]:
         """Get symmetry groups."""
         if "symmetry" not in self._cache:
             self._cache["symmetry"] = get_symmetry_groups(self.f)
-        return self._cache["symmetry"]
+        return typing.cast("list[set[int]]", self._cache["symmetry"])
 
     def input_redundancy(self) -> float:
         """Get input redundancy."""

@@ -5,6 +5,7 @@ This module provides adapters to make external Boolean function implementations
 compatible with the BooFun library's representation system.
 """
 
+import typing
 import warnings
 from abc import ABC, abstractmethod
 from collections.abc import Callable
@@ -91,8 +92,9 @@ class LegacyAdapter(BooleanFunctionAdapter):
             return self._adapt_evaluation(eval_method, inputs)
 
         # Create BooleanFunction with the wrapper
-        return BooleanFunctionFactory.from_function(
-            BooleanFunction, wrapper_function, n=self.n_vars
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_function(BooleanFunction, wrapper_function, n=self.n_vars),
         )
 
     def _adapt_evaluation(self, eval_method: Callable, inputs: np.ndarray) -> Any:
@@ -190,8 +192,9 @@ class CallableAdapter(BooleanFunctionAdapter):
         def wrapper_function(inputs):
             return self._call_with_adapted_inputs(callable_function, inputs)
 
-        return BooleanFunctionFactory.from_function(
-            BooleanFunction, wrapper_function, n=self.n_vars
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_function(BooleanFunction, wrapper_function, n=self.n_vars),
         )
 
     def _call_with_adapted_inputs(self, func: Callable, inputs) -> bool:
@@ -288,7 +291,10 @@ class SymPyAdapter(BooleanFunctionAdapter):
             result = sympy_expr.subs(subs_dict)
             return bool(result)
 
-        return BooleanFunctionFactory.from_function(BooleanFunction, evaluation_function, n=n_vars)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_function(BooleanFunction, evaluation_function, n=n_vars),
+        )
 
 
 class NumPyAdapter(BooleanFunctionAdapter):
@@ -332,7 +338,10 @@ class NumPyAdapter(BooleanFunctionAdapter):
                     return np.array([bool(numpy_function(x)) for x in inputs])
                 return bool(numpy_function(inputs))
 
-        return BooleanFunctionFactory.from_function(BooleanFunction, wrapper_function, n=n_vars)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_function(BooleanFunction, wrapper_function, n=n_vars),
+        )
 
 
 # Factory function for creating appropriate adapters

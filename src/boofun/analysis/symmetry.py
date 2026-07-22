@@ -18,6 +18,7 @@ References:
 
 from __future__ import annotations
 
+import typing
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -215,7 +216,7 @@ def sens_sym_by_weight(f: BooleanFunction) -> np.ndarray:
         result = sensitivities / counts
         result[counts == 0] = 0.0
 
-    return result
+    return typing.cast("np.ndarray", result)
 
 
 def shift_function(f: BooleanFunction, shift: int) -> BooleanFunction:
@@ -246,7 +247,7 @@ def shift_function(f: BooleanFunction, shift: int) -> BooleanFunction:
         shifted_x = x ^ shift
         new_tt.append(int(f.evaluate(shifted_x)))
 
-    return bf.create(new_tt)
+    return typing.cast("BooleanFunction", bf.create(new_tt))
 
 
 def _is_monotone_increasing(f: BooleanFunction) -> bool:

@@ -1,4 +1,5 @@
 # src/boofun/core/builtins.py
+import typing
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -42,7 +43,10 @@ class BooleanFunctionBuiltins:
             # Majority: more than half are 1
             truth_table[i] = ones_count > n // 2
 
-        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n),
+        )
 
     @classmethod
     def dictator(cls, n: int, i: int = 0) -> "BooleanFunction":
@@ -79,7 +83,10 @@ class BooleanFunctionBuiltins:
             # Extract the i-th bit (LSB=x₀ convention: x_i is bit i from the right)
             truth_table[idx] = bool((idx >> i) & 1)
 
-        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n),
+        )
 
     @classmethod
     def tribes(cls, k: int, n: int) -> "BooleanFunction":
@@ -142,7 +149,10 @@ class BooleanFunctionBuiltins:
 
             truth_table[idx] = result
 
-        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n),
+        )
 
     @classmethod
     def parity(cls, n: int) -> "BooleanFunction":
@@ -173,7 +183,10 @@ class BooleanFunctionBuiltins:
             # Parity: odd number of 1s
             truth_table[i] = ones_count % 2 == 1
 
-        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n),
+        )
 
     @classmethod
     def constant(cls, value: bool, n: int) -> "BooleanFunction":
@@ -197,7 +210,10 @@ class BooleanFunctionBuiltins:
         size = 1 << n  # 2^n
         truth_table = np.full(size, value, dtype=bool)
 
-        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n),
+        )
 
     @classmethod
     def f2_polynomial(cls, n: int, monomials) -> "BooleanFunction":
@@ -246,4 +262,7 @@ class BooleanFunctionBuiltins:
                 p_val ^= prod
             truth_table[idx] = bool(p_val)
 
-        return BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(BooleanFunction, truth_table, n=n),
+        )

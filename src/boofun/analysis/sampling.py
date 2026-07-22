@@ -25,6 +25,7 @@ References:
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -137,7 +138,7 @@ def sample_biased(
 
     # Convert bit arrays to integers
     powers = 1 << np.arange(n)
-    return np.sum(bits * powers, axis=1).astype(np.int64)
+    return typing.cast("np.ndarray", np.sum(bits * powers, axis=1).astype(np.int64))
 
 
 def sample_input_output_pairs(

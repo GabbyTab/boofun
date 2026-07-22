@@ -23,6 +23,7 @@ Usage:
 from __future__ import annotations
 
 import json
+import typing
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -213,30 +214,46 @@ def load_json(path: str | Path, **kwargs) -> BooleanFunction:
 
     if rep_type == "truth_table":
         values = data.get("values", data.get("table", []))
-        return BooleanFunctionFactory.from_truth_table(BooleanFunction, values, n=n_vars)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(BooleanFunction, values, n=n_vars),
+        )
     if rep_type == "fourier_expansion":
         coeffs = np.array(data.get("coefficients", []))
-        return BooleanFunctionFactory.from_multilinear(BooleanFunction, coeffs, n=n_vars)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_multilinear(BooleanFunction, coeffs, n=n_vars),
+        )
     if rep_type == "anf":
         # Reconstruct monomials
         monomials = {}
         for term in data.get("monomials", []):
             key = frozenset(term.get("variables", []))
             monomials[key] = term.get("coefficient", 1)
-        return BooleanFunctionFactory.from_polynomial(BooleanFunction, monomials, n=n_vars)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_polynomial(BooleanFunction, monomials, n=n_vars),
+        )
     if rep_type == "dnf":
         from .representations.dnf_form import DNFFormula
 
         dnf = DNFFormula.from_dict(data)
-        return BooleanFunctionFactory.from_dnf(BooleanFunction, dnf, n=n_vars)
+        return typing.cast(
+            "BooleanFunction", BooleanFunctionFactory.from_dnf(BooleanFunction, dnf, n=n_vars)
+        )
     if rep_type == "cnf":
         from .representations.cnf_form import CNFFormula
 
         cnf = CNFFormula.from_dict(data)
-        return BooleanFunctionFactory.from_cnf(BooleanFunction, cnf, n=n_vars)
+        return typing.cast(
+            "BooleanFunction", BooleanFunctionFactory.from_cnf(BooleanFunction, cnf, n=n_vars)
+        )
     # Try truth table as fallback
     if "values" in data:
-        return BooleanFunctionFactory.from_truth_table(BooleanFunction, data["values"], n=n_vars)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(BooleanFunction, data["values"], n=n_vars),
+        )
     raise FileIOError(
         f"Unknown representation type in JSON: '{rep_type}'",
         path=str(path),
@@ -386,7 +403,7 @@ def load_bf(path: str | Path, **kwargs) -> BooleanFunction:
         func._metadata["partial"] = True
         func._metadata["known_mask"] = known_mask
 
-    return func
+    return typing.cast("BooleanFunction", func)
 
 
 def save_bf(
@@ -505,7 +522,9 @@ def load_dimacs_cnf(path: str | Path, **kwargs) -> BooleanFunction:
         n_vars = max(all_vars) + 1 if all_vars else 0
 
     cnf = CNFFormula(clauses, n_vars)
-    return BooleanFunctionFactory.from_cnf(BooleanFunction, cnf, n=n_vars)
+    return typing.cast(
+        "BooleanFunction", BooleanFunctionFactory.from_cnf(BooleanFunction, cnf, n=n_vars)
+    )
 
 
 def save_dimacs_cnf(

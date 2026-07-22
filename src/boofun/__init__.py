@@ -29,6 +29,7 @@ Basic Usage:
     >>> xor.degree()                      # Fourier degree
 """
 
+import typing
 from typing import Optional
 
 from .api import create, from_hex, partial, to_hex
@@ -214,7 +215,7 @@ def AND(n: int) -> BooleanFunction:
     """
     truth_table = [0] * (2**n)
     truth_table[-1] = 1  # Only all-1s input gives 1
-    return create(truth_table)
+    return typing.cast("BooleanFunction", create(truth_table))
 
 
 def OR(n: int) -> BooleanFunction:
@@ -226,7 +227,7 @@ def OR(n: int) -> BooleanFunction:
     """
     truth_table = [1] * (2**n)
     truth_table[0] = 0  # Only all-0s input gives 0
-    return create(truth_table)
+    return typing.cast("BooleanFunction", create(truth_table))
 
 
 def f2_polynomial(n: int, monomials) -> BooleanFunction:
@@ -278,7 +279,7 @@ def random(n: int, balanced: bool = False, seed: int | None = None) -> BooleanFu
     else:
         truth_table = rng.integers(0, 2, size)
 
-    return create(truth_table.tolist())
+    return typing.cast("BooleanFunction", create(truth_table.tolist()))
 
 
 def from_weights(weights, threshold_value=None) -> BooleanFunction:

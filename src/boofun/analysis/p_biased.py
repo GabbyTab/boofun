@@ -602,7 +602,7 @@ class PBiasedAnalyzer:
         for S, coeff in self.coefficients.items():
             if bin(S).count("1") == level:
                 total += coeff**2
-        return np.sqrt(total)
+        return float(np.sqrt(total))
 
     def max_influence(self) -> tuple[int, float]:
         """Find variable with maximum p-biased influence."""

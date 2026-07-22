@@ -260,7 +260,7 @@ def discrepancy(f: "BooleanFunction") -> float:
     N = rows * cols
     spectral_norm: float = float(np.max(svdvals(M_pm.astype(float))))
 
-    return spectral_norm / N
+    return float(spectral_norm / N)
 
 
 def deterministic_cc(f: "BooleanFunction") -> dict[str, Any]:

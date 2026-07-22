@@ -8,6 +8,7 @@ For n=20: standard numpy = 8MB, bitarray = 128KB (64x smaller)
 For n=24: standard numpy = 128MB, bitarray = 2MB (64x smaller)
 """
 
+import typing
 from typing import Any
 
 import numpy as np
@@ -180,7 +181,9 @@ class PackedTruthTableRepresentation(BooleanFunctionRepresentation[Any]):
         **kwargs,
     ) -> np.ndarray:
         """Convert packed truth table to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> dict[str, Any]:
         """Create empty packed truth table."""

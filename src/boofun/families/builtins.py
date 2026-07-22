@@ -7,6 +7,7 @@ Each family has:
 - Universal properties that always hold
 """
 
+import typing
 from collections.abc import Callable
 from typing import TYPE_CHECKING, ClassVar
 
@@ -353,7 +354,7 @@ class LTFFamily(WeightPatternFamily):
         # For regular LTFs: I[f] ≈ √(2/π) · √n
         # Adjust for irregularity
         regular_estimate = np.sqrt(2 / np.pi) * np.sqrt(n)
-        return regular_estimate * (1 - tau) + tau  # Interpolate to dictator
+        return float(regular_estimate * (1 - tau) + tau)  # Interpolate to dictator
 
     def _compute_regularity(self, n: int) -> float:
         """Compute regularity parameter τ."""
@@ -361,7 +362,7 @@ class LTFFamily(WeightPatternFamily):
         norm = np.linalg.norm(weights)
         if norm < 1e-10:
             return 0.0
-        return np.max(np.abs(weights)) / norm
+        return float(np.max(np.abs(weights)) / norm)
 
     @classmethod
     def uniform(cls, name: str = "UniformLTF") -> "LTFFamily":
@@ -435,7 +436,7 @@ class RecursiveMajority3Family(FunctionFamily):
         k = int(np.log(n) / np.log(3))
         # Converges to fixed point of 3ρx² - 2x³ = x
         # For ρ = 0.5, this gives ≈ 0.5
-        return 0.5 + 0.3 * rho * np.exp(-0.5 * k)
+        return float(0.5 + 0.3 * rho * np.exp(-0.5 * k))
 
     def generate(self, n: int, **kwargs) -> "BooleanFunction":
         """Generate recursive majority of 3 function."""
@@ -460,7 +461,7 @@ class RecursiveMajority3Family(FunctionFamily):
             bits = tuple((x >> i) & 1 for i in range(n))
             truth_table.append(rec_maj3(bits))
 
-        return bf.create(truth_table)
+        return typing.cast("BooleanFunction", bf.create(truth_table))
 
     def theoretical_properties(self, n: int) -> dict:
         """Return known theoretical properties."""
@@ -550,7 +551,7 @@ class IteratedMajorityFamily(FunctionFamily):
             bits = tuple((x >> i) & 1 for i in range(actual_n))
             truth_table.append(iterated_maj(bits))
 
-        return bf.create(truth_table)
+        return typing.cast("BooleanFunction", bf.create(truth_table))
 
     def validate_n(self, n: int) -> bool:
         return self._is_valid_n(n)
@@ -631,7 +632,7 @@ class RandomDNFFamily(FunctionFamily):
             return False
 
         truth_table = [int(evaluate_dnf(x)) for x in range(2**n)]
-        return bf.create(truth_table)
+        return typing.cast("BooleanFunction", bf.create(truth_table))
 
 
 class SboxFamily(FunctionFamily):
@@ -937,14 +938,14 @@ class SboxFamily(FunctionFamily):
         # Extract component function
         truth_table = [(self._sbox[x] >> bit) & 1 for x in range(len(self._sbox))]
 
-        return bf.create(truth_table)
+        return typing.cast("BooleanFunction", bf.create(truth_table))
 
     def get_component(self, bit: int) -> "BooleanFunction":
         """Get specific bit component."""
         import boofun as bf
 
         truth_table = [(self._sbox[x] >> bit) & 1 for x in range(len(self._sbox))]
-        return bf.create(truth_table)
+        return typing.cast("BooleanFunction", bf.create(truth_table))
 
     def all_components(self) -> list["BooleanFunction"]:
         """Get all component functions."""

@@ -28,7 +28,7 @@ class TheoreticalBounds:
 
         I[MAJ_n] = √(2/π) · √n + O(1/√n)
         """
-        return np.sqrt(2 / np.pi) * np.sqrt(n)
+        return float(np.sqrt(2 / np.pi) * np.sqrt(n))
 
     @staticmethod
     def parity_total_influence(n: int) -> float:
@@ -38,7 +38,7 @@ class TheoreticalBounds:
     @staticmethod
     def and_total_influence(n: int) -> float:
         """Total influence of AND_n = n · 2^{-(n-1)}."""
-        return n * 2 ** (-(n - 1))
+        return float(n * 2 ** (-(n - 1)))
 
     @staticmethod
     def tribes_total_influence(n: int, w: int | None = None) -> float:
@@ -67,7 +67,7 @@ class TheoreticalBounds:
 
         Stab_ρ[MAJ_n] → (1/2) + (1/π)·arcsin(ρ) as n → ∞
         """
-        return 0.5 + (1 / np.pi) * np.arcsin(rho)
+        return float(0.5 + (1 / np.pi) * np.arcsin(rho))
 
     @staticmethod
     def parity_noise_stability(n: int, rho: float) -> float:
@@ -109,7 +109,7 @@ class TheoreticalBounds:
 
         By symmetry: Inf_i[MAJ_n] = √(2/(πn)) for all i
         """
-        return np.sqrt(2 / (np.pi * n))
+        return float(np.sqrt(2 / (np.pi * n)))
 
     @staticmethod
     def parity_influence_i(n: int, i: int = 0) -> float:
@@ -119,7 +119,7 @@ class TheoreticalBounds:
     @staticmethod
     def and_influence_i(n: int, i: int = 0) -> float:
         """Influence of each variable in AND_n = 2^{-(n-1)}."""
-        return 2 ** (-(n - 1))
+        return float(2 ** (-(n - 1)))
 
     # ==========================================================
     # Poincaré and KKL Bounds
@@ -142,7 +142,7 @@ class TheoreticalBounds:
         For balanced f: max Inf_i ≥ Ω(log(n)/n)
         """
         c = 1.0  # Constant factor
-        return variance * c * np.log(n) / n
+        return float(variance * c * np.log(n) / n)
 
     @staticmethod
     def friedgut_junta_bound(total_influence: float, epsilon: float) -> float:
@@ -164,7 +164,7 @@ class TheoreticalBounds:
         """
         Decision tree of depth d has at most 4^d non-zero Fourier coefficients.
         """
-        return 4**depth
+        return int(4**depth)
 
     @staticmethod
     def decision_tree_spectral_norm(size: int) -> float:
@@ -194,7 +194,7 @@ class TheoreticalBounds:
         For irregular (τ → 1): I[f] → 1
         """
         regular = np.sqrt(2 / np.pi) * np.sqrt(n)
-        return regular * (1 - regularity) + regularity
+        return float(regular * (1 - regularity) + regularity)
 
     @staticmethod
     def ltf_noise_stability(rho: float, regularity: float = 0.0) -> float:
@@ -205,7 +205,7 @@ class TheoreticalBounds:
         Dictator (τ=1): Stab_ρ = ρ
         """
         regular = 0.5 + (1 / np.pi) * np.arcsin(rho)
-        return regular * (1 - regularity) + rho * regularity
+        return float(regular * (1 - regularity) + rho * regularity)
 
     # ==========================================================
     # Query Complexity Bounds

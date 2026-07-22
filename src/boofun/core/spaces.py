@@ -12,6 +12,7 @@ WARNING: Some conversions are lossy (continuous → discrete).
 These will emit warnings unless explicitly silenced.
 """
 
+import typing
 import warnings
 from enum import Enum, auto
 
@@ -97,12 +98,12 @@ class Space(Enum):
                 UserWarning,
                 stacklevel=2,
             )
-            return (np.exp(arr) > 0.5).astype(int)
+            return typing.cast("int | float | np.ndarray", (np.exp(arr) > 0.5).astype(int))
 
         if source_space == Space.BOOLEAN_CUBE and target_space == Space.LOG:
             # Convert to log probabilities (avoid log(0))
             prob = np.clip(arr.astype(float), 1e-10, 1 - 1e-10)
-            return np.log(prob)
+            return typing.cast("int | float | np.ndarray", np.log(prob))
 
         # GAUSSIAN space conversions - LOSSY!
         if source_space == Space.GAUSSIAN and target_space == Space.BOOLEAN_CUBE:
@@ -114,14 +115,14 @@ class Space(Enum):
             )
             from scipy.stats import norm
 
-            return (norm.cdf(arr) > 0.5).astype(int)
+            return typing.cast("int | float | np.ndarray", (norm.cdf(arr) > 0.5).astype(int))
 
         if source_space == Space.BOOLEAN_CUBE and target_space == Space.GAUSSIAN:
             # Inverse normal CDF
             from scipy.stats import norm
 
             prob = np.clip(arr.astype(float), 1e-10, 1 - 1e-10)
-            return norm.ppf(prob)
+            return typing.cast("int | float | np.ndarray", norm.ppf(prob))
 
         # Cross-conversions through intermediate spaces
         if source_space == Space.LOG and target_space == Space.PLUS_MINUS_CUBE:
@@ -205,7 +206,7 @@ class Measure:
     @property
     def sigma(self) -> float:
         """Standard deviation of a single bit: sqrt(p(1-p))."""
-        return np.sqrt(self._p * (1 - self._p))
+        return float(np.sqrt(self._p * (1 - self._p)))
 
     @property
     def is_uniform(self) -> bool:

@@ -23,6 +23,7 @@ Example usage:
 
 from __future__ import annotations
 
+import typing
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
@@ -102,7 +103,7 @@ def from_legacy(legacy_func: Any, import_fourier: bool = False) -> BooleanFuncti
         except Exception:
             pass  # Ignore if Fourier import fails
 
-    return new_func
+    return typing.cast("BooleanFunction", new_func)
 
 
 def to_legacy(func: BooleanFunction) -> Any:
@@ -269,6 +270,9 @@ def convert_legacy_function(
         # Infer from truth table size
         n_vars = int(np.log2(len(truth_table)))
 
-    return BooleanFunctionFactory.from_truth_table(
-        modern_class, np.array(truth_table, dtype=bool), n=n_vars
+    return typing.cast(
+        "BooleanFunction",
+        BooleanFunctionFactory.from_truth_table(
+            modern_class, np.array(truth_table, dtype=bool), n=n_vars
+        ),
     )

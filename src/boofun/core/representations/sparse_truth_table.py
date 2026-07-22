@@ -5,6 +5,7 @@ This module implements memory-efficient sparse representations for Boolean funct
 where most outputs are 0 or 1, significantly reducing memory usage for large functions.
 """
 
+import typing
 from typing import Any
 
 import numpy as np
@@ -64,13 +65,13 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
             index = int(inputs)
             if index < 0 or index >= size:
                 raise IndexError(f"Index {index} out of range for size {size}")
-            return exceptions.get(index, default_value)
+            return typing.cast("bool | np.ndarray", exceptions.get(index, default_value))
 
         if inputs.ndim == 1:
             if len(inputs) == n_vars:
                 # Single binary vector
                 index = self._binary_to_index(inputs)
-                return exceptions.get(index, default_value)
+                return typing.cast("bool | np.ndarray", exceptions.get(index, default_value))
             # Array of indices
             results = []
             for raw_idx in inputs:
@@ -161,7 +162,9 @@ class SparseTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, Any
         **kwargs,
     ) -> np.ndarray:
         """Convert sparse truth table to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> dict[str, Any]:
         """Create empty sparse truth table (all False)."""
@@ -268,7 +271,9 @@ class AdaptiveTruthTableRepresentation(BooleanFunctionRepresentation[dict[str, A
         **kwargs,
     ) -> np.ndarray:
         """Convert to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def dump(self, data: dict[str, Any], space=None, **kwargs) -> dict[str, Any]:
         """Export adaptive representation."""

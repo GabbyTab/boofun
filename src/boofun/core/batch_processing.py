@@ -6,6 +6,7 @@ parallel processing capabilities for Boolean functions across all representation
 """
 
 import multiprocessing as mp
+import typing
 import warnings
 from abc import ABC, abstractmethod
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
@@ -216,14 +217,14 @@ class OptimizedTruthTableProcessor(VectorizedBatchProcessor):
         if inputs.ndim == 2:
             # Binary vectors - convert to indices
             indices = self._binary_vectors_to_indices(inputs)
-            return function_data[indices].astype(bool)
+            return typing.cast("np.ndarray", function_data[indices].astype(bool))
         return super()._process_chunk(inputs, function_data, space, n_vars)
 
     def _binary_vectors_to_indices(self, binary_vectors: np.ndarray) -> np.ndarray:
         """Convert batch of binary vectors to indices efficiently."""
         # Vectorized binary to integer conversion
         powers = 2 ** np.arange(binary_vectors.shape[1] - 1, -1, -1)
-        return np.dot(binary_vectors, powers)
+        return typing.cast("np.ndarray", np.dot(binary_vectors, powers))
 
 
 class OptimizedFourierProcessor(VectorizedBatchProcessor):
@@ -281,7 +282,9 @@ class OptimizedFourierProcessor(VectorizedBatchProcessor):
         if not HAS_NUMBA:
             return self._numpy_fourier_batch(inputs, coeffs, n_vars)
 
-        return _numba_fourier_batch_impl(inputs.astype(np.int32), coeffs, n_vars)
+        return typing.cast(
+            "np.ndarray", _numba_fourier_batch_impl(inputs.astype(np.int32), coeffs, n_vars)
+        )
 
 
 class OptimizedANFProcessor(VectorizedBatchProcessor):

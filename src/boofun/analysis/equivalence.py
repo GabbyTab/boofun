@@ -19,6 +19,7 @@ under these transformations, enabling fast equivalence checking.
 
 from __future__ import annotations
 
+import typing
 from collections.abc import Iterator
 from itertools import permutations
 from typing import TYPE_CHECKING, Any
@@ -98,7 +99,9 @@ def apply_permutation(f: BooleanFunction, perm: tuple[int, ...]) -> BooleanFunct
         new_x = _apply_perm_to_index(x, perm, n)
         new_tt[new_x] = truth_table[x]
 
-    return BooleanFunctionFactory.from_truth_table(type(f), new_tt, n=n)
+    return typing.cast(
+        "BooleanFunction", BooleanFunctionFactory.from_truth_table(type(f), new_tt, n=n)
+    )
 
 
 def canonical_form(
@@ -300,7 +303,7 @@ class PermutationEquivalence:
         key = tuple(f.get_representation("truth_table"))
         if key not in self._cache:
             self._cache[key] = canonical_form(f, include_shifts=False, include_negation=False)[0]
-        return self._cache[key]
+        return typing.cast("tuple[int, ...]", self._cache[key])
 
     def equivalent(self, f: BooleanFunction, g: BooleanFunction) -> bool:
         """Test permutation equivalence using cached canonical forms."""
@@ -330,7 +333,7 @@ class AffineEquivalence:
             self._cache[key] = canonical_form(
                 f, include_shifts=True, include_negation=self.include_negation
             )[0]
-        return self._cache[key]
+        return typing.cast("tuple[int, ...]", self._cache[key])
 
     def equivalent(self, f: BooleanFunction, g: BooleanFunction) -> bool:
         """Test affine equivalence using cached canonical forms."""

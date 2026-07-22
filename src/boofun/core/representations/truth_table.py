@@ -1,3 +1,4 @@
+import typing
 import warnings
 from typing import Any
 
@@ -68,7 +69,7 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
 
             # Convert each binary vector to index
             indices = np.array([self._binary_to_index(row) for row in inputs])
-            return data[indices].astype(bool)
+            return typing.cast("bool | np.ndarray", data[indices].astype(bool))
 
         raise ValueError(f"Unsupported input shape: {inputs.shape}")
 
@@ -188,7 +189,9 @@ class TruthTableRepresentation(BooleanFunctionRepresentation[np.ndarray]):
         **kwargs,
     ) -> np.ndarray:
         """Convert truth table to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> np.ndarray:
         """Create an empty (all-False) truth table for n variables."""

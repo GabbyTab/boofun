@@ -488,7 +488,7 @@ def quick_validate(function: BooleanFunction, verbose: bool = False) -> bool:
     if verbose:
         validator.print_validation_report()
 
-    return results["overall_status"]
+    return bool(results["overall_status"])
 
 
 def validate_representation(

@@ -24,7 +24,7 @@ class GFField:
 
     @property
     def order(self) -> int:
-        return self.p**self.m
+        return int(self.p**self.m)
 
     def element_type(self):  # pragma: no cover - runtime dispatch
         if HAS_GALOIS:

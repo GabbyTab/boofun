@@ -7,6 +7,7 @@ f(x) = sign(w₁x₁ + w₂x₂ + ... + wₙxₙ - θ)
 where w = (w₁, w₂, ..., wₙ) are the weights and θ is the threshold.
 """
 
+import typing
 from dataclasses import dataclass
 from typing import Any
 
@@ -53,7 +54,7 @@ class LTFParameters:
             raise ValueError(f"Input length {len(x)} doesn't match n_vars {self.n_vars}")
 
         weighted_sum = np.dot(self.weights, x)
-        return weighted_sum >= self.threshold
+        return bool(weighted_sum >= self.threshold)
 
     def to_dict(self) -> dict[str, Any]:
         """Export LTF parameters to dictionary."""
@@ -282,7 +283,9 @@ class LTFRepresentation(BooleanFunctionRepresentation[LTFParameters]):
         **kwargs,
     ) -> np.ndarray:
         """Convert LTF to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> LTFParameters:
         """Create empty LTF (constant False)."""

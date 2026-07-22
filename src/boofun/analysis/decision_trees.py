@@ -902,6 +902,6 @@ def compute_randomized_complexity(f: BooleanFunction, output_value: int | None =
     result = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq, bounds=bounds)
 
     if result.success:
-        return -result.fun  # Negate because we minimized -v
+        return float(-result.fun)  # Negate because we minimized -v
     # Fallback: return deterministic complexity
     return float(np.max(np.min(matrix, axis=1)))

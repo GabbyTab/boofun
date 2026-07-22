@@ -20,6 +20,7 @@ Reference:
     arXiv:1906.05039
 """
 
+import typing
 from itertools import combinations
 from typing import TYPE_CHECKING, Any
 
@@ -436,7 +437,7 @@ class GlobalHypercontractivityAnalyzer:
         cache_key = (alpha, max_set_size, self.p)
         if cache_key not in self._globality_cache:
             self._globality_cache[cache_key] = is_alpha_global(self.f, alpha, max_set_size, self.p)
-        return self._globality_cache[cache_key]
+        return typing.cast("tuple[bool, dict[Any, Any]]", self._globality_cache[cache_key])
 
     def generalized_influence(self, S: set[int]) -> float:
         """

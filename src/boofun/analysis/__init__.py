@@ -6,6 +6,7 @@ This module implements fundamental algorithms for analyzing Boolean functions
 including Fourier analysis, influence computation, and noise stability.
 """
 
+import typing
 import warnings
 from typing import TYPE_CHECKING, Any
 
@@ -109,7 +110,7 @@ class SpectralAnalyzer:
 
             # pyfwht expects natural order, returns Walsh-Hadamard coefficients
             result = fwht(f_vals.astype(np.float64))
-            return result / size
+            return typing.cast("np.ndarray", result / size)
         except ImportError:
             pass
         except Exception:
@@ -122,7 +123,7 @@ class SpectralAnalyzer:
             # Hadamard matrix multiply is more cache-friendly for medium n
             if n <= 14:  # scipy.linalg.hadamard has size limitations
                 H = hadamard(size, dtype=float)
-                return (H @ f_vals) / size
+                return typing.cast("np.ndarray", (H @ f_vals) / size)
         except (ImportError, ValueError):
             pass
 
@@ -140,7 +141,7 @@ class SpectralAnalyzer:
                     coeffs[j + k] = u + v
                     coeffs[j + k + step] = u - v
 
-        return coeffs / size  # Normalize
+        return typing.cast("np.ndarray", coeffs / size)  # Normalize
 
     def influences(self, force_recompute: bool = False) -> np.ndarray:
         """
@@ -165,7 +166,7 @@ class SpectralAnalyzer:
                 truth_table = self.function.get_representation("truth_table")
                 influences = numba_optimize("influences", truth_table, self.n_vars)
                 self._influences = influences
-                return influences
+                return typing.cast("np.ndarray", influences)
             except Exception as e:
                 warnings.warn(f"Numba optimization failed, using fallback: {e}", stacklevel=2)
 
@@ -246,7 +247,7 @@ class SpectralAnalyzer:
         # Try Numba optimization
         if is_numba_available():
             try:
-                return numba_optimize("noise_stability", fourier_coeffs, rho)
+                return float(numba_optimize("noise_stability", fourier_coeffs, rho))
             except Exception as e:
                 warnings.warn(f"Numba noise stability optimization failed: {e}", stacklevel=2)
 

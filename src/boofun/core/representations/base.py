@@ -1,3 +1,4 @@
+import typing
 from abc import ABC, abstractmethod
 from typing import Any, Generic, TypeVar
 
@@ -394,7 +395,7 @@ class PartialRepresentation(Generic[DataType]):
 
         result = np.asarray(self.data, dtype=bool).copy()
         result[~self.known_mask] = default
-        return result
+        return typing.cast("np.ndarray", result)
 
     def to_complete_estimated(self) -> tuple[np.ndarray, np.ndarray]:
         """

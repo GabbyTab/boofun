@@ -10,6 +10,7 @@ Also provides:
 - Storage hints: `storage='packed'`, `storage='sparse'`, `storage='lazy'`
 """
 
+import typing
 from collections.abc import Callable
 
 import numpy as np
@@ -111,11 +112,14 @@ def _create_lazy_function(oracle: Callable, **kwargs) -> BooleanFunction:
         raise ValueError("Must specify n (number of variables) for lazy functions")
 
     # Create function using the callable adapter
-    return BooleanFunctionFactory.create(
-        BooleanFunction,
-        oracle,
-        n=n,
-        **{k: v for k, v in kwargs.items() if k != "n"},
+    return typing.cast(
+        "BooleanFunction",
+        BooleanFunctionFactory.create(
+            BooleanFunction,
+            oracle,
+            n=n,
+            **{k: v for k, v in kwargs.items() if k != "n"},
+        ),
     )
 
 
@@ -225,7 +229,7 @@ def from_hex(
     # We need to extract bits from LSB to MSB for index 0, 1, 2, ...
     truth_table = np.array([(tt_int >> i) & 1 for i in range(size)], dtype=bool)
 
-    return create(truth_table, n=n, storage=storage, **kwargs)
+    return typing.cast("BooleanFunction", create(truth_table, n=n, storage=storage, **kwargs))
 
 
 def to_hex(f: BooleanFunction) -> str:

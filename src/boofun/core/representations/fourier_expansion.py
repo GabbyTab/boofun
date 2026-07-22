@@ -1,3 +1,4 @@
+import typing
 from typing import Any
 
 import numpy as np
@@ -113,7 +114,9 @@ class FourierExpansionRepresentation(BooleanFunctionRepresentation[np.ndarray]):
     ) -> np.ndarray:
         """Convert to another representation from Fourier expansion"""
         # Placeholder: Actual conversion requires inverse transform
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> np.ndarray:
         """Create zero-initialized Fourier coefficients array"""

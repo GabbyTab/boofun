@@ -19,6 +19,7 @@ Key applications:
 
 from __future__ import annotations
 
+import typing
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -501,4 +502,4 @@ def shift_by_mask(f: BooleanFunction, mask: int) -> BooleanFunction:
         shifted_x = x ^ mask
         new_tt.append(int(f.evaluate(shifted_x)))
 
-    return bf.create(new_tt)
+    return typing.cast("BooleanFunction", bf.create(new_tt))

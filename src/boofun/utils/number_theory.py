@@ -314,7 +314,7 @@ def binomial_sum(n: int, k: int) -> int:
     if k < 0:
         return 0
     if k >= n:
-        return 2**n
+        return int(2**n)
 
     total = 0
     coeff = 1
@@ -381,4 +381,4 @@ def mobius(n: int) -> int:
 
     # Return (-1)^k where k is number of distinct prime factors
     k = len(factorization)
-    return (-1) ** k
+    return int((-1) ** k)

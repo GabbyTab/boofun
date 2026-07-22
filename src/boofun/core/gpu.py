@@ -28,6 +28,7 @@ Install CuPy for GPU support::
     names are available here.
 """
 
+import typing
 import warnings
 from typing import Any
 
@@ -55,12 +56,12 @@ _GPU_ENABLED = CUPY_AVAILABLE
 
 def is_gpu_available() -> bool:
     """Check if GPU acceleration is available (CuPy + working CUDA)."""
-    return CUPY_AVAILABLE
+    return bool(CUPY_AVAILABLE)
 
 
 def is_gpu_enabled() -> bool:
     """Check if GPU acceleration is currently enabled."""
-    return _GPU_ENABLED and CUPY_AVAILABLE
+    return bool(_GPU_ENABLED and CUPY_AVAILABLE)
 
 
 def enable_gpu(enable: bool = True) -> None:
@@ -146,7 +147,7 @@ def to_gpu(arr: np.ndarray) -> np.ndarray | Any:
 def to_cpu(arr: np.ndarray | Any) -> np.ndarray:
     """Move *arr* to CPU memory."""
     if CUPY_AVAILABLE and isinstance(arr, cp.ndarray):
-        return cp.asnumpy(arr)
+        return typing.cast("np.ndarray", cp.asnumpy(arr))
     return np.asarray(arr)
 
 
@@ -198,7 +199,7 @@ def _gpu_wht_cupy(values: np.ndarray) -> np.ndarray:
         d_view[:, step:] = left - right
 
     d /= len(values)
-    return cp.asnumpy(d)
+    return typing.cast("np.ndarray", cp.asnumpy(d))
 
 
 def gpu_influences(fourier_coeffs: np.ndarray, n_vars: int | None = None) -> np.ndarray:
@@ -224,7 +225,7 @@ def gpu_influences(fourier_coeffs: np.ndarray, n_vars: int | None = None) -> np.
         mask = (indices >> i) & 1
         influences[i] = cp.sum(d_squared * mask)
 
-    return cp.asnumpy(influences)
+    return typing.cast("np.ndarray", cp.asnumpy(influences))
 
 
 def gpu_noise_stability(fourier_coeffs: np.ndarray, rho: float) -> float:
@@ -281,7 +282,7 @@ def gpu_spectral_weight_by_degree(fourier_coeffs: np.ndarray) -> np.ndarray:
     for k in range(n + 1):
         weights[k] = cp.sum(d_squared[sizes == k])
 
-    return cp.asnumpy(weights)
+    return typing.cast("np.ndarray", cp.asnumpy(weights))
 
 
 # ---------------------------------------------------------------------------
@@ -305,7 +306,7 @@ def gpu_accelerate(operation: str, *args: Any, **kwargs: Any) -> np.ndarray:
         inputs, truth_table = args[:2]
         d_inputs = cp.asarray(inputs)
         d_tt = cp.asarray(truth_table)
-        return cp.asnumpy(d_tt[d_inputs])
+        return typing.cast("np.ndarray", cp.asnumpy(d_tt[d_inputs]))
 
     if operation == "fourier_batch":
         inputs, coefficients = args[:2]

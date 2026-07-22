@@ -5,6 +5,7 @@ This module provides various error models for handling uncertainty,
 noise, and approximation in Boolean function computations.
 """
 
+import typing
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from typing import Any
@@ -215,7 +216,7 @@ class NoiseErrorModel(ErrorModel):
             noise_mask = self.rng.random(result.shape) < self.noise_rate
             noisy_result = result.copy()
             noisy_result[noise_mask] = ~noisy_result[noise_mask]
-            return noisy_result
+            return typing.cast("bool | np.ndarray", noisy_result)
         # For other types, add noise metadata
         return {  # type: ignore[unreachable]
             "value": result,
@@ -295,14 +296,14 @@ class LinearErrorModel(ErrorModel):
         """Return confidence based on relative error."""
         if HAS_UNCERTAINTIES and hasattr(result, "std_dev") and result.nominal_value != 0:
             relative_error = result.std_dev / abs(result.nominal_value)
-            return max(0.5, 1 - relative_error)
+            return float(max(0.5, 1 - relative_error))
         return 0.9  # Default confidence
 
     def is_reliable(self, result: Any) -> bool:
         """Check if relative error is acceptable."""
         if HAS_UNCERTAINTIES and hasattr(result, "std_dev") and result.nominal_value != 0:
             relative_error = result.std_dev / abs(result.nominal_value)
-            return relative_error <= 0.1  # 10% relative error threshold
+            return bool(relative_error <= 0.1)  # 10% relative error threshold
         return True
 
     def __repr__(self) -> str:

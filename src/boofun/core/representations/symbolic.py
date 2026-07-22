@@ -1,4 +1,5 @@
 import logging
+import typing
 from typing import Any
 
 import numpy as np
@@ -47,7 +48,9 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
         if funcs and isinstance(funcs[0], str):
             # This is a variable-based symbolic expression, not composed functions
             # For now, use simple evaluation with variable substitution
-            return self._evaluate_variable_expression(inputs, expr, funcs, space, n_vars)
+            return typing.cast(
+                "np.ndarray", self._evaluate_variable_expression(inputs, expr, funcs, space, n_vars)
+            )
 
         func_lengths = [f.get_n_vars() for f in funcs]
 
@@ -60,7 +63,7 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
             bit_index += length
 
         # swap to matrix operations in future
-        def eval_point(val: int) -> bool:
+        def eval_point(val: int) -> Any:
             context = {}
             for j, (f, (offset, mask)) in enumerate(zip(funcs, bit_slices, strict=False)):
                 sub_input = (val >> (n_vars - offset - func_lengths[j])) & mask
@@ -186,7 +189,9 @@ class SymbolicRepresentation(BooleanFunctionRepresentation[tuple[str, list[str]]
     ) -> np.ndarray:
         """Convert to another representation from Fourier expansion"""
         # Placeholder: Actual conversion requires inverse transform
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> tuple[str, list[str]]:
         """

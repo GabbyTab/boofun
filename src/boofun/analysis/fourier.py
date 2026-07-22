@@ -24,6 +24,7 @@ Mathematical Background (O'Donnell Chapter 1):
 
 from __future__ import annotations
 
+import typing
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -180,7 +181,7 @@ def convolution(f: BooleanFunction, g: BooleanFunction) -> np.ndarray:
     f_coeffs = _get_fourier_coefficients(f)
     g_coeffs = _get_fourier_coefficients(g)
 
-    return f_coeffs * g_coeffs
+    return typing.cast("np.ndarray", f_coeffs * g_coeffs)
 
 
 def convolution_values(f: BooleanFunction, g: BooleanFunction) -> np.ndarray:
@@ -246,7 +247,9 @@ def negate_inputs(f: BooleanFunction) -> BooleanFunction:
     flip_mask = size - 1
     new_tt = np.array([truth_table[x ^ flip_mask] for x in range(size)], dtype=bool)
 
-    return BooleanFunctionFactory.from_truth_table(BooleanFunction, new_tt, n=n)
+    return typing.cast(
+        "BooleanFunction", BooleanFunctionFactory.from_truth_table(BooleanFunction, new_tt, n=n)
+    )
 
 
 def odd_part(f: BooleanFunction) -> np.ndarray:
@@ -274,7 +277,7 @@ def odd_part(f: BooleanFunction) -> np.ndarray:
     flip_mask = size - 1
     pm_negated = np.array([pm_values[x ^ flip_mask] for x in range(size)])
 
-    return (pm_values - pm_negated) / 2.0
+    return typing.cast("np.ndarray", (pm_values - pm_negated) / 2.0)
 
 
 def even_part(f: BooleanFunction) -> np.ndarray:
@@ -299,7 +302,7 @@ def even_part(f: BooleanFunction) -> np.ndarray:
     flip_mask = size - 1
     pm_negated = np.array([pm_values[x ^ flip_mask] for x in range(size)])
 
-    return (pm_values + pm_negated) / 2.0
+    return typing.cast("np.ndarray", (pm_values + pm_negated) / 2.0)
 
 
 def tensor_product(f: BooleanFunction, g: BooleanFunction) -> BooleanFunction:
@@ -347,7 +350,9 @@ def tensor_product(f: BooleanFunction, g: BooleanFunction) -> BooleanFunction:
             # Convert back to {0,1}: +1 → 0, -1 → 1
             new_tt[idx] = product < 0
 
-    return BooleanFunctionFactory.from_truth_table(BooleanFunction, new_tt, n=n + m)
+    return typing.cast(
+        "BooleanFunction", BooleanFunctionFactory.from_truth_table(BooleanFunction, new_tt, n=n + m)
+    )
 
 
 def restriction(f: BooleanFunction, fixed_vars: dict[int, int]) -> BooleanFunction:

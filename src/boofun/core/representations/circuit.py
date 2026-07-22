@@ -5,6 +5,7 @@ This module implements Boolean circuits using basic gates (AND, OR, NOT)
 for representing and evaluating Boolean functions efficiently.
 """
 
+import typing
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any
@@ -423,7 +424,9 @@ class CircuitRepresentation(BooleanFunctionRepresentation[BooleanCircuit]):
         **kwargs,
     ) -> np.ndarray:
         """Convert circuit to another representation."""
-        return target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        return typing.cast(
+            "np.ndarray", target_repr.convert_from(self, source_data, space, n_vars, **kwargs)
+        )
 
     def create_empty(self, n_vars: int, **kwargs) -> BooleanCircuit:
         """Create empty circuit (constant False)."""

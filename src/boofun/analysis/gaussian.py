@@ -313,7 +313,7 @@ def berry_esseen_bound(f: BooleanFunction) -> float:
     # Berry-Esseen constant (sharp constant is about 0.4748)
     C = 0.5
 
-    return C * sum_inf_cubed / (var**1.5)
+    return float(C * sum_inf_cubed / (var**1.5))
 
 
 def clt_approximation(f: BooleanFunction, num_samples: int = 10000) -> tuple[float, float]:

@@ -39,6 +39,7 @@ Cross-validation:
 
 from __future__ import annotations
 
+import typing
 from collections.abc import Iterator
 from typing import TYPE_CHECKING
 
@@ -261,7 +262,7 @@ class PartialBooleanFunction:
         if idx < 0 or idx >= self._size:
             raise IndexError(f"Index {idx} out of range [0, {self._size})")
 
-        return self._partial.evaluate(np.array(idx), self._space)
+        return typing.cast("bool | None", self._partial.evaluate(np.array(idx), self._space))
 
     def evaluate_with_confidence(
         self,
@@ -393,11 +394,14 @@ class PartialBooleanFunction:
         else:
             truth_table = self._partial.to_complete(default=fill_unknown)
 
-        return BooleanFunctionFactory.create(
-            BooleanFunction,
-            truth_table,
-            n=self._n_vars,
-            nickname=self._name or f"partial_{self._n_vars}",
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.create(
+                BooleanFunction,
+                truth_table,
+                n=self._n_vars,
+                nickname=self._name or f"partial_{self._n_vars}",
+            ),
         )
 
     def to_dense_array(

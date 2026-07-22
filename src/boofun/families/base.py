@@ -5,6 +5,7 @@ A FunctionFamily represents a parameterized collection of Boolean functions
 indexed by the number of variables n (and possibly other parameters).
 """
 
+import typing
 from abc import ABC, abstractmethod
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -96,11 +97,11 @@ class FunctionFamily(ABC):
         formula = self.metadata.asymptotics[property_name]
 
         if callable(formula):
-            return formula(n, **kwargs)
+            return typing.cast("float | None", formula(n, **kwargs))
         if isinstance(formula, str):
             # Could parse string formulas if needed
             return None
-        return formula
+        return typing.cast("float | None", formula)
 
     def generate_range(self, n_values: list[int], **kwargs) -> dict[int, "BooleanFunction"]:
         """
@@ -195,7 +196,7 @@ class InductiveFamily(FunctionFamily):
             Function with n variables
         """
         if self._step_function is not None:
-            return self._step_function(f_prev, n, n_prev)
+            return typing.cast("BooleanFunction", self._step_function(f_prev, n, n_prev))
 
         raise NotImplementedError("Must either override step() or provide step_function")
 

@@ -1,3 +1,4 @@
+import typing
 import warnings
 from typing import TYPE_CHECKING, Any, Protocol
 
@@ -174,10 +175,13 @@ class BooleanFunction(Evaluable, Representable):
         each input of ``self`` on disjoint variable blocks.
         """
 
-        return BooleanFunctionFactory.compose_truth_tables(
-            boolean_function_cls=type(self),
-            outer_func=self,
-            inner_func=other,
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.compose_truth_tables(
+                boolean_function_cls=type(self),
+                outer_func=self,
+                inner_func=other,
+            ),
         )
 
     def __call__(self, inputs):
@@ -654,7 +658,10 @@ class BooleanFunction(Evaluable, Representable):
                 old_idx = left_bits | fixed_bit | right_bits
                 new_tt[i] = old_tt[old_idx]
 
-        return BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=new_n)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=new_n),
+        )
 
     def _fix_multi(self, vars: list, vals: list) -> "BooleanFunction":
         """
@@ -686,7 +693,7 @@ class BooleanFunction(Evaluable, Representable):
 
         This terminology is often used in the literature (e.g., random restrictions).
         """
-        return self.fix(var, val)
+        return typing.cast("BooleanFunction", self.fix(var, val))
 
     def derivative(self, var: int) -> "BooleanFunction":
         """
@@ -720,7 +727,9 @@ class BooleanFunction(Evaluable, Representable):
             x_flipped = x ^ (1 << var)
             new_tt[x] = old_tt[x] ^ old_tt[x_flipped]
 
-        return BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=n)
+        return typing.cast(
+            "BooleanFunction", BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=n)
+        )
 
     def shift(self, s: int) -> "BooleanFunction":
         """
@@ -746,7 +755,9 @@ class BooleanFunction(Evaluable, Representable):
         for x in range(size):
             new_tt[x] = old_tt[x ^ s]
 
-        return BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=n)
+        return typing.cast(
+            "BooleanFunction", BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=n)
+        )
 
     def negation(self) -> "BooleanFunction":
         """
@@ -758,7 +769,10 @@ class BooleanFunction(Evaluable, Representable):
         old_tt = np.asarray(self.get_representation("truth_table"), dtype=bool)
         new_tt = ~old_tt
 
-        return BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=self.n_vars)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=self.n_vars),
+        )
 
     def bias(self) -> float:
         """
@@ -1053,7 +1067,7 @@ class BooleanFunction(Evaluable, Representable):
             Variance of the function (0 for constant, 1 for balanced ±1 function)
         """
         coeffs = self.fourier()
-        return sum(c * c for c in coeffs[1:])  # Skip S=∅
+        return float(sum(c * c for c in coeffs[1:]))  # Skip S=∅
 
     def max_influence(self) -> float:
         """
@@ -1064,7 +1078,7 @@ class BooleanFunction(Evaluable, Representable):
         Returns:
             Maximum influence value
         """
-        return max(self.influences())
+        return float(max(self.influences()))
 
     def analyze(self) -> dict:
         """
@@ -1236,8 +1250,8 @@ class BooleanFunction(Evaluable, Representable):
         vars_list = list(fixed_vars.keys())
         vals_list = list(fixed_vars.values())
         if len(vars_list) == 1:
-            return self.fix(vars_list[0], vals_list[0])
-        return self.fix(vars_list, vals_list)
+            return typing.cast("BooleanFunction", self.fix(vars_list[0], vals_list[0]))
+        return typing.cast("BooleanFunction", self.fix(vars_list, vals_list))
 
     def cofactor(self, var: int, val: int) -> "BooleanFunction":
         """
@@ -1258,7 +1272,7 @@ class BooleanFunction(Evaluable, Representable):
             >>> f0 = f.cofactor(0, 0)  # f with x₀=0
             >>> f1 = f.cofactor(0, 1)  # f with x₀=1
         """
-        return self.fix(var, val)
+        return typing.cast("BooleanFunction", self.fix(var, val))
 
     def sensitivity_at(self, x: int) -> int:
         """
@@ -1306,7 +1320,7 @@ class BooleanFunction(Evaluable, Representable):
             >>> f.xor(g).fourier()
             >>> f.restrict(0, 1).xor(g).influences()
         """
-        return self ^ other
+        return typing.cast("BooleanFunction", self ^ other)
 
     def and_(self, other: "BooleanFunction") -> "BooleanFunction":
         """
@@ -1315,7 +1329,7 @@ class BooleanFunction(Evaluable, Representable):
         Named with underscore to avoid Python keyword conflict.
         Equivalent to f & g.
         """
-        return self & other
+        return typing.cast("BooleanFunction", self & other)
 
     def or_(self, other: "BooleanFunction") -> "BooleanFunction":
         """
@@ -1324,7 +1338,7 @@ class BooleanFunction(Evaluable, Representable):
         Named with underscore to avoid Python keyword conflict.
         Equivalent to f | g.
         """
-        return self | other
+        return typing.cast("BooleanFunction", self | other)
 
     def not_(self) -> "BooleanFunction":
         """
@@ -1332,7 +1346,7 @@ class BooleanFunction(Evaluable, Representable):
 
         Equivalent to ~f. Returns function g where g(x) = NOT f(x).
         """
-        return ~self
+        return typing.cast("BooleanFunction", ~self)
 
     def apply_noise(self, rho: float, samples: int = 100) -> "BooleanFunction":
         """
@@ -1381,7 +1395,9 @@ class BooleanFunction(Evaluable, Representable):
             # Majority vote
             new_tt.append(1 if votes > samples // 2 else 0)
 
-        return BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=n)
+        return typing.cast(
+            "BooleanFunction", BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=n)
+        )
 
     def noise_expectation(self, rho: float) -> np.ndarray:
         """
@@ -1454,7 +1470,9 @@ class BooleanFunction(Evaluable, Representable):
                     old_x |= 1 << perm[i]
             new_tt[x] = old_tt[old_x]
 
-        return BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=n)
+        return typing.cast(
+            "BooleanFunction", BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=n)
+        )
 
     def dual(self) -> "BooleanFunction":
         """
@@ -1471,7 +1489,7 @@ class BooleanFunction(Evaluable, Representable):
             >>> bf.OR(3).dual()   # Returns AND(3)
         """
         # NOT input, then f, then NOT output
-        return ~(-self)  # -f = f(-x), then ~
+        return typing.cast("BooleanFunction", ~(-self))  # -f = f(-x), then ~
 
     def extend(self, new_n: int, method: str = "dummy") -> "BooleanFunction":
         """
@@ -1514,7 +1532,10 @@ class BooleanFunction(Evaluable, Representable):
             else:
                 raise ValueError(f"Unknown extension method: {method}")
 
-        return BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=new_n)
+        return typing.cast(
+            "BooleanFunction",
+            BooleanFunctionFactory.from_truth_table(type(self), new_tt, n=new_n),
+        )
 
     def named(self, name: str) -> "BooleanFunction":
         """

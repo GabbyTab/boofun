@@ -257,7 +257,7 @@ def friedgut_junta_bound(total_influence: float, epsilon: float) -> int:
     # Cap to prevent overflow
     max_exp = 30
     if exponent > max_exp:
-        return 2**max_exp
+        return int(2**max_exp)
 
     return int(2**exponent)
 

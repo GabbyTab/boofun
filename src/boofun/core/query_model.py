@@ -264,7 +264,7 @@ class QueryModel:
     def can_compute(self, operation: str, **kwargs) -> bool:
         """Check if operation is computationally feasible."""
         cost = self.estimate_cost(operation, **kwargs)
-        return cost["feasible"]
+        return bool(cost["feasible"])
 
     def estimate_cost(self, operation: str, num_queries: int = 100) -> dict[str, Any]:
         """
