@@ -211,6 +211,110 @@ def _tree_depth(node: DecisionTreeNode) -> int:
     return 1 + max(_tree_depth(node.left), _tree_depth(node.right))
 
 
+def _assign_positions(
+    node: DecisionTreeNode,
+    x: float,
+    y: float,
+    x_offset: float,
+    positions: dict[int, tuple[float, float]],
+) -> None:
+    """Recursively assign plot positions to nodes (root at top, children below)."""
+    positions[id(node)] = (x, y)
+
+    if not node.is_leaf:
+        assert node.left is not None and node.right is not None
+        new_offset = x_offset / 2
+        _assign_positions(node.left, x - x_offset, y - 1, new_offset, positions)
+        _assign_positions(node.right, x + x_offset, y - 1, new_offset, positions)
+
+
+def _draw_edges(
+    ax: Any,
+    node: DecisionTreeNode,
+    positions: dict[int, tuple[float, float]],
+    font_size: int,
+) -> None:
+    """Draw the 0/1 branch edges below node, recursively."""
+    if node.is_leaf:
+        return
+
+    assert node.left is not None and node.right is not None
+    pos = positions[id(node)]
+    left_pos = positions[id(node.left)]
+    right_pos = positions[id(node.right)]
+
+    # Edge to left child (x=0)
+    ax.plot([pos[0], left_pos[0]], [pos[1], left_pos[1]], "b-", linewidth=1.5, alpha=0.7)
+    mid_x = (pos[0] + left_pos[0]) / 2
+    mid_y = (pos[1] + left_pos[1]) / 2
+    ax.text(mid_x - 0.2, mid_y, "0", fontsize=font_size - 2, color="blue")
+
+    # Edge to right child (x=1)
+    ax.plot([pos[0], right_pos[0]], [pos[1], right_pos[1]], "r-", linewidth=1.5, alpha=0.7)
+    mid_x = (pos[0] + right_pos[0]) / 2
+    mid_y = (pos[1] + right_pos[1]) / 2
+    ax.text(mid_x + 0.1, mid_y, "1", fontsize=font_size - 2, color="red")
+
+    _draw_edges(ax, node.left, positions, font_size)
+    _draw_edges(ax, node.right, positions, font_size)
+
+
+def _draw_nodes(
+    ax: Any,
+    node: DecisionTreeNode,
+    positions: dict[int, tuple[float, float]],
+    font_size: int,
+) -> None:
+    """Draw leaf circles and internal query boxes, recursively."""
+    import matplotlib.patches as mpatches
+
+    pos = positions[id(node)]
+
+    if node.is_leaf:
+        # Leaf: circle with output value
+        color = "lightgreen" if node.value else "lightcoral"
+        circle = mpatches.Circle(pos, 0.3, color=color, ec="black", linewidth=2, zorder=5)
+        ax.add_patch(circle)
+        ax.text(
+            pos[0],
+            pos[1],
+            str(node.value),
+            ha="center",
+            va="center",
+            fontsize=font_size,
+            fontweight="bold",
+            zorder=6,
+        )
+    else:
+        # Internal: rectangle with variable
+        rect = mpatches.FancyBboxPatch(
+            (pos[0] - 0.4, pos[1] - 0.25),
+            0.8,
+            0.5,
+            boxstyle="round,pad=0.05",
+            facecolor="lightyellow",
+            edgecolor="black",
+            linewidth=2,
+            zorder=5,
+        )
+        ax.add_patch(rect)
+        ax.text(
+            pos[0],
+            pos[1],
+            f"x_{node.variable}",
+            ha="center",
+            va="center",
+            fontsize=font_size,
+            fontweight="bold",
+            zorder=6,
+        )
+
+    if not node.is_leaf:
+        assert node.left is not None and node.right is not None
+        _draw_nodes(ax, node.left, positions, font_size)
+        _draw_nodes(ax, node.right, positions, font_size)
+
+
 def plot_decision_tree(
     f: BooleanFunction,
     tree: DecisionTreeNode | None = None,
@@ -251,106 +355,13 @@ def plot_decision_tree(
 
     fig, ax = plt.subplots(figsize=figsize)
 
-    # Position nodes using BFS
-    positions = {}
-
-    def assign_positions(
-        node: DecisionTreeNode,
-        x: float,
-        y: float,
-        x_offset: float,
-        level: int = 0,
-    ) -> None:
-        """Recursively assign positions to nodes."""
-        positions[id(node)] = (x, y)
-
-        if not node.is_leaf:
-            assert node.left is not None and node.right is not None
-            new_offset = x_offset / 2
-            assign_positions(node.left, x - x_offset, y - 1, new_offset, level + 1)
-            assign_positions(node.right, x + x_offset, y - 1, new_offset, level + 1)
-
-    # Start with root at top center
+    # Position nodes, root at top center
+    positions: dict[int, tuple[float, float]] = {}
     initial_offset = 2 ** (depth - 1) if depth > 1 else 1
-    assign_positions(tree, 0, 0, initial_offset)
+    _assign_positions(tree, 0, 0, initial_offset, positions)
 
-    # Draw edges
-    def draw_edges(node: DecisionTreeNode) -> None:
-        if node.is_leaf:
-            return
-
-        assert node.left is not None and node.right is not None
-        pos = positions[id(node)]
-        left_pos = positions[id(node.left)]
-        right_pos = positions[id(node.right)]
-
-        # Edge to left child (x=0)
-        ax.plot([pos[0], left_pos[0]], [pos[1], left_pos[1]], "b-", linewidth=1.5, alpha=0.7)
-        # Label
-        mid_x = (pos[0] + left_pos[0]) / 2
-        mid_y = (pos[1] + left_pos[1]) / 2
-        ax.text(mid_x - 0.2, mid_y, "0", fontsize=font_size - 2, color="blue")
-
-        # Edge to right child (x=1)
-        ax.plot([pos[0], right_pos[0]], [pos[1], right_pos[1]], "r-", linewidth=1.5, alpha=0.7)
-        mid_x = (pos[0] + right_pos[0]) / 2
-        mid_y = (pos[1] + right_pos[1]) / 2
-        ax.text(mid_x + 0.1, mid_y, "1", fontsize=font_size - 2, color="red")
-
-        draw_edges(node.left)
-        draw_edges(node.right)
-
-    draw_edges(tree)
-
-    # Draw nodes
-    def draw_nodes(node: DecisionTreeNode) -> None:
-        pos = positions[id(node)]
-
-        if node.is_leaf:
-            # Leaf: circle with output value
-            color = "lightgreen" if node.value else "lightcoral"
-            circle = mpatches.Circle(pos, 0.3, color=color, ec="black", linewidth=2, zorder=5)
-            ax.add_patch(circle)
-            ax.text(
-                pos[0],
-                pos[1],
-                str(node.value),
-                ha="center",
-                va="center",
-                fontsize=font_size,
-                fontweight="bold",
-                zorder=6,
-            )
-        else:
-            # Internal: rectangle with variable
-            rect = mpatches.FancyBboxPatch(
-                (pos[0] - 0.4, pos[1] - 0.25),
-                0.8,
-                0.5,
-                boxstyle="round,pad=0.05",
-                facecolor="lightyellow",
-                edgecolor="black",
-                linewidth=2,
-                zorder=5,
-            )
-            ax.add_patch(rect)
-            ax.text(
-                pos[0],
-                pos[1],
-                f"x_{node.variable}",
-                ha="center",
-                va="center",
-                fontsize=font_size,
-                fontweight="bold",
-                zorder=6,
-            )
-
-        if not node.is_leaf:
-            assert node.left is not None and node.right is not None
-            draw_nodes(node.left)
-            draw_nodes(node.right)
-
-    draw_nodes(tree)
+    _draw_edges(ax, tree, positions, font_size)
+    _draw_nodes(ax, tree, positions, font_size)
 
     # Set axis properties
     all_x = [p[0] for p in positions.values()]
