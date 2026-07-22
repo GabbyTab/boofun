@@ -100,7 +100,7 @@ class InteractiveFunctionExplorer:
         # Initial display
         self._update_display()
 
-    def _on_view_change(self, change: Any) -> None:
+    def _on_view_change(self, _change: Any) -> None:
         """Handle view change."""
         self._update_display()
 
@@ -297,11 +297,11 @@ class GrowthExplorer:
         # Initial display
         self._update_display()
 
-    def _on_n_change(self, change: Any) -> None:
+    def _on_n_change(self, _change: Any) -> None:
         """Handle n change."""
         self._update_display()
 
-    def _on_property_change(self, change: Any) -> None:
+    def _on_property_change(self, _change: Any) -> None:
         """Handle property change."""
         self._update_display()
 
@@ -392,7 +392,7 @@ class PropertyDashboard:
         # Initial display
         self._update_display()
 
-    def _on_change(self, change: Any) -> None:
+    def _on_change(self, _change: Any) -> None:
         """Handle change."""
         self._update_display()
 
