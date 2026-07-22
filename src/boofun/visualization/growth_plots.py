@@ -68,7 +68,7 @@ class GrowthVisualizer:
         # Default styling
         self.colors: Any = (
             plt.get_cmap("tab10").colors  # type: ignore[attr-defined]
-            if HAS_MATPLOTLIB
+            if self.backend == "matplotlib"
             else [
                 "#1f77b4",
                 "#ff7f0e",
