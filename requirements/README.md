@@ -19,12 +19,13 @@ and keeping the CI toolchain (mypy, ruff, pytest) at known versions
 
 ## Files
 
-| Lockfile      | Used by                                                    |
-|---------------|------------------------------------------------------------|
-| `ci.txt`      | typecheck, test, notebooks, mutation, benchmark, docs jobs |
-| `lint.txt`    | lint job (pre-commit)                                      |
-| `publish.txt` | publish job (build, twine, sigstore)                       |
-| `fuzz.txt`    | fuzz workflow (atheris is Linux-only, hence separate)      |
+| Lockfile        | Used by                                                     |
+|-----------------|-------------------------------------------------------------|
+| `ci.txt`        | test, notebooks, mutation, benchmark, docs jobs             |
+| `typecheck.txt` | typecheck job — deliberately excludes the performance extra so mypy keeps treating numba/bitarray as `Any` (matching the module overrides in `pyproject.toml`); no `.in` file, compiled from `pyproject.toml` extras only |
+| `lint.txt`      | lint job (pre-commit)                                       |
+| `publish.txt`   | publish job (build, twine, sigstore)                        |
+| `fuzz.txt`      | fuzz workflow (atheris: Linux cp312+ wheels only, hence separate and compiled with `--python-version 3.12`) |
 
 ## Regenerating
 
@@ -36,6 +37,11 @@ uv pip compile pyproject.toml requirements/ci.in \
     --universal --python-version 3.10 --generate-hashes \
     -o requirements/ci.txt
 
+uv pip compile pyproject.toml \
+    --extra dev --extra visualization \
+    --universal --python-version 3.10 --generate-hashes \
+    -o requirements/typecheck.txt
+
 uv pip compile requirements/lint.in \
     --universal --python-version 3.10 --generate-hashes \
     -o requirements/lint.txt
@@ -46,7 +52,7 @@ uv pip compile requirements/publish.in \
 
 uv pip compile pyproject.toml requirements/fuzz.in \
     --extra dev --extra visualization \
-    --universal --python-version 3.10 --generate-hashes \
+    --universal --python-version 3.12 --generate-hashes \
     -o requirements/fuzz.txt
 ```
 
