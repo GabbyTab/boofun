@@ -219,6 +219,8 @@ valuable, and issues labeled [good first issue](https://github.com/GabbyTab/boof
 are a good place to start. The roadmap lives on the
 [issue tracker](https://github.com/GabbyTab/boofun/issues).
 
+Questions? See [SUPPORT.md](SUPPORT.md) for where to ask and what to expect.
+
 ## Acknowledgments
 
 - **[Avishay Tal](https://www2.eecs.berkeley.edu/Faculty/Homepages/atal.html)**: Course instructor, sensitivity analysis, p-biased measures, decision tree algorithms, Fourier analysis utilities. BooFun covers ~90% of Tal's `BooleanFunc.py` toolkit - see the [migration guide](https://gabbytab.github.io/boofun/guides/migration_from_tal.html) for a complete mapping
@@ -232,11 +234,15 @@ MIT. See [LICENSE](LICENSE).
 
 ## Citation
 
+Citation metadata lives in [CITATION.cff](CITATION.cff) (use the "Cite this
+repository" button on GitHub), or use:
+
 ```bibtex
 @software{boofun2026,
-  title={BooFun: A Python Library for Boolean Function Analysis},
+  title={BooFun: Boolean Function Analysis in Python},
   author={Gabriel Taboada},
   year={2026},
+  version={1.3.0},
   url={https://github.com/GabbyTab/boofun}
 }
 ```
