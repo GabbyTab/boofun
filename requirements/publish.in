@@ -1,0 +1,8 @@
+# Release/publish job toolchain. Compiled into publish.txt:
+#
+#   uv pip compile requirements/publish.in \
+#       --universal --python-version 3.10 --generate-hashes \
+#       -o requirements/publish.txt
+build
+twine
+sigstore

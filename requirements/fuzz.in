@@ -1,0 +1,9 @@
+# Fuzz workflow dependencies (Linux-only job; atheris has no Windows wheels,
+# so it is kept out of ci.txt). Compiled together with pyproject.toml:
+#
+#   uv pip compile pyproject.toml requirements/fuzz.in \
+#       --extra dev --extra visualization \
+#       --universal --python-version 3.10 --generate-hashes \
+#       -o requirements/fuzz.txt
+atheris
+psutil

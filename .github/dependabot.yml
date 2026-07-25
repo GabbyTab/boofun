@@ -16,6 +16,19 @@ updates:
       - "dependencies"
       - "python"
 
+  # Hash-pinned CI lockfiles (requirements/*.txt, compiled with uv)
+  - package-ecosystem: "pip"
+    directory: "/requirements"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"
+      - "ci"
+
   # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"

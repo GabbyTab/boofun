@@ -23,7 +23,7 @@ jobs:
         python-version: '3.11'
 
     - name: Install pre-commit
-      run: pip install pre-commit
+      run: pip install --require-hashes -r requirements/lint.txt
 
     - name: Run pre-commit hooks
       run: pre-commit run --all-files
@@ -49,6 +49,7 @@ jobs:
               - 'setup.py'
               - '.pre-commit-config.yaml'
               - '.github/workflows/**'
+              - 'requirements/**'
             docs:
               - 'docs/**'
               - '*.md'
@@ -69,8 +70,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev,visualization]"
+        pip install --require-hashes -r requirements/ci.txt
+        pip install --no-deps -e .
 
     - name: Run type checking (mypy)
       run: mypy src/boofun --no-color-output
@@ -102,9 +103,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev,visualization]"
-        pip install psutil pytest-timeout
+        pip install --require-hashes -r requirements/ci.txt
+        pip install --no-deps -e .
 
     - name: Run tests
       run: pytest tests/ -v --tb=short --timeout=120
@@ -112,7 +112,6 @@ jobs:
     - name: Run tests with coverage
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
       run: |
-        pip install pytest-cov pytest-timeout ipywidgets ".[performance]"
         pytest tests/ --cov=boofun --cov-branch \
           --cov-report=xml --cov-report=term-missing --timeout=120
 
@@ -139,9 +138,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev,visualization]"
-        pip install jupyter nbconvert
+        pip install --require-hashes -r requirements/ci.txt
+        pip install --no-deps -e .
 
     - name: Validate notebooks
       run: |
@@ -179,9 +177,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev]"
-        pip install mutmut
+        pip install --require-hashes -r requirements/ci.txt
+        pip install --no-deps -e .
 
     - name: Run mutation testing (core modules)
       run: |
@@ -207,9 +204,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev,performance]"
-        pip install pytest-benchmark
+        pip install --require-hashes -r requirements/ci.txt
+        pip install --no-deps -e .
 
     - name: Run benchmarks
       run: |
@@ -262,8 +258,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[dev,docs]"
+        pip install --require-hashes -r requirements/ci.txt
+        pip install --no-deps -e .
 
     - name: Build documentation
       run: |
@@ -273,7 +269,7 @@ jobs:
     - name: Convert notebooks to HTML
       run: |
         mkdir -p docs/_build/html/notebooks
-        pip install nbconvert
+        # nbconvert comes from requirements/ci.txt
         # Convert all notebooks (lecture, homework, and supplementary)
         for nb in notebooks/*.ipynb; do
           jupyter nbconvert --to html "$nb" --output-dir docs/_build/html/notebooks/
@@ -303,9 +299,7 @@ jobs:
         python-version: '3.11'
 
     - name: Install build tools
-      run: |
-        python -m pip install --upgrade pip
-        pip install build twine sigstore
+      run: pip install --require-hashes -r requirements/publish.txt
 
     - name: Build package
       run: python -m build

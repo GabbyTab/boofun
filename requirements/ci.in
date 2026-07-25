@@ -1,0 +1,12 @@
+# CI tools installed on top of the project extras (dev, visualization,
+# performance, docs). Compiled together with pyproject.toml into ci.txt:
+#
+#   uv pip compile pyproject.toml requirements/ci.in \
+#       --extra dev --extra visualization --extra performance --extra docs \
+#       --universal --python-version 3.10 --generate-hashes \
+#       -o requirements/ci.txt
+psutil
+pytest-timeout
+ipywidgets
+jupyter
+nbconvert
