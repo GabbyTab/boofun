@@ -46,6 +46,7 @@
 - [ ] README updated if needed
 - [ ] CHANGELOG updated for user-facing changes
 - [ ] Docstrings complete with Args, Returns, Example sections
+- [ ] AI-assisted changes recorded in [docs/AI_USAGE.md](../docs/AI_USAGE.md) (if applicable)
 
 ## Additional Notes
 
