@@ -17,6 +17,7 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
    :caption: Getting Started:
 
    quickstart
+   statement_of_need
 
 .. toctree::
    :maxdepth: 2
