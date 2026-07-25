@@ -5,17 +5,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.3.0] - 2026-07-25
+
+The code-quality release: the entire library now passes strict mypy with zero
+errors, a zero-warning Ruff profile, and an enforced coverage gate — all
+verified in CI on every pull request.
+
+### Added
+
+- Strict quality gates in CI: `mypy --strict` (no baseline, no blanket
+  ignores), a curated zero-warning Ruff profile (including unused-argument
+  and calibrated complexity rules), and a line-and-branch coverage floor
+- 600+ new tests targeting core dispatch, batch processing, conversion
+  graphs, visualization backends, and query-complexity workflows
+  (3,800+ tests total, ~79% line-and-branch coverage, up from 72% line)
+- CI, mypy-strict, and Ruff badges in the README
 
 ### Changed
 
-- Minimum supported Python version is now 3.10; Python 3.8 and 3.9 are no longer
-  supported because both releases have reached end of life
+- Minimum supported Python version is now 3.10; Python 3.8 and 3.9 are no
+  longer supported because both releases have reached end of life
+  (CI now tests 3.10–3.13)
+- Complete type annotations across all 86 source modules; optional
+  dependencies (numba, cupy, scipy, sympy, plotly, ipywidgets, ...) are
+  explicitly scoped in the mypy configuration instead of globally ignored
+- Ruff replaces black, isort, and flake8 as the single formatter and linter
+  (same style, one tool), in both pre-commit and CI
+- Complexity hotspots refactored under test cover: function factory creation
+  dispatch, composite-function construction, decision-tree plotting, and
+  restriction analysis helpers
+
+### Fixed
+
+- `plot_hypercube` coordinate padding for functions with fewer than 3
+  variables
+- Plotly growth plots received Matplotlib RGB tuples instead of CSS color
+  strings when both backends were installed
+- `GrowthTracker.summary()` crashed when a custom metric computation
+  returned `None`
 
 ### Removed
 
 - The unused `storage_manager` parameter of `BooleanFunction.__init__`; it was
   accepted but never read
+- black, isort, flake8, and mypy-baseline development dependencies
+  (superseded by Ruff and the now-empty mypy baseline)
 
 ---
 
