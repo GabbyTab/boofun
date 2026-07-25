@@ -1,0 +1,32 @@
+# This CITATION.cff file was created to make BooFun citable.
+# Validate with: cffconvert --validate
+cff-version: 1.2.0
+message: "If you use BooFun in your research, please cite it using this metadata."
+type: software
+title: "BooFun: Boolean Function Analysis in Python"
+authors:
+  - family-names: Taboada
+    given-names: Gabriel
+    affiliation: "University of California, Berkeley"
+    # TODO: register an ORCID iD and add it here before JOSS submission:
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"
+version: 1.3.0
+date-released: 2026-07-25
+license: MIT
+repository-code: "https://github.com/GabbyTab/boofun"
+url: "https://gabbytab.github.io/boofun/"
+keywords:
+  - boolean functions
+  - fourier analysis
+  - property testing
+  - query complexity
+  - theoretical computer science
+  - python
+abstract: >-
+  BooFun is an open-source Python library for creating, transforming, and
+  analyzing Boolean functions. It provides a notebook-oriented interface for
+  Fourier analysis, influence and sensitivity measures, query complexity,
+  property testing, hypercontractivity, learning-theoretic algorithms, and
+  cryptographic metrics. Multiple representations share a common API, and
+  numerical implementations are validated against closed-form results,
+  redundant computation paths, and independent software.

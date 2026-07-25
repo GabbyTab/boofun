@@ -6,7 +6,9 @@ This is a solo-maintained project. I built it while studying Boolean function an
 
 Your contributions (bug reports, test cases, corrections, improvements) directly improve reliability. I treat contributions seriously because they catch things I missed.
 
-Response times vary. I'll review when I can.
+Response times vary. I'll review when I can. See [SUPPORT.md](SUPPORT.md) for
+where questions belong and what to expect; if you use BooFun in research,
+citation metadata is in [CITATION.cff](CITATION.cff).
 
 ## How to Help
 
