@@ -244,6 +244,12 @@ jobs:
 
   docs:
     runs-on: ubuntu-latest
+    # Serialize gh-pages deployments: back-to-back merges to main used to
+    # race on the force-push and fail with "cannot lock ref". Per-ref group
+    # so PR builds (which don't deploy) are unaffected.
+    concurrency:
+      group: docs-deploy-${{ github.ref }}
+      cancel-in-progress: false
     permissions:
       contents: write
       pages: write
