@@ -378,7 +378,7 @@ except ImportError:
 #     from boofun.quantum_complexity import QuantumComplexityAnalyzer
 
 # Version information
-__version__ = "1.2.1"
+__version__ = "1.3.0"
 __author__ = "Gabriel Taboada"
 
 # Core exports for typical usage
