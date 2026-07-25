@@ -1,9 +1,10 @@
-# Fuzz workflow dependencies (Linux-only job; atheris has no Windows wheels,
-# so it is kept out of ci.txt). Compiled together with pyproject.toml:
+# Fuzz workflow dependencies (Linux-only job; atheris only ships Linux
+# wheels for CPython 3.12+, so it is kept out of ci.txt and the fuzz job
+# runs Python 3.12). Compiled together with pyproject.toml:
 #
 #   uv pip compile pyproject.toml requirements/fuzz.in \
 #       --extra dev --extra visualization \
-#       --universal --python-version 3.10 --generate-hashes \
+#       --universal --python-version 3.12 --generate-hashes \
 #       -o requirements/fuzz.txt
 atheris
 psutil
