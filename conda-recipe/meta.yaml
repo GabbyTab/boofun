@@ -1,5 +1,5 @@
 {% set name = "boofun" %}
-{% set version = "1.0.0" %}
+{% set version = "1.3.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 00b40ca5154b695af8731f3b3777677450e4bb17b538bfa68ef6515b49252ff6
+  sha256: eff72f1477d47e59ce3e456c469096698f7262317dcc84b59c92ae16f9be6615
 
 build:
   noarch: python
