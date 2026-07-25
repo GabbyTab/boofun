@@ -1,0 +1,6 @@
+# Lint job toolchain. Compiled into lint.txt:
+#
+#   uv pip compile requirements/lint.in \
+#       --universal --python-version 3.10 --generate-hashes \
+#       -o requirements/lint.txt
+pre-commit
