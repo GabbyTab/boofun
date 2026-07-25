@@ -70,7 +70,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install --require-hashes -r requirements/ci.txt
+        pip install --require-hashes -r requirements/typecheck.txt
         pip install --no-deps -e .
 
     - name: Run type checking (mypy)
