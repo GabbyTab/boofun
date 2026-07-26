@@ -38,23 +38,35 @@ Corrections, clarifications, and examples welcome. These are easy to merge.
 git clone https://github.com/YOUR_USERNAME/boofun.git
 cd boofun
 pip install -e ".[dev]"
+pre-commit install
 pytest tests/
 ```
 
 Then:
 1. Create a branch: `git checkout -b fix/your-fix`
 2. Make changes, add tests if applicable
-3. Run `pytest tests/` and `black src/`
+3. Run `pytest tests/` and `pre-commit run --all-files`
 4. Submit PR
 
 Keep PRs focused. One fix or feature per PR.
 
 ## Code Style
 
-- **Format:** Black, 100-char lines
-- **Imports:** isort
+- **Format & lint:** Ruff (`ruff format` + `ruff check`), 100-char lines,
+  enforced by pre-commit and CI
 - **Docstrings:** Google style for public functions
-- **Types:** Encouraged, not required
+- **Types:** mypy strict runs in CI; new code should be typed
+
+### Toolchain versions are pinned
+
+The static toolchain is pinned exactly so local and CI can't disagree
+(issue #59): `mypy` and `ruff` are `==`-pinned in the `dev` extra of
+`pyproject.toml`, the ruff pre-commit `rev` in `.pre-commit-config.yaml`
+matches that pin, and CI installs from hash-pinned lockfiles in
+`requirements/`. A toolchain bump is a deliberate PR that updates the
+`pyproject.toml` pin and the pre-commit `rev` together and recompiles the
+lockfiles (see `requirements/README.md`) — versions never drift on their
+own.
 
 ## Testing
 
