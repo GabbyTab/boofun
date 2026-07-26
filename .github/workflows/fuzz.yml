@@ -1,12 +1,12 @@
 name: Fuzz Testing
 
+# Off the PR critical path (issue #57): fuzzing runs post-merge and weekly.
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
   schedule:
     - cron: '0 0 * * 3'  # Weekly on Wednesday
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -76,3 +76,28 @@ jobs:
           EOF
         timeout-minutes: 5
         continue-on-error: true  # Fuzzing may find issues, don't fail CI
+
+  # Fuzzing now only runs unattended (post-merge / weekly), so a red run
+  # must file or ping a tracking issue instead of failing silently.
+  report-failure:
+    runs-on: ubuntu-latest
+    needs: [fuzz]
+    if: failure()
+    permissions:
+      issues: write
+    steps:
+      - name: Open or ping CI-failure issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="CI is red on main"
+          body="Fuzz run failed: $RUN_URL (commit ${{ github.sha }})"
+          existing=$(gh issue list -R "${{ github.repository }}" --state open \
+            --label ci --search "\"$title\" in:title" --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" -R "${{ github.repository }}" --body "$body"
+          else
+            gh issue create -R "${{ github.repository }}" --title "$title" \
+              --label ci --body "$body"
+          fi
