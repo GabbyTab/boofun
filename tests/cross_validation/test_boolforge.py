@@ -4,11 +4,21 @@ Cross-validation tests comparing BooFun with BoolForge.
 BoolForge (Kadelka & Coberly, 2025) is a Python library for Boolean
 function and network analysis focused on systems biology.
 
-These tests verify that BooFun and BoolForge agree on canalization
-and basic function properties.
+These tests verify that BooFun and BoolForge agree on canalization,
+basic function properties, and exact spectral quantities.
 
-Note: BoolForge uses Monte Carlo for some measures (like average
-sensitivity), so we only test exact measures here.
+How these run: BoolForge is not a test dependency, so this module skips
+under the regular per-PR matrix. The Cross-Validation (live) workflow
+(.github/workflows/cross-validation.yml) installs BoolForge pinned to a
+commit (see BOOLFORGE_REF there) and runs this module un-skipped on main
+pushes, weekly, and on demand, filing an issue on failure.
+
+Seeds and tolerances: BoolForge estimates some measures by Monte Carlo
+(nsim samples) unless ``exact=True`` is passed. We call every such API
+with ``exact=True``, so all comparisons here are deterministic — integer
+and boolean checks are exact, and float comparisons use small tolerances
+(rtol/atol ~1e-2 in the spectral tests) purely for floating-point noise,
+not sampling error. No RNG seeds are needed.
 """
 
 from typing import Any, ClassVar
@@ -162,7 +172,7 @@ class TestBoolForgeSpectral:
         f_forge = boolforge.BooleanFunction(tt)
 
         our_influences = f_bf.influences()
-        forge_activities = f_forge.get_activities(EXACT=True)
+        forge_activities = f_forge.get_activities(exact=True)
 
         assert np.allclose(our_influences, forge_activities, rtol=0.01)
 
@@ -173,7 +183,7 @@ class TestBoolForgeSpectral:
         f_forge = boolforge.BooleanFunction(tt)
 
         our_ti = f_bf.total_influence()
-        forge_sens = f_forge.get_average_sensitivity(EXACT=True, NORMALIZED=False)
+        forge_sens = f_forge.get_average_sensitivity(exact=True, normalized=False)
 
         assert abs(our_ti - forge_sens) < 0.01
 
