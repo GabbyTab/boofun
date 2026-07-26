@@ -15,7 +15,13 @@ and keeping the CI toolchain (mypy, ruff, pytest) at known versions
   mode so a single file resolves on all CI platforms (Linux/macOS/Windows,
   Python 3.10–3.13).
 - Dependabot updates the lockfiles weekly. `pyproject.toml` keeps version
-  *ranges* — end users are not pinned; only CI is.
+  *ranges* — end users are not pinned; only CI is. (Exception: the dev
+  toolchain — mypy, ruff — is `==`-pinned in `pyproject.toml`; see #59.)
+- The lint CI job runs `scripts/check_lockfiles.sh`, which recompiles every
+  lockfile and fails on any diff. This blocks lockfile/input drift from any
+  source — including a Dependabot lockfile bump that contradicts an exact
+  pin in `pyproject.toml` (Dependabot treats this directory as an
+  independent manifest and does not read `pyproject.toml`).
 
 ## Files
 
@@ -30,7 +36,9 @@ and keeping the CI toolchain (mypy, ruff, pytest) at known versions
 
 ## Regenerating
 
-After changing an `.in` file or the extras in `pyproject.toml`:
+After changing an `.in` file or the extras in `pyproject.toml`
+(or just run `./scripts/check_lockfiles.sh`, which executes all of these
+and reports whether anything changed):
 
 ```bash
 uv pip compile pyproject.toml requirements/ci.in \
