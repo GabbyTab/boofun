@@ -3,24 +3,28 @@ boofun.analysis.fourier
 
 .. automodule:: boofun.analysis.fourier
 
-
+   
    .. rubric:: Functions
 
    .. autosummary::
-
+   
       annealed_influence
       compute_and_fourier
       compute_mux3_fourier
       compute_nae3_fourier
       convolution
+      convolution_values
       correlation
       dominant_coefficients
       even_part
       fourier_degree
+      fourier_level_lp_norm
       fourier_sparsity
+      fourier_tail_profile
       fourier_weight_distribution
       min_fourier_coefficient_size
       negate_inputs
+      normalized_influence
       odd_part
       parseval_verify
       plancherel_inner_product
@@ -28,3 +32,4 @@ boofun.analysis.fourier
       spectral_norm
       tensor_product
       truncate_to_degree
+   

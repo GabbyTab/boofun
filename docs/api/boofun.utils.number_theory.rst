@@ -3,11 +3,11 @@ boofun.utils.number\_theory
 
 .. automodule:: boofun.utils.number_theory
 
-
+   
    .. rubric:: Functions
 
    .. autosummary::
-
+   
       binomial
       binomial_sum
       crt
@@ -21,3 +21,4 @@ boofun.utils.number\_theory
       prime_factorization
       prime_sieve
       totient
+   

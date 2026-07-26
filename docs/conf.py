@@ -43,8 +43,15 @@ try:
     ]
     # Don't parse single $ as math (avoids conflicts with currency, etc.)
     myst_dmath_double_inline = True
+    # Render ```mermaid fences as diagrams (sphinxcontrib-mermaid). The same
+    # fence renders natively on GitHub, so one source serves both. See #97.
+    extensions.append("sphinxcontrib.mermaid")
+    myst_fence_as_directive = ["mermaid"]
 except ImportError:
     myst_parser = None
+
+# Pin the mermaid.js version loaded in the HTML (repo policy: pin everything).
+mermaid_version = "11.4.1"
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
