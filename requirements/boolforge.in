@@ -1,0 +1,14 @@
+# BoolForge cross-validation job dependencies (.github/workflows/cross-validation.yml).
+#
+# BoolForge itself is NOT in this lockfile: VCS dependencies cannot be
+# hash-pinned, so the workflow installs it separately with --no-deps from a
+# full-commit-SHA git URL (which satisfies the Scorecard pinning policy) and
+# this file locks its runtime dependencies (numpy/scipy come in via
+# pyproject.toml, compiled together). Compiled with:
+#
+#   uv pip compile pyproject.toml requirements/boolforge.in \
+#       --universal --python-version 3.10 --generate-hashes \
+#       -o requirements/boolforge.txt
+pytest
+networkx
+pandas

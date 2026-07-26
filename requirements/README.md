@@ -26,6 +26,7 @@ and keeping the CI toolchain (mypy, ruff, pytest) at known versions
 | `lint.txt`      | lint job (pre-commit)                                       |
 | `publish.txt`   | publish job (build, twine, sigstore)                        |
 | `fuzz.txt`      | fuzz workflow (atheris: Linux cp312+ wheels only, hence separate and compiled with `--python-version 3.12`) |
+| `boolforge.txt` | cross-validation workflow — locks BoolForge's runtime deps; BoolForge itself installs from a full-SHA git URL with `--no-deps` (VCS deps cannot carry hashes) |
 
 ## Regenerating
 
@@ -54,6 +55,10 @@ uv pip compile pyproject.toml requirements/fuzz.in \
     --extra dev --extra visualization \
     --universal --python-version 3.12 --generate-hashes \
     -o requirements/fuzz.txt
+
+uv pip compile pyproject.toml requirements/boolforge.in \
+    --universal --python-version 3.10 --generate-hashes \
+    -o requirements/boolforge.txt
 ```
 
 Add `--upgrade` to any of the commands to refresh all pins.
