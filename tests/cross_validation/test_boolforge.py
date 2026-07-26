@@ -16,9 +16,9 @@ pushes, weekly, and on demand, filing an issue on failure.
 Seeds and tolerances: BoolForge estimates some measures by Monte Carlo
 (nsim samples) unless ``exact=True`` is passed. We call every such API
 with ``exact=True``, so all comparisons here are deterministic — integer
-and boolean checks are exact, and float comparisons use small tolerances
-(rtol/atol ~1e-2 in the spectral tests) purely for floating-point noise,
-not sampling error. No RNG seeds are needed.
+and boolean checks are exact, and float comparisons use atol=1e-10,
+tight enough to fail if a BoolForge API ever silently falls back to
+sampling. No RNG seeds are needed.
 """
 
 from typing import Any, ClassVar
@@ -159,33 +159,65 @@ class TestBoolForgeCrossValidation:
 class TestBoolForgeSpectral:
     """Cross-validate spectral quantities (influences, total influence).
 
-    Both use BoolForge's EXACT mode, so comparisons are deterministic;
-    the tolerance below only absorbs floating-point noise.
+    Both sides compute exact rational values (BoolForge in exact mode,
+    BooFun by full enumeration), so the tolerance is a tight 1e-10 for
+    floating-point representation only. Deliberately NOT looser: with a
+    sloppy tolerance this test could not tell exact mode apart from
+    BoolForge's default Monte Carlo estimate (nsim=10000 has sampling
+    noise around 5e-3), which is exactly the regression it must catch.
+
+    Where a closed form exists it is asserted too, making these three-way
+    checks: BooFun == BoolForge == literature (O'Donnell 2014, Ch. 2).
     """
 
-    def test_activities_vs_influences(self):
-        """BoolForge activities (exact) should match BooFun influences."""
+    TOL = 1e-10
+
+    # (name, boofun function, closed-form per-variable influence or None)
+    # parity(n): Inf_i = 1. AND(n): Inf_i = 2^(1-n). majority(5):
+    # Inf_i = C(4,2)/2^4 = 6/16 = 0.375.
+    SPECTRAL_CASES: ClassVar[list[tuple[str, Any, float | None]]] = [
+        ("parity4", bf.parity(4), 1.0),
+        ("and4", bf.AND(4), 2.0 ** (1 - 4)),
+        ("majority5", bf.majority(5), 0.375),
+    ]
+
+    @pytest.mark.parametrize("name,f_bf,closed_form", SPECTRAL_CASES)
+    def test_activities_vs_influences(self, name, f_bf, closed_form):
+        """BoolForge activities (exact) match BooFun influences exactly."""
         import numpy as np
 
-        f_bf = bf.majority(5)
-        tt = [int(f_bf.evaluate(x)) for x in range(32)]
+        n = f_bf.n_vars
+        tt = [int(f_bf.evaluate(x)) for x in range(1 << n)]
         f_forge = boolforge.BooleanFunction(tt)
 
-        our_influences = f_bf.influences()
-        forge_activities = f_forge.get_activities(exact=True)
+        our_influences = np.asarray(f_bf.influences())
+        forge_activities = np.asarray(f_forge.get_activities(exact=True))
 
-        assert np.allclose(our_influences, forge_activities, rtol=0.01)
+        assert np.allclose(our_influences, forge_activities, rtol=0.0, atol=self.TOL), (
+            f"{name}: BooFun={our_influences}, BoolForge={forge_activities}"
+        )
+        if closed_form is not None:
+            assert np.allclose(our_influences, closed_form, rtol=0.0, atol=self.TOL), (
+                f"{name}: BooFun={our_influences}, closed form={closed_form}"
+            )
 
-    def test_average_sensitivity_vs_total_influence(self):
+    @pytest.mark.parametrize("name,f_bf,closed_form", SPECTRAL_CASES)
+    def test_average_sensitivity_vs_total_influence(self, name, f_bf, closed_form):
         """BoolForge avg sensitivity (exact, unnormalized) == BooFun total influence."""
-        f_bf = bf.majority(5)
-        tt = [int(f_bf.evaluate(x)) for x in range(32)]
+        n = f_bf.n_vars
+        tt = [int(f_bf.evaluate(x)) for x in range(1 << n)]
         f_forge = boolforge.BooleanFunction(tt)
 
         our_ti = f_bf.total_influence()
         forge_sens = f_forge.get_average_sensitivity(exact=True, normalized=False)
 
-        assert abs(our_ti - forge_sens) < 0.01
+        assert abs(our_ti - forge_sens) < self.TOL, (
+            f"{name}: BooFun={our_ti}, BoolForge={forge_sens}"
+        )
+        if closed_form is not None:
+            assert abs(our_ti - n * closed_form) < self.TOL, (
+                f"{name}: BooFun TI={our_ti}, closed form={n * closed_form}"
+            )
 
 
 @pytest.mark.skipif(not HAS_BOOLFORGE, reason="boolforge not installed")
