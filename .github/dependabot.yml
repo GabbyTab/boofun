@@ -40,3 +40,12 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
+    groups:
+      # The codeql-action sub-actions (init/analyze/upload-sarif) must move
+      # in lockstep: a workflow mixing versions fails with "Loaded a
+      # configuration file for version X, but running version Y". Group
+      # them so Dependabot proposes one PR instead of three unmergeable
+      # ones (see PRs #70/#72).
+      codeql-action:
+        patterns:
+          - "github/codeql-action*"

@@ -170,3 +170,6 @@ course_materials/
 # Internal outreach (not for public repo)
 docs/outreach/
 PUBLICATION_PLAN.md
+
+# Local Cursor slash commands (personal, not for public repo)
+.cursor/commands/
