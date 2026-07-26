@@ -55,9 +55,13 @@ dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
     "pytest-benchmark>=4.0.0",
-    "mypy>=1.13,<2.4",  # Pin minor version; bump in v1.3 and fix new var-annotated errors
+    # Static toolchain pinned EXACTLY so local == CI (issue #59). Bumps are
+    # deliberate PRs: change the pin here, keep the ruff pre-commit rev in
+    # .pre-commit-config.yaml in sync, and recompile the lockfiles
+    # (see requirements/README.md).
+    "mypy==2.3.0",
     "pre-commit>=3.0.0",
-    "ruff>=0.15.22",
+    "ruff==0.15.22",  # must match rev in .pre-commit-config.yaml
     "mutmut>=2.4.0",  # Mutation testing
     "hypothesis>=6.0.0",  # Property-based testing
 ]
