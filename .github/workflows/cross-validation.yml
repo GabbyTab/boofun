@@ -17,11 +17,6 @@ on:
 permissions:
   contents: read
 
-env:
-  # Bump deliberately (BoolForge v1.0.1, 2026-06-11) and recompile
-  # requirements/boolforge.txt if its dependencies changed.
-  BOOLFORGE_REF: adae76be218eb8761e02d3c14a1d994764441102
-
 jobs:
   boolforge:
     runs-on: ubuntu-latest
@@ -37,7 +32,11 @@ jobs:
         run: |
           pip install --require-hashes -r requirements/boolforge.txt
           pip install --no-deps -e .
-          pip install --no-deps "boolforge @ git+https://github.com/ckadelka/BoolForge@${BOOLFORGE_REF}"
+          # BoolForge v1.0.1 (2026-06-11). The commit SHA is inlined (not an
+          # env var) so Scorecard's Pinned-Dependencies check can verify the
+          # pin. Bump deliberately and recompile requirements/boolforge.txt
+          # if its dependencies changed.
+          pip install --no-deps "boolforge @ git+https://github.com/ckadelka/BoolForge@adae76be218eb8761e02d3c14a1d994764441102"
 
       - name: Verify BoolForge imports (tests must not silently skip)
         run: python -c "import boolforge; print('boolforge OK')"
