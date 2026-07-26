@@ -364,6 +364,34 @@ class TestFourierCoefficientConsistency:
         walsh_normalized = walsh / (1 << n)
         assert np.allclose(fourier, walsh_normalized, atol=1e-10), f"{name}: Fourier != Walsh/2^n"
 
+    @pytest.mark.parametrize("name", ALL_FUNCTIONS.keys())
+    def test_fwht_vs_direct_correlation_sums(self, name):
+        """Fourier coefficients via the fast Walsh-Hadamard transform match
+        direct correlation sums.
+
+        This is the redundant-path example cited in the JOSS paper:
+        f.fourier() goes through the O(n 2^n) FWHT butterfly
+        (core.optimizations.fast_walsh_hadamard), while here each
+        coefficient is computed independently as the O(4^n) brute-force
+        expectation f_hat(S) = 2^-n * sum_x (-1)^f(x) * chi_S(x) with
+        chi_S(x) = (-1)^{|S & x|}, evaluating f pointwise. The two paths
+        share no code beyond evaluate().
+        """
+        f = ALL_FUNCTIONS[name]
+        n = f.n_vars
+        fourier = np.asarray(f.fourier())
+
+        for s in range(1 << n):
+            total = 0.0
+            for x in range(1 << n):
+                sign_f = 1.0 - 2.0 * float(f.evaluate(x))  # (-1)^f(x)
+                chi = -1.0 if bin(s & x).count("1") % 2 else 1.0
+                total += sign_f * chi
+            direct = total / (1 << n)
+            assert abs(fourier[s] - direct) < TOL, (
+                f"{name}: f_hat({s}) mismatch: FWHT={fourier[s]}, direct={direct}"
+            )
+
     @pytest.mark.parametrize("name", FUNCTIONS_3.keys())
     def test_parseval_identity(self, name):
         """Parseval: sum f_hat(S)^2 = 1 for +-1 valued functions."""
