@@ -370,66 +370,9 @@ class TestCryptographicAnalyzer:
         assert np.array_equal(w1, w2)
 
 
-class TestCrossValidation:
-    """
-    Cross-validation tests against known values.
-
-    These values can be verified against:
-    - thomasarmel/boolean_function (Rust)
-    - SageMath
-    - Literature
-    """
-
-    def test_aes_sbox_nonlinearity(self):
-        """AES S-box composition has nonlinearity 112 (known result)."""
-        # This is a famous result - AES S-box has NL = 112
-        # The truth table is too large to include here, but we test
-        # that our computation framework is correct
-        pass  # Would need full 8-bit S-box
-
-    def test_thomasarmel_bent_example(self):
-        """
-        Cross-validate with thomasarmel example.
-
-        From their README:
-        - TT = 0x0113077C165E76A8 (6 vars) is bent
-        - TT = 0xac90 (4 vars) is bent
-        """
-        # 4-variable bent
-        tt_int = 0xAC90
-        tt = [(tt_int >> i) & 1 for i in range(16)]
-        f = bf.create(tt)
-
-        analyzer = CryptographicAnalyzer(f)
-        assert analyzer.is_bent() == True
-        assert analyzer.is_balanced() == False
-        assert analyzer.nonlinearity() == 6  # Bent bound for n=4
-
-    def test_thomasarmel_6var_bent(self):
-        """6-variable bent function from thomasarmel."""
-        hex_tt = "0113077C165E76A8"
-        tt_int = int(hex_tt, 16)
-        tt = [(tt_int >> i) & 1 for i in range(64)]
-        f = bf.create(tt)
-
-        analyzer = CryptographicAnalyzer(f)
-        assert analyzer.is_bent() == True
-        # For n=6 bent, NL = 2^5 - 2^2 = 28
-        assert analyzer.nonlinearity() == 28
-
-    def test_balanced_count_4vars(self):
-        """
-        Cross-validate: there are C(16,8) = 12870 balanced 4-var functions.
-
-        From thomasarmel README example.
-        """
-        count = 0
-        for tt_int in range(1 << 16):
-            # Quick balance check without creating full function
-            if bin(tt_int).count("1") == 8:
-                count += 1
-
-        assert count == 12870
+# Published-value cross-validation (thomasarmel bent examples, AES S-box
+# nonlinearity, balanced-function counts) lives in
+# tests/cross_validation/test_published_values.py with citations.
 
 
 class TestAlgebraicImmunity:
