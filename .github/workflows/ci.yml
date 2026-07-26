@@ -28,15 +28,45 @@ jobs:
     - name: Run pre-commit hooks
       run: pre-commit run --all-files
 
-  # Detect what files changed to skip unnecessary jobs
+  # Detect what files changed to skip unnecessary jobs, and pick the test
+  # matrix: PRs get a slim Linux-only matrix for fast feedback; pushes to
+  # main, release tags, and manual runs get the full OS x Python matrix.
+  # See issue #57.
   changes:
     runs-on: ubuntu-latest
     outputs:
       code: ${{ steps.filter.outputs.code }}
       docs: ${{ steps.filter.outputs.docs }}
       notebooks: ${{ steps.filter.outputs.notebooks }}
+      test-matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v4
+      - name: Select test matrix
+        id: matrix
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Slim per-PR matrix: oldest + newest Python on Linux, plus the
+            # ubuntu-3.11 coverage-gate cell.
+            echo 'matrix={"include":[
+              {"os":"ubuntu-latest","python-version":"3.10"},
+              {"os":"ubuntu-latest","python-version":"3.11"},
+              {"os":"ubuntu-latest","python-version":"3.13"}
+            ]}' | tr -d '\n' >> "$GITHUB_OUTPUT"
+          else
+            # Full matrix on push to main, release tags, and workflow_dispatch.
+            echo 'matrix={"include":[
+              {"os":"ubuntu-latest","python-version":"3.10"},
+              {"os":"ubuntu-latest","python-version":"3.11"},
+              {"os":"ubuntu-latest","python-version":"3.12"},
+              {"os":"ubuntu-latest","python-version":"3.13"},
+              {"os":"macos-latest","python-version":"3.11"},
+              {"os":"macos-latest","python-version":"3.12"},
+              {"os":"macos-latest","python-version":"3.13"},
+              {"os":"windows-latest","python-version":"3.11"},
+              {"os":"windows-latest","python-version":"3.12"},
+              {"os":"windows-latest","python-version":"3.13"}
+            ]}' | tr -d '\n' >> "$GITHUB_OUTPUT"
+          fi
       - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706  # v4.0.2
         id: filter
         with:
@@ -83,15 +113,7 @@ jobs:
     if: needs.changes.outputs.code == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
     strategy:
       fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.10', '3.11', '3.12', '3.13']
-        exclude:
-          # Reduce matrix for faster CI
-          - os: macos-latest
-            python-version: '3.10'
-          - os: windows-latest
-            python-version: '3.10'
+      matrix: ${{ fromJSON(needs.changes.outputs.test-matrix) }}
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v4
@@ -107,6 +129,9 @@ jobs:
         pip install --no-deps -e .
 
     - name: Run tests
+      # The ubuntu-3.11 cell runs the suite under coverage below instead;
+      # running it twice would double that job's wall time.
+      if: matrix.os != 'ubuntu-latest' || matrix.python-version != '3.11'
       run: pytest tests/ -v --tb=short --timeout=120
 
     - name: Run tests with coverage
@@ -123,6 +148,23 @@ jobs:
         files: ./coverage.xml
         fail_ci_if_error: false
         verbose: true
+
+  # Stable aggregate check for branch protection: mark this (not individual
+  # matrix cells) as required, so the required-checks list survives matrix
+  # changes (issue #57). Passes when tests succeed or are legitimately
+  # skipped (docs-only changes); fails on failure or cancellation.
+  tests-pass:
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: always()
+    steps:
+      - name: Check test matrix result
+        run: |
+          result="${{ needs.test.result }}"
+          echo "test matrix result: $result"
+          if [ "$result" = "failure" ] || [ "$result" = "cancelled" ]; then
+            exit 1
+          fi
 
   notebooks:
     runs-on: ubuntu-latest
@@ -164,7 +206,9 @@ jobs:
   mutation:
     runs-on: ubuntu-latest
     needs: test
-    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    # Off the PR critical path (issue #57): runs with the full matrix on
+    # pushes to main and manual dispatch.
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v4
       with:
@@ -325,3 +369,28 @@ jobs:
           exit 0
         fi
         twine upload dist/*.whl dist/*.tar.gz
+
+  # Post-merge full-matrix failures must not be silent (issue #57): file a
+  # tracking issue (or ping the existing one) with a link to the red run.
+  report-failure:
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, test, tests-pass, notebooks, mutation, docs]
+    if: failure() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      issues: write
+    steps:
+      - name: Open or ping CI-failure issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="CI is red on main"
+          body="Full-matrix run failed on \`main\`: $RUN_URL (commit ${{ github.sha }})"
+          existing=$(gh issue list -R "${{ github.repository }}" --state open \
+            --label ci --search "\"$title\" in:title" --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" -R "${{ github.repository }}" --body "$body"
+          else
+            gh issue create -R "${{ github.repository }}" --title "$title" \
+              --label ci --body "$body"
+          fi
