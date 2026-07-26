@@ -206,7 +206,8 @@ pytest --cov=boofun tests/
 
 3,800+ tests with ~79% line-and-branch coverage, enforced as a CI gate alongside
 strict mypy (zero errors, no baseline) and a zero-warning Ruff profile.
-Cross-validation against known results in `tests/test_cross_validation.py`.
+Cross-validation against pinned external references in `tests/cross_validation/`
+(see the [claim matrix](https://gabbytab.github.io/boofun/cross_validation.html)).
 
 ## Convention
 
