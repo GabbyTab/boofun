@@ -225,4 +225,8 @@ tests/
 
 **Coverage**: 72% with 3200+ tests. Core analysis modules are 70-85%; visualization and quantum_complexity are lower priority.
 
-**CI**: All tests run on every push via GitHub Actions. Pre-commit hooks enforce formatting (black, isort, flake8, codespell).
+**CI**: All tests run on every push via GitHub Actions. Pre-commit hooks enforce
+formatting and linting (ruff-check, ruff-format, codespell, plus hygiene hooks
+like trailing-whitespace and end-of-file-fixer — see `.pre-commit-config.yaml`).
+The mypy/ruff toolchain is `==`-pinned so local and CI always agree, and a CI
+guard recompiles the `requirements/` lockfiles to block drift.
