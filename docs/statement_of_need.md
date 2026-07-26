@@ -93,7 +93,11 @@ module.
   0 → +1, 1 → −1), so that f̂(∅) = E[f].
 - **Verifiable claims**: numerical outputs are checked against closed-form
   results, redundant internal computation paths, and independent software
-  where definitions overlap.
+  where definitions overlap — against *pinned* reference versions
+  (SageMath 10.9 via digest-pinned Docker fixtures; BoolForge v1.0.1
+  commit-pinned in a scheduled CI job), with every claim, family range, and
+  tolerance recorded in the {doc}`cross-validation claim matrix
+  <cross_validation>`.
 - **Quality gates in CI**: strict mypy (zero errors), a zero-warning Ruff
   profile, and an enforced line-and-branch coverage floor on every pull
   request.
