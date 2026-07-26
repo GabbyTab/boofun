@@ -70,27 +70,41 @@ S-boxes, and instructors teaching Fourier analysis or property testing.
 
 # Cross-validation
 
-<!-- TODO before submission: pin exact versions, families, parameter ranges,
-and tolerances for each comparison, and link the executable tests that back
-each claim. Do not claim cross-validation for areas without executable
-tests. -->
-
-BooFun treats verifiability as a design commitment. Outputs are checked
+BooFun treats verifiability as a design commitment: every claim below is
+backed by an executable test in `tests/cross_validation/` that states its
+reference, version, families, and tolerance, summarized in a claim matrix
+in the documentation (`docs/cross_validation.md`). Outputs are checked
 against:
 
-- Known closed-form results for standard families (majority, parity, tribes,
-  dictators, thresholds), including Fourier coefficients, influences, total
-  influence, and noise stability.
-- Independent internal computation paths (e.g., Fourier coefficients via the
-  fast Walsh–Hadamard transform versus direct correlation sums).
-- Independent software where definitions overlap: SageMath
-  [@sagemath], Avishay Tal's research and teaching scripts, and BoolForge
-  [@boolforge] for canalization and sensitivity measures.
+- SageMath 10.9 [@sagemath], via fixtures generated inside a digest-pinned
+  Docker image: Walsh spectra (exact signed integer equality), nonlinearity,
+  algebraic degree, correlation immunity, balancedness, and bent detection,
+  over all 16 two-variable and all 256 three-variable functions, standard
+  families (parity, majority, threshold, tribes) to $n = 8$, inner-product
+  bent functions, and the AES S-box component functions.
+- BoolForge v1.0.1 [@boolforge], installed commit-pinned in a scheduled CI
+  job: canalization measures (canalizing depth, essential variables,
+  monotonicity, symmetry groups) and exact influence/average-sensitivity
+  comparisons, with every Monte-Carlo-capable API called in exact mode.
+- Published values with named sources: the AES S-box profile (differential
+  uniformity 4, component nonlinearity 112, linearity 32, component degree
+  7), the PRESENT S-box profile, and known bent functions against the
+  Rothaus bound.
+- Independent internal computation paths: Fourier coefficients via the fast
+  Walsh–Hadamard transform versus brute-force correlation sums (tolerance
+  $10^{-10}$), plus influences (5 paths), total influence (9 paths), and
+  sensitivity (3 modules) across modules.
+- Published theorems and closed-form results: Huang's sensitivity theorem,
+  the Nisan–Szegedy bound, the $s \le bs \le C \le D$ chain, and known
+  query-complexity and family values.
 
-All comparisons document convention conversions between the $\{0,1\}$ and
-$\{-1,+1\}$ domains. Quality gates run on every pull request: a strict mypy
-configuration with zero errors, a zero-warning Ruff lint profile, and an
-enforced line-and-branch coverage floor over a suite of 3,800+ tests.
+All comparisons state their convention conversions between the $\{0,1\}$ and
+$\{-1,+1\}$ domains explicitly — the suite exposed and documents two real
+convention divergences from SageMath (ANF degree of the zero function;
+correlation immunity of unbalanced functions). Quality gates run on every
+pull request: a strict mypy configuration with zero errors, a zero-warning
+Ruff lint profile, and an enforced line-and-branch coverage floor over a
+suite of 3,800+ tests.
 
 # State of the field
 
@@ -104,8 +118,8 @@ functions and S-box analysis; it is substantially deeper and faster than
 BooFun in its cryptographic domain, and BooFun's S-box utilities are
 complementary rather than competing. Avishay Tal's course and research
 scripts motivated part of BooFun's API but are not a maintained, versioned
-package; BooFun's migration guide documents correspondences and convention
-differences. BoolForge [@boolforge] generates and analyzes Boolean functions
+package; BooFun's migration guide documents API correspondences and
+convention differences (documentation, not numerical cross-validation). BoolForge [@boolforge] generates and analyzes Boolean functions
 and networks with prescribed canalization structure for systems biology; the
 projects are complementary, and their overlapping APIs are used for
 cross-validation. Scott Aaronson's Boolean Function Wizard [@aaronson2000]
