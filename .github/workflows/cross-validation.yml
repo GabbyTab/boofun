@@ -38,10 +38,18 @@ jobs:
           # #egg= name — is the only VCS install Scorecard's
           # Pinned-Dependencies check recognizes as pinned (see
           # isUnpinnedPipInstall in scorecard's shell_download_validate.go).
-          pip install --no-deps -e "git+https://github.com/ckadelka/BoolForge@adae76be218eb8761e02d3c14a1d994764441102#egg=boolforge"
+          # --src must point OUTSIDE the workspace: without a venv pip's
+          # default is <cwd>/src, and a clone at src/boolforge shadows the
+          # real package as an empty namespace package (src/ is on sys.path
+          # via the boofun editable install). It must also come after -e, or
+          # Scorecard's arg parser counts its value as an unpinned package.
+          pip install --no-deps -e "git+https://github.com/ckadelka/BoolForge@adae76be218eb8761e02d3c14a1d994764441102#egg=boolforge" --src "$RUNNER_TEMP/pip-src"
 
       - name: Verify BoolForge imports (tests must not silently skip)
-        run: python -c "import boolforge; print('boolforge OK')"
+        # Checking an attribute, not just the import: a stray clone directory
+        # on sys.path can satisfy `import boolforge` as an empty namespace
+        # package while the real package is missing.
+        run: python -c "import boolforge; boolforge.BooleanFunction; print('boolforge OK:', boolforge.__file__)"
 
       - name: Run BoolForge cross-validation
         run: pytest tests/cross_validation/test_boolforge.py -v
