@@ -3,7 +3,7 @@ boofun.core
 
 .. automodule:: boofun.core
 
-   
+
 .. rubric:: Modules
 
 .. autosummary::
@@ -19,6 +19,7 @@ boofun.core
    errormodels
    factory
    gpu
+   gpu_acceleration
    io
    legacy_adapter
    numba_optimizations

@@ -3,11 +3,11 @@ boofun.analysis.cryptographic
 
 .. automodule:: boofun.analysis.cryptographic
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       algebraic_degree
       algebraic_immunity
       algebraic_normal_form
@@ -25,11 +25,10 @@ boofun.analysis.cryptographic
       strict_avalanche_criterion
       walsh_spectrum
       walsh_transform
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       CryptographicAnalyzer
       SBoxAnalyzer
-   

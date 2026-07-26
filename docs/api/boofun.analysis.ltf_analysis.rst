@@ -3,11 +3,11 @@ boofun.analysis.ltf\_analysis
 
 .. automodule:: boofun.analysis.ltf_analysis
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       analyze_ltf
       chow_distance
       chow_parameters
@@ -25,10 +25,9 @@ boofun.analysis.ltf\_analysis
       ltf_total_influence_estimate
       normalize_ltf_weights
       regularity
-   
+
    .. rubric:: Classes
 
    .. autosummary::
-   
+
       LTFAnalysis
-   

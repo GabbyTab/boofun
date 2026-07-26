@@ -3,15 +3,39 @@ boofun.analysis
 
 .. automodule:: boofun.analysis
 
-   
-   .. rubric:: Classes
+Classes
+-------
 
-   .. autosummary::
-   
-      PropertyTester
-      SpectralAnalyzer
-   
-.. rubric:: Modules
+PropertyTester
+~~~~~~~~~~~~~~
+
+.. autoclass:: boofun.analysis.PropertyTester
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+   Property testing and local correction for Boolean functions.
+
+   **Key Methods:**
+
+   - :meth:`blr_linearity_test` - BLR linearity test
+   - :meth:`monotonicity_test` - Monotonicity test
+   - :meth:`junta_test` - k-junta test
+   - :meth:`local_correct` - Local correction for functions close to linear
+   - :meth:`local_correct_all` - Apply local correction to all inputs
+
+SpectralAnalyzer
+~~~~~~~~~~~~~~~~
+
+.. autoclass:: boofun.analysis.SpectralAnalyzer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+   Spectral analysis tools for Boolean functions.
+
+Modules
+-------
 
 .. autosummary::
    :toctree:

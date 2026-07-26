@@ -1,18 +1,17 @@
-﻿boofun
+boofun
 ======
 
 .. automodule:: boofun
 
-   
+
    .. rubric:: Functions
 
    .. autosummary::
-   
+
       AND
       OR
       constant
       dictator
-      f2_polynomial
       from_weights
       majority
       parity
@@ -20,7 +19,7 @@
       threshold
       tribes
       weighted_majority
-   
+
 .. rubric:: Modules
 
 .. autosummary::
