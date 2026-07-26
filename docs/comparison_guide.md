@@ -221,7 +221,8 @@ We've validated against known results where possible:
 - Majority function influences (compare to theoretical √(2/πn))
 - Parity function properties
 
-See `tests/test_cross_validation.py` for details. Not everything has been cross-validated.
+See the [claim matrix](cross_validation.md) and `tests/cross_validation/` for
+the full list of validated claims, pinned reference versions, and tolerances.
 
 ## Installation
 
