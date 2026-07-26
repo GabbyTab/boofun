@@ -1,19 +1,38 @@
 """
-Cross-validation against SageMath's BooleanFunction.
+Cross-validation against SageMath's BooleanFunction, via pinned fixtures.
 
-SageMath is the most feature-complete competitor (see docs/comparison_guide.md).
-These tests verify boofun results against values computed by SageMath's
-sage.crypto.boolean_function.BooleanFunction.
+The reference values in fixtures/sagemath.json were computed by SageMath
+itself (sage.crypto.boolean_function.BooleanFunction) running inside the
+pinned Docker image recorded in the fixture metadata. They are regenerated
+with scripts/generate_sage_fixtures.sh; the metadata records the Sage
+version, image digest, generation date, and exact command.
 
-Since SageMath is heavy to install, expected values are pre-computed and
-hardcoded. The SageMath code used to generate each value is in the docstring.
+Conventions (see also the fixture metadata):
 
-Reference: https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/boolean_function.html
+- Truth tables: ``t[x] = f(x)`` with variable ``i`` in bit ``i`` of ``x``
+  (variable 0 = least significant bit). SageMath and BooFun agree on this,
+  which the generator asserts at generation time.
+- Walsh transform: Sage's ``walsh_hadamard_transform()`` and BooFun's
+  ``walsh_transform()`` both transform ``(-1)^f = 1 - 2f`` with the same
+  mask indexing (verified by a runtime assertion in the generator), so
+  spectra are compared entry-by-entry with exact signed equality — no
+  absolute values, no dodges. See :func:`sage_walsh_to_boofun`.
+- Algebraic degree: Sage reports the ANF degree, which is -1 for the zero
+  function (degree of the zero polynomial); BooFun returns 0 for both
+  constants. Converted by :func:`sage_degree_to_boofun`.
+
+Tolerances: every property compared here is an exact integer or boolean,
+so all comparisons are exact equality.
+
+Reference:
+https://doc.sagemath.org/html/en/reference/cryptography/sage/crypto/boolean_function.html
 """
 
+import json
 import sys
+from pathlib import Path
 
-import numpy as np
+import pytest
 
 sys.path.insert(0, "src")
 
@@ -27,155 +46,174 @@ from boofun.analysis.cryptographic import (
     walsh_transform,
 )
 
+FIXTURE_PATH = Path(__file__).parent / "fixtures" / "sagemath.json"
 
-class TestSageMathWalshTransform:
-    """Cross-validate Walsh transform against SageMath.
+_DATA = json.loads(FIXTURE_PATH.read_text())
+METADATA = _DATA["metadata"]
+FUNCTIONS = _DATA["functions"]
+IDS = [entry["name"] for entry in FUNCTIONS]
 
-    SageMath code:
-        from sage.crypto.boolean_function import BooleanFunction
-        f = BooleanFunction([0,1,1,0])  # XOR
-        f.walsh_hadamard_transform()
+
+# ---------------------------------------------------------------------------
+# Convention conversion helpers (documented per property)
+# ---------------------------------------------------------------------------
+
+
+def sage_walsh_to_boofun(sage_wht: list[int]) -> list[int]:
+    """Convert Sage's Walsh-Hadamard transform to BooFun's convention.
+
+    The conversion is the identity: Sage 10.9 and BooFun both transform the
+    ``(-1)^f(x) = 1 - 2f(x)`` encoding (0 -> +1, 1 -> -1) and both index
+    the spectrum by the mask ``a`` with variable 0 in the least significant
+    bit. This is not assumed — the fixture generator asserts it at
+    generation time using the dictator function, whose transform is +4 at
+    ``a = 1`` under this convention. The helper exists so that any future
+    Sage convention change has exactly one place to be handled.
     """
-
-    def test_xor_walsh(self):
-        """SageMath: BooleanFunction([0,1,1,0]).walsh_hadamard_transform()
-        Returns: (0, 0, 0, -4)
-        """
-        f = bf.create([0, 1, 1, 0])
-        wt = walsh_transform(f)
-        # SageMath uses sum(-1)^(f(x)+<a,x>) convention
-        # boofun's walsh_transform should match
-        assert wt[0] == 0  # Balanced function
-        assert abs(wt[3]) == 4  # Full correlation with x0+x1
-
-    def test_and_walsh(self):
-        """SageMath: BooleanFunction([0,0,0,1]).walsh_hadamard_transform()
-        Returns: (2, -2, -2, 2)
-        """
-        f = bf.AND(2)
-        wt = walsh_transform(f)
-        expected_abs = [2, 2, 2, 2]
-        assert list(np.abs(wt)) == expected_abs
+    return list(sage_wht)
 
 
-class TestSageMathNonlinearity:
-    """Cross-validate nonlinearity against SageMath.
+def sage_degree_to_boofun(sage_degree: int) -> int:
+    """Convert Sage's ANF degree to BooFun's algebraic_degree convention.
 
-    SageMath code:
-        BooleanFunction([0,1,1,0]).nonlinearity()  # Returns 0
-        BooleanFunction([0,0,0,1,0,1,1,0]).nonlinearity()  # Returns 2
+    Sage returns -1 for the zero function (the degree of the zero
+    polynomial over GF(2)); BooFun's algebraic_degree returns 0 for both
+    constant functions. All other values agree.
     """
-
-    def test_xor_nonlinearity(self):
-        """XOR is linear: nl = 0."""
-        assert nonlinearity(bf.parity(2)) == 0
-
-    def test_and3_nonlinearity(self):
-        """AND_3: nl = 1 (very unbalanced: only 1/8 of outputs are 1)."""
-        assert nonlinearity(bf.AND(3)) == 1
-
-    def test_majority3_nonlinearity(self):
-        """Majority_3: SageMath gives nl = 2."""
-        assert nonlinearity(bf.majority(3)) == 2
-
-    def test_bent_4var_nonlinearity(self):
-        """4-var bent: SageMath gives nl = 6 (maximum for n=4)."""
-        bent = bf.from_hex("ac90", n=4)
-        assert nonlinearity(bent) == 6
+    return max(sage_degree, 0)
 
 
-class TestSageMathAlgebraicDegree:
-    """Cross-validate algebraic degree against SageMath.
+def textbook_ci_from_walsh(walsh: list[int], n: int) -> int:
+    """Siegenthaler correlation-immunity order from a Walsh spectrum.
 
-    SageMath code:
-        BooleanFunction([0,1,1,0]).algebraic_normal_form()  # x0 + x1
-        BooleanFunction([0,0,0,1]).algebraic_normal_form()  # x0*x1
+    f is correlation-immune of order k iff the Walsh transform vanishes on
+    every mask ``a`` with ``1 <= popcount(a) <= k`` (the a = 0 coefficient,
+    which only encodes balancedness, is ignored). This is BooFun's
+    convention and the textbook one (Siegenthaler 1984; Xiao-Massey 1988).
+
+    Sage's ``correlation_immunity()`` instead scans *all* nonzero Walsh
+    coefficients including a = 0, so it returns -1 for every unbalanced
+    function. The two conventions coincide exactly on balanced functions
+    (checked empirically on all 303 fixture functions;
+    :class:`TestFixtureIntegrity` keeps that relation executable). For
+    unbalanced functions Sage's -1 carries no order information, so we
+    validate BooFun against the textbook order derived from Sage's own
+    recorded spectrum.
     """
-
-    def test_xor_degree(self):
-        """XOR has algebraic degree 1 (linear)."""
-        assert algebraic_degree(bf.parity(2)) == 1
-
-    def test_and_degree(self):
-        """AND has algebraic degree 2 (quadratic: x0*x1)."""
-        assert algebraic_degree(bf.AND(2)) == 2
-
-    def test_majority3_degree(self):
-        """Majority_3 = x0*x1 + x0*x2 + x1*x2 + x0*x1*x2: degree 3 in {0,1}."""
-        # SageMath: BooleanFunction([0,0,0,1,0,1,1,1]).algebraic_normal_form()
-        # Returns x0*x1 + x0*x2 + x1*x2 + x0*x1*x2 -> degree 3
-        # But note: boofun's algebraic_degree uses the ANF form
-        f = bf.majority(3)
-        deg = algebraic_degree(f)
-        # Majority_3 ANF: degree is 2 or 3 depending on convention
-        assert deg in [2, 3]  # Accept either (convention-dependent)
-
-    def test_parity_n_degree(self):
-        """Parity_n has algebraic degree 1 (ANF: x0 + x1 + ... + x_{n-1} mod 2)."""
-        # Note: Fourier degree of parity is n, but algebraic (GF2) degree is 1
-        for n in [2, 3, 4]:
-            assert algebraic_degree(bf.parity(n)) == 1
+    nonzero_weights = [bin(a).count("1") for a, v in enumerate(walsh) if v != 0 and a != 0]
+    return min(nonzero_weights) - 1 if nonzero_weights else n
 
 
-class TestSageMathCorrelationImmunity:
-    """Cross-validate correlation immunity against SageMath.
+# ---------------------------------------------------------------------------
+# Property-by-property cross-validation (exact equality)
+# ---------------------------------------------------------------------------
 
-    SageMath code:
-        BooleanFunction([0,1,1,0]).correlation_immunity()  # Returns 1
-        BooleanFunction([0,0,0,1]).correlation_immunity()  # Returns 0
+
+@pytest.mark.parametrize("entry", FUNCTIONS, ids=IDS)
+def test_walsh_spectrum(entry):
+    """BooFun's full Walsh spectrum matches Sage's, entry by entry."""
+    f = bf.create(entry["truth_table"])
+    expected = sage_walsh_to_boofun(entry["sage"]["walsh_hadamard_transform"])
+    actual = [int(v) for v in walsh_transform(f)]
+    assert actual == expected
+
+
+@pytest.mark.parametrize("entry", FUNCTIONS, ids=IDS)
+def test_nonlinearity(entry):
+    f = bf.create(entry["truth_table"])
+    assert nonlinearity(f) == entry["sage"]["nonlinearity"]
+
+
+@pytest.mark.parametrize("entry", FUNCTIONS, ids=IDS)
+def test_algebraic_degree(entry):
+    f = bf.create(entry["truth_table"])
+    assert algebraic_degree(f) == sage_degree_to_boofun(entry["sage"]["algebraic_degree"])
+
+
+@pytest.mark.parametrize("entry", FUNCTIONS, ids=IDS)
+def test_correlation_immunity(entry):
+    """BooFun's CI equals the textbook order computed from Sage's spectrum.
+
+    See :func:`textbook_ci_from_walsh` for why Sage's own
+    ``correlation_immunity()`` value is only used directly on balanced
+    functions.
     """
-
-    def test_xor_correlation_immunity(self):
-        """XOR (parity) has CI = n-1 = 1 for n=2."""
-        ci = correlation_immunity(bf.parity(2))
-        assert ci >= 1
-
-    def test_and_correlation_immunity(self):
-        """AND is not correlation immune (CI = 0)."""
-        assert correlation_immunity(bf.AND(2)) == 0
-
-
-class TestSageMathBentDetection:
-    """Cross-validate bent function detection.
-
-    SageMath code:
-        BooleanFunction('0xac90').is_bent()  # True (4-var bent)
-        BooleanFunction([0,1,1,0]).is_bent()  # False (linear)
-    """
-
-    def test_known_bent(self):
-        """0xac90 is a known 4-variable bent function."""
-        assert is_bent(bf.from_hex("ac90", n=4))
-
-    def test_linear_not_bent(self):
-        """Linear functions are never bent."""
-        assert not is_bent(bf.parity(4))
-
-    def test_odd_n_never_bent(self):
-        """Bent functions only exist for even n."""
-        assert not is_bent(bf.majority(3))
-        assert not is_bent(bf.majority(5))
+    f = bf.create(entry["truth_table"])
+    ours = correlation_immunity(f)
+    expected = textbook_ci_from_walsh(entry["sage"]["walsh_hadamard_transform"], entry["n"])
+    assert ours == expected
+    if entry["sage"]["is_balanced"]:
+        # On balanced functions Sage's convention coincides with the
+        # textbook one, so its reported value must match directly.
+        assert ours == entry["sage"]["correlation_immunity"]
 
 
-class TestSageMathBalanced:
-    """Cross-validate balanced detection.
+@pytest.mark.parametrize("entry", FUNCTIONS, ids=IDS)
+def test_is_balanced(entry):
+    f = bf.create(entry["truth_table"])
+    assert is_balanced(f) == entry["sage"]["is_balanced"]
 
-    SageMath code:
-        BooleanFunction([0,0,0,1,0,1,1,1]).is_balanced()  # True (majority_3)
-        BooleanFunction([0,0,0,1]).is_balanced()  # False (AND_2)
-    """
 
-    def test_majority_balanced(self):
-        """Majority functions (odd n) are balanced."""
-        for n in [3, 5, 7]:
-            assert is_balanced(bf.majority(n))
+@pytest.mark.parametrize("entry", FUNCTIONS, ids=IDS)
+def test_is_bent(entry):
+    f = bf.create(entry["truth_table"])
+    assert is_bent(f) == entry["sage"]["is_bent"]
 
-    def test_and_not_balanced(self):
-        """AND is not balanced for n >= 2."""
-        for n in [2, 3, 4]:
-            assert not is_balanced(bf.AND(n))
 
-    def test_parity_balanced(self):
-        """Parity is always balanced."""
-        for n in [2, 3, 4]:
-            assert is_balanced(bf.parity(n))
+# ---------------------------------------------------------------------------
+# Corpus integrity
+# ---------------------------------------------------------------------------
+
+
+class TestFixtureIntegrity:
+    """The fixture corpus is what it claims to be."""
+
+    def test_metadata_provenance(self):
+        """The fixture records its Sage version, image, and generator."""
+        assert METADATA["sage_version"]
+        assert METADATA["image"].startswith("sagemath/sagemath")
+        assert METADATA["n_functions"] == len(FUNCTIONS)
+
+    @pytest.mark.parametrize("entry", FUNCTIONS, ids=IDS)
+    def test_sage_ci_convention(self, entry):
+        """Sage's correlation_immunity() is the textbook order except that
+        it also scans the a = 0 Walsh coefficient, giving -1 for every
+        unbalanced function. This keeps that documented claim executable
+        against the recorded spectra."""
+        walsh = entry["sage"]["walsh_hadamard_transform"]
+        nonzero_weights = [bin(a).count("1") for a, v in enumerate(walsh) if v != 0]
+        sage_style = min(nonzero_weights) - 1 if nonzero_weights else entry["n"]
+        assert sage_style == entry["sage"]["correlation_immunity"]
+
+    def test_exhaustive_coverage(self):
+        """All 16 two-variable and all 256 three-variable functions present."""
+        by_n = {2: set(), 3: set()}
+        for entry in FUNCTIONS:
+            if entry["family"] == "exhaustive":
+                code = sum(v << x for x, v in enumerate(entry["truth_table"]))
+                by_n[entry["n"]].add(code)
+        assert by_n[2] == set(range(16))
+        assert by_n[3] == set(range(256))
+
+    @pytest.mark.parametrize(
+        "entry",
+        [e for e in FUNCTIONS if e["family"] in ("parity", "majority", "tribes")],
+        ids=[e["name"] for e in FUNCTIONS if e["family"] in ("parity", "majority", "tribes")],
+    )
+    def test_family_tables_match_boofun_constructors(self, entry):
+        """Fixture family truth tables equal BooFun's own constructors,
+        tying bf.parity/bf.majority/bf.tribes into the validated corpus."""
+        name, n = entry["name"], entry["n"]
+        if entry["family"] == "parity":
+            f = bf.parity(n)
+        elif entry["family"] == "majority":
+            f = bf.majority(n)
+        else:  # tribes{k}_{n}
+            k = int(name.removeprefix("tribes").split("_")[0])
+            f = bf.tribes(k, n)
+        table = [int(f.evaluate(x)) for x in range(1 << n)]
+        assert table == entry["truth_table"], f"{name}: constructor table != fixture table"
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])
