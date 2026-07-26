@@ -95,7 +95,7 @@ there are no `abs()` dodges:
   Docker). To bump the pinned Sage version, edit `SAGE_TAG` in the wrapper,
   regenerate, and commit the fixture diff — the metadata header makes the
   provenance change reviewable.
-- **BoolForge pin**: bump `BOOLFORGE_REF` in
+- **BoolForge pin**: bump the commit SHA in the `pip install` line of
   `.github/workflows/cross-validation.yml` and recompile
   `requirements/boolforge.txt` if BoolForge's dependencies changed (see
   `requirements/README.md`).

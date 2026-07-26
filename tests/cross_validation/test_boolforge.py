@@ -10,7 +10,7 @@ basic function properties, and exact spectral quantities.
 How these run: BoolForge is not a test dependency, so this module skips
 under the regular per-PR matrix. The Cross-Validation (live) workflow
 (.github/workflows/cross-validation.yml) installs BoolForge pinned to a
-commit (see BOOLFORGE_REF there) and runs this module un-skipped on main
+commit (SHA inlined in its install step) and runs this module un-skipped on main
 pushes, weekly, and on demand, filing an issue on failure.
 
 Seeds and tolerances: BoolForge estimates some measures by Monte Carlo
