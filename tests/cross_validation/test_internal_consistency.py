@@ -781,7 +781,34 @@ class TestKnownValues:
 
 
 # ===========================================================================
-# 15. ANF / GF2 CONSISTENCY
+# 15. CANALIZATION / INFLUENCE CONSISTENCY
+# ===========================================================================
+
+
+class TestCanalizationInfluenceConsistency:
+    """
+    Verify the canalization module agrees with spectral analysis:
+    variables outside get_essential_variables() must have zero influence.
+    """
+
+    def test_non_essential_variables_have_zero_influence(self):
+        """Non-essential variables should have ~0 influence."""
+        from boofun.analysis.canalization import get_essential_variables
+
+        # f(x) = x1 AND x2 -- ignores variable 0
+        tt = [0, 0, 0, 0, 0, 1, 0, 1]
+        f = bf.create(tt)
+
+        essential = get_essential_variables(f)
+        influences = f.influences()
+
+        for i in range(f.n_vars):
+            if i not in essential:
+                assert influences[i] < TOL, f"Non-essential var {i} has influence {influences[i]}"
+
+
+# ===========================================================================
+# 16. ANF / GF2 CONSISTENCY
 # ===========================================================================
 
 

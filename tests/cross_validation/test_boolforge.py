@@ -146,6 +146,39 @@ class TestBoolForgeCrossValidation:
 
 
 @pytest.mark.skipif(not HAS_BOOLFORGE, reason="boolforge not installed")
+class TestBoolForgeSpectral:
+    """Cross-validate spectral quantities (influences, total influence).
+
+    Both use BoolForge's EXACT mode, so comparisons are deterministic;
+    the tolerance below only absorbs floating-point noise.
+    """
+
+    def test_activities_vs_influences(self):
+        """BoolForge activities (exact) should match BooFun influences."""
+        import numpy as np
+
+        f_bf = bf.majority(5)
+        tt = [int(f_bf.evaluate(x)) for x in range(32)]
+        f_forge = boolforge.BooleanFunction(tt)
+
+        our_influences = f_bf.influences()
+        forge_activities = f_forge.get_activities(EXACT=True)
+
+        assert np.allclose(our_influences, forge_activities, rtol=0.01)
+
+    def test_average_sensitivity_vs_total_influence(self):
+        """BoolForge avg sensitivity (exact, unnormalized) == BooFun total influence."""
+        f_bf = bf.majority(5)
+        tt = [int(f_bf.evaluate(x)) for x in range(32)]
+        f_forge = boolforge.BooleanFunction(tt)
+
+        our_ti = f_bf.total_influence()
+        forge_sens = f_forge.get_average_sensitivity(EXACT=True, NORMALIZED=False)
+
+        assert abs(our_ti - forge_sens) < 0.01
+
+
+@pytest.mark.skipif(not HAS_BOOLFORGE, reason="boolforge not installed")
 class TestBoolForgeEdgeCases:
     """Test edge cases and special functions."""
 
