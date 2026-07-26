@@ -122,14 +122,16 @@ Boolean functions can have multiple representations:
 2. Implement your changes
 3. Run pre-commit: `pre-commit run --all-files`
 4. Run tests: `pytest tests/ -v`
-5. Check types: `mypy src/boofun --ignore-missing-imports`
+5. Check types: `mypy src/boofun` (strict settings come from `pyproject.toml`)
 
 ### Code Style
 
-- **Formatting**: Black (line length 100)
-- **Imports**: isort (black profile)
-- **Linting**: flake8
-- **Types**: mypy (strict mode goal)
+- **Formatting & linting**: Ruff (`ruff format` + `ruff check`), line length 100,
+  enforced by pre-commit and CI
+- **Types**: mypy strict (enforced in CI at zero errors; configured in `pyproject.toml`)
+- **Pinned toolchain**: mypy and ruff versions are `==`-pinned so local and CI
+  always agree — see the "Toolchain versions are pinned" section of the
+  [root CONTRIBUTING.md](https://github.com/GabbyTab/boofun/blob/main/CONTRIBUTING.md)
 
 ### Writing Tests
 
@@ -190,7 +192,9 @@ perf: optimize influence computation with Numba
 3. **Correctness Tests** (`tests/correctness/`): Mathematical verification
 4. **Golden Tests** (`tests/golden/`): Regression with known-good data
 5. **Property Tests** (`tests/property/`): Hypothesis-based fuzzing
-6. **Adversarial Tests** (`tests/adversarial/`): Edge cases and stress tests
+6. **Cross-Validation Tests** (`tests/cross_validation/`): Agreement with pinned
+   external references (SageMath, BoolForge) and published values — see the
+   [claim matrix](cross_validation.md)
 
 ### Running Specific Tests
 
@@ -247,7 +251,8 @@ print(f"Numba available: {HAS_NUMBA}")
 
 - **Issues**: Open a GitHub issue for bugs or feature requests
 - **Discussions**: Use GitHub Discussions for questions
-- **Code Review**: All PRs require review before merging
+- **Code Review**: This is a solo-maintained project — the maintainer reviews
+  all PRs; expect response times to vary (see `SUPPORT.md`)
 
 ## Mathematical References
 
