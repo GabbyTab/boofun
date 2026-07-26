@@ -165,8 +165,10 @@ class TestScaling:
         coeffs = f.fourier()
         elapsed = time.time() - start
 
-        # Should complete reasonably fast (allow extra time for CI variability)
-        assert elapsed < 20.0  # 20 seconds max
+        # Order-of-magnitude tripwire, not a benchmark: catches accidental
+        # exponential blowups while tolerating slow shared CI runners
+        # (macOS runner took 21s at n=14 with the old 20s bound).
+        assert elapsed < 60.0  # 60 seconds max
         assert len(coeffs) == 2**n
 
     @pytest.mark.parametrize("n", [8, 10, 12, 14])
@@ -178,7 +180,8 @@ class TestScaling:
         infs = f.influences()
         elapsed = time.time() - start
 
-        assert elapsed < 30.0  # 30 seconds max
+        # Same generous tripwire rationale as test_fourier_scaling.
+        assert elapsed < 60.0  # 60 seconds max
         assert len(infs) == n
 
     @pytest.mark.parametrize("n", [10, 20, 30, 50, 100])
