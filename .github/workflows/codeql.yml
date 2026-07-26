@@ -14,8 +14,17 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze
+    name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # "actions" scans the workflow YAML itself (e.g. untrusted-input
+        # injection). It also keeps the /language:actions configuration on
+        # the code-scanning status page fresh — it was created by a one-off
+        # default-setup scan (Jan 2026) and warned about stale results once
+        # this workflow (python-only at the time) took over.
+        language: [python, actions]
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v4
@@ -23,9 +32,9 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81  # v4.37.3
         with:
-          languages: python
+          languages: ${{ matrix.language }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81  # v4.37.3
         with:
-          category: "/language:python"
+          category: "/language:${{ matrix.language }}"
