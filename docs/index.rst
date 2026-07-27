@@ -96,7 +96,7 @@ What's Here
 
 * **Fourier**: Walsh-Hadamard transform, influences, noise stability, spectral concentration
 * **Property Testing**: BLR, junta, monotonicity, symmetry, balance
-* **Query Complexity**: D(f), R(f), Q(f), sensitivity, certificates, adversary-method estimates
+* **Query Complexity**: D(f), R(f), Q(f), sensitivity, certificates, LP-exact degrees, certified adversary lower bounds
 * **Representations**: Truth tables, ANF, BDD, circuits, DNF/CNF, Fourier expansion
 
 **New in v1.1**
@@ -120,7 +120,8 @@ what overlapping software exists:
 * **Hypercontractivity and global hypercontractivity** analysis (Bonami,
   KKL, Friedgut; Keevash, Lifshitz, Long & Minzer)
 * **Integrated query complexity suite** (D, R, Q, sensitivity,
-  certificates, plus clearly labeled adversary-method estimates)
+  certificates, LP-exact approximate/threshold degrees, and certified
+  adversary lower bounds cross-validated against SDP optima)
 * **Invariance principle** with Gaussian analysis and Berry-Esseen bounds
 * **Property testing** in the query model (BLR, monotonicity, symmetry)
 * **Family tracking** for asymptotic analysis

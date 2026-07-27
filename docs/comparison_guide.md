@@ -31,11 +31,14 @@ activities and average sensitivity in CI.
 - Quantum: Q₂(f), QE(f), nondeterministic variants
 - Sensitivity: s(f), bs(f), es(f) (everywhere sensitivity)
 - Certificates: C(f), C₀(f), C₁(f)
-- Exploratory quantum-complexity estimates: Ambainis, spectral adversary,
-  polynomial method, and a combined general-adversary heuristic. These are
-  not certified lower bounds or SDP solutions; correction is tracked in
-  [#119](https://github.com/GabbyTab/boofun/issues/119).
-- Degree measures: exact, approximate, threshold, nondeterministic
+- Quantum lower bounds: certified adversary bounds (exact values of explicit
+  Ambainis and spectral witnesses, deterministic lower bounds on ADV±) and the
+  polynomial-method bound deg̃(f)/2, cross-validated against pinned
+  QuantumQueryOptimizer SDP optima. Every function in the module is labeled
+  exact / certified lower bound / clamped estimate (see the
+  `query_complexity` module docstring).
+- Degree measures: exact; LP-exact approximate, one-sided approximate, and
+  threshold degrees; exact nondeterministic degree (n ≤ 12)
 - Decision tree algorithms: DP optimal depth, tree enumeration, randomized complexity
 
 **Property Testing:**
@@ -326,8 +329,10 @@ Direct and materially overlapping software:
 - **[QuantumQueryOptimizer](https://doi.org/10.4230/LIPIcs.ESA.2023.36)**
   (ESA 2023): solves general-adversary semidefinite programs and constructs
   query-optimal quantum algorithms. BooFun's `general_adversary_bound` is a
-  combined heuristic estimate, not an SDP implementation or certified lower
-  bound ([#119](https://github.com/GabbyTab/boofun/issues/119)).
+  certified lower bound on ADV± (the exact value of explicit adversary
+  witnesses), deliberately not an SDP solver; BooFun's values are
+  cross-validated against pinned QuantumQueryOptimizer SDP optima in
+  `tests/cross_validation/test_qqo.py`.
 
 Adjacent ecosystems:
 

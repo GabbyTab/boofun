@@ -91,7 +91,7 @@ maj_5.analyze()  # dict with all metrics
 | **Built-in Functions** | Majority, Parity, AND, OR, Tribes, Threshold, Dictator, weighted LTF, random |
 | **Representations** | Truth tables (dense/sparse/packed), Fourier, ANF, DNF/CNF, BDD, circuits, LTF |
 | **Fourier Analysis** | WHT, influences, noise stability, spectral concentration, p-biased analysis |
-| **Query Complexity** | D(f), R(f), Q(f), sensitivity, block sensitivity, certificates, adversary-method estimates |
+| **Query Complexity** | D(f), R(f), Q(f), sensitivity, block sensitivity, certificates, LP-exact degree measures, certified adversary lower bounds |
 | **Property Testing** | BLR linearity, junta, monotonicity, symmetry, balance |
 | **Hypercontractivity** | Noise operator, Bonami's Lemma, KKL theorem, Friedgut's junta theorem |
 | **Learning Theory** | Goldreich-Levin, PAC learning, junta learning, LMN algorithm |

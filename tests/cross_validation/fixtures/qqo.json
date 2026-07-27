@@ -1,0 +1,547 @@
+{
+ "metadata": {
+  "generator": "scripts/generate_qqo_fixtures.py",
+  "package": "quantum-query-optimizer",
+  "package_version": "0.1.4",
+  "reference": "Witter & Czekanski, 'QuantumQueryOptimizer', https://github.com/rtealwitter/QuantumQueryOptimizer; solves Reichardt's ADV+- SDP, Q2(f) = Theta(ADV+-(f))",
+  "generated_utc": "2026-07-27T07:54:36.024324+00:00",
+  "command": "scripts/generate_qqo_fixtures.py tests/cross_validation/fixtures/qqo.json",
+  "truth_table_convention": "t[x] = f(x) with variable i in bit i of x (variable 0 = LSB); QQO bitstring position i = variable i",
+  "value_semantics": "adv_pm is the optimum of the general adversary SDP, ADV+-(f). Solver accuracy is ~1e-4 in observed anchor deviation; compare with tolerance 2e-3. Constant functions are excluded (ADV = 0).",
+  "n_functions": 27
+ },
+ "functions": [
+  {
+   "name": "exhaustive2_1000",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    1,
+    0,
+    0,
+    0
+   ],
+   "qqo": {
+    "adv_pm": 1.4142101021524036,
+    "num_iterations": 73
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_0100",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    0,
+    1,
+    0,
+    0
+   ],
+   "qqo": {
+    "adv_pm": 1.414210054708787,
+    "num_iterations": 73
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_1100",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    1,
+    1,
+    0,
+    0
+   ],
+   "qqo": {
+    "adv_pm": 1.0,
+    "num_iterations": 69
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_0010",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    0,
+    0,
+    1,
+    0
+   ],
+   "qqo": {
+    "adv_pm": 1.4142102062839346,
+    "num_iterations": 73
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_1010",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    1,
+    0,
+    1,
+    0
+   ],
+   "qqo": {
+    "adv_pm": 1.0,
+    "num_iterations": 69
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_0110",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    0,
+    1,
+    1,
+    0
+   ],
+   "qqo": {
+    "adv_pm": 2.000000159002659,
+    "num_iterations": 69
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_1110",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    1,
+    1,
+    1,
+    0
+   ],
+   "qqo": {
+    "adv_pm": 1.4142101643960672,
+    "num_iterations": 73
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_0001",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    0,
+    0,
+    0,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.4142101643960672,
+    "num_iterations": 73
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_1001",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    1,
+    0,
+    0,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 2.000000159002659,
+    "num_iterations": 69
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_0101",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    0,
+    1,
+    0,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.0,
+    "num_iterations": 69
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_1101",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    1,
+    1,
+    0,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.4142102062839346,
+    "num_iterations": 73
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_0011",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.0,
+    "num_iterations": 69
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_1011",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    1,
+    0,
+    1,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.414210054708787,
+    "num_iterations": 73
+   },
+   "known_adv": null
+  },
+  {
+   "name": "exhaustive2_0111",
+   "family": "exhaustive",
+   "n": 2,
+   "truth_table": [
+    0,
+    1,
+    1,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.4142101021524036,
+    "num_iterations": 73
+   },
+   "known_adv": null
+  },
+  {
+   "name": "AND3",
+   "family": "named",
+   "n": 3,
+   "truth_table": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.732033201920246,
+    "num_iterations": 87
+   },
+   "known_adv": 1.7320508075688772
+  },
+  {
+   "name": "OR3",
+   "family": "named",
+   "n": 3,
+   "truth_table": [
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.7320334010121352,
+    "num_iterations": 87
+   },
+   "known_adv": 1.7320508075688772
+  },
+  {
+   "name": "PARITY3",
+   "family": "named",
+   "n": 3,
+   "truth_table": [
+    0,
+    1,
+    1,
+    0,
+    1,
+    0,
+    0,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 3.0000000046523887,
+    "num_iterations": 69
+   },
+   "known_adv": 3.0
+  },
+  {
+   "name": "MAJ3",
+   "family": "named",
+   "n": 3,
+   "truth_table": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    1,
+    1,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 2.000000258466386,
+    "num_iterations": 69
+   },
+   "known_adv": 2.0
+  },
+  {
+   "name": "DICT3",
+   "family": "named",
+   "n": 3,
+   "truth_table": [
+    0,
+    1,
+    0,
+    1,
+    0,
+    1,
+    0,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.000012236337509,
+    "num_iterations": 76
+   },
+   "known_adv": 1.0
+  },
+  {
+   "name": "AND_OR3",
+   "family": "named",
+   "n": 3,
+   "truth_table": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    1,
+    0,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 1.731784649773893,
+    "num_iterations": 260
+   },
+   "known_adv": null
+  },
+  {
+   "name": "MUX3",
+   "family": "named",
+   "n": 3,
+   "truth_table": [
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 2.0000039647283088,
+    "num_iterations": 105
+   },
+   "known_adv": null
+  },
+  {
+   "name": "AND4",
+   "family": "named",
+   "n": 4,
+   "truth_table": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 2.0002262828260835,
+    "num_iterations": 109
+   },
+   "known_adv": 2.0
+  },
+  {
+   "name": "OR4",
+   "family": "named",
+   "n": 4,
+   "truth_table": [
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 2.000226257222809,
+    "num_iterations": 109
+   },
+   "known_adv": 2.0
+  },
+  {
+   "name": "PARITY4",
+   "family": "named",
+   "n": 4,
+   "truth_table": [
+    0,
+    1,
+    1,
+    0,
+    1,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    1,
+    0,
+    1,
+    1,
+    0
+   ],
+   "qqo": {
+    "adv_pm": 3.999999925439644,
+    "num_iterations": 69
+   },
+   "known_adv": 4.0
+  },
+  {
+   "name": "THR2_4",
+   "family": "named",
+   "n": 4,
+   "truth_table": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 2.4495039192159416,
+    "num_iterations": 100
+   },
+   "known_adv": null
+  },
+  {
+   "name": "TREE2x2",
+   "family": "named",
+   "n": 4,
+   "truth_table": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1
+   ],
+   "qqo": {
+    "adv_pm": 2.0001491646268805,
+    "num_iterations": 214
+   },
+   "known_adv": null
+  },
+  {
+   "name": "BENT4_IP",
+   "family": "named",
+   "n": 4,
+   "truth_table": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0
+   ],
+   "qqo": {
+    "adv_pm": 2.829906686962831,
+    "num_iterations": 420
+   },
+   "known_adv": null
+  }
+ ]
+}

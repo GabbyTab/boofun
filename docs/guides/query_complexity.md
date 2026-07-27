@@ -111,13 +111,25 @@ print(f"C_1(OR_5) = {C_1}")  # Just need one 1
 
 ## Quantum Complexity
 
-Quantum query complexity and lower bounds.
+Quantum query complexity and lower bounds. Every function in
+`boofun.analysis.query_complexity` is classified as **exact**, **certified
+lower bound** (the exact value of an explicit feasible witness), or
+**clamped estimate** — see the module docstring for the full table.
 
-| Measure | Function | Description |
-|---------|----------|-------------|
-| Ambainis bound | `query_complexity.ambainis_complexity(f)` | Quantum lower bound |
-| Spectral adversary | `query_complexity.spectral_adversary(f)` | Spectral method |
-| Polynomial method | `query_complexity.polynomial_method_bound(f)` | deg(f) bound |
+| Measure | Function | Status |
+|---------|----------|--------|
+| Ambainis bound | `query_complexity.ambainis_complexity(f)` | Certified lower bound on ADV± (sensitive-edge relation) |
+| Spectral adversary | `query_complexity.spectral_adversary_bound(f)` | Certified lower bound on ADV± (sensitivity-graph witness) |
+| General adversary | `query_complexity.general_adversary_bound(f)` | Certified lower bound on ADV± (max of the above) |
+| Polynomial method | `query_complexity.polynomial_method_bound(f)` | Certified lower bound on Q₂: deg̃(f)/2 |
+
+Adversary values lower-bound ADV±(f), which characterizes Q₂(f) up to
+constant factors (Q₂ = Θ(ADV±)); because those constants are below 1, an
+adversary value can numerically exceed Q₂ (e.g. ADV±(PARITY_n) = n while
+Q₂ = ⌈n/2⌉). BooFun deliberately does not ship the ADV± semidefinite
+program; its witness values are cross-validated against pinned
+[QuantumQueryOptimizer](https://github.com/rtealwitter/QuantumQueryOptimizer)
+SDP optima in `tests/cross_validation/test_qqo.py`.
 
 ### Example: Quantum Bounds
 
@@ -126,15 +138,20 @@ from boofun.analysis import query_complexity as qc
 
 f = bf.OR(4)
 
-# Ambainis adversary method lower bound
+# Ambainis adversary method lower bound: ADV(OR_4) = sqrt(4) = 2,
+# achieved exactly by the sensitive-edge relation
 amb = qc.ambainis_complexity(f)
-print(f"Ambainis bound: Q(OR_4) ≥ {amb:.2f}")
+print(f"Ambainis bound: ADV±(OR_4) ≥ {amb:.2f}")
+
+# Certified lower bound on Q2 via the polynomial method
+poly = qc.polynomial_method_bound(f)
+print(f"Q2(OR_4) ≥ {poly:.2f}")
 
 # For comparison, classical deterministic
 D_f = complexity.decision_tree_depth(f)
 print(f"D(OR_4) = {D_f}")
 
-# Quantum can achieve sqrt speedup for OR
+# Quantum achieves a sqrt speedup for OR (Grover)
 ```
 
 ## Degree Measures
@@ -143,23 +160,24 @@ Polynomial degree measures related to query complexity.
 
 | Measure | Function | Description |
 |---------|----------|-------------|
-| deg(f) | `complexity.exact_degree(f)` | Exact degree |
-| deg̃(f) | `complexity.approximate_degree(f)` | Approximate degree |
-| deg_th(f) | `complexity.threshold_degree(f)` | Threshold degree |
+| deg(f) | `fourier.fourier_degree(f)` | Exact real degree |
+| deg̃(f) | `query_complexity.approximate_degree(f)` | Approximate degree (LP-exact, n ≤ 12) |
+| deg_th(f) | `query_complexity.threshold_degree(f)` | Threshold degree (LP-exact, n ≤ 12) |
+| ndeg(f) | `query_complexity.nondeterministic_degree(f)` | Nondeterministic degree (exact, n ≤ 12) |
 
 ### Example: Degree Analysis
 
 ```python
-from boofun.analysis import complexity
+from boofun.analysis.fourier import fourier_degree
+from boofun.analysis.query_complexity import approximate_degree, threshold_degree
 
 f = bf.parity(4)
-
-deg = complexity.exact_degree(f)
-print(f"deg(PAR_4) = {deg}")  # = 4 (full degree)
+print(f"deg(PAR_4) = {fourier_degree(f)}")        # = 4 (full degree)
+print(f"deg~(PAR_4) = {approximate_degree(f)}")   # = 4 (parity needs full degree)
 
 f = bf.OR(4)
-deg = complexity.exact_degree(f)
-print(f"deg(OR_4) = {deg}")   # = 4
+print(f"deg(OR_4) = {fourier_degree(f)}")         # = 4
+print(f"deg_th(OR_4) = {threshold_degree(f)}")    # = 1 (OR is a threshold function)
 ```
 
 ## Huang's Theorem

@@ -30,6 +30,8 @@ All test modules live in
 | Closed-form family values (majority influence asymptotics, parity spectra, tribes, noise stability formulas) | O'Donnell 2014 | families to n ≈ 21 | stated per test (asymptotics ≤ 15% rel.) | [`tests/test_theoretical_validation.py`](https://github.com/GabbyTab/boofun/blob/main/tests/test_theoretical_validation.py) |
 | Exhaustive census: monotone (Dedekind), unate, canalizing, and bent counts over **all** truth tables of n variables | OEIS A000372, A245079, A102449, A004491 | all 2^(2^n) functions, n = 2–3 per PR; n = 4 on main/full-matrix runs⁶ | exact integer counts | [`test_census.py`](https://github.com/GabbyTab/boofun/blob/main/tests/cross_validation/test_census.py) |
 | Canalizing-depth histogram over all four-variable functions ({0: 62024, 1: 2184, 2: 336, 3: 256, 4: 736}) | He & Macauley 2016⁷ | all 65,536 functions, n = 4⁶ | exact | [`test_census.py::TestFullFourVariableCensus`](https://github.com/GabbyTab/boofun/blob/main/tests/cross_validation/test_census.py) |
+| Adversary bounds (Ambainis, spectral, general) never exceed the ADV± SDP optimum, and achieve it exactly on anchor families (AND/OR → √n, PARITY → n, MAJ3 → 2, dictators → 1) | QuantumQueryOptimizer 0.1.4, pinned fixtures⁸ | all 14 non-constant n = 2 functions + 13 named n = 3–4 functions | abs 5e-3 (SDP solver accuracy) | [`test_qqo.py`](https://github.com/GabbyTab/boofun/blob/main/tests/cross_validation/test_qqo.py) |
+| Exact degree measures (approximate, threshold, nondeterministic) and estimate clamping windows satisfy the full hierarchy (thr ≤ deg̃ ≤ deg, NR = C_side, ndeg(PARITY_n) = ⌈n/2⌉, …) over **all** functions of 2–3 variables | closed forms: Beals et al. 2001, de Wolf 2003, Špalek & Szegedy 2006 | all 272 non-trivial functions, n = 2–3; named families to n = 5 | exact / 1e-9 | [`tests/analysis/test_query_complexity_guarantees.py`](https://github.com/GabbyTab/boofun/blob/main/tests/analysis/test_query_complexity_guarantees.py) |
 
 **Footnotes**
 
@@ -73,6 +75,16 @@ All test modules live in
    depth 0, matching He & Macauley — so each depth-0 bucket equals the
    non-canalizing count plus 2, asserted in
    `test_census.py::test_depth_zero_bucket_convention`.
+8. QuantumQueryOptimizer reference values are *pinned fixtures*: optima of
+   Reichardt's general-adversary SDP computed by
+   [quantum-query-optimizer 0.1.4](https://github.com/rtealwitter/QuantumQueryOptimizer)
+   via the BooFun-free
+   [`scripts/generate_qqo_fixtures.py`](https://github.com/GabbyTab/boofun/blob/main/scripts/generate_qqo_fixtures.py)
+   (package version, generation date, conventions, and solver accuracy
+   recorded in the fixture metadata; closed-form literature anchors are
+   asserted at generation time). BooFun's adversary functions are certified
+   *lower bounds* on ADV±, so the comparison is a one-sided inequality plus
+   exact-tightness checks on anchor families.
 
 ## Convention conversions
 
@@ -135,3 +147,14 @@ there are no `abs()` dodges:
     A102449 (canalizing), A004491 (bent). <https://oeis.org/>
 11. SageMath Documentation: <https://doc.sagemath.org/>
 12. BoolForge: <https://github.com/ckadelka/BoolForge>
+13. Beals, R., Buhrman, H., Cleve, R., Mosca, M., & de Wolf, R. (2001).
+    Quantum lower bounds by polynomials. *Journal of the ACM* 48.
+14. Ambainis, A. (2002). Quantum lower bounds by quantum arguments.
+    *Journal of Computer and System Sciences* 64.
+15. Høyer, P., Lee, T., & Špalek, R. (2007). Negative weights make
+    adversaries stronger. *STOC 2007*.
+16. de Wolf, R. (2003). Nondeterministic quantum query and communication
+    complexities. *SIAM Journal on Computing* 32.
+17. Witter, R. T., & Czekanski, M. (2023). Robust and Space-Efficient Dual
+    Adversary Quantum Query Algorithms. *ESA 2023*.
+    <https://github.com/rtealwitter/QuantumQueryOptimizer>
