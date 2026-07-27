@@ -161,3 +161,83 @@ class TestClosedFormAnchors:
             nondeterministic_degree(f)
         with pytest.raises(ValueError, match="n <= 12"):
             spectral_adversary_bound(f)
+
+    @pytest.mark.parametrize("bad_epsilon", [-1.0, -1e-9, 0.5, 1.0, 2.0])
+    def test_invalid_epsilon_rejected(self, bad_epsilon):
+        """epsilon outside [0, 1/2) must raise, not return a plausible
+        degree (epsilon = -1 previously returned n)."""
+        f = bf.AND(3)
+        with pytest.raises(ValueError, match="epsilon"):
+            approximate_degree(f, epsilon=bad_epsilon)
+        with pytest.raises(ValueError, match="epsilon"):
+            one_sided_approximate_degree(f, epsilon=bad_epsilon)
+
+    def test_epsilon_zero_is_exact_degree(self):
+        """deg_0(f) = deg(f): only the exact representation has error 0."""
+        for f in (bf.majority(3), bf.parity(3), bf.AND(3)):
+            assert approximate_degree(f, epsilon=0.0) == fourier_degree(f)
+
+    def test_qe_at_least_q2(self):
+        """The estimate pair must respect the theorem Q2(f) <= QE(f)
+        (MAJ3 previously printed Q2 = 1.73, QE = 1.50)."""
+        for n in (2, 3):
+            for f in all_functions(n):
+                assert exact_quantum_complexity(f) >= quantum_query_complexity(f) - 1e-9
+
+
+def _ndeg_exact_rational(truth_table: list[int], n: int, side: int) -> int:
+    """Definition-literal nondeterministic degree in exact rational
+    arithmetic (sympy): min degree d such that the degree-<=d polynomials
+    vanishing on all off-side inputs (an exact nullspace over Q) contain,
+    for every side input y, an element nonzero at y. Independent of the
+    floating-point SVD implementation under test."""
+    from itertools import combinations
+
+    from sympy import Matrix
+
+    side_rows = [x for x in range(1 << n) if truth_table[x] == side]
+    off_rows = [x for x in range(1 << n) if truth_table[x] != side]
+    if not off_rows or not side_rows:
+        return 0
+
+    for degree in range(n + 1):
+        columns = [subset for d in range(degree + 1) for subset in combinations(range(n), d)]
+
+        def chi(x: int, subset: tuple[int, ...]) -> int:
+            return -1 if bin(x & sum(1 << i for i in subset)).count("1") % 2 else 1
+
+        A_off = Matrix([[chi(x, s) for s in columns] for x in off_rows])
+        null_basis = A_off.nullspace()
+        if not null_basis:
+            continue
+        feasible = True
+        for y in side_rows:
+            row = Matrix([[chi(y, s) for s in columns]])
+            if all((row * v)[0] == 0 for v in null_basis):
+                feasible = False
+                break
+        if feasible:
+            return degree
+    return n
+
+
+class TestNdegRationalCrossCheck:
+    """Naive-check rung for nondeterministic_degree: the production
+    implementation uses floating-point SVD rank with fixed tolerances;
+    this compares it against exact rational-nullspace arithmetic."""
+
+    def test_all_two_variable_functions_both_sides(self):
+        pytest.importorskip("sympy")
+        for f in all_functions(2):
+            tt = [int(v) for v in f.get_representation("truth_table")]
+            for side in (0, 1):
+                assert nondeterministic_degree(f, side) == _ndeg_exact_rational(tt, 2, side), (
+                    tt,
+                    side,
+                )
+
+    def test_all_three_variable_functions_side_one(self):
+        pytest.importorskip("sympy")
+        for f in all_functions(3):
+            tt = [int(v) for v in f.get_representation("truth_table")]
+            assert nondeterministic_degree(f, 1) == _ndeg_exact_rational(tt, 3, 1), tt
