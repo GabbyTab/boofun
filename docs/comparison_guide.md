@@ -13,7 +13,7 @@ BooFun focuses on theoretical computer science: Fourier analysis (O'Donnell styl
 | VBF (C++) | Cryptography (vectorial) | Walsh + autocorrelation | ✗ | ✗ |
 | sboxU | S-box cryptanalysis | Walsh / cryptographic | ✗ | ✗ |
 | boolfun (R) | Cryptography (scalar) | Walsh / cryptographic | ✗ | ✗ |
-| fbool | TCS-adjacent (Rust + Python, young) | Core Fourier metrics | ✗ | certificates only |
+| fbool | TCS-adjacent (Rust + Python, young) | Core Fourier metrics | ✗ | sensitivity + certificates |
 | CircuitGraph | Boolean circuits | influences only¹ | ✗ | ✗ |
 | pyeda | Logic/SAT/BDD | ✗ | ✗ | ✗ |
 | BoolForge | Boolean networks / biology | activities only¹ | ✗ | ✗ |
