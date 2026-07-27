@@ -113,9 +113,10 @@ Software for Boolean functions spans several distinct scopes. The R package
 predecessors for scalar and vectorial cryptographic analysis, respectively.
 SageMath [@sagemath] provides related functionality inside a broad
 computer-algebra environment, while sboxU [@sboxu] offers a substantially
-more specialized Sage/C++ toolkit for vectorial functions and S-boxes.
-BooFun complements these tools: its cryptographic layer is not intended to
-replace their specialized workflows.
+more specialized Sage/C++ toolkit for vectorial functions and S-boxes, and
+BooLSPLG [@boolsplg2023] computes the same cryptographic spectra with
+GPU-parallel algorithms. BooFun complements these tools: its cryptographic
+layer is not intended to replace their specialized workflows.
 
 The young Rust/Python project `fbool` [@fbool2026] overlaps on Fourier
 coefficients, influence, sensitivity, and certificate complexity, while
@@ -132,11 +133,13 @@ historical tool in the query-complexity lineage. QuantumQueryOptimizer
 [@quantumqueryoptimizer2023] solves general-adversary semidefinite programs
 and constructs query-optimal quantum algorithms, a narrower and more exact
 task than BooFun's broad exploratory complexity profile; BooFun labels its
-non-exact randomized and quantum quantities as estimates. A targeted survey
-of JOSS papers and indexed metadata through 26 July 2026 found no package
+non-exact randomized and quantum quantities as estimates. A survey of JOSS
+papers, indexed metadata, and package registries through 26 July 2026 —
+with its sources, query strings, and full candidate ledger archived in the
+repository documentation (`docs/prior_art_survey.md`) — found no package
 with BooFun's combined focus on Fourier-analytic measures, property testing,
-and query complexity. This is a scoped survey result, not a claim that no
-other partially overlapping software exists.
+and query complexity. This is a scoped, reproducible survey result, not a
+claim that no other partially overlapping software exists.
 
 Avishay Tal's course and research scripts motivated part of BooFun's API but
 are not a maintained, versioned package; BooFun's migration guide documents
