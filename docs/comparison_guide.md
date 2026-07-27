@@ -8,17 +8,20 @@ BooFun focuses on theoretical computer science: Fourier analysis (O'Donnell styl
 
 | Library | Focus | Fourier | Property Testing | Query Complexity |
 |---------|-------|---------|------------------|------------------|
-| BooFun | TCS theory | ✓ | ✓ | ✓ |
-| SageMath | Cryptography | Walsh only | ✗ | ✗ |
-| VBF (C++) | Cryptography (vectorial) | Walsh only | ✗ | ✗ |
-| sboxU | S-box cryptanalysis | Walsh only | ✗ | ✗ |
-| fbool | TCS (Rust + Python, young) | ✓ | ✗ | partial |
+| BooFun | TCS theory | TCS + cryptographic | ✓ | ✓ |
+| SageMath | Computer algebra / cryptography | Walsh / cryptographic | ✗ | ✗ |
+| VBF (C++) | Cryptography (vectorial) | Walsh + autocorrelation | ✗ | ✗ |
+| sboxU | S-box cryptanalysis | Walsh / cryptographic | ✗ | ✗ |
+| boolfun (R) | Cryptography (scalar) | Walsh / cryptographic | ✗ | ✗ |
+| fbool | TCS-adjacent (Rust + Python, young) | Core Fourier metrics | ✗ | certificates only |
+| CircuitGraph | Boolean circuits | influences only¹ | ✗ | ✗ |
 | pyeda | Logic/SAT/BDD | ✗ | ✗ | ✗ |
-| BoolForge | Biology | influences only¹ | ✗ | ✗ |
-| CANA | Network control | ✗ | ✗ | ✗ |
+| BoolForge | Boolean networks / biology | activities only¹ | ✗ | ✗ |
+| CANA | Canalization, dynamics, control | activities only¹ | ✗ | ✗ |
 
-¹ BoolForge computes exact activities (= influences) and average sensitivity —
-BooFun cross-validates against both in CI — but no Fourier spectrum beyond that.
+¹ Influence/activity is a Fourier-analytic quantity, but these packages do not
+expose BooFun's broader Fourier suite. BooFun cross-validates BoolForge's exact
+activities and average sensitivity in CI.
 
 ## What BooFun Has
 
@@ -28,13 +31,15 @@ BooFun cross-validates against both in CI — but no Fourier spectrum beyond tha
 - Quantum: Q₂(f), QE(f), nondeterministic variants
 - Sensitivity: s(f), bs(f), es(f) (everywhere sensitivity)
 - Certificates: C(f), C₀(f), C₁(f)
-- Lower bounds: Ambainis, spectral adversary, polynomial method, general adversary
+- Lower-bound estimates: Ambainis and spectral-adversary heuristics,
+  polynomial method, and a combined general-adversary estimate (not an SDP
+  solver)
 - Degree measures: exact, approximate, threshold, nondeterministic
 - Decision tree algorithms: DP optimal depth, tree enumeration, randomized complexity
 
 **Property Testing:**
 - BLR linearity
-- Junta testing
+- Exact k-junta recognition (not a query-limited tester)
 - Monotonicity, unateness, symmetry
 
 **Fourier Analysis:**
@@ -57,7 +62,7 @@ BooFun cross-validates against both in CI — but no Fourier spectrum beyond tha
 - KKL theorem, Friedgut's junta theorem
 - Level-d inequality
 
-**Global Hypercontractivity (v1.1, unique):**
+**Global Hypercontractivity (v1.1):**
 - GlobalHypercontractivityAnalyzer
 - α-global function detection
 - Generalized influence under μ_p
@@ -84,7 +89,7 @@ BooFun cross-validates against both in CI — but no Fourier spectrum beyond tha
 Features better served by other libraries:
 - SAT solving, advanced BDD operations → pyeda
 - Boolean networks, attractors → BoolForge, biobalm
-- Network control theory → CANA
+- Logical redundancy, automata-network dynamics and control → CANA
 - Canalizing layer structure → BoolForge
 
 Note: As of v1.1, BooFun includes canalization analysis (depth, nested canalizing detection, essential variables) and cryptographic analysis (bent functions, nonlinearity, correlation immunity, LAT/DDT).
@@ -186,8 +191,8 @@ BooFun now covers both O'Donnell-style analysis and cryptographic properties.
 | Test | BooFun | BoolForge |
 |------|--------|-----------|
 | Linearity (BLR) | ✓ | ✗ |
-| Junta | ✓ | ✗ |
-| Monotonicity | ✓ (exact check + probabilistic tester) | ✓ (exact) |
+| k-junta | ✓ (exact recognition) | ✗ |
+| Monotonicity | ✓ (probabilistic tester) | ✓ (exact) |
 | Dictator proximity | ✓ | ✗ |
 
 ### Representations
@@ -216,8 +221,12 @@ pyeda's BDD implementation is more mature.
 - Finite field computations
 
 **sboxU / VBF:**
-- Serious S-box cryptanalysis at scale (C++/optimized cores)
+- Specialized vectorial Boolean-function and S-box cryptanalysis
 - APN / almost-bent classification, CCZ/EA equivalence (sboxU)
+
+**fbool:**
+- Rust-native analysis and Python bindings
+- Entropy, fragmentation, and exact small-circuit data
 
 **pyeda:**
 - SAT solving
@@ -229,7 +238,8 @@ pyeda's BDD implementation is more mature.
 - Canalization
 
 **CANA:**
-- Network control theory
+- Logical redundancy and input symmetry
+- Automata-network dynamics and control
 
 ## Cross-Validation
 
@@ -259,12 +269,15 @@ claims, reference versions, function families, and tolerances.
 ```bash
 pip install boofun      # BooFun (PyPI)
 pip install boolforge   # BoolForge (on PyPI since v1.0)
+pip install fbool       # fbool (Python 3.11+)
 pip install sboxU       # sboxU
 pip install cana        # CANA
 pip install pyeda       # pyeda
 ```
 
 VBF is a C++/NTL library built from [source](https://github.com/jacubero/VBF).
+The older R package boolfun is archived on
+[CRAN](https://cran.r-project.org/src/contrib/Archive/boolfun/).
 
 ## Prior Art
 
@@ -274,29 +287,83 @@ BooFun's query complexity module builds on:
 
 These tools inspired BooFun's design but were either no longer maintained or not publicly distributed. BooFun aims to provide a modern, documented, tested implementation of these ideas.
 
-Other prior art in adjacent niches:
+Direct and materially overlapping software:
 
+- **boolfun** (Lafitte, Van Heule & Van Hamme, R Journal 2011): peer-reviewed
+  R package for scalar cryptographic Boolean functions, including truth
+  tables, Walsh spectra, ANF, algebraic degree and immunity, nonlinearity,
+  correlation immunity, and resiliency. Its last CRAN release was archived
+  in 2012.
 - **VBF** (Álvarez-Cubero & Zufiria, ACM TOMS 2016): peer-reviewed C++/NTL
-  library for *vectorial* Boolean functions in cryptography — Walsh spectrum,
-  nonlinearity, algebraic degree, linear structures, autocorrelation. The
-  strongest academic prior art on the cryptographic side; no Fourier-analytic
-  TCS tooling (influences, noise stability, property testing).
-- **fbool** (2026): young Rust library with Python bindings; the closest
-  *Fourier-analytic* neighbor (influences, Walsh/Fourier coefficients, degree,
-  nonlinearity, certificate complexity) plus its own entropy/fragmentation
-  measures. No property testing or query-complexity suite yet.
-- **JOSS landscape**: no published JOSS package does Fourier-analytic Boolean
-  function analysis. Adjacent JOSS tools operate on different objects —
-  CircuitGraph (Boolean *circuits*), Biddy (BDDs), sboxgates (S-box gate
-  synthesis) — or on Boolean *networks* for biology (BoolForge, PyDrugLogics,
-  emba, NORDic).
+  library for *vectorial* Boolean functions in cryptography, with Walsh and
+  autocorrelation spectra, nonlinearity, algebraic degree, linear structures,
+  and vectorial operations. It is a major cryptographic predecessor; its
+  documented API does not provide BooFun's TCS-oriented influence, noise,
+  property-testing, or query-complexity suite.
+- **fbool** v0.2.0 (2026): young Rust library with Python bindings and one of
+  the closest modern Fourier-analytic neighbors. It overlaps on influence,
+  sensitivity, Walsh/Fourier metrics, Fourier degree, nonlinearity, and
+  certificate complexity, and adds entropy, fragmentation, and exact
+  five-variable circuit data. It is not peer reviewed.
+- **[py-aiger-spectral](https://github.com/mvcisback/py-aiger-spectral)**: a
+  small AIGER-based Python package for Fourier coefficients, degree weights,
+  mean, variance, and covariance. It has no tagged release or paper, but is
+  relevant direct software prior art.
+- **[CircuitGraph](https://doi.org/10.21105/joss.02646)** (JOSS 2020):
+  Boolean-circuit manipulation with exact or approximate model-counting
+  routines for per-input influence and average sensitivity. This is material
+  partial overlap, not merely a different object.
+- **[QuantumQueryOptimizer](https://doi.org/10.4230/LIPIcs.ESA.2023.36)**
+  (ESA 2023): solves general-adversary semidefinite programs and constructs
+  query-optimal quantum algorithms. BooFun's `general_adversary_bound` is a
+  combined heuristic estimate, not an SDP implementation.
+
+Adjacent ecosystems:
+
+- **BoolForge** and **CANA** focus on canalization and Boolean/automata
+  networks. CANA's prime-implicant redundancy and schema symmetry are not
+  interchangeable with BooFun's classic canalizing depth and variable
+  symmetry; function-level activities and sensitivity do overlap.
+- **[Biddy](https://doi.org/10.21105/joss.01189)** (JOSS 2019) represents and
+  manipulates Boolean functions through several BDD families, while
+  **[sboxgates](https://doi.org/10.21105/joss.02946)** (JOSS 2021) synthesizes
+  low-gate circuits for S-boxes. Biological-network applications such as
+  PyDrugLogics, emba, and NORDic are farther from BooFun's function-level
+  scope. SPbLA operates on sparse matrices over the Boolean semiring and is
+  terminologically, rather than functionally, adjacent.
+
+A targeted survey of JOSS papers and indexed metadata through **26 July
+2026** found no package with BooFun's *combined* focus on Fourier-analytic
+Boolean-function measures, property testing, and query complexity.
+CircuitGraph is the clearest partial overlap. This is a dated, scoped search
+result—not an exhaustive claim that no other overlapping software exists.
+The survey used targeted JOSS and bibliographic searches for Boolean
+functions, Fourier analysis, influence, property testing, query complexity,
+S-boxes, BDDs, and Boolean networks, followed by checks of each project's
+paper and public API.
 
 ## References
 
 - Aaronson, S. (2000). "Algorithms for Boolean Function Query Measures."
 - O'Donnell, R. (2014). *Analysis of Boolean Functions*. Cambridge.
 - Buhrman, H. & de Wolf, R. (2002). "Complexity Measures and Decision Tree Complexity."
-- Correia et al. (2018). CANA. Frontiers in Physiology.
+- Lafitte, F., Van Heule, D. & Van Hamme, J. (2011). "Cryptographic Boolean
+  Functions with R." *The R Journal*. <https://doi.org/10.32614/RJ-2011-007>
 - Álvarez-Cubero, J. A. & Zufiria, P. J. (2016). "Algorithm 959: VBF: A Library
   of C++ Classes for Vector Boolean Functions in Cryptography." ACM TOMS 42(2).
-- Kadelka, C. & Coberly, B. (2025). BoolForge.
+  <https://doi.org/10.1145/2794077>
+- Sweeney, J. et al. (2020). "CircuitGraph: A Python package for Boolean
+  circuits." *JOSS* 5(56). <https://doi.org/10.21105/joss.02646>
+- Czekanski, M., Kimmel, S. & Witter, R. T. (2023). "Robust and
+  Space-Efficient Dual Adversary Quantum Query Algorithms." ESA 2023.
+  <https://doi.org/10.4230/LIPIcs.ESA.2023.36>
+- Correia, R. B. et al. (2018). "CANA: A Python Package for Quantifying
+  Control and Canalization in Boolean Networks." *Frontiers in Physiology*.
+  <https://doi.org/10.3389/fphys.2018.01046>
+- Marcus, A. M. et al. (2025). "CANA v1.0.0: efficient quantification of
+  canalization in automata networks." *Bioinformatics* 41(10).
+  <https://doi.org/10.1093/bioinformatics/btaf461>
+- Kadelka, C. & Coberly, B. (2025). "BoolForge: Controlled Generation and
+  Analysis of Boolean Functions and Networks." arXiv:2509.02496.
+- González-Vaquero, E. & Maurizio Paul, R. (2026). "fbool: A Rust library for
+  Boolean function entanglement analysis," v0.2.0.
