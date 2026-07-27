@@ -62,7 +62,7 @@ dev = [
     # (see requirements/README.md).
     "mypy==2.3.0",
     "pre-commit>=3.0.0",
-    "ruff==0.15.22",  # must match rev in .pre-commit-config.yaml
+    "ruff==0.16.0",  # must match rev in .pre-commit-config.yaml
     "mutmut>=2.4.0",  # Mutation testing
     "hypothesis>=6.0.0",  # Property-based testing
 ]
