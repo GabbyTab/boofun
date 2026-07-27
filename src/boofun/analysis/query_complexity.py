@@ -708,14 +708,21 @@ def approximate_degree(f: BooleanFunction, epsilon: float = 1 / 3) -> int:
 
     Args:
         f: BooleanFunction to analyze
-        epsilon: Approximation parameter (default 1/3)
+        epsilon: Approximation parameter, in [0, 1/2) (default 1/3;
+            epsilon = 0 gives the exact real degree)
 
     Returns:
         The exact approximate degree (an integer)
 
     Raises:
-        ValueError: if n exceeds the LP size cap.
+        ValueError: if epsilon is outside [0, 1/2) or n exceeds the LP
+            size cap.
     """
+    if not 0 <= epsilon < 0.5:
+        raise ValueError(
+            f"epsilon must be in [0, 0.5): below 0 no approximation exists, and at "
+            f"0.5 or above the constant 1/2 approximates every function; got {epsilon}"
+        )
     n = f.n_vars
     if n is None or n == 0:
         return 0
@@ -754,16 +761,22 @@ def one_sided_approximate_degree(f: BooleanFunction, side: int = 1, epsilon: flo
     Args:
         f: BooleanFunction to analyze
         side: Which side to approximate (0 or 1, default 1)
-        epsilon: Approximation parameter
+        epsilon: Approximation parameter, in [0, 1/2)
 
     Returns:
         The exact one-sided approximate degree (an integer)
 
     Raises:
-        ValueError: if n exceeds the LP size cap.
+        ValueError: if epsilon is outside [0, 1/2) or n exceeds the LP
+            size cap.
     """
     from scipy.optimize import linprog
 
+    if not 0 <= epsilon < 0.5:
+        raise ValueError(
+            f"epsilon must be in [0, 0.5): below 0 no approximation exists, and at "
+            f"0.5 or above the two constraint bands overlap; got {epsilon}"
+        )
     n = f.n_vars
     if n is None or n == 0:
         return 0
@@ -793,6 +806,10 @@ def one_sided_approximate_degree(f: BooleanFunction, side: int = 1, epsilon: flo
         )
         if result.success:
             return degree
+        if result.status != 2:  # anything but proven infeasibility fails loudly
+            raise RuntimeError(
+                f"one-sided approximate-degree LP failed at degree {degree}: {result.message}"
+            )
     return n  # the exact 0/1 representation always satisfies the constraints
 
 
@@ -924,7 +941,13 @@ def _sign_representable(sign_values: np.ndarray, n: int, degree: int) -> bool:
     A_ub = -sign_values[:, None] * A
     b_ub = -np.ones(A.shape[0])
     result = linprog(np.zeros(k), A_ub=A_ub, b_ub=b_ub, bounds=[(None, None)] * k, method="highs")
-    return bool(result.success)
+    if result.success:
+        return True
+    if result.status == 2:  # proven infeasible: no sign-representation at this degree
+        return False
+    # Iteration limit or numerical trouble must not masquerade as
+    # "not representable" -- that would silently inflate the degree.
+    raise RuntimeError(f"sign-representability LP failed at degree {degree}: {result.message}")
 
 
 def threshold_degree(f: BooleanFunction) -> int:
