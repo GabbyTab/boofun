@@ -46,12 +46,10 @@ class TestIsMonotone:
             f = bf.majority(n)
             assert is_monotone(f) == True
 
-    def test_parity_monotonicity(self):
-        """Parity/XOR monotonicity check."""
+    def test_parity_is_not_monotone(self):
+        """Parity/XOR is not monotone for n >= 2."""
         f = bf.parity(3)
-        result = is_monotone(f)
-        # Just verify it returns a boolean
-        assert isinstance(result, bool)
+        assert is_monotone(f) is False
 
     def test_constant_is_monotone(self):
         """Constant functions are monotone."""
@@ -79,13 +77,13 @@ class TestIsUnate:
 
         assert is_un == True
 
-    def test_parity_unate_check(self):
-        """Parity unate check."""
+    def test_parity_is_not_unate(self):
+        """Parity is not unate: no polarity assignment makes XOR monotone."""
         f = bf.parity(3)
         is_un, signs = is_unate(f)
 
-        # Just check it returns valid result
-        assert isinstance(is_un, bool)
+        assert is_un is False
+        assert signs is None
 
 
 class TestIsSymmetric:

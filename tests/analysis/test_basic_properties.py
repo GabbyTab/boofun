@@ -52,13 +52,11 @@ class TestIsMonotone:
         f = bf.majority(3)
         assert is_monotone(f)
 
-    def test_parity_monotonicity(self):
-        """Test parity monotonicity (depends on representation)."""
-        f = bf.parity(3)
-        # Parity may or may not be monotone depending on representation
-        # Just verify it returns a boolean
-        result = is_monotone(f)
-        assert isinstance(result, (bool, np.bool_))
+    def test_parity_is_not_monotone(self):
+        """Parity is not monotone for n >= 2 (flipping a bit at an odd
+        point decreases the output)."""
+        for n in (2, 3):
+            assert not is_monotone(bf.parity(n))
 
     def test_constant_is_monotone(self):
         """Constant functions are monotone."""
@@ -83,14 +81,13 @@ class TestIsUnate:
         assert is_u
         assert polarities is not None
 
-    def test_parity_unateness(self):
-        """Test parity unateness (depends on implementation)."""
-        f = bf.parity(2)
-        is_u, polarities = is_unate(f)
-        # Just verify return type
-        assert isinstance(is_u, (bool, np.bool_))
-        if is_u:
-            assert polarities is not None
+    def test_parity_is_not_unate(self):
+        """Parity is not unate for n >= 2: no polarity assignment makes
+        XOR monotone."""
+        for n in (2, 3):
+            is_u, polarities = is_unate(bf.parity(n))
+            assert not is_u
+            assert polarities is None
 
     def test_and_is_unate(self):
         """AND is clearly unate (it's monotone)."""
@@ -126,14 +123,66 @@ class TestMakeUnate:
         # Should be monotone
         assert is_monotone(g)
 
-    def test_make_unate_result(self):
-        """make_unate returns BooleanFunction or None."""
-        f = bf.parity(3)
+    def test_make_unate_rejects_parity(self):
+        """Parity is not unate, so make_unate returns None."""
+        assert make_unate(bf.parity(3)) is None
+
+
+class TestMonotoneUnateRegressions:
+    """Negative regression corpus for the exact predicates.
+
+    The original implementation skipped every f(x) = 0 point and compared
+    a Boolean against True, so it accepted all functions (issue #114).
+    These cases pin the fix with functions that are asymmetric in
+    polarity, not just the standard monotone families.
+    """
+
+    def test_issue_114_counterexample(self):
+        """[0, 1, 0, 0] is b0 AND NOT b1: not monotone, but unate."""
+        f = bf.create([0, 1, 0, 0])
+        assert not is_monotone(f)
+        is_u, polarities = is_unate(f)
+        assert is_u
+        assert polarities is not None
+
+    def test_unate_polarities_round_trip(self):
+        """Applying the returned polarities must yield a monotone function."""
+        for tt in ([0, 1, 0, 0], [1, 0, 1, 0], [1, 1, 1, 0], [0, 0, 1, 0]):
+            f = bf.create(tt)
+            is_u, _ = is_unate(f)
+            assert is_u, f"{tt} should be unate"
+            g = make_unate(f)
+            assert g is not None
+            assert is_monotone(g), f"make_unate({tt}) is not monotone"
+
+    def test_negated_variable_is_unate_not_monotone(self):
+        """NOT b0 on 2 variables: unate with polarity -1, not monotone."""
+        f = bf.create([1, 0, 1, 0])
+        assert not is_monotone(f)
+        is_u, polarities = is_unate(f)
+        assert is_u
+        assert polarities is not None
+
+    def test_non_unate_four_variable_function(self):
+        """x0 XOR (x1 AND x2): contains a genuine XOR, so no polarity
+        assignment can make it monotone, even padded to 4 variables."""
+        tt = [(x & 1) ^ (((x >> 1) & 1) & ((x >> 2) & 1)) for x in range(16)]
+        f = bf.create(tt)
+        assert not is_monotone(f)
+        is_u, polarities = is_unate(f)
+        assert not is_u
+        assert polarities is None
+
+    def test_mixed_polarity_conjunction(self):
+        """b0 AND NOT b1 AND b2: unate under [1, -1, 1]-style polarity."""
+        tt = [((x & 1) and not ((x >> 1) & 1) and ((x >> 2) & 1)) for x in range(8)]
+        f = bf.create([int(v) for v in tt])
+        assert not is_monotone(f)
+        is_u, polarities = is_unate(f)
+        assert is_u
         g = make_unate(f)
-        # Result is either None (not unate) or a BooleanFunction
-        # Implementation may consider parity unate
-        if g is not None:
-            assert is_monotone(g)
+        assert g is not None
+        assert is_monotone(g)
 
 
 class TestMonotoneClosure:
