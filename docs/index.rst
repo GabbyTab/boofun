@@ -131,7 +131,8 @@ what overlapping software exists:
 Test Coverage
 -------------
 
-Test coverage is 72% with 3200+ tests. If something breaks, please report it.
+The suite has 3,800+ tests with an enforced line-and-branch coverage floor
+in CI (~79%). If something breaks, please report it.
 
 API Reference
 =============
