@@ -407,127 +407,140 @@ def exact_quantum_complexity(f: BooleanFunction) -> float:
     return max(lower_bound, min(D, sqrt(D) * 2))
 
 
+def _sensitive_edge_degrees(truth_table: np.ndarray, n: int) -> np.ndarray:
+    """
+    For each input x, count the sensitive directions: the number of i
+    with f(x) != f(x ^ e_i). Vectorized over the whole cube.
+    """
+    degrees = np.zeros(1 << n, dtype=np.int64)
+    indices = np.arange(1 << n)
+    for i in range(n):
+        flipped = truth_table[indices ^ (1 << i)] != truth_table
+        degrees += flipped
+    return degrees
+
+
 def spectral_adversary_bound(f: BooleanFunction) -> float:
     """
-    Compute the spectral adversary bound for Q2(f).
+    Compute a certified spectral adversary lower bound on ADV(f).
 
-    This is the "positive weights" adversary method, which is sometimes
-    tighter than the basic Ambainis bound.
+    Uses the spectral formulation of the positive-weight adversary method
+    (Barnum-Saks-Szegedy): for any nonnegative symmetric matrix Gamma
+    supported on pairs with f(x) != f(y),
 
-    The spectral bound equals sqrt(λ) where λ is the largest eigenvalue
-    of a certain matrix derived from the function structure.
+        ADV(f) >= ||Gamma|| / max_i ||Gamma o D_i||
+
+    where D_i[x, y] = 1 iff x_i != y_i. This implementation evaluates that
+    ratio exactly for one canonical witness: Gamma = the adjacency matrix
+    of the bipartite sensitivity graph (pairs at Hamming distance 1 with
+    different f-values). For that Gamma each Gamma o D_i is a partial
+    matching, so ||Gamma o D_i|| = 1 and the bound is exactly the largest
+    singular value of the bipartite sensitivity matrix.
+
+    Status: certified lower bound on ADV(f) (and hence on ADV+-(f)); not
+    the optimal spectral adversary, which requires an SDP. Deterministic.
+    Since Q2(f) = Theta(ADV+-(f)) with constants below 1, this value is
+    NOT claimed to be numerically <= Q2(f); see the module docstring.
 
     Args:
         f: BooleanFunction to analyze
 
     Returns:
-        Spectral adversary lower bound
+        Exact value of the canonical spectral-adversary witness
+
+    Raises:
+        ValueError: if n exceeds the dense-matrix size cap (n <= 12).
+
+    References:
+        - Barnum, Saks, Szegedy, "Quantum query complexity and semi-definite
+          programming" (2003)
     """
     n = f.n_vars
     if n is None or n == 0:
         return 0.0
+    if n > _LP_MAX_VARS:
+        raise ValueError(
+            f"spectral_adversary_bound builds a dense 2^(n-1) x 2^(n-1) matrix and "
+            f"supports n <= {_LP_MAX_VARS}; got n = {n}"
+        )
 
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
-    size = 1 << n
-
-    zeros = [x for x in range(size) if not truth_table[x]]
-    ones = [x for x in range(size) if truth_table[x]]
-
+    zeros = np.flatnonzero(~truth_table)
+    ones = np.flatnonzero(truth_table)
     if len(zeros) == 0 or len(ones) == 0:
+        return 0.0  # Constant function: no adversary pairs
+
+    # Bipartite sensitivity matrix: M[i, j] = 1 iff zeros[i] and ones[j]
+    # differ in exactly one bit.
+    xor = zeros[:, None] ^ ones[None, :]
+    hamming_one = (xor & (xor - 1)) == 0  # xor is a power of two
+    M = hamming_one.astype(float)
+
+    if not M.any():
+        # No sensitive edges is impossible for non-constant f, but guard anyway.
         return 0.0
 
-    # Build adversary matrix
-    # M[i,j] = 1/hamming(zeros[i], ones[j]) if connected
-    m0, m1 = len(zeros), len(ones)
+    # Largest singular value of M (||Gamma o D_i|| = 1 for every direction i
+    # that contains a sensitive edge, since each restriction is a matching).
+    if min(M.shape) <= 2:
+        return float(np.linalg.norm(M, 2))
+    from scipy.sparse.linalg import svds
 
-    # For efficiency, limit matrix size
-    if m0 * m1 > 10000:
-        # Subsample
-        import random
-
-        zeros = random.sample(zeros, min(100, m0))
-        ones = random.sample(ones, min(100, m1))
-        m0, m1 = len(zeros), len(ones)
-
-    M = np.zeros((m0, m1))
-    for i, z in enumerate(zeros):
-        for j, o in enumerate(ones):
-            h = bin(z ^ o).count("1")
-            if h > 0:
-                M[i, j] = 1.0 / h
-
-    # Spectral norm of M
-    try:
-        from scipy.linalg import svdvals
-
-        singular_values = svdvals(M)
-        if len(singular_values) > 0:
-            return float(singular_values[0])
-    except ImportError:
-        # Fallback: use power iteration
-        pass
-
-    return ambainis_complexity(f)
+    # Fixed starting vector keeps the Lanczos iteration bit-for-bit
+    # deterministic across calls.
+    v0 = np.ones(min(M.shape))
+    return float(svds(M, k=1, v0=v0, return_singular_vectors=False)[0])
 
 
 def ambainis_complexity(f: BooleanFunction) -> float:
     """
-    Compute the Ambainis adversary bound, a lower bound for Q2(f).
+    Compute a certified Ambainis adversary lower bound on ADV(f).
 
-    The Ambainis bound is defined as:
-        Adv(f) = max_R sqrt(max_x |{y: R(x,y)=1}| * max_y |{x: R(x,y)=1}|)
-                 / max_{x,y:R(x,y)=1} |{i: x_i != y_i}|
+    Ambainis's theorem: choose X subset f^-1(0), Y subset f^-1(1) and a
+    relation R subset X x Y such that every x in X is related to at least
+    m elements of Y and every y in Y to at least m' elements of X. With
+    l = max_{x,i} |{y : (x,y) in R, x_i != y_i}| and l' defined dually,
 
-    where R is any binary relation with R(x,y) = 1 only when f(x) != f(y).
+        ADV(f) >= sqrt(m * m' / (l * l'))
+
+    This implementation evaluates that bound exactly for the canonical
+    sensitive-edge relation: R = pairs at Hamming distance 1 with
+    different f-values, with X and Y restricted to inputs that have at
+    least one sensitive neighbor. For that relation l = l' = 1, so the
+    bound is sqrt(m * m') with m, m' the minimum sensitive-edge counts on
+    each side. Examples: AND_n gives sqrt(n); PARITY_n gives n.
+
+    Status: certified lower bound on ADV(f) (and hence on ADV+-(f)) via an
+    explicit feasible relation; not the optimum over all relations, which
+    is hard in general. Deterministic (the previous implementation sampled
+    pairs with an unseeded RNG). Since Q2(f) = Theta(ADV+-(f)) with
+    constants below 1, this value is NOT claimed to be numerically
+    <= Q2(f); see the module docstring.
 
     Args:
         f: BooleanFunction to analyze
 
     Returns:
-        Ambainis adversary lower bound for quantum query complexity
+        Exact value of the sensitive-edge Ambainis bound
 
-    Note:
-        Computing the optimal R is NP-hard in general. This uses a heuristic.
+    References:
+        - Ambainis, "Quantum lower bounds by quantum arguments" (2002)
     """
     n = f.n_vars
     if n is None or n == 0:
         return 0.0
 
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
-    size = 1 << n
+    degrees = _sensitive_edge_degrees(truth_table, n)
 
-    # Collect 0-inputs and 1-inputs
-    zeros = [x for x in range(size) if not truth_table[x]]
-    ones = [x for x in range(size) if truth_table[x]]
-
-    if len(zeros) == 0 or len(ones) == 0:
+    zero_degrees = degrees[~truth_table]
+    one_degrees = degrees[truth_table]
+    if len(zero_degrees) == 0 or len(one_degrees) == 0:
         return 0.0  # Constant function
 
-    # Simple heuristic: use the "all-pairs" relation R(x,y) = 1 iff f(x) != f(y)
-    # For each pair, count Hamming distance
-
-    # For efficiency, sample if too many pairs
-    max_pairs = 10000
-    import random
-
-    if len(zeros) * len(ones) > max_pairs:
-        # Sample pairs
-        pairs = [(random.choice(zeros), random.choice(ones)) for _ in range(max_pairs)]
-    else:
-        pairs = [(z, o) for z in zeros for o in ones]
-
-    # Compute Hamming distances
-    min_hamming = n
-    for z, o in pairs:
-        h = bin(z ^ o).count("1")
-        min_hamming = min(min_hamming, h)
-
-    if min_hamming == 0:
-        return 0.0
-
-    # Ambainis bound approximation
-    # sqrt(|zeros| * |ones|) / min_hamming
-    return sqrt(len(zeros) * len(ones)) / min_hamming
+    m = int(zero_degrees[zero_degrees > 0].min())
+    m_prime = int(one_degrees[one_degrees > 0].min())
+    return sqrt(m * m_prime)
 
 
 def certificate_lower_bound(f: BooleanFunction) -> int:
@@ -803,9 +816,7 @@ def _sign_representable(sign_values: np.ndarray, n: int, degree: int) -> bool:
     # Constraint: -s(x) * p(x) <= -1 for every x.
     A_ub = -sign_values[:, None] * A
     b_ub = -np.ones(A.shape[0])
-    result = linprog(
-        np.zeros(k), A_ub=A_ub, b_ub=b_ub, bounds=[(None, None)] * k, method="highs"
-    )
+    result = linprog(np.zeros(k), A_ub=A_ub, b_ub=b_ub, bounds=[(None, None)] * k, method="highs")
     return bool(result.success)
 
 
@@ -875,41 +886,36 @@ def polynomial_method_bound(f: BooleanFunction) -> float:
 
 def general_adversary_bound(f: BooleanFunction) -> float:
     """
-    Estimate the general (negative-weight) adversary bound for Q2(f).
+    Compute a certified lower bound on the general adversary bound ADV+-(f).
 
-    The general adversary method with negative weights *characterizes*
+    The general (negative-weight) adversary bound characterizes
     bounded-error quantum query complexity for total Boolean functions:
+    Q2(f) = Theta(ADV+-(f)) (Hoyer-Lee-Spalek 2007; Reichardt 2011).
+    Computing ADV+-(f) exactly requires a semidefinite program, which this
+    library deliberately does not ship; for exact values see the pinned
+    quantum-query-optimizer fixtures in tests/cross_validation/.
 
-        Q2(f) = Θ(ADV±(f))
+    This function returns the best certified positive-weight witness we
+    evaluate exactly: max(spectral_adversary_bound, ambainis_complexity).
+    Both are feasible-solution values for ADV(f) <= ADV+-(f), so the
+    result is a true lower bound on ADV+-(f), never an overestimate.
 
-    This is the strongest known quantum lower bound technique.
+    Status: certified lower bound on ADV+-(f). Deterministic.
 
     Args:
         f: BooleanFunction to analyze
 
     Returns:
-        Estimated general adversary bound (approximation)
+        Certified lower bound on ADV+-(f)
 
-    Note:
-        Computing the exact ADV±(f) requires solving a semidefinite program.
-        This implementation provides a heuristic approximation combining
-        multiple lower bound techniques.
+    Raises:
+        ValueError: if n exceeds the dense-matrix size cap (n <= 12).
 
     References:
+        - Hoyer, Lee, Spalek, "Negative weights make adversaries stronger" (2007)
         - Reichardt, "Reflections for quantum query algorithms" (2011)
-        - Belovs (TQC 2024): dual polynomials → adversary bounds
     """
-    # The general adversary is at least as strong as:
-    # 1. Spectral adversary
-    # 2. Ambainis bound
-    # 3. Polynomial method / 2
-
-    spec_adv = spectral_adversary_bound(f)
-    amb = ambainis_complexity(f)
-    poly_bound = polynomial_method_bound(f)
-
-    # Take maximum of all known bounds
-    return max(spec_adv, amb, poly_bound)
+    return max(spectral_adversary_bound(f), ambainis_complexity(f))
 
 
 class QueryComplexityProfile:
