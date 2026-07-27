@@ -586,37 +586,94 @@ def block_sensitivity_lower_bound(f: BooleanFunction) -> int:
     return max_block_sensitivity(f)
 
 
-def approximate_degree(f: BooleanFunction, epsilon: float = 1 / 3) -> float:  # noqa: ARG001
+# Exact LP-based degree computations enumerate all 2^n inputs and up to
+# 2^n monomials; above this cap the LPs stop being interactive.
+_LP_MAX_VARS = 12
+
+
+def _character_matrix(n: int, degree: int) -> np.ndarray:
     """
-    Estimate the approximate degree deg_epsilon(f).
+    Build the matrix A with A[x, j] = chi_{S_j}(x) = (-1)^{|x & S_j|}.
 
-    The approximate degree is the minimum degree of a polynomial p such that
-    |p(x) - f(x)| <= epsilon for all x in {0,1}^n.
+    Columns enumerate all subsets S of [n] with |S| <= degree, so a real
+    polynomial of degree <= degree is exactly p(x) = A @ c for some
+    coefficient vector c (Fourier/character basis over {0,1}^n inputs).
+    """
+    from itertools import combinations
 
-    This is a lower bound for R2(f): R2(f) >= deg_1/3(f)
+    size = 1 << n
+    xs = np.arange(size)
+    columns = []
+    for d in range(degree + 1):
+        for subset in combinations(range(n), d):
+            parity = np.zeros(size, dtype=np.int64)
+            for i in subset:
+                parity ^= (xs >> i) & 1
+            columns.append(1.0 - 2.0 * parity)
+    return np.column_stack(columns)
+
+
+def _min_linf_error(f_values: np.ndarray, n: int, degree: int) -> float:
+    """
+    Exact minimum over degree-``degree`` real polynomials of
+    max_x |p(x) - f(x)|, via linear programming (variables: Fourier
+    coefficients c and the error t; minimize t).
+    """
+    from scipy.optimize import linprog
+
+    A = _character_matrix(n, degree)
+    size, k = A.shape
+    # Variables: [c_1..c_k, t]; minimize t subject to |A c - f| <= t.
+    objective = np.zeros(k + 1)
+    objective[-1] = 1.0
+    ones = np.ones((size, 1))
+    A_ub = np.block([[A, -ones], [-A, -ones]])
+    b_ub = np.concatenate([f_values, -f_values])
+    bounds = [(None, None)] * k + [(0.0, None)]
+    result = linprog(objective, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method="highs")
+    if not result.success:
+        raise RuntimeError(f"approximate-degree LP failed at degree {degree}: {result.message}")
+    return float(result.fun)
+
+
+def approximate_degree(f: BooleanFunction, epsilon: float = 1 / 3) -> int:
+    """
+    Compute deg_epsilon(f), the approximate degree (exact, via LP).
+
+    The approximate degree is the minimum degree of a real polynomial p
+    such that |p(x) - f(x)| <= epsilon for all x in {0,1}^n, with f
+    valued in {0, 1}. Computed exactly by solving one Chebyshev-style
+    linear program per candidate degree (scipy ``linprog``/HiGHS).
+
+    Status: exact (for n <= 12; raises ValueError above).
 
     Args:
         f: BooleanFunction to analyze
-        epsilon: Approximation parameter
+        epsilon: Approximation parameter (default 1/3)
 
     Returns:
-        Estimated approximate degree
+        The exact approximate degree (an integer)
 
-    Note:
-        Exact computation requires linear programming. This uses bounds.
+    Raises:
+        ValueError: if n exceeds the LP size cap.
     """
-    from .block_sensitivity import max_block_sensitivity
-
     n = f.n_vars
     if n is None or n == 0:
-        return 0.0
+        return 0
+    if n > _LP_MAX_VARS:
+        raise ValueError(
+            f"approximate_degree is computed exactly by LP and supports n <= {_LP_MAX_VARS}; "
+            f"got n = {n}"
+        )
 
-    bs = max_block_sensitivity(f)
-
-    # Lower bound: Omega(sqrt(bs(f)))
-    # For AND/OR: deg_1/3 = Theta(sqrt(n))
-
-    return sqrt(bs)
+    f_values = np.asarray(f.get_representation("truth_table"), dtype=float)
+    # LP optima are exact up to solver tolerance; the feasibility margin
+    # only needs to absorb that tolerance.
+    solver_slack = 1e-9
+    for degree in range(n + 1):
+        if _min_linf_error(f_values, n, degree) <= epsilon + solver_slack:
+            return degree
+    return n  # degree n always represents f exactly (error 0)
 
 
 def one_sided_approximate_degree(
@@ -733,54 +790,87 @@ def weak_nondeterministic_degree(f: BooleanFunction) -> float:
     return min(ndeg0, ndeg1)
 
 
+def _sign_representable(sign_values: np.ndarray, n: int, degree: int) -> bool:
+    """
+    Exact LP feasibility: does a degree-``degree`` real polynomial p exist
+    with sign(p(x)) = sign_values[x] for all x? Strict sign conditions are
+    scale-invariant, so feasibility of s(x) * p(x) >= 1 is equivalent.
+    """
+    from scipy.optimize import linprog
+
+    A = _character_matrix(n, degree)
+    _, k = A.shape
+    # Constraint: -s(x) * p(x) <= -1 for every x.
+    A_ub = -sign_values[:, None] * A
+    b_ub = -np.ones(A.shape[0])
+    result = linprog(
+        np.zeros(k), A_ub=A_ub, b_ub=b_ub, bounds=[(None, None)] * k, method="highs"
+    )
+    return bool(result.success)
+
+
 def threshold_degree(f: BooleanFunction) -> int:
     """
-    Compute the threshold degree of f (degree as a sign-polynomial).
+    Compute the threshold degree of f (exact, via LP).
 
-    The threshold degree is the minimum degree d such that there exists
-    a polynomial p of degree d with sign(p(x)) = f(x) for all x.
+    The threshold degree is the minimum degree d of a real polynomial p
+    with sign(p(x)) = (-1)^{f(x)} for all x (equivalently, p sign-
+    represents f). For example, every linear threshold function (AND, OR,
+    majority) has threshold degree 1, while parity on n variables has
+    threshold degree n.
+
+    Status: exact (for n <= 12; raises ValueError above).
 
     Args:
         f: BooleanFunction to analyze
 
     Returns:
-        Threshold degree
+        The exact threshold degree (an integer)
 
-    Note:
-        This equals the real degree for most Boolean functions.
+    Raises:
+        ValueError: if n exceeds the LP size cap.
     """
-    from ..analysis.fourier import fourier_degree
+    n = f.n_vars
+    if n is None or n == 0:
+        return 0
+    if n > _LP_MAX_VARS:
+        raise ValueError(
+            f"threshold_degree is computed exactly by LP and supports n <= {_LP_MAX_VARS}; "
+            f"got n = {n}"
+        )
 
-    # Threshold degree <= real degree
-    # For most functions they're equal
-    return fourier_degree(f)
+    truth_table = np.asarray(f.get_representation("truth_table"), dtype=float)
+    # O'Donnell sign convention: f(x) = 1 maps to -1, f(x) = 0 maps to +1.
+    sign_values = 1.0 - 2.0 * truth_table
+    for degree in range(n + 1):
+        if _sign_representable(sign_values, n, degree):
+            return degree
+    return n  # the exact multilinear representation sign-represents f
 
 
 def polynomial_method_bound(f: BooleanFunction) -> float:
     """
-    Compute lower bound on Q2(f) via the polynomial method.
+    Compute a lower bound on Q2(f) via the polynomial method.
 
-    The polynomial method shows that quantum algorithms induce low-degree
-    polynomials. Any quantum algorithm making T queries induces polynomials
-    of degree at most 2T representing acceptance probabilities.
+    A quantum algorithm making T queries induces acceptance-probability
+    polynomials of degree at most 2T, so Q2(f) >= deg_{1/3}(f) / 2
+    (Beals et al. 2001). Since ``approximate_degree`` is computed exactly
+    by LP, this is a certified lower bound, not an estimate.
 
-    Therefore: Q2(f) >= deg~(f)/2, where deg~(f) is the approximate degree.
-
-    For symmetric functions, this is often tight.
+    Status: certified lower bound on Q2(f) (for n <= 12).
 
     Args:
         f: BooleanFunction to analyze
 
     Returns:
-        Polynomial method lower bound for quantum query complexity
+        Polynomial-method lower bound for bounded-error quantum query
+        complexity
 
     References:
         - Beals et al., "Quantum lower bounds by polynomials" (2001)
         - Belovs, "A Direct Reduction from Polynomial to Adversary Method" (TQC 2024)
     """
-    # The polynomial method bound is deg~(f)/2
-    approx_deg = approximate_degree(f)
-    return approx_deg / 2
+    return approximate_degree(f) / 2
 
 
 def general_adversary_bound(f: BooleanFunction) -> float:
