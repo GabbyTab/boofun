@@ -1,0 +1,395 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prior-Art Survey: Method and Ledger &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Performance Guide" href="performance.html" />
+    <link rel="prev" title="Library Comparison" href="comparison_guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="statement_of_need.html">Statement of Need</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Prior-Art Survey: Method and Ledger</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#method">Method</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sources-and-query-strings">Sources and query strings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#verification-protocol">Verification protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inclusion-criteria">Inclusion criteria</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#candidate-ledger">Candidate ledger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#direct-or-materially-overlapping">Direct or materially overlapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#specialized-cryptographic">Specialized cryptographic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boolean-networks-systems-biology">Boolean networks / systems biology</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bdd-circuits-synthesis">BDD / circuits / synthesis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transform-kernels-no-function-analysis-semantics">Transform kernels (no function-analysis semantics)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#out-of-scope-adjacent-domains">Out of scope / adjacent domains</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#limitations-and-how-to-re-run">Limitations and how to re-run</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Prior-Art Survey: Method and Ledger</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/prior_art_survey.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="prior-art-survey-method-and-ledger">
+<h1>Prior-Art Survey: Method and Ledger<a class="headerlink" href="#prior-art-survey-method-and-ledger" title="Link to this heading"></a></h1>
+<p>This page documents <em>how</em> the prior-art survey behind the
+<a class="reference internal" href="comparison_guide.html"><span class="std std-doc">comparison guide</span></a>, the
+<a class="reference internal" href="statement_of_need.html"><span class="std std-doc">statement of need</span></a>, and the JOSS paper’s “State of
+the field” section was carried out, so that the survey’s central claim is
+reproducible and datable rather than an assertion.</p>
+<p><strong>Survey date: 26 July 2026.</strong></p>
+<p><strong>Claim supported.</strong> As of the survey date, no located package combines
+BooFun’s three-part focus — Fourier-analytic Boolean-function measures,
+property testing, and query complexity — in one library. CircuitGraph is
+the clearest <em>published</em> partial overlap (influence and average sensitivity
+via model counting); fbool is the closest <em>unpublished</em> one (Fourier
+metrics, influence, sensitivity, certificate complexity). This is a scoped,
+dated search result, not proof of absence.</p>
+<section id="method">
+<h2>Method<a class="headerlink" href="#method" title="Link to this heading"></a></h2>
+<p>The survey ran keyword searches against the sources below, then verified
+every candidate against primary sources before classifying it.</p>
+<section id="sources-and-query-strings">
+<h3>Sources and query strings<a class="headerlink" href="#sources-and-query-strings" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Source</p></th>
+<th class="head"><p>Queries run</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>JOSS paper search (<code class="docutils literal notranslate"><span class="pre">joss.theoj.org</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Boolean</span> <span class="pre">function</span></code>, <code class="docutils literal notranslate"><span class="pre">Boolean</span> <span class="pre">network</span></code>, <code class="docutils literal notranslate"><span class="pre">S-box</span></code>, <code class="docutils literal notranslate"><span class="pre">binary</span> <span class="pre">decision</span> <span class="pre">diagram</span></code>, <code class="docutils literal notranslate"><span class="pre">property</span> <span class="pre">testing</span></code>, <code class="docutils literal notranslate"><span class="pre">query</span> <span class="pre">complexity</span></code>, <code class="docutils literal notranslate"><span class="pre">Walsh</span></code>, <code class="docutils literal notranslate"><span class="pre">Fourier</span> <span class="pre">analysis</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Crossref REST API (<code class="docutils literal notranslate"><span class="pre">api.crossref.org/works</span></code>)</p></td>
+<td><p>bibliographic queries for each candidate’s title/authors, and direct DOI record fetches to verify venue, year, authors, and title of every citation used</p></td>
+</tr>
+<tr class="row-even"><td><p>PyPI (<code class="docutils literal notranslate"><span class="pre">pypi.org/search</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">boolean</span> <span class="pre">function</span></code>, <code class="docutils literal notranslate"><span class="pre">walsh</span> <span class="pre">hadamard</span></code>, <code class="docutils literal notranslate"><span class="pre">boolean</span> <span class="pre">fourier</span></code>, <code class="docutils literal notranslate"><span class="pre">s-box</span></code>, <code class="docutils literal notranslate"><span class="pre">property</span> <span class="pre">testing</span></code>, <code class="docutils literal notranslate"><span class="pre">canalization</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>CRAN (incl. archive)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">boolean</span></code>, <code class="docutils literal notranslate"><span class="pre">boolfun</span></code>; archive status checked at <code class="docutils literal notranslate"><span class="pre">cran.r-project.org/src/contrib/Archive/</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>crates.io</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">boolean</span> <span class="pre">function</span></code>, <code class="docutils literal notranslate"><span class="pre">walsh</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>GitHub search</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">boolean</span> <span class="pre">function</span> <span class="pre">analysis</span></code>, <code class="docutils literal notranslate"><span class="pre">boolean</span> <span class="pre">function</span> <span class="pre">library</span></code>, <code class="docutils literal notranslate"><span class="pre">walsh</span> <span class="pre">spectrum</span></code>, topic <code class="docutils literal notranslate"><span class="pre">boolean-functions</span></code>; plus direct lookups of every named candidate</p></td>
+</tr>
+<tr class="row-even"><td><p>Julia registry (<code class="docutils literal notranslate"><span class="pre">juliapackages.com</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">walsh</span></code>, <code class="docutils literal notranslate"><span class="pre">hadamard</span></code>, <code class="docutils literal notranslate"><span class="pre">boolean</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>General web search (dated engine results)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">package</span> <span class="pre">&quot;analysis</span> <span class="pre">of</span> <span class="pre">Boolean</span> <span class="pre">functions&quot;</span> <span class="pre">Fourier</span> <span class="pre">influence</span> <span class="pre">noise</span> <span class="pre">stability</span> <span class="pre">library</span></code>, <code class="docutils literal notranslate"><span class="pre">Julia</span> <span class="pre">package</span> <span class="pre">Boolean</span> <span class="pre">functions</span> <span class="pre">Walsh</span> <span class="pre">Hadamard</span> <span class="pre">influence</span> <span class="pre">sensitivity</span></code>, <code class="docutils literal notranslate"><span class="pre">cryptographic</span> <span class="pre">Boolean</span> <span class="pre">functions</span> <span class="pre">MATLAB</span> <span class="pre">toolbox</span> <span class="pre">nonlinearity</span> <span class="pre">Walsh</span> <span class="pre">spectrum</span> <span class="pre">algebraic</span> <span class="pre">immunity</span></code>, <code class="docutils literal notranslate"><span class="pre">property</span> <span class="pre">testing</span> <span class="pre">library</span> <span class="pre">junta</span> <span class="pre">monotonicity</span> <span class="pre">software</span> <span class="pre">implementation</span></code>, <code class="docutils literal notranslate"><span class="pre">software</span> <span class="pre">hypercontractivity</span> <span class="pre">noise</span> <span class="pre">operator</span> <span class="pre">Boolean</span> <span class="pre">cube</span> <span class="pre">implementation</span></code>, <code class="docutils literal notranslate"><span class="pre">Banzhaf</span> <span class="pre">Shapley</span> <span class="pre">power</span> <span class="pre">index</span> <span class="pre">Python</span> <span class="pre">library</span></code>, <code class="docutils literal notranslate"><span class="pre">py-aiger-spectral</span> <span class="pre">Boolan</span> <span class="pre">Fourier</span> <span class="pre">boolean</span> <span class="pre">functions</span></code>, <code class="docutils literal notranslate"><span class="pre">JOSS</span> <span class="pre">Boolean</span> <span class="pre">function</span> <span class="pre">property</span> <span class="pre">testing</span> <span class="pre">package</span> <span class="pre">2022..2026</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="verification-protocol">
+<h3>Verification protocol<a class="headerlink" href="#verification-protocol" title="Link to this heading"></a></h3>
+<p>For each candidate surfaced by any query:</p>
+<ol class="arabic simple">
+<li><p>Locate the primary artifact (repository and/or package registry entry).</p></li>
+<li><p>If a paper is claimed, verify its metadata (venue, year, DOI, authors)
+through Crossref or the publisher — not through secondary mentions.</p></li>
+<li><p>Establish capabilities from the project’s <em>documented public API</em>
+(API reference, README examples), not from abstracts or taglines.</p></li>
+<li><p>Record maintenance status (last release/commit, archived flags).</p></li>
+</ol>
+</section>
+<section id="inclusion-criteria">
+<h3>Inclusion criteria<a class="headerlink" href="#inclusion-criteria" title="Link to this heading"></a></h3>
+<p>A system enters the comparison documents if it computes function-level
+analytic quantities of Boolean functions (spectra, influence, sensitivity,
+complexity measures, testing, cryptographic criteria) through a public API.
+Systems are classified as: <strong>direct overlap</strong> (shares part of BooFun’s
+Fourier/testing/complexity core), <strong>specialized cryptographic</strong>,
+<strong>networks/biology</strong>, <strong>BDD/circuits/synthesis</strong>, <strong>transform kernels</strong>
+(fast transforms without function-analysis semantics), or <strong>out of scope</strong>.</p>
+</section>
+</section>
+<section id="candidate-ledger">
+<h2>Candidate ledger<a class="headerlink" href="#candidate-ledger" title="Link to this heading"></a></h2>
+<p>Every system evaluated, including rejections — so a future re-run can diff
+against this list.</p>
+<section id="direct-or-materially-overlapping">
+<h3>Direct or materially overlapping<a class="headerlink" href="#direct-or-materially-overlapping" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>System</p></th>
+<th class="head"><p>Evidence checked</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>boolfun (R)</p></td>
+<td><p>R Journal 2011, <a class="reference external" href="https://doi.org/10.32614/RJ-2011-007">DOI</a>; CRAN archive</p></td>
+<td><p>Peer-reviewed scalar crypto predecessor; archived 2012</p></td>
+</tr>
+<tr class="row-odd"><td><p>VBF (C++)</p></td>
+<td><p>ACM TOMS 2016, <a class="reference external" href="https://doi.org/10.1145/2794077">DOI</a>; manual</p></td>
+<td><p>Peer-reviewed vectorial crypto predecessor</p></td>
+</tr>
+<tr class="row-even"><td><p>fbool (Rust + Python)</p></td>
+<td><p>GitHub README/API, PyPI, v0.2.0 tag</p></td>
+<td><p>Closest modern Fourier-analytic neighbor; not peer reviewed</p></td>
+</tr>
+<tr class="row-odd"><td><p>py-aiger-spectral</p></td>
+<td><p>GitHub README</p></td>
+<td><p>Fourier coefficients/degree weights over AIGs; no release or paper</p></td>
+</tr>
+<tr class="row-even"><td><p>Boolan</p></td>
+<td><p>GitHub README</p></td>
+<td><p>Small unmaintained package: influences, degree weights, variance, noise sensitivity</p></td>
+</tr>
+<tr class="row-odd"><td><p>CircuitGraph</p></td>
+<td><p>JOSS 2020, <a class="reference external" href="https://doi.org/10.21105/joss.02646">DOI</a>; API docs</p></td>
+<td><p>Influence + average sensitivity via model counting</p></td>
+</tr>
+<tr class="row-even"><td><p>QuantumQueryOptimizer</p></td>
+<td><p>ESA 2023, <a class="reference external" href="https://doi.org/10.4230/LIPIcs.ESA.2023.36">DOI</a></p></td>
+<td><p>Exact general-adversary SDP; used as a pinned cross-validation reference for BooFun’s certified adversary lower bounds</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aaronson’s Boolean Function Wizard</p></td>
+<td><p>paper (2000)</p></td>
+<td><p>Historical query-complexity lineage; unmaintained</p></td>
+</tr>
+<tr class="row-even"><td><p>Avishay Tal’s scripts</p></td>
+<td><p>course materials</p></td>
+<td><p>Reference implementations, not a versioned package</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="specialized-cryptographic">
+<h3>Specialized cryptographic<a class="headerlink" href="#specialized-cryptographic" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>System</p></th>
+<th class="head"><p>Evidence checked</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SageMath <code class="docutils literal notranslate"><span class="pre">sage.crypto.boolean_function</span></code></p></td>
+<td><p>Sage reference docs</p></td>
+<td><p>Walsh spectrum, nonlinearity, algebraic immunity; used as a pinned fixture reference</p></td>
+</tr>
+<tr class="row-odd"><td><p>sboxU</p></td>
+<td><p>GitHub</p></td>
+<td><p>Sage/C++ S-box cryptanalysis; APN, equivalence</p></td>
+</tr>
+<tr class="row-even"><td><p>BooLSPLG</p></td>
+<td><p>Mathematics 2023, <a class="reference external" href="https://doi.org/10.3390/math11081864">DOI</a></p></td>
+<td><p>Peer-reviewed CUDA C/C++ GPU library; Walsh/autocorrelation spectra, nonlinearity, degree, LAT/DDT, n ≤ 20</p></td>
+</tr>
+<tr class="row-odd"><td><p>BoolCrypt</p></td>
+<td><p>GitHub; <a class="reference external" href="https://eprint.iacr.org/2022/428">ePrint 2022/428</a></p></td>
+<td><p>Sage-based vectorial functions; affine/CCZ equivalence via SAT</p></td>
+</tr>
+<tr class="row-even"><td><p>PEIGEN</p></td>
+<td><p>IACR ToSC 2019</p></td>
+<td><p>S-box evaluation/implementation/generation platform</p></td>
+</tr>
+<tr class="row-odd"><td><p>BSbox-tools</p></td>
+<td><p>project page</p></td>
+<td><p>Menu-driven predecessor from the BooLSPLG group; subsumed by BooLSPLG here</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">boolean_function</span></code> (Rust crate)</p></td>
+<td><p>crates.io, docs.rs</p></td>
+<td><p>Crypto properties in Rust; cross-validation candidate (<a class="reference external" href="https://github.com/GabbyTab/boofun/issues/116">#116</a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>boolbox</p></td>
+<td><p>GitHub</p></td>
+<td><p>ANF/Möbius + quantum-circuit synthesis; pre-release, not on PyPI — below maturity threshold</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="boolean-networks-systems-biology">
+<h3>Boolean networks / systems biology<a class="headerlink" href="#boolean-networks-systems-biology" title="Link to this heading"></a></h3>
+<p>BoolForge (arXiv:2509.02496; live cross-validation reference), CANA
+(Frontiers in Physiology 2018; Bioinformatics 2025), pyboolnet, biobalm,
+PyDrugLogics, emba, NORDic. Network-level dynamics; function-level
+activities/sensitivity overlap only.</p>
+</section>
+<section id="bdd-circuits-synthesis">
+<h3>BDD / circuits / synthesis<a class="headerlink" href="#bdd-circuits-synthesis" title="Link to this heading"></a></h3>
+<p>pyeda, Biddy (JOSS 2019), sboxgates (JOSS 2021), CUDD, ABC, espresso.
+Representation and synthesis, not spectral analysis.</p>
+</section>
+<section id="transform-kernels-no-function-analysis-semantics">
+<h3>Transform kernels (no function-analysis semantics)<a class="headerlink" href="#transform-kernels-no-function-analysis-semantics" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>System</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>pyfwht / libfwht</p></td>
+<td><p>CPU/OpenMP/CUDA fast Walsh–Hadamard transforms; an optional BooFun dependency, not a competing analysis library</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hadamard.jl (absorbed Walsh.jl)</p></td>
+<td><p>Julia FWHT kernels</p></td>
+</tr>
+<tr class="row-even"><td><p>SymPy <code class="docutils literal notranslate"><span class="pre">fwht</span></code></p></td>
+<td><p>Transform function only</p></td>
+</tr>
+<tr class="row-odd"><td><p>SPbLA</p></td>
+<td><p>Sparse linear algebra over the Boolean semiring; terminological, not functional, overlap</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="out-of-scope-adjacent-domains">
+<h3>Out of scope / adjacent domains<a class="headerlink" href="#out-of-scope-adjacent-domains" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>Power-index packages</strong> (powerindex, powerindices, tucoopy,
+CooperativeGames, power-bdd): Banzhaf/Shapley–Shubik for weighted voting
+games via dynamic programming or BDDs. No Fourier machinery; adjacent
+only through the influence ↔ Banzhaf correspondence.</p></li>
+<li><p><strong>Boolin.jl</strong>: small helpers mirroring Mathematica’s <code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code>.</p></li>
+<li><p><strong>Mathematica</strong> (<code class="docutils literal notranslate"><span class="pre">BooleanFunction</span></code>, <code class="docutils literal notranslate"><span class="pre">BooleanConvert</span></code>,
+<code class="docutils literal notranslate"><span class="pre">BooleanMinimize</span></code>): symbolic manipulation and minimization; no
+documented spectral/influence analysis.</p></li>
+<li><p><strong>MATLAB</strong>: no located dedicated Boolean-function analysis toolbox
+(<code class="docutils literal notranslate"><span class="pre">fwht</span></code> transform only).</p></li>
+</ul>
+</section>
+</section>
+<section id="limitations-and-how-to-re-run">
+<h2>Limitations and how to re-run<a class="headerlink" href="#limitations-and-how-to-re-run" title="Link to this heading"></a></h2>
+<p>The survey is limited to English-language, indexed sources on the survey
+date; capability judgments rest on documented public APIs, and undocumented
+features would be missed. To update it: re-run the queries in the table
+above, diff new candidates against the ledger, verify any additions via the
+protocol, and bump the survey date everywhere it appears (this page, the
+comparison guide, the statement of need, and the paper).</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="comparison_guide.html" class="btn btn-neutral float-left" title="Library Comparison" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="performance.html" class="btn btn-neutral float-right" title="Performance Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

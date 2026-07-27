@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Statement of Need &mdash; BooFun 1.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6efca38a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Spectral Analysis Guide" href="guides/spectral_analysis.html" />
+    <link rel="prev" title="Quick Start" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            BooFun
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Statement of Need</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-gap">The gap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-boofun-provides">What BooFun provides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#who-it-is-for">Who it is for</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#relation-to-existing-software">Relation to existing software</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#design-commitments">Design commitments</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/spectral_analysis.html">Spectral Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/query_complexity.html">Query Complexity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/hypercontractivity.html">Hypercontractivity Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/cryptographic.html">Cryptographic Analysis Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/learning.html">Learning Theory Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/representations.html">Representations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/operations.html">Function Operations Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/families.html">Function Families and Growth Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/probabilistic.html">Probabilistic View &amp; Pseudorandomness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/advanced.html">Advanced Topics Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/migration_from_tal.html">Migration from Tal’s BooleanFunc.py</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparison_guide.html">Library Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="prior_art_survey.html">Prior-Art Survey: Method and Ledger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="performance.html">Performance Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="error_handling.html">Error Handling in BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross_validation.html">Cross-Validation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributing:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing to BooFun</a></li>
+<li class="toctree-l1"><a class="reference internal" href="STYLE_GUIDE.html">BooFun Style Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TEST_GUIDELINES.html">Test Guidelines</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/boofun.html">boofun</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BooFun</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Statement of Need</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/statement_of_need.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="statement-of-need">
+<h1>Statement of Need<a class="headerlink" href="#statement-of-need" title="Link to this heading"></a></h1>
+<section id="the-gap">
+<h2>The gap<a class="headerlink" href="#the-gap" title="Link to this heading"></a></h2>
+<p>Analysis of Boolean functions is foundational in theoretical computer
+science, with applications to property testing, learning theory,
+pseudorandomness, circuit complexity, social choice, and cryptography. The
+resources available to someone who wants to <em>compute</em> in this field are
+split across four disconnected worlds:</p>
+<ul class="simple">
+<li><p><strong>Textbook exposition</strong> (O’Donnell’s <em>Analysis of Boolean Functions</em> and
+course notes) presents the mathematics but leaves computation to the
+reader.</p></li>
+<li><p><strong>One-off research scripts</strong> implement exactly what one paper needed, are
+rarely packaged or versioned, and encode undocumented conventions.</p></li>
+<li><p><strong>Computer-algebra systems</strong> such as SageMath cover parts of the area, but
+require adopting an entire environment rather than a <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code>.</p></li>
+<li><p><strong>Domain-specific high-performance packages</strong> go deep on one topic (e.g.
+S-box analysis) without covering the broader analysis toolkit.</p></li>
+</ul>
+<p>The practical consequence: researchers and students reimplement truth-table
+operations, Fourier transforms, influences, and complexity measures from
+scratch before they can test an idea — and every reimplementation is a fresh
+opportunity for convention bugs (<code class="docutils literal notranslate"><span class="pre">{0,1}</span></code> vs. <code class="docutils literal notranslate"><span class="pre">{-1,+1}</span></code> encodings, bit
+ordering, normalization).</p>
+</section>
+<section id="what-boofun-provides">
+<h2>What BooFun provides<a class="headerlink" href="#what-boofun-provides" title="Link to this heading"></a></h2>
+<p>BooFun fills the reproducible-experiment and teaching gap:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">boofun</span></code> gives a conventional Python package (Python 3.10+,
+NumPy-based core, everything else optional).</p></li>
+<li><p>A fluent API makes textbook operations directly executable in notebooks:
+<code class="docutils literal notranslate"><span class="pre">bf.majority(5).fourier()</span></code>, <code class="docutils literal notranslate"><span class="pre">.influences()</span></code>, <code class="docutils literal notranslate"><span class="pre">.noise_stability(0.9)</span></code>.</p></li>
+<li><p>A representation layer supports truth tables (dense, sparse, packed),
+Fourier expansions, algebraic normal form, DNF/CNF, decision diagrams,
+circuits, and threshold functions behind one interface, with automatic
+conversion along a cost-aware conversion graph.</p></li>
+<li><p>The test suite (3,800+ tests) encodes mathematical identities and
+cross-validates independent computation paths against closed-form results
+for standard families; see <a class="reference internal" href="cross_validation.html"><span class="doc">Cross-Validation</span></a>.</p></li>
+<li><p>Twenty-five course-aligned notebooks connect the computations to
+O’Donnell’s textbook and graduate course topics.</p></li>
+</ul>
+</section>
+<section id="who-it-is-for">
+<h2>Who it is for<a class="headerlink" href="#who-it-is-for" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Primary</strong>: theoretical computer science students and researchers who
+need small- to medium-scale computational experiments (typical
+truth-table workloads: up to roughly n = 20 variables, depending on the
+operation and installed extras).</p></li>
+<li><p><strong>Secondary</strong>: cryptographers evaluating Boolean functions and S-boxes,
+and instructors teaching Fourier analysis or property testing.</p></li>
+</ul>
+</section>
+<section id="relation-to-existing-software">
+<h2>Relation to existing software<a class="headerlink" href="#relation-to-existing-software" title="Link to this heading"></a></h2>
+<p>BooFun is designed to complement, not replace, the existing ecosystem.</p>
+<p><strong>SageMath</strong> provides Boolean-function and S-box functionality inside a
+broad computer-algebra environment. It is strong for algebraic and
+cryptographic workflows but requires the Sage environment. BooFun’s
+differentiators are ordinary Python packaging, a fluent notebook-oriented
+API, integrated coverage of query complexity, hypercontractivity, and
+learning algorithms, and explicit cross-validation.</p>
+<p>The R package
+<strong><a class="reference external" href="https://doi.org/10.32614/RJ-2011-007">boolfun</a></strong> and the C++ library
+<strong><a class="reference external" href="https://doi.org/10.1145/2794077">VBF</a></strong> are peer-reviewed predecessors
+for scalar and vectorial cryptographic analysis, respectively. <strong>sboxU</strong>
+(Perrin et al.) is a Sage/Python interface to a performance-oriented C++
+library for vectorial Boolean functions, S-box analysis, APN functions, and
+equivalence problems.
+<strong><a class="reference external" href="https://doi.org/10.3390/math11081864">BooLSPLG</a></strong> (2023) is a
+peer-reviewed CUDA C/C++ library computing Walsh spectra, nonlinearity,
+autocorrelation, algebraic degree, and LAT/DDT on GPUs. These tools are
+deeper than BooFun in their cryptographic domains. BooFun’s S-box functions are complementary and easier
+to access from a standard scientific Python environment; first-class
+vectorial Boolean functions are future work.</p>
+<p><strong><a class="reference external" href="https://github.com/edugzlez/fbool">fbool</a></strong> v0.2.0 is a young Rust
+library with Python bindings and one of the closest modern overlaps:
+Fourier/Walsh coefficients, influences, sensitivity, Fourier degree,
+nonlinearity, and certificate complexity. It additionally emphasizes
+entropy, fragmentation, and exact small-circuit data. BooFun covers a
+broader TCS curriculum and representation system; fbool supplies an
+independently implemented comparison target for several exact quantities.</p>
+<p><strong>Avishay Tal’s course and research scripts</strong> (<code class="docutils literal notranslate"><span class="pre">BooleanFunc.py</span></code> and
+relatives) motivated part of BooFun’s API. They are useful reference
+implementations but not a maintained, versioned package with BooFun’s
+representation architecture, documentation, and validation infrastructure.
+The <a class="reference internal" href="guides/migration_from_tal.html"><span class="doc">Migration from Tal’s BooleanFunc.py</span></a> documents correspondences and
+convention differences.</p>
+<p><strong><a class="reference external" href="https://doi.org/10.21105/joss.02646">CircuitGraph</a></strong> represents Boolean
+circuits and computes per-input influence and average sensitivity using
+exact or approximate model counting. This is material overlap, but its
+primary object and purpose are circuit manipulation rather than a general
+analysis-of-Boolean-functions toolkit.</p>
+<p><strong>BoolForge</strong> (Kadelka and Coberly) generates and analyzes Boolean functions
+and networks with prescribed canalization structure.
+<strong><a class="reference external" href="https://doi.org/10.1093/bioinformatics/btaf461">CANA</a></strong> studies logical
+redundancy, input symmetry, dynamics, and control in automata networks.
+These projects target systems biology and network science. Their notions of
+canalization are not all interchangeable with BooFun’s classic canalizing
+depth; BoolForge’s overlapping function-level quantities are used for
+cross-validation in BooFun’s test suite.</p>
+<p><strong>Scott Aaronson’s Boolean Function Wizard</strong> (2000) is part of the
+query-complexity lineage and a historical inspiration for the complexity
+module.
+<strong><a class="reference external" href="https://doi.org/10.4230/LIPIcs.ESA.2023.36">QuantumQueryOptimizer</a></strong>
+solves general-adversary semidefinite programs and constructs query-optimal
+quantum algorithms. BooFun instead exposes a broad complexity profile in
+which every quantity is labeled exact, certified lower bound, or clamped
+estimate, and its certified adversary lower bounds are cross-validated
+against pinned QuantumQueryOptimizer SDP optima.</p>
+<p>A survey of JOSS papers, indexed metadata, and package registries through
+26 July 2026 found no package with BooFun’s <em>combined</em> focus on
+Fourier-analytic Boolean function measures, property testing, and query
+complexity. CircuitGraph is a significant partial overlap; other JOSS
+packages found in the survey focus on BDDs, S-box circuit synthesis,
+Boolean-network applications, or Boolean-semiring linear algebra. This is a
+dated, scoped survey result, not an assertion that no other partially
+overlapping software exists. The sources, query strings, verification
+protocol, and full candidate ledger are documented in the
+<a class="reference internal" href="prior_art_survey.html"><span class="doc">prior-art survey log</span></a>.</p>
+</section>
+<section id="design-commitments">
+<h2>Design commitments<a class="headerlink" href="#design-commitments" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>One convention, stated everywhere</strong>: the O’Donnell standard (Boolean
+0 → +1, 1 → −1), so that f̂(∅) = E[f].</p></li>
+<li><p><strong>Verifiable claims</strong>: numerical outputs are checked against closed-form
+results, redundant internal computation paths, and independent software
+where definitions overlap — against <em>pinned</em> reference versions
+(SageMath 10.9 via digest-pinned Docker fixtures; BoolForge v1.0.1
+commit-pinned in a scheduled CI job), with every claim, family range, and
+tolerance recorded in the <a class="reference internal" href="cross_validation.html"><span class="doc">cross-validation claim matrix</span></a>.</p></li>
+<li><p><strong>Quality gates in CI</strong>: strict mypy (zero errors), a zero-warning Ruff
+profile, and an enforced line-and-branch coverage floor on every pull
+request.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quick Start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="guides/spectral_analysis.html" class="btn btn-neutral float-right" title="Spectral Analysis Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024-2026, Gabriel Taboada.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
