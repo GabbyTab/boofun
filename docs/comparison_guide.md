@@ -264,7 +264,7 @@ pip install cana        # CANA
 pip install pyeda       # pyeda
 ```
 
-VBF is a C++/NTL library built from [source](https://github.com/jacvbf/VBF).
+VBF is a C++/NTL library built from [source](https://github.com/jacubero/VBF).
 
 ## Prior Art
 

@@ -45,12 +45,12 @@ announcement is timing-sensitive.
 
 Matches the v1.3.0 post so precedent and template agree:
 
-```markdown
+````markdown
 BooFun **vX.Y.Z** is out! 🎉
 
-​```bash
+```bash
 pip install --upgrade boofun
-​```
+```
 
 <One-paragraph theme: what this release is about and why it matters.>
 
@@ -67,7 +67,7 @@ Full details: [CHANGELOG](https://github.com/GabbyTab/boofun/blob/main/CHANGELOG
 
 Feedback and bug reports welcome — [issues](https://github.com/GabbyTab/boofun/issues)
 · [discussions](https://github.com/GabbyTab/boofun/discussions).
-```
+````
 
 ## Notes
 

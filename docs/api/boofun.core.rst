@@ -19,7 +19,6 @@ boofun.core
    errormodels
    factory
    gpu
-   gpu_acceleration
    io
    legacy_adapter
    numba_optimizations
