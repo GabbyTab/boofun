@@ -525,12 +525,15 @@ def spectral_adversary_bound(f: BooleanFunction) -> float:
 
     # Largest singular value of M (||Gamma o D_i|| = 1 for every direction i
     # that contains a sensitive edge, since each restriction is a matching).
-    if min(M.shape) <= 2:
-        return float(np.linalg.norm(M, 2))
+    if min(M.shape) <= 1024:
+        # Dense symmetric eigensolve on the smaller Gram matrix: exact and
+        # bit-for-bit deterministic (ARPACK/Lanczos is not).
+        gram = M @ M.T if M.shape[0] <= M.shape[1] else M.T @ M
+        return float(np.sqrt(max(np.linalg.eigvalsh(gram)[-1], 0.0)))
     from scipy.sparse.linalg import svds
 
-    # Fixed starting vector keeps the Lanczos iteration bit-for-bit
-    # deterministic across calls.
+    # Rare path (n >= 11 with a large bipartition): Lanczos with a fixed
+    # starting vector; deterministic up to floating-point reduction order.
     v0 = np.ones(min(M.shape))
     return float(svds(M, k=1, v0=v0, return_singular_vectors=False)[0])
 
