@@ -41,6 +41,7 @@ Tools for Fourier analysis, property testing, and complexity measures of Boolean
 
    architecture
    comparison_guide
+   prior_art_survey
    performance
    error_handling
    cross_validation

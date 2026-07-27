@@ -310,6 +310,10 @@ Direct and materially overlapping software:
   small AIGER-based Python package for Fourier coefficients, degree weights,
   mean, variance, and covariance. It has no tagged release or paper, but is
   relevant direct software prior art.
+- **[Boolan](https://github.com/JellePiepenbrock/Boolan)**: a small,
+  unmaintained Python package computing influences, degree-weight profiles,
+  variance, and noise sensitivity from the Fourier expansion. Minimal, but
+  direct prior art for BooFun's core Fourier quantities.
 - **[CircuitGraph](https://doi.org/10.21105/joss.02646)** (JOSS 2020):
   Boolean-circuit manipulation with exact or approximate model-counting
   routines for per-input influence and average sensitivity. This is material
@@ -322,6 +326,19 @@ Direct and materially overlapping software:
 
 Adjacent ecosystems:
 
+- **[BooLSPLG](https://doi.org/10.3390/math11081864)** (Bikov, Bouyukliev &
+  Dzhumalieva-Stoeva, *Mathematics* 2023) is a peer-reviewed CUDA C/C++
+  library computing Walsh and autocorrelation spectra, nonlinearity,
+  algebraic degree/ANF, and LAT/DDT for Boolean functions and S-boxes up to
+  n = 20 on GPUs. **[BoolCrypt](https://github.com/ranea/BoolCrypt)** (2022)
+  is a Sage-based library for vectorial Boolean functions focused on
+  affine/CCZ equivalence via SAT solvers, and **PEIGEN** (IACR ToSC 2019)
+  evaluates and generates S-boxes. All are cryptographic specialists
+  complementary to BooFun's TCS suite.
+- Transform kernels such as **[pyfwht](https://pypi.org/project/pyfwht/)**
+  (CPU/OpenMP/CUDA fast Walsh–Hadamard transforms — an optional BooFun
+  dependency) and Julia's Hadamard.jl provide the low-level transform
+  without function-analysis semantics.
 - **BoolForge** and **CANA** focus on canalization and Boolean/automata
   networks. CANA's prime-implicant redundancy and schema symmetry are not
   interchangeable with BooFun's classic canalizing depth and variable
@@ -334,15 +351,16 @@ Adjacent ecosystems:
   scope. SPbLA operates on sparse matrices over the Boolean semiring and is
   terminologically, rather than functionally, adjacent.
 
-A targeted survey of JOSS papers and indexed metadata through **26 July
-2026** found no package with BooFun's *combined* focus on Fourier-analytic
-Boolean-function measures, property testing, and query complexity.
-CircuitGraph is the clearest partial overlap. This is a dated, scoped search
+A survey of JOSS papers, indexed metadata, and package registries through
+**26 July 2026** found no package with BooFun's *combined* focus on
+Fourier-analytic Boolean-function measures, property testing, and query
+complexity. CircuitGraph is the clearest published partial overlap, and
+fbool the closest unpublished one. This is a dated, scoped search
 result—not an exhaustive claim that no other overlapping software exists.
-The survey used targeted JOSS and bibliographic searches for Boolean
-functions, Fourier analysis, influence, property testing, query complexity,
-S-boxes, BDDs, and Boolean networks, followed by checks of each project's
-paper and public API.
+The exact sources, query strings, verification protocol, inclusion
+criteria, and the full candidate ledger (including rejected candidates) are
+documented in the reproducible survey log:
+[Prior-art survey: method and ledger](prior_art_survey.md).
 
 ## References
 
@@ -359,6 +377,9 @@ paper and public API.
 - Czekanski, M., Kimmel, S. & Witter, R. T. (2023). "Robust and
   Space-Efficient Dual Adversary Quantum Query Algorithms." ESA 2023.
   <https://doi.org/10.4230/LIPIcs.ESA.2023.36>
+- Bikov, D., Bouyukliev, I. & Dzhumalieva-Stoeva, M. (2023). "BooLSPLG: A
+  Library with Parallel Algorithms for Boolean Functions and S-Boxes for
+  GPU." *Mathematics* 11(8), 1864. <https://doi.org/10.3390/math11081864>
 - Correia, R. B. et al. (2018). "CANA: A Python Package for Quantifying
   Control and Canalization in Boolean Networks." *Frontiers in Physiology*.
   <https://doi.org/10.3389/fphys.2018.01046>

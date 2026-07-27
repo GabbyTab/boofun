@@ -68,8 +68,11 @@ The R package
 for scalar and vectorial cryptographic analysis, respectively. **sboxU**
 (Perrin et al.) is a Sage/Python interface to a performance-oriented C++
 library for vectorial Boolean functions, S-box analysis, APN functions, and
-equivalence problems. These tools are deeper than BooFun in their
-cryptographic domains. BooFun's S-box functions are complementary and easier
+equivalence problems.
+**[BooLSPLG](https://doi.org/10.3390/math11081864)** (2023) is a
+peer-reviewed CUDA C/C++ library computing Walsh spectra, nonlinearity,
+autocorrelation, algebraic degree, and LAT/DDT on GPUs. These tools are
+deeper than BooFun in their cryptographic domains. BooFun's S-box functions are complementary and easier
 to access from a standard scientific Python environment; first-class
 vectorial Boolean functions are future work.
 
@@ -111,13 +114,16 @@ solves general-adversary semidefinite programs and constructs query-optimal
 quantum algorithms. BooFun instead exposes a broad exploratory profile and
 labels non-exact randomized and quantum quantities as estimates.
 
-A targeted survey of JOSS papers and indexed metadata through 26 July 2026
-found no package with BooFun's *combined* focus on Fourier-analytic Boolean
-function measures, property testing, and query complexity. CircuitGraph is
-a significant partial overlap; other JOSS packages found in the survey
-focus on BDDs, S-box circuit synthesis, Boolean-network applications, or
-Boolean-semiring linear algebra. This is a dated, scoped survey result, not
-an assertion that no other partially overlapping software exists.
+A survey of JOSS papers, indexed metadata, and package registries through
+26 July 2026 found no package with BooFun's *combined* focus on
+Fourier-analytic Boolean function measures, property testing, and query
+complexity. CircuitGraph is a significant partial overlap; other JOSS
+packages found in the survey focus on BDDs, S-box circuit synthesis,
+Boolean-network applications, or Boolean-semiring linear algebra. This is a
+dated, scoped survey result, not an assertion that no other partially
+overlapping software exists. The sources, query strings, verification
+protocol, and full candidate ledger are documented in the
+{doc}`prior-art survey log <prior_art_survey>`.
 
 ## Design commitments
 
