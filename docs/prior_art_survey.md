@@ -70,7 +70,7 @@ against this list.
 | py-aiger-spectral | GitHub README | Fourier coefficients/degree weights over AIGs; no release or paper |
 | Boolan | GitHub README | Small unmaintained package: influences, degree weights, variance, noise sensitivity |
 | CircuitGraph | JOSS 2020, [DOI](https://doi.org/10.21105/joss.02646); API docs | Influence + average sensitivity via model counting |
-| QuantumQueryOptimizer | ESA 2023, [DOI](https://doi.org/10.4230/LIPIcs.ESA.2023.36) | Exact general-adversary SDP; narrower and more exact than BooFun's estimates |
+| QuantumQueryOptimizer | ESA 2023, [DOI](https://doi.org/10.4230/LIPIcs.ESA.2023.36) | Exact general-adversary SDP; used as a pinned cross-validation reference for BooFun's certified adversary lower bounds |
 | Aaronson's Boolean Function Wizard | paper (2000) | Historical query-complexity lineage; unmaintained |
 | Avishay Tal's scripts | course materials | Reference implementations, not a versioned package |
 

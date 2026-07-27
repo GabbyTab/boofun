@@ -111,8 +111,10 @@ query-complexity lineage and a historical inspiration for the complexity
 module.
 **[QuantumQueryOptimizer](https://doi.org/10.4230/LIPIcs.ESA.2023.36)**
 solves general-adversary semidefinite programs and constructs query-optimal
-quantum algorithms. BooFun instead exposes a broad exploratory profile and
-labels non-exact randomized and quantum quantities as estimates.
+quantum algorithms. BooFun instead exposes a broad complexity profile in
+which every quantity is labeled exact, certified lower bound, or clamped
+estimate, and its certified adversary lower bounds are cross-validated
+against pinned QuantumQueryOptimizer SDP optima.
 
 A survey of JOSS papers, indexed metadata, and package registries through
 26 July 2026 found no package with BooFun's *combined* focus on

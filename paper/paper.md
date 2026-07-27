@@ -131,9 +131,11 @@ BooFun, and BoolForge is used for cross-validation.
 Scott Aaronson's Boolean Function Wizard [@aaronson2000] is an important
 historical tool in the query-complexity lineage. QuantumQueryOptimizer
 [@quantumqueryoptimizer2023] solves general-adversary semidefinite programs
-and constructs query-optimal quantum algorithms, a narrower and more exact
-task than BooFun's broad exploratory complexity profile; BooFun labels its
-non-exact randomized and quantum quantities as estimates. A survey of JOSS
+and constructs query-optimal quantum algorithms, a narrower task than
+BooFun's broad complexity profile; BooFun classifies every quantity as
+exact, certified lower bound, or clamped estimate, and cross-validates its
+certified adversary lower bounds against pinned QuantumQueryOptimizer SDP
+optima. A survey of JOSS
 papers, indexed metadata, and package registries through 26 July 2026 —
 with its sources, query strings, and full candidate ledger archived in the
 repository documentation (`docs/prior_art_survey.md`) — found no package
