@@ -96,7 +96,7 @@ What's Here
 
 * **Fourier**: Walsh-Hadamard transform, influences, noise stability, spectral concentration
 * **Property Testing**: BLR, junta, monotonicity, symmetry, balance
-* **Query Complexity**: D(f), R(f), Q(f), sensitivity, certificates, Ambainis bound
+* **Query Complexity**: D(f), R(f), Q(f), sensitivity, certificates, adversary-method estimates
 * **Representations**: Truth tables, ANF, BDD, circuits, DNF/CNF, Fourier expansion
 
 **New in v1.1**
@@ -113,12 +113,16 @@ What's Here
 What's Unique
 -------------
 
-Features not found in other Boolean function libraries:
+No located library combines all of the following in one package — see the
+:doc:`comparison_guide` and the reproducible :doc:`prior_art_survey` for
+what overlapping software exists:
 
-* **Global hypercontractivity** analysis (Keevash, Lifshitz, Long & Minzer)
-* **Full query complexity suite** (D, R, Q, Ambainis, spectral adversary)
+* **Hypercontractivity and global hypercontractivity** analysis (Bonami,
+  KKL, Friedgut; Keevash, Lifshitz, Long & Minzer)
+* **Integrated query complexity suite** (D, R, Q, sensitivity,
+  certificates, plus clearly labeled adversary-method estimates)
 * **Invariance principle** with Gaussian analysis and Berry-Esseen bounds
-* **Property testing** with probability bounds
+* **Property testing** in the query model (BLR, monotonicity, symmetry)
 * **Family tracking** for asymptotic analysis
 * **Monte Carlo Fourier estimation** via sampling — scales beyond exact computation
 * **Pseudorandomness connections** — spectral concentration, threshold phenomena
