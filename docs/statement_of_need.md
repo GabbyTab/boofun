@@ -62,12 +62,24 @@ differentiators are ordinary Python packaging, a fluent notebook-oriented
 API, integrated coverage of query complexity, hypercontractivity, and
 learning algorithms, and explicit cross-validation.
 
-**sboxU** (Perrin et al.) is a Sage/Python interface to a
-performance-oriented C++ library for vectorial Boolean functions, S-box
-analysis, APN functions, and equivalence problems. It is substantially
-deeper and faster than BooFun in its cryptographic domain. BooFun's S-box
-functions are complementary and easier to access from a standard scientific
-Python environment; first-class vectorial Boolean functions are future work.
+The R package
+**[boolfun](https://doi.org/10.32614/RJ-2011-007)** and the C++ library
+**[VBF](https://doi.org/10.1145/2794077)** are peer-reviewed predecessors
+for scalar and vectorial cryptographic analysis, respectively. **sboxU**
+(Perrin et al.) is a Sage/Python interface to a performance-oriented C++
+library for vectorial Boolean functions, S-box analysis, APN functions, and
+equivalence problems. These tools are deeper than BooFun in their
+cryptographic domains. BooFun's S-box functions are complementary and easier
+to access from a standard scientific Python environment; first-class
+vectorial Boolean functions are future work.
+
+**[fbool](https://github.com/edugzlez/fbool)** v0.2.0 is a young Rust
+library with Python bindings and one of the closest modern overlaps:
+Fourier/Walsh coefficients, influences, sensitivity, Fourier degree,
+nonlinearity, and certificate complexity. It additionally emphasizes
+entropy, fragmentation, and exact small-circuit data. BooFun covers a
+broader TCS curriculum and representation system; fbool supplies an
+independently implemented comparison target for several exact quantities.
 
 **Avishay Tal's course and research scripts** (`BooleanFunc.py` and
 relatives) motivated part of BooFun's API. They are useful reference
@@ -76,16 +88,36 @@ representation architecture, documentation, and validation infrastructure.
 The {doc}`guides/migration_from_tal` documents correspondences and
 convention differences.
 
-**BoolForge** (Kadelka et al.) generates and analyzes Boolean functions and
-networks with prescribed canalization structure, aimed at systems biology
-and network science. The projects are complementary: BooFun emphasizes
-Fourier-analytic and TCS measures; BoolForge emphasizes canalization,
-ensembles, and network dynamics. Their overlapping canalization and
-sensitivity APIs are used for cross-validation in BooFun's test suite.
+**[CircuitGraph](https://doi.org/10.21105/joss.02646)** represents Boolean
+circuits and computes per-input influence and average sensitivity using
+exact or approximate model counting. This is material overlap, but its
+primary object and purpose are circuit manipulation rather than a general
+analysis-of-Boolean-functions toolkit.
+
+**BoolForge** (Kadelka and Coberly) generates and analyzes Boolean functions
+and networks with prescribed canalization structure.
+**[CANA](https://doi.org/10.1093/bioinformatics/btaf461)** studies logical
+redundancy, input symmetry, dynamics, and control in automata networks.
+These projects target systems biology and network science. Their notions of
+canalization are not all interchangeable with BooFun's classic canalizing
+depth; BoolForge's overlapping function-level quantities are used for
+cross-validation in BooFun's test suite.
 
 **Scott Aaronson's Boolean Function Wizard** (2000) is part of the
 query-complexity lineage and a historical inspiration for the complexity
 module.
+**[QuantumQueryOptimizer](https://doi.org/10.4230/LIPIcs.ESA.2023.36)**
+solves general-adversary semidefinite programs and constructs query-optimal
+quantum algorithms. BooFun instead exposes a broad exploratory profile and
+labels non-exact randomized and quantum quantities as estimates.
+
+A targeted survey of JOSS papers and indexed metadata through 26 July 2026
+found no package with BooFun's *combined* focus on Fourier-analytic Boolean
+function measures, property testing, and query complexity. CircuitGraph is
+a significant partial overlap; other JOSS packages found in the survey
+focus on BDDs, S-box circuit synthesis, Boolean-network applications, or
+Boolean-semiring linear algebra. This is a dated, scoped survey result, not
+an assertion that no other partially overlapping software exists.
 
 ## Design commitments
 

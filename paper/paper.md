@@ -108,22 +108,40 @@ suite of 3,800+ tests.
 
 # State of the field
 
-SageMath [@sagemath] provides Boolean-function and S-box functionality
-inside a broad computer-algebra environment; it is strong for algebraic and
-cryptographic workflows but requires the Sage environment and does not offer
-BooFun's integrated notebook-oriented coverage of query complexity,
-hypercontractivity, and learning algorithms. sboxU [@sboxu] is a Sage/Python
-interface to a performance-oriented C++ library for vectorial Boolean
-functions and S-box analysis; it is substantially deeper and faster than
-BooFun in its cryptographic domain, and BooFun's S-box utilities are
-complementary rather than competing. Avishay Tal's course and research
-scripts motivated part of BooFun's API but are not a maintained, versioned
-package; BooFun's migration guide documents API correspondences and
-convention differences (documentation, not numerical cross-validation). BoolForge [@boolforge] generates and analyzes Boolean functions
-and networks with prescribed canalization structure for systems biology; the
-projects are complementary, and their overlapping APIs are used for
-cross-validation. Scott Aaronson's Boolean Function Wizard [@aaronson2000]
-is an important historical tool in the query-complexity lineage.
+Software for Boolean functions spans several distinct scopes. The R package
+`boolfun` [@boolfun2011] and the C++ VBF library [@vbf2016] are peer-reviewed
+predecessors for scalar and vectorial cryptographic analysis, respectively.
+SageMath [@sagemath] provides related functionality inside a broad
+computer-algebra environment, while sboxU [@sboxu] offers a substantially
+more specialized Sage/C++ toolkit for vectorial functions and S-boxes.
+BooFun complements these tools: its cryptographic layer is not intended to
+replace their specialized workflows.
+
+The young Rust/Python project `fbool` [@fbool2026] overlaps on Fourier
+coefficients, influence, sensitivity, and certificate complexity, while
+emphasizing entropy, fragmentation, and small-circuit data. CircuitGraph
+[@circuitgraph2020], the closest material overlap found in the published
+JOSS corpus, computes influence and average sensitivity for circuit outputs
+using model counting. BoolForge [@boolforge] and CANA
+[@cana2018; @cana2025] instead emphasize canalization and Boolean-network
+dynamics; their overlapping function-level quantities are complementary to
+BooFun, and BoolForge is used for cross-validation.
+
+Scott Aaronson's Boolean Function Wizard [@aaronson2000] is an important
+historical tool in the query-complexity lineage. QuantumQueryOptimizer
+[@quantumqueryoptimizer2023] solves general-adversary semidefinite programs
+and constructs query-optimal quantum algorithms, a narrower and more exact
+task than BooFun's broad exploratory complexity profile; BooFun labels its
+non-exact randomized and quantum quantities as estimates. A targeted survey
+of JOSS papers and indexed metadata through 26 July 2026 found no package
+with BooFun's combined focus on Fourier-analytic measures, property testing,
+and query complexity. This is a scoped survey result, not a claim that no
+other partially overlapping software exists.
+
+Avishay Tal's course and research scripts motivated part of BooFun's API but
+are not a maintained, versioned package; BooFun's migration guide documents
+API correspondences and convention differences (documentation, not
+numerical cross-validation).
 
 The algorithms BooFun implements originate in the literature, including the
 Kahn–Kalai–Linial theorem [@kkl1988], Friedgut's junta theorem
