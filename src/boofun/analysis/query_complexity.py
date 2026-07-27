@@ -447,6 +447,11 @@ def exact_quantum_complexity(f: BooleanFunction) -> float:
 
     point = max(n / 2, lower_bound) if is_symmetric(f) else min(D, sqrt(D) * 2)
 
+    # Keep the estimate pair consistent with the theorem Q2(f) <= QE(f):
+    # floor the QE point at the Q2 estimate (which is itself <= D, so the
+    # certified window [deg/2, D] is preserved).
+    point = max(point, quantum_query_complexity(f))
+
     return max(lower_bound, min(point, D))
 
 
@@ -520,8 +525,12 @@ def spectral_adversary_bound(f: BooleanFunction) -> float:
     M = hamming_one.astype(float)
 
     if not M.any():
-        # No sensitive edges is impossible for non-constant f, but guard anyway.
-        return 0.0
+        # Impossible internal state: every non-constant function has at
+        # least one sensitive edge. Fail loudly rather than return a
+        # plausible 0.0.
+        raise RuntimeError(
+            "non-constant function reported no sensitive edges; truth table corrupt?"
+        )
 
     # Largest singular value of M (||Gamma o D_i|| = 1 for every direction i
     # that contains a sensitive edge, since each restriction is a matching).
@@ -733,9 +742,11 @@ def approximate_degree(f: BooleanFunction, epsilon: float = 1 / 3) -> int:
         )
 
     f_values = np.asarray(f.get_representation("truth_table"), dtype=float)
-    # LP optima are exact up to solver tolerance; the feasibility margin
-    # only needs to absorb that tolerance.
-    solver_slack = 1e-9
+    # Exact ties are the common case (e.g. the degree-1 optimum for MAJ3 at
+    # epsilon = 1/3 is exactly 1/3), so the feasibility margin must exceed
+    # HiGHS's default tolerances (~1e-7). True optima at these sizes are
+    # rationals with coarse gaps, so 1e-7 cannot bridge two distinct optima.
+    solver_slack = 1e-7
     for degree in range(n + 1):
         if _min_linf_error(f_values, n, degree) <= epsilon + solver_slack:
             return degree
@@ -1237,8 +1248,10 @@ class QueryComplexityProfile:
         checks["deg2 <= deg"] = m["deg2"] <= m["deg"]
         checks["deg <= D"] = m["deg"] <= m["D"]
 
-        # Quantum bounds (certified lower bound vs estimate clamping)
-        checks["PolyMethod <= Q2"] = m["PolyMethod"] <= m["Q2"] + 1e-9
+        # Quantum bounds: PolyMethod = deg2/2 (LP) and D (decision-tree DP)
+        # come from independent code paths, so this check is falsifiable
+        # (the previous "PolyMethod <= Q2" was true by construction).
+        checks["PolyMethod <= D"] = m["PolyMethod"] <= m["D"] + 1e-9
 
         # Adversary witnesses vs the Spalek-Szegedy ADV upper bound
         adv_cap = sqrt(m["C0"] * m["C1"])
