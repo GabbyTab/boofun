@@ -20,6 +20,53 @@ References:
 - Aaronson, "Algorithms for Boolean Function Query Measures" (2000)
 - Buhrman & de Wolf, "Complexity Measures and Decision Tree Complexity" (2002)
 - O'Donnell, "Analysis of Boolean Functions" (2014)
+
+Guarantees
+----------
+Every public function in this module is classified as one of:
+
+- **exact**: the returned value is the measure itself.
+- **certified lower bound**: the exact value of an explicit feasible
+  witness; the true quantity is >= the returned value.
+- **estimate**: a heuristic point value, clamped into a provably valid
+  interval where one is stated.
+
+================================== ==========================================
+Function                           Status
+================================== ==========================================
+deterministic_query_complexity     exact (D)
+average_deterministic_complexity   certified lower bound on avg-case D
+zero_error_randomized_complexity   estimate, clamped to [max(sqrt(D), bs/3), D]
+one_sided_randomized_complexity    estimate, clamped to [bs/3, D]
+bounded_error_randomized_complexity estimate, clamped to [bs/3, D]
+nondeterministic_complexity        exact (equals C_side)
+everywhere_sensitivity             exact
+average_everywhere_sensitivity     exact
+quantum_query_complexity           estimate, clamped to [deg2(f)/2, D]
+exact_quantum_complexity           estimate, clamped to [deg(f)/2, D]
+approximate_degree                 exact (LP; n <= 12)
+one_sided_approximate_degree       exact per documented definition (LP; n <= 12)
+threshold_degree                   exact (LP; n <= 12)
+nondeterministic_degree            exact (null-space rank; n <= 12)
+strong_nondeterministic_degree     estimate (max of one-sided ndeg values)
+weak_nondeterministic_degree       estimate (min of one-sided ndeg values)
+polynomial_method_bound            certified lower bound on Q2
+ambainis_complexity                certified lower bound on ADV
+spectral_adversary_bound           certified lower bound on ADV
+general_adversary_bound            certified lower bound on ADV+-
+certificate_lower_bound            certified lower bound on D
+sensitivity_lower_bound            certified lower bound on D
+block_sensitivity_lower_bound      certified lower bound on D
+================================== ==========================================
+
+Adversary values are lower bounds on the (general) adversary bound
+ADV+-(f), which characterizes Q2(f) up to constant factors
+(Q2(f) = Theta(ADV+-(f))). Because those constants are below 1, an
+adversary value may numerically exceed Q2(f) (e.g. ADV(PARITY_n) = n
+while Q2 = ceil(n/2)); adversary values must not be compared directly
+against D(f) or Q2 estimates. For exact ADV+- values computed by SDP,
+see the pinned quantum-query-optimizer fixtures under
+tests/cross_validation/.
 """
 
 from __future__ import annotations
@@ -91,32 +138,29 @@ def average_deterministic_complexity(f: BooleanFunction) -> float:
     This is the expected number of queries under the uniform distribution
     on inputs, using an optimal decision tree.
 
+    In any decision tree the variables queried on input x's path form a
+    certificate for x, so cert(x) <= depth(x) pointwise and the average
+    certificate complexity is a true lower bound on the average depth of
+    every (in particular the optimal) decision tree.
+
+    Status: certified lower bound on the average-case deterministic query
+    complexity (returns the average certificate complexity).
+
     Args:
         f: BooleanFunction to analyze
 
     Returns:
-        Average number of queries needed
+        Average certificate complexity (lower bound on average queries)
     """
 
     n = f.n_vars
     if n is None or n == 0:
         return 0.0
 
-    # Get truth table
-    np.asarray(f.get_representation("truth_table"), dtype=float)
-
-    # We compute this via the optimal decision tree
-    # For now, we use a greedy approximation based on maximum information gain
-    # (A full optimal solution requires tracking paths in the DP)
-
-    # Greedy approximation: repeatedly pick variable with max entropy reduction
     total_queries = 0.0
     size = 1 << n
 
-    # Each input contributes its depth in an optimal tree
-    # Approximate by balanced tree depth
     for x in range(size):
-        # Simple approximation: depth based on certificate complexity
         from .certificates import certificate
 
         cert_size, _ = certificate(f, x)
@@ -132,19 +176,21 @@ def zero_error_randomized_complexity(f: BooleanFunction) -> float:
     This is the expected number of queries needed by the best randomized
     algorithm that always outputs the correct answer (Las Vegas).
 
-    Satisfies: R0(f) >= sqrt(D(f)) and R0(f) <= D(f)
+    Status: estimate. The point value sqrt(C0 * C1) is clamped into the
+    certified interval [max(sqrt(D), bs/3), D]: R0 <= D trivially,
+    R0 >= sqrt(D) because D(f) <= R0(f)^2, and R0 >= R2 >= bs/3 (Nisan).
 
     Args:
         f: BooleanFunction to analyze
 
     Returns:
-        Expected number of queries for zero-error randomized computation
+        Estimated expected queries for zero-error randomized computation
 
     Note:
-        This is an approximation; the exact computation requires solving
-        a linear program over all possible randomized protocols.
+        Exact computation requires optimizing over all randomized
+        protocols; no library computes this exactly.
     """
-    # Lower bound: max(C0(f), C1(f)) where C_b is certificate complexity for b-inputs
+    from .block_sensitivity import max_block_sensitivity
     from .complexity import decision_tree_depth, max_certificate_complexity
 
     n = f.n_vars
@@ -152,21 +198,16 @@ def zero_error_randomized_complexity(f: BooleanFunction) -> float:
         return 0.0
 
     D = decision_tree_depth(f)
+    if D == 0:
+        return 0.0  # Constant function
     C0 = max_certificate_complexity(f, 0)
     C1 = max_certificate_complexity(f, 1)
+    bs = max_block_sensitivity(f)
 
-    # R0(f) is at least the expected certificate complexity
-    # Upper bound: D(f) (can always use deterministic algorithm)
-    # Approximation: geometric mean of certificate complexities
+    lower_bound = max(sqrt(D), bs / 3)
+    point = sqrt(C0 * C1) if C0 > 0 and C1 > 0 else lower_bound
 
-    # Better approximation using known bounds
-    lower_bound = max(C0, C1)
-    upper_bound = D
-
-    # For many functions, R0 is close to sqrt(C0 * C1)
-    approx = sqrt(C0 * C1) if C0 > 0 and C1 > 0 else lower_bound
-
-    return max(lower_bound, min(approx, upper_bound))
+    return max(lower_bound, min(point, D))
 
 
 def bounded_error_randomized_complexity(f: BooleanFunction, error: float = 1 / 3) -> float:  # noqa: ARG001
@@ -176,17 +217,16 @@ def bounded_error_randomized_complexity(f: BooleanFunction, error: float = 1 / 3
     This is the minimum expected queries for a randomized algorithm that
     outputs the correct answer with probability >= 1 - error.
 
-    Satisfies: R2(f) = Omega(sqrt(bs(f))) and R2(f) = O(D(f))
+    Status: estimate. The point value sqrt(s * bs) is clamped into the
+    certified interval [bs/3, D]: R2(f) >= bs(f)/3 (Nisan 1991) and
+    R2(f) <= D(f) trivially.
 
     Args:
         f: BooleanFunction to analyze
         error: Maximum error probability (default 1/3)
 
     Returns:
-        Expected queries for bounded-error randomized computation
-
-    Note:
-        This is an approximation based on known lower bounds.
+        Estimated expected queries for bounded-error randomized computation
     """
     from .block_sensitivity import max_block_sensitivity
     from .complexity import decision_tree_depth, max_sensitivity
@@ -195,18 +235,16 @@ def bounded_error_randomized_complexity(f: BooleanFunction, error: float = 1 / 3
     if n is None or n == 0:
         return 0.0
 
-    # Lower bounds
     bs = max_block_sensitivity(f)
     s = max_sensitivity(f)
     D = decision_tree_depth(f)
+    if D == 0:
+        return 0.0  # Constant function
 
-    # R2(f) >= Omega(sqrt(bs(f))) - this is tight for many functions
-    # R2(f) >= Omega(sqrt(s(f) * bs(f))) is a better lower bound
+    lower_bound = bs / 3
+    point = sqrt(s * bs) if s > 0 and bs > 0 else lower_bound
 
-    lower_bound = sqrt(s * bs) if s > 0 and bs > 0 else max(1, sqrt(bs))
-    upper_bound = D
-
-    return max(lower_bound, min(lower_bound * 1.5, upper_bound))
+    return max(lower_bound, min(point, D))
 
 
 def one_sided_randomized_complexity(f: BooleanFunction, side: int = 1) -> float:
@@ -217,6 +255,9 @@ def one_sided_randomized_complexity(f: BooleanFunction, side: int = 1) -> float:
 
     Satisfies: R2(f) <= R1(f) <= R0(f) <= D(f)
 
+    Status: estimate. The point value sqrt(C_side * C_other) is clamped
+    into the certified interval [bs/3, D] (R1 >= R2 >= bs/3; R1 <= D).
+
     Args:
         f: BooleanFunction to analyze
         side: Which side has no error (0 or 1, default 1)
@@ -224,56 +265,53 @@ def one_sided_randomized_complexity(f: BooleanFunction, side: int = 1) -> float:
     Returns:
         Estimated one-sided randomized complexity
     """
+    from .block_sensitivity import max_block_sensitivity
     from .complexity import decision_tree_depth, max_certificate_complexity
 
     n = f.n_vars
     if n is None or n == 0:
         return 0.0
 
-    # R1(f) is related to certificate complexity on the "side" inputs
     C_side = max_certificate_complexity(f, side)
     C_other = max_certificate_complexity(f, 1 - side)
     D = decision_tree_depth(f)
+    if D == 0:
+        return 0.0  # Constant function
+    bs = max_block_sensitivity(f)
 
-    # R1(f) >= C_side (must verify certificates on side inputs)
-    # Approximation: between C_side and R0
-    lower_bound = C_side
-    r0_approx = sqrt(C_side * C_other) if C_side > 0 and C_other > 0 else C_side
+    lower_bound = bs / 3
+    point = sqrt(C_side * C_other) if C_side > 0 and C_other > 0 else lower_bound
 
-    return max(lower_bound, min(r0_approx, D))
+    return max(lower_bound, min(point, D))
 
 
 def nondeterministic_complexity(f: BooleanFunction, side: int = 1) -> float:
     """
     Compute NR(f), the nondeterministic query complexity.
 
-    This is the minimum certificate complexity over inputs where f(x) = side.
-    Nondeterministic algorithms "guess" the certificate and verify it.
+    A nondeterministic algorithm "guesses" a certificate and verifies it;
+    it must succeed on *every* input with f(x) = side, so its cost is the
+    certificate complexity C_side(f) = max over those inputs of the
+    minimal certificate size. (A previous implementation returned the
+    *minimum* certificate over side inputs, which only accounts for the
+    easiest input and is not the standard measure.)
 
-    Satisfies: NR(f) <= R1(f)
+    Status: exact. NR(f) = C_side(f) is a standard identity.
 
     Args:
         f: BooleanFunction to analyze
         side: Which value to compute NR for (0 or 1, default 1)
 
     Returns:
-        Nondeterministic query complexity
+        Nondeterministic query complexity (= C_side(f))
     """
-    from .complexity import certificate_complexity
+    from .complexity import max_certificate_complexity
 
     n = f.n_vars
     if n is None or n == 0:
         return 0.0
 
-    truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
-
-    min_cert = n + 1
-    for x in range(1 << n):
-        if truth_table[x] == bool(side):
-            cert, _ = certificate_complexity(f, x)
-            min_cert = min(min_cert, cert)
-
-    return min_cert if min_cert <= n else 0.0
+    return float(max_certificate_complexity(f, side))
 
 
 def everywhere_sensitivity(f: BooleanFunction) -> int:
@@ -331,40 +369,40 @@ def quantum_query_complexity(f: BooleanFunction) -> float:
     """
     Estimate Q2(f), the bounded-error quantum query complexity.
 
-    Uses multiple lower bounds:
-    - Ambainis adversary bound
-    - Spectral adversary bound
-    - sqrt(bs(f)) (Grover lower bound)
+    Status: estimate. The point value sqrt(D) (Grover-style behavior,
+    exact up to constants for OR-like functions) is clamped into the
+    certified interval [deg_{1/3}(f)/2, D]: the polynomial method gives
+    Q2 >= deg_{1/3}/2 (Beals et al. 2001) and Q2 <= D trivially. Note
+    that adversary values from this module are lower bounds on ADV+-, not
+    on Q2 numerically, so they are deliberately not used here.
 
-    Q2(f) = Theta(sqrt(D(f))) for many functions by Grover-type algorithms.
+    For exact Q2 characterization one needs the ADV+- semidefinite
+    program; see the quantum-query-optimizer fixtures in
+    tests/cross_validation/.
 
     Args:
         f: BooleanFunction to analyze
 
     Returns:
         Estimated bounded-error quantum query complexity
+
+    Raises:
+        ValueError: if n exceeds the LP size cap (n <= 12).
     """
-    from .block_sensitivity import max_block_sensitivity
     from .complexity import decision_tree_depth
 
     n = f.n_vars
     if n is None or n == 0:
         return 0.0
 
-    # Lower bounds
-    amb = ambainis_complexity(f)
-    bs = max_block_sensitivity(f)
     D = decision_tree_depth(f)
+    if D == 0:
+        return 0.0  # Constant function
 
-    # Q2(f) >= max(Amb(f), sqrt(bs(f)))
-    grover_bound = sqrt(bs)
-    lower_bound = max(amb, grover_bound)
+    lower_bound = polynomial_method_bound(f)
+    point = sqrt(D)
 
-    # Upper bound: can always do Grover search over D(f)-depth tree
-    upper_bound = sqrt(D) * 2  # Rough upper bound
-
-    # Q2(f) is typically around sqrt(D) for read-once functions
-    return max(lower_bound, min(sqrt(D), upper_bound))
+    return max(lower_bound, min(point, D))
 
 
 def exact_quantum_complexity(f: BooleanFunction) -> float:
@@ -376,13 +414,19 @@ def exact_quantum_complexity(f: BooleanFunction) -> float:
 
     Satisfies: Q2(f) <= QE(f) <= D(f)
 
+    Status: estimate. The point value is clamped into the certified
+    interval [deg(f)/2, D]: the exact polynomial method gives
+    QE >= deg(f)/2 with deg the *real* (Fourier) degree (Beals et al.
+    2001; a previous implementation incorrectly used the GF(2) degree),
+    and QE <= D trivially.
+
     Args:
         f: BooleanFunction to analyze
 
     Returns:
         Estimated exact quantum query complexity
     """
-    from ..analysis.gf2 import gf2_degree
+    from ..analysis.fourier import fourier_degree
     from .complexity import decision_tree_depth
 
     n = f.n_vars
@@ -390,21 +434,20 @@ def exact_quantum_complexity(f: BooleanFunction) -> float:
         return 0.0
 
     D = decision_tree_depth(f)
-    deg = gf2_degree(f)
+    if D == 0:
+        return 0.0  # Constant function
+    deg = fourier_degree(f)
 
-    # QE(f) >= deg(f) (exact computation needs all degree-deg terms)
-    # For symmetric functions, QE(f) = Theta(n)
-    # For many functions, QE(f) is close to D(f)
+    # Certified: QE(f) >= deg(f)/2 (exact polynomial method).
+    lower_bound = deg / 2
 
-    lower_bound = deg
-
-    # Check if function is symmetric - if so, QE is high
+    # Point estimate: QE is close to D for most small functions; symmetric
+    # functions need Theta(n) queries.
     from .basic_properties import is_symmetric
 
-    if is_symmetric(f):
-        return max(lower_bound, n // 2)
+    point = max(n / 2, lower_bound) if is_symmetric(f) else min(D, sqrt(D) * 2)
 
-    return max(lower_bound, min(D, sqrt(D) * 2))
+    return max(lower_bound, min(point, D))
 
 
 def _sensitive_edge_degrees(truth_table: np.ndarray, n: int) -> np.ndarray:
@@ -689,17 +732,21 @@ def approximate_degree(f: BooleanFunction, epsilon: float = 1 / 3) -> int:
     return n  # degree n always represents f exactly (error 0)
 
 
-def one_sided_approximate_degree(
-    f: BooleanFunction, side: int = 1, epsilon: float = 1 / 3
-) -> float:
+def one_sided_approximate_degree(f: BooleanFunction, side: int = 1, epsilon: float = 1 / 3) -> int:
     """
-    Estimate deg1(f), the one-sided approximate degree.
+    Compute deg1(f), the one-sided approximate degree (exact, via LP).
 
-    This is the minimum degree of a polynomial p such that:
+    This is the minimum degree of a real polynomial p such that:
     - p(x) >= 1 - epsilon when f(x) = side
     - p(x) <= epsilon when f(x) != side
 
-    Satisfies: deg1(f) >= deg2(f) (two-sided approximate degree)
+    Each candidate degree is an LP feasibility problem over the character
+    basis, solved exactly (HiGHS).
+
+    Status: exact for the definition above (n <= 12; raises ValueError
+    above). Conventions for "one-sided approximate degree" vary in the
+    literature (some authors additionally require p(x) >= 0 on the off
+    side); this function implements exactly the constraints listed.
 
     Args:
         f: BooleanFunction to analyze
@@ -707,61 +754,111 @@ def one_sided_approximate_degree(
         epsilon: Approximation parameter
 
     Returns:
-        Estimated one-sided approximate degree
+        The exact one-sided approximate degree (an integer)
+
+    Raises:
+        ValueError: if n exceeds the LP size cap.
     """
-    from .complexity import max_certificate_complexity
+    from scipy.optimize import linprog
 
     n = f.n_vars
     if n is None or n == 0:
-        return 0.0
+        return 0
+    if n > _LP_MAX_VARS:
+        raise ValueError(
+            f"one_sided_approximate_degree is computed exactly by LP and supports "
+            f"n <= {_LP_MAX_VARS}; got n = {n}"
+        )
 
-    # deg1(f) >= sqrt(C_side(f)) for the "side" inputs
-    C_side = max_certificate_complexity(f, side)
+    truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
+    side_mask = truth_table == bool(side)
 
-    # Also bounded below by approximate degree
-    deg2 = approximate_degree(f, epsilon)
+    for degree in range(n + 1):
+        A = _character_matrix(n, degree)
+        _, k = A.shape
+        # side rows: p(x) >= 1 - eps  ->  -p(x) <= -(1 - eps)
+        # off rows:  p(x) <= eps
+        A_ub = np.vstack([-A[side_mask], A[~side_mask]])
+        b_ub = np.concatenate(
+            [
+                np.full(int(side_mask.sum()), -(1.0 - epsilon)),
+                np.full(int((~side_mask).sum()), epsilon),
+            ]
+        )
+        result = linprog(
+            np.zeros(k), A_ub=A_ub, b_ub=b_ub, bounds=[(None, None)] * k, method="highs"
+        )
+        if result.success:
+            return degree
+    return n  # the exact 0/1 representation always satisfies the constraints
 
-    return max(sqrt(C_side), deg2)
 
-
-def nondeterministic_degree(f: BooleanFunction, side: int = 1) -> float:
+def nondeterministic_degree(f: BooleanFunction, side: int = 1) -> int:
     """
-    Estimate ndeg(f), the nondeterministic degree.
+    Compute ndeg(f), the nondeterministic degree (exact).
 
-    This is the minimum degree of a polynomial p such that:
-    - p(x) >= 1 when f(x) = side
-    - p(x) = 0 when f(x) != side
+    This is the minimum degree of a real polynomial p with
+    p(x) != 0 exactly when f(x) = side (de Wolf's nondeterministic
+    polynomial). A previous implementation returned the minimum
+    certificate size, which is a different measure.
 
-    This equals the minimum size of an AND of ORs (DNF width for side=1).
+    Method: for each candidate degree d, the polynomials of degree <= d
+    vanishing on all off-side inputs form a linear subspace V (null space
+    of the evaluation matrix). A valid witness exists iff no side input y
+    is annihilated by all of V: the bad polynomials for each y form a
+    proper subspace, and a generic combination of a null-space basis
+    avoids every one of finitely many proper subspaces over the reals.
 
-    Satisfies: ndeg(f) <= deg1(f)
+    Status: exact (floating-point rank computation; n <= 12, raises
+    ValueError above). Examples: ndeg(OR_n, side=1) = 1;
+    ndeg(AND_n, side=1) = n.
 
     Args:
         f: BooleanFunction to analyze
-        side: Which side to exactly represent (0 or 1, default 1)
+        side: Which side must be exactly the support of p (0 or 1)
 
     Returns:
-        Estimated nondeterministic degree
+        The exact nondeterministic degree (an integer)
+
+    Raises:
+        ValueError: if n exceeds the size cap.
+
+    References:
+        - de Wolf, "Nondeterministic Quantum Query and Communication
+          Complexities" (2003)
     """
     n = f.n_vars
     if n is None or n == 0:
-        return 0.0
+        return 0
+    if n > _LP_MAX_VARS:
+        raise ValueError(
+            f"nondeterministic_degree is computed exactly and supports "
+            f"n <= {_LP_MAX_VARS}; got n = {n}"
+        )
 
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
+    side_mask = truth_table == bool(side)
+    if side_mask.all():
+        return 0  # p = 1 works
+    if not side_mask.any():
+        return 0  # p = 0 vacuously has empty support
 
-    # ndeg is related to the minimum DNF term width (for side=1)
-    # or minimum CNF clause width (for side=0)
-
-    # Simple bound: minimum certificate complexity
-    from .complexity import certificate_complexity
-
-    min_cert = n + 1
-    for x in range(1 << n):
-        if truth_table[x] == bool(side):
-            cert, _ = certificate_complexity(f, x)
-            min_cert = min(min_cert, cert)
-
-    return min_cert if min_cert <= n else 0.0
+    for degree in range(n + 1):
+        A = _character_matrix(n, degree)
+        A_off = A[~side_mask]
+        # Null space of A_off: polynomials of degree <= degree vanishing
+        # on every off-side input.
+        _, s, vh = np.linalg.svd(A_off, full_matrices=True)
+        rank = int(np.sum(s > 1e-9 * max(A_off.shape)))
+        null_basis = vh[rank:].T  # shape (k, nullity)
+        if null_basis.shape[1] == 0:
+            continue
+        # Feasible iff every side input sees a nonzero value from some
+        # basis element.
+        values_on_side = A[side_mask] @ null_basis
+        if np.all(np.any(np.abs(values_on_side) > 1e-9, axis=1)):
+            return degree
+    return n  # the exact multilinear representation witnesses degree n
 
 
 def strong_nondeterministic_degree(f: BooleanFunction) -> float:
@@ -772,35 +869,42 @@ def strong_nondeterministic_degree(f: BooleanFunction) -> float:
     - Are nonnegative on all inputs
     - Are > 0 exactly when f(x) = 1
 
+    Status: estimate, reported as max(ndeg0(f), ndeg1(f)) where the
+    one-sided nondeterministic degrees are exact. Any strong polynomial
+    is in particular a nondeterministic polynomial for side 1, so
+    degs(f) >= ndeg1(f) is certified; the max with ndeg0 is heuristic.
+
     Args:
         f: BooleanFunction to analyze
 
     Returns:
         Estimated strong nondeterministic degree
     """
-    # degs(f) >= max(ndeg0(f), ndeg1(f))
     ndeg0 = nondeterministic_degree(f, 0)
     ndeg1 = nondeterministic_degree(f, 1)
 
-    return max(ndeg0, ndeg1)
+    return float(max(ndeg0, ndeg1))
 
 
 def weak_nondeterministic_degree(f: BooleanFunction) -> float:
     """
-    Estimate degw(f), the weak nondeterministic degree.
+    Compute degw(f), the weak nondeterministic degree.
 
-    This is min(ndeg0(f), ndeg1(f)).
+    This is min(ndeg0(f), ndeg1(f)), the cheaper of the two one-sided
+    nondeterministic degrees.
+
+    Status: exact for this definition (the one-sided values are exact).
 
     Args:
         f: BooleanFunction to analyze
 
     Returns:
-        Estimated weak nondeterministic degree
+        Weak nondeterministic degree
     """
     ndeg0 = nondeterministic_degree(f, 0)
     ndeg1 = nondeterministic_degree(f, 1)
 
-    return min(ndeg0, ndeg1)
+    return float(min(ndeg0, ndeg1))
 
 
 def _sign_representable(sign_values: np.ndarray, n: int, degree: int) -> bool:
@@ -1045,31 +1149,36 @@ class QueryComplexityProfile:
             f"  max_inf(f)    {m['max_inf']:.4f}   (max influence)",
             f"  total_inf(f)  {m['total_inf']:.4f}   (total influence)",
             "",
-            "DEGREE MEASURES:",
+            "DEGREE MEASURES (exact):",
             f"  deg(f)        {m['deg']:.0f}          (real degree)",
             f"  degZ2(f)      {m['degZ2']:.0f}          (GF(2) degree)",
-            f"  deg2(f)       {m['deg2']:.2f}      (approx degree, 2-sided)",
-            f"  ndeg(f)       {m['ndeg']:.2f}      (nondeterministic degree)",
-            f"  degs(f)       {m['degs']:.2f}      (strong nondet degree)",
-            f"  degw(f)       {m['degw']:.2f}      (weak nondet degree)",
+            f"  deg2(f)       {m['deg2']:.0f}          (approx degree, 2-sided, LP-exact)",
+            f"  ndeg(f)       {m['ndeg']:.0f}          (nondeterministic degree)",
+            f"  degs(f)       {m['degs']:.0f}          (strong nondet degree, estimate)",
+            f"  degw(f)       {m['degw']:.0f}          (weak nondet degree)",
             "",
-            "DETERMINISTIC COMPLEXITY:",
+            "DETERMINISTIC COMPLEXITY (exact):",
             f"  D(f)          {m['D']:.0f}          (decision tree depth)",
             f"  C(f)          {m['C']:.0f}          (certificate complexity)",
             f"  C0(f)         {m['C0']:.0f}          (cert complexity, 0-inputs)",
             f"  C1(f)         {m['C1']:.0f}          (cert complexity, 1-inputs)",
             "",
-            "RANDOMIZED COMPLEXITY (approximations):",
-            f"  R0(f)         {m['R0']:.2f}      (zero-error randomized)",
-            f"  R1(f)         {m['R1']:.2f}      (one-sided randomized)",
-            f"  R2(f)         {m['R2']:.2f}      (bounded-error randomized)",
-            f"  NR(f)         {m['NR']:.2f}      (nondeterministic)",
+            "RANDOMIZED COMPLEXITY (estimates, clamped to certified ranges):",
+            f"  R0(f)         {m['R0']:.2f}      (zero-error randomized, estimate)",
+            f"  R1(f)         {m['R1']:.2f}      (one-sided randomized, estimate)",
+            f"  R2(f)         {m['R2']:.2f}      (bounded-error randomized, estimate)",
+            f"  NR(f)         {m['NR']:.0f}          (nondeterministic, exact = C1)",
             "",
-            "QUANTUM COMPLEXITY (approximations):",
-            f"  Q2(f)         {m['Q2']:.2f}      (bounded-error quantum)",
-            f"  QE(f)         {m['QE']:.2f}      (exact quantum)",
-            f"  Amb(f)        {m['Amb']:.4f}   (Ambainis adversary)",
-            f"  SpecAdv(f)    {m['SpecAdv']:.4f}   (spectral adversary)",
+            "QUANTUM COMPLEXITY:",
+            f"  Q2(f)         {m['Q2']:.2f}      (bounded-error quantum, estimate)",
+            f"  QE(f)         {m['QE']:.2f}      (exact quantum, estimate)",
+            f"  PolyMethod(f) {m['PolyMethod']:.2f}      (deg2/2, certified Q2 lower bound)",
+            "",
+            "ADVERSARY BOUNDS (certified lower bounds on ADV+-; ",
+            " not numerically comparable to Q2/D -- see module docstring):",
+            f"  Amb(f)        {m['Amb']:.4f}   (Ambainis, sensitive-edge relation)",
+            f"  SpecAdv(f)    {m['SpecAdv']:.4f}   (spectral, sensitivity-graph witness)",
+            f"  GenAdv(f)     {m['GenAdv']:.4f}   (max of the above)",
         ]
 
         return "\n".join(lines)
@@ -1098,7 +1207,17 @@ class QueryComplexityProfile:
         checks["D <= C0*C1"] = m["D"] <= m["C0"] * m["C1"]
 
         # Degree bounds
-        checks["deg >= bs/2"] = m["deg"] >= m["bs"] / 2
+        checks["bs <= 2*deg^2"] = m["bs"] <= 2 * m["deg"] ** 2
+        checks["deg2 <= deg"] = m["deg2"] <= m["deg"]
+        checks["deg <= D"] = m["deg"] <= m["D"]
+
+        # Quantum bounds (certified lower bound vs estimate clamping)
+        checks["PolyMethod <= Q2"] = m["PolyMethod"] <= m["Q2"] + 1e-9
+
+        # Adversary witnesses vs the Spalek-Szegedy ADV upper bound
+        adv_cap = sqrt(m["C0"] * m["C1"])
+        checks["Amb <= sqrt(C0*C1)"] = m["Amb"] <= adv_cap + 1e-9
+        checks["SpecAdv <= sqrt(C0*C1)"] = m["SpecAdv"] <= adv_cap + 1e-9
 
         # Total influence = average sensitivity
         checks["total_inf = avg_s"] = abs(m["total_inf"] - m["avg_s"]) < 0.001
