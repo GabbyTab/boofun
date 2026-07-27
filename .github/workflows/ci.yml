@@ -143,10 +143,16 @@ jobs:
       # The ubuntu-3.11 cell runs the suite under coverage below instead;
       # running it twice would double that job's wall time.
       if: matrix.os != 'ubuntu-latest' || matrix.python-version != '3.11'
+      env:
+        # Full 65,536-function census (tests/cross_validation/test_census.py)
+        # runs on main pushes, tags, and manual runs; PRs run the n<=3 census.
+        BOOFUN_FULL_CENSUS: ${{ github.event_name != 'pull_request' && '1' || '0' }}
       run: pytest tests/ -v --tb=short --timeout=120
 
     - name: Run tests with coverage
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+      env:
+        BOOFUN_FULL_CENSUS: ${{ github.event_name != 'pull_request' && '1' || '0' }}
       run: |
         pytest tests/ --cov=boofun --cov-branch \
           --cov-report=xml --cov-report=term-missing --timeout=120

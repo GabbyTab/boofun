@@ -48,12 +48,41 @@ __all__ = [
 ]
 
 
+def _is_monotone_table(truth_table: np.ndarray, n: int) -> bool:
+    """
+    Exact monotonicity check on a boolean truth-table array.
+
+    Checks every hypercube edge: for each direction ``i`` and each lower
+    vertex ``x`` (bit ``i`` clear), monotonicity requires
+    ``f(x) <= f(x | (1 << i))``. A violation is an edge whose lower vertex
+    is 1 and upper vertex is 0.
+
+    Args:
+        truth_table: Boolean array of length ``2**n``, indexed by input.
+        n: Number of variables.
+
+    Returns:
+        True if the function is monotone (non-decreasing in every variable).
+    """
+    indices = np.arange(1 << n)
+    for i in range(n):
+        bit = 1 << i
+        lower = indices[(indices & bit) == 0]
+        # Violation: f(lower) = 1 but f(lower + e_i) = 0.
+        if np.any(truth_table[lower] & ~truth_table[lower | bit]):
+            return False
+    return True
+
+
 def is_monotone(f: BooleanFunction) -> bool:
     """
-    Check if f is monotone.
+    Check if f is monotone (exact, reads the full truth table).
 
     A function is monotone if for all x <= y (coordinate-wise), f(x) <= f(y).
     Equivalently, all partial derivatives are non-negative.
+
+    For a sampling-based tester in the query model, use
+    ``BooleanFunction.is_monotone`` / ``PropertyTester.monotonicity_test``.
 
     Args:
         f: BooleanFunction to check
@@ -66,22 +95,7 @@ def is_monotone(f: BooleanFunction) -> bool:
         return True
 
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
-    size = 1 << n
-
-    # Check: for each x, if we flip any 0->1, output doesn't decrease
-    for x in range(size):
-        fx = truth_table[x]
-        if not fx:  # f(x) = 0
-            continue
-        # If f(x) = 1, all y < x should have f(y) <= f(x)
-        # Check all y that are subsets of x (y & x == y)
-        for i in range(n):
-            if (x >> i) & 1:  # Bit i is 1 in x
-                y = x ^ (1 << i)  # y = x with bit i flipped to 0
-                if truth_table[y] > fx:  # f(y) > f(x) violates monotonicity
-                    return False
-
-    return True
+    return _is_monotone_table(truth_table, n)
 
 
 def is_unate(f: BooleanFunction) -> tuple[bool, list[int] | None]:
@@ -104,33 +118,13 @@ def is_unate(f: BooleanFunction) -> tuple[bool, list[int] | None]:
         return (True, [])
 
     truth_table = np.asarray(f.get_representation("truth_table"), dtype=bool)
+    indices = np.arange(1 << n)
 
-    # Try all 2^n polarity assignments
+    # Try all 2^n polarity assignments: g(x) = f(x ^ mask) negates every
+    # variable whose mask bit is set; f is unate iff some g is monotone.
     for polarity_mask in range(1 << n):
-        # Apply polarities
-        is_mono = True
-
-        for x in range(1 << n):
-            # Transform x according to polarities
-            x_transformed = x ^ polarity_mask
-            fx = truth_table[x_transformed]
-
-            if not fx:
-                continue
-
-            # Check all neighbors below x (in transformed space)
-            for i in range(n):
-                if (x >> i) & 1:
-                    y = x ^ (1 << i)
-                    y_transformed = y ^ polarity_mask
-                    if truth_table[y_transformed] > fx:
-                        is_mono = False
-                        break
-
-            if not is_mono:
-                break
-
-        if is_mono:
+        transformed = truth_table[indices ^ polarity_mask]
+        if _is_monotone_table(transformed, n):
             polarities = [1 if (polarity_mask >> i) & 1 == 0 else -1 for i in range(n)]
             return (True, polarities)
 
