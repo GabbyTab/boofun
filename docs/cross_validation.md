@@ -28,6 +28,8 @@ All test modules live in
 | Influences (5 paths), total influence (9 paths), sensitivity (3 modules), degree, noise stability, variance, bias, certificates, decision-tree depth agree across modules | internal redundant paths | standard 3–4 var functions | 1e-10 / exact | [`test_internal_consistency.py`](https://github.com/GabbyTab/boofun/blob/main/tests/cross_validation/test_internal_consistency.py) |
 | Huang's sensitivity theorem, Nisan–Szegedy, the s ≤ bs ≤ C ≤ D chain, D(AND_n) = D(OR_n) = n, property-testing accept/reject behavior | Huang 2019; Nisan & Szegedy 1994; Buhrman & de Wolf 2002 | AND/OR/majority/parity, n = 2–5; seeds pinned | exact | [`test_theoretical_bounds.py`](https://github.com/GabbyTab/boofun/blob/main/tests/cross_validation/test_theoretical_bounds.py) |
 | Closed-form family values (majority influence asymptotics, parity spectra, tribes, noise stability formulas) | O'Donnell 2014 | families to n ≈ 21 | stated per test (asymptotics ≤ 15% rel.) | [`tests/test_theoretical_validation.py`](https://github.com/GabbyTab/boofun/blob/main/tests/test_theoretical_validation.py) |
+| Exhaustive census: monotone (Dedekind), unate, canalizing, and bent counts over **all** truth tables of n variables | OEIS A000372, A245079, A102449, A004491 | all 2^(2^n) functions, n = 2–3 per PR; n = 4 on main/full-matrix runs⁶ | exact integer counts | [`test_census.py`](https://github.com/GabbyTab/boofun/blob/main/tests/cross_validation/test_census.py) |
+| Canalizing-depth histogram over all four-variable functions ({0: 62024, 1: 2184, 2: 336, 3: 256, 4: 736}) | He & Macauley 2016⁷ | all 65,536 functions, n = 4⁶ | exact | [`test_census.py::TestFullFourVariableCensus`](https://github.com/GabbyTab/boofun/blob/main/tests/cross_validation/test_census.py) |
 
 **Footnotes**
 
@@ -60,6 +62,17 @@ All test modules live in
    `adae76be218eb8761e02d3c14a1d994764441102` (v1.0.1). A red run files or
    pings a tracking issue. Every Monte-Carlo-capable BoolForge API is called
    with `exact=True`, so no RNG seeds are involved.
+6. Census cadence: the n ≤ 3 censuses (at most 256 functions) run as plain
+   pytest on every pull request. The full n = 4 census (65,536 functions,
+   ~15 s locally) runs when `BOOFUN_FULL_CENSUS=1`, which CI sets on pushes
+   to `main`, release tags, and manual runs. Counts are of truth tables,
+   not NPN-equivalence classes.
+7. Constant-function conventions (deliberately different, both pinned):
+   `is_canalizing` counts constants as trivially canalizing, matching
+   OEIS A102449 (e.g. a(1) = 4); `get_canalizing_depth` assigns constants
+   depth 0, matching He & Macauley — so each depth-0 bucket equals the
+   non-canalizing count plus 2, asserted in
+   `test_census.py::test_depth_zero_bucket_convention`.
 
 ## Convention conversions
 
@@ -115,5 +128,10 @@ there are no `abs()` dodges:
    Sensitivity Conjecture. *Annals of Mathematics* 190.
 8. Nisan, N., & Szegedy, M. (1994). On the degree of Boolean functions as
    real polynomials. *Computational Complexity* 4.
-9. SageMath Documentation: <https://doc.sagemath.org/>
-10. BoolForge: <https://github.com/ckadelka/BoolForge>
+9. He, Q., & Macauley, M. (2016). Stratification and enumeration of Boolean
+   functions by canalizing depth. *Physica D* 314.
+   <https://doi.org/10.1016/j.physd.2015.09.016>
+10. OEIS Foundation. Sequences A000372 (Dedekind numbers), A245079 (unate),
+    A102449 (canalizing), A004491 (bent). <https://oeis.org/>
+11. SageMath Documentation: <https://doc.sagemath.org/>
+12. BoolForge: <https://github.com/ckadelka/BoolForge>

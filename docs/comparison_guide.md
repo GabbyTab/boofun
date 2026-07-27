@@ -193,8 +193,13 @@ BooFun now covers both O'Donnell-style analysis and cryptographic properties.
 |------|--------|-----------|
 | Linearity (BLR) | ✓ | ✗ |
 | k-junta | ✓ (exact recognition) | ✗ |
-| Monotonicity | ✓ (probabilistic tester) | ✓ (exact) |
+| Monotonicity | ✓ (exact check + probabilistic tester)¹ | ✓ (exact) |
 | Dictator proximity | ✓ | ✗ |
+
+¹ The exact check (`analysis.basic_properties.is_monotone`, with `is_unate`
+for unateness) is validated by an exhaustive census against published OEIS
+counts (168 monotone and 2,170 unate four-variable functions); see the
+[claim matrix](cross_validation.md).
 
 ### Representations
 
