@@ -31,9 +31,10 @@ activities and average sensitivity in CI.
 - Quantum: Q₂(f), QE(f), nondeterministic variants
 - Sensitivity: s(f), bs(f), es(f) (everywhere sensitivity)
 - Certificates: C(f), C₀(f), C₁(f)
-- Lower-bound estimates: Ambainis and spectral-adversary heuristics,
-  polynomial method, and a combined general-adversary estimate (not an SDP
-  solver)
+- Exploratory quantum-complexity estimates: Ambainis, spectral adversary,
+  polynomial method, and a combined general-adversary heuristic. These are
+  not certified lower bounds or SDP solutions; correction is tracked in
+  [#119](https://github.com/GabbyTab/boofun/issues/119).
 - Degree measures: exact, approximate, threshold, nondeterministic
 - Decision tree algorithms: DP optimal depth, tree enumeration, randomized complexity
 
@@ -316,7 +317,8 @@ Direct and materially overlapping software:
 - **[QuantumQueryOptimizer](https://doi.org/10.4230/LIPIcs.ESA.2023.36)**
   (ESA 2023): solves general-adversary semidefinite programs and constructs
   query-optimal quantum algorithms. BooFun's `general_adversary_bound` is a
-  combined heuristic estimate, not an SDP implementation.
+  combined heuristic estimate, not an SDP implementation or certified lower
+  bound ([#119](https://github.com/GabbyTab/boofun/issues/119)).
 
 Adjacent ecosystems:
 
